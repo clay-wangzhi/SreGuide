@@ -10,6 +10,7 @@ centos6.5下安装python3.6、pip、ipython
 <!--more-->
 
 ## 安装依赖包
+test
 
 ```
 # yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
