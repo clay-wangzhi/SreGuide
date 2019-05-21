@@ -12,7 +12,7 @@ centos6.5下安装python3.6、pip、ipython
 ## 安装依赖包
 
 ```
-# yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel
+# yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
 ```
 
 开始下载、编译、安装python3.6
@@ -49,6 +49,31 @@ Type "help", "copyright", "credits" or "license" for more information.
 # pip install ipython
 ```
 
-转载链接；
+## 设置 3.x 为默认版本
+
+```
+rm -f /usr/bin/python
+ln -s /usr/local/bin/python3 /usr/bin/python
+```
+
+
+
+## 配置yum
+
+升级 Python 之后，由于将默认的 python 指向了 python3，yum 不能正常使用，需要编辑 yum 的配置文件：
+
+```
+vim /usr/bin/yum
+```
+
+同时修改：
+
+```
+vim /usr/libexec/urlgrabber-ext-down
+```
+
+将 #!/usr/bin/python 改为 #!/usr/bin/python2.7，保存退出即可。
+
+参考链接；
 
 https://www.cnblogs.com/thong2006/p/6843633.html
