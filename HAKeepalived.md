@@ -1,2 +1,0 @@
-# HA Keepalived
-
