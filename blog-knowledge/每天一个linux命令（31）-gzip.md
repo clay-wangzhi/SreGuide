@@ -1,22 +1,14 @@
----
-title: 每天一个linux命令（31）-gzip
-tag: linux常用命令
-categories: Linux
-date: 2018-07-27 19:00:00
-copyright: true
----
+### gzip命令
 
 **gzip命令**用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。
 
-<!--more-->
-
 gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和[tar](http://man.linuxde.net/tar)命令一起构成Linux操作系统中比较流行的压缩文件格式。据统计，gzip命令对文本文件有60%～70%的压缩率。减少文件大小有两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。
 
-## 语法
+#### 语法
 
 `gzip(选项)(参数)`
 
-## 选项
+#### 选项
 
 ```
 -a或——ascii：使用ASCII文字模式；
@@ -38,11 +30,11 @@ gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩�
 --fast：此参数的效果和指定“-1”参数相同。
 ```
 
-## 参数
+#### 参数
 
 文件列表：指定要压缩的文件列表。
 
-## 常用范例
+#### 常用范例
 
 1）把test6目录下的每个文件压缩成.gz文件
 
@@ -141,9 +133,3 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
 ---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
 -rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
 ```
-
-参考链接：
-
-http://www.cnblogs.com/peida/archive/2012/12/06/2804323.html
-
-http://man.linuxde.net/gzip
