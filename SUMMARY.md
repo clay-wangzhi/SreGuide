@@ -1,8 +1,8 @@
 # Summary
 
 * [前言](README.md)
-* [Linux]
-    * [基础]
+* Linux
+    * 基础
         * [linux简介](Linux/基础/linux简介.md)
         * [文件管理](Linux/基础/文件管理.md)
         * [计划任务](Linux/基础/计划任务.md)
@@ -11,8 +11,8 @@
         * [管道及I/O重定向](Linux/基础/管道及I-O重定向.md)
         * [软件包管理](Linux/基础/软件包管理.md)
         * [网络管理](Linux/基础/网络管理.md)
-* [数据库](数据库.md)
-    * [MySQL]
+* 数据库
+    * MySQL
         * [基本操作](数据库/MySQL/基本操作.md)
         * [列表类型和数据完整性](数据库/MySQL/列表类型和数据完整性.md)
         * [查询语句](数据库/MySQL/查询语句.md)
@@ -24,11 +24,11 @@
         * [MySQL的主主和keepalived](数据库/MySQL/MySQL的主主和keepalived.md)
         * [Mysql读写分离和Amoeba](数据库/MySQL/Mysql读写分离和Amoeba.md)
         * [MySQL实战](数据库/MySQL/MySQL实战.md)
-    * [Redis]
+    * Redis
         * [安装](数据库/Redis/安装.md)
         * [配置](数据库/Redis/配置.md)
         * [服务器端和客户端命令](数据库/Redis/服务器端和客户端命令.md)
-        * [数据库操作]
+        * 数据库操作
             * [string类型](数据库/Redis/数据库操作/string类型.md)
             * [键命令](数据库/Redis/数据库操作/键命令.md)
             * [hash类型](数据库/Redis/数据库操作/hash类型.md)
@@ -39,7 +39,7 @@
             * [操作方法](数据库/Redis/通过go语言和redis数据库进行交互/操作方法.md)
             * [与案例结合](数据库/Redis/通过go语言和redis数据库进行交互/与案例结合.md)
         * [搭建主从](数据库/Redis/搭建主从.md)
-* [web服务器]
+* web服务器
     * [Apache](web服务器/Apache.md)
     * [Nginx](web服务器/Nginx.md)
 
