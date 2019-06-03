@@ -1,7 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* 分类
 * Linux
     * 基础
         * [linux简介](Linux/基础/linux简介.md)
