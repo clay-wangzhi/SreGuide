@@ -1,6 +1,8 @@
 ## GNU/Linux 的历史
 自由软件之父Richard M. Stallman(理查德.斯托曼) 1984 GNU Copyleft OpenSource Free GPL
- Linux之父 1991 Linus Torvalds(李纳斯 托沃兹) www.kernel.org
+
+Linux之父 1991 Linus Torvalds(李纳斯 托沃兹) www.kernel.org
+
 Linux 发行版介绍RHEL/Centos/Ubuntu/Suse/Debian/Oracle
 
 
@@ -144,7 +146,7 @@ Linux 发行版介绍RHEL/Centos/Ubuntu/Suse/Debian/Oracle
 
 如果我们将整个目录树以图的方法来显示，并且将较为重要的文件数据列出来的话，那么目录树架构就如下图所示：
 
-​	![img](https://images.cnblogs.com/cnblogs_com/peida/linux%E7%9B%AE%E5%BD%95%E6%A0%91.png)
+​	![](images/linux目录树.png)
 
 ### 绝对路径与相对路径
 
