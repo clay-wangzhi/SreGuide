@@ -3,7 +3,7 @@
 
 Linux之父 1991 Linus Torvalds(李纳斯 托沃兹) www.kernel.org
 
-Linux 发行版介绍RHEL/Centos/Ubuntu/Suse/Debian/Oracle
+Linux 主要发行版有：RHEL/Centos/Ubuntu/Suse/Debian/Oracle
 
 
 

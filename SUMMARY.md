@@ -4,7 +4,7 @@
 * Linux
     * 基础
         * [linux简介](Linux/基础/linux简介.md)
-        * [文件管理](Linux/基础/文件管理.md)
+        * 文件管理
             * [查看文件类型](Linux/基础/文件管理/查看文件类型.md)
             * [查看文件详细属性](Linux/基础/文件管理/查看文件详细属性.md)
             * [创建、复制、移动、删除](Linux/基础/文件管理/zsgc.md)
@@ -47,4 +47,6 @@
 * web服务器
     * [Apache](web服务器/Apache.md)
     * [Nginx](web服务器/Nginx.md)
+* shell
+    * [格式](shell/formatting.md)
 
