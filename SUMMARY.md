@@ -471,4 +471,5 @@
     * [sendmail.md](linux-command/sendmail.md)
     * [seq.md](linux-command/seq.md)
     * [service.md](linux-command/service.md)
+    * [sesearch.md](linux-command/sesearch.md)
 
