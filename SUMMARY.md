@@ -48,5 +48,12 @@
     * [Apache](web服务器/Apache.md)
     * [Nginx](web服务器/Nginx.md)
 * shell
-    * [格式](shell/formatting.md)
+    * [背景](shell/背景.md)
+    * [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
+    * [环境](shell/环境.md)
+    * [注释](shell/注释.md)
+    * [格式](shell/格式.md)
+    * [特性及错误](shell/特性及错误.md)
+    * [命名约定](shell/命名约定.md)
+    * [调用命令](shell/调用命令.md)
 
