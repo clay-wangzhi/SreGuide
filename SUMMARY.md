@@ -472,4 +472,9 @@
     * [seq.md](linux-command/seq.md)
     * [service.md](linux-command/service.md)
     * [sesearch.md](linux-command/sesearch.md)
+    * [set.md](linux-command/set.md)
+    * [setfacl.md](linux-command/setfacl.md)
+    * [setpci.md](linux-command/setpci.md)
+    * [setsebool.md](linux-command/setsebool.md)
+    * [setsid.md](linux-command/setsid.md)
 
