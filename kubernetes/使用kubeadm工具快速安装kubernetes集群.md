@@ -1,0 +1,135 @@
+## 使用kubeadm工具快速安装kubernetes集群
+
+### 基础环境配置
+
+* linux系统版本：centos7.6
+* 配置：2核4G
+* 主机数量：一台master，一台node
+* 镜像：盛大私有云centos76_latest
+
+1. 主机名解析(两台主机上操作)
+
+```
+cat <<EOF >> /etc/hosts
+192.168.162.116 kube-master
+192.168.162.117 kube-node
+EOF
+```
+
+2. 关闭防火墙
+
+```
+systemctl stop iptables && systemctl disable iptables
+```
+
+3. 加载br_netfilter
+
+```
+modprobe br_netfilter
+```
+
+4. 内核参数调整
+
+```
+cat <<EOF >  /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl -p /etc/sysctl.d/k8s.conf
+```
+
+### 安装kubeadm和相关工具
+
+1. 安装docker
+
+```
+yum install -y yum-utils   device-mapper-persistent-data   lvm2
+yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+yum -y install docker-ce docker-ce-cli containerd.io
+systemctl enable docker && systemctl start docker
+docker version
+```
+
+2. 配置国内kubernetes的yum源
+
+```
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+       http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+```
+
+3. 运行yum install 命令安装kubeadm和相关工具
+
+```
+yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+systemctl enable kubelet && systemctl start kubelet
+```
+
+4. 导入提前下载好的相关镜像
+
+```
+cd /opt/
+scp 192.168.162.239:/opt/imagesback.tar.gz .
+tar -xvf imagesback.tar.gz
+cd imagesback/
+for file in `ls`;do docker load -i $file;done
+docker image ls
+```
+
+5. 配置kubectl、kubeadm命令的参数补全设置
+
+```
+cat <<EOF >> /root/.bashrc
+source <(kubectl completion bash)
+source <(kubeadm completion bash)
+EOF
+source /root/.bashrc
+```
+
+> 以上步骤均在master和node节点执行
+
+6. 在master节点运行kubeadm init命令安装Master
+
+```
+kubeadm init --pod-network-cidr=10.244.0.0/16
+```
+
+> 要记住最后kubeadm join那句话，node节点加入集群时需要。
+
+执行成功后，按提示将相关配置文件复制到用户的home目录下
+
+```
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+7. 安装网络插件
+
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml
+```
+
+8. 将node加入集群
+
+```
+kubeadm join 192.168.162.239:6443 --token 63dv3h.ac5v7qxk8s18a8vj     --discovery-token-ca-cert-hash sha256:76718c6583cc7222ab13a235724fe5bad71b8e9af735abdccddaf3e295accc07 
+```
+
+> 这句话为master初始化成功后的最后一句话
+
+9. 验证kubernetes集群是否安装完成
+
+在master节点执行
+
+```
+kubectl get pods --all-namespaces
+kubectl get nodes
+```

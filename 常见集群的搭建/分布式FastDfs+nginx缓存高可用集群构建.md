@@ -1,7 +1,5 @@
 ## 分布式FastDfs+nginx缓存高可用集群构建
 
-转载自：<https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html>
-
 ### 介绍
 
 FastDFS：开源的高性能分布式文件系统；主要功能包括：文件存储，文件同步和文件访问，以及高容量和负载平衡
@@ -12,11 +10,11 @@ FastDFS：角色：跟踪服务器(Tracker Server)、存储服务器(Storage Ser
 2. Storage Server: 存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server（高可用），组内的storage server上的数据互为备份
 3. Client:客户端，上传下载数据的服务器
 
-![](image/fastdfs1.png)
+![](images/fastdfs1.png)
 
 **FastDfs+nginx缓存高可用集群环境流程示意图：**
 
-![](image/fastdfs2.png)
+![](images/fastdfs2.png)
 
 实验环境机器说明：
 
@@ -769,6 +767,8 @@ systemctl start keepalived
 
 用vip访问测试
 
+参考链接：
 
+> <https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html>
 
-转载自：<https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html>
+### 

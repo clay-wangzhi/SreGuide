@@ -1,6 +1,52 @@
 # Summary
 
 * [Introduction](README.md)
+* shell
+    * [背景](shell/背景.md)
+    * [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
+    * [环境](shell/环境.md)
+    * [注释](shell/注释.md)
+    * [格式](shell/格式.md)
+    * [特性及错误](shell/特性及错误.md)
+    * [命名约定](shell/命名约定.md)
+    * [调用命令](shell/调用命令.md)
+    * [小技巧](shell/小技巧.md)
+    * [例子](shell/例子.md)
+* docker
+    * [初识docker](docker/初识docker.md)
+    * [使用镜像](docker/使用镜像.md)
+    * [docker安装](docker/docker安装.md)
+    * [docker-compose安装](docker/docker-compose安装.md)
+    * [harbor创建](docker/harbor创建.md)
+    * [harbor添加https认证](docker/harbor添加https认证.md)
+* kubernetes
+    * [kubeadm安装集群](kubernetes/使用kubeadm工具快速安装kubernetes集群.md)
+    * [二进制安装集群](kubernetes/以二进制文件方式安装kubernetes集群.md)
+* python
+    * [简介](python/简介.md)
+    * [数据类型](python/数据类型.md)
+* nginx
+    * [gzip模块](nginx/gzip.md)
+    * [状态码](nginx/状态码.md)
+* tomcat
+    * [tomcat简介](tomcat/tomcat简介.md)
+* zabbix
+    * [MySQL监控模块](zabbix/MySQL监控模块.md)
+    * [Redis监控模块](zabbix/Redis监控模块.md)
+* elk
+    * [elasticsearch集群的搭建](elk/centos7.6下elasticsearch7.2集群搭建步骤.md)
+* 常见集群的搭建
+    * [activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
+    * [rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)
+    * [keepalived和heartbeat对比](常见集群的搭建/keepalived和heartbeat对比.md)
+    * [zookeeper集群](常见集群的搭建/zookeeper3.4.14集群搭建步骤.md)
+    * [fastdfs](常见集群的搭建/分布式FastDfs+nginx缓存高可用集群构建.md)
+    * [confluence](常见集群的搭建/基于docker搭建confluence.md)
+* 常见服务的搭建
+    * [shadowsocks](常见服务的搭建/centos7下搭建shadowsocks.md)
+    * [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
+    * [python3.6](常见服务的搭建/安装python3-6.md)
+    * [新建博客方法](常见服务的搭建/新建博客方法.md)
 * Linux
     * 基础
         * [linux简介](Linux/基础/linux简介.md)
@@ -16,45 +62,4 @@
         * [管道及I/O重定向](Linux/基础/管道及I-O重定向.md)
         * [软件包管理](Linux/基础/软件包管理.md)
         * [网络管理](Linux/基础/网络管理.md)
-* 数据库
-    * MySQL
-        * [基本操作](数据库/MySQL/基本操作.md)
-        * [列表类型和数据完整性](数据库/MySQL/列表类型和数据完整性.md)
-        * [查询语句](数据库/MySQL/查询语句.md)
-        * [视图、事务、索引、函数](数据库/MySQL/视图、事务、索引、函数.md)
-        * [引擎](数据库/MySQL/引擎.md)
-        * [用户权限和访问控制](数据库/MySQL/用户权限和访问控制.md)
-        * [备份恢复](数据库/MySQL/备份恢复.md)
-        * [MySQL AB复制](数据库/MySQL/MySQLAB复制.md)
-        * [MySQL的主主和keepalived](数据库/MySQL/MySQL的主主和keepalived.md)
-        * [Mysql读写分离和Amoeba](数据库/MySQL/Mysql读写分离和Amoeba.md)
-        * [MySQL实战](数据库/MySQL/MySQL实战.md)
-    * Redis
-        * [安装](数据库/Redis/安装.md)
-        * [配置](数据库/Redis/配置.md)
-        * [服务器端和客户端命令](数据库/Redis/服务器端和客户端命令.md)
-        * 数据库操作
-            * [string类型](数据库/Redis/数据库操作/string类型.md)
-            * [键命令](数据库/Redis/数据库操作/键命令.md)
-            * [hash类型](数据库/Redis/数据库操作/hash类型.md)
-            * [list类型](数据库/Redis/数据库操作/list类型.md)
-            * [set类型](数据库/Redis/数据库操作/set类型.md)
-            * [zset类型](数据库/Redis/数据库操作/zset类型.md)
-        * [通过go语言和redis数据库进行交互](数据库/Redis/通过go语言和redis数据库进行交互/README.md)
-            * [操作方法](数据库/Redis/通过go语言和redis数据库进行交互/操作方法.md)
-            * [与案例结合](数据库/Redis/通过go语言和redis数据库进行交互/与案例结合.md)
-        * [搭建主从](数据库/Redis/搭建主从.md)
-* web服务器
-    * [Apache](web服务器/Apache.md)
-    * [Nginx](web服务器/Nginx.md)
-* shell
-    * [背景](shell/背景.md)
-    * [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
-    * [环境](shell/环境.md)
-    * [注释](shell/注释.md)
-    * [格式](shell/格式.md)
-    * [特性及错误](shell/特性及错误.md)
-    * [命名约定](shell/命名约定.md)
-    * [调用命令](shell/调用命令.md)
-    * [小技巧](shell/小技巧.md)
 

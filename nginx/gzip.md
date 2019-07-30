@@ -1,0 +1,142 @@
+## Module ngx_http_gzip_module
+
+该`ngx_http_gzip_module`模块是一个使用“gzip”方法压缩响应的过滤器。这通常有助于将传输数据的大小减少一半甚至更多。
+
+> 使用SSL / TLS协议时，压缩的响应可能会受到 [BREACH](https://en.wikipedia.org/wiki/BREACH)攻击。
+
+在实际的应用中我们发现压缩的比率往往在 3 到 10 倍，也就是本来 50k 大小的页面，采用压缩后实际传输的内容大小只有 5 至 15k 大小，这可以大大节省服务器的网络带宽，同时如果应用程序的响应足够快时，网站的速度瓶颈就转到了网络的传输速度上，因此内容压缩后就可以大大的提升页面的浏览速度。
+
+### Example Configuration
+
+```
+gzip on;
+gzip_buffers 4 8k;
+gzip_comp_level 6;
+gzip_disable "MSIE [1-6]\.";
+gzip_http_version 1.1;
+gzip_min_length 1000;
+gzip_proxied any;
+gzip_vary on;
+gzip_types text/plain text/css application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json image/jpeg image/gif image/png image/jpg
+```
+
+### Directives
+
+#### gzip
+
+```
+Syntax:	gzip on | off;
+Default: gzip off;
+Context:	http, server, location, if in location
+```
+
+启用或禁用gzipping响应。
+
+#### gzip_buffers
+
+```
+Syntax:	gzip_buffers number size;
+Default: gzip_buffers 32 4k|16 8k;
+Context:	http, server, location
+```
+
+设置用于压缩响应的缓冲区`*number*`和`*size*`。默认情况下，缓冲区大小等于一个内存页面。这是4K或8K，具体取决于平台。
+
+#### gzip_comp_level
+
+```
+Syntax:	gzip_comp_level level;
+Default: gzip_comp_level 1;
+Context:	http, server, location
+```
+
+设置`level`响应的gzip压缩。可接受的值范围为1到9。
+
+推荐6压缩级别(级别越高,压的越小,越浪费CPU计算资源)
+
+#### gzip_disable
+
+```
+Syntax:	gzip_disable regex ...;
+Default: —
+Context:	http, server, location
+```
+
+对具有与任何指定正则表达式匹配的“User-Agent”标头字段的请求禁用gzipping响应。
+
+特殊掩码“ `msie6`”（0.7.12）对应于正则表达式“ `MSIE [4-6]\.`”，但效果更快。
+
+#### gzip_http_version
+
+```
+Syntax:	gzip_http_version 1.0 | 1.1;
+Default: gzip_http_version 1.1;
+Context:	http, server, location
+```
+
+设置压缩响应所需的最低HTTP请求版本。
+
+99.99%的浏览器基本上都支持gzip解压了，所以可以不用设这个值,保持系统默认即可。
+
+#### gzip_min_length
+
+```
+Syntax:	gzip_min_length length;
+Default: gzip_min_length 20;
+Context:	http, server, location
+```
+
+设置将被gzip压缩的响应的最小长度。长度仅由“Content-Length”响应头字段确定。
+
+#### gzip_proxied
+
+```
+Syntax:	gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any ...;
+Default: gzip_proxied off;
+Context:	http, server, location
+```
+
+根据请求和响应启用或禁用对代理请求的响应的gzipping。请求被代理的事实由“Via”请求头字段的存在确定。该指令接受多个参数：
+
+* `off`：禁用所有代理请求的压缩，忽略其他参数;
+* `expired`：如果响应头包含“Expires”字段，其值为禁用缓存，则启用压缩;
+* `no-cache`：如果响应头包含带有“ `no-cache`”参数的“Cache-Control”字段，则启用压缩;
+* `no-store`：如果响应头包含带有“ `no-store`”参数的“Cache-Control”字段，则启用压缩;
+* `private`：如果响应头包含带有“ `private`”参数的“Cache-Control”字段，则启用压缩;
+* `no_last_modified`：如果响应头不包含“Last-Modified”字段，则启用压缩;
+* `no_etag`：如果响应头不包含“ETag”字段，则启用压缩;
+* `auth`：如果请求标头包含“授权”字段，则启用压缩;
+* `any`：为所有代理请求启用压缩。
+
+#### gzip_types
+
+```
+Syntax:	gzip_types mime-type ...;
+Default:	
+gzip_types text/html;
+Context:	http, server, location
+```
+
+除了“ `text/html`” 之外，还允许对指定的MIME类型进行gzipping响应。特殊值“ `*`”匹配任何MIME类型。
+
+> 图片类型的文件压缩比例很小，可以不忽略不计，所以图片不建议压缩
+
+#### gzip_vary
+
+```
+Syntax:	gzip_vary on | off;
+Default:	
+gzip_vary off;
+Context:	http, server, location
+```
+
+如果指令[gzip](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip)， [gzip_static](http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static)或[gunzip](http://nginx.org/en/docs/http/ngx_http_gunzip_module.html#gunzip) 处于活动状态， 则启用或禁用插入“Vary：Accept-Encoding”响应头字段 。
+
+参看链接:
+
+> nginx官方文档：<http://nginx.org/en/docs/http/ngx_http_gzip_module.html
+>
+> 
+
+
+
