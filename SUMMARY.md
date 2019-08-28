@@ -33,8 +33,10 @@
 * zabbix
     * [MySQL监控模块](zabbix/MySQL监控模块.md)
     * [Redis监控模块](zabbix/Redis监控模块.md)
-* elk
-    * [elasticsearch集群的搭建](elk/centos7.6下elasticsearch7.2集群搭建步骤.md)
+* elasticsearch
+    * [基础概念](elasticsearch/基础概念.md)
+    * [分词](elasticsearch/分词.md)
+    * [elasticsearch集群的搭建](elasticsearch/centos7.6下elasticsearch7.2集群搭建步骤.md)
 * 常见集群的搭建
     * [activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
     * [rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)

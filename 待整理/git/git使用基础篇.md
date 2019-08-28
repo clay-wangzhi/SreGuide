@@ -1,15 +1,6 @@
----
-title: git的基础使用
-tag: Git
-categories: Linux
-date: 2018-07-27 18:06:00
-copyright: true
-typora-root-url: ..\..\themes\next\source
----
+## git的基础使用
 
 Git是一个分布式的版本控制工具，本篇文章从介绍Git开始，重点在于介绍Git的基本命令和使用技巧，让你尝试使用Git的同时，体验到原来一个版 本控制工具可以对开发产生如此之多的影响，文章分为两部分，第一部分介绍Git的一些常用命令，其中穿插介绍Git的基本概念和原理，第二篇重点介绍 Git的使用技巧，最后会在Git Hub上创建一个开源项目开启你的Git实战之旅。
-
-<!--more-->
 
 ## Git是什么
 
