@@ -1,5 +1,7 @@
 # Summary
 
+* [Introduction](README.md)
+
 ## Linux
 * [linux简介](Linux/基础/linux简介.md)
 * 文件管理
@@ -27,55 +29,52 @@
 * [小技巧](shell/小技巧.md)
 * [例子](shell/例子.md)
 
+## Python
+* [简介](python/简介.md)
+* [数据类型](python/数据类型.md)
+
+## Docker
+* [初识docker](docker/初识docker.md)
+* [使用镜像](docker/使用镜像.md)
+* [docker安装](docker/docker安装.md)
+* [docker-compose安装](docker/docker-compose安装.md)
+* [harbor创建](docker/harbor创建.md)
+* [harbor添加https认证](docker/harbor添加https认证.md)
+
+## Kubernetes
+* [kubeadm安装集群](kubernetes/使用kubeadm工具快速安装kubernetes集群.md)
+* [二进制安装集群](kubernetes/以二进制文件方式安装kubernetes集群.md)
+
+## Nginx
+* [gzip模块](nginx/gzip.md)
+* [状态码](nginx/状态码.md)
+
+## Tomcat
+* [tomcat简介](tomcat/tomcat简介.md)
+
+## Elasticsearch
+* [基础概念](elasticsearch/基础概念.md)
+* [分词](elasticsearch/分词.md)
+* [elasticsearch集群的搭建](elasticsearch/centos7.6下elasticsearch7.2集群搭建步骤.md)
+
+## Zabbix
+* [MySQL监控模块](zabbix/MySQL监控模块.md)
+* [Redis监控模块](zabbix/Redis监控模块.md)
+
+## 常见集群的搭建
+* [activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
+* [rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)
+* [keepalived和heartbeat对比](常见集群的搭建/keepalived和heartbeat对比.md)
+* [zookeeper集群](常见集群的搭建/zookeeper3.4.14集群搭建步骤.md)
+* [fastdfs](常见集群的搭建/分布式FastDfs+nginx缓存高可用集群构建.md)
+
+## 常见服务的搭建
+* [shadowsocks](常见服务的搭建/centos7下搭建shadowsocks.md)
+* [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
+* [python3.6](常见服务的搭建/安装python3-6.md)
+* [新建博客方法](常见服务的搭建/新建博客方法.md)
+* [confluence](常见集群的搭建/基于docker搭建confluence.md)
+
 ## Markdown
 * [让Markdown写作更简单Typora完全使用指南](markdown/让Markdown写作更简单Typora完全使用指南.md)
-* [Introduction](README.md)
-* shell
-    * [背景](shell/背景.md)
-    * [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
-    * [环境](shell/环境.md)
-    * [注释](shell/注释.md)
-    * [格式](shell/格式.md)
-    * [特性及错误](shell/特性及错误.md)
-    * [命名约定](shell/命名约定.md)
-    * [调用命令](shell/调用命令.md)
-    * [小技巧](shell/小技巧.md)
-    * [例子](shell/例子.md)
-* docker
-    * [初识docker](docker/初识docker.md)
-    * [使用镜像](docker/使用镜像.md)
-    * [docker安装](docker/docker安装.md)
-    * [docker-compose安装](docker/docker-compose安装.md)
-    * [harbor创建](docker/harbor创建.md)
-    * [harbor添加https认证](docker/harbor添加https认证.md)
-* kubernetes
-    * [kubeadm安装集群](kubernetes/使用kubeadm工具快速安装kubernetes集群.md)
-    * [二进制安装集群](kubernetes/以二进制文件方式安装kubernetes集群.md)
-* python
-    * [简介](python/简介.md)
-    * [数据类型](python/数据类型.md)
-* nginx
-    * [gzip模块](nginx/gzip.md)
-    * [状态码](nginx/状态码.md)
-* tomcat
-    * [tomcat简介](tomcat/tomcat简介.md)
-* zabbix
-    * [MySQL监控模块](zabbix/MySQL监控模块.md)
-    * [Redis监控模块](zabbix/Redis监控模块.md)
-* elasticsearch
-    * [基础概念](elasticsearch/基础概念.md)
-    * [分词](elasticsearch/分词.md)
-    * [elasticsearch集群的搭建](elasticsearch/centos7.6下elasticsearch7.2集群搭建步骤.md)
-* 常见集群的搭建
-    * [activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
-    * [rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)
-    * [keepalived和heartbeat对比](常见集群的搭建/keepalived和heartbeat对比.md)
-    * [zookeeper集群](常见集群的搭建/zookeeper3.4.14集群搭建步骤.md)
-    * [fastdfs](常见集群的搭建/分布式FastDfs+nginx缓存高可用集群构建.md)
-    * [confluence](常见集群的搭建/基于docker搭建confluence.md)
-* 常见服务的搭建
-    * [shadowsocks](常见服务的搭建/centos7下搭建shadowsocks.md)
-    * [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
-    * [python3.6](常见服务的搭建/安装python3-6.md)
-    * [新建博客方法](常见服务的搭建/新建博客方法.md)
 
