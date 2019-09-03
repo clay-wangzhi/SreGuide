@@ -1,5 +1,7 @@
 # Summary
 
+## markdown
+* [让Markdown写作更简单Typora完全使用指南](markdown/让Markdown写作更简单Typora完全使用指南.md)
 * [Introduction](README.md)
 * shell
     * [背景](shell/背景.md)
@@ -49,8 +51,6 @@
     * [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
     * [python3.6](常见服务的搭建/安装python3-6.md)
     * [新建博客方法](常见服务的搭建/新建博客方法.md)
-
-## test-test
 * Linux
     * 基础
         * [linux简介](Linux/基础/linux简介.md)
