@@ -15,6 +15,18 @@
 * [软件包管理](Linux/基础/软件包管理.md)
 * [网络管理](Linux/基础/网络管理.md)
 
+## Shell
+* [背景](shell/背景.md)
+* [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
+* [环境](shell/环境.md)
+* [注释](shell/注释.md)
+* [格式](shell/格式.md)
+* [特性及错误](shell/特性及错误.md)
+* [命名约定](shell/命名约定.md)
+* [调用命令](shell/调用命令.md)
+* [小技巧](shell/小技巧.md)
+* [例子](shell/例子.md)
+
 ## Markdown
 * [让Markdown写作更简单Typora完全使用指南](markdown/让Markdown写作更简单Typora完全使用指南.md)
 * [Introduction](README.md)
@@ -66,19 +78,4 @@
     * [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
     * [python3.6](常见服务的搭建/安装python3-6.md)
     * [新建博客方法](常见服务的搭建/新建博客方法.md)
-* Linux
-    * 基础
-        * [linux简介](Linux/基础/linux简介.md)
-        * 文件管理
-            * [查看文件类型](Linux/基础/文件管理/查看文件类型.md)
-            * [查看文件详细属性](Linux/基础/文件管理/查看文件详细属性.md)
-            * [创建、复制、移动、删除](Linux/基础/文件管理/zsgc.md)
-            * [查看文件内容](Linux/基础/文件管理/查看文件内容.md)
-            * [打包、压缩](Linux/基础/文件管理/打包压缩.md)
-        * [计划任务](Linux/基础/计划任务.md)
-        * [用户管理](Linux/基础/用户管理.md)
-        * [进程管理](Linux/基础/进程管理.md)
-        * [管道及I/O重定向](Linux/基础/管道及I-O重定向.md)
-        * [软件包管理](Linux/基础/软件包管理.md)
-        * [网络管理](Linux/基础/网络管理.md)
 
