@@ -6,75 +6,85 @@
 * [1.1 linux简介](Linux/基础/linux简介.md)
 * 1.2 文件管理
     * [1.2.1 查看文件类型](Linux/基础/文件管理/查看文件类型.md)
-    * [查看文件详细属性](Linux/基础/文件管理/查看文件详细属性.md)
-    * [创建、复制、移动、删除](Linux/基础/文件管理/zsgc.md)
-    * [查看文件内容](Linux/基础/文件管理/查看文件内容.md)
-    * [打包、压缩](Linux/基础/文件管理/打包压缩.md)
-* [计划任务](Linux/基础/计划任务.md)
-* [用户管理](Linux/基础/用户管理.md)
-* [进程管理](Linux/基础/进程管理.md)
-* [管道及I/O重定向](Linux/基础/管道及I-O重定向.md)
-* [软件包管理](Linux/基础/软件包管理.md)
-* [网络管理](Linux/基础/网络管理.md)
+    * [1.2.2 查看文件详细属性](Linux/基础/文件管理/查看文件详细属性.md)
+    * [1.2.3 创建、复制、移动、删除](Linux/基础/文件管理/zsgc.md)
+    * [1.2.4 查看文件内容](Linux/基础/文件管理/查看文件内容.md)
+    * [1.2.5 打包、压缩](Linux/基础/文件管理/打包压缩.md)
+* [1.3 计划任务](Linux/基础/计划任务.md)
+* [1.4 用户管理](Linux/基础/用户管理.md)
+* [1.5 进程管理](Linux/基础/进程管理.md)
+* [1.6 管道及I/O重定向](Linux/基础/管道及I-O重定向.md)
+* [1.7 软件包管理](Linux/基础/软件包管理.md)
+* [1.8 网络管理](Linux/基础/网络管理.md)
 
-## Shell
-* [背景](shell/背景.md)
-* [shell文件和解释器调用](shell/Shell文件和解释器调用.md)
-* [环境](shell/环境.md)
-* [注释](shell/注释.md)
-* [格式](shell/格式.md)
-* [特性及错误](shell/特性及错误.md)
-* [命名约定](shell/命名约定.md)
-* [调用命令](shell/调用命令.md)
-* [小技巧](shell/小技巧.md)
-* [例子](shell/例子.md)
+## 2 Shell
+* [2.1 背景](shell/背景.md)
+* [2.2 shell文件和解释器调用](shell/Shell文件和解释器调用.md)
+* [2.3 环境](shell/环境.md)
+* [2.4 注释](shell/注释.md)
+* [2.5 格式](shell/格式.md)
+* [2.6 特性及错误](shell/特性及错误.md)
+* [2.7 命名约定](shell/命名约定.md)
+* [2.8 调用命令](shell/调用命令.md)
+* [2.9 小技巧](shell/小技巧.md)
+* [2.10 例子](shell/例子.md)
 
-## Python
-* [简介](python/简介.md)
-* [数据类型](python/数据类型.md)
+## 3 Python
+* [3.1 简介](python/简介.md)
+* [3.2 数据类型](python/数据类型.md)
 
-## Docker
-* [初识docker](docker/初识docker.md)
-* [使用镜像](docker/使用镜像.md)
-* [docker安装](docker/docker安装.md)
-* [docker-compose安装](docker/docker-compose安装.md)
-* [harbor创建](docker/harbor创建.md)
-* [harbor添加https认证](docker/harbor添加https认证.md)
+## 4 Golang
+* 4.1 程序结构
+* 4.2 数据类型
+    * 4.2.1 基础数据类型
+    * 4.2.2 复合数据类型
+* 4.3 函数
 
-## Kubernetes
-* [kubeadm安装集群](kubernetes/使用kubeadm工具快速安装kubernetes集群.md)
-* [二进制安装集群](kubernetes/以二进制文件方式安装kubernetes集群.md)
+## 5 Docker
+* [5.1 初识docker](docker/初识docker.md)
+* [5.2 使用镜像](docker/使用镜像.md)
+* [5.3 docker安装](docker/docker安装.md)
+* [5.4 docker-compose安装](docker/docker-compose安装.md)
+* [5.5 harbor创建](docker/harbor创建.md)
+* [5.6 harbor添加https认证](docker/harbor添加https认证.md)
 
-## Nginx
-* [gzip模块](nginx/gzip.md)
-* [状态码](nginx/状态码.md)
+## 6 Kubernetes
+* 6.1 集群的安装
+    * [6.1.1 kubeadm安装集群](kubernetes/使用kubeadm工具快速安装kubernetes集群.md)
+    * [6.1.2 二进制安装集群](kubernetes/以二进制文件方式安装kubernetes集群.md)
 
-## Tomcat
-* [tomcat简介](tomcat/tomcat简介.md)
+## 7 Nginx
+* [7.1 gzip模块](nginx/gzip.md)
+* [7.2 状态码](nginx/状态码.md)
 
-## Elasticsearch
-* [基础概念](elasticsearch/基础概念.md)
-* [分词](elasticsearch/分词.md)
-* [elasticsearch集群的搭建](elasticsearch/centos7.6下elasticsearch7.2集群搭建步骤.md)
+## 8 Tomcat
+* [8.1 tomcat简介](tomcat/tomcat简介.md)
 
-## Zabbix
-* [MySQL监控模块](zabbix/MySQL监控模块.md)
-* [Redis监控模块](zabbix/Redis监控模块.md)
+## 9 Elasticsearch
+* [9.1 基础概念](elasticsearch/基础概念.md)
+* [9.2 分词](elasticsearch/分词.md)
+* [9.3 elasticsearch集群的搭建](elasticsearch/centos7.6下elasticsearch7.2集群搭建步骤.md)
 
-## 常见集群的搭建
-* [activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
-* [rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)
-* [keepalived和heartbeat对比](常见集群的搭建/keepalived和heartbeat对比.md)
-* [zookeeper集群](常见集群的搭建/zookeeper3.4.14集群搭建步骤.md)
-* [fastdfs](常见集群的搭建/分布式FastDfs+nginx缓存高可用集群构建.md)
+## 10 Zabbix
+* [10.1 MySQL监控模块](zabbix/MySQL监控模块.md)
+* [10.2 Redis监控模块](zabbix/Redis监控模块.md)
 
-## 常见服务的搭建
-* [shadowsocks](常见服务的搭建/centos7下搭建shadowsocks.md)
-* [jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
-* [python3.6](常见服务的搭建/安装python3-6.md)
-* [新建博客方法](常见服务的搭建/新建博客方法.md)
-* [confluence](常见集群的搭建/基于docker搭建confluence.md)
+## 11 消息中间件
+* [11.1 activemq集群](常见集群的搭建/activemq5.15.9集群搭建步骤.md)
+* [11.2 rabbitmq](常见集群的搭建/centos7安装rabbitmq-3.7.9.md)
 
-## Markdown
-* [让Markdown写作更简单Typora完全使用指南](markdown/让Markdown写作更简单Typora完全使用指南.md)
+## 12 常见集群的搭建
+* [12.1 keepalived和heartbeat对比](常见集群的搭建/keepalived和heartbeat对比.md)
+* [12.2 zookeeper集群](常见集群的搭建/zookeeper3.4.14集群搭建步骤.md)
+* [12.3 fastdfs](常见集群的搭建/分布式FastDfs+nginx缓存高可用集群构建.md)
+
+## 13 常见服务的搭建
+* [13.1 shadowsocks](常见服务的搭建/centos7下搭建shadowsocks.md)
+* [13.2 jdk](常见服务的搭建/centos下配置jdk的环境变量.md)
+* [13.3 python3.6](常见服务的搭建/安装python3-6.md)
+* [13.4 新建博客方法](常见服务的搭建/新建博客方法.md)
+* [13.5 confluence](常见集群的搭建/基于docker搭建confluence.md)
+
+## 14 Markdown
+* [14.1 让Markdown写作更简单Typora完全使用指南](markdown/让Markdown写作更简单Typora完全使用指南.md)
 

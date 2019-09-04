@@ -27,12 +27,12 @@ wiki目录：
   * [x] 2.10 例子
 * [x] 3 Python
   * [x] 3.1 简介
-  * [x] 数据类型
+  * [x] 3.2 数据类型
 * [ ] 4 Golang
   * [ ] 4.1 程序结构
   * [ ] 4.2 数据类型
     * [ ] 4.2.1 基础数据类型
-    * [ ] 4.2.2 符合数据类型
+    * [ ] 4.2.2 复合数据类型
   * [ ] 4.3 函数
 * [x] 5 Docker
   * [x] 5.1 初始docker
@@ -51,11 +51,24 @@ wiki目录：
 * [x] 8 Tomcat
   * [x] 8.1 tomcat简介
 * [x] 9 Elastic
-  * [x] 9.1 elasticsearch集群的搭建
+  * [x] 9.1 基础概念
+  * [x] 9.2 分词
+  * [x] 9.3 elasticsearch集群的搭建
 * [x] 10 Zabbix
   * [x] 10.1 mysql监控模块
   * [x] 10.2 redis监控模块
 * [x] 11 消息中间件
   * [x] 11.1 activemq集群的搭建
   * [x] 11.2 rabbitmq的搭建
-
+* [x] 12 常见集群的搭建
+  * [x] 12.1 keepalived和heartbeat对比
+  * [x] 12.2 zookeeper集群
+  * [x] 12.3 fastdfs
+* [x] 13 常见集群的搭建
+  * [x] 13.1 shadowsocks
+  * [x] 13.2 jdk
+  * [x] 13.3 python3.6
+  * [x] 13.4 新建博客方法
+  * [x] 13.5 confluence
+* [x] 14 Markdown
+  * [x] 14.1 让Markdown写作更简单Typora完全使用指南
