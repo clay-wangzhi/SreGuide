@@ -2,10 +2,10 @@
 
 * [Introduction](README.md)
 
-## Linux
-* [linux简介](Linux/基础/linux简介.md)
-* 文件管理
-    * [查看文件类型](Linux/基础/文件管理/查看文件类型.md)
+## 1 Linux
+* [1.1 linux简介](Linux/基础/linux简介.md)
+* 1.2 文件管理
+    * [1.2.1 查看文件类型](Linux/基础/文件管理/查看文件类型.md)
     * [查看文件详细属性](Linux/基础/文件管理/查看文件详细属性.md)
     * [创建、复制、移动、删除](Linux/基础/文件管理/zsgc.md)
     * [查看文件内容](Linux/基础/文件管理/查看文件内容.md)
