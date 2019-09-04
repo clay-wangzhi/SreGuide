@@ -162,16 +162,16 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';#访问格式名称：地址；用户；本地时间；请求；响应码；字节数；引用；客户端代理；记录真正客户端地址；
 
     access_log  /var/log/nginx/access.log  main;#访问日志路径
-
+    
     sendfile            on;#提升效能
     tcp_nopush          on;
     tcp_nodelay         on;
     keepalive_timeout   65;#保持连接65秒
     types_hash_max_size 2048;#加入内存中匹配过的保存值大的hash值2048个类型
-
+    
     include             /etc/nginx/mime.types;
     default_type        application/octet-stream;默认识别8进制数据流
-
+    
     # Load modular configuration files from the /etc/nginx/conf.d directory.
     # See http://nginx.org/en/docs/ngx_core_module.html#include
     # for more information.
@@ -184,14 +184,14 @@ http {
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
-
+    
         location / {
         }
-
+    
         error_page 404 /404.html;#错误页面
             location = /40x.html {
         }
-
+    
         error_page 500 502 503 504 /50x.html;错误页面
             location = /50x.html {
         }
@@ -793,7 +793,5 @@ if($invalid_referer) {
 return http://www.magedu.com/invalid.jpg; #非法引用自动跳转到指定URl
 }
 
-作者：任总
-链接：https://www.jianshu.com/p/193443c9d306
-來源：简书
-简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。层
+
+转载链接：https://www.jianshu.com/p/193443c9d306
