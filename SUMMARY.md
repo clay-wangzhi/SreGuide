@@ -116,4 +116,8 @@
     * [17.4.4 list类型](17 Redis/17.4 数据库操作/17.4.4 list类型.md)
     * [17.4.5 set类型](17 Redis/17.4 数据库操作/17.4.5 set类型.md)
     * [17.4.6 zset类型](17 Redis/17.4 数据库操作/17.4.6 zset类型.md)
+* [17.5 centos7安装redis-5.0.0主从](17 Redis/17.5 centos7安装redis-5.0.0主从.md)
+* [17.6 redis5.0.4集群搭建步骤](17 Redis/17.6 redis5.0.4集群搭建步骤.md)
+* [17.7 centos7安装升级ruby](17 Redis/17.7 centos7安装升级ruby.md)
+* [17.8 redis-dump方式导入导出数据](17 Redis/17.8 redis-dump方式导入导出数据.md)
 
