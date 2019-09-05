@@ -52,9 +52,9 @@ wiki目录：
 * [x] 8 Tomcat
   * [x] 8.1 tomcat简介
 * [x] 9 Elastic
-  * [x] 9.1 基础概念
-  * [x] 9.2 分词
-  * [x] 9.3 elasticsearch集群的搭建
+  * [ ] 9.1 概述
+    * [ ] 9.1.1 Elasticsearch 简介及其发展历史
+    * [ ] 9.1.2 Elastic Stack 家族成员及其应用场景
 * [x] 10 Zabbix
   * [x] 10.1 mysql监控模块
   * [x] 10.2 redis监控模块
