@@ -57,9 +57,8 @@ wiki目录：
     * [x] 9.1.2 Elastic Stack 家族成员及其应用场景
   * [x] 9.2 安装上手
     * [x] 9.2.1 Elasticsearch的安装和简单配置
-    * [ ] 9.2.2 Kibana的安装和界面快速浏览
-    * [ ] 9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro
-    * [ ] 9.2.4 Logstash安装和导入数据
+    * [x] 9.2.2 Kibana的安装和界面快速浏览
+    * [x] 9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro
   * [ ] 9.3 Elasticsearch入门
     * [ ] 9.3.1 基本概念
     * [ ] 9.3.2 文档的基本操作CRUP与批量操作

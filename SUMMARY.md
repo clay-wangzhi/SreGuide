@@ -67,6 +67,8 @@
     * [9.1.2 Elastic Stack 家族成员及其应用场景](9 elasticsearch/9.1 概述/9.1.2 Elastic Stack 家族成员及其应用场景.md)
 * 9.2 安装上手
     * [9.2.1 Elasticsearch的安装和简单配置](9 elasticsearch/9.2 安装上手/9.2.1 Elasticsearch的安装和简单配置.md)
+    * [9.2.2 Kibana的安装和界面快速浏览](9 elasticsearch/9.2 安装上手/9.2.2 Kibana的安装和界面快速浏览.md)
+    * [9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro](9 elasticsearch/9.2 安装上手/9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro.md)
 
 ## 10 Zabbix
 * [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
