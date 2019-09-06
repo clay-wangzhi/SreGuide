@@ -51,7 +51,7 @@ wiki目录：
   * [x] 7.3 常见nginx常用模块和模块的使用示例
 * [x] 8 Tomcat
   * [x] 8.1 tomcat简介
-* [x] 9 Elastic
+* [x] 9 Elasticsearch
   * [x] 9.1 概述
     * [x] 9.1.1 Elasticsearch 简介及其发展历史
     * [x] 9.1.2 Elastic Stack 家族成员及其应用场景
