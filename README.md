@@ -52,9 +52,74 @@ wiki目录：
 * [x] 8 Tomcat
   * [x] 8.1 tomcat简介
 * [x] 9 Elastic
-  * [ ] 9.1 概述
-    * [ ] 9.1.1 Elasticsearch 简介及其发展历史
-    * [ ] 9.1.2 Elastic Stack 家族成员及其应用场景
+  * [x] 9.1 概述
+    * [x] 9.1.1 Elasticsearch 简介及其发展历史
+    * [x] 9.1.2 Elastic Stack 家族成员及其应用场景
+  * [x] 9.2 安装上手
+    * [x] 9.2.1 Elasticsearch的安装和简单配置
+    * [ ] 9.2.2 Kibana的安装和界面快速浏览
+    * [ ] 9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro
+    * [ ] 9.2.4 Logstash安装和导入数据
+  * [ ] 9.3 Elasticsearch入门
+    * [ ] 9.3.1 基本概念
+    * [ ] 9.3.2 文档的基本操作CRUP与批量操作
+    * [ ] 9.3.3 倒排索引入门
+    * [ ] 9.3.4 通过分析器进行分词
+    * [ ] 9.3.5 Search API概览
+    * [ ] 9.3.6 URI Search详解
+    * [ ] 9.3.7 Request Body和Query DSL简介
+    * [ ] 9.3.8 QueryString & Simple Query String查询
+    * [ ] 9.3.9 Dynamic Mapping和常见参数介绍
+    * [ ] 9.3.10 显示Mapping设置与常见参数介绍
+    * [ ] 9.3.11 多字段特性及Mapping中配置自定义Analyzer
+    * [ ] 9.3.12 Index Template和Dynamic Template
+    * [ ] 9.3.13 Elasticsearch聚合分析简介
+    * [ ] 9.3.14 小练习（一）
+  * [ ] 9.4 深入搜索
+    * [ ] 9.4.1 基于词项和基于全文的搜索
+    * [ ] 9.4.2 结构化搜索
+    * [ ] 9.4.3 搜索的相关性算分
+    * [ ] 9.4.4 Query & Filtering与多字符串多字段查询
+    * [ ] 9.4.5 单字符串多字段查询
+    * [ ] 9.4.6 多语言及中文分词与检索
+    * [ ] 9.4.7 Space Jam，一次全文搜索的实例
+    * [ ] 9.4.8 使用Search Template和Index Alias查询
+    * [ ] 9.4.9 综合排序： Function Score Query优化算分
+    * [ ] 9.4.10 Term & Phrase Suggester
+    * [ ] 9.4.11 自动补全与基于上下文的提示
+    * [ ] 9.4.12 配置跨集群搜索
+  * [ ] 9.5 分布式特性及分布式搜索的机制
+    * [ ] 9.5.1 集群分布式模型及选主与脑裂问题
+    * [ ] 9.5.2 分片与集群的故障转移
+    * [ ] 9.5.3 文档分布式存储
+    * [ ] 9.5.4 分片及其生命周期
+    * [ ] 9.5.5 剖析分布式查询及相关性算分
+    * [ ] 9.5.6 排序及Doc Values & Fielddata
+    * [ ] 9.5.7 分页及遍历： From，Size，Search After & Scroll API
+    * [ ] 9.5.8 处理并发读写操作
+  * [ ] 9.6 深入聚合分析
+    * [ ] 9.6.1 Bucket & Metric 聚合分析及嵌套聚合
+    * [ ] 9.6.2 Pipeline集合分析
+    * [ ] 9.6.3 作用范围与排序
+    * [ ] 9.6.4 聚合分析的原理及精准度问题
+  * [ ] 9.7 数据建模
+    * [ ] 9.7.1 对象及Nested对象
+    * [ ] 9.7.2 文档的父子关系
+    * [ ] 9.7.3 Update By Query & Reindex API
+    * [ ] 9.7.4 Ingest Pipeline & Painless Script
+    * [ ] 9.7.5 Elasticsearch 数据建模实例
+    * [ ] 9.7.6 Elasticsearch 数据建模最佳实践
+    * [ ] 9.7.7 小练习（二）
+  * [ ] 9.8 保护你的数据
+    * [ ] 9.8.1 集群身份认证与用户鉴权
+    * [ ] 9.8.2 集群内部安全通信
+    * [ ] 9.8.3 集群与外部间的安全通信
+  * [ ] 9.9 水平扩展Elasticsearch集群
+    * [ ] 9.1 常见的集群部署方式
+    * [ ] 9.2 Hot & Warm架构与Shard FIltering
+    * [ ] 9.3 如何对集群进行容量规划
+    * [ ] 9.4 分片设计及管理
+    * [ ] 9.5 在私有云上管理Elas集群的一些方法
 * [x] 10 Zabbix
   * [x] 10.1 mysql监控模块
   * [x] 10.2 redis监控模块

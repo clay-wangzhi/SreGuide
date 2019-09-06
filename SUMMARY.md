@@ -62,6 +62,11 @@
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
 
 ## 9 Elasticsearch
+* 9.1 概述
+    * [9.1.1 Elasticsearch 简介及其发展历史](9 elasticsearch/9.1 概述/9.1.1 Elasticsearch 简介及其发展历史.md)
+    * [9.1.2 Elastic Stack 家族成员及其应用场景](9 elasticsearch/9.1 概述/9.1.2 Elastic Stack 家族成员及其应用场景.md)
+* 9.2 安装上手
+    * [9.2.1 Elasticsearch的安装和简单配置](9 elasticsearch/9.2 安装上手/9.2.1 Elasticsearch的安装和简单配置.md)
 
 ## 10 Zabbix
 * [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
