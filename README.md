@@ -59,8 +59,8 @@ wiki目录：
     * [x] 9.2.1 Elasticsearch的安装和简单配置
     * [x] 9.2.2 Kibana的安装和界面快速浏览
     * [x] 9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro
-  * [ ] 9.3 Elasticsearch入门
-    * [ ] 9.3.1 基本概念
+  * [x] 9.3 Elasticsearch入门
+    * [x] 9.3.1 基本概念
     * [ ] 9.3.2 文档的基本操作CRUP与批量操作
     * [ ] 9.3.3 倒排索引入门
     * [ ] 9.3.4 通过分析器进行分词
