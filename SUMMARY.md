@@ -75,6 +75,7 @@
     * [9.3.3 倒排索引入门](9 elasticsearch/9.3 Elasticsearch入门/9.3.3 倒排索引入门.md)
     * [9.3.4 通过分析器进行分词](9 elasticsearch/9.3 Elasticsearch入门/9.3.4 通过分析器进行分词.md)
     * [9.3.5 Search API概览](9 elasticsearch/9.3 Elasticsearch入门/9.3.5 Search API概览.md)
+    * [9.3.6 URI Search详解](9 elasticsearch/9.3 Elasticsearch入门/9.3.6 URI Search详解.md)
 
 ## 10 Zabbix
 * [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
