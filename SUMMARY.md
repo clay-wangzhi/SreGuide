@@ -72,6 +72,7 @@
 * 9.3 Elasticsearch入门
     * [9.3.1 基本概念](9 elasticsearch/9.3 Elasticsearch入门/9.3.1 基本概念.md)
     * [9.3.2 文档的基本操作CRUP与批量操作.md](9 elasticsearch/9.3 Elasticsearch入门/9.3.2 文档的基本操作CRUP与批量操作.md)
+    * [9.3.3 倒排索引入门.md](9 elasticsearch/9.3 Elasticsearch入门/9.3.3 倒排索引入门.md)
 
 ## 10 Zabbix
 * [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
