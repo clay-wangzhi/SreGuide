@@ -66,7 +66,7 @@ wiki目录：
     * [x] 9.3.4 通过分析器进行分词
     * [x] 9.3.5 Search API概览
     * [x] 9.3.6 URI Search详解
-    * [ ] 9.3.7 Request Body和Query DSL简介
+    * [x] 9.3.7 Request Body和Query DSL简介
     * [ ] 9.3.8 QueryString & Simple Query String查询
     * [ ] 9.3.9 Dynamic Mapping和常见参数介绍
     * [ ] 9.3.10 显示Mapping设置与常见参数介绍
