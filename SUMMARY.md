@@ -16,6 +16,7 @@
 * [1.6 管道及I/O重定向](1 Linux/1.6 管道及I-O重定向.md)
 * [1.7 软件包管理](1 Linux/1.7 软件包管理.md)
 * [1.8 网络管理](1 Linux/1.8 网络管理.md)
+* [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
 
 ## 2 Shell
 * [2.1 背景](2 shell/2.1 背景.md)
