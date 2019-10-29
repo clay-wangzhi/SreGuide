@@ -14,6 +14,7 @@ wiki目录：
   * [x] 1.6 管道及I/O重定向
   * [x] 1.7 软件包管理
   * [x] 1.8 网络管理
+  
 * [x] 2 Shell
   * [x] 2.1 背景
   * [x] 2.2 shell文件和解释器调用
@@ -25,15 +26,18 @@ wiki目录：
   * [x] 2.8 调用命令
   * [x] 2.9 小技巧
   * [x] 2.10 例子
+  
 * [x] 3 Python
   * [x] 3.1 简介
   * [x] 3.2 数据类型
+  
 * [x] 4 Golang
   * [x] 4.1 程序结构
   * [ ] 4.2 数据类型
     * [ ] 4.2.1 基础数据类型
     * [ ] 4.2.2 复合数据类型
   * [ ] 4.3 函数
+  
 * [x] 5 Docker
   * [x] 5.1 初始docker
   * [x] 5.2 docker安装
@@ -41,16 +45,21 @@ wiki目录：
   * [x] 5.4 docker-compose安装
   * [x] 5.5 harbor创建
   * [x] 5.6 harbor添加https认证
+  
 * [x] 6 Kubernetes
   * [x] 6.1 集群的安装
     * [x] 6.1.1 kubeadm安装集群
     * [x] 6.1.2 二进制安装集群
+  
 * [x] 7 Nginx
   * [x] 7.1 gzip模块
   * [x] 7.2 状态码
   * [x] 7.3 常见nginx常用模块和模块的使用示例
+  
 * [x] 8 Tomcat
+  
   * [x] 8.1 tomcat简介
+  
 * [x] 9 Elasticsearch
   * [x] 9.1 概述
     * [x] 9.1.1 Elasticsearch 简介及其发展历史
@@ -119,26 +128,35 @@ wiki目录：
     * [ ] 9.3 如何对集群进行容量规划
     * [ ] 9.4 分片设计及管理
     * [ ] 9.5 在私有云上管理Elas集群的一些方法
+  
 * [x] 10 Zabbix
   * [x] 10.1 mysql监控模块
   * [x] 10.2 redis监控模块
+  
 * [x] 11 消息中间件
   * [x] 11.1 activemq集群的搭建
   * [x] 11.2 rabbitmq的搭建
+  
 * [x] 12 常见集群的搭建
   * [x] 12.1 keepalived和heartbeat对比
   * [x] 12.2 zookeeper集群
   * [x] 12.3 fastdfs
+  
 * [x] 13 常见集群的搭建
   * [x] 13.1 shadowsocks
   * [x] 13.2 jdk
   * [x] 13.3 python3.6
   * [x] 13.4 新建博客方法
   * [x] 13.5 confluence
+  
 * [x] 14 Markdown
+  
   * [x] 14.1 让Markdown写作更简单Typora完全使用指南
+  
 * [x] 15 Ansible
+  
   * [x] 15.1 ansible简介
+  
 * [x] 16 MySQL
   * [x] 16.1 基本操作
   * [ ] 16.2 列表类型和数据完整性
@@ -151,6 +169,7 @@ wiki目录：
   * [ ] 16.9 主主和keepalived
   * [ ] 16.10 读写分离和Ameoba
   * [ ] 16.11 实战
+  
 * [x] 17 Redis
   * [ ] 17.1 安装
   * [ ] 17.2 配置
@@ -166,24 +185,44 @@ wiki目录：
   * [x] 17.6 redis5.0.4集群搭建步骤
   * [x] 17.7 centos7安装升级ruby
   * [x] 17.8 redis-dump方式导入导出数据
+  
 * [x] 18 HTML
+  
   * [x] 18.1 html入门
+  
 * [x] 19 CSS
   * [x] 19.1 列表、div、span
   * [x] 19.2 整体感知、常见属性、选择器
   * [x] 19.3 css性质、盒模型、标准文档流、浮动
   * [x] 19.4 行高和字号、超链接美化、background
   * [x] 19.5 相对定位、绝对定位、固定定位、z-index
+  
 * [x] 20 jenkins
   * [x] Jenkins常见错误
   * [x] Jenkins关闭和重启的实现方式
+  
 * [x] 21 vim
+  
   * [x] vim设置参数以方便YAML语句录入
+  
 * [x] 22 网络
+  
   * [x] TCP协议三次握手四次挥手
+  
 * [x] 23 未分类
   * [x] DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义
   * [x] 调优
+  
+* [x] 24 常见问题
+
+  * [x] CentOS配置yum源
+  * [x] centos时区
+  * [x] curl https报错
+  * [x] du-df磁盘使用不一致
+  * [x] linux下增加交换分区
+  * [x] mysql最大连接数
+
+  
 
 
 

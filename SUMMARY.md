@@ -159,3 +159,11 @@
 * [DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义](23 未分类/DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义.md)
 * [调优](23 未分类/调优.md)
 
+## 24 常见问题
+* [CentOS配置yum源](24 常见问题/CentOS配置yum源.md)
+* [centos时区](24 常见问题/centos时区.md)
+* [curl https报错](24 常见问题/curl https报错.md)
+* [du-df磁盘使用不一致](24 常见问题/du-df磁盘使用不一致.md)
+* [linux下增加交换分区](24 常见问题/linux下增加交换分区.md)
+* [mysql最大连接数](24 常见问题/mysql最大连接数.md)
+
