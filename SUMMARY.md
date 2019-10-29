@@ -141,7 +141,7 @@
 * [19.1 列表、div、span](19 CSS/19.1 列表、div、span.md)
 
 ## 20 jenkins
-* [Jenkins报错Error cloning remote repo 'origin'](20 jenkins/Jenkins报错Error cloning remote repo 'origin'.md)
+* [Jenkins常见错误](20 jenkins/Jenkins常见错误.md)
 * [Jenkins关闭和重启的实现方式](20 jenkins/Jenkins关闭和重启的实现方式.md)
 
 ## 21 vim

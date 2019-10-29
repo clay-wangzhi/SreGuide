@@ -171,7 +171,7 @@ wiki目录：
 * [x] 19 CSS
   * [x] 19.1 列表、div、span
 * [x] 20 jenkins
-  * [x] Jenkins报错Error cloning remote repo 'origin'
+  * [x] Jenkins常见错误
   * [x] Jenkins关闭和重启的实现方式
 * [x] 21 vim
   * [x] vim设置参数以方便YAML语句录入
@@ -179,6 +179,7 @@ wiki目录：
   * [x] TCP协议三次握手四次挥手
 * [x] 23 未分类
   * [x] DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义
+  * [x] 调优
 
 
 
