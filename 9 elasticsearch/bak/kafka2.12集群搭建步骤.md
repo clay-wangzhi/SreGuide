@@ -75,4 +75,4 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 
 > <https://blog.csdn.net/Cocktail_py/article/details/89877741>
 >
-> <https://www.jianshu.com/p/5297773fcc1b>
+> <https://www.jianshu.com/p/5297773fcc1b>、、
