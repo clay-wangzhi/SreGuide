@@ -139,6 +139,10 @@
 
 ## 19 CSS
 * [19.1 列表、div、span](19 CSS/19.1 列表、div、span.md)
+* [19.2 整体感知、常见属性、选择器](19 CSS/19.2 整体感知、常见属性、选择器.md)
+* [19.3 css性质、盒模型、标准文档流、浮动](19 CSS/19.3 css性质、盒模型、标准文档流、浮动.md)
+* [19.4 行高和字号、超链接美化、background](19 CSS/19.4 行高和字号、超链接美化、background.md)
+* [19.5 相对定位、绝对定位、固定定位、z-index](19 CSS/19.5 相对定位、绝对定位、固定定位、z-index.md)
 
 ## 20 jenkins
 * [Jenkins常见错误](20 jenkins/Jenkins常见错误.md)
