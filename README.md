@@ -215,14 +215,13 @@ wiki目录：
   
 * [x] 24 常见问题
 
-  * [x] CentOS配置yum源
   * [x] centos时区
   * [x] curl https报错
   * [x] du-df磁盘使用不一致
   * [x] linux下增加交换分区
   * [x] mysql最大连接数
-
   
+
 
 
 
