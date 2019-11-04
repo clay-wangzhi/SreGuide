@@ -160,7 +160,6 @@
 * [调优](23 未分类/调优.md)
 
 ## 24 常见问题
-* [CentOS配置yum源](24 常见问题/CentOS配置yum源.md)
 * [centos时区](24 常见问题/centos时区.md)
 * [curl https报错](24 常见问题/curl https报错.md)
 * [du-df磁盘使用不一致](24 常见问题/du-df磁盘使用不一致.md)
