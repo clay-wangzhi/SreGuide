@@ -141,6 +141,7 @@ wiki目录：
   * [x] 12.1 keepalived和heartbeat对比
   * [x] 12.2 zookeeper集群
   * [x] 12.3 fastdfs
+  * [x] 12.4 rocketmq集群的搭建
   
 * [x] 13 常见集群的搭建
   * [x] 13.1 shadowsocks
