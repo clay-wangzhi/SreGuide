@@ -167,3 +167,7 @@
 * [linux下增加交换分区](24 常见问题/linux下增加交换分区.md)
 * [mysql最大连接数](24 常见问题/mysql最大连接数.md)
 
+## 25 openldap
+* [Centos7 搭建openldap](25 openldap/Centos7 搭建openldap.md)
+* [phpldapadmin操作指导](25 openldap/phpldapadmin操作指导.md)
+
