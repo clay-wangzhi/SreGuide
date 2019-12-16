@@ -143,6 +143,7 @@ wiki目录：
 * [x] 15 Ansible
   
   * [x] 15.1 ansible简介
+  * [x] ansible使用优化
 * [x] 16 MySQL
   * [x] 16.1 基本操作
   * [ ] 16.2 列表类型和数据完整性
