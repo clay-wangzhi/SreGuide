@@ -32,6 +32,8 @@ Host *
   ControlPersist 4h：
 ```
 
+> 个人感觉效果不明显，不如下面ansible设置开启ssh长连接
+
 ## 开启SSH长连接
 
 开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v
