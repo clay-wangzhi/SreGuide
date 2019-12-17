@@ -105,7 +105,7 @@
 
 ## 15 Ansible
 * [15.1 Ansible简介](15 ansible/15.1 ansible简介.md)
-* [ansible使用优化](15 Ansible/ansible使用优化.md)
+* [ansible使用优化](15 ansible/ansible使用优化.md)
 
 ## 16 Mysql
 * [16.1 基本操作](16 MySQL/16.1 基本操作.md)
