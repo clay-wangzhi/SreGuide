@@ -1,3 +1,7 @@
+
+
+
+
 wiki目录：
 
 * [x] 1 Linux
@@ -199,10 +203,11 @@ wiki目录：
   * [x] du-df磁盘使用不一致
   * [x] linux下增加交换分区
   * [x] mysql最大连接数
-  
 * [x] 25 openldap
   * [x] Centos7 搭建openldap
   * [x] phpldapadmin操作指导
+* [x] 26 gitlab
+  * [x] gitlab备份迁移升级&集成openldap
 
 
 
