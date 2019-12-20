@@ -172,3 +172,6 @@
 * [Centos7 搭建openldap](25 openldap/Centos7 搭建openldap.md)
 * [phpldapadmin操作指导](25 openldap/phpldapadmin操作指导.md)
 
+## 26 gitlab
+* [gitlab备份迁移升级&集成openldap](26 gitlab/gitlab备份迁移升级&集成openldap.md)
+
