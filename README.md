@@ -53,6 +53,7 @@ wiki目录：
   * [x] 7.1 gzip模块
   * [x] 7.2 状态码
   * [x] 7.3 常见nginx常用模块和模块的使用示例
+  * [ ] 初识Nginx
 * [x] 8 Tomcat
   
   * [x] 8.1 tomcat简介

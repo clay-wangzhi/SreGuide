@@ -58,6 +58,7 @@
 * [7.1 gzip模块](7 nginx/7.1 gzip.md)
 * [7.2 状态码](7 nginx/7.2 状态码.md)
 * [7.3 常见nginx常用模块和模块的使用示例](7 nginx/7.3 常见nginx常用模块和模块的使用示例.md)
+* [初识Nginx](7 nginx/初识Nginx.md)
 
 ## 8 Tomcat
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
