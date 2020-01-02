@@ -175,6 +175,7 @@ wiki目录：
   * [x] 17.6 redis5.0.4集群搭建步骤
   * [x] 17.7 centos7安装升级ruby
   * [x] 17.8 redis-dump方式导入导出数据
+  * [x] redis面试题
 * [x] 18 HTML
   
   * [x] 18.1 html入门

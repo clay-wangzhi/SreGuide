@@ -135,6 +135,7 @@
 * [17.6 redis5.0.4集群搭建步骤](17 Redis/17.6 redis5.0.4集群搭建步骤.md)
 * [17.7 centos7安装升级ruby](17 Redis/17.7 centos7安装升级ruby.md)
 * [17.8 redis-dump方式导入导出数据](17 Redis/17.8 redis-dump方式导入导出数据.md)
+* [redis面试题](17 Redis/redis面试题.md)
 
 ## 18 HTML
 * [18.1 html入门](18 HTML/18.1 html入门.md)
