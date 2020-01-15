@@ -84,8 +84,8 @@
 * [10.1 zabbix4.4新功能](10 zabbix/10.1 zabbix4.4新功能.md)
 * [10.2 zabbix借助ansible安装](10 zabbix/10.2 zabbix借助ansible安装.md)
 * [10.3 zabbix添加报警媒介](10 zabbix/10.3 zabbix添加报警媒介.md)
-* [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
-* [10.2 Redis监控模块](10 zabbix/10.2 Redis监控模块.md)
+* [10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)
+* [10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)
 
 ## 11 消息中间件
 * [11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)
