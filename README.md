@@ -128,6 +128,7 @@ wiki目录：
 * [x] 10 Zabbix
   * [x] 10.1 zabbix4.4新功能
   * [x] 10.2 zabbix借助ansible安装
+  * [x] 10.3 zabbix添加报警媒介
   * [x] 10.1 mysql监控模块
   * [x] 10.2 redis监控模块
 * [x] 11 消息中间件
