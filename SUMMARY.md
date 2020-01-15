@@ -86,6 +86,7 @@
 * [10.3 zabbix添加报警媒介](10 zabbix/10.3 zabbix添加报警媒介.md)
 * [10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)
 * [10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)
+* [10.6 常见问题](10 Zabbix/10.6 常见问题.md)
 
 ## 11 消息中间件
 * [11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)
