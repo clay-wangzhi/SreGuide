@@ -213,7 +213,7 @@ wiki目录：
   * [x] phpldapadmin操作指导
 * [x] 26 gitlab
   * [x] gitlab备份迁移升级&集成openldap
-
-
+* [x] 27 监控体系
+  * [x] 聊头监控体系
 
 
