@@ -87,6 +87,7 @@
 * [10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)
 * [10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)
 * [10.6 常见问题](10 zabbix/10.6 常见问题.md)
+* [10.7 用zabbix api批量添加web监控](10 zabbix/10.7 用zabbix api批量添加web监控.md)
 
 ## 11 消息中间件
 * [11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)
