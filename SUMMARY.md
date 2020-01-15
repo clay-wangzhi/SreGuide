@@ -81,6 +81,8 @@
     * [9.3.7 Request Body和Query DSL简介](9 elasticsearch/9.3 Elasticsearch入门/9.3.7 Request Body和Query DSL简介.md)
 
 ## 10 Zabbix
+* [10.1 zabbix4.4新功能](10 zabbix/10.1 zabbix4.4新功能.md)
+* [10.2 zabbix借助ansible安装](10 zabbix/10.2 zabbix借助ansible安装.md)
 * [10.1 MySQL监控模块](10 zabbix/10.1 MySQL监控模块.md)
 * [10.2 Redis监控模块](10 zabbix/10.2 Redis监控模块.md)
 
