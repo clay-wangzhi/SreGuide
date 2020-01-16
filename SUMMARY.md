@@ -154,7 +154,8 @@
 * [19.5 相对定位、绝对定位、固定定位、z-index](19 CSS/19.5 相对定位、绝对定位、固定定位、z-index.md)
 
 ## 20 jenkins
-* [Jenkins常见错误](20 jenkins/Jenkins常见错误.md)
+* [20.1 jenkins的安装配置](20 jenkins/20.1 jenkins的安装配置.md)
+* [Jenkins常见问题](20 jenkins/Jenkins常见问题.md)
 * [Jenkins关闭和重启的实现方式](20 jenkins/Jenkins关闭和重启的实现方式.md)
 
 ## 21 vim

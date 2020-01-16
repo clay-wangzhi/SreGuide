@@ -188,6 +188,7 @@ wiki目录：
   * [x] 19.4 行高和字号、超链接美化、background
   * [x] 19.5 相对定位、绝对定位、固定定位、z-index
 * [x] 20 jenkins
+  * [x] 20.1 jenkins的安装配置
   * [x] Jenkins常见错误
   * [x] Jenkins关闭和重启的实现方式
 * [x] 21 vim
