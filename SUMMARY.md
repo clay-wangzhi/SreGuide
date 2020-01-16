@@ -156,7 +156,7 @@
 ## 20 jenkins
 * [20.1 jenkins的安装配置](20 jenkins/20.1 jenkins的安装配置.md)
 * [20.2 Jenkins Job迁移](20 jenkins/20.2 Jenkins Job迁移.md)
-* [Jenkins常见问题](20 jenkins/Jenkins常见问题.md)
+* [Jenkins常见问题](20 jenkins/jenkins常见问题.md)
 * [Jenkins关闭和重启的实现方式](20 jenkins/Jenkins关闭和重启的实现方式.md)
 
 ## 21 vim
