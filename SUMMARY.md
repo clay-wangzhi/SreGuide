@@ -19,14 +19,7 @@
 * [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
 
 ## 2 Shell
-* [2.1 背景](2 shell/2.1 背景.md)
-* [2.2 shell文件和解释器调用](2 shell/2.2 Shell文件和解释器调用.md)
-* [2.3 环境](2 shell/2.3 环境.md)
-* [2.4 注释](2 shell/2.4 注释.md)
-* [2.5 格式](2 shell/2.5 格式.md)
-* [2.6 特性及错误](2 shell/2.6 特性及错误.md)
-* [2.7 命名约定](2 shell/2.7 命名约定.md)
-* [2.8 调用命令](2 shell/2.8 调用命令.md)
+* [2.1 Google开源项目Shell 风格指南](2 shell/2.1 Google开源项目Shell 风格指南.md)
 * [2.9 小技巧](2 shell/2.9 小技巧.md)
 * [2.10 例子](2 shell/2.10 例子.md)
 
