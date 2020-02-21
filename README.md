@@ -17,7 +17,7 @@ wiki目录：
   * [x] 1.7 软件包管理
   * [x] 1.8 网络管理
 * [x] 2 Shell
-  * [x] 2.1 Google开源项目Shell 风格指南
+  * [x] 2.1 Google Shell 风格指南
   * [x] 2.9 小技巧
   * [x] 2.10 例子
 * [x] 3 Python
