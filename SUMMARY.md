@@ -19,7 +19,7 @@
 * [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
 
 ## 2 Shell
-* [2.1 Google开源项目Shell 风格指南](2 shell/2.1 Google开源项目Shell 风格指南.md)
+* [2.1 Google Shell 风格指南](2 shell/2.1 Google Shell 风格指南.md)
 * [2.9 小技巧](2 shell/2.9 小技巧.md)
 * [2.10 例子](2 shell/2.10 例子.md)
 
