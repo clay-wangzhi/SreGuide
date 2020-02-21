@@ -124,7 +124,9 @@
 * [16.8 AB复制](16 MySQL/16.8 MySQLAB复制.md)
 * [16.9 主主和keepalived](16 MySQL/16.9 MySQL的主主和keepalived.md)
 * [16.10 读写分离和Amoeba](16 MySQL/16.10 Mysql读写分离和Amoeba.md)
-* [16.11 实战](16 MySQL/16.11 MySQL实战.md)
+* [16.11 MySQL逻辑架构](16 MySQL/16.11 MySQL逻辑架构.md)
+* [16.12 MySQL锁等待](16 MySQL/16.12 MySQL锁等待.md)
+* [16.13 MySQL常见问题](16 MySQL/16.13 MySQL常见问题.md)
 
 ## 17 Redis
 * [17.1 安装](17 Redis/17.1 安装.md)
