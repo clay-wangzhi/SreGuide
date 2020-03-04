@@ -18,6 +18,7 @@ wiki目录：
   * [x] 1.8 网络管理
 * [x] 2 Shell
   * [x] 2.1 Google Shell 风格指南
+  * [ ] 2.2 高级bash脚本编程指南
   * [x] 2.9 小技巧
   * [x] 2.10 例子
 * [x] 3 Python
