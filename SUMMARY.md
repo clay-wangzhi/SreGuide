@@ -19,7 +19,6 @@
 * [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
 
 ## 2 Shell
-* [2.9 小技巧](2 shell/2.9 小技巧.md)
 * [2.10 例子](2 shell/2.10 例子.md)
 * [第一部分 初见shell](2 shell/part1/part1.md)
     * [1. 为什么使用shell编程](2 shell/part1/01_shell_programming.md)
