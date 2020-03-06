@@ -20,7 +20,6 @@
 
 ## 2 Shell
 * [2.1 Google Shell 风格指南](2 shell/2.1 Google Shell 风格指南.md)
-* [2.2 高级bash脚本编程指南](2 shell/2.2 高级bash脚本编程指南.md)
 * [2.9 小技巧](2 shell/2.9 小技巧.md)
 * [2.10 例子](2 shell/2.10 例子.md)
 * [第一部分 初见shell](2 shell/part1/part1.md)
