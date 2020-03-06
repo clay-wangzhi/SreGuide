@@ -19,7 +19,6 @@
 * [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
 
 ## 2 Shell
-* [2.1 Google Shell 风格指南](2 shell/2.1 Google Shell 风格指南.md)
 * [2.9 小技巧](2 shell/2.9 小技巧.md)
 * [2.10 例子](2 shell/2.10 例子.md)
 * [第一部分 初见shell](2 shell/part1/part1.md)
@@ -91,6 +90,7 @@
     * [30. 网络编程](2 shell/part5/30_network_programming.md)
     * [33. 选项](2 shell/part5/33_options.md)
     * [34. 陷阱](2 shell/part5/34_Gotchas.md)
+* [第六部分 Google Shell 风格指南](2 shell/part6/part6.md)
 
 ## 3 Python
 * [3.1 简介](3 python/3.1 简介.md)
