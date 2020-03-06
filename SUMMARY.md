@@ -64,7 +64,6 @@
         * [11.4 测试与分支](2 shell/part3/11_4_testing_and_branching.md)
     * [12. 命令替换](2 shell/part3/12_command_substitution.md)
     * [13. 算术扩展](2 shell/part3/13_arithmetic_expansion.md)
-    * [14. 休息时间](2 shell/part3/14_recess_time.md)
 * [第四部分 命令](2 shell/part4/part4.md)
 * [第五部分 高级话题](2 shell/part5/part5.md)
     * [18.正则表达式](2 shell/part5/18_regular_expressions.md)
