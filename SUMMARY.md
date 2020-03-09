@@ -88,6 +88,8 @@
     * [30. 网络编程](2 shell/part5/30_network_programming.md)
     * [33. 选项](2 shell/part5/33_options.md)
     * [34. 陷阱](2 shell/part5/34_Gotchas.md)
+    * [36. 其他](2 shell/part5/36_miscellany.md)
+        * [36.5 有颜色的脚本](2 shell/part5/36_5_colorizing_scripts.md)
 * [第六部分 Google Shell 风格指南](2 shell/part6/part6.md)
 
 ## 3 Python
