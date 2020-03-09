@@ -223,6 +223,7 @@
 * [20.2 Jenkins Job迁移](20 jenkins/20.2 Jenkins Job迁移.md)
 * [Jenkins常见问题](20 jenkins/jenkins常见问题.md)
 * [Jenkins关闭和重启的实现方式](20 jenkins/Jenkins关闭和重启的实现方式.md)
+* [使用Jenkins Pipeline自动化构建发布](20 jenkins/使用Jenkins Pipeline自动化构建发布.md)
 
 ## 21 vim
 * [vim设置参数以方便YAML语句录入](21 vim/vim设置参数以方便YAML语句录入.md)
