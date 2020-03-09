@@ -69,6 +69,7 @@
     * [18.正则表达式](2 shell/part5/18_regular_expressions.md)
         * [18.1正则表达式简介](2 shell/part5/18_1_a_brief_introduction_to_regular_expressions.md)
         * [18.2文件名替换](2 shell/part5/18_2_globbing.md)
+        * [18.3 正则表达式对照表](2 shell/part5/18_3_regular_expression_comparison_table.md)
     * [19. 嵌入文档](2 shell/part5/19_here_documents.md)
     * [20. I/O 重定向](2 shell/part5/20_io_redirection.md)
         * [20.1 使用 exec](2 shell/part5/20_1_use_exec.md)
