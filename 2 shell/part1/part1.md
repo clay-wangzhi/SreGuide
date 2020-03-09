@@ -12,3 +12,5 @@ Shell是一种命令解释器，它不仅分离了用户层与操作系统内核
 	- [2.1 调用一个脚本](02_1_invoking_the_script.md)
 	- [2.2 牛刀小试](02_2_preliminary_exercises.md)
 
+原著链接：http://tldp.org/LDP/abs/html/
+
