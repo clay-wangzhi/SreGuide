@@ -1,5 +1,7 @@
 ## 前端项目
 
+vue
+
 ```
 pipeline {
     agent { label 'master'}
