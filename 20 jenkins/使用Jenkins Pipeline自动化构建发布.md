@@ -541,8 +541,39 @@ pipeline {
 }
 ```
 
-> 上部分内容
-> 转载链接：https://www.jianshu.com/p/f1167e8850cd
+### 局部变量的定义和传递
+
+自定义变量（局部）
+
+```
+def username = 'Jenkins'
+echo "Hello Mr.${username}"
+```
+
+环境变量（局部）
+
+```
+withEnv(['MYTOOL_HOME=/usr/local/mytool']){
+    sh '$MYTOOL_HOME/bin/start'
+}
+```
+
+### exit code, stdout and stderr 返回值和输出
+
+其做法是，把stdout定向到一个文件，sh 配置 returnStatus: true，它的返回是一个0或非0的整数，然后从文件读取stdout的内容。stderr同理可得。
+
+```
+def status = sh(returnStatus: true, script: "git merge --no-edit $branches > merge_output.txt")
+if (status != 0) {
+  currentBuild.result = 'FAILED'
+  def output = readFile('merge_output.txt').trim()
+  slackSend channel: SLACK_CHANNEL, message: "<${env.JOB_URL}|${env.JOB_NAME}> ran into an error merging the PR branches into the ${TARGET_BRANCH} branch:\n```\n${output}\n```\n<${env.BUILD_URL}/console|See the full output>", color: 'warning', tokenCredentialId: 'slack-token'
+  error 'Merge conflict'
+}
+sh 'rm merge_output.txt'
+```
+
+
 
 ## 三、前端项目实例
 
@@ -703,5 +734,10 @@ pipeline {
 }
 ```
 
-
+>参考链接
+>https://www.jianshu.com/p/f1167e8850cd
+>
+>https://blog.csdn.net/triThirty/article/details/91381502
+>
+>https://www.cnblogs.com/pekkle/p/9882927.html
 
