@@ -734,6 +734,10 @@ pipeline {
 }
 ```
 
+这个jenkinsfile中有保存   制品，
+
+需要注意的是：制品的保存时间，和jenkins丢弃旧的构建参数，相同
+
 >参考链接
 >https://www.jianshu.com/p/f1167e8850cd
 >
