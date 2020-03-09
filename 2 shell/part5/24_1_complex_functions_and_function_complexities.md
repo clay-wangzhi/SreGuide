@@ -593,7 +593,9 @@ Function ()  # 不行.
 
 
 
+### echo
 
+shell中函数返回值，个人觉得可以用`echo`
 
 
 
