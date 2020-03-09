@@ -256,6 +256,7 @@ wiki目录：
   * [x] 20.2 Jenkins Job迁移
   * [x] Jenkins常见错误
   * [x] Jenkins关闭和重启的实现方式
+  * [x] 使用Jenkins Pipeline自动化构建发布
 * [x] 21 vim
   
   * [x] vim设置参数以方便YAML语句录入
