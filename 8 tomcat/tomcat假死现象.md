@@ -257,4 +257,4 @@ SurvivorRatio设置年轻代中Eden区与Survivor区的大小比值。设置为8
 * 大量tcp 连接 CLOSE_WAIT
   * `netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' `
 
- 
+> 转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html
