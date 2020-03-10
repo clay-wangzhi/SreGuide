@@ -103,7 +103,35 @@ FastCGI_Cache主要用于对FastCGI的动态程序进行缓存。
 
 ### 4.1 下载Nginx
 
+> nginx下载地址：http://nginx.org/download/
+>
+> 在官网找最新稳定版使用：http://nginx.org/en/download.html
+
+```
+cd /opt
+wget http://nginx.org/download/nginx-1.16.1.tar.gz
+tar -xvf nginx-1.16.1.tar.gz
+cd nginx-1.16.1/
+```
+
 ### 4.2 介绍各目录
+
+```shell
+# ls
+auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  man  README  src
+```
+
+- auto：包含了很多会在执行configure进行编译配置时调用的检测代码。
+- CHANGES：Nginx的版本更新细节记录。英文版。
+- CHANGES.ru：Nginx的版本更新细节记录。俄文版。
+- conf：Nginx提供的一些默认配置文件。
+- configure：根据系统环境设定Nginx编译选项的执行脚本。
+- contrib：网友贡献的一些有用脚本（对我来说，里面的vim设置很有用）。
+- html：提供了两个默认html页面，比如index.html的Welcome to nginx!。
+- LICENSE：声明的Nginx源码许可协议。
+- man：Nginx的Man手册，本文文件，可直接用vi或记事本打开。
+- README：读我文件，内容很简单，通告一下官网地址。
+- src：Nginx源码，分门别类，比如实现事件的event等，很清晰。
 
 ### 4.3 Configure
 
