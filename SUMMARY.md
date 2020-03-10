@@ -129,6 +129,7 @@
 
 ## 8 Tomcat
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
+* [tomcat假死现象](8 tomcat/tomcat假死现象.md)
 * [tomcat注意事项](8 tomcat/tomcat注意事项.md)
 
 ## 9 Elasticsearch

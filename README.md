@@ -119,6 +119,7 @@ tomcat注意事项python解析nginx配置文件python subprocess模块的使用w
 * [x] 8 Tomcat
   
   * [x] 8.1 tomcat简介
+  * [x] tomcat假死现象
   * [x] tomcat注意事项
 * [x] 9 Elasticsearch
   * [x] 9.1 概述
