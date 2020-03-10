@@ -1,4 +1,4 @@
-python subprocess模块的使用wiki目录：
+python解析nginx配置文件python subprocess模块的使用wiki目录：
 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
@@ -91,6 +91,7 @@ python subprocess模块的使用wiki目录：
   * [x] 3.1 简介
   * [x] 3.2 数据类型
   * [x] python subprocess模块的使用
+  * [x] python解析nginx配置文件
 * [x] 4 Golang
   * [x] 4.1 程序结构
   * [ ] 4.2 数据类型
