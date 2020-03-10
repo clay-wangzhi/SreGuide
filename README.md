@@ -1,4 +1,4 @@
-python解析nginx配置文件python subprocess模块的使用wiki目录：
+tomcat注意事项python解析nginx配置文件python subprocess模块的使用wiki目录：
 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
@@ -119,6 +119,7 @@ python解析nginx配置文件python subprocess模块的使用wiki目录：
 * [x] 8 Tomcat
   
   * [x] 8.1 tomcat简介
+  * [x] tomcat注意事项
 * [x] 9 Elasticsearch
   * [x] 9.1 概述
     * [x] 9.1.1 Elasticsearch 简介及其发展历史
