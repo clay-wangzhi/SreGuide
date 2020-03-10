@@ -92,6 +92,8 @@ python解析nginx配置文件python subprocess模块的使用wiki目录：
   * [x] 3.2 数据类型
   * [x] python subprocess模块的使用
   * [x] python解析nginx配置文件
+  * [x] python调用jenkinsAPI批量拷贝视图job
+  * [x] python调用zabbixAPI批量添加web监控
 * [x] 4 Golang
   * [x] 4.1 程序结构
   * [ ] 4.2 数据类型

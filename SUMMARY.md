@@ -99,6 +99,7 @@
 * [python subprocess模块的使用](3 python/python subprocess模块的使用.md)
 * [python解析nginx配置文件](3 python/python解析nginx配置文件.md)
 * [python调用jenkinsAPI批量拷贝视图job](3 python/python调用jenkinsAPI批量拷贝视图job.md)
+* [python调用zabbixAPI批量添加web监控](3 python/python调用zabbixAPI批量添加web监控.md)
 
 ## 4 Golang
 * [4.1 程序结构](4 golang/4.1 程序结构.md)
