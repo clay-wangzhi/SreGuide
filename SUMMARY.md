@@ -96,6 +96,7 @@
 ## 3 Python
 * [3.1 简介](3 python/3.1 简介.md)
 * [3.2 数据类型](3 python/3.2 数据类型.md)
+* [python subprocess模块的使用](3 python/python subprocess模块的使用.md)
 
 ## 4 Golang
 * [4.1 程序结构](4 golang/4.1 程序结构.md)
