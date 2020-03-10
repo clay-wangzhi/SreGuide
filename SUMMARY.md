@@ -131,6 +131,7 @@
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
 * [生产环境中的tomcat配置](8 tomcat/生产环境中的tomcat配置.md)
 * [tomcat假死现象](8 tomcat/tomcat假死现象.md)
+* [Tomcat 错误代号及状态码](8 tomcat/Tomcat 错误代号及状态码.md)
 * [tomcat注意事项](8 tomcat/tomcat注意事项.md)
 
 ## 9 Elasticsearch
