@@ -82,11 +82,20 @@ FastCGI_Cache主要用于对FastCGI的动态程序进行缓存。
 
 ## 2 Nginx的优点
 
-* 高并发，高性能
-* 可扩展性好
-* 高可靠性
-* 热部署
-* BSD许可证
+```rust
+	1. 轻量级，同样起web服务比apache占用更少内存及资源；
+    2. Nginx 异步非阻塞的方式处理高并发请求，能保持低资源、低消耗、高性能；
+    3. 高度模块化设计，编写模块相对简单，生态圈强大。
+    4. 核心优点：高并发、高性能、高可扩展、高可靠性、热部署、BSD许可证。
+```
+
+```rust
+Nginx为什么性能高、占用内存少？
+    1. Nginx采用多进程模式，对每个worker进程来说，独立的进程不需要加锁，互不影响；
+    2. 一个进程退出后，其他进程继续工作，服务不会中断，master进程则很快启动新的worker进程；
+    3. worker进程异常退出肯定是程序有bug导致，但也只会影响当前worker上的请求，不会影响到其他进程的请求，降低风险；
+    4. Nginx采用异步非阻塞的方式去处理请求，更加高效。
+```
 
 ## 3 Nginx的组成
 
@@ -122,15 +131,30 @@ auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  man  README 
 ```
 
 - auto：包含了很多会在执行configure进行编译配置时调用的检测代码。
+
 - CHANGES：Nginx的版本更新细节记录。英文版。
+
 - CHANGES.ru：Nginx的版本更新细节记录。俄文版。
+
 - conf：Nginx提供的一些默认配置文件。
+
 - configure：根据系统环境设定Nginx编译选项的执行脚本。
+
 - contrib：网友贡献的一些有用脚本（对我来说，里面的vim设置很有用，README中有使用方法）。
+
+  - ```
+    把contrib/vim下的文件移入~/.vim目录下，让vim识别nginx的配置文件节点；
+    cp -r contrib/vim/* ~/.vim
+    ```
+
 - html：提供了两个默认html页面，比如index.html的Welcome to nginx!。
+
 - LICENSE：声明的Nginx源码许可协议。
+
 - man：Nginx的Man手册，本文文件，可直接用vi或记事本打开。
+
 - README：读我文件，内容很简单，通告一下官网地址。
+
 - src：Nginx源码，分门别类，比如实现事件的event等，很清晰。
 
 ### 4.3 Configure
