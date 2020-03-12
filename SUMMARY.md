@@ -122,11 +122,11 @@
     * [6.1.2 二进制安装集群](6 kubernetes/6.1 集群的安装/6.1.2 以二进制文件方式安装kubernetes集群.md)
 
 ## 7 Nginx
-* [7.1 gzip模块](7 nginx/7.1 gzip.md)
 * [7.2 状态码](7 nginx/7.2 状态码.md)
 * [7.3 常见nginx常用模块和模块的使用示例](7 nginx/7.3 常见nginx常用模块和模块的使用示例.md)
 * [初识Nginx](7 nginx/初识Nginx.md)
 * [nginx架构基础](7 nginx/nginx架构基础.md)
+* [nginx配置文件详解](7 nginx/nginx配置文件详解.md)
 * [nginx的常见问题](7 nginx/nginx的常见问题.md)
 
 ## 8 Tomcat
