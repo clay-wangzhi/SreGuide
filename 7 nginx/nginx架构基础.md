@@ -58,7 +58,7 @@
 
 2）向master进程发送USR2信号
 
-3）master进程修改pid文件名，加后缀.oldbin
+3）master进程修改pid文件名，加后缀.oldbin（进程自动改的，不需要手动改）
 
 4）master进程用新Nginx文件启动新master进程
 
