@@ -161,6 +161,12 @@ auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  man  README 
 
 先安装相关依赖
 
+> gzip模块需要zlib库
+>
+> rewrite模块需要pcre库
+>
+> ssl功能需要openssl库
+
 ```
 yum -y install gcc gcc-c++ make zlib-devel pcre-devel openssl-devel
 ```
@@ -175,8 +181,110 @@ yum -y install gcc gcc-c++ make zlib-devel pcre-devel openssl-devel
 * --with：新增模块
 * --without：删除默认模块
 
+运行期中与路径相关的各种参数
+
 ```
-./configure --prefix=/home/clay
+--prefix=PATH                        #指向安装目录
+--sbin-path=PATH                     #指向（执行）程序文件（nginx）
+--conf-path=PATH                     #指向配置文件（nginx.conf）
+--error-log-path=PATH                #指向错误日志目录
+--http-log-path=PATH                 #指定访问日志目录
+--pid-path=PATH                      #指向pid文件（nginx.pid）
+--lock-path=PATH                     #指向lock文件（nginx.lock）（安装文件锁定，防止安装文件被别人利用，或自己误操作。）
+--builddir=PATH                      #指向编译目录
+--http-client-body-temp-path=PATH    #设定http客户端请求临时文件路径
+--http-proxy-temp-path=PATH          #设定http代理临时文件路径
+--http-fastcgi-temp-path=PATH        #设定http fastcgi临时文件路径
+--http-uwsgi-temp-path=PATH          #设定http uwsgi临时文件路径
+--http-scgi-temp-path=PATH           #设定http scgi临时文件路径
+
+--user=USER                          #指定程序运行时的非特权用户
+--group=USER                         #指定程序运行时的非特权用户组
+
+--with-rtsig_module                  #启用rtsig模块支持（实时信号）
+--with-file-aio                      #启用file aio支持（一种APL文件传输格式）
+--with-ipv6                          #启用ipv6支持
+--with-select_module                 #启用select模块支持（一种轮询模式,不推荐在高载环境下使用）禁用：--without-select_module
+--with-poll_module                   #启用poll模块支持（功能与select相同，与select特性相同，为一种轮询模式,不推荐在高载环境下使用）
+--with-http_ssl_module               #启用支持https请求，需已安装openssl
+--with-http_realip_module            #启用ngx_http_realip_module支持（这个模块允许从请求标头更改客户端的IP地址值，默认为关）
+--with-http_addition_module          #启用ngx_http_addition_module支持（作为一个输出过滤器，支持不完全缓冲，分部分响应请求）
+--with-http_xslt_module              #启用ngx_http_xslt_module支持（过滤转换XML请求）
+--with-http_image_filter_module      #启用支持传输JPEG/GIF/PNG 图片过滤，默认为不启用，gd库要用到
+--with-http_sub_module               #启用ngx_http_sub_module支持（允许用一些其他文本替换nginx响应中的一些文本）
+--with-http_dav_module               #启用ngx_http_dav_module支持（增加PUT,DELETE,MKCOL：创建集合,COPY和MOVE方法）
+--with-http_flv_module               #启用ngx_http_flv_module支持（提供寻求内存使用基于时间的偏移量文件）
+--with-http_gzip_static_module       #启用ngx_http_gzip_static_module支持（在线实时压缩输出数据流）
+--with-http_random_index_module      #启用ngx_http_random_index_module支持（从目录中随机挑选一个目录索引）
+--with-http_secure_link_module       #启用ngx_http_secure_link_module支持（计算和检查要求所需的安全链接网址）
+--with-http_degradation_module       #启用ngx_http_degradation_module支持（允许在内存不足的情况下返回204或444码）
+--with-http_stub_status_module       #启用ngx_http_stub_status_module支持（获取nginx自上次启动以来的工作状态）
+--with-http_perl_module              #启用ngx_http_perl_module支持（该模块使nginx可以直接使用perl或通过ssi调用perl）
+
+--with-mail                          #启用POP3/IMAP4/SMTP代理模块支持
+--with-mail_ssl_module               #启用ngx_mail_ssl_module支持
+--add-module=                        #启用外部模块支持
+--with-cpu-opt=                      #指定编译的CPU，可用的值为: pentium,opteron, amd64, sparc32, sparc64, ppc64等
+--with-pcre                          #启用pcre库（默认会自动去找rpm包安装的pcre库文件以及模块）
+--with-pcre=                         #指向pcre库文件目录（如果是源码安装就需要指定，rpm包安装就不需要指定了）
+--with-pcre-opt=                     #在编译时为pcre库设置附加参数
+--with-perl_modules_path=            #设定perl模块路径
+--with-perl=                         #设定perl库文件路径
+--with-debug                         #启用debug日志
+```
+
+安装额外的echo模块
+
+```
+cd /opt
+git clone https://github.com/openresty/echo-nginx-module
+```
+
+```
+./configure \
+--prefix=/etc/nginx \
+--sbin-path=/usr/sbin/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--error-log-path=/var/log/nginx/error.log \
+--http-log-path=/var/log/nginx/access.log \
+--pid-path=/var/run/nginx.pid \
+--lock-path=/var/run/nginx.lock \
+--http-client-body-temp-path=/var/cache/nginx/client_temp \
+--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+--user=nginx \
+--group=nginx \
+--with-compat \
+--with-file-aio \
+--with-threads \
+--with-http_addition_module \
+--with-http_auth_request_module \
+--with-http_dav_module \
+--with-http_flv_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-http_mp4_module \
+--with-http_random_index_module \
+--with-http_realip_module \
+--with-http_secure_link_module \
+--with-http_slice_module \
+--with-http_ssl_module \
+--with-http_stub_status_module \
+--with-http_sub_module \
+--with-http_v2_module \
+--with-pcre \
+--with-mail \
+--with-mail_ssl_module \
+--with-stream \
+--with-stream_realip_module \
+--with-stream_ssl_module \
+--with-stream_ssl_preread_module \
+--with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC' \
+--with-ld-opt='-Wl,-z,relro -Wl,-z,now -pie' \
+--add-module=/opt/echo-nginx-module
+
 ```
 
 执行完后，会生成`objs`目录
