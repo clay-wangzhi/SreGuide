@@ -115,8 +115,9 @@ tomcat注意事项python解析nginx配置文件python subprocess模块的使用w
   * [x] 7.1 gzip模块
   * [x] 7.2 状态码
   * [x] 7.3 常见nginx常用模块和模块的使用示例
-  * [ ] 初识Nginx
+  * [x] 初识Nginx
   * [x] nginx架构基础
+  * [x] nginx的常见问题
 * [x] 8 Tomcat
   
   * [x] 8.1 tomcat简介
