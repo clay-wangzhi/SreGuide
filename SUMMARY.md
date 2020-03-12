@@ -127,6 +127,7 @@
 * [7.3 常见nginx常用模块和模块的使用示例](7 nginx/7.3 常见nginx常用模块和模块的使用示例.md)
 * [初识Nginx](7 nginx/初识Nginx.md)
 * [nginx架构基础](7 nginx/nginx架构基础.md)
+* [nginx的常见问题](7 nginx/nginx的常见问题.md)
 
 ## 8 Tomcat
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
