@@ -676,11 +676,65 @@ location ~ /test {
 
 如果path为/test，返回401，此时^~和普通匹配只记住了最长一个location ^~ /test，会阻止正则
 
+### 4.2 路径替换
 
+**规则**
 
+配置proxy_pass时，可以实现URL路径的部分替换。
 
+proxy_pass的目标地址，默认不带/，表示只代理域名，url和querystring部分不会变（把请求的path拼接到proxy_pass目标域名之后作为代理的URL）。
 
+如果在目标地址后增加/，则表示把path中location匹配成功的部分剪切掉之后再拼接到proxy_pass目标地址。
 
+比如请求 /a/b.html
+
+```nginx
+location /a {
+    proxy_pass http://server;
+}
+```
+
+```nginx
+location /a/ {
+    proxy_pass http://server/;
+}
+```
+
+如上两个匹配成功后，实际代理的目标url分别是
+
+http://server/a/b.html (把/a/b.html拼接到http://server之后)
+
+http://server/b.html (把/a/b.html的/a/去掉之后，拼接到http://server/之后)
+
+> 通过 Nginx Server 访问 `http://nginx/nginx_location/some/path`
+>
+> `proxy_pass`直接映射到主机的 `/test`
+>
+> 建议location和proxy_pass后面都加上/，否则容易引起混乱。
+>
+> | location           | proxy_pass            | 实际访问目标                   |
+> | ------------------ | --------------------- | ------------------------------ |
+> | `/nginx_location/` | `http://server/test/` | `http://server/test/some/path` |
+
+**要求**
+
+注意的是，对于location为正则表达式的匹配，proxy_pass的目标地址不可以带/
+
+比如，如下配置会报错：
+
+```nginx
+location ~ /abc(.*) {
+    proxy_pass   http://127.0.0.1/;
+}
+```
+
+如果是正则表达式，想要实现proxy_pass的路径替换，可以使用如下方式：
+
+```nginx
+location ~ /abc(.*) {
+    proxy_pass   http://127.0.0.1/$1;
+}
+```
 
 ## 5 rewrite指令
 
@@ -914,3 +968,5 @@ vm.min_free_kbytes = 65536
 >  https://blog.csdn.net/Powerful_Fy/article/details/102845921
 >
 >  https://www.linuxidc.com/Linux/2018-01/150100.htm
+>
+>  https://www.jianshu.com/p/73e2cd39722c
