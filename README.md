@@ -113,9 +113,9 @@ tomcat注意事项python解析nginx配置文件python subprocess模块的使用w
     * [x] 6.1.2 二进制安装集群
 * [x] 7 Nginx
   * [x] 1.初识Nginx
+  * [x] 2.nginx架构基础
   * [x] 7.2 状态码
   * [x] 7.3 常见nginx常用模块和模块的使用示例
-  * [x] nginx架构基础
   * [x] nginx配置文件详解
   * [x] nginx的常见问题
 * [x] 8 Tomcat
