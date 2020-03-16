@@ -126,8 +126,7 @@
 * [2.nginx架构基础](7 nginx/2.nginx架构基础.md)
 * [3.nginx配置文件详解](7 nginx/3.nginx配置文件详解.md)
 * [4.状态码](7 nginx/4.状态码.md)
-* [7.3 常见nginx常用模块和模块的使用示例](7 nginx/7.3 常见nginx常用模块和模块的使用示例.md)
-* [nginx的常见问题](7 nginx/nginx的常见问题.md)
+* [5.nginx的常见问题](7 nginx/5.nginx的常见问题.md)
 
 ## 8 Tomcat
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
