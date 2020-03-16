@@ -82,6 +82,53 @@ server {
 
 需要注意的是，此时需要将`error_page`指令语句写在最后，否则不能生效。
 
+## nginx出现403的原因
+
+### 由于启动用户和nginx工作用户不一致所致
+
+查看nginx的启动用户，发现是nobody，而为是用root启动的
+
+```
+ps aux | grep "nginx: worker process" | awk'{print $1}'
+```
+
+将nginx.config的user改为和启动用户一致，
+
+```
+#vim nginx.conf
+user root;
+```
+
+### 缺少index.html
+
+缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件
+
+```
+server {  
+      listen       80;  
+      server_name  localhost;  
+      index  index.php index.html;  
+      root  /data/www/;
+}
+```
+
+如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。
+
+### 权限问题
+
+如果nginx没有web目录的操作权限，也会出现403错误。
+
+解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决
+
+```
+chmod -R 777 /data
+chmod -R 777 /data/www/
+```
+
+### SELinux设置问题
+
+设置为：`SELINUX=disabled`
+
 ## nginx allow 多个ip & ipv4的网段表示方法解析
 
 单看[nginx](http://www.ttlsa.com/nginx/)模块名`ngx_http_access_module`,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。
@@ -267,3 +314,6 @@ CIDR值（表2）
 
 255.255.255.252       /30
 
+> 参考链接：
+>
+> https://blog.csdn.net/qq_35843543/article/details/81561240
