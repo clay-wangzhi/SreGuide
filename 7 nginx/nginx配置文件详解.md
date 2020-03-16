@@ -42,7 +42,7 @@ http {
 #   ssi_types text/html;
 
     keepalive_timeout  90;
-    client_header_timeout 20;
+    client_header_timeout 10;
     client_body_timeout 20;
     
     client_max_body_size 200m;
@@ -209,10 +209,12 @@ http {
 
      # 指定客户端连接保持活动的超时时间（单位：秒），超过时间，服务器会关闭连接,太短或者太长都不一定合适，当然，最好是根据业务自身的情况来动态地调整该参数
     keepalive_timeout  90;
-    client_header_timeout 20;
+    # 客户端向服务端发送一个完整的 request header 的超时时间。如果客户端在指定时间内没有发送一个完整的 request header，Nginx 返回 HTTP 408（Request Timed Out）。
+    client_header_timeout 10;
+    # 指定客户端与服务端建立连接后发送 request body 的超时时间。如果客户端在指定时间内没有发送任何内容，Nginx 返回 HTTP 408（Request Timed Out）。
     client_body_timeout 20;
 
-    # 客户端请求单个文件的最大字节数
+    # 客户端请求单个文件的最大字节数,这个参数的设置限制了上传文件的大小。
     client_max_body_size 200m;
     # 当客户端以POST方法提交一些数据到服务端时，会先写入到client_body_buffer中，如果buffer写满会写到临时文件里，建议调整为128k
     client_body_buffer_size  128k;
