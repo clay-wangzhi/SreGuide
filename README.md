@@ -1,5 +1,3 @@
-tomcat注意事项python解析nginx配置文件python subprocess模块的使用wiki目录：
-
 * [x] 1 Linux
   * [x] 1.1 Linux简介
   * [x] 1.2 文件管理
