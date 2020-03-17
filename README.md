@@ -115,10 +115,9 @@ wiki目录
   * [x] 1.初识Nginx
   * [x] 2.nginx架构基础
   * [x] 3.nginx配置文件详解
-  * [x] 4.状态码
-  * [x] 5.nginx的常见问题
+  * [x] 5.状态码
+  * [x] 6.nginx的常见问题
 * [x] 8 Tomcat
-  
   * [x] 8.1 tomcat简介
   * [x] 生产环境中的tomcat配置
   * [x] tomcat假死现象
