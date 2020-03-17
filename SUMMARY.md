@@ -125,6 +125,7 @@
 * [1.初识Nginx](7 nginx/1.初识Nginx.md)
 * [2.nginx架构基础](7 nginx/2.nginx架构基础.md)
 * [3.nginx配置文件详解](7 nginx/3.nginx配置文件详解.md)
+* [4.内核参数优化](7 nginx/4.内核参数优化.md)
 * [5.状态码](7 nginx/5.状态码.md)
 * [6.nginx的常见问题](7 nginx/6.nginx的常见问题.md)
 
