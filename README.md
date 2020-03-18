@@ -1,4 +1,4 @@
-wiki目录
+配置wiki目录
 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
@@ -115,6 +115,10 @@ wiki目录
   * [x] 1.初识Nginx
   * [x] 2.nginx架构基础
   * [x] 3.nginx配置文件详解
+    * [x] 3.1 nginx全局块和events块配置
+    * [x] 3.2 nginxHTTP块配置
+    * [x] 3.3 nginxSERVER块配置
+    * [x] 3.4 nginxLOCATION块配置
   * [x] 4.内核参数优化
   * [x] 5.状态码
   * [x] 6.nginx的常见问题

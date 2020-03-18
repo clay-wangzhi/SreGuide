@@ -1,3 +1,5 @@
+## 1 example
+
 ```nginx
 # 运行Nginx进程的用户
 user nginx;
@@ -11,6 +13,13 @@ error_log  /var/log/nginx/error.log  error;
 pid        /var/run/nginx.pid;
 # 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。
 worker_rlimit_nofile 65535;
+
+events {
+    # 使用epoll的I/O模型，用这个模型来高效处理异步事件
+    use epoll;
+    # 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。
+    worker_connections  20480;
+}
 ```
 
 ## 2 配置CPU参数
