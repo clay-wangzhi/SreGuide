@@ -1,4 +1,4 @@
-配置wiki目录
+wiki目录
 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
@@ -119,6 +119,7 @@
     * [x] 3.2 nginxHTTP块配置
     * [x] 3.3 nginxSERVER块配置
     * [x] 3.4 nginxLOCATION块配置
+    * [ ] 3.5 nginx常用模块
   * [x] 4.内核参数优化
   * [x] 5.状态码
   * [x] 6.nginx的常见问题

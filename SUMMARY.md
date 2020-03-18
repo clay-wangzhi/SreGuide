@@ -129,6 +129,7 @@
     * [3.2 nginxHTTP块配置](7 nginx/3_2_nginxHTTP块配置.md)
     * [3.3 nginxSERVER块配置](7 nginx/3_3_nginxSERVER块配置.md)
     * [3.4 nginxLOCATION块配置](7 nginx/3_4_nginxLOCATION块配置.md)
+    * [3.5 nginx常用模块](7 nginx/3_5_nginx常用模块.md)
 * [4.内核参数优化](7 nginx/4.内核参数优化.md)
 * [5.状态码](7 nginx/5.状态码.md)
 * [6.nginx的常见问题](7 nginx/6.nginx的常见问题.md)
