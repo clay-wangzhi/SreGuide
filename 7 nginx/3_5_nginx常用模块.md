@@ -212,7 +212,9 @@ server {
 }
 ```
 
-return指令与errror_page，后续补充
+**return指令与errror_page**
+
+![](images/image-20200320195040345.png)
 
 ### 3.2 rewrite指令
 
