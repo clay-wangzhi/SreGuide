@@ -399,3 +399,15 @@ Context:    http, server, location, if
 ### Directives
 
 ![](images/image-20200317100631841.png)
+
+## limit_conn模块
+
+生效阶段：NGX_HTTP_PREACCESS_PHASE阶段
+
+生效范围：全部worker进程（基于共享内存），进入preaccess阶段前不生效，限制的有效性取决于key的设计：依赖postread阶段的realip模块取到真实ip
+
+### 指令
+
+![](images/image-20200321202747188.png)
+
+![](images/image-20200321202819297.png)
