@@ -389,36 +389,36 @@ Default:    rewrite_log off;
 Context:    http, server, location, if
 ```
 
-## realip模块
+## 4 realip模块
 
 * 默认不会编译进Nginx，通过`--with-http_reaip_module`启用功能
 * 功能：修改客户端地址
 * 指令：set_real_ip_from、real_ip_header、real_ip_recursive
 * 变量：reaip_remote_addr、reaip_remote_port
 
-### Directives
+### 4.1 Directives
 
 ![](images/image-20200317100631841.png)
 
-## limit_conn模块
+## 5 limit_conn模块
 
 生效阶段：NGX_HTTP_PREACCESS_PHASE阶段
 
 生效范围：全部worker进程（基于共享内存），进入preaccess阶段前不生效，限制的有效性取决于key的设计：依赖postread阶段的realip模块取到真实ip
 
-### 指令
+### 5.1 指令
 
 ![](images/image-20200321202747188.png)
 
 ![](images/image-20200321202819297.png)
 
-## limit_req模块
+## 6 limit_req模块
 
 ![](images/image-20200323104235892.png)
 
 ![](images/image-20200323104251827.png)
 
-### 指令
+### 6.1 指令
 
 ![](images/image-20200323104336149.png)
 
@@ -434,7 +434,7 @@ Context:	http, server, location
 
 > limit_req 与 limit_conn 配置同时生效时， limit_req有效
 
-### Example
+### 6.2 Example
 
 ```nginx
 http {
