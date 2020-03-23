@@ -92,6 +92,7 @@
         * [36.5 有颜色的脚本](2 shell/part5/36_5_colorizing_scripts.md)
         * [36.11 ssh远程操作](2 shell/part5/36_11_ssh_remote_operate.md)
 * [第六部分 Google Shell 风格指南](2 shell/part6/part6.md)
+* [第七部分 实例](2 shell/part7/shili.md)
 
 ## 3 Python
 * [3.1 简介](3 python/3.1 简介.md)
