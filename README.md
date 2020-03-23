@@ -303,5 +303,6 @@ wiki目录
   * [x] gitlab备份迁移升级&集成openldap
 * [x] 27 监控体系
   * [x] 聊头监控体系
+  * [x] grafana问题
 
 
