@@ -94,6 +94,7 @@ wiki目录
   * [x] python解析nginx配置文件
   * [x] python调用jenkinsAPI批量拷贝视图job
   * [x] python调用zabbixAPI批量添加web监控
+  * [x] python监控activemq集群
 * [x] 4 Golang
   * [x] 4.1 程序结构
   * [ ] 4.2 数据类型
@@ -205,6 +206,7 @@ wiki目录
   * [x] 10.5 redis监控模块
   * [x] 10.6 常见问题
   * [x] 10.7 用zabbix api批量添加web监控
+  * [x] 10.8 activemq监控
 * [x] 11 消息中间件
   * [x] 11.1 activemq集群的搭建
   * [x] 11.2 rabbitmq的搭建
