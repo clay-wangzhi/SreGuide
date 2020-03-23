@@ -75,3 +75,39 @@ server {
 拿到真实用户ip后如何使用？
 
 基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！
+
+**步骤**
+
+1. 安装realip模块
+
+   realip是Nginx内置模块，需要在编译Nginx时加上`--with-http_realip_module`参数来启用它。
+
+2. 配置语法
+
+   ```
+   set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
+   set_real_ip_from 192.168.2.1;
+   real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
+   real_ip_recursive on; #递归的去除所配置中的可信IP。
+   ```
+
+   这里详细讲下`real_ip_recursive`的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。
+
+3. 配置实例
+
+   ```nginx
+   location / {
+       root html/;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       set_real_ip_from 192.168.1.0/24;
+       set_real_ip_from 192.168.2.1;
+       real_ip_header X-Forwarded-For;
+       real_ip_recursive on;
+   }
+   ```
+
+>参考链接：
+>
+>https://www.hi-linux.com/posts/53006.html
+>
+>https://blog.csdn.net/lijunwyf/article/details/79611003
