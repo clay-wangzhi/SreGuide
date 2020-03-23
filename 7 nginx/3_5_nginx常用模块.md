@@ -411,3 +411,64 @@ Context:    http, server, location, if
 ![](images/image-20200321202747188.png)
 
 ![](images/image-20200321202819297.png)
+
+## limit_req模块
+
+![](images/image-20200323104235892.png)
+
+![](images/image-20200323104251827.png)
+
+### 指令
+
+![](images/image-20200323104336149.png)
+
+![](images/image-20200323104534992.png)
+
+限制发生时向客户端返回的错误码
+
+```
+Syntax:	limit_req_status code;
+Default:	limit_req_status 503;
+Context:	http, server, location
+```
+
+> limit_req 与 limit_conn 配置同时生效时， limit_req有效
+
+### Example
+
+```nginx
+http {
+    geo $limit {
+        default 1;
+        10.0.0.0/8 0;
+        192.168.0.0/64 0;
+    }
+    
+    map $limit $limit_key {
+        0 "";
+        1 $binary_remote_addr;
+    }
+    
+    limit_req_zone $limit_key zone=req_zone:10m rate=5r/s;
+    
+    server {
+        location / {
+            limit_req zone=req_zone burst=10 nodelay;
+        }
+    }
+}
+```
+
+这个例子同时使用了geo和map指令。geo块将给在白名单中的IP地址对应的$limit变量分配一个值0，给其它不在白名单中的分配一个值1。然后我们使用一个映射将这些值转为key，如下：
+
+如果$limit变量的值是0，$limit_key变量将被赋值为空字符串
+
+如果$limit变量的值是1，$limit_key变量将被赋值为客户端二进制形式的IP地址
+
+两个指令配合使用，白名单内IP地址的$limit_key变量被赋值为空字符串，不在白名单内的被赋值为客户端的IP地址。当limit_req_zone后的第一个参数是空字符串时，不会应用“流量限制”，所以白名单内的IP地址(10.0.0.0/8和192.168.0.0/24 网段内)不会被限制。其它所有IP地址都会被限制到每秒5个请求。
+
+limit_req指令将限制应用到**/**的location块，允许在配置的限制上最多超过10个数据包的突发，并且不会延迟转发。
+
+> 参考链接：
+>
+> https://www.jianshu.com/p/bbb51f727d46
