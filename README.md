@@ -14,6 +14,8 @@ wiki目录
   * [x] 1.6 管道及I/O重定向
   * [x] 1.7 软件包管理
   * [x] 1.8 网络管理
+  * [x] 1.9 日志logrotate
+  * [x] 1.10 /etc/security/limits.conf 详解与配置
 * [x] Shell
   * [x] 第一部分 初见shell
     * [x] 1.为什么使用shell编程

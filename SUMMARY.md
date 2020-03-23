@@ -17,6 +17,7 @@
 * [1.7 软件包管理](1 Linux/1.7 软件包管理.md)
 * [1.8 网络管理](1 Linux/1.8 网络管理.md)
 * [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
+* [1.10 /etc/security/limits.conf 详解与配置](1 Linux/1.10 limit.conf文件配置.md)
 
 ## 2 Shell
 * [第一部分 初见shell](2 shell/part1/part1.md)
