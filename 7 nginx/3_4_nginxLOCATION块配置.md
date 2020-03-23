@@ -210,3 +210,43 @@ try_files $uri $uri/ /test/;
 ```
 
 功能：依次试图访问多个url对应的文件（由root或者alias指令指定），当文件存在是直接返回文件内容，如果所有文件都不存在，则按最后一个URL结果或者code返回
+
+## 5 stub_status
+
+配置示例
+
+```nginx
+location /basic_status {
+	stub_status;
+}
+```
+
+ngx_http_stub_status_module模块內建的状态页
+用于输出nginx的基本状态信息；
+
+```undefined
+server{
+....
+	location /ngxstatus {
+		stub_status;
+	}
+}
+```
+
+信息页返回数值：
+
+```undefined
+Active connections: 291
+server accepts handled requests
+16630948 16630948 31070465
+Reading: 6 Writing: 179 Waiting: 106
+```
+
+- Active connections: 活动状态的连接数；
+- accepts：已经接受的客户端请求的总数；
+- handled：已经处理完成的客户端请求的总数；
+- requests：客户端发来的总的请求数；
+- Reading：处于读取客户端请求报文首部的连接的连接数；
+- Writing：处于向客户端发送响应报文过程中的连接数；
+- Waiting：处于等待客户端发出请求的空闲连接数；
+
