@@ -234,7 +234,7 @@ wiki目录
   * [x] 1 初识Ansible
   * [x] 2 Ansible Inventory配置详解
   * [x] 3 Ansible Ad-hoc命令集
-    * [x] 3_1_Ansible lineinfile模块详解
+    * [x] 3.1 Ansible lineinfile模块详解
   * [x] 4 Ansible Playbook
     * [x] 4.1 Playbook的结构及handler用法
     * [x] 4.2 Playbook循环语句
