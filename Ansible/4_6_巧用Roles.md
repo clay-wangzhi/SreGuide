@@ -1,3 +1,13 @@
+## 1 如何重用Playbook
+
+不能站在巨人肩膀上的编程语言不是好语言，支持重用机制会节省重复的调研工作上浪费大量的时间，当然也会提高可维护性。
+
+Playbook支持两种重用机制，一种是重用静态Playbook脚本，另外一种是类似于编程语言中函数的机制。
+
+- include语句 - 重用静态的Playbook脚本，使用起来简单、直接。
+- role语言 - Playbook的“函数机制”，使用方法稍复杂、功能强大。是Playbook脚本的共享平台ansible galaxy主要的分享方式。
+## 2 roles目录结构
+
 ```
 roles/             \\ ansible所有的信息都放到此目录下面对应的目录中
 └── nginx          \\ 角色名称
@@ -10,32 +20,47 @@ roles/             \\ ansible所有的信息都放到此目录下面对应的目
     └── vars       \\ 用于定义此角色用到的变量
 ```
 
+## 3 roles调用
+
 ```
 ansible-playbook -i /root/xxx.cfg  /root/app/main.yml  --limit "lala_xxx" -e "user=wawo"
+```
 
 解析：
 -i         指定要运行的配置文件
 --limit    指定运行的ip地址
 -e         指定运行的外部参数
-运行的控制 YAML 文件为： /root/app/main.yml
+
+运行的控制 YAML 文件为： `/root/app/main.yml`
+
+```
 ---
 - hosts: all
   roles:
     - xxx
+```
 
 hosts指定所有(all)的主机，但是由于在外部已经指定了主机的配置，所以all由外部指定参数来进行
+
 roles指定要执行的具体剧本
-roles的任务执行顺序
-### 首先执行meta下的main.yml文件内容     可以设置该role和其它role之前的关联关系。 dependencies
-### 然后执行tasks下的main.yml文件内容
-### 用到的变量，会直接加载defaults/vars目录下的main.yml文件
-### 用到的需要拷贝到远程机器的文件，会放到files目录下
-### 用到模板文件，会放到 templates 目录下
-### 在执行的task中，使用了notify后，会调用 handlers 目录下的main.yml文件
-```
+
+**roles的任务执行顺序**
+
+1) 首先执行meta下的main.yml文件内容     可以设置该role和其它role之前的关联关系。 dependencies
+
+2) 然后执行tasks下的main.yml文件内容
+
+3) 用到的变量，会直接加载defaults目录下的main.yml文件,或者vars目录下
+
+4) 用到的需要拷贝到远程机器的文件，会放到files目录下
+
+5) 用到模板文件，会放到 templates 目录下
+
+6) 在执行的task中，使用了notify后，会调用 handlers 目录下的main.yml文件
+
+## 4 roles 基本的使用模块
 
 ```
-记录一些基本的使用模块
 1、ansible中的include, include_tasks 和 import_tasks 的差别
 include 被 deprecated（不建议使用）了. 建议使用 include_tasks 和 import_tasks
 
@@ -56,15 +81,7 @@ when关键字对"include_tasks"和"import_tasks"的实际操作有着本质区�
 ```
 
 ```
-15、pre_tasks/post_tasks
+2、pre_tasks/post_tasks
 用来设置在执行roles模块之前和之后需要执行的任务
 ```
 
-# 如何重用Playbook
-
-不能站在巨人肩膀上的编程语言不是好语言，支持重用机制会节省重复的调研工作上浪费大量的时间，当然也会提高可维护性。
-
-Playbook支持两种重用机制，一种是重用静态Playbook脚本，另外一种是类似于编程语言中函数的机制。
-
-- include语句 - 重用静态的Playbook脚本，使用起来简单、直接。
-- role语言 - Playbook的“函数机制”，使用方法稍复杂、功能强大。是Playbook脚本的共享平台ansible galaxy主要的分享方式。
