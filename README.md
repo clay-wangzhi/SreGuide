@@ -231,9 +231,25 @@ wiki目录
   * [x] 14.1 让Markdown写作更简单Typora完全使用指南
 * [x] 15 Ansible
   
-  * [x] 15.1 ansible简介
-  * [x] ansible使用优化
-  * [x] ansible常见问题
+  * [x] 1 初识Ansible
+  * [x] 2 Ansible Inventory配置详解
+  * [x] 3 Ansible Ad-hoc命令集
+    * [x] 3_1_Ansible lineinfile模块详解
+  * [x] 4 Ansible Playbook
+    * [x] 4.1 Playbook的结构及handler用法
+    * [x] 4.2 Playbook循环语句
+    * [x] 4.3 Playbook条件语句
+    * [x] 4.4 Playbook高级用法
+    * [x] 4.5 Playbook之tags
+    * [x] 4.6 巧用Roles
+    * [x] 4.7 文件管理模块及Jinja2过滤器
+  * [x] 5 Ansible变量
+    * [x] 5.1 自定义变量
+    * [x] 5.2 Fact变量
+    * [x] 5.3 魔法变量
+    * [x] 5.4 使用lookup生成变量
+    * [x] 5.5 使用vault配置加密
+  * [x] 6 Ansible使用优化
 * [x] 16 MySQL
   * [x] 16.1 MySQL基本操作
   * [x] 16.2 列表类型和数据完整性

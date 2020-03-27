@@ -1,4 +1,4 @@
-## 关闭gather_facts
+## 1 关闭gather_facts
 
 关闭获取被控主机信息：在playbook中关闭即可，在大量的主机下，其效果明显
 
@@ -7,7 +7,7 @@ hosts: all
 gather_facts: no
 ```
 
-## 关闭pipeling
+## 2 关闭pipeling
 
 在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数
 
@@ -15,7 +15,7 @@ gather_facts: no
 修改ansible.cfg中pipelining=False改为True
 ```
 
-## controlpresist 持久化socket
+## 3 controlpresist 持久化socket
 
 **controlpresist 持久化socket，一次验证，多次通信,被控主机的ssh版本需要时5.6以上**
 
@@ -34,7 +34,7 @@ Host *
 
 > 个人感觉效果不明显，不如下面ansible设置开启ssh长连接
 
-## 开启SSH长连接
+## 4 开启SSH长连接
 
 开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v
 
@@ -45,7 +45,7 @@ ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
 
 设置之后，连接信息会被保留在~.ansible/cp下, netstat -nltpa | grep ESTABLISH | grep ssh 会看到长连接存在
 
-## 优化常规配置
+## 5 优化常规配置
 
 ```
 host_key_checking = False #关闭密码检查
@@ -54,7 +54,7 @@ deprecation_warnings = False #关闭一些告警
 retry_files_enabled = False #关闭book产生的retry文件
 ```
 
-## 其他优化项
+## 6 其他优化项
 
 1. 目录结构
 
