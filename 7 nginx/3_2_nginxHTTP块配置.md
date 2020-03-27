@@ -106,6 +106,73 @@ server {
    }
    ```
 
+## 6 定义404错误页面
+
+### 6.1 Nginx自己的错误页面
+
+Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？
+
+看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。
+
+```nginx
+server {
+    listen 80;
+    server_name www.test.com;
+    root /var/www/test;
+    index index.html index.htm;
+    location / {
+        
+    }
+    # 定义错误页面码，如果出现相应的错误页面码，转发到那里。
+    error_page 404 403 500 502 503 504 /404.html;
+    # 承接上面的location
+    location = /404.html {
+        # 放错误页面的目录路径。
+        root /usr/share/nginx/html;
+    }
+}
+```
+
+### 6.2 反向代理的错误页面
+
+如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：
+
+```nginx
+upstream www {
+    server 192.168.1.201:8080 weight=20 max_fails=2 fail_timeout=30s
+        ip_hash;
+}
+server {
+    listen 80;
+    server_name www.test.com;
+    root /var/www/test;
+    index index.html;
+    location / {
+        if($request_uri ~* '^/$') {
+            rewrite .* http://www.test2.com/index.html redirect;
+        }
+        # 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面
+        proxy_intercept_errors on;
+        proxy_pass http://www;
+        proxy_set_header HOST $host;
+    }
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+}
+```
+
+
+
+## 第三种：Nginx解析php代码的错误页面
+
+如果后端是php解析的，需要加一个变量
+
+在http段中加一个变量
+
+`fastcgi_intercept_errors on`就可以了。
+
 >参考链接：
 >
 >https://www.hi-linux.com/posts/53006.html
