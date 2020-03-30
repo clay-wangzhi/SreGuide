@@ -281,3 +281,7 @@ OK，到此openldap和phpldapadmin 就安装完成了
 >参考链接：
 >
 >https://blog.csdn.net/weixin_41004350/article/details/89521170
+>
+>openldap系列文章：
+>
+>https://www.ilanni.com/?tag=openldap

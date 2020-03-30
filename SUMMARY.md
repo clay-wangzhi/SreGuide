@@ -228,6 +228,7 @@
 * [16.11 MySQL逻辑架构](16 MySQL/16.11 MySQL逻辑架构.md)
 * [16.12 MySQL锁等待](16 MySQL/16.12 MySQL锁等待.md)
 * [16.13 MySQL常见问题](16 MySQL/16.13 MySQL常见问题.md)
+* [16.14 MySQL bin-log日志清理 ](16 MySQL/16.14 MySQL bin-log日志清理 .md)
 
 ## 17 Redis
 * [17.1 安装](17 Redis/17.1 安装.md)

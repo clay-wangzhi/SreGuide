@@ -264,6 +264,7 @@ wiki目录
   * [x] 16.11 MySQL逻辑架构
   * [x] 16.12 MySQL锁等待
   * [x] 16.13 MySQL常见问题
+  * [x] 16.14 MySQL bin-log日志清理 
 * [x] 17 Redis
   * [ ] 17.1 安装
   * [ ] 17.2 配置
