@@ -117,6 +117,7 @@
 * [03 使用镜像](5 docker/03_docker_use_image.md)
 * [04 Dockerfile](5 docker/04_dockerfile.md)
 * [05 操作容器](5 docker/05_container.md)
+* [06 数据管理](5 docker/06_docker_data_management.md)
 * [5.3 docker安装](5 docker/5.3 docker安装.md)
 * [5.4 docker-compose安装](5 docker/5.4 docker-compose安装.md)
 * [5.5 harbor创建](5 docker/5.5 harbor创建.md)
