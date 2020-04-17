@@ -115,7 +115,7 @@
 * [01 Docker 简介](5 docker/01_docker_introduction.md)
 * [02 基本概念](5 docker/02_docker_basic_concept.md)
 * [03 使用镜像](5 docker/03_docker_use_image.md)
-* [04 Dockerfile](5 docker/03_docker_use_image.md)
+* [04 Dockerfile](5 docker/04_dockerfile.md)
 * [5.3 docker安装](5 docker/5.3 docker安装.md)
 * [5.4 docker-compose安装](5 docker/5.4 docker-compose安装.md)
 * [5.5 harbor创建](5 docker/5.5 harbor创建.md)

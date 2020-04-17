@@ -449,3 +449,491 @@ $ docker inspect --format '{{json .State.Health}}' web | python -m json.tool
     "Status": "healthy"
 }
 ```
+
+## ONBUILD 为他人做嫁衣裳
+
+格式：`ONBUILD <其它指令>`。
+
+`ONBUILD` 是一个特殊的指令，它后面跟的是其它指令，比如 `RUN`, `COPY` 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。
+
+`Dockerfile` 中的其它指令都是为了定制当前镜像而准备的，唯有 `ONBUILD` 是为了帮助别人定制自己而准备的。
+
+假设我们要制作 Node.js 所写的应用的镜像。我们都知道 Node.js 使用 `npm` 进行包管理，所有依赖、配置、启动信息等会放到 `package.json` 文件里。在拿到程序代码后，需要先进行 `npm install` 才可以获得所有需要的依赖。然后就可以通过 `npm start` 来启动应用。因此，一般来说会这样写 `Dockerfile`：
+
+```docker
+FROM node:slim
+RUN mkdir /app
+WORKDIR /app
+COPY ./package.json /app
+RUN [ "npm", "install" ]
+COPY . /app/
+CMD [ "npm", "start" ]
+```
+
+把这个 `Dockerfile` 放到 Node.js 项目的根目录，构建好镜像后，就可以直接拿来启动容器运行。但是如果我们还有第二个 Node.js 项目也差不多呢？好吧，那就再把这个 `Dockerfile` 复制到第二个项目里。那如果有第三个项目呢？再复制么？文件的副本越多，版本控制就越困难，让我们继续看这样的场景维护的问题。
+
+如果第一个 Node.js 项目在开发过程中，发现这个 `Dockerfile` 里存在问题，比如敲错字了、或者需要安装额外的包，然后开发人员修复了这个 `Dockerfile`，再次构建，问题解决。第一个项目没问题了，但是第二个项目呢？虽然最初 `Dockerfile` 是复制、粘贴自第一个项目的，但是并不会因为第一个项目修复了他们的 `Dockerfile`，而第二个项目的 `Dockerfile` 就会被自动修复。
+
+那么我们可不可以做一个基础镜像，然后各个项目使用这个基础镜像呢？这样基础镜像更新，各个项目不用同步 `Dockerfile` 的变化，重新构建后就继承了基础镜像的更新？好吧，可以，让我们看看这样的结果。那么上面的这个 `Dockerfile` 就会变为：
+
+```docker
+FROM node:slim
+RUN mkdir /app
+WORKDIR /app
+CMD [ "npm", "start" ]
+```
+
+这里我们把项目相关的构建指令拿出来，放到子项目里去。假设这个基础镜像的名字为 `my-node` 的话，各个项目内的自己的 `Dockerfile` 就变为：
+
+```docker
+FROM my-node
+COPY ./package.json /app
+RUN [ "npm", "install" ]
+COPY . /app/
+```
+
+基础镜像变化后，各个项目都用这个 `Dockerfile` 重新构建镜像，会继承基础镜像的更新。
+
+那么，问题解决了么？没有。准确说，只解决了一半。如果这个 `Dockerfile` 里面有些东西需要调整呢？比如 `npm install` 都需要加一些参数，那怎么办？这一行 `RUN` 是不可能放入基础镜像的，因为涉及到了当前项目的 `./package.json`，难道又要一个个修改么？所以说，这样制作基础镜像，只解决了原来的 `Dockerfile` 的前4条指令的变化问题，而后面三条指令的变化则完全没办法处理。
+
+`ONBUILD` 可以解决这个问题。让我们用 `ONBUILD` 重新写一下基础镜像的 `Dockerfile`:
+
+```docker
+FROM node:slim
+RUN mkdir /app
+WORKDIR /app
+ONBUILD COPY ./package.json /app
+ONBUILD RUN [ "npm", "install" ]
+ONBUILD COPY . /app/
+CMD [ "npm", "start" ]
+```
+
+这次我们回到原始的 `Dockerfile`，但是这次将项目相关的指令加上 `ONBUILD`，这样在构建基础镜像的时候，这三行并不会被执行。然后各个项目的 `Dockerfile` 就变成了简单地：
+
+```docker
+FROM my-node
+```
+
+是的，只有这么一行。当在各个项目目录中，用这个只有一行的 `Dockerfile` 构建镜像时，之前基础镜像的那三行 `ONBUILD` 就会开始执行，成功的将当前项目的代码复制进镜像、并且针对本项目执行 `npm install`，生成应用镜像。
+
+# 多阶段构建
+
+## 之前的做法
+
+在 Docker 17.05 版本之前，我们构建 Docker 镜像时，通常会采用两种方式：
+
+### 全部放入一个 Dockerfile
+
+一种方式是将所有的构建过程编包含在一个 `Dockerfile` 中，包括项目及其依赖库的编译、测试、打包等流程，这里可能会带来的一些问题：
+
+  * 镜像层次多，镜像体积较大，部署时间变长
+
+  * 源代码存在泄露的风险
+
+例如，编写 `app.go` 文件，该程序输出 `Hello World!`
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+    fmt.Printf("Hello World!");
+}
+```
+
+编写 `Dockerfile.one` 文件
+
+```docker
+FROM golang:1.9-alpine
+
+RUN apk --no-cache add git ca-certificates
+
+WORKDIR /go/src/github.com/go/helloworld/
+
+COPY app.go .
+
+RUN go get -d -v github.com/go-sql-driver/mysql \
+  && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app . \
+  && cp /go/src/github.com/go/helloworld/app /root
+
+WORKDIR /root/
+
+CMD ["./app"]
+```
+
+构建镜像
+
+```bash
+$ docker build -t go/helloworld:1 -f Dockerfile.one .
+```
+
+### 分散到多个 Dockerfile
+
+另一种方式，就是我们事先在一个 `Dockerfile` 将项目及其依赖库编译测试打包好后，再将其拷贝到运行环境中，这种方式需要我们编写两个 `Dockerfile` 和一些编译脚本才能将其两个阶段自动整合起来，这种方式虽然可以很好地规避第一种方式存在的风险，但明显部署过程较复杂。
+
+例如，编写 `Dockerfile.build` 文件
+
+```docker
+FROM golang:1.9-alpine
+
+RUN apk --no-cache add git
+
+WORKDIR /go/src/github.com/go/helloworld
+
+COPY app.go .
+
+RUN go get -d -v github.com/go-sql-driver/mysql \
+  && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+```
+
+编写 `Dockerfile.copy` 文件
+
+```docker
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+COPY app .
+
+CMD ["./app"]
+```
+
+新建 `build.sh`
+
+```bash
+#!/bin/sh
+echo Building go/helloworld:build
+
+docker build -t go/helloworld:build . -f Dockerfile.build
+
+docker create --name extract go/helloworld:build
+docker cp extract:/go/src/github.com/go/helloworld/app ./app
+docker rm -f extract
+
+echo Building go/helloworld:2
+
+docker build --no-cache -t go/helloworld:2 . -f Dockerfile.copy
+rm ./app
+```
+
+现在运行脚本即可构建镜像
+
+```bash
+$ chmod +x build.sh
+
+$ ./build.sh
+```
+
+对比两种方式生成的镜像大小
+
+```bash
+$ docker image ls
+
+REPOSITORY      TAG    IMAGE ID        CREATED         SIZE
+go/helloworld   2      f7cf3465432c    22 seconds ago  6.47MB
+go/helloworld   1      f55d3e16affc    2 minutes ago   295MB
+```
+
+## 使用多阶段构建
+
+为解决以上问题，Docker v17.05 开始支持多阶段构建 (`multistage builds`)。使用多阶段构建我们就可以很容易解决前面提到的问题，并且只需要编写一个 `Dockerfile`：
+
+例如，编写 `Dockerfile` 文件
+
+```docker
+FROM golang:1.9-alpine as builder
+
+RUN apk --no-cache add git
+
+WORKDIR /go/src/github.com/go/helloworld/
+
+RUN go get -d -v github.com/go-sql-driver/mysql
+
+COPY app.go .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+FROM alpine:latest as prod
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+COPY --from=0 /go/src/github.com/go/helloworld/app .
+
+CMD ["./app"]
+```
+
+构建镜像
+
+```bash
+$ docker build -t go/helloworld:3 .
+```
+
+对比三个镜像大小
+
+```bash
+$ docker image ls
+
+REPOSITORY        TAG   IMAGE ID         CREATED            SIZE
+go/helloworld     3     d6911ed9c846     7 seconds ago      6.47MB
+go/helloworld     2     f7cf3465432c     22 seconds ago     6.47MB
+go/helloworld     1     f55d3e16affc     2 minutes ago      295MB
+```
+
+很明显使用多阶段构建的镜像体积小，同时也完美解决了上边提到的问题。
+
+### 只构建某一阶段的镜像
+
+我们可以使用 `as` 来为某一阶段命名，例如
+
+```docker
+FROM golang:1.9-alpine as builder
+```
+
+例如当我们只想构建 `builder` 阶段的镜像时，增加 `--target=builder` 参数即可
+
+```bash
+$ docker build --target builder -t username/imagename:tag .
+```
+
+### 构建时从其他镜像复制文件
+
+上面例子中我们使用 `COPY --from=0 /go/src/github.com/go/helloworld/app .` 从上一阶段的镜像中复制文件，我们也可以复制任意镜像中的文件。
+
+```docker
+$ COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf
+```
+
+# 实战多阶段构建 Laravel 镜像
+
+> 本节适用于 PHP 开发者阅读。
+
+## 准备
+
+新建一个 `Laravel` 项目或在已有的 `Laravel` 项目根目录下新建 `Dockerfile` `.dockerignore` `laravel.conf` 文件。
+
+在 `.dockerignore` 文件中写入以下内容。
+
+```bash
+.idea/
+.git/
+vendor/
+node_modules/
+public/js/
+public/css/
+yarn-error.log
+
+bootstrap/cache/*
+storage/
+
+# 自行添加其他需要排除的文件，例如 .env.* 文件
+```
+
+在 `laravel.conf` 文件中写入 nginx 配置。
+
+```nginx
+server {
+  listen 80 default_server;
+  root /app/laravel/public;
+  index index.php index.html;
+
+  location / {
+      try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~ .*\.php(\/.*)*$ {
+    fastcgi_pass   laravel:9000;
+    include        fastcgi.conf;
+
+    # fastcgi_connect_timeout 300;
+    # fastcgi_send_timeout 300;
+    # fastcgi_read_timeout 300;
+  }
+}
+```
+
+## 前端构建
+
+第一阶段进行前端构建。
+
+```docker
+FROM node:alpine as frontend
+
+COPY package.json /app/
+
+RUN cd /app \
+      && npm install --registry=https://registry.npm.taobao.org
+
+COPY webpack.mix.js /app/
+COPY resources/assets/ /app/resources/assets/
+
+RUN cd /app \
+      && npm run production
+```
+
+## 安装 Composer 依赖
+
+第二阶段安装 Composer 依赖。
+
+```docker
+FROM composer as composer
+
+COPY database/ /app/database/
+COPY composer.json composer.lock /app/
+
+RUN cd /app \
+      && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
+      && composer install \
+           --ignore-platform-reqs \
+           --no-interaction \
+           --no-plugins \
+           --no-scripts \
+           --prefer-dist
+```
+
+## 整合以上阶段所生成的文件
+
+第三阶段对以上阶段生成的文件进行整合。
+
+```docker
+FROM php:7.2-fpm-alpine as laravel
+
+ARG LARAVEL_PATH=/app/laravel
+
+COPY --from=composer /app/vendor/ ${LARAVEL_PATH}/vendor/
+COPY . ${LARAVEL_PATH}
+COPY --from=frontend /app/public/js/ ${LARAVEL_PATH}/public/js/
+COPY --from=frontend /app/public/css/ ${LARAVEL_PATH}/public/css/
+COPY --from=frontend /app/mix-manifest.json ${LARAVEL_PATH}/mix-manifest.json
+
+RUN cd ${LARAVEL_PATH} \
+      && php artisan package:discover \
+      && mkdir -p storage \
+      && mkdir -p storage/framework/cache \
+      && mkdir -p storage/framework/sessions \
+      && mkdir -p storage/framework/testing \
+      && mkdir -p storage/framework/views \
+      && mkdir -p storage/logs \
+      && chmod -R 777 storage
+```
+
+## 最后一个阶段构建 NGINX 镜像
+
+```docker
+FROM nginx:alpine as nginx
+
+ARG LARAVEL_PATH=/app/laravel
+
+COPY laravel.conf /etc/nginx/conf.d/
+COPY --from=laravel ${LARAVEL_PATH}/public ${LARAVEL_PATH}/public
+```
+
+## 构建 Laravel 及 Nginx 镜像
+
+使用 `docker build` 命令构建镜像。
+
+```bash
+$ docker build -t my/laravel --target=laravel .
+
+$ docker build -t my/nginx --target=nginx .
+```
+
+## 启动容器并测试
+
+新建 Docker 网络
+
+```bash
+$ docker network create laravel
+```
+
+启动 laravel 容器， `--name=laravel` 参数设定的名字必须与 `nginx` 配置文件中的 `fastcgi_pass   laravel:9000;` 一致
+
+```bash
+$ docker run -it --rm --name=laravel --network=laravel my/laravel
+```
+
+启动 nginx 容器
+
+```bash
+$ docker run -it --rm --network=laravel -p 8080:80 my/nginx
+```
+
+浏览器访问 `127.0.0.1:8080` 可以看到 Laravel 项目首页。
+
+> 也许 Laravel 项目依赖其他外部服务，例如 redis、MySQL，请自行启动这些服务之后再进行测试，本小节不再赘述。
+
+## 生产环境优化
+
+本小节内容为了方便测试，将配置文件直接放到了镜像中，实际在使用时 **建议** 将配置文件作为 `config` 或 `secret` 挂载到容器中，请读者自行学习 `Swarm mode` 或 `Kubernetes` 的相关内容。
+
+## 附录
+
+完整的 `Dockerfile` 文件如下。
+
+```docker
+FROM node:alpine as frontend
+
+COPY package.json /app/
+
+RUN cd /app \
+      && npm install --registry=https://registry.npm.taobao.org
+
+COPY webpack.mix.js /app/
+COPY resources/assets/ /app/resources/assets/
+
+RUN cd /app \
+      && npm run production
+
+FROM composer as composer
+
+COPY database/ /app/database/
+COPY composer.json /app/
+
+RUN cd /app \
+      && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
+      && composer install \
+           --ignore-platform-reqs \
+           --no-interaction \
+           --no-plugins \
+           --no-scripts \
+           --prefer-dist
+
+FROM php:7.2-fpm-alpine as laravel
+
+ARG LARAVEL_PATH=/app/laravel
+
+COPY --from=composer /app/vendor/ ${LARAVEL_PATH}/vendor/
+COPY . ${LARAVEL_PATH}
+COPY --from=frontend /app/public/js/ ${LARAVEL_PATH}/public/js/
+COPY --from=frontend /app/public/css/ ${LARAVEL_PATH}/public/css/
+COPY --from=frontend /app/mix-manifest.json ${LARAVEL_PATH}/mix-manifest.json
+
+RUN cd ${LARAVEL_PATH} \
+      && php artisan package:discover \
+      && mkdir -p storage \
+      && mkdir -p storage/framework/cache \
+      && mkdir -p storage/framework/sessions \
+      && mkdir -p storage/framework/testing \
+      && mkdir -p storage/framework/views \
+      && mkdir -p storage/logs \
+      && chmod -R 777 storage
+
+FROM nginx:alpine as nginx
+
+ARG LARAVEL_PATH=/app/laravel
+
+COPY laravel.conf /etc/nginx/conf.d/
+COPY --from=laravel ${LARAVEL_PATH}/public ${LARAVEL_PATH}/public
+```
+
+# 参考文档
+
+* `Dockerfie` 官方文档：https://docs.docker.com/engine/reference/builder/
+
+* `Dockerfile` 最佳实践文档：https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+
+* `Docker` 官方镜像 `Dockerfile`：https://github.com/docker-library/docs
