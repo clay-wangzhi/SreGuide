@@ -116,8 +116,7 @@ wiki目录
   * [x] Docker 命令
   * [x] Docker 底层实现
   * [x] Docker Compose
-  * [x] 5.5 harbor创建
-  * [x] 5.6 harbor添加https认证
+  * [x] Docker Harbor
 * [x] 6 Kubernetes
   * [x] 6.1 集群的安装
     * [x] 6.1.1 kubeadm安装集群
