@@ -122,7 +122,7 @@
 * [Docker 使用网络](Docker/docker_network.md)
 * [Docker 命令](Docker/docker_command.md)
 * [Docker 底层实现](Docker/docker_underly.md)
-* [5.4 docker-compose安装](Docker/5.4 docker-compose安装.md)
+* [Docker Compose](Docker/docker_compose.md)
 * [5.5 harbor创建](Docker/5.5 harbor创建.md)
 * [5.6 harbor添加https认证](Docker/5.6 harbor添加https认证.md)
 
