@@ -105,13 +105,14 @@ wiki目录
     * [ ] 4.2.2 复合数据类型
   * [ ] 4.3 函数
 * [x] Docker
-  * [x] 01 Docker简介
-  * [x] 02 基本概念
-  * [x] 03 使用镜像
-  * [x] 04 Dockerfile
-  * [x] 05 操作容器
-  * [x] 06 数据管理
-  * [x] 07 使用网络
+  * [x] Docker简介
+  * [x] CentOS安装Docker CE
+  * [x] Docker 基本概念
+  * [x] Docker 使用镜像
+  * [x] Dockerfile
+  * [x] Docker 操作容器
+  * [x] Docker 数据管理
+  * [x] Docker 使用网络
   * [x] 5.4 docker-compose安装
   * [x] 5.5 harbor创建
   * [x] 5.6 harbor添加https认证
