@@ -23,7 +23,7 @@ tar xvf harbor-offline-installer-<version>.tgz  -C /usr/local/
 ```
 # cd /usr/local/harbor
 # vim harbor.yml
-# 将hostname改为对应的本机地址（not localhost or 127.0.0.1）
+# 将hostname改为对应的本机地址（not localhost or 127.0.0.1,我这里为域名）
 # 修改harbor_admin_password管理用户密码，只能在这里改，改后不可再改
 ```
 
@@ -31,33 +31,6 @@ tar xvf harbor-offline-installer-<version>.tgz  -C /usr/local/
 
 ```
 ./install
-```
-
-5. 更新配置文件流程
-
-```
-docker-compose down -v
-rm -rf /data/database
-rm -rf /data/registry
-vim harbor.yml #修改配置文件
-./prepare #预编译
-docker-compose -f ./docker-compose.yml up -d
-docker-compose ps #查看启动情况
-```
-
-6. 添加--insecure-registry参数
-
-```
-# vim /etc/docker/daemon.json
-# 添加下面一行
-"insecure-registries": ["sdqcharbor.com"]
-```
-
-重启docker
-
-```
-systemctl daemon-reload
-systemctl restart docker
 ```
 
 # Configuring Harbor with HTTPS Access
@@ -146,7 +119,6 @@ hostname: sdqcharbor.com
 https:
   certificate: /data/cert/sdqcharbor.com.crt
   private_key: /data/cert/sdqcharbor.com.key
-
 ```
 
 If Harbor is already running, stop and remove the existing instance. Your image data remain in the file system
@@ -186,3 +158,33 @@ docker tag centos:latest sdqcharbor.com/library/centos:latest
 docker push sdqcharbor.com/library/centos:latest 
 ```
 
+## test
+
+1. 更新配置文件流程
+
+```
+docker-compose down -v
+rm -rf /data/database
+rm -rf /data/registry
+vim harbor.yml #修改配置文件
+./prepare #预编译
+docker-compose -f ./docker-compose.yml up -d
+docker-compose ps #查看启动情况
+```
+
+6. 添加--insecure-registry参数
+
+```
+# vim /etc/docker/daemon.json
+# 添加下面一行
+"insecure-registries": ["sdqcharbor.com"]
+```
+
+重启docker
+
+```
+systemctl daemon-reload
+systemctl restart docker
+```
+
+# 
