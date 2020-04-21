@@ -129,7 +129,7 @@ WARNING: bridge-nf-call-ip6tables is disabled
 请添加内核配置参数以启用这些功能。
 
 ```bash
-$ tee -a /etc/sysctl.conf <<-EOF
+tee -a /etc/sysctl.conf <<-EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
