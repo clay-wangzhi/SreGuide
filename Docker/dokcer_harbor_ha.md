@@ -359,14 +359,13 @@ psql -h 192.168.166.203 -p 5432 -U postgres
    CREATE DATABASE
    postgres=# create database notaryserver;
    CREATE DATABASE
-```
+   ```
    
    ```bash
    psql -h 192.168.166.203 -U postgres registry < /tmp/registry.sql
    psql -h 192.168.166.203 -U postgres notarysigner  < /tmp/notarysigner.sql
    psql -h 192.168.166.203 -U postgres notaryserver < /tmp/notaryserver.sql
    ```
-
 ### Redis
 
 1）安装redis
