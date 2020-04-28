@@ -129,6 +129,14 @@ sysctl -p
 curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s https://pclhthp0.mirror.aliyuncs.com
 ```
 
+5）启动Docker
+
+```bash
+systemctl enable docker && systemctl start docker
+```
+
+
+
 ### Compose
 
 [compose](https://github.com/docker/compose/releases)是Docker提供的一个命令行工具，用来定义和运行由多个容器组成的应用。使用compose，我们可以通过YAML文件声明式的定义应用程序的各个服务，并由单个命令完成应用的创建和启动。
