@@ -117,6 +117,7 @@ wiki目录
   * [x] Docker 底层实现
   * [x] Docker Compose
   * [x] Docker Harbor
+  * [x] Docker Harbor HA
 * [x] 6 Kubernetes
   * [x] 6.1 集群的安装
     * [x] 6.1.1 kubeadm安装集群
