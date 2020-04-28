@@ -124,6 +124,7 @@
 * [Docker 底层实现](Docker/docker_underly.md)
 * [Docker Compose](Docker/docker_compose.md)
 * [Docker Harbor](Docker/docker_harbor.md)
+* [Docker Harbor HA](Docker/docker_harbor_ha.md)
 
 ## 6 Kubernetes
 * 6.1 集群的安装
