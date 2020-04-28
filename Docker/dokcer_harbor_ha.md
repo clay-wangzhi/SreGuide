@@ -353,13 +353,14 @@ psql -h 192.168.166.203 -p 5432 -U postgres
 
    ```bash
    # psql -h 192.168.166.203 -U postgres
-   postgres=# create database registry
+   postgres=# create database registry;
+   CREATE DATABASE
+   postgres=# create database notarysigner;
+   CREATE DATABASE
+   postgres=# create database notaryserver;
+   CREATE DATABASE
+```
    
-   postgres-# create database notarysigner 
-   
-   postgres-# create database notaryserver
-   ```
-
    ```bash
    psql -h 192.168.166.203 -U postgres registry < /tmp/registry.sql
    psql -h 192.168.166.203 -U postgres notarysigner  < /tmp/notarysigner.sql
