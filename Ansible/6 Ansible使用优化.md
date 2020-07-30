@@ -29,7 +29,7 @@ Host *
   ServerAliveCountMax 5
   ControlMaster auto
   ControlPath ~/.ssh/sockets/%r@%h-%p
-  ControlPersist 4h：
+  ControlPersist 4h
 ```
 
 > 个人感觉效果不明显，不如下面ansible设置开启ssh长连接
@@ -48,6 +48,8 @@ ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
 ## 5 优化常规配置
 
 ```
+inventory      = /etc/ansible/hosts.yml   # 指定主机列表文件
+roles_path    = /etc/ansible/roles # 指定roles下载位置
 host_key_checking = False #关闭密码检查
 remote_user = ane #指定连接到的ssh用户
 deprecation_warnings = False #关闭一些告警

@@ -17,6 +17,7 @@ mv kafka_2.12-2.3.0.tgz /usr/local/
 cd /usr/local/
 tar -xvf kafka_2.12-2.3.0.tgz 
 mv kafka_2.12-2.3.0 kafka
+rm -f *.tgz
 ```
 
 ### 修改配置文件
@@ -30,12 +31,12 @@ num.io.threads=8
 socket.send.buffer.bytes=102400
 socket.receive.buffer.bytes=102400
 socket.request.max.bytes=104857600
-log.dirs=/tmp/kafka-logs
-num.partitions=1
+log.dirs=/opt/kafka-logs
+num.partitions=3
 num.recovery.threads.per.data.dir=1
-offsets.topic.replication.factor=1
-transaction.state.log.replication.factor=1
-transaction.state.log.min.isr=1
+offsets.topic.replication.factor=3
+transaction.state.log.replication.factor=3
+transaction.state.log.min.isr=3
 log.retention.hours=168
 log.segment.bytes=1073741824
 log.retention.check.interval.ms=300000
@@ -56,7 +57,7 @@ group.initial.rebalance.delay.ms=0
 /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/server.properties
 
 创建topic（其中一台执行）
-bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 3 --topic test
 
 
 查看 Topic describe
