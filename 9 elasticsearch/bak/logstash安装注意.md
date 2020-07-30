@@ -21,3 +21,12 @@ JAVA_HOME=/opt/jdk1.8.0_144
 等价于：
 /usr/share/logstash/bin/logstash -e ""
 ```
+
+```bash
+ ansible logstash -m shell -a "export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"
+ansible logstash -m shell -a 'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '
+ ansible logstash -m shell -a 'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'
+ansible logstash -m shell -a "systemctl enable logstash;systemctl start logstash"
+
+```
+
