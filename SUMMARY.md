@@ -126,11 +126,6 @@
 * [Docker Harbor](Docker/docker_harbor.md)
 * [Docker Harbor HA](Docker/docker_harbor_ha.md)
 
-## 6 Kubernetes
-* 6.1 集群的安装
-    * [6.1.1 kubeadm安装集群](6 kubernetes/6.1 集群的安装/6.1.1 使用kubeadm工具快速安装kubernetes集群.md)
-    * [6.1.2 二进制安装集群](6 kubernetes/6.1 集群的安装/6.1.2 以二进制文件方式安装kubernetes集群.md)
-
 ## 7 Nginx
 * [1.初识Nginx](7 nginx/1.初识Nginx.md)
 * [2.nginx架构基础](7 nginx/2.nginx架构基础.md)
@@ -300,4 +295,5 @@
 ## 27 监控体系
 * [聊头监控体系](27 监控体系/聊头监控体系.md)
 * [grafana问题](27 监控体系/grafana问题.md)
+* [site](site.md)
 
