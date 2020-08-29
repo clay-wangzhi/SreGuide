@@ -1,11 +1,10 @@
-## GNU/Linux 的历史
+GNU/Linux 的历史
+
 自由软件之父Richard M. Stallman(理查德.斯托曼) 1984 GNU Copyleft OpenSource Free GPL
 
 Linux之父 1991 Linus Torvalds(李纳斯 托沃兹) www.kernel.org
 
 Linux 主要发行版有：RHEL/Centos/Ubuntu/Suse/Debian/Oracle
-
-
 
 ## linux目录结构
 文件系统在Linux下看上去就象树形结构，所以我们可以把文件系统的结构形象的称为 树形结构。
