@@ -2,22 +2,25 @@
 
 * [Introduction](README.md)
 
-## 1 Linux
-* [1.1 linux简介](1 Linux/1.1 linux简介.md)
-* 1.2 文件管理
-    * [1.2.1 查看文件类型](1 Linux/1.2 文件管理/1.2.1 查看文件类型.md)
-    * [1.2.2 查看文件详细属性](1 Linux/1.2 文件管理/1.2.2 查看文件详细属性.md)
-    * [1.2.3 创建、复制、移动、删除](1 Linux/1.2 文件管理/1.2.3 zsgc.md)
-    * [1.2.4 查看文件内容](1 Linux/1.2 文件管理/1.2.4 查看文件内容.md)
-    * [1.2.5 打包、压缩](1 Linux/1.2 文件管理/1.2.5 打包压缩.md)
-* [1.3 计划任务](1 Linux/1.3 计划任务.md)
-* [1.4 用户管理](1 Linux/1.4 用户管理.md)
-* [1.5 进程管理](1 Linux/1.5 进程管理.md)
-* [1.6 管道及I/O重定向](1 Linux/1.6 管道及I-O重定向.md)
-* [1.7 软件包管理](1 Linux/1.7 软件包管理.md)
-* [1.8 网络管理](1 Linux/1.8 网络管理.md)
-* [1.9 日志logrotate](1 Linux/1.9 日志logrotate.md)
-* [1.10 /etc/security/limits.conf 详解与配置](1 Linux/1.10 limit.conf文件配置.md)
+## Linux
+* [linux简介](Linux/linux简介.md)
+* 文件管理
+    * [查看文件类型](Linux/文件管理/查看文件类型.md)
+    * [查看文件详细属性](Linux/文件管理/查看文件详细属性.md)
+    * [创建、复制、移动、删除](Linux/文件管理/zsgc.md)
+    * [查看文件内容](Linux/文件管理/查看文件内容.md)
+    * [打包、压缩](Linux/文件管理/打包压缩.md)
+* 文件权限
+    * [基本权限UGO](Linux/文件权限/基本权限UGO.md)
+* [计划任务](Linux/计划任务.md)
+* [用户管理](Linux/用户管理.md)
+* [进程管理](Linux/进程管理.md)
+* [管道及I/O重定向](Linux/管道及I-O重定向.md)
+* [软件包管理](Linux/软件包管理.md)
+* [网络管理](Linux/网络管理.md)
+* [日志logrotate](Linux/日志logrotate.md)
+* [ /etc/security/limits.conf 详解与配置](Linux/limit.conf文件配置.md)
+* [常用知识](Linux/常用知识.md)
 
 ## 2 Shell
 * [第一部分 初见shell](2 shell/part1/part1.md)

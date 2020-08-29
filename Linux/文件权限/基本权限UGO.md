@@ -60,4 +60,4 @@ chmod 644 file1  //给file1 属主读写，属组和其他读的权限
 
 ###  r、w、x权限对文件和目录的意义
 
-![](./img/01.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/01.png)
