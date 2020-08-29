@@ -69,6 +69,14 @@ message：可以不用写
 
 ![image-20200323201738802](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png)
 
+- Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。
+
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png)
+
+![image-20200323204010678](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png)
+
+- 不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。
+
 ### 代码图片生成器
 
 官网地址:https://carbon.now.sh/
