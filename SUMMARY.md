@@ -129,18 +129,19 @@
 * [Docker Harbor](Docker/docker_harbor.md)
 * [Docker Harbor HA](Docker/docker_harbor_ha.md)
 
-## 7 Nginx
-* [1.初识Nginx](7 nginx/1.初识Nginx.md)
-* [2.nginx架构基础](7 nginx/2.nginx架构基础.md)
-* [3.nginx配置文件详解](7 nginx/3.nginx配置文件详解.md)
-    * [3.1 nginx全局块和events块配置](7 nginx/3_1_nginx全局块和events块配置.md)
-    * [3.2 nginxHTTP块配置](7 nginx/3_2_nginxHTTP块配置.md)
-    * [3.3 nginxSERVER块配置](7 nginx/3_3_nginxSERVER块配置.md)
-    * [3.4 nginxLOCATION块配置](7 nginx/3_4_nginxLOCATION块配置.md)
-    * [3.5 nginx常用模块](7 nginx/3_5_nginx常用模块.md)
-* [4.内核参数优化](7 nginx/4.内核参数优化.md)
-* [5.状态码](7 nginx/5.状态码.md)
-* [6.nginx的常见问题](7 nginx/6.nginx的常见问题.md)
+## Nginx
+* [1.初识Nginx](Nginx/1.初识Nginx.md)
+* [2.nginx架构基础](Nginx/2.nginx架构基础.md)
+* [3.nginx配置文件详解](Nginx/3.nginx配置文件详解.md)
+    * [3.1 nginx全局块和events块配置](Nginx/3_1_nginx全局块和events块配置.md)
+    * [3.2 nginxHTTP块配置](Nginx/3_2_nginxHTTP块配置.md)
+    * [3.3 nginxSERVER块配置](Nginx/3_3_nginxSERVER块配置.md)
+    * [3.4 nginxLOCATION块配置](Nginx/3_4_nginxLOCATION块配置.md)
+    * [3.5 nginx常用模块](Nginx/3_5_nginx常用模块.md)
+* [4.内核参数优化](Nginx/4.内核参数优化.md)
+* [5.状态码](Nginx/5.状态码.md)
+* [6.nginx的常见问题](Nginx/6.nginx的常见问题.md)
+    * [Nginx出现403 forbidden的三种原因](Nginx/Nginx_FAQ/Nginx出现403 forbidden的三种原因.md)
 
 ## 8 Tomcat
 * [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
