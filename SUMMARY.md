@@ -282,6 +282,7 @@
 * [DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义](23 未分类/DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义.md)
 * [调优](23 未分类/调优.md)
 * [编程语言的分类](23 未分类/编程语言的分类.md)
+* [curl方式执行shell脚本时如何传参](23 未分类/curl方式执行shell脚本时如何传参.md)
 
 ## 24 常见问题
 * [centos时区](24 常见问题/centos时区.md)
