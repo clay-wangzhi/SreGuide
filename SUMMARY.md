@@ -304,4 +304,5 @@
 
 ## git
 * [git的基本使用](git/git-basic.md)
+* [Commit message 和 Change log 编写指南](git/git-commit-message.md)
 
