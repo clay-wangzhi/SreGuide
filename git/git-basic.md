@@ -470,6 +470,7 @@ git config --global color.branch auto
 git config --global color.interactive auto
 git config --global --unset http.proxy                    # remove  proxy configuration on git
 git clone git+ssh://git@192.168.53.168/VT.git             # clone远程仓库
+git clone -b <指定分支名> <远程仓库地址>                      # clone远程指定 分支
 git log -p -m
 git show dfb02e6e4f2f7b573337763e5c0013802e392818         # 显示某个提交的详细内容
 git show dfb02                                            # 可只用commitid的前几位
