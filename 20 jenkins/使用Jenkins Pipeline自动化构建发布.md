@@ -59,28 +59,38 @@
 ![img](images/2399048-4e99cf386cd7bd51.webp)
 
 > 特点：
->  1.最外层必须由pipline{ //do something }来进行包裹
->  2.不需要分好作为分隔符，每个语句必须在一行内
->  3.不能直接使用groovy语句（例如循环判断等），需要被script {}包裹
+>
+> 1.最外层必须由pipline{ //do something }来进行包裹
+>
+> 2.不需要分好作为分隔符，每个语句必须在一行内
+>
+> 3.不能直接使用groovy语句（例如循环判断等），需要被script {}包裹
 
 2.脚本式
 
 ![img](images/2399048-0976ca380ccc0097.webp)
 
 > 特点：
->  1.最外层有node{}包裹
->  2.可直接使用groovy语句
+>
+> 1.最外层有node{}包裹
+>
+> 2.可直接使用groovy语句
 
 ### Declarative Pipeline（声明式）核心概念
 
 核心概念用来组织pipeline的运行流程
 
 > 1.pipeline :声明其内容为一个声明式的pipeline脚本
->  2.agent:执行节点（job运行的slave或者master节点）
->  3.stages:阶段集合，包裹所有的阶段（例如：打包，部署等各个阶段）
->  4.stage:阶段，被stages包裹，一个stages可以有多个stage
->  5.steps:步骤,为每个阶段的最小执行单元,被stage包裹
->  6.post:执行构建后的操作，根据构建结果来执行对应的操作
+>
+> 2.agent:执行节点（job运行的slave或者master节点）
+>
+> 3.stages:阶段集合，包裹所有的阶段（例如：打包，部署等各个阶段）
+>
+> 4.stage:阶段，被stages包裹，一个stages可以有多个stage
+>
+> 5.steps:步骤,为每个阶段的最小执行单元,被stage包裹
+>
+> 6.post:执行构建后的操作，根据构建结果来执行对应的操作
 
 根据上面几个概念就能够轻易的创建一个简单的pipeline
 
@@ -159,8 +169,10 @@ agent { docker 'python'  }
 #### 3.stages
 
 > 作用域：全局或者stage阶段内，每个作用域内只能使用一次
->  是否必须：全局必须
->  参数：无
+>
+> 是否必须：全局必须
+>
+> 参数：无
 
 
 
@@ -193,9 +205,12 @@ pipeline{
 #### 4.stage
 
 > 作用域：被stages包裹，作用在自己的stage包裹范围内
->  是否必须：必须
->  参数：需要一个string参数，表示此阶段的工作内容
->  备注：stage内部可以嵌套stages，内部可单独制定运行的agent
+>
+> 是否必须：必须
+>
+> 参数：需要一个string参数，表示此阶段的工作内容
+>
+> 备注：stage内部可以嵌套stages，内部可单独制定运行的agent
 
 #### 5.steps
 
