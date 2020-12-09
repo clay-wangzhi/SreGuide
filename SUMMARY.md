@@ -284,6 +284,7 @@
 * [编程语言的分类](23 未分类/编程语言的分类.md)
 * [curl方式执行shell脚本时如何传参](23 未分类/curl方式执行shell脚本时如何传参.md)
 * [中文技术文档写作规范](23 未分类/document-style-guide.md)
+* [PrometheusAlert](23 未分类/promethues-alerts.md)
 
 ## 24 常见问题
 * [centos时区](24 常见问题/centos时区.md)
