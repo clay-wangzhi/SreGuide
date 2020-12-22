@@ -30,7 +30,7 @@ WantedBy=multi-user.target
 
 > 主要修改的地方为：
 >
-> * Environment="BEAT_LOG_OPTS="  改为 Environment="BEAT_LOG_OPTS"  # 好像不该这行也可以
+> * Environment="BEAT_LOG_OPTS=-e"  改为 Environment="BEAT_LOG_OPTS" 
 > * ExecStart=/usr/share/filebeat/bin/filebeat $BEAT_LOG_OPTS $BEAT_CONFIG_OPTS $BEAT_PATH_OPTS 改为ExecStart=/usr/share/filebeat/bin/filebeat $BEAT_LOG_OPTS $BEAT_CONFIG_OPTS $BEAT_PATH_OPTS
 
 3. 修改配置文件

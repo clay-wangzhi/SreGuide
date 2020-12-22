@@ -17,7 +17,7 @@ Ansible 用 python 编写，尽管市面上已经有很多可供选择的配置�
 
 ### 1.2 Ansible的基本组件
 
-![ansible1](images/ansible1-1585014469983.png)
+![ansible1](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ansible1-1585014469983.png)
 
 - 核心：ansible
 - 核心模块（Core Modules）：这些都是ansible自带的模块
