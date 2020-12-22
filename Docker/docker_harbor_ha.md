@@ -50,7 +50,7 @@ harbor官方默认提供主从复制的方案来解决镜像同步问题，通�
 
 如果最终生产环境集群中服务器较多，依赖做完LB的Harbor也无法完全达到需求时，可以使用如下架构，部署下级Harbor节点从主节点同步镜像，然后再分发给生产服务器。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_ha_l)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_ha_l.png)
 
 这个方案在实际生产环境中部署需要考虑三个问题：
 
