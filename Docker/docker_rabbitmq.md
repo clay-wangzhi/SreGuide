@@ -205,7 +205,7 @@ docker container exec -it clay-rabbitmq /bin/bash
 ./home/rabbitmq.sh 
 ```
 
-部署`192.168.125.176`节点
+### 部署`192.168.125.176`节点
 
 创建目录
 
