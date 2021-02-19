@@ -1,7 +1,3 @@
-> 转载自：阮一峰 Commit message 和 Change log 编写指南
->
-> https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html
-
 Git 每次提交代码，都要写 Commit message（提交说明），否则就不允许提交。
 
 > ```bash
@@ -258,4 +254,6 @@ Body部分的格式是固定的，必须写成`This reverts commit <hash>.`，�
 > $ npm run changelog
 > ```
 
-（完）
+> 转载自：阮一峰 Commit message 和 Change log 编写指南
+>
+> https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html

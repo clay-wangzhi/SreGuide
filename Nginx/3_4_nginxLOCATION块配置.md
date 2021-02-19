@@ -1,6 +1,6 @@
 ## 1 匹配模式优先级
 
-![](images/image-20200320195331145.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195331145.png)
 
 ```
 location = /uri 　　　=开头表示精确匹配，只有完全匹配上才能生效。

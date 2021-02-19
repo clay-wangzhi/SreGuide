@@ -1,8 +1,8 @@
 ## 一、Jenkins介绍
 
-![img](images/2399048-91830c936e5fa651.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp)
 
-![img](images/2399048-0fa91d8b2c207c35.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp)
 
 ## 二、Jenkins Pipeline介绍
 
@@ -38,7 +38,7 @@
 
 ### Pipeline与freestyle区别
 
-![img](images/2399048-40a98c55b7188ba8.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-40a98c55b7188ba8.webp)
 
 1.Job调度方式
  pipeline：通过结构化pipeline 语法进行调度，易于理解与阅读
@@ -56,7 +56,7 @@
 
 1.声明式（jenkins2.x新加入的语法）
 
-![img](images/2399048-4e99cf386cd7bd51.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-4e99cf386cd7bd51.webp)
 
 > 特点：
 >
@@ -68,7 +68,7 @@
 
 2.脚本式
 
-![img](images/2399048-0976ca380ccc0097.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0976ca380ccc0097.webp)
 
 > 特点：
 >
@@ -200,7 +200,7 @@ pipeline{
 
 看下运行结果,发现嵌套的stage也是能够展现在视图里面的
 
-![img](images/2399048-1c06fd744811b10b.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-1c06fd744811b10b.webp)
 
 #### 4.stage
 
@@ -327,7 +327,7 @@ pipeline{
 
 自动生成的构建参数
 
-![img](images/2399048-cdd0be1f6dcfea2e.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-cdd0be1f6dcfea2e.webp)
 
 #### 4.triggers:触发器是自动化运行pipeline的方法
 
@@ -415,7 +415,7 @@ pipeline {
 
 看下效果
 
-![img](images/2399048-767303542aa7a1ee.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-767303542aa7a1ee.webp)
 
 #### 7.when：根据when指令的判断结果来决定是否执行后面的阶段
 

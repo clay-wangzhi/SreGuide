@@ -214,7 +214,7 @@ server {
 
 **return指令与errror_page**
 
-![](images/image-20200320195040345.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195040345.png)
 
 ### 3.2 rewrite指令
 
@@ -398,7 +398,7 @@ Context:    http, server, location, if
 
 ### 4.1 Directives
 
-![](images/image-20200317100631841.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317100631841.png)
 
 ## 5 limit_conn模块
 
@@ -408,21 +408,21 @@ Context:    http, server, location, if
 
 ### 5.1 指令
 
-![](images/image-20200321202747188.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202747188.png)
 
-![](images/image-20200321202819297.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202819297.png)
 
 ## 6 limit_req模块
 
-![](images/image-20200323104235892.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104235892.png)
 
-![](images/image-20200323104251827.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104251827.png)
 
 ### 6.1 指令
 
-![](images/image-20200323104336149.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104336149.png)
 
-![](images/image-20200323104534992.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104534992.png)
 
 限制发生时向客户端返回的错误码
 

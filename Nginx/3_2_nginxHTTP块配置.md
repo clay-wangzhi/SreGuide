@@ -56,21 +56,21 @@ server {
 
 ## 3 HTTP请求处理时的11个阶段
 
-![](images/image-20200317095602291.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png)
 
-![](images/image-20200317095641772.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png)
 
 ## 4 正则表达式
 
-![](images/image-20200317093833697.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png)
 
-![](images/image-20200317094000335.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png)
 
 ## 5 提取用户真实ip
 
 如何拿到真实的用户ip地址？
 
-![](images/image-20200317095930682.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png)
 
 拿到真实用户ip后如何使用？
 
