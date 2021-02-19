@@ -2,11 +2,11 @@
 
 **Example Configuration**
 
-![](images/image-20200317093603705.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png)
 
 **Directives**
 
-![](images/image-20200317093633095.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093633095.png)
 
 ## 2 server_name指令
 
