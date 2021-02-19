@@ -2,7 +2,7 @@ GNU/Linux 的历史
 
 自由软件之父Richard M. Stallman(理查德.斯托曼) 1984 GNU Copyleft OpenSource Free GPL
 
-Linux之父 1991 Linus Torvalds(李纳斯 托沃兹) www.kernel.org
+Linux之父 1991 Linus Torvalds(林纳斯 托沃兹) www.kernel.org
 
 Linux 主要发行版有：RHEL/Centos/Ubuntu/Suse/Debian/Oracle
 
