@@ -23,7 +23,7 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 
 等号类型（=）的优先级最高。一旦匹配成功，则不再查找其他location的匹配项
 
-剩下的几种匹配优先级略复杂，具体可以参考Nginx文档（http://nginx.org/en/docs/http/ngx_http_core_module.html#location）
+剩下的几种匹配优先级略复杂，具体可以查看Nginx官方文档（http://nginx.org/en/docs/http/ngx_http_core_module.html#location）
 
 * ^~和普通匹配。
 
