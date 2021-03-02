@@ -7,7 +7,7 @@
 
 ​	2. 修改启动项
 
-centos7安装filebeat需要注意修改`/usr/lib/systemd/system/filebeat.service`
+​	centos7安装filebeat需要注意修改`/usr/lib/systemd/system/filebeat.service`
 
 ```
 [Unit]
@@ -38,4 +38,4 @@ WantedBy=multi-user.target
 
 > es 的index名称 只能为小写字母
 >
-> 主要index命名规范
+> 注意index命名规范
