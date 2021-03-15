@@ -11,14 +11,23 @@
 * 使用yaml语言定制playbook
 * 幂等性，多次操作或多次执行不影响结果
 
-#### ansible 配置文件解析优先级，由高到低依次为
+#### Ansible 配置文件解析优先级，由高到低依次为
 
 1. ANSIBLE_CONFIG 环境变量指定的配置文件
 2. 当前目录下的的ansible.cfg
 3. 家目录下的ansible.cfg
 4. /etc/ansible/ansible.cfg
 
+#### Ansible inventory知识点
 
+* inventory 主机清单，包含静态inventory和动态inventory
+* 要使用多个inventory的功能，需将inventory指定为文件目录（默认为/etc/ansible/hosts文件）
+* inventory指定目录时，目录下文件最好不要带有后缀名
+* Ansible 默认预定义了两个主机组：`all`分组（所有主机）和`ungrouped`分组（不在分组内的主机）
+* ansible-inventory命令
+  * 树状形式展开主机列表`ansible-inventory all --graph`
+  * 同时带上变量`ansible-inventory all --graph --vars`
+*  通过`--limit`或`-l`明确指定主机或组
 
 * [ ] ansible 编写了哪些roles
 * [ ] ansible 常用的模块有哪些
