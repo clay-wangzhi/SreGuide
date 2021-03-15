@@ -4,7 +4,7 @@
 
 ## Ansible
 * [1 初识Ansible](Ansible/1 初识Ansible.md)
-* [2 Ansible Inventory配置详解](Ansible/2 Ansible Inventory配置详解.md)
+* [2 Ansible Inventory 配置详解](Ansible/2 Ansible Inventory配置详解.md)
 * [3 Ansible Ad-hoc命令集](Ansible/3 Ansible Ad-hoc命令集.md)
     * [3.1 Ansible lineinfile模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
 * [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
