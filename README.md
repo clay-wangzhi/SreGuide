@@ -1,5 +1,70 @@
 wiki目录
 
+技能清单
+
+* [ ] ansible
+  * [x] ansible 有哪些特性
+    * Agentless，无客户端
+    * Serverless，在服务端无需启动任何服务，只需执行命令即可
+    * 默认使用ssh控制各节点
+    * 基于模块工作，可以使用任何语言编写模块
+    * 使用yaml语言定制playbook
+    * 幂等性，多次操作或多次执行不影响结果
+  * [x] ansible 配置文件解析优先级，由高到低依次为
+    1. ANSIBLE_CONFIG 环境变量指定的配置文件
+    2. 当前目录下的的ansible.cfg
+    3. 家目录下的ansible.cfg
+    4. /etc/ansible/ansible.cfg
+  * [ ] 
+  * [ ] ansible 编写了哪些roles
+  * [ ] ansible 常用的模块有哪些
+
+* [ ] elk
+  * [ ] elk ansbile 部署
+  * [ ] elk docker 部署
+  * [ ] filebeat 用到了哪些模板
+  * [ ] logstash 用到了哪些模板
+* [ ] jenkins
+  * [ ] jenkins ansible 部署
+  * [ ] jenkins 工具集成，用到了哪些工具
+  * [ ] jenkins pipeline编写
+* [ ] nginx
+  * [ ] nginx 热升级
+  * [ ] nginx 部署
+  * [ ] nginx 常用模块
+  * [ ] nginx 生产中用到了哪些功能
+* [ ] system 服务配置
+* [ ] tomcat 生产配置
+* [ ] shell 
+  * [ ] 编写了哪些shell，shell脚本归档
+* [ ] python jumpserver二次开发为自动化运维平台
+* [ ] golang 的基础知识，使用golang二开开发Prometheus exporter
+* [ ] zabbix 
+  * [ ] ansible 部署zabbix
+  * [ ] zabbix 4.x 的新特性
+  * [ ] zabbix webhook(js)钉钉报警
+  * [ ] zabbix housekeeping 数据库分区
+  * [ ] zabbix 生产级 监控上千的主机的优化，指标拉去策略，分区，代理等
+* [ ] openldap
+  * [ ] openldap的搭建
+  * [ ] phpldapadmin的使用
+  * [ ] 自助修改密码
+* [ ] 常用集群，中间件，数据库的搭建
+  * [ ] activemq ，zookeeper架构，存储架构 ，单节点与集群
+  * [ ] rabbitmq，集群搭建，docker-compose方式搭建
+  * [ ] fastdfs，单节点及集群搭建，单节点，dockerfile
+  * [ ] redis 集群的搭建，redis迁移
+  * [ ] mysql ansible 搭建，各个版本，单机和主从
+* [ ] kubernetes
+  * [ ] 各种组件间的关系
+  * [ ] etcd 了解，及备份恢复
+  * [ ] k8s的事件通知告警， 也就是 events
+  * [ ] 日常的一些 kubectl 运维命令等基础
+  * [ ] pod调度以及资源限制
+  * [ ] Prometheus-operator，如何修改配置文件
+  * [ ] kubernetes中的CI/CD，日志集成
+  * [ ] 权限管理
+* [ ] 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
   * [x] 1.2 文件管理
