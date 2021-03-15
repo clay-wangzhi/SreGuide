@@ -4,11 +4,32 @@
 
 Ansible Inventory 是包含`静态 Inventory` 和`动态 Inventory` 两部分的，静态 Inventory 指的是在文件中指定的主机和组，动态 Inventory 指通过外部脚本获取主机列表，并按照 ansible 所要求的格式返回给 ansilbe 命令的。
 
+**多个inventory文件**
+
+当Ansible要管理的节点非常多时，仅靠分组的逻辑可能也不足够方便管理，这个时候可以定义多个inventory文件并放在一个目录下， 并按一定的命名规则为每 个inventory命名，以便见名知意。
+
+现在要使用多个inventory的功能，需要将inventory指定为目录路径。
+
+例如，Ansible配置文件将inventory指令设置为对应的目录:
+
+```shell
+inventory = /etc/ansible/inventorys 
+```
+
+inventory指定为目:录时，inventory文件最好不要带有后缀， 就像示例中的a和b文件。因为Ansible当使用目录作为inventory时，默认将忽略一些后缀的文件不去解析。 需要修改配置:文件中的inventory_ ignore_ extensions 项来禁止忽略指定后缀(如ini后缀)的文件。
+
+```shell
+#inventory_ ignore_ extensions=~, .orig, .bak, .in, .cfg, .retry, .pyc, .pyo
+inventory_ ignore_ extensions = ~, .orig, .bak, .cfg, .retry, .pyC, .pyo
+```
+
 ## 2 静态Inventory
 
 ### 2.1 定义主机和组
 
 > 定义主机清单，有多种格式，常用的有`ini`格式和`YAML`格式，我倾向于使用`YAML`格式，下面的举例中，两种格式都会提到。
+>
+> **Ansible 默认预定义了两个主机组：`all`分组（所有主机）和`ungrouped`分组（不在分组内的主机），两个组都不包括localhost这个特殊的节点**
 
 对于/etc/ansible/hosts最简单的定义格式像下面：
 
@@ -118,6 +139,16 @@ all:
 
 #### 2.1.4 添加主机变量
 
+不同ansible版本，行为控制变量名称可能不同，比如以前版本中端口号的行为变量是`ansible_ssh_port`
+
+官方链接：https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
+
+下面是常见的行为变量：
+
+
+
+![image-20210309153531453](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210309153531453.png)
+
 In INI:
 
 ```
@@ -139,6 +170,8 @@ atlanta:
     http_port: 303
     maxRequestsPerChild: 909
 ```
+
+
 
 #### 2.1.5 添加组变量
 
@@ -314,6 +347,15 @@ new
 172.25.252.44
 ```
 
+使用更为专业的`ansible-inventory`命令来查看主机组信息
+
+```shell
+ # 树状形式展开主机列表
+ ansible-inventory all --graph
+ # 同时带上变量
+ ansible-inventory all --graph --vars
+```
+
 #### 2.2.1 匹配所有主机
 
 可以通过`all`或者`*`来指定匹配所有主机，通过如下指令查看`all`匹配到的主机：
@@ -384,7 +426,7 @@ new
     lb2.lab.example.com
 ```
 
-1. 匹配不属于任何组的主机
+5. 匹配不属于任何组的主机
 
 ```sh
 # ansible ungrouped --list-hosts
@@ -493,6 +535,8 @@ new
     db1.example.com
     jupiter.lab.example.com
 ```
+
+> 主机列表一定要用 单引号 ''
 
 #### 2.2.6 正则表达式匹配
 
@@ -737,3 +781,5 @@ $ ansible -i dynamic_investory.py 127.0.0.1 --list-hosts
 > https://www.jianshu.com/p/71d6700fbe79
 >
 > https://blog.csdn.net/qq_23191379/article/details/90416992
+>
+> https://blog.51cto.com/cloumn/blog/1542
