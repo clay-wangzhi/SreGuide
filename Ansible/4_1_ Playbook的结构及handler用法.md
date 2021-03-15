@@ -47,7 +47,35 @@ playbook中的hosts即inentory中的定义主机与主机组，在《Ansible Inv
         state: started
 ```
 
-## 3 Task section
+## 3 Variable section
+
+vars设置变量vars指令可用于设置变量，可以设置一个或多个变量。下面的设置方式都是合理的
+
+```
+# 设置单个变量
+vars:
+  var1: value1
+
+vars:
+  - var1: value1
+
+# 设置多个变量：
+vars:
+  var1: value1
+  var2: value2
+
+vars:
+  - var1: value1
+  - var2: value2
+```
+
+vars可以设置在play级别，也可以设置在task级别：
+
+(1).设置在play级别，该play范围内的task能访问这些变量，其它play范围内则无法访问；
+
+(2).设置在task级别，只有该task能访问这些变量，其它task和其它play则无法访问。
+
+## 4 Task section
 
 play的主体部分是任务列表。
 
@@ -83,7 +111,7 @@ tasks:
     ignore_errors: True
 ```
 
-## 4 Handler section
+## 5 Handler section
 
 - 在Ansible Playbook中，handler事实上也是个task，只不过这个task默认并不执行，只有在被触发时才执行。
 - handler通过notify来监视某个或者某几个task，一旦task执行结果发生变化，则触发handler，执行相应操作。
@@ -141,3 +169,9 @@ handlers:
 ```
 
 > 如果与handler关联的task还未执行，在其前的task已经失败，整个play终止，则handler未被触发，也不会执行。
+
+>参考链接：
+>
+>https://www.cnblogs.com/breezey/p/8811473.html
+>
+>https://blog.51cto.com/cloumn/blog/1544
