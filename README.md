@@ -72,6 +72,13 @@
   * pre_tasks表示执行执行普通任务之前执行的任务列表
   *  post_tasks表示普通任务执行完之后执行的任务列表
 
+* playbook主要有以下四部分构成
+
+  * Target：用于定义将要执行playbook的远程主机组及远程主机组上的用户，还包括定义通过什么样的方式连接远程主机
+  * Variable：定义playbook运行时需要使用的变量
+  * Task：定义将要在远程主机上执行的任务列表
+  * Handler：定义task执行完成以后需要调用的任务
+
 * 常用命令
 
   * 校验playbook语法 `ansible-playbook --syntax-check xxx.yml`
@@ -106,43 +113,57 @@
 * 
 
 * [ ] ansible 编写了哪些roles
+
 * [ ] ansible 常用的模块有哪些
+
 * [ ] elk
   * [ ] elk ansbile 部署
   * [ ] elk docker 部署
   * [ ] filebeat 用到了哪些模板
   * [ ] logstash 用到了哪些模板
+  
 * [ ] jenkins
   * [ ] jenkins ansible 部署
   * [ ] jenkins 工具集成，用到了哪些工具
   * [ ] jenkins pipeline编写
+  
 * [ ] nginx
   * [ ] nginx 热升级
   * [ ] nginx 部署
   * [ ] nginx 常用模块
   * [ ] nginx 生产中用到了哪些功能
+  
 * [ ] system 服务配置
+
 * [ ] tomcat 生产配置
+
 * [ ] shell 
+  
   * [ ] 编写了哪些shell，shell脚本归档
+  
 * [ ] python jumpserver二次开发为自动化运维平台
+
 * [ ] golang 的基础知识，使用golang二开开发Prometheus exporter
+
 * [ ] zabbix 
   * [ ] ansible 部署zabbix
   * [ ] zabbix 4.x 的新特性
   * [ ] zabbix webhook(js)钉钉报警
   * [ ] zabbix housekeeping 数据库分区
   * [ ] zabbix 生产级 监控上千的主机的优化，指标拉去策略，分区，代理等
+  
 * [ ] openldap
   * [ ] openldap的搭建
   * [ ] phpldapadmin的使用
   * [ ] 自助修改密码
+  
 * [ ] 常用集群，中间件，数据库的搭建
   * [ ] activemq ，zookeeper架构，存储架构 ，单节点与集群
   * [ ] rabbitmq，集群搭建，docker-compose方式搭建
   * [ ] fastdfs，单节点及集群搭建，单节点，dockerfile
   * [ ] redis 集群的搭建，redis迁移
   * [ ] mysql ansible 搭建，各个版本，单机和主从
+  
 * [ ] kubernetes
   * [ ] 各种组件间的关系
   * [ ] etcd 了解，及备份恢复
