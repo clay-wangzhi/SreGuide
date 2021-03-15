@@ -1,9 +1,7 @@
-wiki目录
+### 核心知识点概览
 
-技能清单
-
-* [ ] ansible
-  * [x] ansible 有哪些特性
+* [ ] Ansible
+  * [x] Ansible 有哪些特性
     * Agentless，无客户端
     * Serverless，在服务端无需启动任何服务，只需执行命令即可
     * 默认使用ssh控制各节点
@@ -64,7 +62,9 @@ wiki目录
   * [ ] Prometheus-operator，如何修改配置文件
   * [ ] kubernetes中的CI/CD，日志集成
   * [ ] 权限管理
-* [ ] 
+
+### wiki 目录
+
 * [x] 1 Linux
   * [x] 1.1 Linux简介
   * [x] 1.2 文件管理
