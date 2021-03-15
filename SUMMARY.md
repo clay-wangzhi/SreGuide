@@ -15,6 +15,7 @@
     * [4.5 Playbook之tags](Ansible/4_5_Playbook之tags.md)
     * [4.6 巧用Roles](Ansible/4_6_巧用Roles.md)
     * [4.7 文件管理模块及Jinja2过滤器](Ansible/4_7_文件管理模块及Jinja2过滤器.md)
+    * [4.8 yaml 语法](Ansible/4_8_yaml语法.md)
 * [5 Ansible变量](Ansible/5 Ansible变量.md)
     * [5.1 自定义变量](Ansible/5_1_自定义变量.md)
     * [5.2 Fact变量](Ansible/5_2_Fact变量.md)

@@ -58,60 +58,56 @@
   * regexp 正则匹配
   * insertbefore，insertafter 匹配的行前后插入
   * state 状态
-  * regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行。
+  * regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行
+
+#### Ansible playbook 知识点
+
+* playbook、play和task的关系
+  * playbook中可以定义一个或多个play
+  * 每个play中可以定义一个或多个task
+* 可以定义两类特殊的task：pre_tasks和post_tasks
+  * pre_tasks表示执行执行普通任务之前执行的任务列表
+  *  post_tasks表示普通任务执行完之后执行的任务列表
+* 
 
 * [ ] ansible 编写了哪些roles
-
 * [ ] ansible 常用的模块有哪些
-
 * [ ] elk
   * [ ] elk ansbile 部署
   * [ ] elk docker 部署
   * [ ] filebeat 用到了哪些模板
   * [ ] logstash 用到了哪些模板
-  
 * [ ] jenkins
   * [ ] jenkins ansible 部署
   * [ ] jenkins 工具集成，用到了哪些工具
   * [ ] jenkins pipeline编写
-  
 * [ ] nginx
   * [ ] nginx 热升级
   * [ ] nginx 部署
   * [ ] nginx 常用模块
   * [ ] nginx 生产中用到了哪些功能
-  
 * [ ] system 服务配置
-
 * [ ] tomcat 生产配置
-
 * [ ] shell 
-  
   * [ ] 编写了哪些shell，shell脚本归档
-  
 * [ ] python jumpserver二次开发为自动化运维平台
-
 * [ ] golang 的基础知识，使用golang二开开发Prometheus exporter
-
 * [ ] zabbix 
   * [ ] ansible 部署zabbix
   * [ ] zabbix 4.x 的新特性
   * [ ] zabbix webhook(js)钉钉报警
   * [ ] zabbix housekeeping 数据库分区
   * [ ] zabbix 生产级 监控上千的主机的优化，指标拉去策略，分区，代理等
-  
 * [ ] openldap
   * [ ] openldap的搭建
   * [ ] phpldapadmin的使用
   * [ ] 自助修改密码
-  
 * [ ] 常用集群，中间件，数据库的搭建
   * [ ] activemq ，zookeeper架构，存储架构 ，单节点与集群
   * [ ] rabbitmq，集群搭建，docker-compose方式搭建
   * [ ] fastdfs，单节点及集群搭建，单节点，dockerfile
   * [ ] redis 集群的搭建，redis迁移
   * [ ] mysql ansible 搭建，各个版本，单机和主从
-  
 * [ ] kubernetes
   * [ ] 各种组件间的关系
   * [ ] etcd 了解，及备份恢复
