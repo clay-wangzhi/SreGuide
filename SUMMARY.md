@@ -5,8 +5,8 @@
 ## Ansible
 * [1 初识Ansible](Ansible/1 初识Ansible.md)
 * [2 Ansible Inventory 配置详解](Ansible/2 Ansible Inventory配置详解.md)
-* [3 Ansible Ad-hoc命令集](Ansible/3 Ansible Ad-hoc命令集.md)
-    * [3.1 Ansible lineinfile模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
+* [3 Ansible Ad-hoc 命令集](Ansible/3 Ansible Ad-hoc命令集.md)
+* [3 Ansible lineinfile 模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
 * [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
     * [4.1 Playbook的结构及handler用法](Ansible/4_1_ Playbook的结构及handler用法.md)
     * [4.2 Playbook循环语句](Ansible/4_2_Playbook循环语句.md)
