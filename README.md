@@ -63,11 +63,46 @@
 #### Ansible playbook 知识点
 
 * playbook、play和task的关系
+
   * playbook中可以定义一个或多个play
   * 每个play中可以定义一个或多个task
+
 * 可以定义两类特殊的task：pre_tasks和post_tasks
+
   * pre_tasks表示执行执行普通任务之前执行的任务列表
   *  post_tasks表示普通任务执行完之后执行的任务列表
+
+* 常用命令
+
+  * 校验playbook语法 `ansible-playbook --syntax-check xxx.yml`
+  * 测试运行playbook `ansible-playbook -C xxx.yml  `
+
+* 
+
+* YAML的基本语法规则如下：
+
+  (1).使用缩进表示层级关系
+
+  (2).缩进时不允许使用Tab键，只允许使用空格
+
+  (3).缩进的空格数目不重要，只要相同层级的元素左对齐即可
+
+  (4).yaml文件以"---"作为文档的开始，以表明这是一个yaml文件
+
+  (5).# 表示注释，从这个字符一直到行尾，都会被解析器忽略
+
+  (6).字符串不用加引号，但在可能产生歧义时，需加引号(单双引号皆可)，比如引用变量时
+
+  (7).布尔值非常灵活，不分区大小写的true/false、yes/no、on/off、y/n、0和1都允许
+
+* YAML支持三种数据结构：
+
+  (1).对象：key/value格式，也称为哈希结构、字典结构或关联数组
+
+  (2).数组：也称为列表
+
+  (3).标量(scalars)：单个值
+
 * 
 
 * [ ] ansible 编写了哪些roles
