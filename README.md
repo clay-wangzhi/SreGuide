@@ -18,6 +18,8 @@
 3. 家目录下的ansible.cfg
 4. /etc/ansible/ansible.cfg
 
+
+
 * [ ] ansible 编写了哪些roles
 * [ ] ansible 常用的模块有哪些
 
