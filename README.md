@@ -42,14 +42,26 @@
   - raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，raw模块在远程主机上直接启动/bin/sh来执行命令
   - script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
 
-* debug模块
+* debug 模块
 
   用于输出调试一些数据，模块包含如下选项：
 
   * msg：可以输出字符串，可以输出变量的值，变量调用需加"{{}}"
   * var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称
 
+* lineinfile 模块
+
+  lineinfile模块用于在源文件中插入、删除、替换行，和sed命令的功能类似，也支持正则表达式匹配和替换。
+
+  * path 指定文件
+  * line  行内容
+  * regexp 正则匹配
+  * insertbefore，insertafter 匹配的行前后插入
+  * state 状态
+  * regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行。
+
 * [ ] ansible 编写了哪些roles
+
 * [ ] ansible 常用的模块有哪些
 
 * [ ] elk
@@ -57,37 +69,49 @@
   * [ ] elk docker 部署
   * [ ] filebeat 用到了哪些模板
   * [ ] logstash 用到了哪些模板
+  
 * [ ] jenkins
   * [ ] jenkins ansible 部署
   * [ ] jenkins 工具集成，用到了哪些工具
   * [ ] jenkins pipeline编写
+  
 * [ ] nginx
   * [ ] nginx 热升级
   * [ ] nginx 部署
   * [ ] nginx 常用模块
   * [ ] nginx 生产中用到了哪些功能
+  
 * [ ] system 服务配置
+
 * [ ] tomcat 生产配置
+
 * [ ] shell 
+  
   * [ ] 编写了哪些shell，shell脚本归档
+  
 * [ ] python jumpserver二次开发为自动化运维平台
+
 * [ ] golang 的基础知识，使用golang二开开发Prometheus exporter
+
 * [ ] zabbix 
   * [ ] ansible 部署zabbix
   * [ ] zabbix 4.x 的新特性
   * [ ] zabbix webhook(js)钉钉报警
   * [ ] zabbix housekeeping 数据库分区
   * [ ] zabbix 生产级 监控上千的主机的优化，指标拉去策略，分区，代理等
+  
 * [ ] openldap
   * [ ] openldap的搭建
   * [ ] phpldapadmin的使用
   * [ ] 自助修改密码
+  
 * [ ] 常用集群，中间件，数据库的搭建
   * [ ] activemq ，zookeeper架构，存储架构 ，单节点与集群
   * [ ] rabbitmq，集群搭建，docker-compose方式搭建
   * [ ] fastdfs，单节点及集群搭建，单节点，dockerfile
   * [ ] redis 集群的搭建，redis迁移
   * [ ] mysql ansible 搭建，各个版本，单机和主从
+  
 * [ ] kubernetes
   * [ ] 各种组件间的关系
   * [ ] etcd 了解，及备份恢复

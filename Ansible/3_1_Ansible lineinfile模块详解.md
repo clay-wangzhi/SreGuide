@@ -2,6 +2,8 @@
 
 之所以专门说一说这个模块，是因为lineinfile在实际使用中非常有用。
 
+lineinfile模块用于在源文件中插入、删除、替换行，和sed命令的功能类似，也支持正则表达式匹配和替换。
+
 实际上，在大多数时候，我们在linux上的操作，就是针对文件的操作，通过配置管理工具对配置文件作统一的配置修改是一个非常酷的功能。
 
 下面是官方针对该模块的说明：
@@ -28,6 +30,8 @@ lineinfile - Ensure a particular line is in a file, or replace an existing line 
 ```
 
 ## 3 在匹配行前或后添加内容
+
+> insertbefore和insertafter指定的正则表达式如果匹配了多行，则默认选中最后一个匹配行，然后在被选中的行前、行后插入。如果明确要指定选中第一次匹配的行，则指定参数firstmatch=yes：
 
 示例文件如下：
 
@@ -87,7 +91,9 @@ Port
     mode: 0644
 ```
 
-## 5 删除一行内容
+## 5 删除行内容
+
+regexp结合state=absent时，表示删除所有匹配的行。
 
 示例原文件：
 
@@ -111,6 +117,8 @@ Port
 ## 6 文件存在则添加一行内容
 
 往/etc/hosts里添加一行`10.1.61.131 test.dz11.com`（多次执行，不会重复添加），示例如下：
+
+如果再次执行，则不会再次追加此行。因为lineinfile模块的state参数默认值为present，它能保证幂等性，当要插入的行已经存在时则不会再插入。
 
 ```yaml
 - name: add a line
@@ -207,4 +215,24 @@ bar
     - testsudo
 ```
 
-> 转载链接：https://www.cnblogs.com/breezey/p/9297252.html
+## 10 regexp和insertXXX结合
+
+lineinfile最后一个比较常用的功能是regepx结合insertbefore或结合insertafter。这时候的行将根据insertXXX的位置来插入，而regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行。
+
+例如：
+
+```
+- lineinfile:
+path: "a.txt"
+line: "hello line"
+regexp: '^hello'
+insertbefore: '^para.* 2'
+```
+
+这表示将"hello line"插入在paragraph 2行的前面，但如果再次执行，则不会再次插入，因为regexp参数指定的正则表达式已经能够已经存在的"hello line"行。所以，当regepx结合insertXXX使用时，regexp的参数通常都会设置为能够匹配插入之后的行的正则表达式，以便实现幂等性。
+
+> 参考链接：
+>
+> https://www.cnblogs.com/breezey/p/9297252.html
+>
+> https://blog.51cto.com/cloumn/blog/1544
