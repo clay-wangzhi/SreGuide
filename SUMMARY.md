@@ -2,6 +2,27 @@
 
 * [Introduction](README.md)
 
+## Ansible
+* [1 初识Ansible](Ansible/1 初识Ansible.md)
+* [2 Ansible Inventory配置详解](Ansible/2 Ansible Inventory配置详解.md)
+* [3 Ansible Ad-hoc命令集](Ansible/3 Ansible Ad-hoc命令集.md)
+    * [3.1 Ansible lineinfile模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
+* [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
+    * [4.1 Playbook的结构及handler用法](Ansible/4_1_ Playbook的结构及handler用法.md)
+    * [4.2 Playbook循环语句](Ansible/4_2_Playbook循环语句.md)
+    * [4.3 Playbook条件语句](Ansible/4_3_Playbook条件语句.md)
+    * [4.4 Playbook高级用法](Ansible/4_4_Playbook高级用法.md)
+    * [4.5 Playbook之tags](Ansible/4_5_Playbook之tags.md)
+    * [4.6 巧用Roles](Ansible/4_6_巧用Roles.md)
+    * [4.7 文件管理模块及Jinja2过滤器](Ansible/4_7_文件管理模块及Jinja2过滤器.md)
+* [5 Ansible变量](Ansible/5 Ansible变量.md)
+    * [5.1 自定义变量](Ansible/5_1_自定义变量.md)
+    * [5.2 Fact变量](Ansible/5_2_Fact变量.md)
+    * [5.3 魔法变量](Ansible/5_3_魔法变量.md)
+    * [5.4 使用lookup生成变量](Ansible/5_4_使用lookup生成变量.md)
+    * [5.5 使用vault配置加密](Ansible/5_5_使用vault配置加密.md)
+* [6 Ansible使用优化](Ansible/6 Ansible使用优化.md)
+
 ## Linux
 * [linux简介](Linux/linux简介.md)
 * 文件管理
@@ -189,27 +210,6 @@
 
 ## 14 Markdown
 * [14.1 让Markdown写作更简单Typora完全使用指南](14 markdown/14.1 让Markdown写作更简单Typora完全使用指南.md)
-
-## 15 Ansible
-* [1 初识Ansible](Ansible/1 初识Ansible.md)
-* [2 Ansible Inventory配置详解](Ansible/2 Ansible Inventory配置详解.md)
-* [3 Ansible Ad-hoc命令集](Ansible/3 Ansible Ad-hoc命令集.md)
-    * [3.1 Ansible lineinfile模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
-* [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
-    * [4.1 Playbook的结构及handler用法](Ansible/4_1_ Playbook的结构及handler用法.md)
-    * [4.2 Playbook循环语句](Ansible/4_2_Playbook循环语句.md)
-    * [4.3 Playbook条件语句](Ansible/4_3_Playbook条件语句.md)
-    * [4.4 Playbook高级用法](Ansible/4_4_Playbook高级用法.md)
-    * [4.5 Playbook之tags](Ansible/4_5_Playbook之tags.md)
-    * [4.6 巧用Roles](Ansible/4_6_巧用Roles.md)
-    * [4.7 文件管理模块及Jinja2过滤器](Ansible/4_7_文件管理模块及Jinja2过滤器.md)
-* [5 Ansible变量](Ansible/5 Ansible变量.md)
-    * [5.1 自定义变量](Ansible/5_1_自定义变量.md)
-    * [5.2 Fact变量](Ansible/5_2_Fact变量.md)
-    * [5.3 魔法变量](Ansible/5_3_魔法变量.md)
-    * [5.4 使用lookup生成变量](Ansible/5_4_使用lookup生成变量.md)
-    * [5.5 使用vault配置加密](Ansible/5_5_使用vault配置加密.md)
-* [6 Ansible使用优化](Ansible/6 Ansible使用优化.md)
 
 ## 16 Mysql
 * [16.1 MySQL基本操作](16 MySQL/16.1 MySQL基本操作.md)
