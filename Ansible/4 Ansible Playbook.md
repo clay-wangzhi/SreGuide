@@ -1,9 +1,24 @@
 ## 1 Ansible Playbook简介
 
+Ansible 靠ansible命令是撑不起自动化管理这把大伞的，Ansible真正强大的是playbook，它才是Ansible撬动自动化管理的结实杠杆。
+
 ansbile-playbook是一系列ansible命令的集合，利用yaml 语言编写。playbook命令根据自上而下的顺序依次执行。同时，playbook开创了很多特性,它可以允许你传输某个命令的状态到后面的指令,如你可以从一台机器的文件中抓取内容并附为变量,然后在另一台机器中使用,这使得你可以实现一些复杂的部署机制,这是ansible命令无法实现的。
 
 playbook通过ansible-playbook命令使用,它的参数和ansible命令类似,如参数-k(–ask-pass) 和 -K (–ask-sudo) 来询问ssh密码和sudo密码,-u指定用户,这些指令也可以通过规定的单元写在playbook 。
+
 ansible-playbook的简单使用方法: ansible-playbook example-play.yml 。
+
+### playbook、play和task的关系
+
+* playbook中可以定义一个或多个play
+* 每个play中可以定义一个或多个task
+* 每个play都需要通过hosts指令指定要执行改play的目标主机
+* 每个play都可以设置一些该play的环境控制行为，比如定义play级别的变量
+
+> 其中还可以定义两类特殊的task：pre_tasks和post_tasks
+>
+> * pre_tasks表示执行执行普通任务之前执行的任务列表
+> *  post_tasks表示普通任务执行完之后执行的任务列表
 
 ## 2 Playbook基本语法
 
@@ -146,6 +161,68 @@ ok: [10.1.61.187]
 PLAY RECAP ******************************************************************************************************************************************************************
 10.1.61.187                : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
+
+### 4.4 playbook模块参数的传递方式
+
+copy模块的参数传递方式如下
+
+```
+tasks:
+  - name: copy /etc/passwd to /tmp
+    copy: src=/etc/passwd dest=/tmp
+```
+
+这是标准的yaml语法，参数部分src=/etc/passwd dest=/tmp是一个字符串，当作copy对应的值。根据4_8 yaml介绍的yaml语法，还可以换行书写。有以下几种方式：
+
+```
+---
+- name: first play
+  hosts: nginx
+  gather_facts: false
+  tasks:
+  - copy:
+    src=/etc/passwd dest=/tmp
+
+  - copy:
+    src=/etc/passwd
+    dest=/tmp
+
+  - copy: >
+    src=/etc/passwd
+    dest=/tmp
+
+  - copy: |
+    src=/etc/passwd
+    dest=/tmp
+```
+
+除此之外，Ansible还提供了另外两种传递参数的方式：
+
+(1).将参数和参数值写成key: value的方式
+
+(2).使用args参数声明接下来的是参数
+
+通过示例便可对其用法一目了然：
+
+```
+---
+- name: first play
+  hosts: nginx
+  gather_facts: false
+  tasks:
+  - name: copy1
+    copy:
+      src: /etc/passwd
+      dest: /tmp
+
+  - name: copy2
+    copy:
+    args:
+      src: /etc/passwd
+      dest: /tmp
+```
+
+大多数时候，使用何种方式传递参数并无关紧要，只要个人觉得可读性高、方便、美观即可。
 
 ## 5 Multiple Plays
 
