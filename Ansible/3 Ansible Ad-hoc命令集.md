@@ -1,6 +1,6 @@
 ## 1 Ad-hoc简介
 
-Ad-Hoc 是指ansible下临时执行的一条命令，并且不需要保存的命令，对于复杂的命令会使用playbook。Ad-hoc的执行依赖于模块，ansible官方提供了大量的模块。 如：command、raw、shell、file、cron等，具体可以通过ansible-doc -l 进行查看 。可以使用ansible-doc -s module来查看某个模块的参数，也可以使用ansible-doc module来查看该模块更详细的信息。
+Ad-Hoc（点对点模式）是指ansible下临时执行的一条命令，并且不需要保存的命令，对于复杂的命令会使用playbook。Ad-hoc的执行依赖于模块，ansible官方提供了大量的模块。 如：command、raw、shell、file、cron等，具体可以通过ansible-doc -l 进行查看 。可以使用ansible-doc -s module来查看某个模块的参数，也可以使用ansible-doc module来查看该模块更详细的信息。
 
 ### 1.1 命令说明
 
@@ -65,10 +65,10 @@ ssh-copy-id -i .ssh/id_rsa.pub ansible@db1.example.com
 
 命令执行模块包含如下 四个模块：
 
-- command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ "<", ">", "|", "&" ；
-- shell 模块：用法基本和command一样，不过其是通过/bin/sh进行执行，所以shell 模块可以执行任何命令，就像在本机执行一样；
-- raw模块：用法和shell模块一样，也可以执行任意命令，就像在本机执行一样；
-- script模块：将管理端的shell 在被管理主机上执行，其原理是先将shell 复制到远程主机，再在远程主机上执行，原理类似于raw模块。
+- command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ "<", ">", "|", "&" 
+- shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号
+- raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，但目标主机上可能没有安装python，这时只能使用raw模块在远程主机上直接启动/bin/sh来执行命令，通常只有在目标主机上安装python时才使用raw模块，其它时候都不使用该模块
+- script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
 
 > raw模块和comand、shell 模块不同的是其没有chdir、creates、removes参数，chdir参数的作用就是先切到chdir指定的目录后，再执行后面的命令，这在后面很多模块里都会有该参数 。
 
@@ -407,3 +407,32 @@ get_url: url=http://example.com/path/file.conf dest=/etc/foo.conf sha256sum=b5bb
 - unarchive: src=/tmp/foo.zip dest=/usr/local/bin copy=no
 - unarchive: src=https://example.com/example.zip dest=/usr/local/bin copy=no
 ```
+
+### 2.15 debug
+
+用于输出调试一些数据，模块包含如下选项：
+
+* msg：可以输出字符串，可以输出变量的值，变量调用需加"{{}}"
+* var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称
+
+示例如下：
+
+```bash
+$ ansible localhost -e 'str=world' -m debug -a 'msg="hello {{str}}"'
+localhost | SUCCESS => {
+    "msg": "hello world"
+}
+
+$ ansible localhost -e 'str="hello world"' -m debug -a 'var=str'
+localhost | SUCCESS => {
+    "str": "hello world"
+}
+```
+
+> 参考链接：
+>
+> https://www.cnblogs.com/breezey/p/8810414.html
+>
+> https://www.cnblogs.com/breezey/p/8811187.html
+>
+> https://blog.51cto.com/cloumn/blog/1544

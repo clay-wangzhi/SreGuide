@@ -18,7 +18,7 @@
 3. 家目录下的ansible.cfg
 4. /etc/ansible/ansible.cfg
 
-#### Ansible inventory知识点
+#### Ansible inventory 知识点
 
 * inventory 主机清单，包含静态inventory和动态inventory
 * 要使用多个inventory的功能，需将inventory指定为文件目录（默认为/etc/ansible/hosts文件）
@@ -28,6 +28,26 @@
   * 树状形式展开主机列表`ansible-inventory all --graph`
   * 同时带上变量`ansible-inventory all --graph --vars`
 *  通过`--limit`或`-l`明确指定主机或组
+
+#### Ansible-hoc（点对点模式）知识点
+
+* `ansible-doc -l`查看有哪些模块，`ansible-doc -s moudle `查看某个模块的参数，`ansible-doc module`查看该模块更详细的信息
+
+* 命令格式`ansible 主机或组 -m 模块名 -a '模块参数'  ansible参数`
+
+* 4个命令执行模块的区别：
+
+  - command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ "<", ">", "|", "&" 
+  - shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号
+  - raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，raw模块在远程主机上直接启动/bin/sh来执行命令
+  - script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
+
+* debug模块
+
+  用于输出调试一些数据，模块包含如下选项：
+
+  * msg：可以输出字符串，可以输出变量的值，变量调用需加"{{}}"
+  * var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称
 
 * [ ] ansible 编写了哪些roles
 * [ ] ansible 常用的模块有哪些
