@@ -1,6 +1,6 @@
 ## 1 简介
 
-在使用Ansible来批量管理主机的时候，通常我们需要先定义要管理哪些主机或者主机组，而这个用于管理主机与主机组的文件就叫做Inventory，也叫主机清单。该文件默认位于/etc/ansible/hosts。当然我们也可以通过修改ansible配置文件的inventory配置项来修改默认inventory的位置。
+在使用Ansible来批量管理主机的时候，通常我们需要先定义要管理哪些主机或者主机组，而这个用于管理主机与主机组的文件就叫做Inventory，也叫主机清单。该文件默认位于`/etc/ansible/hosts`。当然我们也可以通过修改ansible配置文件的inventory配置项来修改默认inventory的位置。
 
 Ansible Inventory 是包含`静态 Inventory` 和`动态 Inventory` 两部分的，静态 Inventory 指的是在文件中指定的主机和组，动态 Inventory 指通过外部脚本获取主机列表，并按照 ansible 所要求的格式返回给 ansilbe 命令的。
 
