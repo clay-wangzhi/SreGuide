@@ -1,21 +1,25 @@
-### 核心知识点概览
+## 核心知识点概览
 
-* [ ] Ansible
-  * [x] Ansible 有哪些特性
-    * Agentless，无客户端
-    * Serverless，在服务端无需启动任何服务，只需执行命令即可
-    * 默认使用ssh控制各节点
-    * 基于模块工作，可以使用任何语言编写模块
-    * 使用yaml语言定制playbook
-    * 幂等性，多次操作或多次执行不影响结果
-  * [x] ansible 配置文件解析优先级，由高到低依次为
-    1. ANSIBLE_CONFIG 环境变量指定的配置文件
-    2. 当前目录下的的ansible.cfg
-    3. 家目录下的ansible.cfg
-    4. /etc/ansible/ansible.cfg
-  * [ ] 
-  * [ ] ansible 编写了哪些roles
-  * [ ] ansible 常用的模块有哪些
+### Ansible
+
+#### Ansible 有哪些特性
+
+* Agentless，无客户端
+* Serverless，在服务端无需启动任何服务，只需执行命令即可
+* 默认使用ssh控制各节点
+* 基于模块工作，可以使用任何语言编写模块
+* 使用yaml语言定制playbook
+* 幂等性，多次操作或多次执行不影响结果
+
+#### ansible 配置文件解析优先级，由高到低依次为
+
+1. ANSIBLE_CONFIG 环境变量指定的配置文件
+2. 当前目录下的的ansible.cfg
+3. 家目录下的ansible.cfg
+4. /etc/ansible/ansible.cfg
+
+* [ ] ansible 编写了哪些roles
+* [ ] ansible 常用的模块有哪些
 
 * [ ] elk
   * [ ] elk ansbile 部署
