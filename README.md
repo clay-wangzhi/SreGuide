@@ -69,7 +69,7 @@
   * [ ] kubernetes中的CI/CD，日志集成
   * [ ] 权限管理
 
-### wiki 目录
+## wiki 目录
 
 * [x] 1 Linux
   * [x] 1.1 Linux简介
