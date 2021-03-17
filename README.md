@@ -311,7 +311,7 @@
   (3).标量(scalars)：单个值
 
 * ansible 的使用场景
-  * [安装`zabbix-server、zabbix-proxy、zabbix-agent`](10-zabbix/10.2-zabbix-jie-zhu-ansible-an-zhuang)
+  * [安装zabbix架构](https://wiki.clay-wangzhi.com/10-zabbix/10.1-zabbix4.4-xin-gong-neng)
   * 
 
 * [ ] elk
