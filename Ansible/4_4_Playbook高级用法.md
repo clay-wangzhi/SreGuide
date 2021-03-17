@@ -1,5 +1,11 @@
 ## 1 本地执行
 
+默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。
+
+smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。
+
+可以在命令行选项中使用-c或--connection选项来指定连接方式：
+
 如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。
 
 假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：
@@ -11,6 +17,12 @@
       host: "{{ inventory_hostname }}" 
       search_regex: OpenSSH
   connection: local
+```
+
+此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：
+
+```
+192.168.100.101 ansible_connection="smart"
 ```
 
 ## 2 任务委托
@@ -36,7 +48,9 @@
       delegate_to: nagios.example.com
 ```
 
-> 如果delegate_to: 127.0.0.1的时候，等价于local_action
+> 如果delegate_to: 127.0.0.1的时候，等价于connection: local
+>
+> 显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。
 
 ## 3 任务暂停
 

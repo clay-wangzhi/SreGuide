@@ -535,6 +535,71 @@ changed_when: "bass_result.rc != 2"    #只有该条task执行以后，bass_resu
   changed_when: False    #当changed_when为false时，该条task在执行以后，永远不会返回changed状态
 ```
 
+### 5.4 断言：assert模块
+
+对于当满足某某条件时就失败的逻辑，可以使用fail模块加when指令来实现，也可使用更为直接的assert模块进行断言。
+
+例如：
+
+```
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - assert:
+        that:
+          - 100 > 20
+          - 200 > 200
+      fail_msg: "oh, not me"
+      success_msg: "oh, it's me"
+```
+
+其中that参数接收一个列表，用于定义一个或多个条件，如果条件全为true，则任务成功，只要有一个条件为false，则任务失败。fail_msg(或其别名参数msg)定义任务失败时的信息，success_msg定义任务成功时的信息。
+
+### 5.5 any_errors_fatal
+
+如果想让某个失败的任务直接导致整个play的失败，可在play级别使用any_errors_fatal指令。
+
+```
+---
+- hosts: nginx
+  gather_facts: no
+  any_errors_fatal: true
+  tasks:
+    - fail:
+        msg: "oh, not me"
+      when: inventory_hostname == groups['nginx'][0]
+    - debug:
+        msg: "hello"
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "HELLO WORLD"
+```
+
+将any_errors_fatal设置为true后，nginx组第一个节点只要一开始执行fail任务，整个playbook中所有后续任务都将不再执行，就连其它play也一样不执行。
+
+注意观察playbook的执行结果，它将提示"NO MORE HOSTS LEFT"：
+
+```
+........
+TASK [fail] *********************
+fatal: [192.168.200.42]: FAILED! => {"changed": false, "msg": "oh, not me"}
+skipping: [192.168.200.43]
+skipping: [192.168.200.44]
+
+NO MORE HOSTS LEFT **************
+
+PLAY RECAP *************
+.........
+```
+
+### 5.6 max_fail_percentage
+
+略
+
 ## 6 在循环语句中使用条件语句
 
 ```

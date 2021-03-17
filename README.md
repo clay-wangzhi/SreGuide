@@ -24,10 +24,13 @@
 * 要使用多个inventory的功能，需将inventory指定为文件目录（默认为/etc/ansible/hosts文件）
 * inventory指定目录时，目录下文件最好不要带有后缀名
 * Ansible 默认预定义了两个主机组：`all`分组（所有主机）和`ungrouped`分组（不在分组内的主机）
+* inventory可以配置单独的变量文件（host_vars和group_vars）
+* hosts指令，匹配主机，匹配多个用''单引号括起来，用逗号分隔，通配符（*，&, !）,正则匹配，以'~'开头
 * ansible-inventory命令
   * 树状形式展开主机列表`ansible-inventory all --graph`
   * 同时带上变量`ansible-inventory all --graph --vars`
-*  通过`--limit`或`-l`明确指定主机或组
+* 通过`--limit`或`-l`明确指定主机或组
+* 临时添加节点`add_host`，临时设置主机组`group_by`
 
 #### Ansible-hoc（点对点模式）知识点
 
@@ -41,6 +44,18 @@
   - shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号
   - raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，raw模块在远程主机上直接启动/bin/sh来执行命令
   - script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
+
+* 常用模块
+
+  * command
+  * script
+  * ping
+  * file
+  * copy
+  * service
+  * cron
+  * debug
+  * template
 
 * debug 模块
 
@@ -58,6 +73,7 @@
   * regexp 正则匹配
   * insertbefore，insertafter 匹配的行前后插入
   * state 状态
+  * validate 校验文件格式是否正确
   * regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行
 
 #### Ansible playbook 知识点
@@ -84,7 +100,94 @@
   * 校验playbook语法 `ansible-playbook --syntax-check xxx.yml`
   * 测试运行playbook `ansible-playbook -C xxx.yml  `
 
+* 循环语句
+
+  * loop关键字，等价于`with_list`循环列表
+
+* 条件语句
+
+  * when关键字，block关键字，rescue关键字，always关键字
+  * fail模块，filed_when，ignore_errors，change_when，assert断言模块
+  * any_errors_fatal，max_fail_percentage
+
+* 高级用法
+
+  * 本地执行 `connection: local`
+  * 任务委托 `delegate_to`
+  * 任务暂停 `wait_for`
+  * 滚动执行 `serial`
+  * 执行一次 `run_once`
+  * 设置环境变量 `environment`
+  * 交互式提示 `vars_prompt`
+
+* tag
+
+  * 打tag `tags:`
+  * 指定tag执行 `--tags "xxx,xxx"`
+  * 排除指定的tag执行 `--skip-tags "xxx,xxx"`
+  * 查看所有tag `--list-tags`
+
+* roles目录结构
+
+  ```
+  $ ansible-galaxy init first_role
+  $ tree first_role/
+  first_role/            \\ 角色名称
+  ├── defaults           \\ 为当前角色设定默认变量时使用此目录，应当包含一个main.yml文件；
+  │   └── main.yml        
+  ├── files              \\ 存放有copy或script等模块调用的文件
+  ├── handlers           \\ 此目录应当包含一个main.yml文件，用于定义各角色用到的各handler
+  │   └── main.yml
+  ├── meta               \\ 应当包含一个main.yml，用于定义角色的特殊设定及其依赖关系；1.3及以后版本支持
+  │   └── main.yml
+  ├── README.md
+  ├── tasks              \\ 至少包含一个名为main.yml的文件，定义了此角色的任务列表
+  │   └── main.yml
+  ├── templates          \\ template模块会自动在此目录中寻找Jinja2模板文件
+  ├── tests
+  │   ├── inventory
+  │   └── test.yml
+  └── vars              \\ 应当包含一个main.yml，用于定义此角色用到的变量
+      └── main.yml
+  ```
+
+* playbook 调用格式 `ansible-playbook -i /etc/ansible/xxx.yml  /etc/ansbile/playbooks/xx.yml  --limit "xxx" -e "key=xxx"`
+
+* roles 的任务执行顺序
+
+  1. 首先执行meta下的main.yml文件内容     可以设置该role和其它role之前的关联关系。 dependencies
+  2. gather_facts任务
+  3. pre_tasks指令中的任务
+  4. pre_tasks中触发的所有handler
+  5. roles指令加载的Role,执行tasks下的main.yml文件内容
+  6. tasks指令中的任务
+  7.  roles和tasks中触发的所有handler, 使用了notify后，会调用 handlers 目录下的main.yml文件
+  8. post_tasks指令中的任务
+  9. post_tasks中触发的所有handler
+
+* playbook 静态加载和动态加载
+
+  * roles、include、import_xxx同属一类，它们都是静态加载，都在playbook解析阶段加载文件
+  * include_xxx属于另一类，是动态加载，遇到指令的时候临时去加载文件
+  * 要对包含的任务列表进行循环操作，则只能使用`include_tasks`关键字，不能使用`import_tasks`关键字，`import_tasks`并不支持循环操作
+  * 使用include_tasks时，这个指令自身占用一个任务，使用import_tasks的时候，这个指令自身没有任务，它所在的任务会在解析playbook的时候被其加载的子任务覆盖
+  * 无法使用--list-tags列出include_xxx中的tags，无法使用--list-tasks列出include_xxx中的任务，因为它们都是临时动态加载的
+
+* jinja2
+
+#### Ansible 变量 知识点
+
 * 
+
+#### Ansible 使用优化
+
+* 
+
+#### Ansible 常见问题
+
+* 
+
+#### YAML 文件知识点
 
 * YAML的基本语法规则如下：
 
@@ -110,18 +213,15 @@
 
   (3).标量(scalars)：单个值
 
-* 
-
 * [ ] ansible 编写了哪些roles
 
-* [ ] ansible 常用的模块有哪些
-
 * [ ] elk
+
   * [ ] elk ansbile 部署
   * [ ] elk docker 部署
   * [ ] filebeat 用到了哪些模板
   * [ ] logstash 用到了哪些模板
-  
+
 * [ ] jenkins
   * [ ] jenkins ansible 部署
   * [ ] jenkins 工具集成，用到了哪些工具

@@ -4,9 +4,35 @@
 
 但在有些时候，我们希望从诸如文本文件或者.csv文件中收集数据作为ansible的变量，或者直接获取某些命令的输出作为ansible的变量，甚至从redis或者etcd这样的键值存储中取得相应的值作为ansible的变量。这个时候，我们就需要通过ansible的lookup插件来从这些数据源中读取配置数据，传递给ansbile变量，并在playbook或者模板中使用这些数据。
 
-ansible支持一套从不同数据源获取数据的lookup，包括file, password, pipe, env, template, csvfile, dnstxt, redis_kv, etcd等
+lookup()是Ansible的一个插件，可用于从外部读取数据，这里的"外部"含义非常广泛，比如：
 
-# 1. file
+(1).从磁盘文件读取(file插件)
+
+(2).从redis中读取(redis插件)
+
+(3).从etcd中读取(etcd插件)
+
+(4).从命令执行结果读取(pipe插件)
+
+(5).从Ansible变量中读取(vars插件)
+
+(6).从Ansible列表中读取(list插件)
+
+(7).从Ansible字典中读取(dict插件)
+
+(8)....
+
+具体可以从哪些"外部"读取以及如何读取，取决于Ansible是否提供了相关的读取插件。官方手册：https://docs.ansible.com/ansible/latest/plugins/lookup.html#plugin-list 中列出了所有支持的插件
+
+**lookup()语法**
+
+```
+lookup('<plugin_name>', 'plugin_argument')
+```
+
+
+
+# 1. file/fileglob
 
 使用file lookup可以从文本文件中获取数据，并在这些数据传递给ansible变量，在task或者jinja2模板中进行引用。下面是一个从文本文件中获取ssh公钥并复制到远程主机的示例：
 
@@ -25,6 +51,33 @@ authorized_keys.j2模板文件示例如下：
 ```yaml
 {{ lookup('file', '/users/breeze/.ssh/id_rsa.pub')}}
 ```
+
+和file类似，支持通配符的fileglob插件，它使用通配符来通配Ansible本地端的文件名
+
+```
+---
+- name: play1
+  hosts: new
+  gather_facts: false
+  tasks:
+    - name: task1
+  debug:
+    msg: "filenames: {{lookup('fileglob','/etc/*.conf')}}"
+```
+
+需注意的是，fileglob查询的是Ansible端文件，且只能通配文件而不能通配目录，且不会递归通配。如果想要查询目标主机上的文件，可以使用find模块。
+
+> 如果lookup()查询出来的结果包含多项，则默认以逗号分隔各项的字符串方式返回，如果想要以列表方式返回，则传递一个lookup的参数wantlist=True。例如，fileglob通配出来的文件如果有多个，加上wantlist=True：
+
+在Ansible 2.5中添加了一个新的功能query()或q()，后者是前者的等价缩写形式。query()在写法和功能上和lookup一致，其实它会自动调用lookup插件，并且总是以列表方式返回，而不需要手动加上wantlist=True参数。例如：
+
+```
+- name: task1
+  debug:
+  msg: "{{q('fileglob','/etc/*.conf')}}"
+```
+
+
 
 # 2. pipe
 
@@ -156,3 +209,11 @@ dnstxt lookup用于获取指定域名的TXT记录。需要在主控端安装pyth
 ```
 
 如果某一个主机有多个相关联的TXT记录，那么模块会把他们连在一起，并且每次调用时的连接顺序可能不同
+
+
+
+> 参考链接：
+>
+> https://www.cnblogs.com/breezey/p/9275799.html
+>
+> https://blog.51cto.com/cloumn/blog/1544

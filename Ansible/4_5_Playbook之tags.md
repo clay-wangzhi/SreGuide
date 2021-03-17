@@ -50,7 +50,7 @@
 有了tags之后，我们就可以只运行playbook中指定标签的task了：
 
 ```
-# ansible-playbook --tags="start_httpd" install_web.yml 
+# ansible-playbook  install_web.yml --tags "start_httpd"
 
 PLAY [configure webservers] *************************************************************************************************************************************************
 
@@ -67,7 +67,7 @@ PLAY RECAP *********************************************************************
 也可以一次指定多个tag执行：
 
 ```
-# ansible-playbook --tags="conf_httpd,start_httpd" install_web.yml     
+# ansible-playbook install_web.yml     --tags "conf_httpd,start_httpd"
 
 PLAY [configure webservers] *************************************************************************************************************************************************
 
@@ -158,6 +158,18 @@ tags: install_httpd,install_web
   tasks:
     ...
 ```
+
+在静态加载文件的指令上打标签，等价于为所加载文件中所有子任务打标签。
+
+在动态加载文件的指令上打标签，不会为子任务打标签，而是为父任务自身打标签。
+
+现在说结论：
+
+(1).静态加载的指令有：roles、include、import_tasks、import_role
+
+(2).动态加载的指令只有include_xxx，包括include_tasks、include_role
+
+import_playbook和include_playbook因为本身就是play级别或高于play级别，所以不能为这两个指令打标签。
 
 ## 5 ansible内置tag
 
