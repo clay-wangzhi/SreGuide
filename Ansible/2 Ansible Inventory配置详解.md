@@ -1,8 +1,17 @@
-## 1 简介
-
-在使用Ansible来批量管理主机的时候，通常我们需要先定义要管理哪些主机或者主机组，而这个用于管理主机与主机组的文件就叫做Inventory，也叫主机清单。该文件默认位于`/etc/ansible/hosts`。当然我们也可以通过修改ansible配置文件的inventory配置项来修改默认inventory的位置。
+在使用Ansible来批量管理主机的时候，通常我们需要先定义要管理哪些主机或者主机组，而这个用于管理主机与主机组的文件就叫做Inventory，也叫主机清单。
 
 Ansible Inventory 是包含`静态 Inventory` 和`动态 Inventory` 两部分的，静态 Inventory 指的是在文件中指定的主机和组，动态 Inventory 指通过外部脚本获取主机列表，并按照 ansible 所要求的格式返回给 ansilbe 命令的。
+
+## 1 inventory文件路径
+
+默认的inventory文件是`/etc/ansible/hosts`，可以通过Ansible配置文件的inventory配置指令去修改路径。
+
+```
+$ grep '/etc/ansible/hosts' /etc/ansible/ansible.cfg
+#inventory = /etc/ansible/hosts
+```
+
+但通常我们不会去修改这个配置项，如果在其它地方定义了inventory文件，可以直接在ansible的命令行中使用-i选项去指定我们自定义的inventory文件。
 
 **多个inventory文件**
 
@@ -27,7 +36,7 @@ inventory_ ignore_ extensions = ~, .orig, .bak, .cfg, .retry, .pyC, .pyo
 
 ### 2.1 定义主机和组
 
-> 定义主机清单，有多种格式，常用的有`ini`格式和`YAML`格式，我倾向于使用`YAML`格式，下面的举例中，两种格式都会提到。
+> 定义主机清单，有多种格式，常用的有`ini`格式和`YAML`（Ansible 2.4开始支持）格式，我倾向于使用`YAML`格式，下面的举例中，两种格式都会提到。
 >
 > **Ansible 默认预定义了两个主机组：`all`分组（所有主机）和`ungrouped`分组（不在分组内的主机），两个组都不包括localhost这个特殊的节点**
 
@@ -171,8 +180,6 @@ atlanta:
     maxRequestsPerChild: 909
 ```
 
-
-
 #### 2.1.5 添加组变量
 
 In INI:
@@ -256,7 +263,7 @@ all:
         southwest:
 ```
 
-#### 2.1.6 组织主机和组变量(配置单独变量文件)
+#### 2.1.6 组织主机和组变量(配置单独变量文件host_vars和group_vars)
 
 尽管可以将变量存储在主清单文件中，但是存储单独的主机变量和组变量文件可以帮助您更轻松地组织变量值。 主机和组变量文件必须使用YAML语法。 有效的文件扩展名包括“ .yml”，“。yaml”，“。json”或没有文件扩展名。 
 
@@ -276,7 +283,13 @@ ntp_server: acme.example.org
 database_server: storage.example.org
 ```
 
-### 2.2 选择主机与组
+再来总结一下group_vars/, host_vars/的存放位置：
+
+(1).inventory文件的同目录
+
+(2).playbook文件的同目录
+
+### 2.2 选择主机与组(hosts指令)
 
 在前面定义Inventory的时候，我们会把所有被管理主机通过主机组的方式定义到Inventory当中，但是当我们实际使用的时候，可能只需要对某一主机或主机组进行操作，这个时候就需要通过匹配的方式指定某一特定主机或主机组。
 
@@ -557,6 +570,18 @@ new
 
 #### 2.2.7 通过`--limit`或`-l`明确指定主机或组
 
+默认情况下，所有被ansible或ansible-playbook选中的主机都会执行任务，但是可以使用命令行的--limit pattern选项来筛选哪些主机执行任务哪些主机不执行任务。
+
+这里需注意一点：即使使用了--limit选项，ansible或ansible-playbook命令也总是会解析Inventory中的所有主机，只不过这两个命令可以从解析的inventory结果中选择部分要执行任务的节点(比如通过hosts指令)。
+
+所以，总结下这里涉及到的解析和筛选节点的过程：
+
+```
+解析inventory --> play的hosts指令 --> limit选项
+```
+
+
+
 1. 通过`--limit`在选定的组中明确指定主机：
 
 ```
@@ -775,6 +800,84 @@ $ ansible -i dynamic_investory.py 127.0.0.1 --list-hosts
   hosts (1):
     127.0.0.1
 ```
+
+## 4 临时添加节点：add_host模块
+
+除了静态和动态inventory可以指定远程被控节点的信息，还有个比较特殊的模块add_host，它可以在任务执行时临时添加主机节点。
+
+add_host用法非常简单，只有两个参数：name和groups，分别定义主机名和所在主机组，其中groups参数可以是一个列表，表示主机可以添加到多个组中。如果还有其它参数，则均被当作变量赋值。
+
+```
+- name: add new host to nginx and apache
+  add_host:
+    name: 192.168.200.34
+    groups:
+      - nginx
+      - apache
+    ansible_port: 22
+    my_var: "hello world"
+```
+
+add_host模块是一个比较特殊的模块，它在playbook运行时添加主机，有以下几个注意事项：
+
+(1).新添加的主机在当前play中无效，只在之后的play中有效
+
+(2).它添加的主机只存在于内存中，Ansible退出之后就消失
+
+## 5 group_by运行时临时设置主机组
+
+group_by和add_host功能是类似的，group_by用于临时设置主机组。
+
+group_by有两个参数：
+
+(1).key：新设置的分组名
+
+(2).parents：(可选参数)新增分组的父组
+
+例如，当前的inventory如下：
+
+```
+[nginx]
+192.168.200.42
+
+[php]
+192.168.200.43
+
+[mysql]
+192.168.200.44
+
+[dev:children]
+nginx
+php
+mysql
+```
+
+其中并没有"CentOS 7"和"CentOS 6"这两个主机组。现在想要在playbook运行的时候去设置这两个主机组。
+
+```
+---
+- name: set a new group
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: set new group
+      group_by:
+        key: "{{ansible_distribution}}_{{ansible_distribution_major_version}}"
+        parents: "CentOS"
+
+- name: use new group
+  hosts: CentOS
+  gather_facts: false
+  tasks:
+    - name: ping CentOS
+      ping:
+```
+
+上面示例中gather_facts设置为true，因为group_by任务中使用了两个需要它收集来的变量：ansible_distribution和ansible_distribution_major_version。
+
+ansible_distribution变量保存的是系统的发型名称，比如CentOS、RedHat等。ansible_distribution_major_version变量保存的是系统的主版本号，比如CentOS 7.2时返回主版本号7。关于gather_facts，会在稍后的进阶内容中详细介绍。
+
+所以key参数渲染后的值(也即新增组的组名)应当类似于CentOS_6、CentOS_7，而且它们都是CentOS的子组。
 
 > 参考链接：
 >

@@ -147,6 +147,10 @@ stat模块与linux中的stat命令一样，用来显示文件的状态信息。
 
 Jinja2是基于python的模板引擎。那么什么是模板？
 
+所谓模板，是可以在纯文本字符串中嵌入一些特殊语法格式的表达式，然后使用模板引擎去解析整个模板，将其中嵌入的特殊语法部分解析替换成对应的结果字符串。其中，解析并替换模板表达式的过程称为渲染。
+
+为了让模板引擎只替换模板表达式而不操作普通字符串，所以模板引擎需要能够区分模板表达式和普通字符串，所以模板表达式通常会使用特殊符号包围起来。
+
 假设说现在我们需要一次性在10台主机上安装redis，这个通过playbook现在已经很容易实现。默认情况下，所有的redis安装完成之后，我们可以统一为其分发配置文件。这个时候就面临一个问题，这些redis需要监听的地址各不相同，我们也不可能为每一个redis单独写一个配置文件。因为这些配置文件中，绝大部分的配置其实都是相同的。这个时候最好的方式其实就是用一个通用的配置文件来解决所有的问题。将所有需要修改的地方使用变量替换，如下示例中redis.conf.j2文件：
 
 ```sh
@@ -179,7 +183,23 @@ appendfsync everysec
 
 那么此时，redis.conf.j2文件就是一个模板文件。`{{ ansible_eth0.ipv4.address }}`是一个fact变量，用于获取被控端ip地址以实现替换。
 
+模板更多用在web编程中来生成HTML页面，但绝不限于web编程，它可以用在很多方面，比如Ansible就使用Jinja2模板引擎来解析YAML中的字符串，也用在template模块渲染模板文件。
+
+Jinja2的内容较多，但对于学习Ansible来说，只需要学习其中和template相关的一部分(其它的都和开发有关或Ansible中用不上)以及Ansible对Jinja2的扩展功能即可。
+
+(1).Jinja2的官方手册：https://jinja.palletsprojects.com/en/2.10.x/templates/
+
+(2).Ansible Jinja2的官方手册：https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html
+
 ## 在playbook中使用jinja2
+
+Jinja2模板引擎提供了三种特殊符号来包围模板表达式：
+
+(1).{{xxx}}：双大括号包围变量或表达式(Ansible中的变量就是它包围的)
+
+(2).{#xxx#}：Jinja2的注释符号
+
+(3).{%xxx%}：Jinja2的一些特殊关键字标签，比如if语句、for循环语句等等
 
 现在我们有了一个模板文件，那么在playbook中如何来使用呢？
 
@@ -358,6 +378,27 @@ stop-writes-on-bgsave-error no
 10.1.61.187 requirepass=123456
 ```
 
+**行内if表达式**
+
+如果if语句的分支比较简单(没有elif逻辑)，那么可以使用行内if表达式。
+
+其语法格式为：
+
+```
+string_or_expr1 if CONDITION else string_or_expr2
+```
+
+因为行内if是表达式而不是语句块，所以不使用{%%}符号，而使用{{}}。
+
+例如：
+
+```
+- debug:
+    msg: "{{'周末' if whatday|int > 5 else '工作日'}}"
+```
+
+
+
 ## Jinja2循环语句
 
 定义一个inventory示例如下：
@@ -520,6 +561,40 @@ masters { 192.168.2.2; };
 };
 ```
 
+for循环的语法：
+
+```
+{% for i in LIST %}
+	string_or_expression
+{% endfor %}
+```
+
+还支持直接条件判断筛选要参与迭代的元素：
+
+```
+{% for i in LIST if CONDITION %}
+	string_or_expression
+{% endfor %}
+```
+
+此外，Jinja2的for语句还允许使用else分支，如果for所迭代的列表LIST是空列表(或没有元素可迭代)，则会执行else分支。
+
+```
+{% for i in LIST %}
+	string_or_expression
+{% else %}
+	string_or_expression
+{% endfor %}
+```
+
+ **for的特殊控制变量**
+
+在for循环内部，可以使用一些特殊变量，如下：
+
+![image-20210317110234919](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210317110234919.png)
+
+详解：略
+
 ## Jinja2过滤器
 
 ### 1. default过滤器
@@ -654,97 +729,3 @@ hosts = ["www.example.com","example.com"]
 ```
 
 > 关于jinja2更多用法参考：http://docs.jinkan.org/docs/jinja2/
-
-### 5. gg
-
-```
-41、有几种分隔符。默认的Jinja分隔符配置如下：
-{% ... %}   对于声明 可以直接将 for等语句放到里面执行
-{{ ... }}   对于表达式打印到模板输出
-{# ... #}   for Comments不包含在模板输出中
-#  ... ##   对于行语句
-
-42、过滤器
-变量可以通过过滤器修改。过滤器通过管道符号（|）与变量分隔，并且在括号中可以包含可选参数。可以链接多个过滤器。一个过滤器的输出应用于下一个过滤器。
-abs              绝对值
-capitalize       首字母大写
-center           将值集中在给定宽度的字段中
-default          设置默认值
-first            返回序列中第一项
-float            转化成浮点型的数据
-join     {{ [1, 2, 3]|join('|') }}  -> 1|2|3   {{ [1, 2, 3]|join }} -> 123
-last             返回序列中最后一项
-length  == count 返回长度
-max              {{ [1, 2, 3]|max }}
-min              {{ [1, 2, 3]|min }}
-pprint           优雅打印
-replace(s, old, new, count=None)   {{ "Hello World"|replace("Hello", "Goodbye") }}
-reverse          反向打印
-round            round（value，precision = 0，method ='common' ）
-                将数字四舍五入到给定的精度。
-                第一个参数指定精度（默认为0），第二个参数指定舍入方法：
-                    'common' 向上或向下舍入
-                    'ceil' 总是围捕
-                    'floor' 总是四舍五入
-safe（值）      将值标记为安全，这意味着在启用了自动转义的环境中，此变量不会被转义。
-sort           对可迭代进行排序。
-                默认情况下，它会按升序排序，如果您将其作为第一个参数传递，它将反转排序。
-string         如果尚未创建字符串unicode。这样，标记字符串不会转换回unicode。
-striptags（值） 剥离SGML / XML标记并将相邻的空格替换为一个空格。
-sum            返回数字序列的总和加上参数'start'的值（默认为0）。当序列为空时，它返回start。
-title          返回值的标题版本。即单词将以大写字母开头，所有剩余字符均为小写。
-trim              #将字符串开头和结尾的空格去除
-truncate          返回字符串的截断副本。
-unique            去重
-upper             #将字符串转换成纯大写
-wordcount         计算该字符串中的单词。
-
----
-- hosts: justtest
-  remote_user: root
-  vars:
-    testvar: "abc123ABC 666"
-    testvar1: "  abc  "
-    testvar2: '123456789'
-    testvar3: "1a2b,@#$%^&"
-  tasks:
-  - debug:
-      #将字符串转换成纯大写
-      msg: "{{ testvar | upper }}"
-  - debug:
-      #将字符串转换成纯小写
-      msg: "{{ testvar | lower }}"
-  - debug:
-      #将字符串变成首字母大写,之后所有字母纯小写
-      msg: "{{ testvar | capitalize }}"
-  - debug:
-      #将字符串反转
-      msg: "{{ testvar | reverse }}"
-  - debug:
-      #返回字符串的第一个字符
-      msg: "{{ testvar | first }}"
-  - debug:
-      #返回字符串的最后一个字符
-      msg: "{{ testvar | last }}"
-  - debug:
-      #将字符串开头和结尾的空格去除
-      msg: "{{ testvar1 | trim }}"
-  - debug:
-      #将字符串放在中间，并且设置字符串的长度为30，字符串两边用空格补齐30位长
-      msg: "{{ testvar1 | center(width=30) }}"
-  - debug:
-      #返回字符串长度,length与count等效,可以写为count
-      msg: "{{ testvar2 | length }}"
-  - debug:
-      #将字符串转换成列表，每个字符作为一个元素
-      msg: "{{ testvar3 | list }}"
-  - debug:
-      #将字符串转换成列表，每个字符作为一个元素，并且随机打乱顺序
-      #shuffle的字面意思为洗牌
-      msg: "{{ testvar3 | shuffle }}"
-  - debug:
-      #将字符串转换成列表，每个字符作为一个元素，并且随机打乱顺序
-      #在随机打乱顺序时，将ansible_date_time.epoch的值设置为随机种子
-      #也可以使用其他值作为随机种子，ansible_date_time.epoch是facts信息
-      msg: "{{ testvar3 | shuffle(seed=(ansible_date_time.epoch)) }}"
-```

@@ -253,3 +253,9 @@ tasks:
         name: mariadb
         state: started
 ```
+
+> 参考链接：
+>
+> https://www.cnblogs.com/breezey/p/8811250.html
+>
+> https://blog.51cto.com/cloumn/blog/1544

@@ -2,6 +2,8 @@
 
 我们在编写playbook的时候，不可避免的要执行一些重复性操作，比如指安装软件包，批量创建用户，操作某个目录下的所有文件等。正如我们所说，ansible一门简单的自动化语言，所以流程控制、循环语句这些编程语言的基本元素它同样都具备。
 
+loop循环，它是在Ansible 2.5版本中新添加的循环结构，等价于with_list。大多数时候，with_xxx的循环都可以通过一定的手段转换成loop循环，所以从Ansible 2.5版本之后，原来经常使用的with_items循环都可以尝试转换成loop。
+
 下面我们简单的说一说Playbook中循环语句。
 
 ## 2 loop关键字说明
@@ -61,6 +63,10 @@ test_services:
       - { name: 'testuser1', groups: 'wheel' }
       - { name: 'testuser2', groups: 'www' }
 ```
+
+## 3 循环的控制：loop_control
+
+后续补充
 
 ## 3 在循环语句中注册变量
 
@@ -512,3 +518,9 @@ ok: [192.168.1.65] => (item=['d', 4]) => {
     "msg": "d and 4"
 }
 ```
+
+> 参考链接：
+>
+> https://www.cnblogs.com/breezey/p/10996629.html
+>
+> https://blog.51cto.com/cloumn/blog/1544
