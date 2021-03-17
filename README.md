@@ -64,6 +64,8 @@
   * msg：可以输出字符串，可以输出变量的值，变量调用需加"{{}}"
   * var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称
 
+  > 注意格式，=号左右没有空格
+
 * lineinfile 模块
 
   lineinfile模块用于在源文件中插入、删除、替换行，和sed命令的功能类似，也支持正则表达式匹配和替换。
@@ -177,15 +179,110 @@
 
 #### Ansible 变量 知识点
 
-* 
+* 变量作用域
+
+  * 全局作用域：Ansible配置文件、环境变量、命令行选项-e,--extra-vars设置的变量都是全局变量
+  * Play作用域：整个Play中都有效的变量，vars_files、vars_prompt、play级别的vars以及Role的变量，它们都是play级别的变量
+  * 主机变量：绑定在各主机上的变量，各种方式定义的inventory变量、Facts信息变量(这个就划分在这吧)、set_fact、register、include_vars都是主机变量
+  * 任务变量：只在当前任务中生效的变量，task级别的vars定义的变量属于任务变量
+  * block变量：只在当前block内生效，block级别的vars定义的变量属于block变量
+  * 预定义特殊变：这些变量由Ansible自身内部维护，有些是全局变量，有些是play变量，有些是主机变量，所以不方便对它们分类
+
+* 主机变量
+
+  * 内置主机变量`ansible_host`、`ansible_port`、`ansible_user	`、`ansible_password`、`ansible_connection`等
+
+  * 自定义主机变量，在主机清单中
+
+    * in INI `hosts1 http_port=80`，
+
+    * in YAML 
+
+      ```
+      host1:
+        http_port: 80
+      ```
+
+  * 自定义组变量，在主机清单中
+
+    * in INI 
+
+      ```
+      [atlanta]
+      host1
+      host2
+      
+      [atlanta:vars]
+      ntp_server=ntp.aliyun.com
+      ```
+
+    * in YAML
+
+      ```
+      atlanta:
+        hosts:
+          host1:
+          host2:
+        vars:
+          ntp_server: ntp.aliyun.com
+      ```
+
+  * 通过`host_vars`和`group_vars`目录定义变量，需要说明的是，如果主机组定义的变量与主机冲突，主机变量优先级最高
+
+* play 变量
+
+  * 通过vars关键字定义
+  * 通过vars_files关键字引入变量文件
+
+* 注册变量 `register`
+
+* Facts 变量
+* 内置变量/魔法变量
+  * hostvars 所有和主机相关的变量
+  * inventory_hostname 当前正在运行task的主机的主机名
+  * group_names 组名
+  * groups 主机组列表
+  * ansible_play_batch（play_hosts/ansible_play_hosts）当前play所涉及的所有主机列表，但连接失败或执行任务失败的节点不会留在此变量中
+  * inventory_dir 主机清单所在目录
+  * inventory_file 主机清单文件
+* lookup 生产变量
+  * 语法 `lookup('<plugin_name>', 'plugin_argument')`
+  * 从命令执行结果读取(pipe插件)
+  * 从磁盘文件读取(file/fileglob插件)
 
 #### Ansible 使用优化
 
-* 
+* 加大forks的值
+
+* 开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v
+
+  ```
+  # cat /etc/ansible/ansible.cfg
+  ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d 
+  ```
+
+* Shell层次上的优化：将任务分开执行
+
+以下优化，根据实际情况进行修改
+
+* 修改执行策略，改为free 
+
+* 开启pipeling，在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数
+
+  ```
+  修改ansible.cfg中pipelining=False改为True
+  ```
+
+* 修改facts收集行为，`gather_facts: no` ，或者添加缓存，注意添加缓存后有坑，比如创建带有时间的文件夹
+
+* 使Ansible异步执行任务，async和poll指令
+
+* 第三方策略插件：Mitogen for Ansible
 
 #### Ansible 常见问题
 
-* 
+* server端未安装 sshpass
+* 将host_key_checking设为False，关闭密码检查
 
 #### YAML 文件知识点
 

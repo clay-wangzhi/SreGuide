@@ -150,8 +150,6 @@ all:
 
 不同ansible版本，行为控制变量名称可能不同，比如以前版本中端口号的行为变量是`ansible_ssh_port`
 
-官方链接：https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
-
 下面是常见的行为变量：
 
 

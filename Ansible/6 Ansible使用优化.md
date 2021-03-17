@@ -7,7 +7,7 @@ hosts: all
 gather_facts: no
 ```
 
-## 2 关闭pipeling
+## 2 开启pipeling
 
 在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数
 
