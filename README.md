@@ -310,7 +310,9 @@
 
   (3).标量(scalars)：单个值
 
-* [ ] ansible 编写了哪些roles
+* ansible 的使用场景
+  * [安装`zabbix-server、zabbix-proxy、zabbix-agent`](10-zabbix/10.2-zabbix-jie-zhu-ansible-an-zhuang)
+  * 
 
 * [ ] elk
 
