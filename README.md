@@ -2,6 +2,18 @@
 
 ### Ansible
 
+### 目前生产中ansible 的使用场景
+
+* [系统初始化](https://github.com/clay-wangzhi/ansible-role-sysinit)
+
+* [安装配置zabbix](https://wiki.clay-wangzhi.com/10-zabbix/10.2-zabbix-jie-zhu-ansible-an-zhuang)
+* [安装配置elk]()
+* [安装配置tomcat](https://github.com/clay-wangzhi/ansible-role-tomcat)
+* [安装配置mysql](https://github.com/clay-wangzhi/ansible-role-mysql)
+* [安装配置jenkins](https://github.com/clay-wangzhi/ansible-role-jenkins)
+* [安装配置zookeeper集群](https://github.com/clay-wangzhi/ansible-role-zookeeper)
+* [项目升级发布]()
+
 #### Ansible 有哪些特性
 
 * Agentless，无客户端
@@ -309,10 +321,6 @@
   (2).数组：也称为列表
 
   (3).标量(scalars)：单个值
-
-* ansible 的使用场景
-  * [安装zabbix架构](https://wiki.clay-wangzhi.com/10-zabbix/10.1-zabbix4.4-xin-gong-neng)
-  * 
 
 * [ ] elk
 
