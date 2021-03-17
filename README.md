@@ -13,6 +13,7 @@
 * [安装配置jenkins](https://github.com/clay-wangzhi/ansible-role-jenkins)
 * [安装配置zookeeper集群](https://github.com/clay-wangzhi/ansible-role-zookeeper)
 * [项目升级发布]()
+* [安装配置二进制的kubernetes集群](https://github.com/easzlab/kubeasz)
 
 #### Ansible 有哪些特性
 
