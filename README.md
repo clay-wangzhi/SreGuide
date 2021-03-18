@@ -61,11 +61,13 @@
 * 常用模块
 
   * command
+  * shell
   * script
   * ping
   * file
   * copy
   * service
+  * lineinfile
   * cron
   * debug
   * template
