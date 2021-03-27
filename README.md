@@ -350,6 +350,7 @@
 * [ ] shell 
   
   * [ ] 编写了哪些shell，shell脚本归档
+  * [ ] `$?`等一众的意思
   
 * [ ] python jumpserver二次开发为自动化运维平台
 
