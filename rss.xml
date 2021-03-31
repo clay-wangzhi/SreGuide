@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Wed, 31 Mar 2021 13:13:08 GMT</pubDate>
-    <lastBuildDate>Wed, 31 Mar 2021 13:13:08 GMT</lastBuildDate>
+    <pubDate>Wed, 31 Mar 2021 14:58:42 GMT</pubDate>
+    <lastBuildDate>Wed, 31 Mar 2021 14:58:42 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -359,6 +359,54 @@
 ]]></content:encoded>
     </item>
     <item>
+      <title>模板导入</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">模板导入</source>
+      <pubDate>Wed, 15 Jan 2020 02:52:23 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="images/redis_daoru.png" alt=""></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Zabbix客户端日志出现(Not all processes could be identified）</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Zabbix客户端日志出现(Not all processes could be identified）</source>
+      <pubDate>Wed, 15 Jan 2020 03:23:57 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Template DB MySQL简介</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
@@ -491,54 +539,6 @@ fi
 <div><span>1</span><br></div></div><ol start="3">
 <li>添加监控项和触发器</li>
 </ol>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>模板导入</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">模板导入</source>
-      <pubDate>Wed, 15 Jan 2020 02:52:23 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="images/redis_daoru.png" alt=""></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>Zabbix客户端日志出现(Not all processes could be identified）</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/10%20zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Zabbix客户端日志出现(Not all processes could be identified）</source>
-      <pubDate>Wed, 15 Jan 2020 03:23:57 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -9620,6 +9620,16 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
+      <title>war正确删除姿势</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/tomcat%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/tomcat%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">war正确删除姿势</source>
+      <pubDate>Tue, 10 Mar 2020 02:53:36 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="war正确删除姿势"> war正确删除姿势</h2>
+<p>tomcat中war包停止后才可以删除</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>tomcat安全配置</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84tomcat%E9%85%8D%E7%BD%AE/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84tomcat%E9%85%8D%E7%BD%AE/</guid>
@@ -9798,16 +9808,6 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
 <p>https://blog.csdn.net/ljj_9/article/details/79145324</p>
 <p>https://blog.csdn.net/loyachen/article/details/47280237</p>
 </blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>war正确删除姿势</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/tomcat%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/8%20tomcat/tomcat%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">war正确删除姿势</source>
-      <pubDate>Tue, 10 Mar 2020 02:53:36 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="war正确删除姿势"> war正确删除姿势</h2>
-<p>tomcat中war包停止后才可以删除</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -10105,43 +10105,6 @@ bin/elasticsearch-plugin list
 </ul>
 </li>
 </ul>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>安装运行</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
-      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="images/1567761679082.png" alt=""></p>
-<p>解压并安装运行</p>
-<p><img src="images/1567761719575.png" alt=""></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -19531,50 +19494,6 @@ cat /etc/resolv.conf //查看DNS
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>yum管理RPM包</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">yum管理RPM包</source>
-      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="yum管理rpm包"> yum管理RPM包</h2>
-<p>清空缓存及其它文件</p>
-<div><pre><code>yum clean all
-</code></pre>
-<div><span>1</span><br></div></div><p>建立缓存数据库</p>
-<div><pre><code>yum makecache
-</code></pre>
-<div><span>1</span><br></div></div><p>查询可用的仓库</p>
-<div><pre><code>yum repolist
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>yum list mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>yum -y update
-</code></pre>
-<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
-<div><pre><code>yum provides */httpd
-</code></pre>
-<div><span>1</span><br></div></div><p>卸载</p>
-<div><pre><code>yum -y remove mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
-<p>安装</p>
-<div><pre><code>rpm -ivh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>rpm -Uvh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>rpm -q xxx //查询指定包是否安装
-rpm -ql xxx //查询xxx安装的文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
-<div><pre><code>rpm -e xxx
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>静态查看进程 ps</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</guid>
@@ -19949,6 +19868,50 @@ X：采用旧式的Linux i386登陆格式显示程序状况。
 <p>http://man.linuxde.net/ps</p>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/top1.png" type="image/png"/>
+    </item>
+    <item>
+      <title>yum管理RPM包</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">yum管理RPM包</source>
+      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="yum管理rpm包"> yum管理RPM包</h2>
+<p>清空缓存及其它文件</p>
+<div><pre><code>yum clean all
+</code></pre>
+<div><span>1</span><br></div></div><p>建立缓存数据库</p>
+<div><pre><code>yum makecache
+</code></pre>
+<div><span>1</span><br></div></div><p>查询可用的仓库</p>
+<div><pre><code>yum repolist
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>yum list mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>yum -y update
+</code></pre>
+<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
+<div><pre><code>yum provides */httpd
+</code></pre>
+<div><span>1</span><br></div></div><p>卸载</p>
+<div><pre><code>yum -y remove mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
+<p>安装</p>
+<div><pre><code>rpm -ivh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>rpm -Uvh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>rpm -q xxx //查询指定包是否安装
+rpm -ql xxx //查询xxx安装的文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
+<div><pre><code>rpm -e xxx
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>1 Nginx的三个主要应用场景</title>
@@ -32118,387 +32081,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
-      <title>ansible配置</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">ansible配置</source>
-      <pubDate>Thu, 25 Mar 2021 01:54:12 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="ansible配置"> ansible配置</h2>
-<div><pre><code><span># 修改主机名</span>
-hostnamectl set-hostname elk_ans
-<span># 生产密钥对，生成后将公钥导入到私有云主机中，创建新主机时使用</span>
-ssh-keygen -t rsa -f ~/.ssh/id_rsa -N <span>''</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># yum 安装</span>
-yum -y <span>install</span> ansible
-<span># 修改主机列表为yaml格式</span>
-<span>mv</span> /etc/ansible/hosts<span>{</span>,.yml<span>}</span>
-<span># 优化配置</span>
-<span>cp</span> /etc/ansible/ansible.cfg<span>{</span>,.bak<span>}</span>
-<span>cat</span> <span>></span> /etc/ansible/ansible.cfg <span>&lt;&lt;</span><span>EOF
-[defaults]
-inventory      = /etc/ansible/hosts.yml
-roles_path    = /etc/ansible/roles
-host_key_checking = False
-deprecation_warnings = False
-retry_files_enabled = False
-[inventory]
-[privilege_escalation]
-[paramiko_connection]
-[ssh_connection]
-ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
-[persistent_connection]
-[accelerate]
-[selinux]
-[colors]
-[diff]
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><div><pre><code><span># 编写ansible主机清单</span>
-<span>export</span> <span>es_master1</span><span>=</span><span>192.168</span>.135.125 <span>es_master2</span><span>=</span><span>192.168</span>.135.214 <span>es_master3</span><span>=</span><span>192.168</span>.135.62 <span>es_data1</span><span>=</span><span>192.168</span>.135.160 <span>es_data2</span><span>=</span><span>192.168</span>.135.73 <span>es_data3</span><span>=</span><span>192.168</span>.135.105 <span>es_ingest1</span><span>=</span><span>192.168</span>.135.8 <span>es_ingest2</span><span>=</span><span>192.168</span>.135.187 <span>es_ingest3</span><span>=</span><span>192.168</span>.135.189 <span>kibana1</span><span>=</span><span>192.168</span>.135.178 <span>kibana2</span><span>=</span><span>192.168</span>.135.196 <span>kibana3</span><span>=</span><span>192.168</span>.135.198 <span>logstash1</span><span>=</span><span>192.168</span>.135.89 <span>logstash2</span><span>=</span><span>192.168</span>.135.30 <span>logstash3</span><span>=</span><span>192.168</span>.135.96 <span>kafka1</span><span>=</span><span>192.168</span>.135.32 <span>kafka2</span><span>=</span><span>192.168</span>.135.22 <span>kafka3</span><span>=</span><span>192.168</span>.135.51
-<span>cat</span> <span>></span> /etc/ansible/hosts.yml <span>&lt;&lt;</span><span>EOF
-all:
-  children:
-    elasticsearch:
-      children:
-        es_master:
-        es_data:
-        es_ingest:
-    es_master:
-      hosts:
-        es_master1:
-          ansible_host: <span>${es_master1}</span>
-        es_master2:
-          ansible_host: <span>${es_master2}</span>
-        es_master3:
-          ansible_host: <span>${es_master3}</span>
-    es_data:
-      hosts:
-        es_data1:
-          ansible_host: <span>${es_data1}</span>
-        es_data2:
-          ansible_host: <span>${es_data2}</span>
-        es_data3:
-          ansible_host: <span>${es_data3}</span>
-    es_ingest:
-      hosts:
-        es_ingest1:
-          ansible_host: <span>${es_ingest1}</span>
-        es_ingest2:
-          ansible_host: <span>${es_ingest2}</span>
-        es_ingest3:
-          ansible_host: <span>${es_ingest3}</span>
-    kibana:
-      hosts:
-        kibana1:
-          ansible_host: <span>${kibana1}</span>
-        kibana2:
-          ansible_host: <span>${kibana2}</span>
-        kibana3:
-          ansible_host: <span>${kibana3}</span>
-    logstash:
-      hosts:
-        logstash1:
-          ansible_host: <span>${logstash1}</span>
-        logstash2:
-          ansible_host: <span>${logstash2}</span>
-        logstash3:
-          ansible_host: <span>${logstash3}</span>
-    kafka:
-      hosts:
-        kafka1:
-          ansible_host: <span>${kafka1}</span>
-          zookeeper_id: 1
-        kafka2:
-          ansible_host: <span>${kafka2}</span>
-          zookeeper_id: 2
-        kafka3:
-          ansible_host: <span>${kafka3}</span>
-          zookeeper_id: 3
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div><div><pre><code><span># 镜像yum源有问题得，替换下yum源</span>
-ansible-galaxy <span>install</span> clay_wangzhi.sysinit
-<span>mkdir</span> -p /etc/ansible/playbooks/vars
-<span>cat</span> <span>></span> /etc/ansible/playbooks/sysinit.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: all
-  roles:
-    - clay_wangzhi.sysinit
-EOF</span>
-ansible all -m shell -a <span>"rm -rf /etc/yum.repos.d/bak/"</span>
-ansible-playbook /etc/ansible/playbooks/sysinit.yml --tags upgrade_repo
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="安装-elasticsearch"> 安装 Elasticsearch</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> elastic.elasticsearch,v7.11.2
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 编写playbook</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/elasticsearch.yml <span>&lt;&lt;</span> <span>EOF
----
-# 注意修改yum源为清华源
-- hosts: es_master
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: true
-    node_data: false
-  vars_files:
-    - vars/es_vars.yml
-
-- hosts: es_data
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: false
-    node_data: true
-  vars_files:
-    - vars/es_vars.yml
-
-- hosts: es_ingest
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: false
-    node_data: false
-  vars_files:
-    - vars/es_vars.yml
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><div><pre><code><span># 新增var_files</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/vars/es_vars.yml <span>&lt;&lt;</span> <span>EOF
-es_heap_size: "4g"
-es_api_host: "{{ansible_ssh_host}}"
-es_data_dirs:
-  - "/opt/elasticsearch/data"
-es_log_dir: "/opt/elasticsearch/logs"
-es_config:
-  cluster.name: "suncar-es"
-  node.name: "{{inventory_hostname}}"
-  network.host: "{{ansible_ssh_host}}"
-  cluster.initial_master_nodes: '["{{hostvars[groups["es_master"][0]].ansible_host}}"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}"{% endfor %}]'
-  discovery.seed_hosts: '["{{hostvars[groups["es_master"][0]].ansible_host}}:9300"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}:9300"{% endfor %}]'
-  http.port: 9200
-  node.master: "{{node_master}}"
-  node.data: "{{node_data}}"
-  bootstrap.memory_lock: true
-  gateway.recover_after_nodes: 2
-  xpack.monitoring.collection.enabled: true
-  http.cors.enabled: true
-  http.cors.allow-origin: "*"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
-<span>cat</span> <span>></span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.repo <span>&lt;&lt;</span> <span>EOF
-[elasticsearch-7.x]
-name=Elasticsearch repository for 7.x packages
-baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
-gpgcheck=0
-enabled=1
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 修改es yml配置文件,将安全功能开启，并自己设置密码</span>
-<span>vim</span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.yml.j2
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code>{% if es_enable_xpack and es_api_basic_auth_username is defined and es_api_basic_auth_password is defined %}   #将这一行改为下面
-{% if not oss_version %}
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，es数据节点磁盘占用很大</p>
-</blockquote>
-<div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/elasticsearch.yml 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ansible安装完成后，初始化es通信的密码，在任意es_master1节点执行</span>
-<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
-<span>cd</span> /usr/share/elasticsearch/
-bin/elasticsearch-setup-passwords interactive
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>配置Node间SSL</strong></p>
-<p>注意：这里是指配置ES集群节点间transport的SSL认证，对于ES节点的HTTP API接口并没有配置，所以通过API访问ES时不需要提供证书。</p>
-<p>参考官网:</p>
-<p>https://www.elastic.co/guide/en/elasticsearch/reference/current/ssl-tls.html</p>
-<p>https://www.elastic.co/guide/en/elasticsearch/reference/7.4/configuring-tls.html</p>
-<p>创建SSL/TLS证书：</p>
-<div><pre><code><span>cd</span> /usr/share/elasticsearch/bin
-<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
-./elasticsearch-certutil ca -v   //一路回车
-<span>cd</span> <span>..</span>
-./bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12  //一路回车
-<span>mv</span> elastic-* /etc/elasticsearch/
-<span>cd</span> /etc/elasticsearch/
-<span>chown</span> elasticsearch.elasticsearch *.p12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>操作完成后，把证书传到剩余节点，修改剩余节点的配置文件，并重启</p>
-<div><pre><code><span># 将证书传到 ansible /tmp 目录下</span>
-ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-certificates.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
-ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-stack-ca.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code><span># 修改/etc/elasticsearch/elasticsearch.yml 配置文件</span>
-ansible elasticsearch -m lineinfile -a <span>"path=/etc/elasticsearch/elasticsearch.yml line='xpack.security.transport.ssl.enabled: true<span title="\n">\n</span>xpack.security.transport.ssl.verification_mode: certificate<span title="\n">\n</span>xpack.security.transport.ssl.keystore.path: /etc/elasticsearch/elastic-certificates.p12<span title="\n">\n</span>xpack.security.transport.ssl.truststore.path: /etc/elasticsearch/elastic-certificates.p12'"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 重启es</span>
-ansible elasticsearch -m <span>service</span> -a <span>"name=elasticsearch state=restarted"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>在此过程中，所有节点必须全部更新完，否则之前的用户名和密码将会认证失败</p>
-<p>更新完成之后，集群的健康检查为yellow，不要着急，等待它自己自动恢复成green，当es中数据较多时会出现</p>
-</blockquote>
-<blockquote>
-<p>Kibana，logstash，kafka的安装可以同时进行，提高效率</p>
-</blockquote>
-<h2 id="安装-kibana"> 安装 Kibana</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.kibana
-<span># 编写playbook，根据实际情况，填写用户名，密码</span>
-<span>export</span> <span>k_username</span><span>=</span>elastic <span>k_pass</span><span>=</span>E<span>#2021</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/kibana.yml <span>&lt;&lt;</span> <span>EOF
-- hosts: kibana
-  roles:
-    - clay_wangzhi.kibana
-  vars:
-    kibana_version: "7.x"
-    kibana_dversion: "7.11.2"
-    kibana_server_host: "{{ansible_ssh_host}}"
-    kibana_server_name: "{{inventory_hostname}}"
-    kibana_elasticsearch_url: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
-    kibana_elasticsearch_username: "<span>${k_username}</span>"
-    kibana_elasticsearch_password: "<span>${k_pass}</span>"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/kibana.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>TODO：Kibana7.11.x 版本具有告警功能，已经GA了，后续可以看一下</p>
-</blockquote>
-<h2 id="安装-logstash"> 安装 logstash</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.logstash
-<span># 编写playbook，根据实际情况，填写用户名，密码</span>
-<span>export</span> <span>l_username</span><span>=</span>elastic <span>l_pass</span><span>=</span>E<span>#2021</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/logstash.yml <span>&lt;&lt;</span> <span>EOF
-- hosts: logstash
-  roles:
-    - clay_wangzhi.logstash
-  vars:
-    logstash_version: '7.x'
-    logstash_dversion: '7.11.2'
-    logstash_elasticsearch_hosts: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
-    es_user: "<span>${l_username}</span>"
-    es_pass: "<span>${l_pass}</span>"
-    kafka_topic: "h5-jar"
-    kafka_group_id: "suncar-h5"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/logstash.yml 
-<span># kafka 还未安装，先停止logstash</span>
-ansible logstash -m <span>service</span> -a <span>"name=logstash state=stopped"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>TODO: logstash 的playbook后期有空，可以优化一下</p>
-</blockquote>
-<h2 id="安装-kafka"> 安装 kafka</h2>
-<p>kafka集群依赖zookeeper，先安装zookeeper集群</p>
-<blockquote>
-<p>由于下载源有问题，需要手工注释掉了下载的task，我事先把压缩包下载到了ansible控制节点，先传到各个客户端</p>
-<div><pre><code>ansible kafka -m copy -a &quot;src=/tmp/zookeeper-3.4.14.tar.gz dest=/tmp/&quot;
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p><strong>安装zookeeper</strong></p>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.zookeeper
-<span># 编写playbook</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/zookeeper.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: kafka
-  roles:
-  - role: clay_wangzhi.zookeeper
-    zookeeper_version: 3.4.14
-    zookeeper_mirror: "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper"
-    zookeeper_servers: "{{groups['kafka']}}"
-    zookeeper_environment:
-      "JAVA_HOME": "/opt/jdk1.8.0_144"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/zookeeper.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>安装kafka</strong></p>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.kafka
-<span>cat</span> <span>></span> /etc/ansible/playbooks/kafka.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: kafka
-  roles:
-    - clay_wangzhi.kafka
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
-<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，kafka数据节点磁盘占用很大</p>
-</blockquote>
-<div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/kafka.yml
-<span># 启动logstash，上面停止了</span>
-ansible logstash -m <span>service</span> -a <span>"name=logstash state=started"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="安装-filebeat"> 安装 filebeat</h2>
-<div><pre><code># 添加filebeat主机到主机清单
-    filebeat:
-      hosts:
-        192.168.124.3:
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> elastic.beats,v7.11.2
-<span># 编写playbook，beat_conf 请根据实际情况来填写</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/filebeat.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: filebeat
-  roles:
-    - elastic.beats
-  vars:
-    beat: filebeat
-    beat_conf:
-      filebeat:
-        inputs:
-          - type: log
-            enabled: true
-            paths:
-              - /home/ncar/service/webapps/logs/ShengDaGFHD/ShengDaGFHD.log
-            multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-            multiline.negate: true
-            multiline.match: after
-            tags: ["jar"]
-            fields:
-              type: h5-jar
-              ip: "{{inventory_hostname}}"
-              service_name: shengdasxgh
-      processors:
-        - drop_fields:
-            fields: ["agent", "ecs.version", "host.name"]
-    
-    output_conf:
-      kafka:
-        hosts: '["{{hostvars[groups["kafka"][0]].ansible_host}}:9092"{% for host in groups["kafka"][1:] %}, "{{hostvars[host].ansible_host}}:9092"{% endfor %}]'
-        topic: 'h5-jar'
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
-<span>cat</span> <span>></span> /etc/ansible/roles/elastic.beats/templates/beats.repo.j2 <span>&lt;&lt;</span> <span>EOF
-[filebeat-7.x]
-name=Elasticsearch repository for 7.x packages
-baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
-gpgcheck=0
-enabled=1
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/filebeat.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>11.2 嵌套循环</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</guid>
@@ -32538,6 +32120,199 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>11.3 循环控制</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.3 循环控制</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
+<blockquote>
+<p>Tournez cent tours, tournez mille tours,</p>
+<p>Tournez souvent et tournez toujours . . .</p>
+<p>——保尔·魏尔伦，《木马》</p>
+</blockquote>
+<p>本节介绍两个会影响循环行为的命令。</p>
+<h3 id="break-continue"> break, continue</h3>
+<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
+<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
+
+<span>echo</span>
+<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
+ <span>then</span>
+   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
+<span>done</span>
+
+<span># 思考：</span>
+<span># 为什么循环不会输出到20？</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
+
+<span>##################################################################</span>
+
+<span># 用 'break' 代替了 'continue'。</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
+ <span>then</span>
+   <span>break</span>  <span># 中止循环。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span>"</span>
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
+<p>样例 11-22. 跳出多层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># break-levels.sh: 跳出循环.</span>
+
+<span># "break N" 跳出 N 层循环。</span>
+
+<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>do</span>
+  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
+
+  <span># ------------------------------------------</span>
+  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
+    
+    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
+    <span>then</span>
+      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
+             <span># （它同时中止了内层和外层循环。）</span>
+    <span>fi</span>
+  <span>done</span>
+  <span># ------------------------------------------</span>
+
+  <span>echo</span>
+<span>done</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
+<p>样例 11-23. <code>continue</code> 影响外层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># "continue N" 命令可以影响其上 N 层循环。</span>
+
+<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
+<span>do</span>
+  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
+  
+  <span># --------------------------------------------------------------------</span>
+  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
+  <span>do</span>
+  
+    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
+    <span>then</span>
+      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
+                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
+    <span>fi</span>
+    
+    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
+  <span>done</span>
+  <span># --------------------------------------------------------------------</span>
+
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span># 思考：</span>
+<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
+<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
+<span># ---------------------------------------------------</span>
+
+<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
+<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
+<span>#+ 务分配给这些不同的设备来完成。</span>
+<span>#  那么我通常会在每台设备上执行下面的代码：</span>
+
+<span>while</span> true:
+<span>do</span>
+  <span>for</span> <span>n</span> <span>in</span> .iso.*
+  <span>do</span>
+    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
+    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
+    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
+    run-isotherm <span>$beta</span>
+    <span>date</span>
+    <span>ls</span> -alF .Iso.<span>$beta</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
+
+<span>while</span> <span>true</span>
+<span>do</span>
+  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
+  <span>do</span>
+    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
+<span>done</span>
+
+<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
+<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
+<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
+<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
+<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
+<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
+<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="fn1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
       <title>11.4 测试与分支</title>
@@ -32946,6 +32721,111 @@ choice_of beans rice carrorts radishes rutabaga spinach
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
+      <title>Elastic Stack 与Docker 容器</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Elastic Stack 与Docker 容器</source>
+      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
+<ul>
+<li>Elastic官方提供Docker Image</li>
+<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
+<li>2018年12月加入CNCF，提供helm</li>
+<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
+</ul>
+<h2 id="编写dockerfile"> 编写dockerfile</h2>
+<p>vim docker-compose.yaml</p>
+<div><pre><code>version<span>:</span> <span>'2.2'</span>
+services<span>:</span>
+  cerebro<span>:</span>
+    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
+    container_name<span>:</span> cerebro
+    ports<span>:</span>
+      <span>-</span> <span>"9000:9000"</span>
+    command<span>:</span>
+      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  kibana<span>:</span>
+    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
+    container_name<span>:</span> kibana7
+    environment<span>:</span>
+      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
+      <span>-</span> XPACK_GRAPH_ENABLED=true
+      <span>-</span> TIMELION_ENABLED=true
+      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
+    ports<span>:</span>
+      <span>-</span> <span>"5601:5601"</span>
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_01
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_01
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
+    ports<span>:</span>
+      <span>-</span> 9200<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch2<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_02
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_02
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
+    networks<span>:</span>
+      <span>-</span> es7net
+
+
+volumes<span>:</span>
+  es7data1<span>:</span>
+    driver<span>:</span> local
+  es7data2<span>:</span>
+    driver<span>:</span> local
+
+networks<span>:</span>
+  es7net<span>:</span>
+    driver<span>:</span> bridge
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
+<ul>
+<li>启动</li>
+</ul>
+<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
+<div><pre><code>docker-compose up 
+</code></pre>
+<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
+<ul>
+<li>关闭</li>
+</ul>
+<div><pre><code>docker-compose down
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
+<p>可以用来监控es集群的状态，非常好用，推荐</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>第十一章 循环与分支</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</guid>
@@ -33010,51 +32890,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>第三部分 shell进阶</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第三部分 shell进阶</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-</li>
-<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-</li>
-<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-</li>
-<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
-<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
-<li><a href="./14_recess_time.html">14. 休息时间</a></li>
-</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -33387,6 +33222,51 @@ bash$ echo $(echo \\)
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>第三部分 shell进阶</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第三部分 shell进阶</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+</li>
+<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+</li>
+<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+</li>
+<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
+<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
+<li><a href="./14_recess_time.html">14. 休息时间</a></li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>第四部分 命令</title>
@@ -34548,194 +34428,6 @@ EOF
 ]]></content:encoded>
     </item>
     <item>
-      <title>20.1 使用 exec</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.1 使用 exec</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
-<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
-<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
-<div><pre><code>#!/bin/bash
-# 使用 &#39;exec&#39; 重定向 标准输入 .
-
-
-exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
-                   # .
-
-exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
-
-read a1            # 读取文件 &quot;data-file&quot; 首行.
-read a2            # 读取文件 &quot;data-file&quot; 第二行
-
-echo
-echo &quot;Following lines read from file.&quot;
-echo &quot;-------------------------------&quot;
-echo $a1
-echo $a2
-
-echo; echo; echo
-
-exec 0&lt;&amp;6 6&lt;&amp;-
-#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
-#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
-#
-# &lt;&amp;6 6&lt;&amp;-    also works.
-
-echo -n &quot;Enter data  &quot;
-read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
-echo &quot;Input read from stdin.&quot;
-echo &quot;----------------------&quot;
-echo &quot;b1 = $b1&quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
-<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
-<p>样例 20-2. 使用 exec 重定向标准输出</p>
-<div><pre><code>#!/bin/bash
-# reassign-stdout.sh
-
-LOGFILE=logfile.txt
-
-exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
-                    # 保存标准输出.
-
-exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
-
-# ----------------------------------------------------------- #
-# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
-
-echo -n &quot;Logfile: &quot;
-date
-echo &quot;-------------------------------------&quot;
-echo
-
-echo &quot;Output of \&quot;ls -al\&quot; command&quot;
-echo
-ls -al
-echo; echo
-echo &quot;Output of \&quot;df\&quot; command&quot;
-echo
-df
-
-# ----------------------------------------------------------- #
-
-exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
-
-echo
-echo &quot;== stdout now restored to default == &quot;
-echo
-ls -al
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
-<div><pre><code>#!/bin/bash
-# upperconv.sh
-# 转化指定的输入文件成大写.
-
-E_FILE_ACCESS=70
-E_WRONG_ARGS=71
-
-if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
-then
-  echo &quot;Can&#39;t read from input file!&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_FILE_ACCESS
-fi                   #  同样的错误退出
-                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
-
-if [ -z &quot;$2&quot; ]
-then
-  echo &quot;Need to specify output file.&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_WRONG_ARGS
-fi
-
-
-exec 4&lt;&amp;0
-exec &lt; $1            # 将从输入文件读取.
-
-exec 7&gt;&amp;1
-exec &gt; $2            # 将写入输出文件.
-                     # 假定输出文件可写 (增加检测?).
-
-# -----------------------------------------------
-    cat - | tr a-z A-Z   # 转化大写.
-#   ^^^^^                # 读取标准输入.
-#           ^^^^^^^^^^   # 写到标准输出.
-# 然而标准输入和标准输出都会被重定向.
-# 注意 &#39;cat&#39; 可能会被遗漏.
-# -----------------------------------------------
-
-exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
-exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
-
-# 恢复后, 下面这行会预期从标准输出打印.
-echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
-<p>样例 20-4. 规避子 shell</p>
-<div><pre><code>#!/bin/bash
-# avoid-subshell.sh
-# Matthew Walker 的建议.
-
-Lines=0
-
-echo
-
-cat myfile.txt | while read line;
-                 do {
-                   echo $line
-                   (( Lines++ ));  #  递增变量的值趋近外层循环
-                                   #  使用子 shell 会有问题.
-                 }
-                 done
-
-echo &quot;Number of lines read = $Lines&quot;     # 0
-                                         # 报错!
-
-echo &quot;------------------------&quot;
-
-
-exec 3&lt;&gt; myfile.txt
-while read line &lt;&amp;3
-do {
-  echo &quot;$line&quot;
-  (( Lines++ ));                   #  递增变量的值趋近外层循环.
-                                   #  没有子 shell，就不会有问题.
-}
-done
-exec 3&gt;&amp;-
-
-echo &quot;Number of lines read = $Lines&quot;     # 8
-
-echo
-
-exit 0
-
-# 下面的行并不在脚本里.
-
-$ cat myfile.txt
-
-Line 1.
-Line 2.
-Line 3.
-Line 4.
-Line 5.
-Line 6.
-Line 7.
-Line 8.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>20.2 重定向代码块</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_2_redirecting_code_blocks/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_2_redirecting_code_blocks/</guid>
@@ -35002,6 +34694,194 @@ EOF
 echo &quot;$nr files totaling $totalSize bytes&quot;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>20.1 使用 exec</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.1 使用 exec</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
+<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
+<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
+<div><pre><code>#!/bin/bash
+# 使用 &#39;exec&#39; 重定向 标准输入 .
+
+
+exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
+                   # .
+
+exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
+
+read a1            # 读取文件 &quot;data-file&quot; 首行.
+read a2            # 读取文件 &quot;data-file&quot; 第二行
+
+echo
+echo &quot;Following lines read from file.&quot;
+echo &quot;-------------------------------&quot;
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0&lt;&amp;6 6&lt;&amp;-
+#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
+#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
+#
+# &lt;&amp;6 6&lt;&amp;-    also works.
+
+echo -n &quot;Enter data  &quot;
+read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
+echo &quot;Input read from stdin.&quot;
+echo &quot;----------------------&quot;
+echo &quot;b1 = $b1&quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
+<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
+<p>样例 20-2. 使用 exec 重定向标准输出</p>
+<div><pre><code>#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
+                    # 保存标准输出.
+
+exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
+
+# ----------------------------------------------------------- #
+# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
+
+echo -n &quot;Logfile: &quot;
+date
+echo &quot;-------------------------------------&quot;
+echo
+
+echo &quot;Output of \&quot;ls -al\&quot; command&quot;
+echo
+ls -al
+echo; echo
+echo &quot;Output of \&quot;df\&quot; command&quot;
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
+
+echo
+echo &quot;== stdout now restored to default == &quot;
+echo
+ls -al
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
+<div><pre><code>#!/bin/bash
+# upperconv.sh
+# 转化指定的输入文件成大写.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
+then
+  echo &quot;Can&#39;t read from input file!&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_FILE_ACCESS
+fi                   #  同样的错误退出
+                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
+
+if [ -z &quot;$2&quot; ]
+then
+  echo &quot;Need to specify output file.&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4&lt;&amp;0
+exec &lt; $1            # 将从输入文件读取.
+
+exec 7&gt;&amp;1
+exec &gt; $2            # 将写入输出文件.
+                     # 假定输出文件可写 (增加检测?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # 转化大写.
+#   ^^^^^                # 读取标准输入.
+#           ^^^^^^^^^^   # 写到标准输出.
+# 然而标准输入和标准输出都会被重定向.
+# 注意 &#39;cat&#39; 可能会被遗漏.
+# -----------------------------------------------
+
+exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
+exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
+
+# 恢复后, 下面这行会预期从标准输出打印.
+echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
+<p>样例 20-4. 规避子 shell</p>
+<div><pre><code>#!/bin/bash
+# avoid-subshell.sh
+# Matthew Walker 的建议.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  递增变量的值趋近外层循环
+                                   #  使用子 shell 会有问题.
+                 }
+                 done
+
+echo &quot;Number of lines read = $Lines&quot;     # 0
+                                         # 报错!
+
+echo &quot;------------------------&quot;
+
+
+exec 3&lt;&gt; myfile.txt
+while read line &lt;&amp;3
+do {
+  echo &quot;$line&quot;
+  (( Lines++ ));                   #  递增变量的值趋近外层循环.
+                                   #  没有子 shell，就不会有问题.
+}
+done
+exec 3&gt;&amp;-
+
+echo &quot;Number of lines read = $Lines&quot;     # 8
+
+echo
+
+exit 0
+
+# 下面的行并不在脚本里.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>20.3 应用程序</title>
@@ -36811,6 +36691,120 @@ case $# in
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>25. 别名</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/25_aliases/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/25_aliases/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">25. 别名</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_25-别名"> 25. 别名</h1>
+<p>Bash <code>别名</code> 本质上不外乎是键盘上的快捷键，缩写呢是避免输入很长的命令串的一种手段.举个例子, 在 <a href="http://tldp.org/LDP/abs/html/sample-bashrc.html" target="_blank" rel="noopener noreferrer">~/.bashrc</a> 文件中包含别名 <code>lm=&quot;ls -l | more</code>, 而后每个命令行输入的 lm <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18669" target="_blank" rel="noopener noreferrer">[1]</a> 将会自动被替换成 <code>ls -l | more</code>. 这可以节省大量的命令行输入和避免记住复杂的命令和选项. 设定别名 <code>rm=&quot;rm -i&quot;</code> (交互的删除模式) 防止无意的删除重要文件，也许可以少些悲痛.</p>
+<p>脚本中别名作用十分有限. 如果别名可以有一些 C 预处理器的功能会更好, 例如宏扩展, 但不幸的是 bash 别名中没有扩展参数. <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18676" target="_blank" rel="noopener noreferrer">[2]</a> 另外, 脚本在 &quot;复合结构&quot; 中并不能扩展自身的别名，例如 <a href="http://tldp.org/LDP/abs/html/tests.html#IFTHEN" target="_blank" rel="noopener noreferrer">if/then</a>, 循环和函数. 另一个限制是，别名不能递归扩展. 基本上是我们无论怎么喜欢用别名都不如函数 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">function</a> 来的更有效.</p>
+<p>样例 25-1. 脚本中的别名</p>
+<div><pre><code>#!/bin/bash
+# alias.sh
+
+shopt -s expand_aliases
+# 必须设置此选项, 否则脚本不能别名扩展.
+
+
+# 首先来点好玩的东西.
+alias Jesse_James=&#39;echo &quot;\&quot;Alias Jesse James\&quot; was a 1959 comedy starring Bob Hope.&quot;&#39;
+Jesse_James
+
+echo; echo; echo;
+
+alias ll=&quot;ls -l&quot;
+# 可以任意使用单引号 (&#39;) 或双引号 (&quot;) 把别名括起来.
+
+echo &quot;Trying aliased \&quot;ll\&quot;:&quot;
+ll /usr/X11R6/bin/mk*   #* 别名可以运行.
+
+echo
+
+directory=/usr/X11R6/bin/
+prefix=mk*  # See if wild card causes problems.
+echo &quot;Variables \&quot;directory\&quot; + \&quot;prefix\&quot; = $directory$prefix&quot;
+echo
+
+alias lll=&quot;ls -l $directory$prefix&quot;
+
+echo &quot;Trying aliased \&quot;lll\&quot;:&quot;
+lll         # 所有 /usr/X11R6/bin 文件清单以 mk 开始.
+# 别名可以处理连续的变量 -- 包含 wild card -- o.k.
+
+
+
+
+TRUE=1
+
+echo
+
+if [ TRUE ]
+then
+  alias rr=&quot;ls -l&quot;
+  echo &quot;Trying aliased \&quot;rr\&quot; within if/then statement:&quot;
+  rr /usr/X11R6/bin/mk*   #* 结果报错!
+  # 别名在复合的表达式中并没有生效.
+  echo &quot;However, previously expanded alias still recognized:&quot;
+  ll /usr/X11R6/bin/mk*
+fi  
+
+echo
+
+count=0
+while [ $count -lt 3 ]
+do
+  alias rrr=&quot;ls -l&quot;
+  echo &quot;Trying aliased \&quot;rrr\&quot; within \&quot;while\&quot; loop:&quot;
+  rrr /usr/X11R6/bin/mk*   #* 这里的别名也没生效.
+                           #  alias.sh: 行 57: rrr: 命令未找到
+  let count+=1
+done 
+
+echo; echo
+
+alias xyz=&#39;cat $0&#39;   # 列出了自身.
+                     # 注意强引.
+xyz
+#  这看起来能工作,
+#+ 尽管 bash 文档不介意这么做.
+#
+#  然而, Steve Jacobson 指出,
+#+ &quot;$0&quot; 参数的扩展在上面的别名申明后立刻生效.
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br></div></div><p>取消别名的命令删除之前设置的别名.</p>
+<p>样例 25-2. unalias: 设置和取消一个别名</p>
+<div><pre><code>#!/bin/bash
+# unalias.sh
+
+shopt -s expand_aliases  # 开启别名扩展.
+
+alias llm=&#39;ls -al | more&#39;
+llm
+
+echo
+
+unalias llm              # 取消别名.
+llm
+# &#39;llm&#39; 不再被识别后的报错信息.
+
+exit 0
+bash$ ./unalias.sh
+total 6
+drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
+drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
+-rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
+
+./unalias.sh: llm: 命令未找到
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><h4 id="注意"> 注意</h4>
+<p><a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18669" target="_blank" rel="noopener noreferrer">[1]</a>	... 作为命令行的第一个词. 显然别名只在命令的开始有意义.
+<a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18676" target="_blank" rel="noopener noreferrer">[2]</a>	然而, 别名可用来扩展位置参数.</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>24 函数</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/24_functions/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/24_functions/</guid>
@@ -37057,120 +37051,6 @@ exit $?
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>25. 别名</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/25_aliases/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/25_aliases/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">25. 别名</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_25-别名"> 25. 别名</h1>
-<p>Bash <code>别名</code> 本质上不外乎是键盘上的快捷键，缩写呢是避免输入很长的命令串的一种手段.举个例子, 在 <a href="http://tldp.org/LDP/abs/html/sample-bashrc.html" target="_blank" rel="noopener noreferrer">~/.bashrc</a> 文件中包含别名 <code>lm=&quot;ls -l | more</code>, 而后每个命令行输入的 lm <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18669" target="_blank" rel="noopener noreferrer">[1]</a> 将会自动被替换成 <code>ls -l | more</code>. 这可以节省大量的命令行输入和避免记住复杂的命令和选项. 设定别名 <code>rm=&quot;rm -i&quot;</code> (交互的删除模式) 防止无意的删除重要文件，也许可以少些悲痛.</p>
-<p>脚本中别名作用十分有限. 如果别名可以有一些 C 预处理器的功能会更好, 例如宏扩展, 但不幸的是 bash 别名中没有扩展参数. <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18676" target="_blank" rel="noopener noreferrer">[2]</a> 另外, 脚本在 &quot;复合结构&quot; 中并不能扩展自身的别名，例如 <a href="http://tldp.org/LDP/abs/html/tests.html#IFTHEN" target="_blank" rel="noopener noreferrer">if/then</a>, 循环和函数. 另一个限制是，别名不能递归扩展. 基本上是我们无论怎么喜欢用别名都不如函数 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">function</a> 来的更有效.</p>
-<p>样例 25-1. 脚本中的别名</p>
-<div><pre><code>#!/bin/bash
-# alias.sh
-
-shopt -s expand_aliases
-# 必须设置此选项, 否则脚本不能别名扩展.
-
-
-# 首先来点好玩的东西.
-alias Jesse_James=&#39;echo &quot;\&quot;Alias Jesse James\&quot; was a 1959 comedy starring Bob Hope.&quot;&#39;
-Jesse_James
-
-echo; echo; echo;
-
-alias ll=&quot;ls -l&quot;
-# 可以任意使用单引号 (&#39;) 或双引号 (&quot;) 把别名括起来.
-
-echo &quot;Trying aliased \&quot;ll\&quot;:&quot;
-ll /usr/X11R6/bin/mk*   #* 别名可以运行.
-
-echo
-
-directory=/usr/X11R6/bin/
-prefix=mk*  # See if wild card causes problems.
-echo &quot;Variables \&quot;directory\&quot; + \&quot;prefix\&quot; = $directory$prefix&quot;
-echo
-
-alias lll=&quot;ls -l $directory$prefix&quot;
-
-echo &quot;Trying aliased \&quot;lll\&quot;:&quot;
-lll         # 所有 /usr/X11R6/bin 文件清单以 mk 开始.
-# 别名可以处理连续的变量 -- 包含 wild card -- o.k.
-
-
-
-
-TRUE=1
-
-echo
-
-if [ TRUE ]
-then
-  alias rr=&quot;ls -l&quot;
-  echo &quot;Trying aliased \&quot;rr\&quot; within if/then statement:&quot;
-  rr /usr/X11R6/bin/mk*   #* 结果报错!
-  # 别名在复合的表达式中并没有生效.
-  echo &quot;However, previously expanded alias still recognized:&quot;
-  ll /usr/X11R6/bin/mk*
-fi  
-
-echo
-
-count=0
-while [ $count -lt 3 ]
-do
-  alias rrr=&quot;ls -l&quot;
-  echo &quot;Trying aliased \&quot;rrr\&quot; within \&quot;while\&quot; loop:&quot;
-  rrr /usr/X11R6/bin/mk*   #* 这里的别名也没生效.
-                           #  alias.sh: 行 57: rrr: 命令未找到
-  let count+=1
-done 
-
-echo; echo
-
-alias xyz=&#39;cat $0&#39;   # 列出了自身.
-                     # 注意强引.
-xyz
-#  这看起来能工作,
-#+ 尽管 bash 文档不介意这么做.
-#
-#  然而, Steve Jacobson 指出,
-#+ &quot;$0&quot; 参数的扩展在上面的别名申明后立刻生效.
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br></div></div><p>取消别名的命令删除之前设置的别名.</p>
-<p>样例 25-2. unalias: 设置和取消一个别名</p>
-<div><pre><code>#!/bin/bash
-# unalias.sh
-
-shopt -s expand_aliases  # 开启别名扩展.
-
-alias llm=&#39;ls -al | more&#39;
-llm
-
-echo
-
-unalias llm              # 取消别名.
-llm
-# &#39;llm&#39; 不再被识别后的报错信息.
-
-exit 0
-bash$ ./unalias.sh
-total 6
-drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
-drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
--rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
-
-./unalias.sh: llm: 命令未找到
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><h4 id="注意"> 注意</h4>
-<p><a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18669" target="_blank" rel="noopener noreferrer">[1]</a>	... 作为命令行的第一个词. 显然别名只在命令的开始有意义.
-<a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18676" target="_blank" rel="noopener noreferrer">[2]</a>	然而, 别名可用来扩展位置参数.</p>
-]]></content:encoded>
     </item>
     <item>
       <title>第二十六章. 列表结构</title>
@@ -39591,6 +39471,199 @@ trap 2     # Reenables Control-C
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>33 选项</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/33_options/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/33_options/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">33 选项</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
+<p>选项用来更改shell和脚本的行为.</p>
+<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
+<div><pre><code>#!/bin/bash
+
+set -o verbose
+# # 打印出所有执行前的命令.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
+
+set -v
+# 与上边的例子具有相同的效果.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
+<div><pre><code>#!/bin/bash
+set -o verbose
+# 激活命令回显.
+command
+...
+command
+
+set +o verbose
+# 禁用命令回显.
+command
+# 没有命令回显了.
+
+set -v
+# 激活命令回显.
+command
+...
+command
+
+set +v
+# 禁用命令回显.
+command
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
+<div><pre><code>#!/bin/bash -x
+#
+# 下边是脚本的主要内容.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
+<p><strong>bash - v script - name</strong></p>
+<p><strong>bash - o verbose script - name</strong></p>
+<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
+<p>表格 33-1. Bash选项</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
+</tr>
+<tr>
+<td style="text-align:left">+B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">关闭大括号展开</td>
+</tr>
+<tr>
+<td style="text-align:left">-C</td>
+<td style="text-align:left">noclobber</td>
+<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
+</tr>
+<tr>
+<td style="text-align:left">-D</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-a</td>
+<td style="text-align:left">all export</td>
+<td style="text-align:left">export(导出)所有定义过的变量</td>
+</tr>
+<tr>
+<td style="text-align:left">-b</td>
+<td style="text-align:left">notify</td>
+<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
+</tr>
+<tr>
+<td style="text-align:left">-c ...</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">从...中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">checkjobs</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
+</tr>
+<tr>
+<td style="text-align:left">-e</td>
+<td style="text-align:left">errexit</td>
+<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
+</tr>
+<tr>
+<td style="text-align:left">-f</td>
+<td style="text-align:left">noglob</td>
+<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
+</tr>
+<tr>
+<td style="text-align:left">globstar</td>
+<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
+<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">interactive</td>
+<td style="text-align:left">让脚本以交互模式运行</td>
+</tr>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">noexec</td>
+<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
+</tr>
+<tr>
+<td style="text-align:left">-o Option-Name</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">调用Option-Name选项</td>
+</tr>
+<tr>
+<td style="text-align:left">-o posix</td>
+<td style="text-align:left">POSIX</td>
+<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
+</tr>
+<tr>
+<td style="text-align:left">-o pipefail</td>
+<td style="text-align:left">pipe failure</td>
+<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">privileged</td>
+<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">restricted</td>
+<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
+</tr>
+<tr>
+<td style="text-align:left">-s</td>
+<td style="text-align:left">stdin</td>
+<td style="text-align:left">从stdin 中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">执行完第一个命令之后, 就退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-u</td>
+<td style="text-align:left">nounset</td>
+<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-v</td>
+<td style="text-align:left">verbose</td>
+<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
+</tr>
+<tr>
+<td style="text-align:left">-x</td>
+<td style="text-align:left">xtrace</td>
+<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
+</tr>
+<tr>
+<td style="text-align:left">--</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
       <title>第34章 陷阱</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/34_Gotchas/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/34_Gotchas/</guid>
@@ -40222,199 +40295,6 @@ fi
 ]]></content:encoded>
     </item>
     <item>
-      <title>33 选项</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/33_options/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/33_options/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">33 选项</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
-<p>选项用来更改shell和脚本的行为.</p>
-<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
-<div><pre><code>#!/bin/bash
-
-set -o verbose
-# # 打印出所有执行前的命令.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
-
-set -v
-# 与上边的例子具有相同的效果.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
-<div><pre><code>#!/bin/bash
-set -o verbose
-# 激活命令回显.
-command
-...
-command
-
-set +o verbose
-# 禁用命令回显.
-command
-# 没有命令回显了.
-
-set -v
-# 激活命令回显.
-command
-...
-command
-
-set +v
-# 禁用命令回显.
-command
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
-<div><pre><code>#!/bin/bash -x
-#
-# 下边是脚本的主要内容.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
-<p><strong>bash - v script - name</strong></p>
-<p><strong>bash - o verbose script - name</strong></p>
-<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
-<p>表格 33-1. Bash选项</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">缩写</th>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">-B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
-</tr>
-<tr>
-<td style="text-align:left">+B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">关闭大括号展开</td>
-</tr>
-<tr>
-<td style="text-align:left">-C</td>
-<td style="text-align:left">noclobber</td>
-<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
-</tr>
-<tr>
-<td style="text-align:left">-D</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-a</td>
-<td style="text-align:left">all export</td>
-<td style="text-align:left">export(导出)所有定义过的变量</td>
-</tr>
-<tr>
-<td style="text-align:left">-b</td>
-<td style="text-align:left">notify</td>
-<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
-</tr>
-<tr>
-<td style="text-align:left">-c ...</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">从...中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">checkjobs</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
-</tr>
-<tr>
-<td style="text-align:left">-e</td>
-<td style="text-align:left">errexit</td>
-<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
-</tr>
-<tr>
-<td style="text-align:left">-f</td>
-<td style="text-align:left">noglob</td>
-<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
-</tr>
-<tr>
-<td style="text-align:left">globstar</td>
-<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
-<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
-</tr>
-<tr>
-<td style="text-align:left">-i</td>
-<td style="text-align:left">interactive</td>
-<td style="text-align:left">让脚本以交互模式运行</td>
-</tr>
-<tr>
-<td style="text-align:left">-n</td>
-<td style="text-align:left">noexec</td>
-<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
-</tr>
-<tr>
-<td style="text-align:left">-o Option-Name</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">调用Option-Name选项</td>
-</tr>
-<tr>
-<td style="text-align:left">-o posix</td>
-<td style="text-align:left">POSIX</td>
-<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
-</tr>
-<tr>
-<td style="text-align:left">-o pipefail</td>
-<td style="text-align:left">pipe failure</td>
-<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
-</tr>
-<tr>
-<td style="text-align:left">-p</td>
-<td style="text-align:left">privileged</td>
-<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
-</tr>
-<tr>
-<td style="text-align:left">-r</td>
-<td style="text-align:left">restricted</td>
-<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
-</tr>
-<tr>
-<td style="text-align:left">-s</td>
-<td style="text-align:left">stdin</td>
-<td style="text-align:left">从stdin 中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-t</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">执行完第一个命令之后, 就退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-u</td>
-<td style="text-align:left">nounset</td>
-<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-v</td>
-<td style="text-align:left">verbose</td>
-<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
-</tr>
-<tr>
-<td style="text-align:left">-x</td>
-<td style="text-align:left">xtrace</td>
-<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
-</tr>
-<tr>
-<td style="text-align:left">--</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
       <title>36.2 shell wrappers</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_2_shell_wrappers/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_2_shell_wrappers/</guid>
@@ -40716,36 +40596,6 @@ exit
 ]]></content:encoded>
     </item>
     <item>
-      <title>36.3 测试和比较的其他方法</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_3_tests_and_comparisons_alternatives/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_3_tests_and_comparisons_alternatives/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">36.3 测试和比较的其他方法</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_36-3-测试和比较的其他方法"> 36.3 测试和比较的其他方法</h1>
-<p>对于判断（test命令）来说，[[ ]]比[ ]更加合适。同样的，算数运算符（译注：-eq之类的）比(( ))更有优势。</p>
-<div><pre><code>a=8
-
-# 下面所有这些比较的结果都应该是相等的
-test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot;         # &quot;and list&quot;
-/bin/test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
-[ &quot;$a&quot; -lt 16 ] &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
-[[ $a -lt 16 ]] &amp;&amp; echo &quot;yes, $a &lt; 16&quot;          # 为表达式添加
-(( a &lt; 16 )) &amp;&amp; echo &quot;yes, $a &lt; 16&quot;             # [[ ]]和(( ))并不是必须的
-
-city=&quot;New York&quot;
-# 下面这些结果也是相等的
-test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
-                                  # ASCII字符比较
-/bin/test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
-[ &quot;$city&quot; \&lt; Paris ] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
-[[ $city &lt; Paris ]] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
-                                  # 并不需要为$city变量加引号。
-
-# 向S.C.致谢
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>36.4 递归：可以调用自己的脚本</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_4_recursion_a_script_calling_itself/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_4_recursion_a_script_calling_itself/</guid>
@@ -40875,6 +40725,36 @@ exit 0
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>过多层次的递归调用会导致脚本的栈空间溢出，引起段错误（segfault）。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>36.3 测试和比较的其他方法</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_3_tests_and_comparisons_alternatives/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/36_3_tests_and_comparisons_alternatives/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">36.3 测试和比较的其他方法</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_36-3-测试和比较的其他方法"> 36.3 测试和比较的其他方法</h1>
+<p>对于判断（test命令）来说，[[ ]]比[ ]更加合适。同样的，算数运算符（译注：-eq之类的）比(( ))更有优势。</p>
+<div><pre><code>a=8
+
+# 下面所有这些比较的结果都应该是相等的
+test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot;         # &quot;and list&quot;
+/bin/test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
+[ &quot;$a&quot; -lt 16 ] &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
+[[ $a -lt 16 ]] &amp;&amp; echo &quot;yes, $a &lt; 16&quot;          # 为表达式添加
+(( a &lt; 16 )) &amp;&amp; echo &quot;yes, $a &lt; 16&quot;             # [[ ]]和(( ))并不是必须的
+
+city=&quot;New York&quot;
+# 下面这些结果也是相等的
+test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
+                                  # ASCII字符比较
+/bin/test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
+[ &quot;$city&quot; \&lt; Paris ] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
+[[ $city &lt; Paris ]] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
+                                  # 并不需要为$city变量加引号。
+
+# 向S.C.致谢
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>echo命令</title>
@@ -43724,375 +43604,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
 ]]></content:encoded>
     </item>
     <item>
-      <title>每天一个linux命令（35）-diff</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（35）-diff</source>
-      <pubDate>Fri, 27 Jul 2018 19:05:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>diff 命令是 linux上非常重要的工具，用于比较文件的内容，特别是比较两个版本不同的文件以找到改动的地方。diff在命令行中打印每一个行的改动。最新版本的diff还支持二进制文件。diff程序的输出被称为补丁 (patch)，因为Linux系统中还有一个patch程序，可以根据diff的输出将a.c的文件内容更新为b.c。diff是svn、cvs、git等版本控制工具不可或缺的一部分。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>diff(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-&lt;行数&gt;：指定要显示多少行的文本。此参数必须与-c或-u参数一并使用；
--a或——text：diff预设只会逐行比较文本文件；
--b或--ignore-space-change：不检查空格字符的不同；
--B或--ignore-blank-lines：不检查空白行；
--c：显示全部内容，并标出不同之处；
--C&lt;行数&gt;或--context&lt;行数&gt;：与执行“-c-&lt;行数&gt;”指令相同；
--d或——minimal：使用不同的演算法，以小的单位来做比较；
--D&lt;巨集名称&gt;或ifdef&lt;巨集名称&gt;：此参数的输出格式可用于前置处理器巨集；
--e或——ed：此参数的输出格式可用于ed的script文件；
--f或-forward-ed：输出的格式类似ed的script文件，但按照原来文件的顺序来显示不同处；
--H或--speed-large-files：比较大文件时，可加快速度；
--l&lt;字符或字符串&gt;或--ignore-matching-lines&lt;字符或字符串&gt;：若两个文件在某几行有所不同，而之际航同时都包含了选项中指定的字符或字符串，则不显示这两个文件的差异；
--i或--ignore-case：不检查大小写的不同；
--l或——paginate：将结果交由pr程序来分页；
--n或——rcs：将比较结果以RCS的格式来显示；
--N或--new-file：在比较目录时，若文件A仅出现在某个目录中，预设会显示：Only in目录，文件A 若使用-N参数，则diff会将文件A 与一个空白的文件比较；
--p：若比较的文件为C语言的程序码文件时，显示差异所在的函数名称；
--P或--unidirectional-new-file：与-N类似，但只有当第二个目录包含了第一个目录所没有的文件时，才会将这个文件与空白的文件做比较；
--q或--brief：仅显示有无差异，不显示详细的信息；
--r或——recursive：比较子目录中的文件；
--s或--report-identical-files：若没有发现任何差异，仍然显示信息；
--S&lt;文件&gt;或--starting-file&lt;文件&gt;：在比较目录时，从指定的文件开始比较；
--t或--expand-tabs：在输出时，将tab字符展开；
--T或--initial-tab：在每行前面加上tab字符以便对齐；
--u，-U&lt;列数&gt;或--unified=&lt;列数&gt;：以合并的方式来显示文件内容的不同；
--v或——version：显示版本信息；
--w或--ignore-all-space：忽略全部的空格字符；
--W&lt;宽度&gt;或--width&lt;宽度&gt;：在使用-y参数时，指定栏宽；
--x&lt;文件名或目录&gt;或--exclude&lt;文件名或目录&gt;：不比较选项中所指定的文件或目录；
--X&lt;文件&gt;或--exclude-from&lt;文件&gt;；您可以将文件或目录类型存成文本文件，然后在=&lt;文件&gt;中指定此文本文件；
--y或--side-by-side：以并列的方式显示文件的异同之处；
---help：显示帮助；
---left-column：在使用-y参数时，若两个文件某一行内容相同，则仅在左侧的栏位显示该行内容；
---suppress-common-lines：在使用-y参数时，仅显示不同之处。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h2 id="参数"> 参数</h2>
-<ul>
-<li>文件1：指定要比较的第一个文件；</li>
-<li>文件2：指定要比较的第二个文件。</li>
-</ul>
-<h2 id="功能"> 功能</h2>
-<p>diff命令能比较单个文件或者目录内容。如果指定比较的是文件，则只有当输入为文本文件时才有效。以逐行的方式，比较文本文件的异同处。如果指定比较的是目录的时候，diff命令会比较两个目录下名字相同的文本文件。列出不同的二进制文件、公共子目录和只在一个目录出现的文件。</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）比较两个文件</p>
-<div><pre><code># diff log2014.log log2013.log 
-3c3
-&lt; 2014-03
----
-&gt; 2013-03
-8c8
-&lt; 2013-07
----
-&gt; 2013-08
-11,12d10
-&lt; 2013-11
-&lt; 2013-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
-<p>上面的“3c3”和“8c8”表示log2014.log和log20143log文件在3行和第8行内容有所不同；&quot;11,12d10&quot;表示第一个文件比第二个文件多了第11和12行。</p>
-<p>diff 的normal 显示格式有三种提示:</p>
-<p>a - add</p>
-<p>c - change</p>
-<p>d - delete</p>
-<p>2）并排格式输出</p>
-<div><pre><code># diff log2014.log log2013.log  -y -W 50
-2013-01                 2013-01
-2013-02                 2013-02
-2014-03               | 2013-03
-2013-04                 2013-04
-2013-05                 2013-05
-2013-06                 2013-06
-2013-07                 2013-07
-2013-07               | 2013-08
-2013-09                 2013-09
-2013-10                 2013-10
-2013-11               &lt;
-2013-12               &lt;
-# diff log2013.log log2014.log  -y -W 50
-2013-01                 2013-01
-2013-02                 2013-02
-2013-03               | 2014-03
-2013-04                 2013-04
-2013-05                 2013-05
-2013-06                 2013-06
-2013-07                 2013-07
-2013-08               | 2013-07
-2013-09                 2013-09
-                      &gt; 2013-11
-                      &gt; 2013-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>说明：</p>
-<p>“|”表示前后2个文件内容有不同</p>
-<p>“&lt;”表示后面文件比前面文件少了1行内容</p>
-<p>“&gt;”表示后面文件比前面文件多了1行内容</p>
-<p>3）上下文输出格式</p>
-<div><pre><code># diff log2013.log log2014.log  -c
-*** log2013.log 2012-12-07 16:36:26.000000000 +0800
---- log2014.log 2012-12-07 18:01:54.000000000 +0800
-***************
-*** 1,10 ****
-  2013-01
-  2013-02
-! 2013-03
-  2013-04
-  2013-05
-  2013-06
-  2013-07
-! 2013-08
-  2013-09
-  2013-10
---- 1,12 ----
-  2013-01
-  2013-02
-! 2014-03
-  2013-04
-  2013-05
-  2013-06
-  2013-07
-! 2013-07
-  2013-09
-  2013-10
-+ 2013-11
-+ 2013-12
-# diff log2014.log log2013.log  -c
-*** log2014.log 2012-12-07 18:01:54.000000000 +0800
---- log2013.log 2012-12-07 16:36:26.000000000 +0800
-***************
-*** 1,12 ****
-  2013-01
-  2013-02
-! 2014-03
-  2013-04
-  2013-05
-  2013-06
-  2013-07
-! 2013-07
-  2013-09
-  2013-10
-- 2013-11
-- 2013-12
---- 1,10 ----
-  2013-01
-  2013-02
-! 2013-03
-  2013-04
-  2013-05
-  2013-06
-  2013-07
-! 2013-08
-  2013-09
-  2013-10
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br></div></div><p>说明：</p>
-<p>这种方式在开头两行作了比较文件的说明，这里有三中特殊字符：</p>
-<p>“＋” 比较的文件的后者比前着多一行</p>
-<p>“－” 比较的文件的后者比前着少一行</p>
-<p>“！” 比较的文件两者有差别的行</p>
-<p>4）统一格式输出</p>
-<div><pre><code># diff log2014.log log2013.log  -u
---- log2014.log 2012-12-07 18:01:54.000000000 +0800
-+++ log2013.log 2012-12-07 16:36:26.000000000 +0800
-@@ -1,12 +1,10 @@
- 2013-01
- 2013-02
--2014-03
-+2013-03
- 2013-04
- 2013-05
- 2013-06
- 2013-07
--2013-07
-+2013-08
- 2013-09
- 2013-10
--2013-11
--2013-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><p>说明：</p>
-<p>它的第一部分，也是文件的基本信息：</p>
-<p>--- log2014.log 2012-12-07 18:01:54.000000000 +0800</p>
-<p>+++ log2013.log 2012-12-07 16:36:26.000000000 +0800</p>
-<p>&quot;---&quot;表示变动前的文件，&quot;+++&quot;表示变动后的文件。</p>
-<p>第二部分，变动的位置用两个@作为起首和结束。</p>
-<p>@@ -1,12 +1,10 @@</p>
-<p>前面的&quot;-1,12&quot;分成三个部分：减号表示第一个文件（即log2014.log），&quot;1&quot;表示第1行，&quot;12&quot;表示连续12行。合在一起，就表示下面是第一个文件从第1行开始的连续12行。同样的，&quot;+1,10&quot;表示变动后，成为第二个文件从第1行开始的连续10行。</p>
-<p>5）比较文件夹不同</p>
-<div><pre><code># diff test3 test6
-Only in test6: linklog.log
-Only in test6: log2012.log
-diff test3/log2013.log test6/log2013.log
-1,10c1,3
-&lt; 2013-01
-&lt; 2013-02
-&lt; 2013-03
-&lt; 2013-04
-&lt; 2013-05
-&lt; 2013-06
-&lt; 2013-07
-&lt; 2013-08
-&lt; 2013-09
-&lt; 2013-10
----
-&gt; hostnamebaidu=baidu.com
-&gt; hostnamesina=sina.com
-&gt; hostnames=true
-diff test3/log2014.log test6/log2014.log
-1,12d0
-&lt; 2013-01
-&lt; 2013-02
-&lt; 2014-03
-&lt; 2013-04
-&lt; 2013-05
-&lt; 2013-06
-&lt; 2013-07
-&lt; 2013-07
-&lt; 2013-09
-&lt; 2013-10
-&lt; 2013-11
-&lt; 2013-12
-Only in test6: log2015.log
-Only in test6: log2016.log
-Only in test6: log2017.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p>6）比较两个文件不同，并生产补丁</p>
-<div><pre><code># diff -ruN log2013.log log2014.log &gt;patch.log
-# ll
-总计 12
--rw-r--r-- 2 root root  80 12-07 16:36 log2013.log
--rw-r--r-- 1 root root  96 12-07 18:01 log2014.log
--rw-r--r-- 1 root root 248 12-07 21:33 patch.log
-# cat patch.log 
---- log2013.log 2012-12-07 16:36:26.000000000 +0800
-+++ log2014.log 2012-12-07 18:01:54.000000000 +0800
-@@ -1,10 +1,12 @@
- 2013-01
- 2013-02
--2013-03
-+2014-03
- 2013-04
- 2013-05
- 2013-06
- 2013-07
--2013-08
-+2013-07
- 2013-09
- 2013-10
-+2013-11
-+2013-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>7）打补丁</p>
-<div><pre><code># cat log2013.log
-2013-01
-2013-02
-2013-03
-2013-04
-2013-05
-2013-06
-2013-07
-2013-08
-2013-09
-2013-10
-# patch log2013.log patch.log 
-patching file log2013.log
-# cat log2013.log 
-2013-01
-2013-02
-2014-03
-2013-04
-2013-05
-2013-06
-2013-07
-2013-07
-2013-09
-2013-10
-2013-11
-2013-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/12/2814048.html</p>
-<p>http://man.linuxde.net/diff</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>每天一个linux命令（42）-killall</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（42）-killall</source>
-      <pubDate>Fri, 27 Jul 2018 19:13:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>Linux系统中的killall命令用于杀死指定名字的进程（kill processes by name）。我们可以使用kill命令杀死指定进程PID的进程，如果要找到我们需要杀死的进程，我们还需要在之前使用ps等命令再配合grep来查找进程，而killall把这两个过程合二为一，是一个很好用的命令。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>killall(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-Z 只杀死拥有scontext 的进程
--e 要求匹配进程名称
--I 忽略小写
--g 杀死进程组而不是进程
--i 交互模式，杀死进程前先询问用户
--l 列出所有的已知信号名称
--q 不输出警告信息
--s 发送指定的信号
--v 报告信号是否成功发送
--w 等待进程死亡
---help 显示帮助信息
---version 显示版本显示
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>进程名称：指定要杀死的进程名称</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）杀死所有同名进程</p>
-<div><pre><code># ps -ef|grep vi
-root     17581 17398  0 17:51 pts/0    00:00:00 vi test.txt
-root     17640 17612  0 17:51 pts/2    00:00:00 vi test.log
-root     17642 17582  0 17:51 pts/1    00:00:00 grep vi
-# killall vi
-# ps -ef|grep vi
-root     17645 17582  0 17:52 pts/1    00:00:00 grep vi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）向进程发送指定信号</p>
-<div><pre><code># vi &amp; 
-[1] 17646[root@localhost ~]# killall -TERM vi
-[1]+  Stopped                 vi
-# vi &amp; 
-[2] 17648
-# ps -ef|grep vi
-root     17646 17582  0 17:54 pts/1    00:00:00 vi
-root     17648 17582  0 17:54 pts/1    00:00:00 vi
-root     17650 17582  0 17:55 pts/1    00:00:00 grep vi
-[2]+  Stopped                 vi
-# killall -TERM vi
-# ps -ef|grep vi
-root     17646 17582  0 17:54 pts/1    00:00:00 vi
-root     17648 17582  0 17:54 pts/1    00:00:00 vi
-root     17653 17582  0 17:55 pts/1    00:00:00 grep vi
-# killall -KILL vi
-[1]-  已杀死               vi
-[2]+  已杀死               vi
-# ps -ef|grep vi
-root     17656 17582  0 17:56 pts/1    00:00:00 grep vi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>3）把所有的登录后的shell给杀掉</p>
-<div><pre><code># w
- 18:01:03 up 41 days, 18:53,  3 users,  load average: 0.00, 0.00, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/0    10.2.0.68        14:58    9:52   0.10s  0.10s -bash
-root     pts/1    10.2.0.68        17:51    0.00s  0.02s  0.00s w
-root     pts/2    10.2.0.68        17:51    9:24   0.01s  0.01s -bash
-# killall -9 bash
-# w
- 18:01:48 up 41 days, 18:54,  1 user,  load average: 0.07, 0.02, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/0    10.2.0.68        18:01    0.00s  0.01s  0.00s w
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
-<p>运行命令：killall -9 bash 后，所有bash都会被卡掉了，所以当前所有连接丢失了。需要重新连接并登录。</p>
-<p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/21/2827366.html</p>
-<p>http://man.linuxde.net/killall</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（36）-date</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</guid>
@@ -44189,6 +43700,82 @@ echo $difference seconds.
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
 <p>http://man.linuxde.net/date</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>每天一个linux命令（42）-killall</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（42）-killall</source>
+      <pubDate>Fri, 27 Jul 2018 19:13:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>Linux系统中的killall命令用于杀死指定名字的进程（kill processes by name）。我们可以使用kill命令杀死指定进程PID的进程，如果要找到我们需要杀死的进程，我们还需要在之前使用ps等命令再配合grep来查找进程，而killall把这两个过程合二为一，是一个很好用的命令。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>killall(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-Z 只杀死拥有scontext 的进程
+-e 要求匹配进程名称
+-I 忽略小写
+-g 杀死进程组而不是进程
+-i 交互模式，杀死进程前先询问用户
+-l 列出所有的已知信号名称
+-q 不输出警告信息
+-s 发送指定的信号
+-v 报告信号是否成功发送
+-w 等待进程死亡
+--help 显示帮助信息
+--version 显示版本显示
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>进程名称：指定要杀死的进程名称</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）杀死所有同名进程</p>
+<div><pre><code># ps -ef|grep vi
+root     17581 17398  0 17:51 pts/0    00:00:00 vi test.txt
+root     17640 17612  0 17:51 pts/2    00:00:00 vi test.log
+root     17642 17582  0 17:51 pts/1    00:00:00 grep vi
+# killall vi
+# ps -ef|grep vi
+root     17645 17582  0 17:52 pts/1    00:00:00 grep vi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）向进程发送指定信号</p>
+<div><pre><code># vi &amp; 
+[1] 17646[root@localhost ~]# killall -TERM vi
+[1]+  Stopped                 vi
+# vi &amp; 
+[2] 17648
+# ps -ef|grep vi
+root     17646 17582  0 17:54 pts/1    00:00:00 vi
+root     17648 17582  0 17:54 pts/1    00:00:00 vi
+root     17650 17582  0 17:55 pts/1    00:00:00 grep vi
+[2]+  Stopped                 vi
+# killall -TERM vi
+# ps -ef|grep vi
+root     17646 17582  0 17:54 pts/1    00:00:00 vi
+root     17648 17582  0 17:54 pts/1    00:00:00 vi
+root     17653 17582  0 17:55 pts/1    00:00:00 grep vi
+# killall -KILL vi
+[1]-  已杀死               vi
+[2]+  已杀死               vi
+# ps -ef|grep vi
+root     17656 17582  0 17:56 pts/1    00:00:00 grep vi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>3）把所有的登录后的shell给杀掉</p>
+<div><pre><code># w
+ 18:01:03 up 41 days, 18:53,  3 users,  load average: 0.00, 0.00, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    10.2.0.68        14:58    9:52   0.10s  0.10s -bash
+root     pts/1    10.2.0.68        17:51    0.00s  0.02s  0.00s w
+root     pts/2    10.2.0.68        17:51    9:24   0.01s  0.01s -bash
+# killall -9 bash
+# w
+ 18:01:48 up 41 days, 18:54,  1 user,  load average: 0.07, 0.02, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    10.2.0.68        18:01    0.00s  0.01s  0.00s w
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
+<p>运行命令：killall -9 bash 后，所有bash都会被卡掉了，所以当前所有连接丢失了。需要重新连接并登录。</p>
+<p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/21/2827366.html</p>
+<p>http://man.linuxde.net/killall</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -45258,302 +44845,715 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
-      <title>Elastic Stack 与Docker 容器</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Elastic Stack 与Docker 容器</source>
-      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
-<ul>
-<li>Elastic官方提供Docker Image</li>
-<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
-<li>2018年12月加入CNCF，提供helm</li>
-<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
-</ul>
-<h2 id="编写dockerfile"> 编写dockerfile</h2>
-<p>vim docker-compose.yaml</p>
-<div><pre><code>version<span>:</span> <span>'2.2'</span>
-services<span>:</span>
-  cerebro<span>:</span>
-    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
-    container_name<span>:</span> cerebro
-    ports<span>:</span>
-      <span>-</span> <span>"9000:9000"</span>
-    command<span>:</span>
-      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  kibana<span>:</span>
-    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
-    container_name<span>:</span> kibana7
-    environment<span>:</span>
-      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
-      <span>-</span> XPACK_GRAPH_ENABLED=true
-      <span>-</span> TIMELION_ENABLED=true
-      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
-    ports<span>:</span>
-      <span>-</span> <span>"5601:5601"</span>
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_01
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_01
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
-    ports<span>:</span>
-      <span>-</span> 9200<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch2<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_02
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_02
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
-    networks<span>:</span>
-      <span>-</span> es7net
+      <title>每天一个linux命令（35）-diff</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（35）-diff</source>
+      <pubDate>Fri, 27 Jul 2018 19:05:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>diff 命令是 linux上非常重要的工具，用于比较文件的内容，特别是比较两个版本不同的文件以找到改动的地方。diff在命令行中打印每一个行的改动。最新版本的diff还支持二进制文件。diff程序的输出被称为补丁 (patch)，因为Linux系统中还有一个patch程序，可以根据diff的输出将a.c的文件内容更新为b.c。diff是svn、cvs、git等版本控制工具不可或缺的一部分。</p>
 
-
-volumes<span>:</span>
-  es7data1<span>:</span>
-    driver<span>:</span> local
-  es7data2<span>:</span>
-    driver<span>:</span> local
-
-networks<span>:</span>
-  es7net<span>:</span>
-    driver<span>:</span> bridge
+<h2 id="语法"> 语法</h2>
+<p><code>diff(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-&lt;行数&gt;：指定要显示多少行的文本。此参数必须与-c或-u参数一并使用；
+-a或——text：diff预设只会逐行比较文本文件；
+-b或--ignore-space-change：不检查空格字符的不同；
+-B或--ignore-blank-lines：不检查空白行；
+-c：显示全部内容，并标出不同之处；
+-C&lt;行数&gt;或--context&lt;行数&gt;：与执行“-c-&lt;行数&gt;”指令相同；
+-d或——minimal：使用不同的演算法，以小的单位来做比较；
+-D&lt;巨集名称&gt;或ifdef&lt;巨集名称&gt;：此参数的输出格式可用于前置处理器巨集；
+-e或——ed：此参数的输出格式可用于ed的script文件；
+-f或-forward-ed：输出的格式类似ed的script文件，但按照原来文件的顺序来显示不同处；
+-H或--speed-large-files：比较大文件时，可加快速度；
+-l&lt;字符或字符串&gt;或--ignore-matching-lines&lt;字符或字符串&gt;：若两个文件在某几行有所不同，而之际航同时都包含了选项中指定的字符或字符串，则不显示这两个文件的差异；
+-i或--ignore-case：不检查大小写的不同；
+-l或——paginate：将结果交由pr程序来分页；
+-n或——rcs：将比较结果以RCS的格式来显示；
+-N或--new-file：在比较目录时，若文件A仅出现在某个目录中，预设会显示：Only in目录，文件A 若使用-N参数，则diff会将文件A 与一个空白的文件比较；
+-p：若比较的文件为C语言的程序码文件时，显示差异所在的函数名称；
+-P或--unidirectional-new-file：与-N类似，但只有当第二个目录包含了第一个目录所没有的文件时，才会将这个文件与空白的文件做比较；
+-q或--brief：仅显示有无差异，不显示详细的信息；
+-r或——recursive：比较子目录中的文件；
+-s或--report-identical-files：若没有发现任何差异，仍然显示信息；
+-S&lt;文件&gt;或--starting-file&lt;文件&gt;：在比较目录时，从指定的文件开始比较；
+-t或--expand-tabs：在输出时，将tab字符展开；
+-T或--initial-tab：在每行前面加上tab字符以便对齐；
+-u，-U&lt;列数&gt;或--unified=&lt;列数&gt;：以合并的方式来显示文件内容的不同；
+-v或——version：显示版本信息；
+-w或--ignore-all-space：忽略全部的空格字符；
+-W&lt;宽度&gt;或--width&lt;宽度&gt;：在使用-y参数时，指定栏宽；
+-x&lt;文件名或目录&gt;或--exclude&lt;文件名或目录&gt;：不比较选项中所指定的文件或目录；
+-X&lt;文件&gt;或--exclude-from&lt;文件&gt;；您可以将文件或目录类型存成文本文件，然后在=&lt;文件&gt;中指定此文本文件；
+-y或--side-by-side：以并列的方式显示文件的异同之处；
+--help：显示帮助；
+--left-column：在使用-y参数时，若两个文件某一行内容相同，则仅在左侧的栏位显示该行内容；
+--suppress-common-lines：在使用-y参数时，仅显示不同之处。
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h2 id="参数"> 参数</h2>
 <ul>
-<li>启动</li>
+<li>文件1：指定要比较的第一个文件；</li>
+<li>文件2：指定要比较的第二个文件。</li>
 </ul>
-<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
-<div><pre><code>docker-compose up 
+<h2 id="功能"> 功能</h2>
+<p>diff命令能比较单个文件或者目录内容。如果指定比较的是文件，则只有当输入为文本文件时才有效。以逐行的方式，比较文本文件的异同处。如果指定比较的是目录的时候，diff命令会比较两个目录下名字相同的文本文件。列出不同的二进制文件、公共子目录和只在一个目录出现的文件。</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）比较两个文件</p>
+<div><pre><code># diff log2014.log log2013.log 
+3c3
+&lt; 2014-03
+---
+&gt; 2013-03
+8c8
+&lt; 2013-07
+---
+&gt; 2013-08
+11,12d10
+&lt; 2013-11
+&lt; 2013-12
 </code></pre>
-<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
-<ul>
-<li>关闭</li>
-</ul>
-<div><pre><code>docker-compose down
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
+<p>上面的“3c3”和“8c8”表示log2014.log和log20143log文件在3行和第8行内容有所不同；&quot;11,12d10&quot;表示第一个文件比第二个文件多了第11和12行。</p>
+<p>diff 的normal 显示格式有三种提示:</p>
+<p>a - add</p>
+<p>c - change</p>
+<p>d - delete</p>
+<p>2）并排格式输出</p>
+<div><pre><code># diff log2014.log log2013.log  -y -W 50
+2013-01                 2013-01
+2013-02                 2013-02
+2014-03               | 2013-03
+2013-04                 2013-04
+2013-05                 2013-05
+2013-06                 2013-06
+2013-07                 2013-07
+2013-07               | 2013-08
+2013-09                 2013-09
+2013-10                 2013-10
+2013-11               &lt;
+2013-12               &lt;
+# diff log2013.log log2014.log  -y -W 50
+2013-01                 2013-01
+2013-02                 2013-02
+2013-03               | 2014-03
+2013-04                 2013-04
+2013-05                 2013-05
+2013-06                 2013-06
+2013-07                 2013-07
+2013-08               | 2013-07
+2013-09                 2013-09
+                      &gt; 2013-11
+                      &gt; 2013-12
 </code></pre>
-<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
-<p>可以用来监控es集群的状态，非常好用，推荐</p>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>说明：</p>
+<p>“|”表示前后2个文件内容有不同</p>
+<p>“&lt;”表示后面文件比前面文件少了1行内容</p>
+<p>“&gt;”表示后面文件比前面文件多了1行内容</p>
+<p>3）上下文输出格式</p>
+<div><pre><code># diff log2013.log log2014.log  -c
+*** log2013.log 2012-12-07 16:36:26.000000000 +0800
+--- log2014.log 2012-12-07 18:01:54.000000000 +0800
+***************
+*** 1,10 ****
+  2013-01
+  2013-02
+! 2013-03
+  2013-04
+  2013-05
+  2013-06
+  2013-07
+! 2013-08
+  2013-09
+  2013-10
+--- 1,12 ----
+  2013-01
+  2013-02
+! 2014-03
+  2013-04
+  2013-05
+  2013-06
+  2013-07
+! 2013-07
+  2013-09
+  2013-10
++ 2013-11
++ 2013-12
+# diff log2014.log log2013.log  -c
+*** log2014.log 2012-12-07 18:01:54.000000000 +0800
+--- log2013.log 2012-12-07 16:36:26.000000000 +0800
+***************
+*** 1,12 ****
+  2013-01
+  2013-02
+! 2014-03
+  2013-04
+  2013-05
+  2013-06
+  2013-07
+! 2013-07
+  2013-09
+  2013-10
+- 2013-11
+- 2013-12
+--- 1,10 ----
+  2013-01
+  2013-02
+! 2013-03
+  2013-04
+  2013-05
+  2013-06
+  2013-07
+! 2013-08
+  2013-09
+  2013-10
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br></div></div><p>说明：</p>
+<p>这种方式在开头两行作了比较文件的说明，这里有三中特殊字符：</p>
+<p>“＋” 比较的文件的后者比前着多一行</p>
+<p>“－” 比较的文件的后者比前着少一行</p>
+<p>“！” 比较的文件两者有差别的行</p>
+<p>4）统一格式输出</p>
+<div><pre><code># diff log2014.log log2013.log  -u
+--- log2014.log 2012-12-07 18:01:54.000000000 +0800
++++ log2013.log 2012-12-07 16:36:26.000000000 +0800
+@@ -1,12 +1,10 @@
+ 2013-01
+ 2013-02
+-2014-03
++2013-03
+ 2013-04
+ 2013-05
+ 2013-06
+ 2013-07
+-2013-07
++2013-08
+ 2013-09
+ 2013-10
+-2013-11
+-2013-12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><p>说明：</p>
+<p>它的第一部分，也是文件的基本信息：</p>
+<p>--- log2014.log 2012-12-07 18:01:54.000000000 +0800</p>
+<p>+++ log2013.log 2012-12-07 16:36:26.000000000 +0800</p>
+<p>&quot;---&quot;表示变动前的文件，&quot;+++&quot;表示变动后的文件。</p>
+<p>第二部分，变动的位置用两个@作为起首和结束。</p>
+<p>@@ -1,12 +1,10 @@</p>
+<p>前面的&quot;-1,12&quot;分成三个部分：减号表示第一个文件（即log2014.log），&quot;1&quot;表示第1行，&quot;12&quot;表示连续12行。合在一起，就表示下面是第一个文件从第1行开始的连续12行。同样的，&quot;+1,10&quot;表示变动后，成为第二个文件从第1行开始的连续10行。</p>
+<p>5）比较文件夹不同</p>
+<div><pre><code># diff test3 test6
+Only in test6: linklog.log
+Only in test6: log2012.log
+diff test3/log2013.log test6/log2013.log
+1,10c1,3
+&lt; 2013-01
+&lt; 2013-02
+&lt; 2013-03
+&lt; 2013-04
+&lt; 2013-05
+&lt; 2013-06
+&lt; 2013-07
+&lt; 2013-08
+&lt; 2013-09
+&lt; 2013-10
+---
+&gt; hostnamebaidu=baidu.com
+&gt; hostnamesina=sina.com
+&gt; hostnames=true
+diff test3/log2014.log test6/log2014.log
+1,12d0
+&lt; 2013-01
+&lt; 2013-02
+&lt; 2014-03
+&lt; 2013-04
+&lt; 2013-05
+&lt; 2013-06
+&lt; 2013-07
+&lt; 2013-07
+&lt; 2013-09
+&lt; 2013-10
+&lt; 2013-11
+&lt; 2013-12
+Only in test6: log2015.log
+Only in test6: log2016.log
+Only in test6: log2017.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p>6）比较两个文件不同，并生产补丁</p>
+<div><pre><code># diff -ruN log2013.log log2014.log &gt;patch.log
+# ll
+总计 12
+-rw-r--r-- 2 root root  80 12-07 16:36 log2013.log
+-rw-r--r-- 1 root root  96 12-07 18:01 log2014.log
+-rw-r--r-- 1 root root 248 12-07 21:33 patch.log
+# cat patch.log 
+--- log2013.log 2012-12-07 16:36:26.000000000 +0800
++++ log2014.log 2012-12-07 18:01:54.000000000 +0800
+@@ -1,10 +1,12 @@
+ 2013-01
+ 2013-02
+-2013-03
++2014-03
+ 2013-04
+ 2013-05
+ 2013-06
+ 2013-07
+-2013-08
++2013-07
+ 2013-09
+ 2013-10
++2013-11
++2013-12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>7）打补丁</p>
+<div><pre><code># cat log2013.log
+2013-01
+2013-02
+2013-03
+2013-04
+2013-05
+2013-06
+2013-07
+2013-08
+2013-09
+2013-10
+# patch log2013.log patch.log 
+patching file log2013.log
+# cat log2013.log 
+2013-01
+2013-02
+2014-03
+2013-04
+2013-05
+2013-06
+2013-07
+2013-07
+2013-09
+2013-10
+2013-11
+2013-12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/12/2814048.html</p>
+<p>http://man.linuxde.net/diff</p>
 ]]></content:encoded>
     </item>
     <item>
-      <title>11.3 循环控制</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.3 循环控制</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
+      <title>ansible配置</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">ansible配置</source>
+      <pubDate>Thu, 25 Mar 2021 01:54:12 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="ansible配置"> ansible配置</h2>
+<div><pre><code><span># 修改主机名</span>
+hostnamectl set-hostname elk_ans
+<span># 生产密钥对，生成后将公钥导入到私有云主机中，创建新主机时使用</span>
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -N <span>''</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># yum 安装</span>
+yum -y <span>install</span> ansible
+<span># 修改主机列表为yaml格式</span>
+<span>mv</span> /etc/ansible/hosts<span>{</span>,.yml<span>}</span>
+<span># 优化配置</span>
+<span>cp</span> /etc/ansible/ansible.cfg<span>{</span>,.bak<span>}</span>
+<span>cat</span> <span>></span> /etc/ansible/ansible.cfg <span>&lt;&lt;</span><span>EOF
+[defaults]
+inventory      = /etc/ansible/hosts.yml
+roles_path    = /etc/ansible/roles
+host_key_checking = False
+deprecation_warnings = False
+retry_files_enabled = False
+[inventory]
+[privilege_escalation]
+[paramiko_connection]
+[ssh_connection]
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
+[persistent_connection]
+[accelerate]
+[selinux]
+[colors]
+[diff]
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><div><pre><code><span># 编写ansible主机清单</span>
+<span>export</span> <span>es_master1</span><span>=</span><span>192.168</span>.135.125 <span>es_master2</span><span>=</span><span>192.168</span>.135.214 <span>es_master3</span><span>=</span><span>192.168</span>.135.62 <span>es_data1</span><span>=</span><span>192.168</span>.135.160 <span>es_data2</span><span>=</span><span>192.168</span>.135.73 <span>es_data3</span><span>=</span><span>192.168</span>.135.105 <span>es_ingest1</span><span>=</span><span>192.168</span>.135.8 <span>es_ingest2</span><span>=</span><span>192.168</span>.135.187 <span>es_ingest3</span><span>=</span><span>192.168</span>.135.189 <span>kibana1</span><span>=</span><span>192.168</span>.135.178 <span>kibana2</span><span>=</span><span>192.168</span>.135.196 <span>kibana3</span><span>=</span><span>192.168</span>.135.198 <span>logstash1</span><span>=</span><span>192.168</span>.135.89 <span>logstash2</span><span>=</span><span>192.168</span>.135.30 <span>logstash3</span><span>=</span><span>192.168</span>.135.96 <span>kafka1</span><span>=</span><span>192.168</span>.135.32 <span>kafka2</span><span>=</span><span>192.168</span>.135.22 <span>kafka3</span><span>=</span><span>192.168</span>.135.51
+<span>cat</span> <span>></span> /etc/ansible/hosts.yml <span>&lt;&lt;</span><span>EOF
+all:
+  children:
+    elasticsearch:
+      children:
+        es_master:
+        es_data:
+        es_ingest:
+    es_master:
+      hosts:
+        es_master1:
+          ansible_host: <span>${es_master1}</span>
+        es_master2:
+          ansible_host: <span>${es_master2}</span>
+        es_master3:
+          ansible_host: <span>${es_master3}</span>
+    es_data:
+      hosts:
+        es_data1:
+          ansible_host: <span>${es_data1}</span>
+        es_data2:
+          ansible_host: <span>${es_data2}</span>
+        es_data3:
+          ansible_host: <span>${es_data3}</span>
+    es_ingest:
+      hosts:
+        es_ingest1:
+          ansible_host: <span>${es_ingest1}</span>
+        es_ingest2:
+          ansible_host: <span>${es_ingest2}</span>
+        es_ingest3:
+          ansible_host: <span>${es_ingest3}</span>
+    kibana:
+      hosts:
+        kibana1:
+          ansible_host: <span>${kibana1}</span>
+        kibana2:
+          ansible_host: <span>${kibana2}</span>
+        kibana3:
+          ansible_host: <span>${kibana3}</span>
+    logstash:
+      hosts:
+        logstash1:
+          ansible_host: <span>${logstash1}</span>
+        logstash2:
+          ansible_host: <span>${logstash2}</span>
+        logstash3:
+          ansible_host: <span>${logstash3}</span>
+    kafka:
+      hosts:
+        kafka1:
+          ansible_host: <span>${kafka1}</span>
+          zookeeper_id: 1
+        kafka2:
+          ansible_host: <span>${kafka2}</span>
+          zookeeper_id: 2
+        kafka3:
+          ansible_host: <span>${kafka3}</span>
+          zookeeper_id: 3
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div><div><pre><code><span># 镜像yum源有问题得，替换下yum源</span>
+ansible-galaxy <span>install</span> clay_wangzhi.sysinit
+<span>mkdir</span> -p /etc/ansible/playbooks/vars
+<span>cat</span> <span>></span> /etc/ansible/playbooks/sysinit.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: all
+  roles:
+    - clay_wangzhi.sysinit
+EOF</span>
+ansible all -m shell -a <span>"rm -rf /etc/yum.repos.d/bak/"</span>
+ansible-playbook /etc/ansible/playbooks/sysinit.yml --tags upgrade_repo
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="安装-elasticsearch"> 安装 Elasticsearch</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> elastic.elasticsearch,v7.11.2
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 编写playbook</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/elasticsearch.yml <span>&lt;&lt;</span> <span>EOF
+---
+# 注意修改yum源为清华源
+- hosts: es_master
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: true
+    node_data: false
+  vars_files:
+    - vars/es_vars.yml
+
+- hosts: es_data
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: false
+    node_data: true
+  vars_files:
+    - vars/es_vars.yml
+
+- hosts: es_ingest
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: false
+    node_data: false
+  vars_files:
+    - vars/es_vars.yml
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><div><pre><code><span># 新增var_files</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/vars/es_vars.yml <span>&lt;&lt;</span> <span>EOF
+es_heap_size: "4g"
+es_api_host: "{{ansible_ssh_host}}"
+es_data_dirs:
+  - "/opt/elasticsearch/data"
+es_log_dir: "/opt/elasticsearch/logs"
+es_config:
+  cluster.name: "suncar-es"
+  node.name: "{{inventory_hostname}}"
+  network.host: "{{ansible_ssh_host}}"
+  cluster.initial_master_nodes: '["{{hostvars[groups["es_master"][0]].ansible_host}}"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}"{% endfor %}]'
+  discovery.seed_hosts: '["{{hostvars[groups["es_master"][0]].ansible_host}}:9300"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}:9300"{% endfor %}]'
+  http.port: 9200
+  node.master: "{{node_master}}"
+  node.data: "{{node_data}}"
+  bootstrap.memory_lock: true
+  gateway.recover_after_nodes: 2
+  xpack.monitoring.collection.enabled: true
+  http.cors.enabled: true
+  http.cors.allow-origin: "*"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
+<span>cat</span> <span>></span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.repo <span>&lt;&lt;</span> <span>EOF
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
+gpgcheck=0
+enabled=1
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 修改es yml配置文件,将安全功能开启，并自己设置密码</span>
+<span>vim</span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.yml.j2
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code>{% if es_enable_xpack and es_api_basic_auth_username is defined and es_api_basic_auth_password is defined %}   #将这一行改为下面
+{% if not oss_version %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，es数据节点磁盘占用很大</p>
+</blockquote>
+<div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/elasticsearch.yml 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ansible安装完成后，初始化es通信的密码，在任意es_master1节点执行</span>
+<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
+<span>cd</span> /usr/share/elasticsearch/
+bin/elasticsearch-setup-passwords interactive
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>配置Node间SSL</strong></p>
+<p>注意：这里是指配置ES集群节点间transport的SSL认证，对于ES节点的HTTP API接口并没有配置，所以通过API访问ES时不需要提供证书。</p>
+<p>参考官网:</p>
+<p>https://www.elastic.co/guide/en/elasticsearch/reference/current/ssl-tls.html</p>
+<p>https://www.elastic.co/guide/en/elasticsearch/reference/7.4/configuring-tls.html</p>
+<p>创建SSL/TLS证书：</p>
+<div><pre><code><span>cd</span> /usr/share/elasticsearch/bin
+<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
+./elasticsearch-certutil ca -v   //一路回车
+<span>cd</span> <span>..</span>
+./bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12  //一路回车
+<span>mv</span> elastic-* /etc/elasticsearch/
+<span>cd</span> /etc/elasticsearch/
+<span>chown</span> elasticsearch.elasticsearch *.p12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>操作完成后，把证书传到剩余节点，修改剩余节点的配置文件，并重启</p>
+<div><pre><code><span># 将证书传到 ansible /tmp 目录下</span>
+ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-certificates.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
+ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-stack-ca.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code><span># 修改/etc/elasticsearch/elasticsearch.yml 配置文件</span>
+ansible elasticsearch -m lineinfile -a <span>"path=/etc/elasticsearch/elasticsearch.yml line='xpack.security.transport.ssl.enabled: true<span title="\n">\n</span>xpack.security.transport.ssl.verification_mode: certificate<span title="\n">\n</span>xpack.security.transport.ssl.keystore.path: /etc/elasticsearch/elastic-certificates.p12<span title="\n">\n</span>xpack.security.transport.ssl.truststore.path: /etc/elasticsearch/elastic-certificates.p12'"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 重启es</span>
+ansible elasticsearch -m <span>service</span> -a <span>"name=elasticsearch state=restarted"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>在此过程中，所有节点必须全部更新完，否则之前的用户名和密码将会认证失败</p>
+<p>更新完成之后，集群的健康检查为yellow，不要着急，等待它自己自动恢复成green，当es中数据较多时会出现</p>
+</blockquote>
 <blockquote>
-<p>Tournez cent tours, tournez mille tours,</p>
-<p>Tournez souvent et tournez toujours . . .</p>
-<p>——保尔·魏尔伦，《木马》</p>
+<p>Kibana，logstash，kafka的安装可以同时进行，提高效率</p>
 </blockquote>
-<p>本节介绍两个会影响循环行为的命令。</p>
-<h3 id="break-continue"> break, continue</h3>
-<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
-<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
-
-<span>echo</span>
-<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
- <span>then</span>
-   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
-<span>done</span>
-
-<span># 思考：</span>
-<span># 为什么循环不会输出到20？</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
-
-<span>##################################################################</span>
-
-<span># 用 'break' 代替了 'continue'。</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
- <span>then</span>
-   <span>break</span>  <span># 中止循环。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span>"</span>
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>exit</span> <span>0</span>
+<h2 id="安装-kibana"> 安装 Kibana</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.kibana
+<span># 编写playbook，根据实际情况，填写用户名，密码</span>
+<span>export</span> <span>k_username</span><span>=</span>elastic <span>k_pass</span><span>=</span>E<span>#2021</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/kibana.yml <span>&lt;&lt;</span> <span>EOF
+- hosts: kibana
+  roles:
+    - clay_wangzhi.kibana
+  vars:
+    kibana_version: "7.x"
+    kibana_dversion: "7.11.2"
+    kibana_server_host: "{{ansible_ssh_host}}"
+    kibana_server_name: "{{inventory_hostname}}"
+    kibana_elasticsearch_url: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
+    kibana_elasticsearch_username: "<span>${k_username}</span>"
+    kibana_elasticsearch_password: "<span>${k_pass}</span>"
+EOF</span>
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
-<p>样例 11-22. 跳出多层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># break-levels.sh: 跳出循环.</span>
-
-<span># "break N" 跳出 N 层循环。</span>
-
-<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>do</span>
-  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
-
-  <span># ------------------------------------------</span>
-  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
-    
-    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
-    <span>then</span>
-      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
-             <span># （它同时中止了内层和外层循环。）</span>
-    <span>fi</span>
-  <span>done</span>
-  <span># ------------------------------------------</span>
-
-  <span>echo</span>
-<span>done</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/kibana.yml
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
-<p>样例 11-23. <code>continue</code> 影响外层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># "continue N" 命令可以影响其上 N 层循环。</span>
-
-<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
-<span>do</span>
-  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
-  
-  <span># --------------------------------------------------------------------</span>
-  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
-  <span>do</span>
-  
-    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
-    <span>then</span>
-      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
-                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
-    <span>fi</span>
-    
-    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
-  <span>done</span>
-  <span># --------------------------------------------------------------------</span>
-
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span># 思考：</span>
-<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
-<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
-<span># ---------------------------------------------------</span>
-
-<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
-<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
-<span>#+ 务分配给这些不同的设备来完成。</span>
-<span>#  那么我通常会在每台设备上执行下面的代码：</span>
-
-<span>while</span> true:
-<span>do</span>
-  <span>for</span> <span>n</span> <span>in</span> .iso.*
-  <span>do</span>
-    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
-    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
-    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
-    run-isotherm <span>$beta</span>
-    <span>date</span>
-    <span>ls</span> -alF .Iso.<span>$beta</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
-
-<span>while</span> <span>true</span>
-<span>do</span>
-  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
-  <span>do</span>
-    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
-<span>done</span>
-
-<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
-<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
-<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
-<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
-<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
-<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
-<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>TODO：Kibana7.11.x 版本具有告警功能，已经GA了，后续可以看一下</p>
 </blockquote>
-<hr>
-<section>
-<ol>
-<li id="fn1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
+<h2 id="安装-logstash"> 安装 logstash</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.logstash
+<span># 编写playbook，根据实际情况，填写用户名，密码</span>
+<span>export</span> <span>l_username</span><span>=</span>elastic <span>l_pass</span><span>=</span>E<span>#2021</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/logstash.yml <span>&lt;&lt;</span> <span>EOF
+- hosts: logstash
+  roles:
+    - clay_wangzhi.logstash
+  vars:
+    logstash_version: '7.x'
+    logstash_dversion: '7.11.2'
+    logstash_elasticsearch_hosts: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
+    es_user: "<span>${l_username}</span>"
+    es_pass: "<span>${l_pass}</span>"
+    kafka_topic: "h5-jar"
+    kafka_group_id: "suncar-h5"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/logstash.yml 
+<span># kafka 还未安装，先停止logstash</span>
+ansible logstash -m <span>service</span> -a <span>"name=logstash state=stopped"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>TODO: logstash 的playbook后期有空，可以优化一下</p>
+</blockquote>
+<h2 id="安装-kafka"> 安装 kafka</h2>
+<p>kafka集群依赖zookeeper，先安装zookeeper集群</p>
+<blockquote>
+<p>由于下载源有问题，需要手工注释掉了下载的task，我事先把压缩包下载到了ansible控制节点，先传到各个客户端</p>
+<div><pre><code>ansible kafka -m copy -a &quot;src=/tmp/zookeeper-3.4.14.tar.gz dest=/tmp/&quot;
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p><strong>安装zookeeper</strong></p>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.zookeeper
+<span># 编写playbook</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/zookeeper.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: kafka
+  roles:
+  - role: clay_wangzhi.zookeeper
+    zookeeper_version: 3.4.14
+    zookeeper_mirror: "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper"
+    zookeeper_servers: "{{groups['kafka']}}"
+    zookeeper_environment:
+      "JAVA_HOME": "/opt/jdk1.8.0_144"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/zookeeper.yml
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>安装kafka</strong></p>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.kafka
+<span>cat</span> <span>></span> /etc/ansible/playbooks/kafka.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: kafka
+  roles:
+    - clay_wangzhi.kafka
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
+<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，kafka数据节点磁盘占用很大</p>
+</blockquote>
+<div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/kafka.yml
+<span># 启动logstash，上面停止了</span>
+ansible logstash -m <span>service</span> -a <span>"name=logstash state=started"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="安装-filebeat"> 安装 filebeat</h2>
+<div><pre><code># 添加filebeat主机到主机清单
+    filebeat:
+      hosts:
+        192.168.124.3:
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> elastic.beats,v7.11.2
+<span># 编写playbook，beat_conf 请根据实际情况来填写</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/filebeat.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: filebeat
+  roles:
+    - elastic.beats
+  vars:
+    beat: filebeat
+    beat_conf:
+      filebeat:
+        inputs:
+          - type: log
+            enabled: true
+            paths:
+              - /home/ncar/service/webapps/logs/ShengDaGFHD/ShengDaGFHD.log
+            multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+            multiline.negate: true
+            multiline.match: after
+            tags: ["jar"]
+            fields:
+              type: h5-jar
+              ip: "{{inventory_hostname}}"
+              service_name: shengdasxgh
+      processors:
+        - drop_fields:
+            fields: ["agent", "ecs.version", "host.name"]
+    
+    output_conf:
+      kafka:
+        hosts: '["{{hostvars[groups["kafka"][0]].ansible_host}}:9092"{% for host in groups["kafka"][1:] %}, "{{hostvars[host].ansible_host}}:9092"{% endfor %}]'
+        topic: 'h5-jar'
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
+<span>cat</span> <span>></span> /etc/ansible/roles/elastic.beats/templates/beats.repo.j2 <span>&lt;&lt;</span> <span>EOF
+[filebeat-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
+gpgcheck=0
+enabled=1
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/filebeat.yml
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>安装运行</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
+      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="images/1567761679082.png" alt=""></p>
+<p>解压并安装运行</p>
+<p><img src="images/1567761719575.png" alt=""></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
 </li>
-</ol>
-</section>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
   </channel>
 </rss>
