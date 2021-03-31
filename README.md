@@ -358,7 +358,7 @@
 
 * [ ] zabbix 
   * [ ] ansible 部署zabbix
-  * [ ] zabbix 4.x 的新特性 5.x
+  * [ ] zabbix 4.x 的新特性 5.x 1
   * [ ] zabbix webhook(js)钉钉报警
   * [ ] zabbix housekeeping 数据库分区
   * [ ] zabbix 生产级 监控上千的主机的优化，指标拉去策略，分区，代理等
