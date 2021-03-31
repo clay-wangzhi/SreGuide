@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>查看文件内容 | IT外卖小哥</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+    <link rel="alternate" type="application/atom+xml" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml" title="IT外卖小哥 Atom Feed">
+    <link rel="alternate" type="application/json" href="https://vuepress-theme-hope-demo.mrhope.site/feed.json" title="IT外卖小哥 JSON Feed">
+    <link rel="alternate" type="application/rss+xml" href="https://vuepress-theme-hope-demo.mrhope.site/rss.xml" title="IT外卖小哥 RSS Feed">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/assets/icon/chrome-mask-512.png" type="image/png" sizes="512x512">
+    <link rel="icon" href="/assets/icon/chrome-mask-192.png" type="image/png" sizes="192x192">
+    <link rel="icon" href="/assets/icon/chrome-512.png" type="image/png" sizes="512x512">
+    <link rel="icon" href="/assets/icon/chrome-192.png" type="image/png" sizes="192x192">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="apple-touch-icon" href="/assets/icon/apple-icon-152.png">
+    <meta name="description" content="当你发现自己的才华撑不起野心时，就请安静下来学习吧！">
+    <meta property="og:url" content="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9.html">
+    <meta property="og:site_name" content="IT外卖小哥">
+    <meta property="og:title" content="查看文件内容">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh-CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image:alt" content="IT外卖小哥">
+    <meta property="article:author" content="Clay">
+    <meta name="theme-color" content="#46bd87">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileImage" content="/assets/icon/ms-icon-144.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <link rel="preload" href="/assets/css/0.styles.74e162d4.css" as="style"><link rel="preload" href="/assets/js/app.24acaf32.js" as="script"><link rel="preload" href="/assets/js/layout-Layout.01319fc1.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound.699456de.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound~layout-Slide.e30cf8f9.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout.e02ffb1a.js" as="script"><link rel="preload" href="/assets/js/page-查看文件内容.96806772.js" as="script"><link rel="prefetch" href="/assets/js/315.70052155.js"><link rel="prefetch" href="/assets/js/316.d8a987a8.js"><link rel="prefetch" href="/assets/js/317.4c083a84.js"><link rel="prefetch" href="/assets/js/318.e3c16c8d.js"><link rel="prefetch" href="/assets/js/319.1a8650e3.js"><link rel="prefetch" href="/assets/js/layout-Blog.5354c823.js"><link rel="prefetch" href="/assets/js/layout-NotFound.44ee922f.js"><link rel="prefetch" href="/assets/js/layout-Slide.1b84b1ce.js"><link rel="prefetch" href="/assets/js/page--00992f99.0a28fd96.js"><link rel="prefetch" href="/assets/js/page--02b92e92.70a721a5.js"><link rel="prefetch" href="/assets/js/page--051901ce.9ddd2c77.js"><link rel="prefetch" href="/assets/js/page--05388116.268e39f6.js"><link rel="prefetch" href="/assets/js/page--0831fce8.d7a0c595.js"><link rel="prefetch" href="/assets/js/page--0a494ed5.2776150e.js"><link rel="prefetch" href="/assets/js/page--0b301435.d780a5cf.js"><link rel="prefetch" href="/assets/js/page--0b79858d.aa5a1ce8.js"><link rel="prefetch" href="/assets/js/page--0ee246f0.a67c34c8.js"><link rel="prefetch" href="/assets/js/page--11c1e3a9.f4872370.js"><link rel="prefetch" href="/assets/js/page--1283b552.b1099dd7.js"><link rel="prefetch" href="/assets/js/page--12a68231.65893c59.js"><link rel="prefetch" href="/assets/js/page--15baeab2.263dfec1.js"><link rel="prefetch" href="/assets/js/page--1680dd68.763be2fb.js"><link rel="prefetch" href="/assets/js/page--172e782c.b3dbf406.js"><link rel="prefetch" href="/assets/js/page--1820c765.e6289fcd.js"><link rel="prefetch" href="/assets/js/page--18ec4e4d.77a3c771.js"><link rel="prefetch" href="/assets/js/page--19d8e608.2be03f60.js"><link rel="prefetch" href="/assets/js/page--1a69c1e8.a95ce426.js"><link rel="prefetch" href="/assets/js/page--1b01cf2c.49e1bbef.js"><link rel="prefetch" href="/assets/js/page--1ebff999.8ea64314.js"><link rel="prefetch" href="/assets/js/page--21dbf9f2.8ad594b6.js"><link rel="prefetch" href="/assets/js/page--22c4181c.9a612cb5.js"><link rel="prefetch" href="/assets/js/page--23fe186d.b41c9508.js"><link rel="prefetch" href="/assets/js/page--24bade94.b23a0480.js"><link rel="prefetch" href="/assets/js/page--24fd75f6.29f73e93.js"><link rel="prefetch" href="/assets/js/page--27b60cf6.3cf80494.js"><link rel="prefetch" href="/assets/js/page--2f7e7982.974f0315.js"><link rel="prefetch" href="/assets/js/page--3556f927.b2c7d04f.js"><link rel="prefetch" href="/assets/js/page--37813c9f.5385f9cb.js"><link rel="prefetch" href="/assets/js/page--37a41e65.6458355e.js"><link rel="prefetch" href="/assets/js/page--37a8f466.5cc1c599.js"><link rel="prefetch" href="/assets/js/page--38efca82.2b1b4187.js"><link rel="prefetch" href="/assets/js/page--39af4196.79ffffcf.js"><link rel="prefetch" href="/assets/js/page--49acc90a.744a2150.js"><link rel="prefetch" href="/assets/js/page--4ad8cbc0.12071f4e.js"><link rel="prefetch" href="/assets/js/page--4c612f7e.f9f9a019.js"><link rel="prefetch" href="/assets/js/page--4da0a16d.eecfac69.js"><link rel="prefetch" href="/assets/js/page--5b52d91c.9331c505.js"><link rel="prefetch" href="/assets/js/page--5e8c46e6.d76ee5a8.js"><link rel="prefetch" href="/assets/js/page--5f01175b.f7744c6f.js"><link rel="prefetch" href="/assets/js/page--5f89a64f.2c77d272.js"><link rel="prefetch" href="/assets/js/page--601d7964.20ff6eaf.js"><link rel="prefetch" href="/assets/js/page--610817cd.2fefc589.js"><link rel="prefetch" href="/assets/js/page--63004ed8.9541cb04.js"><link rel="prefetch" href="/assets/js/page--631605d4.8c47b692.js"><link rel="prefetch" href="/assets/js/page--6470fbc0.74533419.js"><link rel="prefetch" href="/assets/js/page--697793a6.cad44933.js"><link rel="prefetch" href="/assets/js/page--6c03e171.adcb48e8.js"><link rel="prefetch" href="/assets/js/page--6cbff3a7.c17c8658.js"><link rel="prefetch" href="/assets/js/page--6e296e6a.afeefe2f.js"><link rel="prefetch" href="/assets/js/page--6e54c964.4b5db4dd.js"><link rel="prefetch" href="/assets/js/page--6ee46ea2.15a26bc6.js"><link rel="prefetch" href="/assets/js/page--6faab2a9.f730c643.js"><link rel="prefetch" href="/assets/js/page--70fc627d.576e0b83.js"><link rel="prefetch" href="/assets/js/page--74c7cc54.0d15ef61.js"><link rel="prefetch" href="/assets/js/page--75200c37.3caab74e.js"><link rel="prefetch" href="/assets/js/page--75c876f8.97763f7a.js"><link rel="prefetch" href="/assets/js/page--76f135a8.ed158475.js"><link rel="prefetch" href="/assets/js/page--78371dfb.cf6a2f5c.js"><link rel="prefetch" href="/assets/js/page--7856cf96.4c1fe394.js"><link rel="prefetch" href="/assets/js/page--78fedff4.78fecbe9.js"><link rel="prefetch" href="/assets/js/page--7af14ef7.2f590c2b.js"><link rel="prefetch" href="/assets/js/page--7d8fc366.2b51369d.js"><link rel="prefetch" href="/assets/js/page--82f4313e.cf7d2248.js"><link rel="prefetch" href="/assets/js/page--87eea53e.f6291692.js"><link rel="prefetch" href="/assets/js/page--8a12bdf2.2c18f26a.js"><link rel="prefetch" href="/assets/js/page--998e13a8.f99713d3.js"><link rel="prefetch" href="/assets/js/page--bc2ea082.c7bc5593.js"><link rel="prefetch" href="/assets/js/page--c19aad62.dfbcdeff.js"><link rel="prefetch" href="/assets/js/page--c7ec4bd2.d685691d.js"><link rel="prefetch" href="/assets/js/page--cc526342.66cbdb02.js"><link rel="prefetch" href="/assets/js/page--ce4458a0.2b3e7032.js"><link rel="prefetch" href="/assets/js/page--d5ba11ec.d5b76ff2.js"><link rel="prefetch" href="/assets/js/page--d82f6a26.827918ff.js"><link rel="prefetch" href="/assets/js/page--da414596.7931cedc.js"><link rel="prefetch" href="/assets/js/page--eb5194e8.91f235b8.js"><link rel="prefetch" href="/assets/js/page--ed1e7086.6700c3ad.js"><link rel="prefetch" href="/assets/js/page--f4b1f08c.4f2e0b58.js"><link rel="prefetch" href="/assets/js/page--fae78cf2.ba087fd4.js"><link rel="prefetch" href="/assets/js/page-1011使用awk处理字符串.94006e39.js"><link rel="prefetch" href="/assets/js/page-1012参考资料.cdb527e1.js"><link rel="prefetch" href="/assets/js/page-101字符串处理.7a76a27e.js"><link rel="prefetch" href="/assets/js/page-102参数替换.8caab55c.js"><link rel="prefetch" href="/assets/js/page-111循环.a76a2f87.js"><link rel="prefetch" href="/assets/js/page-112嵌套循环.bef2fda4.js"><link rel="prefetch" href="/assets/js/page-113循环控制.f843225a.js"><link rel="prefetch" href="/assets/js/page-114测试与分支.7f4a28a7.js"><link rel="prefetch" href="/assets/js/page-181正则表达式简介.4a8f5d3c.js"><link rel="prefetch" href="/assets/js/page-182文件名替换.fae3032d.js"><link rel="prefetch" href="/assets/js/page-18正则表达式.2b576011.js"><link rel="prefetch" href="/assets/js/page-19嵌入文档.76ba65ee.js"><link rel="prefetch" href="/assets/js/page-1Ad-hoc简介.bb312ff5.js"><link rel="prefetch" href="/assets/js/page-1AnsiblePlaybook简介.fe1632d4.js"><link rel="prefetch" href="/assets/js/page-1Ansible简介.87d9f659.js"><link rel="prefetch" href="/assets/js/page-1Listen指令.9fb81363.js"><link rel="prefetch" href="/assets/js/page-1Modulengxhttpgzip_module.cb095965.js"><link rel="prefetch" href="/assets/js/page-1Nginx的三个主要应用场景.2776c877.js"><link rel="prefetch" href="/assets/js/page-1Nginx请求处理流程.aa170a46.js"><link rel="prefetch" href="/assets/js/page-1example.3199833c.js"><link rel="prefetch" href="/assets/js/page-1fact简介.240dbfac.js"><link rel="prefetch" href="/assets/js/page-1playbook的结构说明.de804f72.js"><link rel="prefetch" href="/assets/js/page-1加大forks的值.7b40311f.js"><link rel="prefetch" href="/assets/js/page-1匹配模式优先级.2b0282bd.js"><link rel="prefetch" href="/assets/js/page-1在浏览器中打开httpIPphpldapadmin.2f169405.js"><link rel="prefetch" href="/assets/js/page-1如何重用Playbook.62b6553e.js"><link rel="prefetch" href="/assets/js/page-1数据库基本概念.3af173ac.js"><link rel="prefetch" href="/assets/js/page-1数据库相关概念.90a4082e.js"><link rel="prefetch" href="/assets/js/page-1数据类型.e8ea435b.js"><link rel="prefetch" href="/assets/js/page-1本地执行.556c0260.js"><link rel="prefetch" href="/assets/js/page-1用户.6d6bd15c.js"><link rel="prefetch" href="/assets/js/page-1简介.cf019206.js"><link rel="prefetch" href="/assets/js/page-1背景.f904a952.js"><link rel="prefetch" href="/assets/js/page-1视图【view】.f7b100eb.js"><link rel="prefetch" href="/assets/js/page-1配置块的嵌套.25fea539.js"><link rel="prefetch" href="/assets/js/page-1锁等待模拟.0512035d.js"><link rel="prefetch" href="/assets/js/page-201使用exec.760b5b7d.js"><link rel="prefetch" href="/assets/js/page-202重定向代码块.3853a89d.js"><link rel="prefetch" href="/assets/js/page-203应用程序.27fe6787.js"><link rel="prefetch" href="/assets/js/page-20IO重定向.d083e3ed.js"><link rel="prefetch" href="/assets/js/page-21调用一个脚本.ad679deb.js"><link rel="prefetch" href="/assets/js/page-22牛刀小试.17331433.js"><link rel="prefetch" href="/assets/js/page-241复杂函数和函数复杂性.3a4a5b66.js"><link rel="prefetch" href="/assets/js/page-242局部变量.315c8c45.js"><link rel="prefetch" href="/assets/js/page-243不使用局部变量的递归.b26b21ef.js"><link rel="prefetch" href="/assets/js/page-24函数.092e1d2d.js"><link rel="prefetch" href="/assets/js/page-25别名.df49d189.js"><link rel="prefetch" href="/assets/js/page-27数组.415a3472.js"><link rel="prefetch" href="/assets/js/page-30网络编程.c60dc94a.js"><link rel="prefetch" href="/assets/js/page-32调试.207d4623.js"><link rel="prefetch" href="/assets/js/page-33选项.e3103179.js"><link rel="prefetch" href="/assets/js/page-361交互和非交互shell以及脚本.a32bddc2.js"><link rel="prefetch" href="/assets/js/page-362shellwrappers.eab8e9e4.js"><link rel="prefetch" href="/assets/js/page-363测试和比较的其他方法.b3cbe126.js"><link rel="prefetch" href="/assets/js/page-364递归：可以调用自己的脚本.01bff0fc.js"><link rel="prefetch" href="/assets/js/page-41变量替换.bfad35ee.js"><link rel="prefetch" href="/assets/js/page-42变量赋值.01f5f605.js"><link rel="prefetch" href="/assets/js/page-43Bash变量是弱类型的.63793651.js"><link rel="prefetch" href="/assets/js/page-43关于ssh连接一些常见的错误说明.3bcba81a.js"><link rel="prefetch" href="/assets/js/page-44特殊的变量类型.8c3149fe.js"><link rel="prefetch" href="/assets/js/page-51引用变量.b0872b3b.js"><link rel="prefetch" href="/assets/js/page-52转义.7976b4fb.js"><link rel="prefetch" href="/assets/js/page-71测试结构.ad51bc2c.js"><link rel="prefetch" href="/assets/js/page-72文件测试操作.984d0b27.js"><link rel="prefetch" href="/assets/js/page-73其他比较操作.f5597cb2.js"><link rel="prefetch" href="/assets/js/page-74嵌套ifthen条件测试.c0721bbb.js"><link rel="prefetch" href="/assets/js/page-75牛刀小试.9f011dfb.js"><link rel="prefetch" href="/assets/js/page-81运算符.2f1cb594.js"><link rel="prefetch" href="/assets/js/page-82数字常量.30ac8b8d.js"><link rel="prefetch" href="/assets/js/page-91内部变量.f119d736.js"><link rel="prefetch" href="/assets/js/page-921declare的另类用法.03f44250.js"><link rel="prefetch" href="/assets/js/page-92变量类型标注：declare与typeset.e36fe90b.js"><link rel="prefetch" href="/assets/js/page-93$RANDOM：生成随机数.65a5c37f.js"><link rel="prefetch" href="/assets/js/page-Analysis.9073c2dc.js"><link rel="prefetch" href="/assets/js/page-Centos76下Elasticseatch72集群搭建步骤.bdb1b6b4.js"><link rel="prefetch" href="/assets/js/page-Centos7安装升级Ruby.e16a76a6.js"><link rel="prefetch" href="/assets/js/page-ElasticStack与Docker容器.47cfce82.js"><link rel="prefetch" href="/assets/js/page-ElasticStack生态圈.d4690459.js"><link rel="prefetch" href="/assets/js/page-Elasticsearch分词.35e7002b.js"><link rel="prefetch" href="/assets/js/page-Elasticsearch基础概念.ce5fe66c.js"><link rel="prefetch" href="/assets/js/page-Harbor创建.7d97f0c6.js"><link rel="prefetch" href="/assets/js/page-Harbor简介.f8f94f5c.js"><link rel="prefetch" href="/assets/js/page-Jenkins报错Errorcloningremoterepo'origin'.1dc421d6.js"><link rel="prefetch" href="/assets/js/page-Linux下配置jdk的环境变量.4768faa2.js"><link rel="prefetch" href="/assets/js/page-Linux，du、df统计的硬盘使用情况不一致问题.e738ea5a.js"><link rel="prefetch" href="/assets/js/page-MySQLAB简介.c899d2f8.js"><link rel="prefetch" href="/assets/js/page-Nginxcode常用状态码学习小结.4a775780.js"><link rel="prefetch" href="/assets/js/page-Nginx升级加固SSLTLS协议信息泄露漏洞(CVE-2016-2183)和HTTP服务器的缺省banner漏洞.67ae42b0.js"><link rel="prefetch" href="/assets/js/page-PrometheusAlert.f9241d9d.js"><link rel="prefetch" href="/assets/js/page-Python介绍.8b28da3a.js"><link rel="prefetch" href="/assets/js/page-RabbitMQ高可用集群架构.4278d7f1.js"><link rel="prefetch" href="/assets/js/page-Redis-集群.9352135a.js"><link rel="prefetch" href="/assets/js/page-Redis是什么.2d0d1b6e.js"><link rel="prefetch" href="/assets/js/page-RequestBodySearch.264f05f7.js"><link rel="prefetch" href="/assets/js/page-SearchAPI.12e3629d.js"><link rel="prefetch" href="/assets/js/page-Summary.910c4072.js"><link rel="prefetch" href="/assets/js/page-TemplateDBMySQL简介.91b92731.js"><link rel="prefetch" href="/assets/js/page-Tomcat学习笔记（一）.2a6834d8.js"><link rel="prefetch" href="/assets/js/page-Zabbix-Zookeper-Template.e86be1ef.js"><link rel="prefetch" href="/assets/js/page-Zabbix客户端日志出现(Notallprocessescouldbeidentified）.9e5937b0.js"><link rel="prefetch" href="/assets/js/page-activemq5159集群搭建步骤.cdd844fc.js"><link rel="prefetch" href="/assets/js/page-ansible安装jenkins.cd5dd633.js"><link rel="prefetch" href="/assets/js/page-ansible配置.331b415a.js"><link rel="prefetch" href="/assets/js/page-centos65下安装python36、pip、ipython.b2aea301.js"><link rel="prefetch" href="/assets/js/page-centos7下搭建shadowsocks.478f55e9.js"><link rel="prefetch" href="/assets/js/page-centos7下时区问题.1f02189a.js"><link rel="prefetch" href="/assets/js/page-curlhttps报错curl(35)SSLconnecterror.81274699.js"><link rel="prefetch" href="/assets/js/page-curl方式执行shell脚本时如何传参.0209ca8a.js"><link rel="prefetch" href="/assets/js/page-docker搭建redis集群.1f1788cc.js"><link rel="prefetch" href="/assets/js/page-echo命令.7b59d277.js"><link rel="prefetch" href="/assets/js/page-filebeat的安装注意.8c335098.js"><link rel="prefetch" href="/assets/js/page-gitlab安装.56dfc89e.js"><link rel="prefetch" href="/assets/js/page-hash类型.89289298.js"><link rel="prefetch" href="/assets/js/page-hexo(next)+github博客的搭建.f71c12d0.js"><link rel="prefetch" href="/assets/js/page-kafka212集群搭建步骤.44dfb0f5.js"><link rel="prefetch" href="/assets/js/page-keepalived简介.24342ae2.js"><link rel="prefetch" href="/assets/js/page-keepalived详解.6a9ddea3.js"><link rel="prefetch" href="/assets/js/page-linux下如何增加swap交换分区.7bf42e9f.js"><link rel="prefetch" href="/assets/js/page-linux内核参数优化（网络模块）.8663597b.js"><link rel="prefetch" href="/assets/js/page-list类型.0fb2d5aa.js"><link rel="prefetch" href="/assets/js/page-logrotate简介.73c5dabf.js"><link rel="prefetch" href="/assets/js/page-logstash安装注意.ea63c31d.js"><link rel="prefetch" href="/assets/js/page-mysql最大连接数的改变.7bbd208c.js"><link rel="prefetch" href="/assets/js/page-mysql架构.42bdaf32.js"><link rel="prefetch" href="/assets/js/page-nginx前面有多个反向代理时，proxy的正确设置.dc147f9b.js"><link rel="prefetch" href="/assets/js/page-playbook的语法：YAML.ba4f3d09.js"><link rel="prefetch" href="/assets/js/page-redis-dump方式导入导出数据.1525324e.js"><link rel="prefetch" href="/assets/js/page-redis504集群搭建.8117484a.js"><link rel="prefetch" href="/assets/js/page-sed命令详解.041558d5.js"><link rel="prefetch" href="/assets/js/page-string类型.e7f705f4.js"><link rel="prefetch" href="/assets/js/page-tomcat安全配置.0a29ef8d.js"><link rel="prefetch" href="/assets/js/page-war正确删除姿势.f4cc2f96.js"><link rel="prefetch" href="/assets/js/page-yum管理RPM包.570b7a01.js"><link rel="prefetch" href="/assets/js/page-zabbix-server安装.6e827e03.js"><link rel="prefetch" href="/assets/js/page-zabbix添加报警媒介.d343055e.js"><link rel="prefetch" href="/assets/js/page-zookeeper3414集群搭建步骤.4e72a254.js"><link rel="prefetch" href="/assets/js/page-一、Jenkins介绍.83a906d1.js"><link rel="prefetch" href="/assets/js/page-一、etcsecuritylimitsconf详解.66e0df37.js"><link rel="prefetch" href="/assets/js/page-下载redis-500安装包.20c61a4b.js"><link rel="prefetch" href="/assets/js/page-主库异常，从库手动切换为主库方案.8d5bdbdc.js"><link rel="prefetch" href="/assets/js/page-从开源到上市.cc91390f.js"><link rel="prefetch" href="/assets/js/page-使用方法.55a87997.js"><link rel="prefetch" href="/assets/js/page-关闭jenkins.3cf4434f.js"><link rel="prefetch" href="/assets/js/page-关闭被监控端的防火墙.aa8a1d41.js"><link rel="prefetch" href="/assets/js/page-写作前.6f6fb166.js"><link rel="prefetch" href="/assets/js/page-分布式FastDfs+nginx缓存高可用集群构建.83c12e64.js"><link rel="prefetch" href="/assets/js/page-创建、复制、移动、删除.90d6b82a.js"><link rel="prefetch" href="/assets/js/page-双圆括号结构.c7db115a.js"><link rel="prefetch" href="/assets/js/page-变量优先级.11141d7d.js"><link rel="prefetch" href="/assets/js/page-命名.ba3784c7.js"><link rel="prefetch" href="/assets/js/page-基本权限UGO.2a781785.js"><link rel="prefetch" href="/assets/js/page-存储引擎简介.c8ca28f6.js"><link rel="prefetch" href="/assets/js/page-安装.94b6253b.js"><link rel="prefetch" href="/assets/js/page-安装python解释器，配置好path变量。.128440a7.js"><link rel="prefetch" href="/assets/js/page-安装运行.f5c32b5e.js"><link rel="prefetch" href="/assets/js/page-导入nginx配置文件.238fe564.js"><link rel="prefetch" href="/assets/js/page-开机集成zabbix和jumpserver脚本.f680c298.js"><link rel="prefetch" href="/assets/js/page-打包、压缩.43e788b9.js"><link rel="prefetch" href="/assets/js/page-数据类型.7cc588fb.js"><link rel="prefetch" href="/assets/js/page-文档的CRUD.c05c1c45.js"><link rel="prefetch" href="/assets/js/page-显示当前正在编辑的文件名.cc920e05.js"><link rel="prefetch" href="/assets/js/page-服务器端.38f3c96a.js"><link rel="prefetch" href="/assets/js/page-查看哪些表被锁住了.e58071b7.js"><link rel="prefetch" href="/assets/js/page-查看文件类型.526b77e8.js"><link rel="prefetch" href="/assets/js/page-查看文件详细属性.98aa3e6d.js"><link rel="prefetch" href="/assets/js/page-标准输入、标准输出、标准错误.450ef462.js"><link rel="prefetch" href="/assets/js/page-核心知识点概览.8f6f2c03.js"><link rel="prefetch" href="/assets/js/page-模板导入.1fe758e7.js"><link rel="prefetch" href="/assets/js/page-正排与倒排索引.318b3563.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（21）-find之xargs.bcefefec.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（29）-chown.d2b62f3d.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（33）-du.163943e7.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（35）-diff.778cff5b.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（36）-date.7d6c3527.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（42）-killall.e1853a33.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（45）-vmstat.2eb2bdcb.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（46）-iostat.21c6fc3f.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（49）-lsof.ae8451c8.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（52）-ping.59ac2731.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（53）-traceroute.488a19c5.js"><link rel="prefetch" href="/assets/js/page-用户管理.8935857a.js"><link rel="prefetch" href="/assets/js/page-由来.c523a237.js"><link rel="prefetch" href="/assets/js/page-白天做运维，晚上搞副业赚钱.38ec5a6e.js"><link rel="prefetch" href="/assets/js/page-第34章陷阱.d95cdf6c.js"><link rel="prefetch" href="/assets/js/page-第36章杂项.a437a320.js"><link rel="prefetch" href="/assets/js/page-第一章为什么使用shell编程.2862448c.js"><link rel="prefetch" href="/assets/js/page-第一部分初见Shell.aa3c153b.js"><link rel="prefetch" href="/assets/js/page-第七章测试.5097d3b6.js"><link rel="prefetch" href="/assets/js/page-第三章特殊字符.07957e01.js"><link rel="prefetch" href="/assets/js/page-第三部分shell进阶.f437f196.js"><link rel="prefetch" href="/assets/js/page-第九章换个角度看变量.1e66a414.js"><link rel="prefetch" href="/assets/js/page-第二十一章子shell.552db6b3.js"><link rel="prefetch" href="/assets/js/page-第二十三章进程替换.3b9ee40f.js"><link rel="prefetch" href="/assets/js/page-第二十二章限制模式的Shell.5cf27a6a.js"><link rel="prefetch" href="/assets/js/page-第二十六章列表结构.1ef68b72.js"><link rel="prefetch" href="/assets/js/page-第二章和Sha-Bang（!）一起出发.1c74c8eb.js"><link rel="prefetch" href="/assets/js/page-第二部分shell基础.c8fe1ff7.js"><link rel="prefetch" href="/assets/js/page-第五章引用.82cb3c14.js"><link rel="prefetch" href="/assets/js/page-第五部分高级话题.2c9e3e57.js"><link rel="prefetch" href="/assets/js/page-第八章运算符相关话题.340da89d.js"><link rel="prefetch" href="/assets/js/page-第六章退出与退出状态.7917babe.js"><link rel="prefetch" href="/assets/js/page-第十一章循环与分支.4482afbd.js"><link rel="prefetch" href="/assets/js/page-第十三章算术扩展.f5fa3f63.js"><link rel="prefetch" href="/assets/js/page-第十二章命令替换.ff222168.js"><link rel="prefetch" href="/assets/js/page-第十章变量处理.67c73a9d.js"><link rel="prefetch" href="/assets/js/page-第四章变量与参数.ad0987ac.js"><link rel="prefetch" href="/assets/js/page-第四部分命令.99a231f4.js"><link rel="prefetch" href="/assets/js/page-简单说明.ba16ac18.js"><link rel="prefetch" href="/assets/js/page-网络基础.ed982e3c.js"><link rel="prefetch" href="/assets/js/page-聊透监控体系，就这一篇够不够？.a5b6faea.js"><link rel="prefetch" href="/assets/js/page-背景.7f5b1a02.js"><link rel="prefetch" href="/assets/js/page-自动清理.7edadf93.js"><link rel="prefetch" href="/assets/js/page-调优的目的：.f3d18222.js"><link rel="prefetch" href="/assets/js/page-运算符优先级.ead6c4bf.js"><link rel="prefetch" href="/assets/js/page-通过URIquery实现搜索.07208dc4.js"><link rel="prefetch" href="/assets/js/page-配置.b3d9362d.js"><link rel="prefetch" href="/assets/js/page-键命令.32aeeb92.js"><link rel="prefetch" href="/assets/js/page-附录FIO与IO重定向详细介绍.e97051d7.js"><link rel="prefetch" href="/assets/js/page-附录TASCII表.e1b8f6c7.js"><link rel="prefetch" href="/assets/js/page-静态查看进程ps.badcf337.js"><link rel="prefetch" href="/assets/js/page-高可用开源方案KeepalivedVSHeartbeat对比.8f6a533d.js"><link rel="prefetch" href="/assets/js/vendors~flowchart.f6549622.js"><link rel="prefetch" href="/assets/js/vendors~photo-swipe.05981dda.js"><link rel="prefetch" href="/assets/js/vendors~reveal.8aad0cba.js"><link rel="prefetch" href="/assets/js/vendors~valine.33185196.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74e162d4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container has-navbar has-anchor"><header class="navbar"><button class="sidebar-button"><span class="icon"></span></button> <a href="/" class="home-link router-link-active"><img src="/lufei.jpg" alt="IT外卖小哥" class="logo"> <!----> <span class="site-name can-hide">IT外卖小哥</span></a> <div class="links"><button class="color-button"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="skin-icon"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4
+        38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32
+        51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0
+        102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2
+        6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4
+        0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2
+        9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224
+        419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4
+        470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0
+        22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6
+        12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128
+        505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2
+        16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8
+        86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4
+        80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6
+        6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></svg> <div class="color-picker-menu" style="display:none;"><div class="theme-options"><ul class="themecolor-select"><label for="themecolor-select">主题色:</label> <li><a href="#" class="default-theme"></a></li> </ul> <div class="darkmode-toggle"><label for="darkmode-toggle" class="desc">主题模式:</label> <div class="darkmode-switch"><div class="item day"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon light-icon"><path d="M512 256a42.667 42.667 0 0 0 42.667-42.667V128a42.667 42.667 0 0 0-85.334 0v85.333A42.667 42.667 0 0 0 512 256zm384 213.333h-85.333a42.667 42.667 0 0 0 0 85.334H896a42.667 42.667 0 0 0 0-85.334zM256 512a42.667 42.667 0 0 0-42.667-42.667H128a42.667 42.667 0 0 0 0 85.334h85.333A42.667 42.667 0 0 0 256 512zm9.387-298.667a42.667 42.667 0 0 0-59.307 62.72l61.44 59.307a42.667 42.667 0 0 0 31.147 11.947 42.667 42.667 0 0 0 30.72-13.227 42.667 42.667 0 0 0 0-60.16zm459.946 133.974a42.667 42.667 0 0 0 29.44-11.947l61.44-59.307a42.667 42.667 0 0 0-57.6-62.72l-61.44 60.587a42.667 42.667 0 0 0 0 60.16 42.667 42.667 0 0 0 28.16 13.227zM512 768a42.667 42.667 0 0 0-42.667 42.667V896a42.667 42.667 0 0 0 85.334 0v-85.333A42.667 42.667 0 0 0 512 768zm244.48-79.36a42.667 42.667 0 0 0-59.307 61.44l61.44 60.587a42.667 42.667 0 0 0 29.44 11.946 42.667 42.667 0 0 0 30.72-12.8 42.667 42.667 0 0 0 0-60.586zm-488.96 0-61.44 59.307a42.667 42.667 0 0 0 0 60.586 42.667 42.667 0 0 0 30.72 12.8 42.667 42.667 0 0 0 28.587-10.666l61.44-59.307a42.667 42.667 0 0 0-59.307-61.44zM512 341.333A170.667 170.667 0 1 0 682.667 512 170.667 170.667 0 0 0 512 341.333z" fill="currentColor"></path></svg></div> <div class="item auto active"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon auto-icon"><path d="M460.864 539.072H564.8L510.592 376l-49.728 163.072zM872 362.368V149.504H659.648L510.528 0l-149.12 149.504H149.12v212.928L0 511.872l149.12 149.504v212.928h212.352l149.12 149.504 149.12-149.504h212.352V661.376l149.12-149.504L872 362.368zM614.464 693.12l-31.616-90.624H438.272l-31.616 90.624h-85.888l144.576-407.68h90.368l144.576 407.68h-85.824zm0 0" fill="currentColor"></path></svg></div> <div class="item night"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon dark-icon"><path d="M935.539 630.402c-11.43-11.432-28.674-14.739-43.531-8.354-46.734 20.103-96.363 30.297-147.508 30.297-99.59 0-193.221-38.784-263.64-109.203-108.637-108.637-139.61-270.022-78.908-411.148a39.497 39.497 0 0 0-51.886-51.887c-52.637 22.64-100.017 54.81-140.826 95.616-85.346 85.346-132.346 198.821-132.346 319.52 0 120.7 47.001 234.172 132.347 319.519S408.063 947.11 528.76 947.11c120.7 0 234.172-47.003 319.52-132.351 40.809-40.81 72.978-88.19 95.616-140.826a39.497 39.497 0 0 0-8.356-43.532z" fill="currentColor"></path></svg></div></div> <!----></div></div></div></button> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link router-link-active"><i class="iconfont icon-home"></i>
+  博客主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="容器" class="dropdown-title"><span class="title"><i class="iconfont icon-kubernetes"></i>
+        容器
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/container/docker/" class="nav-link"><i class="iconfont icon-docker"></i>
+  Docker
+</a></li><li class="dropdown-item"><a href="/container/kubernetes/" class="nav-link"><i class="iconfont icon-kubernetes"></i>
+  Kubernetes
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="代码笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+        代码笔记
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>开发框架</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/django/" class="nav-link"><i class="iconfont icon-django"></i>
+  Django
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="监控工具" class="dropdown-title"><span class="title"><i class="iconfont icon-monitor"></i>
+        监控工具
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link"><i class="iconfont icon-zabbix"></i>
+  Zabbix
+</a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link"><i class="iconfont icon-prometheus"></i>
+  Prometheus
+</a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link"><i class="iconfont icon-grafana"></i>
+  Grafana
+</a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link"><i class="iconfont icon-elastic"></i>
+  ELK
+</a></li><li class="dropdown-item"><a href="/monitor/apm/" class="nav-link"><i class="iconfont icon-apm"></i>
+  APM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="web中间件" class="dropdown-title"><span class="title"><i class="iconfont icon-web"></i>
+        web中间件
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link"><i class="iconfont icon-nginx"></i>
+  Nginx
+</a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link"><i class="iconfont icon-tomcat"></i>
+  tomcat
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="自动化工具" class="dropdown-title"><span class="title"><i class="iconfont icon-automate"></i>
+        自动化工具
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link"><i class="iconfont icon-jenkins"></i>
+  Jenkins
+</a></li><li class="dropdown-item"><a href="/automate/gitlab/" class="nav-link"><i class="iconfont icon-gitlab"></i>
+  Gitlab
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title"><i class="iconfont icon-db"></i>
+        数据库
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link"><i class="iconfont icon-mysql"></i>
+  MySQL
+</a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link"><i class="iconfont icon-redis"></i>
+  Redis
+</a></li></ul></div></div></nav> <!----> <a rel="noopener noreferrer" href="https://github.com/vuepress-theme-hope/vuepress-theme-hope" target="_blank" class="repo-link can-hide">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><div vocab="https://schema.org/" typeof="Person" class="blogger-info mobile"><div data-balloon-pos="down" class="blogger hasIntro"><img property="image" alt="Blogger Avatar" src="/lufei.jpg" class="avatar round"> <div property="name" class="name">Clay</div> <meta property="url" content="/intro/"></div> <div class="num-wrapper"><div><div class="num">229</div> <div>文章</div></div> <div><div class="num">2</div> <div>分类</div></div> <div><div class="num">6</div> <div>标签</div></div> <div><div class="num">229</div> <div>时间轴</div></div></div> <div class="media-links-wrapper"><a href="mailto:clay_wangzhi@163.com" rel="noopener noreferrer" target="_blank" aria-label="Email" data-balloon-pos="up" class="media-link"><span class="sr-only">Email</span> <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon icon-email"><path d="M0 512a512 512 0 101024 0A512 512 0 100 512z" fill="#1384FF"></path> <path d="M299.372 313.572H722.93c28.945 0 52.61 21.845 52.975 48.787L511.333 500.35 246.76 362.481c.182-27.003 23.666-48.97 52.611-48.97zm-52.671 101.702l-.243 244.121c0 27.186 23.848 49.395 52.914 49.395H722.93c29.127 0 52.975-22.21 52.975-49.395V415.152L517.522 546.71a13.957 13.957 0 01-12.682 0L246.7 415.274z" fill="#FFF"></path></svg></a></div></div> <hr>  <nav class="sidebar-nav-links"><div class="nav-item"><a href="/" class="nav-link router-link-active"><i class="iconfont icon-home"></i>
+  博客主页
+</a></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="容器" class="dropdown-title"><span class="title"><i class="iconfont icon-kubernetes"></i>
+      容器
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/container/docker/" class="nav-link"><i class="iconfont icon-docker"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/container/kubernetes/" class="nav-link"><i class="iconfont icon-kubernetes"></i>
+  Kubernetes
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="代码笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+      代码笔记
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>开发框架</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/django/" class="nav-link"><i class="iconfont icon-django"></i>
+  Django
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="监控工具" class="dropdown-title"><span class="title"><i class="iconfont icon-monitor"></i>
+      监控工具
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/monitor/zabbix/" class="nav-link"><i class="iconfont icon-zabbix"></i>
+  Zabbix
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/prometheus/" class="nav-link"><i class="iconfont icon-prometheus"></i>
+  Prometheus
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/grafana/" class="nav-link"><i class="iconfont icon-grafana"></i>
+  Grafana
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/elk/" class="nav-link"><i class="iconfont icon-elastic"></i>
+  ELK
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/apm/" class="nav-link"><i class="iconfont icon-apm"></i>
+  APM
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="web中间件" class="dropdown-title"><span class="title"><i class="iconfont icon-web"></i>
+      web中间件
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web/nginx/" class="nav-link"><i class="iconfont icon-nginx"></i>
+  Nginx
+</a></li><li class="dropdown-item"><!----> <a href="/web/tomcat/" class="nav-link"><i class="iconfont icon-tomcat"></i>
+  tomcat
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="自动化工具" class="dropdown-title"><span class="title"><i class="iconfont icon-automate"></i>
+      自动化工具
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/automate/ansible/" class="nav-link"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-item"><!----> <a href="/automate/jenkins/" class="nav-link"><i class="iconfont icon-jenkins"></i>
+  Jenkins
+</a></li><li class="dropdown-item"><!----> <a href="/automate/gitlab/" class="nav-link"><i class="iconfont icon-gitlab"></i>
+  Gitlab
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title"><i class="iconfont icon-db"></i>
+      数据库
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/db/mysql/" class="nav-link"><i class="iconfont icon-mysql"></i>
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/db/redis/" class="nav-link"><i class="iconfont icon-redis"></i>
+  Redis
+</a></li></ul></div></div> <a rel="noopener noreferrer" href="https://github.com/vuepress-theme-hope/vuepress-theme-hope" target="_blank" class="repo-link">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <!----> </aside> <main class="page"><nav class="breadcrumb disable"><!----></nav>  <div vocab="https://schema.org/" typeof="Article" class="page-title"><h1><!----> <span property="headline">查看文件内容</span></h1> <div class="page-info"><!----> <span aria-label="作者🖊" data-balloon-pos="down"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon author-icon"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z" fill="currentColor"></path></svg> <span property="author">Clay</span></span><span aria-label="访问量🔢" data-balloon-pos="down" class="visitor-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon eye-icon"><path d="M992 512.096c0-5.76-.992-10.592-1.28-11.136-.192-2.88-1.152-8.064-2.08-10.816-.256-.672-.544-1.376-.832-2.08-.48-1.568-1.024-3.104-1.6-4.32C897.664 290.112 707.104 160 512 160c-195.072 0-385.632 130.016-473.76 322.592-1.056 2.112-1.792 4.096-2.272 5.856a55.512 55.512 0 0 0-.64 1.6c-1.76 5.088-1.792 8.64-1.632 7.744-.832 3.744-1.568 11.168-1.568 11.168-.224 2.272-.224 4.032.032 6.304 0 0 .736 6.464 1.088 7.808.128 1.824.576 4.512 1.12 6.976h-.032c.448 2.08 1.12 4.096 1.984 6.08.48 1.536.992 2.976 1.472 4.032C126.432 733.856 316.992 864 512 864c195.136 0 385.696-130.048 473.216-321.696 1.376-2.496 2.24-4.832 2.848-6.912.256-.608.48-1.184.672-1.728 1.536-4.48 1.856-8.32 1.728-8.32l-.032.032c.608-3.104 1.568-7.744 1.568-13.28zM512 672c-88.224 0-160-71.776-160-160s71.776-160 160-160 160 71.776 160 160-71.776 160-160 160z" fill="currentColor"></path></svg> <span id="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/" data-flag-title="查看文件内容" class="leancloud_visitors"><span class="leancloud-visitors-count">...</span></span></span><span aria-label="阅读时间⌛" data-balloon-pos="down" class="reading-time-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon timer-icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z" fill="currentColor"></path></svg> <span>大约 16 分钟</span> <meta property="timeRequired" content="PT16M"></span><span aria-label="字数🔠" data-balloon-pos="down" class="words-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon word-icon"><path d="M518.217 432.64V73.143A73.143 73.143 0 0 1 603.43 1.097a512 512 0 0 1 419.474 419.474 73.143 73.143 0 0 1-72.046 85.212H591.36a73.143 73.143 0 0 1-73.143-73.143z" fill="currentColor"></path> <path d="M493.714 566.857h340.297a73.143 73.143 0 0 1 73.143 85.577A457.143 457.143 0 1 1 371.566 117.76a73.143 73.143 0 0 1 85.577 73.143v339.383a36.571 36.571 0 0 0 36.571 36.571z" fill="currentColor"></path></svg> <span>约 4795 字</span> <meta property="wordCount" content="4795"></span></div> <!----> <hr></div> <div class="anchor-place-holder"><aside id="anchor"><div class="anchor-wrapper"><ul class="anchor-list"><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#查看文件内容" class="anchor-link heading2"><div>查看文件内容</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#cat命令" class="anchor-link heading3"><div>cat命令</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#less命令" class="anchor-link heading3"><div>less命令</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#more命令" class="anchor-link heading3"><div>more命令</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#head命令" class="anchor-link heading3"><div>head命令</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#tail命令" class="anchor-link heading3"><div>tail命令</div></a></li><li class="anchor"><a href="/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/#grep命令" class="anchor-link heading3"><div>grep命令</div></a></li></ul></div></aside></div> <div class="theme-default-content content__default"><h2 id="查看文件内容"><a href="#查看文件内容" class="header-anchor">#</a> 查看文件内容</h2> <h3 id="cat命令"><a href="#cat命令" class="header-anchor">#</a> cat命令</h3> <p>cat命令的用途是连接文件或标准输入并打印。这个命令常用来显示文件内容，或者将几个文件连接起来显示，或者从标准输入读取内容并显示，它常与重定向符号配合使用。</p> <h4 id="语法"><a href="#语法" class="header-anchor">#</a> 语法</h4> <p><code>cat(选项)(参数)</code></p> <h4 id="选项"><a href="#选项" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>-A, --show-all           等价于 -vET
+-b, --number-nonblank    对非空输出行编号
+-e                       等价于 -vE
+-E, --show-ends          在每行结束处显示 $
+-n, --number     对输出的所有行编号,由1开始对所有输出的行数编号
+-s, --squeeze-blank  有连续两行以上的空白行，就代换为一行的空白行 
+-t                       与 -vT 等价
+-T, --show-tabs          将跳格字符显示为 ^I
+-u                       (被忽略)
+-v, --show-nonprinting   使用 ^ 和 M- 引用，除了 LFD 和 TAB 之外
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="功能"><a href="#功能" class="header-anchor">#</a> 功能</h4> <p>1.一次显示整个文件:cat filename</p> <p>2.从键盘创建一个文件:cat &gt; filename 只能创建新文件,不能编辑已有文件.</p> <p>3.将几个文件合并为一个文件:cat file1 file2 &gt; file</p> <h4 id="常用范例"><a href="#常用范例" class="header-anchor">#</a> 常用范例</h4> <p>1）把 log2012.log 的文件内容加上行号后输入 log.log 这个文件里</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat log.log 
+[root@localhost test]# cat -n log2012.log &gt; log.log
+# cat -n log.log 
+     1  2012-01
+     2  2012-02
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>2）使用here doc来生成文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat &gt;log.txt &lt;&lt;EOF
+&gt; Hello
+&gt; World
+&gt; Linux
+&gt; PWD=$(pwd)
+&gt; EOF
+# ls -l log.txt 
+-rw-r--r-- 1 root root 37 10-28 17:07 log.txt
+# cat log.txt 
+Hello
+World
+Linux
+PWD=/opt/soft/test
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>说明：</p> <p>注意粗体部分，here doc可以进行字符串替换。</p> <p>备注：</p> <p>tac (反向列示)</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># tac log.txt 
+PWD=/opt/soft/test
+Linux
+World
+Hello
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>说明：</p> <p>tac 是将 cat 反写过来，所以他的功能就跟 cat 相反， cat 是由第一行到最后一行连续显示在萤幕上，而 tac 则是由最后一行到第一行反向在萤幕上显示出来！</p> <h3 id="less命令"><a href="#less命令" class="header-anchor">#</a> less命令</h3> <p>less 工具也是对文件或其它输出进行分页显示的工具，应该说是linux正统查看文件内容的工具，功能极其强大。less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 [pageup][pagedown] 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p> <h4 id="语法-2"><a href="#语法-2" class="header-anchor">#</a> 语法</h4> <p><code>less(选项)(参数)</code></p> <h4 id="选项-2"><a href="#选项-2" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>-b  &lt;缓冲区大小&gt; 设置缓冲区的大小
+-e  当文件显示结束后，自动离开
+-f  强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+-g  只标志最后搜索的关键词
+-i  忽略搜索时的大小写
+-m  显示类似more命令的百分比
+-N  显示每行的行号
+-o &lt;文件名&gt; 将less 输出的内容在指定文件中保存起来
+-Q  不使用警告音
+-s  显示连续空行为一行
+-S  行过长时间将超出部分舍弃
+-x &lt;数字&gt; 将“tab”键显示为规定的数字空格
+/字符串：向下搜索“字符串”的功能
+?字符串：向上搜索“字符串”的功能
+n：重复前一个搜索（与 / 或 ? 有关）
+N：反向重复前一个搜索（与 / 或 ? 有关）
+b  向后翻一页
+d  向后翻半页
+h  显示帮助界面
+Q  退出less 命令
+u  向前滚动半页
+y  向前滚动一行
+空格键 滚动一行
+回车键 滚动一页
+[pagedown]： 向下翻动一页
+[pageup]：   向上翻动一页
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h4 id="功能-2"><a href="#功能-2" class="header-anchor">#</a> 功能</h4> <p>less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p> <h4 id="常用实例"><a href="#常用实例" class="header-anchor">#</a> 常用实例</h4> <p>1）ps查看进程信息并通过less分页显示</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>ps -ef | less
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>2 ) 查看命令历史使用记录并通过less分页显示</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>history | less
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>3）浏览多个文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>less log2013.log log2014.log
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>说明：</p> <p>输入 ：n后，切换到 log2014.log</p> <p>输入 ：p 后，切换到log2013.log</p> <h4 id="附加备注"><a href="#附加备注" class="header-anchor">#</a> 附加备注</h4> <p>1.全屏导航</p> <p>ctrl + F - 向前移动一屏</p> <p>ctrl + B - 向后移动一屏</p> <p>ctrl + D - 向前移动半屏</p> <p>ctrl + U - 向后移动半屏</p> <p>2.单行导航</p> <p>j - 向前移动一行</p> <p>k - 向后移动一行</p> <p>3.其它导航</p> <p>G - 移动到最后一行</p> <p>g - 移动到第一行</p> <p>q / ZZ - 退出 less 命令</p> <p>4.其它有用的命令</p> <p>v - 使用配置的编辑器编辑当前文件</p> <p>h - 显示 less 的帮助文档</p> <p>&amp;pattern - 仅显示匹配模式的行，而不是整个文件</p> <p>5.标记导航</p> <p>当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：</p> <p>ma - 使用 a 标记文本的当前位置</p> <p>'a - 导航到标记 a 处</p> <h3 id="more命令"><a href="#more命令" class="header-anchor">#</a> more命令</h3> <p>more命令，功能类似 cat ，cat命令是整个文件的内容从上到下显示在屏幕上。 more会以一页一页的显示方便使用者逐页阅读，而最基本的指令就是按空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示，而且还有搜寻字串的功能 。more命令从前向后读取文件，因此在启动时就加载整个文件。</p> <h4 id="语法-3"><a href="#语法-3" class="header-anchor">#</a> 语法</h4> <p><code>more(语法)(参数)</code></p> <h4 id="选项-3"><a href="#选项-3" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>+n      从笫n行开始显示
+-n       定义屏幕大小为n行
++/pattern 在每个档案显示前搜寻该字串（pattern），然后从该字串前两行之后开始显示  
+-c       从顶部清屏，然后显示
+-d       提示“Press space to continue，’q’ to quit（按空格键继续，按q键退出）”，禁用响铃功能
+-l        忽略Ctrl+l（换页）字符
+-p       通过清除窗口而不是滚屏来对文件进行换页，与-c选项相似
+-s       把连续的多个空行显示为一行
+-u       把文件内容中的下画线去掉
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="功能-3"><a href="#功能-3" class="header-anchor">#</a> 功能</h4> <p>more命令和cat的功能一样都是查看文件里的内容，但有所不同的是more可以按页来查看文件的内容，还支持直接跳转行等功能。</p> <h4 id="常用操作命令"><a href="#常用操作命令" class="header-anchor">#</a> 常用操作命令</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>Enter    向下n行，需要定义。默认为1行
+Ctrl+F   向下滚动一屏
+空格键  向下滚动一屏
+Ctrl+B  返回上一屏
+=       输出当前行的行号
+：f    输出文件名和当前行的行号
+V      调用vi编辑器
+!命令   调用Shell，并执行命令 
+q       退出more
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="常用范例-2"><a href="#常用范例-2" class="header-anchor">#</a> 常用范例</h4> <p>1）显示文件中从第3行起的内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat log2012.log 
+2012-01
+2012-02
+2012-03
+2012-04-day1
+2012-04-day2
+2012-04-day3
+# more +3 log2012.log 
+2012-03
+2012-04-day1
+2012-04-day2
+2012-04-day3
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>2）从文件中查找第一个出现&quot;day3&quot;字符串的行，并从该处前两行开始显示输出</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># more +/day3 log2012.log 
+...skipping
+2012-04-day1
+2012-04-day2
+2012-04-day3
+2012-05
+2012-05-day1
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>3）设定每屏显示行数</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># more -5 log2012.log 
+2012-01
+2012-02
+2012-03
+2012-04-day1
+2012-04-day2
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>4）列一个目录下的文件，由于内容太多，我们应该学会用more来分页显示。这得和管道 | 结合起来</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>#  ls -l  | more -5
+总计 36
+-rw-r--r-- 1 root root  308 11-01 16:49 log2012.log
+-rw-r--r-- 1 root root   33 10-28 16:54 log2013.log
+-rw-r--r-- 1 root root  127 10-28 16:51 log2014.log
+lrwxrwxrwx 1 root root    7 10-28 15:18 log_link.log -&gt; log.log
+-rw-r--r-- 1 root root   25 10-28 17:02 log.log
+-rw-r--r-- 1 root root   37 10-28 17:07 log.txt
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxrwxrwx 2 root root 4096 10-28 14:47 test4
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>说明：</p> <p>每页显示5个文件信息，按 Ctrl+F 或者 空格键 将会显示下5条文件信息。</p> <h3 id="head命令"><a href="#head命令" class="header-anchor">#</a> head命令</h3> <p>head 与 tail 就像它的名字一样的浅显易懂，它是用来显示开头或结尾某个数量的文字区块，head 用来显示档案的开头至标准输出中，而 tail 想当然尔就是看档案的结尾。</p> <h4 id="语法-4"><a href="#语法-4" class="header-anchor">#</a> 语法</h4> <p><code>head(选项)(参数)</code></p> <h4 id="选项-4"><a href="#选项-4" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>-n&lt;数字&gt;：指定显示头部内容的行数；
+-c&lt;字符数&gt;：指定显示头部内容的字符数；
+-v：总是显示文件名的头信息；
+-q：不显示文件名的头信息。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="功能-4"><a href="#功能-4" class="header-anchor">#</a> 功能</h4> <p>head 用来显示档案的开头至标准输出中，默认head命令打印其相应文件的开头10行。</p> <h4 id="常用范例-3"><a href="#常用范例-3" class="header-anchor">#</a> 常用范例</h4> <p>1）显示文件的前n行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+# head -n 5 log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>2）显示文件前n个字节</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># head -c 20 log2014.log
+2014-01
+2014-02
+2014
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>3）文件的除了最后n个字节以外的内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># head -c -32 log2014.log
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>4）输出文件除了最后n行的全部内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># head -n -6 log2014.log
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="tail命令"><a href="#tail命令" class="header-anchor">#</a> tail命令</h3> <p>tail 命令从指定点开始将文件写到标准输出.使用tail命令的-f选项可以方便的查阅正在改变的日志文件,tail -f filename会把filename里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容.</p> <h4 id="语法-5"><a href="#语法-5" class="header-anchor">#</a> 语法</h4> <p><code>tail(选项)(参数)</code></p> <h4 id="选项-5"><a href="#选项-5" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>-f 循环读取
+-q 不显示处理信息
+-v 显示详细的处理信息
+-c&lt;数目&gt; 显示的字节数
+-n&lt;行数&gt; 显示行数
+--pid=PID 与-f合用,表示在进程ID,PID死掉之后结束. 
+-q, --quiet, --silent 从不输出给出文件名的首部 
+-s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒 
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h4 id="功能-5"><a href="#功能-5" class="header-anchor">#</a> 功能</h4> <p>用于显示指定文件末尾内容，不指定文件时，作为输入信息进行处理。常用查看日志文件。</p> <h4 id="常用范例-4"><a href="#常用范例-4" class="header-anchor">#</a> 常用范例</h4> <p>1）显示文件末尾内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># tail -n 5 log2014.log 
+2014-09
+2014-10
+2014-11
+2014-12
+===========================
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>说明：</p> <p>显示文件最后5行内容</p> <p>2）循环查看文件内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ping 192.168.120.204 &gt; test.log &amp;
+# tail -f test.log 
+PING 192.168.120.204 (192.168.120.204) 56(84) bytes of data.
+64 bytes from 192.168.120.204: icmp_seq=1 ttl=64 time=0.038 ms
+64 bytes from 192.168.120.204: icmp_seq=2 ttl=64 time=0.036 ms
+64 bytes from 192.168.120.204: icmp_seq=3 ttl=64 time=0.033 ms
+64 bytes from 192.168.120.204: icmp_seq=4 ttl=64 time=0.027 ms
+64 bytes from 192.168.120.204: icmp_seq=5 ttl=64 time=0.032 ms
+64 bytes from 192.168.120.204: icmp_seq=6 ttl=64 time=0.026 ms
+64 bytes from 192.168.120.204: icmp_seq=7 ttl=64 time=0.030 ms
+64 bytes from 192.168.120.204: icmp_seq=8 ttl=64 time=0.029 ms
+64 bytes from 192.168.120.204: icmp_seq=9 ttl=64 time=0.044 ms
+64 bytes from 192.168.120.204: icmp_seq=10 ttl=64 time=0.033 ms
+64 bytes from 192.168.120.204: icmp_seq=11 ttl=64 time=0.027 ms
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>3）从第5行开始显示文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+# tail -n +5 log2014.log
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><h3 id="grep命令"><a href="#grep命令" class="header-anchor">#</a> grep命令</h3> <p><strong>grep</strong>（global search regular expression(RE) and print out the line，全面搜索正则表达式并把行打印出来）是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p> <p>grep可用于shell脚本，因为grep通过返回一个状态值来说明搜索的状态，如果模板搜索成功，则返回0，如果搜索不成功，则返回1，如果搜索的文件不存在，则返回2。我们利用这些返回值就可进行一些自动化的文本处理工作。</p> <h4 id="选项-6"><a href="#选项-6" class="header-anchor">#</a> 选项</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code>-a 不要忽略二进制数据。
+-A&lt;显示列数&gt; 除了显示符合范本样式的那一行之外，并显示该行之后的内容。
+-b 在显示符合范本样式的那一行之外，并显示该行之前的内容。
+-c 计算符合范本样式的列数。
+-C&lt;显示列数&gt;或-&lt;显示列数&gt;  除了显示符合范本样式的那一列之外，并显示该列之前后的内容。
+-d&lt;进行动作&gt; 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep命令将回报信息并停止动作。
+-e&lt;范本样式&gt; 指定字符串作为查找文件内容的范本样式。
+-E 将范本样式为延伸的普通表示法来使用，意味着使用能使用扩展正则表达式。
+-f&lt;范本文件&gt; 指定范本文件，其内容有一个或多个范本样式，让grep查找符合范本条件的文件内容，格式为每一列的范本样式。
+-F 将范本样式视为固定字符串的列表。
+-G 将范本样式视为普通的表示法来使用。
+-h 在显示符合范本样式的那一列之前，不标示该列所属的文件名称。
+-H 在显示符合范本样式的那一列之前，标示该列的文件名称。
+-i 忽略字符大小写的差别。
+-l 列出文件内容符合指定的范本样式的文件名称。
+-L 列出文件内容不符合指定的范本样式的文件名称。
+-n 在显示符合范本样式的那一列之前，标示出该列的编号。
+-q 不显示任何信息。
+-R/-r 此参数的效果和指定“-d recurse”参数相同。
+-s 不显示错误信息。
+-v 反转查找。
+-w 只显示全字符合的列。
+-x 只显示全列符合的列。
+-y 此参数效果跟“-i”相同。
+-o 只输出文件中匹配到的部分。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h4 id="规则表达式"><a href="#规则表达式" class="header-anchor">#</a> 规则表达式</h4> <p>grep的规则表达式:</p> <p>^  #锚定行的开始 如：'^grep'匹配所有以grep开头的行。</p> <p>$  #锚定行的结束 如：'grep$'匹配所有以grep结尾的行。</p> <p>.  #匹配一个非换行符的字符 如：'gr.p'匹配gr后接一个任意字符，然后是p。</p> <ul><li>#匹配零个或多个先前字符 如：'*grep'匹配所有一个或多个空格后紧跟grep的行。</li></ul> <p>.*   #一起用代表任意字符。</p> <p>[]   #匹配一个指定范围内的字符，如'[Gg]rep'匹配Grep和grep。</p> <p>[^]  #匹配一个不在指定范围内的字符，如：'[^A-FH-Z]rep'匹配不包含A-F和H-Z的一个字母开头，紧跟rep的行。</p> <p>(..)  #标记匹配字符，如'(love)'，love被标记为1。</p> <p>\&lt;      #锚定单词的开始，如:'&lt;grep'匹配包含以grep开头的单词的行。</p> <p>\&gt;      #锚定单词的结束，如'grep&gt;'匹配包含以grep结尾的单词的行。</p> <p>x{m}  #重复字符x，m次，如：'0{5}'匹配包含5个o的行。</p> <p>x{m,}  #重复字符x,至少m次，如：'o{5,}'匹配至少有5个o的行。</p> <p>x{m,n}  #重复字符x，至少m次，不多于n次，如：'o{5,10}'匹配5--10个o的行。</p> <p>\w    #匹配文字和数字字符，也就是[A-Za-z0-9]，如：'G\w*p'匹配以G后跟零个或多个文字或数字字符，然后是p。</p> <p>\W    #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。</p> <p>\b    #单词锁定符，如: '\bgrep\b'只匹配grep。</p> <p>POSIX字符:</p> <p>为了在不同国家的字符编码中保持一至，POSIX(The Portable Operating System Interface)增加了特殊的字符类，如[:alnum:]是[A-Za-z0-9]的另一个写法。要把它们放到[]号内才能成为正则表达式，如[A- Za-z0-9]或[[:alnum:]]。在linux下的grep除fgrep外，都支持POSIX的字符类。</p> <p>[:alnum:]    #文字数字字符</p> <p>[:alpha:]    #文字字符</p> <p>[:digit:]    #数字字符</p> <p>[:graph:]    #非空字符（非空格、控制字符）</p> <p>[:lower:]    #小写字符</p> <p>[:cntrl:]    #控制字符</p> <p>[:print:]    #非空字符（包括空格）</p> <p>[:punct:]    #标点符号</p> <p>[:space:]    #所有空白字符（新行，空格，制表符）</p> <p>[:upper:]    #大写字符</p> <p>[:xdigit:]   #十六进制数字（0-9，a-f，A-F）</p> <h4 id="常用实例-2"><a href="#常用实例-2" class="header-anchor">#</a> 常用实例</h4> <p>1）查找指定进程</p> <div class="language- line-numbers-mode"><pre class="language-text"><code> ps -ef|grep svn
+root 4943   1      0  Dec05 ?   00:00:00 svnserve -d -r /opt/svndata/grape/
+root 16867 16838  0 19:53 pts/0    00:00:00 grep svn
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>2）查找指定进程个数</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ps -ef|grep -c svn 
+2
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>3）从文件中读取关键词进行搜索</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt 
+hnlinux
+peida.cnblogs.com
+ubuntu
+ubuntu linux
+redhat
+Redhat
+linuxmint
+# cat test2.txt 
+linux
+Redhat
+# cat test.txt | grep -f test2.txt
+hnlinux
+ubuntu linux
+Redhat
+linuxmint
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>说明：</p> <p>输出test.txt文件中含有从test2.txt文件中读取出的关键词的内容行</p> <p>4）从文件中读取关键词进行搜索且显示行号</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt 
+hnlinux
+peida.cnblogs.com
+ubuntu
+ubuntu linux
+redhat
+Redhat
+linuxmint
+# cat test2.txt 
+linux
+Redhat
+# cat test.txt | grep -nf test2.txt
+1:hnlinux
+4:ubuntu linux
+6:Redhat
+7:linuxmint
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>说明：</p> <p>输出test.txt文件中含有从test2.txt文件中读取出的关键词的内容行，并显示每一行的行号</p> <p>5）从文件中查找关键词</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># grep 'linux' test.txt 
+hnlinux
+ubuntu linux
+linuxmint
+# grep -n 'linux' test.txt 
+1:hnlinux
+4:ubuntu linux
+7:linuxmint
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>6）从多个文件中查找关键词</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># grep -n 'linux' test.txt test2.txt 
+test.txt:1:hnlinux
+test.txt:4:ubuntu linux
+test.txt:7:linuxmint
+test2.txt:1:linux
+# grep 'linux' test.txt test2.txt 
+test.txt:hnlinux
+test.txt:ubuntu linux
+test.txt:linuxmint
+test2.txt:linux
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>说明：</p> <p>多文件时，输出查询到的信息内容行时，会把文件的命名在行最前面输出并且加上&quot;:&quot;作为标示符</p> <p>7）grep不显示本身进程</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ps aux|grep ssh
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0 
+root  16901  0.0  0.0  61180   764 pts/0  S+   20:31   0:00 grep ssh
+# ps aux|grep [s]sh
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0 
+# ps aux | grep ssh | grep -v &quot;grep&quot;
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>8）找出已u开头的行内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep ^u
+ubuntu
+ubuntu linux
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>9）输出非u开头的行内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep ^[^u]
+hnlinux
+peida.cnblogs.com
+redhat
+Redhat
+linuxmint
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>10）输出以hat结尾的行内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep hat$
+redhat
+Redhat
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>11）查服务器ip地址所在行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ifconfig eth0|grep &quot;[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}&quot;
+          inet addr:192.168.120.204  Bcast:192.168.120.255  Mask:255.255.255.0
+# ifconfig eth0|grep -E &quot;([0-9]{1,3}\.){3}[0-9]&quot;
+          inet addr:192.168.120.204  Bcast:192.168.120.255  Mask:255.255.255.0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>12）显示包含ed或者at字符的内容行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep -E &quot;peida|com&quot;
+peida.cnblogs.com
+# cat test.txt |grep -E &quot;ed|at&quot;
+redhat
+Redhat
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>13）显示当前目录下面以.txt 结尾的文件中的所有包含每个字符串至少有7个连续小写字符的字符串的行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># grep '[a-z]\{7\}' *.txt
+test.txt:hnlinux
+test.txt:peida.cnblogs.com
+test.txt:linuxmint
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>14）在多级目录中对文本进行递归搜索</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>#grep &quot;text&quot; . -r -n   # .表示当前目录。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>15）显示过滤注释( # ; 开头) 和空行后的配置信息</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>#  grep -Ev &quot;^$|^[#;]&quot; server.conf
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>16）过滤/etc/passwd文件下，包含root的行，并过滤后两行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -A 2 root /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>17）过滤/etc/passwd文件下，包含root的行，并过滤前两行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -B 2 root /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>18）过滤/etc/passwd文件下，包含root的行，并过滤前后两行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -C 2 root /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>18）过滤/etc/passwd文件下，包含root的行数</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -c root /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>19)过滤/etc/passwd文件下，包含root的行，并打印行号</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -n root /etc/passwd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>20）过滤/etc/下所有文件，包含root的行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -r root /etc/
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>21)过滤/etc/下所有文件，包含root的行的文件名</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>grep -rl root /etc/
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div></div> <footer class="page-meta"><div class="edit-link"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon edit-icon"><path d="M117.953 696.992 64.306 959.696l265.931-49.336 450.204-452.505-212.284-213.376-450.204 452.513zm496.384-296.326L219.039 797.993l-46.108-46.34L568.233 354.33l46.104 46.335zm345.357-122.99-114.45 115.04-212.288-213.377 114.45-115.035 212.288 213.371zm0 0" fill="currentColor"></path></svg> <a href="https://github.com/vuepress-theme-hope/vuepress-theme-hope/edit/master/Linux/文件管理/查看文件内容.md" target="_blank" rel="noopener noreferrer">编辑此页</a></div> <div class="meta-item update-time"><span class="label">上次编辑于:</span> <span class="info">2020年8月29日 22:11</span></div> <!----></footer> <!----> <div class="comments-wrapper"><div class="valine-wrapper"><div id="valine"></div></div></div> </main> <footer class="footer-wrapper"><div class="media-links-wrapper"><a href="mailto:clay_wangzhi@163.com" rel="noopener noreferrer" target="_blank" aria-label="Email" data-balloon-pos="up" class="media-link"><span class="sr-only">Email</span> <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon icon-email"><path d="M0 512a512 512 0 101024 0A512 512 0 100 512z" fill="#1384FF"></path> <path d="M299.372 313.572H722.93c28.945 0 52.61 21.845 52.975 48.787L511.333 500.35 246.76 362.481c.182-27.003 23.666-48.97 52.611-48.97zm-52.671 101.702l-.243 244.121c0 27.186 23.848 49.395 52.914 49.395H722.93c29.127 0 52.975-22.21 52.975-49.395V415.152L517.522 546.71a13.957 13.957 0 01-12.682 0L246.7 415.274z" fill="#FFF"></path></svg></a></div> <!----> <div class="copyright">Copyright © 2021 Clay</div></footer></div><div class="global-ui"><!----><!----><div id="pwa-install"><!----> <div id="install-modal-wrapper" style="display:none;"><div class="background"></div> <div class="install-modal"><div class="header"><button aria-label="Close" class="close-button"><svg width="23" height="22" xmlns="http://www.w3.org/2000/svg" class="icon close-icon"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.12.358a1.224 1.224 0 011.729 0l8.92 8.914L20.686.358a1.224 1.224 0 011.73 1.728L13.497 11l8.92 8.913a1.222 1.222 0 11-1.73 1.729l-8.919-8.913-8.92 8.913a1.224 1.224 0 01-1.729-1.729L10.04 11l-8.92-8.914a1.222 1.222 0 010-1.728z" fill="currentColor"></path></svg></button> <div class="logo"><!----> <div class="title"><h1></h1> <p class="desc">该应用可以安装在您的 PC 或移动设备上。这将使该 Web 应用程序外观和行为与其他应用程序相同。它将在出现在应用程序列表中，并可以固定到主屏幕，开始菜单或任务栏。此 Web 应用程序还将能够与其他应用程序和您的操作系统安全地进行交互。</p></div></div></div> <div class="content"><div class="highlight"><!----> <!----></div> <div class="description"><h3>详情</h3> <p></p></div></div> <div class="button-wrapper"><button class="install-button">
+        安装 <span></span></button> <button class="cancel-button">
+        取消
+      </button></div></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" class="pswp"><div class="pswp__bg"></div> <div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div> <div class="pswp__item"></div> <div class="pswp__item"></div></div> <div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div> <button title="Close (Esc)" class="pswp__button pswp__button--close"></button> <button title="Share" class="pswp__button pswp__button--share"></button> <button title="Toggle fullscreen" class="pswp__button pswp__button--fs"></button> <button title="Zoom in/out" class="pswp__button pswp__button--zoom"></button> <div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div> <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div> <button title="Previous (arrow left)" class="pswp__button pswp__button--arrow--left"></button> <button title="Next (arrow right)" class="pswp__button pswp__button--arrow--right"></button> <div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div></div></div>
+    <script src="/assets/js/app.24acaf32.js" defer></script><script src="/assets/js/layout-Layout.01319fc1.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound.699456de.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound~layout-Slide.e30cf8f9.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout.e02ffb1a.js" defer></script><script src="/assets/js/page-查看文件内容.96806772.js" defer></script>
+  </body>
+</html>
