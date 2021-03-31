@@ -57,3 +57,37 @@ jobs:
           # 需要部署的文件夹
           folder: dist
 
+  # 部署到服务器
+  deploy-server:
+    runs-on: ubuntu-latest
+    # 确保在部署到 GitHub Pages 之后执行
+    needs: deploy-gh-pages
+    steps:
+      # 检出网站代码
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # 检出 gh-pages 分支
+          ref: gh-pages
+          # 获取全部的历史提交
+          fetch-depth: 0
+
+      # 配置环境
+      - name: Configuration environment
+        # 写入私钥、配置 Git 用户名，写入服务器地址
+        # 您需要自行将服务器的私钥写入 secrets 的 SSH_PRIVATE_KEY
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan clay-wangzhi.com >> ~/.ssh/known_hosts
+          git config --global user.name 'clay-wangzhi'
+          git config --global user.email 'clay-wangzhi@gmail.com'
+
+      # 部署到服务器
+      - name: Deploy
+        # 使用 Git 将网站代码强制推送到远程的网站目录
+        # 并使用 SSH 连接服务器进入网站目录手动切换到最新提交
+        run: |
+          git push -f  git@clay-wangzhi.com:/home/git/wiki gh-pages
+          ssh git@clay-wangzhi.com "cd /home/git/wiki && git reset --hard HEAD"
