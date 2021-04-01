@@ -35,10 +35,13 @@ module.exports = config({
     repo: "https://github.com/vuepress-theme-hope/vuepress-theme-hope",
     
     pageInfo: [
+	  'time',
       'author',
       'visitor',
       'reading-time',
       'word',
+	  'category',
+	  'tag',
     ],
 
 

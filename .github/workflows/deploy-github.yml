@@ -80,7 +80,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan clay-wangzhi.com >> ~/.ssh/known_hosts
+          ssh-keyscan 139.196.230.188 >> ~/.ssh/known_hosts
           git config --global user.name 'clay-wangzhi'
           git config --global user.email 'clay-wangzhi@gmail.com'
 
@@ -89,5 +89,5 @@ jobs:
         # 使用 Git 将网站代码强制推送到远程的网站目录
         # 并使用 SSH 连接服务器进入网站目录手动切换到最新提交
         run: |
-          git push -f  git@clay-wangzhi.com:/home/git/wiki gh-pages
-          ssh git@clay-wangzhi.com "cd /home/git/wiki && git reset --hard HEAD"
+          git push -f  git@139.196.230.188:/home/git/wiki gh-pages
+          ssh git@139.196.230.188 "cd /home/git/wiki && git reset --hard HEAD"
