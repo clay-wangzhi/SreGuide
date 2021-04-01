@@ -27,7 +27,7 @@ project:
     desc: 文章详细描述
     link: 你的文章链接
 
-footer: 自定义你的页脚文字
+footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号: 备案号下来了写自己的备案号</a> | <a href="/about/site/">关于网站</a>'
 ---
 
 相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/zh/guide/layout/blog/)
