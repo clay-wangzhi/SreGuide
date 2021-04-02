@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-04-02T08:55:04.473Z</updated>
+  <updated>2021-04-02T09:17:27.865Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml"/>
   <link rel="alternate" href="https://vuepress-theme-hope-demo.mrhope.site/"/>
@@ -40270,6 +40270,38 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">logstash安装注意</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
+<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
+<div><pre><code># cat /etc/sysconfig/logstash 
+JAVA_HOME=/opt/jdk1.8.0_144
+# source /etc/sysconfig/logstash 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
+<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
+等价于：
+/usr/share/logstash/bin/logstash -e &quot;&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
+ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
+ ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
+ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">数据类型</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
@@ -40304,104 +40336,6 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 <li>percolator</li>
 <li>join</li>
 </ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">logstash安装注意</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
-<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
-<div><pre><code># cat /etc/sysconfig/logstash 
-JAVA_HOME=/opt/jdk1.8.0_144
-# source /etc/sysconfig/logstash 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
-<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
-等价于：
-/usr/share/logstash/bin/logstash -e &quot;&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
-ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
- ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
-ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">zabbix添加报警媒介</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -40708,6 +40642,72 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">zabbix添加报警媒介</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Template DB MySQL简介</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
@@ -40850,6 +40850,32 @@ fi
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">第十章 变量处理</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">模板导入</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
@@ -40912,21 +40938,39 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">第十章 变量处理</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/"/>
+    <title type="html">关闭被监控端的防火墙</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/"/>
     <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
+    <content type="html"><![CDATA[<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
+<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
+<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
+<p>因为是基于JMX进行监控的</p>
+<h2 id="修改配置文件"> 修改配置文件</h2>
+<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
+<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
+<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
+</code></pre>
+<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
+<div><pre><code>&lt;managementContext&gt;
+            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
+&lt;/managementContext&gt; 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
+<p>在脚本最后添加：</p>
+<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
+<blockquote>
+<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
+</blockquote>
+<h2 id="导入模板"> 导入模板</h2>
+<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
+<p>在被监控主机上增加宏设置
+加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -41001,50 +41045,6 @@ will not be shown, you would have to be root to see it all.)
 <p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
 </li>
 </ol>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">关闭被监控端的防火墙</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
-<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
-<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
-<p>因为是基于JMX进行监控的</p>
-<h2 id="修改配置文件"> 修改配置文件</h2>
-<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
-<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
-<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
-</code></pre>
-<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
-<div><pre><code>&lt;managementContext&gt;
-            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
-&lt;/managementContext&gt; 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
-<p>在脚本最后添加：</p>
-<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
-<blockquote>
-<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
-</blockquote>
-<h2 id="导入模板"> 导入模板</h2>
-<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
-<p>在被监控主机上增加宏设置
-加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -41609,109 +41609,6 @@ mysql&gt;exit(退出)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">写作前</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="写作前"> 写作前</h2>
-<h3 id="trello"> trello</h3>
-<p>官网地址:https://trello.com/</p>
-<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img"></p>
-<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img"></p>
-<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img"></p>
-<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
-<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
-<h2 id="写作中"> 写作中</h2>
-<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
-<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
-<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
-<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
-<blockquote>
-<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
-</blockquote>
-<ul>
-<li>安装成功界面</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683"></p>
-<ul>
-<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
-</ul>
-<blockquote>
-<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996"></p>
-<ul>
-<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145"></p>
-<ul>
-<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
-</ul>
-<div><pre><code>url：https://getee.com
-owner：写你的码云用户名
-repo：仓库名称
-token：填入码云的私人令牌
-path：路径，一般写上img
-message：可以不用写
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452"></p>
-<ul>
-<li>设置PicGo开机自启</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568"></p>
-<ul>
-<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802"></p>
-<ul>
-<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img"></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678"></p>
-<ul>
-<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
-</ul>
-<h3 id="代码图片生成器"> 代码图片生成器</h3>
-<p>官网地址:https://carbon.now.sh/</p>
-<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405"></p>
-<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
-<h2 id="写作后"> 写作后</h2>
-<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
-<h3 id="微信公众号"> 微信公众号</h3>
-<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
-<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
-<p>官网地址：</p>
-<p>http://md.aclickall.com/</p>
-<p>https://mdnice.com/</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352"></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255"></p>
-<h3 id="其他博客平台"> 其他博客平台</h3>
-<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
-<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
-<p>官网地址：</p>
-<p>https://openwrite.cn/</p>
-<p>https://github.com/ystcode/BlogHelper</p>
-<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
-<h2 id="参考文章"> 参考文章</h2>
-<ul>
-<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
-<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">安装python解释器，配置好path变量。</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/other/vscode/%E4%BD%BF%E7%94%A8vscode%E6%89%93%E9%80%A0python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/other/vscode/%E4%BD%BF%E7%94%A8vscode%E6%89%93%E9%80%A0python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
@@ -42059,6 +41956,109 @@ git config --global user.email &quot;xxxxxxx@qq.com&quot;
 <blockquote>
 <p>转载链接：https://www.cnblogs.com/DesignerA/p/11604200.html</p>
 </blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">写作前</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="写作前"> 写作前</h2>
+<h3 id="trello"> trello</h3>
+<p>官网地址:https://trello.com/</p>
+<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img"></p>
+<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img"></p>
+<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img"></p>
+<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
+<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
+<h2 id="写作中"> 写作中</h2>
+<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
+<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
+<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
+<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
+<blockquote>
+<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
+</blockquote>
+<ul>
+<li>安装成功界面</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683"></p>
+<ul>
+<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
+</ul>
+<blockquote>
+<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996"></p>
+<ul>
+<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145"></p>
+<ul>
+<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
+</ul>
+<div><pre><code>url：https://getee.com
+owner：写你的码云用户名
+repo：仓库名称
+token：填入码云的私人令牌
+path：路径，一般写上img
+message：可以不用写
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452"></p>
+<ul>
+<li>设置PicGo开机自启</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568"></p>
+<ul>
+<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802"></p>
+<ul>
+<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678"></p>
+<ul>
+<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
+</ul>
+<h3 id="代码图片生成器"> 代码图片生成器</h3>
+<p>官网地址:https://carbon.now.sh/</p>
+<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405"></p>
+<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
+<h2 id="写作后"> 写作后</h2>
+<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
+<h3 id="微信公众号"> 微信公众号</h3>
+<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
+<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
+<p>官网地址：</p>
+<p>http://md.aclickall.com/</p>
+<p>https://mdnice.com/</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255"></p>
+<h3 id="其他博客平台"> 其他博客平台</h3>
+<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
+<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
+<p>官网地址：</p>
+<p>https://openwrite.cn/</p>
+<p>https://github.com/ystcode/BlogHelper</p>
+<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
+<h2 id="参考文章"> 参考文章</h2>
+<ul>
+<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
+<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
+</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -43598,6 +43598,139 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">每天一个linux命令（33）-du</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>du [选项][文件]</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-a或-all 显示目录中个别文件的大小。
+-b或-bytes 显示目录或文件大小时，以byte为单位。
+-c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes 以KB(1024bytes)为单位输出。
+-m或--megabytes 以MB为单位输出。
+-s或--summarize 仅显示总计，只列出最后加总的值。
+-h或--human-readable 以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
+-S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
+-X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
+--exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
+-D或--dereference-args 显示指定符号链接的源文件大小。
+-H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
+-l或--count-links 重复计算硬件链接的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）显示目录或者文件所占空间</p>
+<div><pre><code># du
+608     ./test6
+308     ./test4
+4       ./scf/lib
+4       ./scf/service/deploy/product
+4       ./scf/service/deploy/info
+12      ./scf/service/deploy
+16      ./scf/service
+4       ./scf/doc
+4       ./scf/bin
+32      ./scf
+8       ./test3
+1288    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>2）显示指定文件所占空间</p>
+<div><pre><code># du log2012.log 
+300     log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
+<div><pre><code># du scf
+4       scf/lib
+4       scf/service/deploy/product
+4       scf/service/deploy/info
+12      scf/service/deploy
+16      scf/service
+4       scf/doc
+4       scf/bin
+32      scf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
+<div><pre><code># du log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
+<div><pre><code># du -s
+1288    .
+# du -s scf
+32      scf
+# cd ..
+# du -s test
+1288    test
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
+<div><pre><code># du -h test
+608K    test/test6
+308K    test/test4
+4.0K    test/scf/lib
+4.0K    test/scf/service/deploy/product
+4.0K    test/scf/service/deploy/info
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
+<div><pre><code># du -ah test
+4.0K    test/log31.tar.gz
+4.0K    test/test13.tar.gz
+0       test/linklog.log
+0       test/test6/log2014.log
+300K    test/test6/linklog.log
+0       test/test6/log2015.log
+4.0K    test/test6/log2013.log
+300K    test/test6/log2012.log
+0       test/test6/log2017.log
+0       test/test6/log2016.log
+608K    test/test6
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
+<div><pre><code># du -c log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+8       总计
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
+<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
+<p>9）按照空间大小排序</p>
+<div><pre><code># du|sort -nr|more
+1288    .
+608     ./test6
+308     ./test4
+32      ./scf
+16      ./scf/service
+12      ./scf/service/deploy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
+<div><pre><code># du -h  --max-depth=1
+608K    ./test6
+308K    ./test4
+32K     ./scf
+8.0K    ./test3
+1.3M    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
+<p>http://man.linuxde.net/du</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:03:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">每天一个linux命令（35）-diff</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/"/>
@@ -43895,139 +44028,6 @@ patching file log2013.log
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:05:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">每天一个linux命令（33）-du</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>du [选项][文件]</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-a或-all 显示目录中个别文件的大小。
--b或-bytes 显示目录或文件大小时，以byte为单位。
--c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
--k或--kilobytes 以KB(1024bytes)为单位输出。
--m或--megabytes 以MB为单位输出。
--s或--summarize 仅显示总计，只列出最后加总的值。
--h或--human-readable 以K，M，G为单位，提高信息的可读性。
--x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
--L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
--S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
--X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
---exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
--D或--dereference-args 显示指定符号链接的源文件大小。
--H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
--l或--count-links 重复计算硬件链接的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）显示目录或者文件所占空间</p>
-<div><pre><code># du
-608     ./test6
-308     ./test4
-4       ./scf/lib
-4       ./scf/service/deploy/product
-4       ./scf/service/deploy/info
-12      ./scf/service/deploy
-16      ./scf/service
-4       ./scf/doc
-4       ./scf/bin
-32      ./scf
-8       ./test3
-1288    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
-<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
-<p>2）显示指定文件所占空间</p>
-<div><pre><code># du log2012.log 
-300     log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
-<div><pre><code># du scf
-4       scf/lib
-4       scf/service/deploy/product
-4       scf/service/deploy/info
-12      scf/service/deploy
-16      scf/service
-4       scf/doc
-4       scf/bin
-32      scf
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
-<div><pre><code># du log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
-<div><pre><code># du -s
-1288    .
-# du -s scf
-32      scf
-# cd ..
-# du -s test
-1288    test
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
-<div><pre><code># du -h test
-608K    test/test6
-308K    test/test4
-4.0K    test/scf/lib
-4.0K    test/scf/service/deploy/product
-4.0K    test/scf/service/deploy/info
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
-<div><pre><code># du -ah test
-4.0K    test/log31.tar.gz
-4.0K    test/test13.tar.gz
-0       test/linklog.log
-0       test/test6/log2014.log
-300K    test/test6/linklog.log
-0       test/test6/log2015.log
-4.0K    test/test6/log2013.log
-300K    test/test6/log2012.log
-0       test/test6/log2017.log
-0       test/test6/log2016.log
-608K    test/test6
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
-<div><pre><code># du -c log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-8       总计
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
-<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
-<p>9）按照空间大小排序</p>
-<div><pre><code># du|sort -nr|more
-1288    .
-608     ./test6
-308     ./test4
-32      ./scf
-16      ./scf/service
-12      ./scf/service/deploy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
-<div><pre><code># du -h  --max-depth=1
-608K    ./test6
-308K    ./test4
-32K     ./scf
-8.0K    ./test3
-1.3M    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
-<p>http://man.linuxde.net/du</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:03:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -48298,465 +48298,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">10.1 字符串处理</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
-<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
-<h3 id="字符串长度"> 字符串长度</h3>
-<h4 id="string"> <code>${#string}</code></h4>
-<h4 id="expr-length-string"> <code>expr length $string</code></h4>
-<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
-<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># paragraph-space.sh</span>
-<span># 版本 2.1，发布日期 2012年7月29日</span>
-
-<span># 在无空行的文本文件的段落之间插入空行。</span>
-<span># 像这样使用: $0 &lt;FILENAME</span>
-
-<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
-<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
-<span>#+ 结尾部分有练习！</span>
-
-<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
-<span>do</span>
-  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
-  
-  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
-<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
-<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
-<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
-    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
-  <span>fi</span>             <span>#+ 增加一行空行。</span>
-<span>done</span>
-
-<span>exit</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
-<span>#+    尝试解决这个问题。</span>
-<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
-<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
-<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个正则表达式。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |------|</span>
-<span>#       12345678</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
-<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
-<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456 ...</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
-                                             <span># C 的位置。</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
-<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
-<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
-<h4 id="string-position"> <code>${string:position}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
-<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
-<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       0123456789.....</span>
-<span>#       索引位置从0开始。</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
-
-<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
-                                             <span># 三个字符的子字符串。</span>
-                                             
-                                             
-
-<span># 从右至左进行截取可行么？</span>
-
-<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
-<span># ${parameter:-default} 将会得到整个字符串。</span>
-<span># 但是……</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
-<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
-<span># 现在可以了。</span>
-<span># 括号或者增加空格都可以"转义"位置参数。</span>
-
-<span># 感谢 Dan Jacobson 指出这些。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
-<p>样例 10-2. 产生一个8个字符的随机字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rand-string.sh</span>
-<span># 产生一个8个字符的随机字符串。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
-<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
-<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
-<span>fi</span>
-
-<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
-<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
-
-<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
-<span>#                      ^^^^^^   ^^^^^^</span>
-<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
-
-<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
-<span>#                  ^^^^ ^^^^</span>
-<span># 允许传入参数</span>
-
-<span>echo</span> <span>"<span>$randstring</span>"</span>
-
-<span>exit</span> <span>$?</span>
-
-<span># bozo$ ./rand-string.sh my-password</span>
-<span># 1bdd88c4</span>
-
-<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
-<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
-<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
-
-<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456789......</span>
-<span>#       索引位置从1开始。</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       =======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
-<span># 上面所有的形式都给出了相同的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                ======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
-<h4 id="string-substring"> <code>${string#substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
-<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |----|          最长</span>
-<span>#       |----------|    最短</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
-<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
-<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
-
-
-
-<span># 你可以使用变量代替 substring。</span>
-
-<span>X</span><span>=</span><span>'a*C'</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
-                        <span># 同上。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
-<p>例如：</p>
-<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
-<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
-
-<span>SUFF</span><span>=</span>TXT
-<span>suff</span><span>=</span>txt
-
-<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
-<span>do</span>
-  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
-  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
-  <span>#+ 其他一切都保持不变。</span>
-<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
-
-<span># 感谢 Rory Winston。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                    ||     最短</span>
-<span>#        |------------|     最长</span>
-
-<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
-<p>样例 10-3. 改变图像文件的格式及文件名</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>#  cvt.sh:</span>
-<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
-
-<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
-<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
-<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
-
-<span>OPERATION</span><span>=</span>macptopbm
-<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
-<span>then</span>
-  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
-<span>else</span>
-  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
-<span>fi</span>
-
-<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
-<span>#+ ".mac" 的文件后缀名。</span>
-
-<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
-<span>do</span>
-  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
-                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
-                            <span>#  所有字符，包括其本身)。</span>
-  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
-                            <span># 将转换结果重定向到新的文件。</span>
-  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
-  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
-<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
-
-
-
-<span># *** 还可以使用另外一种方法。 *** #</span>
-
-<span>#!/bin/bash</span>
-<span># 将图像批处理转换成不同的格式。</span>
-<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
-
-<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
-<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
-
-<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
-<span>do</span>
-  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
-  <span># echo $p2</span>
-  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
-<span>done</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
-
-<span># 使用 "mplayer" 媒体播放器程序：</span>
-<span>#      http://www.mplayerhq.hu/homepage</span>
-<span># 使用 "ogg" 库与 "oggenc"：</span>
-<span>#      http://www.xiph.org/</span>
-<span>#</span>
-<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
-<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
-
-
-<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
-<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
-<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
-E_NOARGS=85
-
-if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
-then
-  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
-  exit <span>$E_NOAGRS</span>
-fi
-
-
-######################################################
-mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
-oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
-######################################################
-
-rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
-                   # 如果你仍需保留原文件，注释掉上面这一行即可。
-                   
-exit <span>$?</span>
-
-#  注意：
-#  -----
-#  在网站上，点击一个 *.ram 的流媒体音频文件
-#+ 通常只会下载到 *.ra 音频文件的 URL。
-#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
-
-
-#  练习：
-#  -----
-#  这个脚本仅仅转换 *.ra 文件。
-#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
-#
-#  如果你非常有热情，你可以扩展这个脚本使其
-#+ 可以自动下载并且转换流媒体音频文件。
-#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
-<span>#+ 然后转换它。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
-<p>样例 10-5. 模拟 <code>getopt</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># getopt-simple.sh</span>
-<span># 作者: Chris Morgan</span>
-<span># 允许在高级脚本编程指南中使用。</span>
-
-
-<span>getopt_simple</span><span>(</span><span>)</span>
-<span>{</span>
-    <span>echo</span> <span>"getopt_simple()"</span>
-    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
-    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
-    <span>do</span>
-      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
-      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
-      <span>then</span>
-          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
-          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
-          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
-          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
-          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
-      <span>fi</span>
-      <span>shift</span>
-    <span>done</span>
-<span>}</span>
-
-<span># 将所有参数传递给 getopt_simple()。</span>
-getopt_simple <span>$*</span>
-
-<span>echo</span> <span>"test is '<span>$test</span>'"</span>
-<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
-
-<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
-
----
-
-<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
-
-Parameters are <span>'/test=value1 /test2=value2'</span>
-Processing parameter of: <span>'/test=value1'</span>
-Parameter: <span>'test'</span>, value: <span>'value1'</span>
-Processing parameter of: <span>'/test2=value2'</span>
-Parameter: <span>'test2'</span>, value: <span>'value2'</span>
-<span>test</span> is <span>'value1'</span>
-test2 is <span>'value2'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
-<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
-<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
-<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
-<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
-                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
-                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span>  ---------------
-<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
-<span>echo</span>  ---------------
-                              <span># 字符串本身并不会被修改！</span>
-                              
-<span># 匹配以及替换的字符串可以是参数么？</span>
-<span>match</span><span>=</span>abc
-<span>repl</span><span>=</span>000
-<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
-<span>#              ^      ^         ^^^</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
-<span># Yes!          ^      ^        ^^^         ^^^</span>
-
-<span>echo</span>
-
-<span># 如果没有给定 $replacement 字符串会怎样？</span>
-<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
-<span># 仅仅是将其删除而已。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
-                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
-                                  
-<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
-                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
-<section>
-<ol>
-<li id="fn1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
-</li>
-<li id="fn2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">10.2 参数替换</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/"/>
@@ -49256,6 +48797,465 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
 <section>
 <ol>
 <li id="fn1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">10.1 字符串处理</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
+<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
+<h3 id="字符串长度"> 字符串长度</h3>
+<h4 id="string"> <code>${#string}</code></h4>
+<h4 id="expr-length-string"> <code>expr length $string</code></h4>
+<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
+<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># paragraph-space.sh</span>
+<span># 版本 2.1，发布日期 2012年7月29日</span>
+
+<span># 在无空行的文本文件的段落之间插入空行。</span>
+<span># 像这样使用: $0 &lt;FILENAME</span>
+
+<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
+<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
+<span>#+ 结尾部分有练习！</span>
+
+<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
+<span>do</span>
+  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
+  
+  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
+<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
+<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
+<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
+    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
+  <span>fi</span>             <span>#+ 增加一行空行。</span>
+<span>done</span>
+
+<span>exit</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
+<span>#+    尝试解决这个问题。</span>
+<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
+<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
+<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个正则表达式。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |------|</span>
+<span>#       12345678</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
+<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
+<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456 ...</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
+                                             <span># C 的位置。</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
+<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
+<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
+<h4 id="string-position"> <code>${string:position}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
+<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
+<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       0123456789.....</span>
+<span>#       索引位置从0开始。</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
+
+<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
+                                             <span># 三个字符的子字符串。</span>
+                                             
+                                             
+
+<span># 从右至左进行截取可行么？</span>
+
+<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
+<span># ${parameter:-default} 将会得到整个字符串。</span>
+<span># 但是……</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
+<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
+<span># 现在可以了。</span>
+<span># 括号或者增加空格都可以"转义"位置参数。</span>
+
+<span># 感谢 Dan Jacobson 指出这些。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
+<p>样例 10-2. 产生一个8个字符的随机字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rand-string.sh</span>
+<span># 产生一个8个字符的随机字符串。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
+<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
+<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
+<span>fi</span>
+
+<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
+<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
+
+<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
+<span>#                      ^^^^^^   ^^^^^^</span>
+<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
+
+<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
+<span>#                  ^^^^ ^^^^</span>
+<span># 允许传入参数</span>
+
+<span>echo</span> <span>"<span>$randstring</span>"</span>
+
+<span>exit</span> <span>$?</span>
+
+<span># bozo$ ./rand-string.sh my-password</span>
+<span># 1bdd88c4</span>
+
+<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
+<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
+<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
+
+<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456789......</span>
+<span>#       索引位置从1开始。</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       =======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
+<span># 上面所有的形式都给出了相同的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                ======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
+<h4 id="string-substring"> <code>${string#substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
+<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |----|          最长</span>
+<span>#       |----------|    最短</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
+<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
+<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
+
+
+
+<span># 你可以使用变量代替 substring。</span>
+
+<span>X</span><span>=</span><span>'a*C'</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
+                        <span># 同上。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
+<p>例如：</p>
+<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
+<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
+
+<span>SUFF</span><span>=</span>TXT
+<span>suff</span><span>=</span>txt
+
+<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
+<span>do</span>
+  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
+  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
+  <span>#+ 其他一切都保持不变。</span>
+<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
+
+<span># 感谢 Rory Winston。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                    ||     最短</span>
+<span>#        |------------|     最长</span>
+
+<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
+<p>样例 10-3. 改变图像文件的格式及文件名</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>#  cvt.sh:</span>
+<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
+
+<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
+<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
+<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
+
+<span>OPERATION</span><span>=</span>macptopbm
+<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
+<span>then</span>
+  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
+<span>else</span>
+  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
+<span>fi</span>
+
+<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
+<span>#+ ".mac" 的文件后缀名。</span>
+
+<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
+<span>do</span>
+  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
+                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
+                            <span>#  所有字符，包括其本身)。</span>
+  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
+                            <span># 将转换结果重定向到新的文件。</span>
+  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
+  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
+<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
+
+
+
+<span># *** 还可以使用另外一种方法。 *** #</span>
+
+<span>#!/bin/bash</span>
+<span># 将图像批处理转换成不同的格式。</span>
+<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
+
+<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
+<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
+
+<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
+<span>do</span>
+  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
+  <span># echo $p2</span>
+  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
+<span>done</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
+
+<span># 使用 "mplayer" 媒体播放器程序：</span>
+<span>#      http://www.mplayerhq.hu/homepage</span>
+<span># 使用 "ogg" 库与 "oggenc"：</span>
+<span>#      http://www.xiph.org/</span>
+<span>#</span>
+<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
+<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
+
+
+<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
+<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
+<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
+E_NOARGS=85
+
+if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
+then
+  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
+  exit <span>$E_NOAGRS</span>
+fi
+
+
+######################################################
+mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
+oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
+######################################################
+
+rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
+                   # 如果你仍需保留原文件，注释掉上面这一行即可。
+                   
+exit <span>$?</span>
+
+#  注意：
+#  -----
+#  在网站上，点击一个 *.ram 的流媒体音频文件
+#+ 通常只会下载到 *.ra 音频文件的 URL。
+#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
+
+
+#  练习：
+#  -----
+#  这个脚本仅仅转换 *.ra 文件。
+#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
+#
+#  如果你非常有热情，你可以扩展这个脚本使其
+#+ 可以自动下载并且转换流媒体音频文件。
+#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
+<span>#+ 然后转换它。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
+<p>样例 10-5. 模拟 <code>getopt</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># getopt-simple.sh</span>
+<span># 作者: Chris Morgan</span>
+<span># 允许在高级脚本编程指南中使用。</span>
+
+
+<span>getopt_simple</span><span>(</span><span>)</span>
+<span>{</span>
+    <span>echo</span> <span>"getopt_simple()"</span>
+    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
+    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
+    <span>do</span>
+      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
+      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
+      <span>then</span>
+          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
+          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
+          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
+          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
+          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
+      <span>fi</span>
+      <span>shift</span>
+    <span>done</span>
+<span>}</span>
+
+<span># 将所有参数传递给 getopt_simple()。</span>
+getopt_simple <span>$*</span>
+
+<span>echo</span> <span>"test is '<span>$test</span>'"</span>
+<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
+
+<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
+
+---
+
+<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
+
+Parameters are <span>'/test=value1 /test2=value2'</span>
+Processing parameter of: <span>'/test=value1'</span>
+Parameter: <span>'test'</span>, value: <span>'value1'</span>
+Processing parameter of: <span>'/test2=value2'</span>
+Parameter: <span>'test2'</span>, value: <span>'value2'</span>
+<span>test</span> is <span>'value1'</span>
+test2 is <span>'value2'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
+<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
+<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
+<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
+<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
+                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
+                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span>  ---------------
+<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
+<span>echo</span>  ---------------
+                              <span># 字符串本身并不会被修改！</span>
+                              
+<span># 匹配以及替换的字符串可以是参数么？</span>
+<span>match</span><span>=</span>abc
+<span>repl</span><span>=</span>000
+<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
+<span>#              ^      ^         ^^^</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
+<span># Yes!          ^      ^        ^^^         ^^^</span>
+
+<span>echo</span>
+
+<span># 如果没有给定 $replacement 字符串会怎样？</span>
+<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
+<span># 仅仅是将其删除而已。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
+                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
+                                  
+<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
+                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
+<section>
+<ol>
+<li id="fn1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
+</li>
+<li id="fn2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
 </li>
 </ol>
 </section>
