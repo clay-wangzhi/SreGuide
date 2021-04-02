@@ -1,3 +1,12 @@
+---
+time: 2019-12-20
+category: 自动化工具
+tags:
+  - Gitlab
+---
+
+# gitlab备份迁移升级&集成openldap
+
 ## gitlab安装
 
 ### 安装相关依赖
