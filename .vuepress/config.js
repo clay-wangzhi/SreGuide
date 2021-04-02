@@ -102,34 +102,7 @@ module.exports = config({
           collapsable: false,
           children: ["01_shell_programming", "02_starting_off_with_a_sha_bang", "02_1_invoking_the_script", "02_2_preliminary_exercises",]
         },
-        {
-          title: "第二部分 shell基础",
-          path: "part2/",
-          collapsable: true,
-          children: ["03_special_characters", "04_introduction_to_variables_and_parameters", "04_1_variable_substitution", "04_2_variable_assignment", "04_3_bash_variables_are_untyped", "04_4_special_variable_types",
-		    "05_quoting", "05_1_quoting_variables", "05_2_escaping", "06_exit_and_exit_status", "07_tests", "07_1_test_constructs", "07_2_file_test_operators", "07_3_other_comparison_operators", "07_4_nested_if_then_condition_tests", "07_5_testing_your_knowledge_of_tests", "08_operations_and_related_topics", "08_1_operators",
-		    "08_2_numerical_constants", "08_3_the_double_parentheses_construct", "08_4_operator_precedence",
-		  ]
-        },
-		{
-          title: "第三部分 shell进阶",
-          path: "part3/",
-          collapsable: true,
-          children: ["09_another_look_at_variables", "09_1_internal_variables", "09_2_typing_variables_declare_or_typeset", "09_2_1_another_use_for_declare", "09_3_random_generate_random_integer", "10_manipulating_variables",
-		  	"10_1_manipulating_strings", "10_1_1_manipulating_strings_using_awk", "10_1_2_further_reference", "10_2_parameter_substitution", "11_loops_and_branches", "11_1_loops", "11_2_nested_loops", "11_3_loop_control", "11_4_testing_and_branching", "12_command_substitution", "13_arithmetic_expansion",
-		  ]
-        },
-		"part4/readme",
-		{
-          title: "第五部分 高级话题",
-          path: "part5/",
-          collapsable: true,
-          children: ["18_regular_expressions", "18_1_a_brief_introduction_to_regular_expressions", "18_2_globbing", "18_3_regular_expression_comparison_table", "19_here_documents", "20_io_redirection",
-		  	"20_1_use_exec", "20_2_redirecting_code_blocks", "20_3_applications", "21_subshells", "22_Restricted_Shells", "23_Process_Substitution", "24_functions", "24_1_complex_functions_and_function_complexities", "24_2_local_variables", "24_3_recursion_without_local_variables", "25_aliases",
-		    "26_List_Constructs", "27_arrays", "30_network_programming", "33_options", "34_Gotchas", "36_miscellany", "36_5_colorizing_scripts", "36_11_ssh_remote_operate", 
-		  ]
-        },
-		"part6/readme",
+		"part6",
       ],		
       "/automate/ansible/": [
         "",
