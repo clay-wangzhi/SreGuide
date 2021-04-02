@@ -145,8 +145,26 @@ module.exports = config({
           title: "第三部分 shell进阶",
           path: "part3/",
           collapsable: false,
-          children: ["part3/09_another_look_at_variables", "part3/09_1_internal_variables", "part3/09_2_typing_variables_declare_or_typeset", "part3/09_2_1_another_use_for_declare", "part3/09_3_random_generate_random_integer", "part3/10_manipulating_variables",
-		  	"part3/10_1_manipulating_strings", "part3/10_1_1_manipulating_strings_using_awk", "part3/10_1_2_further_reference", "part3/10_2_parameter_substitution", "part3/11_loops_and_branches", "part3/11_1_loops", "part3/11_2_nested_loops", "part3/11_3_loop_control", "part3/11_4_testing_and_branching", "part3/12_command_substitution", "part3/13_arithmetic_expansion",
+          children: [
+		    {
+              title: "第九章 换个角度看变量",
+			  path: "part3/09_another_look_at_variables",
+              collapsable: false,
+              children: ["part3/09_1_internal_variables", "part3/09_2_typing_variables_declare_or_typeset", "part3/09_2_1_another_use_for_declare", "part3/09_3_random_generate_random_integer", ],
+            },
+		    {
+              title: "第十章 变量处理",
+			  path: "part3/10_manipulating_variables",
+              collapsable: false,
+              children: ["part3/10_1_manipulating_strings", "part3/10_1_1_manipulating_strings_using_awk", "part3/10_1_2_further_reference", "part3/10_2_parameter_substitution", ],
+            },
+		    {
+              title: "第十一章 循环与分支",
+			  path: "part3/11_loops_and_branches", 
+              collapsable: false,
+              children: ["part3/11_1_loops", "part3/11_2_nested_loops", "part3/11_3_loop_control", "part3/11_4_testing_and_branching",],
+            },			
+		  	"part3/12_command_substitution", "part3/13_arithmetic_expansion",
 		  ]
         },
 		"part4-command",
