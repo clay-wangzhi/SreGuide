@@ -1,3 +1,12 @@
+---
+time: 2020-01-16
+category: 自动化工具
+tags:
+  - Jenkins
+---
+
+# Jenkins Job迁移
+
 在工作中可能会遇到这样的场景，即需要把一个Jenkins Master上的job迁移到另外一台Jenkins Master上，那怎么做比较好呢？
 
 如果只是单独的一个job且这个job的设置很简单，这种情况下当然可以直接在新的Jenkins Master上直接创建job然后从旧的job拷贝下配置即可。但如果job很多，或者job的配置项较多那手动复制配置肯定是比较傻的行为。那我们现在来介绍下这种配置项较多、job比较多的情况下怎么来迁移这些job。

@@ -1,3 +1,12 @@
+---
+time: 2020-01-16
+category: 自动化工具
+tags:
+  - Jenkins
+---
+
+# 使用Jenkins Pipeline自动化构建发布
+
 ## 一、Jenkins介绍
 
 ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp)

@@ -1,3 +1,12 @@
+---
+time: 2020-01-16
+category: 自动化工具
+tags:
+  - Jenkins
+---
+
+# jenkins 常见问题
+
 ## Jenkins报错Error cloning remote repo 'origin'
 
 Jenkins配置了2个节点，但是只有master安装了git，很有可能任务被调到slave上执行所以报错
