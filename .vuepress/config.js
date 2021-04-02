@@ -52,80 +52,37 @@ module.exports = config({
         text: "学习笔记",
         icon: "code",
         items: [
+		{ text: "容器",
+          items: [
+          { text: "Kubernetes", icon: "kubernetes", link: "/container/kubernetes/" },
+          ],
+        },
         { text: "编程语言",
           items: [
           { text: "Python", icon: "python", link: "/code/python/" },
           { text: "Golang", icon: "go", link: "/code/golang/" },
           ],
         },
-        { text: "开发框架",
+		{ text: "web中间件",
           items: [
-          { text: "Django", icon: "django", link: "/code/django/" },
-          { text: "Beego", icon: "beego", link: "/code/beego/" },
-          ],
-        },
-        ],
-      },
-      {
-        text: "容器",
-        icon: "kubernetes",
-        items: [
-        { text: "Docker", icon: "docker", link: "/container/docker/" },
-        { text: "Kubernetes", icon: "kubernetes", link: "/container/kubernetes/" },
-        ],
-      },
-      {
-        text: "代码笔记",
-        icon: "code",
-        items: [
-        { text: "编程语言",
-          items: [
-          { text: "Python", icon: "python", link: "/code/python/" },
-          { text: "Golang", icon: "go", link: "/code/golang/" },
+          { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
           ],
         },
         { text: "自动化工具",
           items: [
           { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
-          { text: "Beego", icon: "beego", link: "/code/beego/" },
           ],
         },
-        ],
-      },
-      {
-        text: "监控工具",
-        icon: "monitor",
-        items: [
-        { text: "Zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
-        { text: "Prometheus", icon: "prometheus", link: "/monitor/prometheus/" },
-        { text: "Grafana", icon: "grafana", link: "/monitor/grafana/" },
-        { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
-        { text: "APM", icon: "apm", link: "/monitor/apm/" },
-        ],
-      },
-      {
-        text: "web中间件",
-        icon: "web",
-        items: [
-        { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
-        { text: "tomcat", icon: "tomcat", link: "/web/tomcat/" },
-        ],
-      },
-      {
-        text: "自动化工具",
-        icon: "automate",
-        items: [
-        { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
-        { text: "Jenkins", icon: "jenkins", link: "/automate/jenkins/" },
-        { text: "Gitlab", icon: "gitlab", link: "/automate/gitlab/" },
-        ],
-      },
-      {
-        text: "数据库",
-        icon: "db",
-        items: [
-        { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
-        { text: "Redis", icon: "redis", link: "/db/redis/" },
+        { text: "监控工具",
+          items: [
+          { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
+          ],
+        },
+		{ text: "数据库",
+          items: [
+          { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
+          ],
+        },
         ],
       },
     ],
@@ -154,14 +111,6 @@ module.exports = config({
         "optimize",
         "qa",
       ],
-      "/automate/jenkins/": [
-        "",
-        "pipeline",
-        "migrate-job",
-        "restart",
-        "qa",
-      ],
-      "/automate/gitlab": ["",],
       "/web/nginx/": [
         "",
         "framework",
@@ -179,13 +128,6 @@ module.exports = config({
           collapsable: false,
           children: ["forbidden",]
         },
-      ],
-      "/web/tomcat/": [
-        "",
-        "prd",
-        "dead",
-        "status",
-        "danger"
       ],
     },
 
