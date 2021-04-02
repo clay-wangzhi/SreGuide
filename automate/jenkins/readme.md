@@ -1,3 +1,12 @@
+---
+time: 2020-01-16
+category: 自动化工具
+tags:
+  - Jenkins
+---
+
+# jenkins的安装配置
+
 ## ansible安装jenkins
 
 ```shell
