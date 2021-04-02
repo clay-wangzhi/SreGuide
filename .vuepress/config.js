@@ -119,7 +119,7 @@ module.exports = config({
 		  	"10_1_manipulating_strings", "10_1_1_manipulating_strings_using_awk", "10_1_2_further_reference", "10_2_parameter_substitution", "11_loops_and_branches", "11_1_loops", "11_2_nested_loops", "11_3_loop_control", "11_4_testing_and_branching", "12_command_substitution", "13_arithmetic_expansion",
 		  ]
         },
-		"part4",
+		"part4/readme",
 		{
           title: "第五部分 高级话题",
           path: "part5/",
@@ -129,7 +129,7 @@ module.exports = config({
 		    "26_List_Constructs", "27_arrays", "30_network_programming", "33_options", "34_Gotchas", "36_miscellany", "36_5_colorizing_scripts", "36_11_ssh_remote_operate", 
 		  ]
         },
-		"part6",
+		"part6/readme",
       ],		
       "/automate/ansible/": [
         "",
