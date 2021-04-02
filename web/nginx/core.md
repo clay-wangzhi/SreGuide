@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 4. 内核参数优化
+
 ## linux内核参数优化（网络模块）
 
 在Linux下调整内核参数，可以直接编辑配置文件`/etc/sysctl.conf`，然后执行`sysctl -p`命令生效

@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 2. nginx架构基础
+
 ## 1 Nginx请求处理流程
 
 ![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png)

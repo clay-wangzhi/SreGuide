@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 3.1 nginx全局块和events块配置
+
 ## 1 example
 
 ```nginx

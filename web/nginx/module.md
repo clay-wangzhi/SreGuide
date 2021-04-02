@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 3.5 nginx常用模块
+
 ## 1 Module ngx_http_gzip_module
 
 该`ngx_http_gzip_module`模块是一个使用“gzip”方法压缩响应的过滤器。这通常有助于将传输数据的大小减少一半甚至更多。
