@@ -1,4 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
 # 1 初识Ansible
+
 ## 1 Ansible简介
 
 Ansible官方文档： https://docs.ansible.com/

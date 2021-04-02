@@ -1,4 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
 # 4.5 Playbook之tags
+
 ## 1 简介
 
 在大型项目当中，通常一个playbook会有非常多的task。而我们每次执行这个playbook时，都会将所有task运行一遍。而事实上，在实际使用过程中，我们可能只是想要执行其中的一部分任务而已，并不想把整个playbook完整跑一遍。这个时候就需要用到tags。

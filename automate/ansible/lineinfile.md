@@ -1,4 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
 # 3.1 Ansible lineinfile模块详解
+
 ## 1 简介
 
 之所以专门说一说这个模块，是因为lineinfile在实际使用中非常有用。
