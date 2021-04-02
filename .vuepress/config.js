@@ -102,7 +102,7 @@ module.exports = config({
           collapsable: false,
           children: ["part1/01_shell_programming", 
 		    {
-              title: "第二部分 shell基础",
+              title: "第二章 和Sha-Bang（#!）一起出发",
 			  path: "part1/02_starting_off_with_a_sha_bang",
               collapsable: false,
               children: ["part1/02_1_invoking_the_script", "part1/02_2_preliminary_exercises"],
@@ -113,9 +113,32 @@ module.exports = config({
           title: "第二部分 shell基础",
           path: "part2/",
           collapsable: false,
-          children: ["part2/03_special_characters", "part2/04_introduction_to_variables_and_parameters", "part2/04_1_variable_substitution", "part2/04_2_variable_assignment", "part2/04_3_bash_variables_are_untyped", "part2/04_4_special_variable_types",
-		    "part2/05_quoting", "part2/05_1_quoting_variables", "part2/05_2_escaping", "part2/06_exit_and_exit_status", "part2/07_tests", "part2/07_1_test_constructs", "part2/07_2_file_test_operators", "part2/07_3_other_comparison_operators", "part2/07_4_nested_if_then_condition_tests", "part2/07_5_testing_your_knowledge_of_tests", "part2/08_operations_and_related_topics", "part2/08_1_operators",
-		    "part2/08_2_numerical_constants", "part2/08_3_the_double_parentheses_construct", "part2/08_4_operator_precedence",
+          children: ["part2/03_special_characters", 
+		    {
+              title: "第四章 变量与参数",
+			  path: "part2/04_introduction_to_variables_and_parameters",
+              collapsable: false,
+              children: ["part2/04_1_variable_substitution", "part2/04_2_variable_assignment", "part2/04_3_bash_variables_are_untyped", "part2/04_4_special_variable_types",],
+            },		    
+		    {
+              title: "第五章 引用",
+			  path: "part2/05_quoting", 
+              collapsable: false,
+              children: ["part2/05_1_quoting_variables", "part2/05_2_escaping",],
+            },		    
+		    "part2/06_exit_and_exit_status", 
+		    {
+              title: "第七章 测试",
+			  path: "part2/07_tests", 
+              collapsable: false,
+              children: ["part2/07_1_test_constructs", "part2/07_2_file_test_operators", "part2/07_3_other_comparison_operators", "part2/07_4_nested_if_then_condition_tests", "part2/07_5_testing_your_knowledge_of_tests", ],
+            },
+			{
+              title: "第八章 运算符相关话题",
+			  path: "part2/08_operations_and_related_topics",
+              collapsable: false,
+              children: ["part2/08_1_operators", "part2/08_2_numerical_constants", "part2/08_3_the_double_parentheses_construct", "part2/08_4_operator_precedence",],
+            },
 		  ]
         },
 		{
