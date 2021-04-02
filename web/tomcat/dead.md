@@ -1,3 +1,12 @@
+---
+time: 2020-03-08
+category: web中间件
+tags:
+  - Tomcat
+---
+
+# tomcat假死现象
+
 # 1 背景
 
 ## 1.1 编写目的
