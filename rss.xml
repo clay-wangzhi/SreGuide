@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 02 Apr 2021 08:46:00 GMT</pubDate>
-    <lastBuildDate>Fri, 02 Apr 2021 08:46:00 GMT</lastBuildDate>
+    <pubDate>Fri, 02 Apr 2021 08:55:04 GMT</pubDate>
+    <lastBuildDate>Fri, 02 Apr 2021 08:55:04 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -5747,6 +5747,240 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>4.4 Playbook高级用法</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/advanced-playbook/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/advanced-playbook/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">4.4 Playbook高级用法</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>5.1 自定义变量</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/custom/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/custom/</guid>
@@ -6049,240 +6283,6 @@ PLAY RECAP *********************************************************************
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210309153531453.png" type="image/png"/>
-    </item>
-    <item>
-      <title>4.4 Playbook高级用法</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/advanced-playbook/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/advanced-playbook/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">4.4 Playbook高级用法</source>
-      <category>自动化工具</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
-]]></content:encoded>
     </item>
     <item>
       <title>4.1 Playbook的结构及handler用法</title>
@@ -39040,31 +39040,6 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 ]]></content:encoded>
     </item>
     <item>
-      <title>logstash安装注意</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">logstash安装注意</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
-<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
-<div><pre><code># cat /etc/sysconfig/logstash 
-JAVA_HOME=/opt/jdk1.8.0_144
-# source /etc/sysconfig/logstash 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
-<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
-等价于：
-/usr/share/logstash/bin/logstash -e &quot;&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
-ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
- ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
-ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>数据类型</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid>
@@ -39100,6 +39075,90 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 <li>percolator</li>
 <li>join</li>
 </ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>logstash安装注意</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">logstash安装注意</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
+<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
+<div><pre><code># cat /etc/sysconfig/logstash 
+JAVA_HOME=/opt/jdk1.8.0_144
+# source /etc/sysconfig/logstash 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
+<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
+等价于：
+/usr/share/logstash/bin/logstash -e &quot;&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
+ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
+ ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
+ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>zabbix添加报警媒介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -39391,65 +39450,6 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 ]]></content:encoded>
     </item>
     <item>
-      <title>zabbix添加报警媒介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Template DB MySQL简介</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
@@ -39585,513 +39585,6 @@ fi
 ]]></content:encoded>
     </item>
     <item>
-      <title>10.2 参数替换</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">10.2 参数替换</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
-<p>参数替换用来处理或扩展变量。</p>
-<h3 id="parameter"> <code>${parameter}</code></h3>
-<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
-<p>可以用于连接变量与字符串。</p>
-<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
-<span>echo</span> <span>"<span>$your_id</span>"</span>
-<span># </span>
-<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
-<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
-<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
-<p>在没有设置变量的情况下使用缺省值。</p>
-<div><pre><code><span>var1</span><span>=</span><span>1</span>
-<span>var2</span><span>=</span><span>2</span>
-<span># 没有设置 var3。</span>
-
-<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
-<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
-<span>#           ^          注意前面的 $ 前缀。</span>
-
-
-
-<span>echo</span> <span>${username-`whoami`}</span>
-<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
-</blockquote>
-<div><pre><code><span>#!/bin/bash</span>
-<span># param-sub.sh</span>
-
-<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
-
-<span>username0</span><span>=</span>
-<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
-<span># 将不会输出 `whoami` 的结果。</span>
-
-<span>echo</span>
-
-<span>echo</span> username1 has not been declared.
-<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
-<span># 将会输出 `whoami` 的结果。</span>
-
-<span>username2</span><span>=</span>
-<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
-<span>#                            ^</span>
-<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
-<span># 与上面的 username0 比较。</span>
-
-
-<span># </span>
-
-<span># 再来一次：</span>
-
-<span>variable</span><span>=</span>
-<span># 变量已被声明，但其值为空。</span>
-
-<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
-<span>#               ^</span>
-
-unser variable
-
-<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
-<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
-<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
-<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
-<span># 代码块开始</span>
-<span># ...</span>
-<span># ...</span>
-<span># ...</span>
-<span># 代码块结束</span>
-
-
-
-<span># 摘自样例 "hanoi2.bash"：</span>
-<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
-<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
-<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
-<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
-<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
-<p>在没有设置变量的情况下，将其设置为缺省值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
-<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
-<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
-<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
-<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
-<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param1+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param2</span><span>=</span>
-<span>a</span><span>=</span><span>${param2+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>param3</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param3+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>echo</span>
-<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param5</span><span>=</span>
-<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-<span># 不同于 a=${param5+xyz}</span>
-
-<span>param6</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
-<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
-<p>样例 10-7. 如何使用变量替换和错误信息</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span># 检查系统环境变量。</span>
-<span># 这是一种良好的预防性维护措施。</span>
-<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
-
-<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
-  <span>echo</span> <span>"You are <span>$USER</span>."</span>
-  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
-  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
-  <span>echo</span>
-  <span>echo</span> <span>"If you are reading this message,"</span>
-  <span>echo</span> <span>"critcial environmental variables have been set."</span>
-  <span>echo</span>
-  <span>echo</span>
-  
-<span># ------------------------------------------------------</span>
-
-<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
-
-<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
-<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
-<span>:</span> <span>${ThisVariable?}</span>
-<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-
-<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
-
-<span># 你可以指定错误消息。</span>
-<span># : ${variablename?"ERROR MESSAGE"}</span>
-
-
-<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
-<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span>#</span>
-<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
-
-<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
-
-
-
-<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
-
-<span>HERE</span><span>=</span><span>0</span>
-<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
-
-<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># usage-message.sh</span>
-
-<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
-<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
-<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
-
-<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
-<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
-
-<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
-
-<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
-<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
-<span># 如果没有，那么 "$?" 的结果是1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
-<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
-<h4 id="var"> <code>${#var}</code></h4>
-<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 以下情况例外：</p>
-<ul>
-<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
-<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
-</ul>
-</blockquote>
-<p>样例 10-9. 变量长度</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># length.sh</span>
-
-<span>E_NO_ARGS</span><span>=</span><span>65</span>
-
-<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
-<span>then</span>
-  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
-  <span>exit</span> <span>$E_NO_ARGS</span>
-<span>fi</span>
-
-<span>var01</span><span>=</span>abcdEFGH28ij
-<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
-<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
-<span># 现在我们尝试加入空格。</span>
-<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
-<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
-<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
-
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
-<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
-<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
-<span># 删除传入的参数中的前缀0。</span>
-
-strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
-<span>{</span>                     <span>#+ 前缀0。</span>
-  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
-<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
-<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
-<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
-  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
-  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
-  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
-  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
-                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
-<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
-<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
-<span>echo</span>
-<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
-<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
-<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
-<span>echo</span>
-<span>filename</span><span>=</span>test.data
-<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
-                            <span># 文件扩展名。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
-<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
-<p>样例 10-10. 参数替换中的模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># patt-matching.sh</span>
-
-<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
-
-<span>var1</span><span>=</span>abcd12345abc6789
-<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
-
-<span>echo</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
-<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
-                              <span># （另一种形式）</span>
-<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
-<span>echo</span>
-
-<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
-<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
-<span>#             ^                                           |-|</span>
-<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
-<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
-<span>#             ^                                           |----------|</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
-<span>echo</span>
-<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
-<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
-<span>#             ^                                                    |----|</span>
-<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
-<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
-<span>#             ^                                           |-------------|</span>
-
-<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
-<span>#      % 与 %% 是从右侧开始。</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rfe.sh: 更改文件扩展名。</span>
-<span>#</span>
-<span>#         rfe old_extension new_extension</span>
-<span>#</span>
-<span># 如：</span>
-<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
-<span>#         rfe gif jpg</span>
-
-
-<span>E_BADARGS</span><span>=</span><span>65</span>
-
-<span>case</span> <span>$#</span> <span>in</span>
-  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
-  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
-  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
-  <span>;</span><span>;</span>
-<span>esac</span>
-
-
-<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
-<span># 遍历以第一个参数作为后缀名的文件列表。</span>
-<span>do</span>
-  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
-  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
-<p>下面这些结构采用自 ksh。</p>
-<h4 id="var-pos"> <code>${var:pos}</code></h4>
-<p>扩展为从偏移量 pos 处截取的变量 var。</p>
-<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
-<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
-<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
-<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
-<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
-<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
-<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
-<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
-<p>样例 10-12. 使用模式匹配解析任意字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>var1</span><span>=</span>abcd-1234-defg
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
-
-<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
-<span>#  t=${var1#*-} 效果相同，</span>
-<span>#+ 因为 # 只匹配最短的字符串，</span>
-<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
-<span># （感谢 Stephane Chazelas 指出这一点。）</span>
-
-<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
-<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
-
-
-<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span># -------------------------------------------</span>
-<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
-<span># -------------------------------------------</span>
-<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
-<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
-<span># 在这里与 t=`basename $path_name` 效果相同。</span>
-<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
-<span>#+ 但有时仍旧也会出现问题。</span>
-<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
-<span>#+ 但是上面这种表达式却可以。</span>
-<span># （感谢 S.C.）</span>
-
-<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
-<span># 同 t=`dirname $path_name` 效果相同。</span>
-<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
-<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
-<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
-<span>#+ 事情会变的非常复杂。</span>
-<span># （感谢 S.C.）</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
-<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
-<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
-<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
-<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># var-match.sh:</span>
-<span># 演示在字符串首部或尾部进行模式替换。</span>
-
-<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
-<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
-<span>echo</span>
-
-<span># 在字符串首部进行匹配</span>
-<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span># |-|</span>
-<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
-                        <span># |----|</span>
-                        
-<span># 在字符串尾部进行匹配</span>
-<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span>#              |-|</span>
-<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
-                        <span>#               |----|</span>
-                        
-<span>echo</span>
-
-<span>#  --------------------------------------------</span>
-<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
-<span>#+ 否则将不会发生替换。</span>
-<span>#  --------------------------------------------</span>
-<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
-<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
-<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
-<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
-<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
-<span># 在 Bash 2.04 版本中加入了这个特性。</span>
-
-<span>xyz23</span><span>=</span>whatever
-<span>xyz23</span><span>=</span>
-
-<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
-<span># ^ ^   ^           + 开头变量名。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-
-<span>echo</span> <span>"---"</span>
-
-<span>abc23</span><span>=</span>something_else
-<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
-<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
-<span>echo</span> <span>$c</span>            <span>#  something_else</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
-<section>
-<ol>
-<li id="fn1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
       <title>模板导入</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
@@ -40140,40 +39633,22 @@ will not be shown, you would have to be root to see it all.)
 ]]></content:encoded>
     </item>
     <item>
-      <title>关闭被监控端的防火墙</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">关闭被监控端的防火墙</source>
+      <title>第十章 变量处理</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十章 变量处理</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
-<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
-<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
-<p>因为是基于JMX进行监控的</p>
-<h2 id="修改配置文件"> 修改配置文件</h2>
-<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
-<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
-<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
-</code></pre>
-<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
-<div><pre><code>&lt;managementContext&gt;
-            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
-&lt;/managementContext&gt; 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
-<p>在脚本最后添加：</p>
-<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
-<blockquote>
-<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
-</blockquote>
-<h2 id="导入模板"> 导入模板</h2>
-<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
-<p>在被监控主机上增加宏设置
-加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
+      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -40241,6 +39716,43 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
 </li>
 </ol>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>关闭被监控端的防火墙</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">关闭被监控端的防火墙</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
+<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
+<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
+<p>因为是基于JMX进行监控的</p>
+<h2 id="修改配置文件"> 修改配置文件</h2>
+<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
+<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
+<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
+</code></pre>
+<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
+<div><pre><code>&lt;managementContext&gt;
+            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
+&lt;/managementContext&gt; 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
+<p>在脚本最后添加：</p>
+<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
+<blockquote>
+<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
+</blockquote>
+<h2 id="导入模板"> 导入模板</h2>
+<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
+<p>在被监控主机上增加宏设置
+加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -40438,29 +39950,6 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 ]]></content:encoded>
     </item>
     <item>
-      <title>查看哪些表被锁住了</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">查看哪些表被锁住了</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
-<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
-<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
-<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
-<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
-<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>Nginx升级加固SSL/TLS协议信息泄露漏洞(CVE-2016-2183)和HTTP服务器的缺省banner漏洞</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</guid>
@@ -40527,6 +40016,29 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>然后重新编译，热升级nginx</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>查看哪些表被锁住了</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">查看哪些表被锁住了</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
+<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
+<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
+<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
+<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
+<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>PrometheusAlert</title>
@@ -40718,6 +40230,103 @@ mysql&gt;exit(退出)
 <h3 id="修改配置文件"> 修改配置文件</h3>
 <p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>写作前</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">写作前</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="写作前"> 写作前</h2>
+<h3 id="trello"> trello</h3>
+<p>官网地址:https://trello.com/</p>
+<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img"></p>
+<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img"></p>
+<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img"></p>
+<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
+<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
+<h2 id="写作中"> 写作中</h2>
+<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
+<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
+<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
+<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
+<blockquote>
+<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
+</blockquote>
+<ul>
+<li>安装成功界面</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683"></p>
+<ul>
+<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
+</ul>
+<blockquote>
+<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996"></p>
+<ul>
+<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145"></p>
+<ul>
+<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
+</ul>
+<div><pre><code>url：https://getee.com
+owner：写你的码云用户名
+repo：仓库名称
+token：填入码云的私人令牌
+path：路径，一般写上img
+message：可以不用写
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452"></p>
+<ul>
+<li>设置PicGo开机自启</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568"></p>
+<ul>
+<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802"></p>
+<ul>
+<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678"></p>
+<ul>
+<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
+</ul>
+<h3 id="代码图片生成器"> 代码图片生成器</h3>
+<p>官网地址:https://carbon.now.sh/</p>
+<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405"></p>
+<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
+<h2 id="写作后"> 写作后</h2>
+<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
+<h3 id="微信公众号"> 微信公众号</h3>
+<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
+<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
+<p>官网地址：</p>
+<p>http://md.aclickall.com/</p>
+<p>https://mdnice.com/</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255"></p>
+<h3 id="其他博客平台"> 其他博客平台</h3>
+<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
+<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
+<p>官网地址：</p>
+<p>https://openwrite.cn/</p>
+<p>https://github.com/ystcode/BlogHelper</p>
+<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
+<h2 id="参考文章"> 参考文章</h2>
+<ul>
+<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
+<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
+</ul>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
       <title>安装python解释器，配置好path变量。</title>
@@ -41069,103 +40678,6 @@ git config --global user.email &quot;xxxxxxx@qq.com&quot;
 <p>转载链接：https://www.cnblogs.com/DesignerA/p/11604200.html</p>
 </blockquote>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>写作前</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">写作前</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="写作前"> 写作前</h2>
-<h3 id="trello"> trello</h3>
-<p>官网地址:https://trello.com/</p>
-<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img"></p>
-<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img"></p>
-<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img"></p>
-<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
-<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
-<h2 id="写作中"> 写作中</h2>
-<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
-<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
-<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
-<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
-<blockquote>
-<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
-</blockquote>
-<ul>
-<li>安装成功界面</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683"></p>
-<ul>
-<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
-</ul>
-<blockquote>
-<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996"></p>
-<ul>
-<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145"></p>
-<ul>
-<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
-</ul>
-<div><pre><code>url：https://getee.com
-owner：写你的码云用户名
-repo：仓库名称
-token：填入码云的私人令牌
-path：路径，一般写上img
-message：可以不用写
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452"></p>
-<ul>
-<li>设置PicGo开机自启</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568"></p>
-<ul>
-<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802"></p>
-<ul>
-<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img"></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678"></p>
-<ul>
-<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
-</ul>
-<h3 id="代码图片生成器"> 代码图片生成器</h3>
-<p>官网地址:https://carbon.now.sh/</p>
-<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405"></p>
-<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
-<h2 id="写作后"> 写作后</h2>
-<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
-<h3 id="微信公众号"> 微信公众号</h3>
-<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
-<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
-<p>官网地址：</p>
-<p>http://md.aclickall.com/</p>
-<p>https://mdnice.com/</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352"></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255"></p>
-<h3 id="其他博客平台"> 其他博客平台</h3>
-<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
-<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
-<p>官网地址：</p>
-<p>https://openwrite.cn/</p>
-<p>https://github.com/ystcode/BlogHelper</p>
-<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
-<h2 id="参考文章"> 参考文章</h2>
-<ul>
-<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
-<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
-</ul>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
       <title>Redis-集群</title>
@@ -42656,132 +42168,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
 ]]></content:encoded>
     </item>
     <item>
-      <title>每天一个linux命令（33）-du</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（33）-du</source>
-      <pubDate>Fri, 27 Jul 2018 19:03:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>du [选项][文件]</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-a或-all 显示目录中个别文件的大小。
--b或-bytes 显示目录或文件大小时，以byte为单位。
--c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
--k或--kilobytes 以KB(1024bytes)为单位输出。
--m或--megabytes 以MB为单位输出。
--s或--summarize 仅显示总计，只列出最后加总的值。
--h或--human-readable 以K，M，G为单位，提高信息的可读性。
--x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
--L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
--S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
--X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
---exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
--D或--dereference-args 显示指定符号链接的源文件大小。
--H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
--l或--count-links 重复计算硬件链接的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）显示目录或者文件所占空间</p>
-<div><pre><code># du
-608     ./test6
-308     ./test4
-4       ./scf/lib
-4       ./scf/service/deploy/product
-4       ./scf/service/deploy/info
-12      ./scf/service/deploy
-16      ./scf/service
-4       ./scf/doc
-4       ./scf/bin
-32      ./scf
-8       ./test3
-1288    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
-<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
-<p>2）显示指定文件所占空间</p>
-<div><pre><code># du log2012.log 
-300     log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
-<div><pre><code># du scf
-4       scf/lib
-4       scf/service/deploy/product
-4       scf/service/deploy/info
-12      scf/service/deploy
-16      scf/service
-4       scf/doc
-4       scf/bin
-32      scf
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
-<div><pre><code># du log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
-<div><pre><code># du -s
-1288    .
-# du -s scf
-32      scf
-# cd ..
-# du -s test
-1288    test
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
-<div><pre><code># du -h test
-608K    test/test6
-308K    test/test4
-4.0K    test/scf/lib
-4.0K    test/scf/service/deploy/product
-4.0K    test/scf/service/deploy/info
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
-<div><pre><code># du -ah test
-4.0K    test/log31.tar.gz
-4.0K    test/test13.tar.gz
-0       test/linklog.log
-0       test/test6/log2014.log
-300K    test/test6/linklog.log
-0       test/test6/log2015.log
-4.0K    test/test6/log2013.log
-300K    test/test6/log2012.log
-0       test/test6/log2017.log
-0       test/test6/log2016.log
-608K    test/test6
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
-<div><pre><code># du -c log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-8       总计
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
-<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
-<p>9）按照空间大小排序</p>
-<div><pre><code># du|sort -nr|more
-1288    .
-608     ./test6
-308     ./test4
-32      ./scf
-16      ./scf/service
-12      ./scf/service/deploy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
-<div><pre><code># du -h  --max-depth=1
-608K    ./test6
-308K    ./test4
-32K     ./scf
-8.0K    ./test3
-1.3M    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
-<p>http://man.linuxde.net/du</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（35）-diff</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</guid>
@@ -43072,6 +42458,132 @@ patching file log2013.log
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/12/2814048.html</p>
 <p>http://man.linuxde.net/diff</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>每天一个linux命令（33）-du</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（33）-du</source>
+      <pubDate>Fri, 27 Jul 2018 19:03:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>du [选项][文件]</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-a或-all 显示目录中个别文件的大小。
+-b或-bytes 显示目录或文件大小时，以byte为单位。
+-c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes 以KB(1024bytes)为单位输出。
+-m或--megabytes 以MB为单位输出。
+-s或--summarize 仅显示总计，只列出最后加总的值。
+-h或--human-readable 以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
+-S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
+-X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
+--exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
+-D或--dereference-args 显示指定符号链接的源文件大小。
+-H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
+-l或--count-links 重复计算硬件链接的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）显示目录或者文件所占空间</p>
+<div><pre><code># du
+608     ./test6
+308     ./test4
+4       ./scf/lib
+4       ./scf/service/deploy/product
+4       ./scf/service/deploy/info
+12      ./scf/service/deploy
+16      ./scf/service
+4       ./scf/doc
+4       ./scf/bin
+32      ./scf
+8       ./test3
+1288    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>2）显示指定文件所占空间</p>
+<div><pre><code># du log2012.log 
+300     log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
+<div><pre><code># du scf
+4       scf/lib
+4       scf/service/deploy/product
+4       scf/service/deploy/info
+12      scf/service/deploy
+16      scf/service
+4       scf/doc
+4       scf/bin
+32      scf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
+<div><pre><code># du log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
+<div><pre><code># du -s
+1288    .
+# du -s scf
+32      scf
+# cd ..
+# du -s test
+1288    test
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
+<div><pre><code># du -h test
+608K    test/test6
+308K    test/test4
+4.0K    test/scf/lib
+4.0K    test/scf/service/deploy/product
+4.0K    test/scf/service/deploy/info
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
+<div><pre><code># du -ah test
+4.0K    test/log31.tar.gz
+4.0K    test/test13.tar.gz
+0       test/linklog.log
+0       test/test6/log2014.log
+300K    test/test6/linklog.log
+0       test/test6/log2015.log
+4.0K    test/test6/log2013.log
+300K    test/test6/log2012.log
+0       test/test6/log2017.log
+0       test/test6/log2016.log
+608K    test/test6
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
+<div><pre><code># du -c log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+8       总计
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
+<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
+<p>9）按照空间大小排序</p>
+<div><pre><code># du|sort -nr|more
+1288    .
+608     ./test6
+308     ./test4
+32      ./scf
+16      ./scf/service
+12      ./scf/service/deploy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
+<div><pre><code># du -h  --max-depth=1
+608K    ./test6
+308K    ./test4
+32K     ./scf
+8.0K    ./test3
+1.3M    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
+<p>http://man.linuxde.net/du</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -47626,23 +47138,511 @@ test2 is <span>'value2'</span>
 ]]></content:encoded>
     </item>
     <item>
-      <title>第十章 变量处理</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十章 变量处理</source>
+      <title>10.2 参数替换</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">10.2 参数替换</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
+      <content:encoded><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
+<p>参数替换用来处理或扩展变量。</p>
+<h3 id="parameter"> <code>${parameter}</code></h3>
+<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
+<p>可以用于连接变量与字符串。</p>
+<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
+<span>echo</span> <span>"<span>$your_id</span>"</span>
+<span># </span>
+<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
+<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
+<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
+<p>在没有设置变量的情况下使用缺省值。</p>
+<div><pre><code><span>var1</span><span>=</span><span>1</span>
+<span>var2</span><span>=</span><span>2</span>
+<span># 没有设置 var3。</span>
+
+<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
+<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
+<span>#           ^          注意前面的 $ 前缀。</span>
+
+
+
+<span>echo</span> <span>${username-`whoami`}</span>
+<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
+</blockquote>
+<div><pre><code><span>#!/bin/bash</span>
+<span># param-sub.sh</span>
+
+<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
+
+<span>username0</span><span>=</span>
+<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
+<span># 将不会输出 `whoami` 的结果。</span>
+
+<span>echo</span>
+
+<span>echo</span> username1 has not been declared.
+<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
+<span># 将会输出 `whoami` 的结果。</span>
+
+<span>username2</span><span>=</span>
+<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
+<span>#                            ^</span>
+<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
+<span># 与上面的 username0 比较。</span>
+
+
+<span># </span>
+
+<span># 再来一次：</span>
+
+<span>variable</span><span>=</span>
+<span># 变量已被声明，但其值为空。</span>
+
+<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
+<span>#               ^</span>
+
+unser variable
+
+<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
+<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
+<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
+<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
+<span># 代码块开始</span>
+<span># ...</span>
+<span># ...</span>
+<span># ...</span>
+<span># 代码块结束</span>
+
+
+
+<span># 摘自样例 "hanoi2.bash"：</span>
+<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
+<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
+<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
+<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
+<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
+<p>在没有设置变量的情况下，将其设置为缺省值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
+<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
+<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
+<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
+<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
+<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param1+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param2</span><span>=</span>
+<span>a</span><span>=</span><span>${param2+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>param3</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param3+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>echo</span>
+<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param5</span><span>=</span>
+<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+<span># 不同于 a=${param5+xyz}</span>
+
+<span>param6</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
+<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
+<p>样例 10-7. 如何使用变量替换和错误信息</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span># 检查系统环境变量。</span>
+<span># 这是一种良好的预防性维护措施。</span>
+<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
+
+<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
+  <span>echo</span> <span>"You are <span>$USER</span>."</span>
+  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
+  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
+  <span>echo</span>
+  <span>echo</span> <span>"If you are reading this message,"</span>
+  <span>echo</span> <span>"critcial environmental variables have been set."</span>
+  <span>echo</span>
+  <span>echo</span>
+  
+<span># ------------------------------------------------------</span>
+
+<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
+
+<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
+<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
+<span>:</span> <span>${ThisVariable?}</span>
+<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+
+<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
+
+<span># 你可以指定错误消息。</span>
+<span># : ${variablename?"ERROR MESSAGE"}</span>
+
+
+<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
+<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span>#</span>
+<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
+
+<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
+
+
+
+<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
+
+<span>HERE</span><span>=</span><span>0</span>
+<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
+
+<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># usage-message.sh</span>
+
+<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
+<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
+<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
+
+<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
+<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
+
+<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
+
+<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
+<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
+<span># 如果没有，那么 "$?" 的结果是1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
+<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
+<h4 id="var"> <code>${#var}</code></h4>
+<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 以下情况例外：</p>
 <ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
+<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
 </ul>
+</blockquote>
+<p>样例 10-9. 变量长度</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># length.sh</span>
+
+<span>E_NO_ARGS</span><span>=</span><span>65</span>
+
+<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
+<span>then</span>
+  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
+  <span>exit</span> <span>$E_NO_ARGS</span>
+<span>fi</span>
+
+<span>var01</span><span>=</span>abcdEFGH28ij
+<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
+<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
+<span># 现在我们尝试加入空格。</span>
+<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
+<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
+<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
+
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
+<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
+<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
+<span># 删除传入的参数中的前缀0。</span>
+
+strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
+<span>{</span>                     <span>#+ 前缀0。</span>
+  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
+<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
+<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
+<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
+  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
+  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
+  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
+  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
+                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
+<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
+<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
+<span>echo</span>
+<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
+<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
+<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
+<span>echo</span>
+<span>filename</span><span>=</span>test.data
+<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
+                            <span># 文件扩展名。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
+<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
+<p>样例 10-10. 参数替换中的模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># patt-matching.sh</span>
+
+<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
+
+<span>var1</span><span>=</span>abcd12345abc6789
+<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
+
+<span>echo</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
+<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
+                              <span># （另一种形式）</span>
+<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
+<span>echo</span>
+
+<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
+<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
+<span>#             ^                                           |-|</span>
+<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
+<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
+<span>#             ^                                           |----------|</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
+<span>echo</span>
+<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
+<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
+<span>#             ^                                                    |----|</span>
+<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
+<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
+<span>#             ^                                           |-------------|</span>
+
+<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
+<span>#      % 与 %% 是从右侧开始。</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rfe.sh: 更改文件扩展名。</span>
+<span>#</span>
+<span>#         rfe old_extension new_extension</span>
+<span>#</span>
+<span># 如：</span>
+<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
+<span>#         rfe gif jpg</span>
+
+
+<span>E_BADARGS</span><span>=</span><span>65</span>
+
+<span>case</span> <span>$#</span> <span>in</span>
+  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
+  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
+  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
+  <span>;</span><span>;</span>
+<span>esac</span>
+
+
+<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
+<span># 遍历以第一个参数作为后缀名的文件列表。</span>
+<span>do</span>
+  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
+  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
+<p>下面这些结构采用自 ksh。</p>
+<h4 id="var-pos"> <code>${var:pos}</code></h4>
+<p>扩展为从偏移量 pos 处截取的变量 var。</p>
+<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
+<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
+<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
+<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
+<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
+<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
+<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
+<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
+<p>样例 10-12. 使用模式匹配解析任意字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>var1</span><span>=</span>abcd-1234-defg
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
+
+<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
+<span>#  t=${var1#*-} 效果相同，</span>
+<span>#+ 因为 # 只匹配最短的字符串，</span>
+<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
+<span># （感谢 Stephane Chazelas 指出这一点。）</span>
+
+<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
+<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
+
+
+<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span># -------------------------------------------</span>
+<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
+<span># -------------------------------------------</span>
+<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
+<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
+<span># 在这里与 t=`basename $path_name` 效果相同。</span>
+<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
+<span>#+ 但有时仍旧也会出现问题。</span>
+<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
+<span>#+ 但是上面这种表达式却可以。</span>
+<span># （感谢 S.C.）</span>
+
+<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
+<span># 同 t=`dirname $path_name` 效果相同。</span>
+<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
+<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
+<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
+<span>#+ 事情会变的非常复杂。</span>
+<span># （感谢 S.C.）</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
+<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
+<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
+<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
+<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># var-match.sh:</span>
+<span># 演示在字符串首部或尾部进行模式替换。</span>
+
+<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
+<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
+<span>echo</span>
+
+<span># 在字符串首部进行匹配</span>
+<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span># |-|</span>
+<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
+                        <span># |----|</span>
+                        
+<span># 在字符串尾部进行匹配</span>
+<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span>#              |-|</span>
+<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
+                        <span>#               |----|</span>
+                        
+<span>echo</span>
+
+<span>#  --------------------------------------------</span>
+<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
+<span>#+ 否则将不会发生替换。</span>
+<span>#  --------------------------------------------</span>
+<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
+<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
+<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
+<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
+<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
+<span># 在 Bash 2.04 版本中加入了这个特性。</span>
+
+<span>xyz23</span><span>=</span>whatever
+<span>xyz23</span><span>=</span>
+
+<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
+<span># ^ ^   ^           + 开头变量名。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+
+<span>echo</span> <span>"---"</span>
+
+<span>abc23</span><span>=</span>something_else
+<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
+<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
+<span>echo</span> <span>$c</span>            <span>#  something_else</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
+<section>
+<ol>
+<li id="fn1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
 </li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
+</ol>
+</section>
 ]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
   </channel>
 </rss>
