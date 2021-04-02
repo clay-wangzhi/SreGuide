@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>5.2 Fact变量 | IT外卖小哥</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+    <link rel="alternate" type="application/atom+xml" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml" title="IT外卖小哥 Atom Feed">
+    <link rel="alternate" type="application/json" href="https://vuepress-theme-hope-demo.mrhope.site/feed.json" title="IT外卖小哥 JSON Feed">
+    <link rel="alternate" type="application/rss+xml" href="https://vuepress-theme-hope-demo.mrhope.site/rss.xml" title="IT外卖小哥 RSS Feed">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/assets/icon/chrome-mask-512.png" type="image/png" sizes="512x512">
+    <link rel="icon" href="/assets/icon/chrome-mask-192.png" type="image/png" sizes="192x192">
+    <link rel="icon" href="/assets/icon/chrome-512.png" type="image/png" sizes="512x512">
+    <link rel="icon" href="/assets/icon/chrome-192.png" type="image/png" sizes="192x192">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="apple-touch-icon" href="/assets/icon/apple-icon-152.png">
+    <meta name="description" content="当你发现自己的才华撑不起野心时，就请安静下来学习吧！">
+    <meta property="og:url" content="/automate/ansible/fact.html">
+    <meta property="og:site_name" content="IT外卖小哥">
+    <meta property="og:title" content="5.2 Fact变量">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh-CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image:alt" content="IT外卖小哥">
+    <meta property="article:author" content="Clay">
+    <meta name="theme-color" content="#46bd87">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileImage" content="/assets/icon/ms-icon-144.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <link rel="preload" href="/assets/css/0.styles.74e162d4.css" as="style"><link rel="preload" href="/assets/js/app.f9f4d28a.js" as="script"><link rel="preload" href="/assets/js/layout-Layout.a5c96210.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound.699456de.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound~layout-Slide.e30cf8f9.js" as="script"><link rel="preload" href="/assets/js/vendors~layout-Blog~layout-Layout.e02ffb1a.js" as="script"><link rel="preload" href="/assets/js/page-52Fact变量.481329e0.js" as="script"><link rel="prefetch" href="/assets/js/321.366ac6ae.js"><link rel="prefetch" href="/assets/js/322.4d714778.js"><link rel="prefetch" href="/assets/js/323.77acb4aa.js"><link rel="prefetch" href="/assets/js/324.2f77dee8.js"><link rel="prefetch" href="/assets/js/325.2c466627.js"><link rel="prefetch" href="/assets/js/layout-Blog.5354c823.js"><link rel="prefetch" href="/assets/js/layout-NotFound.44ee922f.js"><link rel="prefetch" href="/assets/js/layout-Slide.1b84b1ce.js"><link rel="prefetch" href="/assets/js/page--00992f99.9c4f6462.js"><link rel="prefetch" href="/assets/js/page--02b92e92.70a721a5.js"><link rel="prefetch" href="/assets/js/page--051901ce.ad664ea6.js"><link rel="prefetch" href="/assets/js/page--05388116.65d7c61d.js"><link rel="prefetch" href="/assets/js/page--0831fce8.d54465c8.js"><link rel="prefetch" href="/assets/js/page--0a494ed5.2776150e.js"><link rel="prefetch" href="/assets/js/page--0b301435.696f3d78.js"><link rel="prefetch" href="/assets/js/page--0b79858d.aa5a1ce8.js"><link rel="prefetch" href="/assets/js/page--0ee246f0.9a7bde01.js"><link rel="prefetch" href="/assets/js/page--11c1e3a9.f4872370.js"><link rel="prefetch" href="/assets/js/page--1283b552.b1099dd7.js"><link rel="prefetch" href="/assets/js/page--12a68231.37c14bb4.js"><link rel="prefetch" href="/assets/js/page--15baeab2.263dfec1.js"><link rel="prefetch" href="/assets/js/page--1680dd68.763be2fb.js"><link rel="prefetch" href="/assets/js/page--172e782c.ee70e8b9.js"><link rel="prefetch" href="/assets/js/page--1820c765.7d6f0fdd.js"><link rel="prefetch" href="/assets/js/page--18ec4e4d.f1311025.js"><link rel="prefetch" href="/assets/js/page--19d8e608.2be03f60.js"><link rel="prefetch" href="/assets/js/page--1a69c1e8.4d8b8531.js"><link rel="prefetch" href="/assets/js/page--1b01cf2c.49e1bbef.js"><link rel="prefetch" href="/assets/js/page--1ebff999.8ea64314.js"><link rel="prefetch" href="/assets/js/page--21dbf9f2.8ad594b6.js"><link rel="prefetch" href="/assets/js/page--22c4181c.9a612cb5.js"><link rel="prefetch" href="/assets/js/page--23fe186d.1ee0bef1.js"><link rel="prefetch" href="/assets/js/page--24bade94.b23a0480.js"><link rel="prefetch" href="/assets/js/page--24fd75f6.2e1a3b06.js"><link rel="prefetch" href="/assets/js/page--27b60cf6.3cf80494.js"><link rel="prefetch" href="/assets/js/page--2f7e7982.974f0315.js"><link rel="prefetch" href="/assets/js/page--3556f927.847f784a.js"><link rel="prefetch" href="/assets/js/page--37813c9f.54ff9442.js"><link rel="prefetch" href="/assets/js/page--37a41e65.6458355e.js"><link rel="prefetch" href="/assets/js/page--37a8f466.9f59d3c7.js"><link rel="prefetch" href="/assets/js/page--38efca82.2b1b4187.js"><link rel="prefetch" href="/assets/js/page--39af4196.1f46330f.js"><link rel="prefetch" href="/assets/js/page--49acc90a.4a7a1ecd.js"><link rel="prefetch" href="/assets/js/page--4ad8cbc0.12071f4e.js"><link rel="prefetch" href="/assets/js/page--4c612f7e.f9f9a019.js"><link rel="prefetch" href="/assets/js/page--4da0a16d.e3f60bbe.js"><link rel="prefetch" href="/assets/js/page--5b52d91c.9331c505.js"><link rel="prefetch" href="/assets/js/page--5e8c46e6.98bce4ee.js"><link rel="prefetch" href="/assets/js/page--5f01175b.7eb32edf.js"><link rel="prefetch" href="/assets/js/page--5f89a64f.2c77d272.js"><link rel="prefetch" href="/assets/js/page--601d7964.20ff6eaf.js"><link rel="prefetch" href="/assets/js/page--610817cd.92dcac74.js"><link rel="prefetch" href="/assets/js/page--63004ed8.bf58eb1e.js"><link rel="prefetch" href="/assets/js/page--631605d4.8c47b692.js"><link rel="prefetch" href="/assets/js/page--6470fbc0.294b968a.js"><link rel="prefetch" href="/assets/js/page--697793a6.cebbd96b.js"><link rel="prefetch" href="/assets/js/page--6c03e171.adcb48e8.js"><link rel="prefetch" href="/assets/js/page--6cbff3a7.c218277b.js"><link rel="prefetch" href="/assets/js/page--6e296e6a.afeefe2f.js"><link rel="prefetch" href="/assets/js/page--6e54c964.4b5db4dd.js"><link rel="prefetch" href="/assets/js/page--6ee46ea2.15a26bc6.js"><link rel="prefetch" href="/assets/js/page--6faab2a9.576f72de.js"><link rel="prefetch" href="/assets/js/page--74c7cc54.e29ffadf.js"><link rel="prefetch" href="/assets/js/page--75200c37.8d790459.js"><link rel="prefetch" href="/assets/js/page--75c876f8.cefd6315.js"><link rel="prefetch" href="/assets/js/page--76f135a8.8f3fab99.js"><link rel="prefetch" href="/assets/js/page--78371dfb.0b9f85ad.js"><link rel="prefetch" href="/assets/js/page--7af14ef7.e07712d4.js"><link rel="prefetch" href="/assets/js/page--7d8fc366.ab007bc1.js"><link rel="prefetch" href="/assets/js/page--82f4313e.bf2bedc1.js"><link rel="prefetch" href="/assets/js/page--87eea53e.00080fee.js"><link rel="prefetch" href="/assets/js/page--8a12bdf2.9b9b956a.js"><link rel="prefetch" href="/assets/js/page--998e13a8.b614dc96.js"><link rel="prefetch" href="/assets/js/page--9d791a68.ded53e8d.js"><link rel="prefetch" href="/assets/js/page--bc2ea082.51202e93.js"><link rel="prefetch" href="/assets/js/page--c19aad62.6a04b512.js"><link rel="prefetch" href="/assets/js/page--c7ec4bd2.d8a778a9.js"><link rel="prefetch" href="/assets/js/page--cc526342.0417b2c4.js"><link rel="prefetch" href="/assets/js/page--ce4458a0.ad992b5a.js"><link rel="prefetch" href="/assets/js/page--d5ba11ec.0874d964.js"><link rel="prefetch" href="/assets/js/page--d82f6a26.f128604f.js"><link rel="prefetch" href="/assets/js/page--da414596.483033fe.js"><link rel="prefetch" href="/assets/js/page--eb5194e8.d0d81b80.js"><link rel="prefetch" href="/assets/js/page--ed1e7086.ecd14699.js"><link rel="prefetch" href="/assets/js/page--f4b1f08c.a8ee3f8e.js"><link rel="prefetch" href="/assets/js/page--fae78cf2.964d8b7d.js"><link rel="prefetch" href="/assets/js/page-1011使用awk处理字符串.33a1d028.js"><link rel="prefetch" href="/assets/js/page-1012参考资料.f0c6f8ef.js"><link rel="prefetch" href="/assets/js/page-101字符串处理.efa151a5.js"><link rel="prefetch" href="/assets/js/page-102参数替换.6cd0f290.js"><link rel="prefetch" href="/assets/js/page-111循环.dd281c9f.js"><link rel="prefetch" href="/assets/js/page-112嵌套循环.fd37eb30.js"><link rel="prefetch" href="/assets/js/page-113循环控制.9efcccd0.js"><link rel="prefetch" href="/assets/js/page-114测试与分支.5b97cb77.js"><link rel="prefetch" href="/assets/js/page-181正则表达式简介.2ab750b1.js"><link rel="prefetch" href="/assets/js/page-182文件名替换.b75c1d94.js"><link rel="prefetch" href="/assets/js/page-18正则表达式.1ba05793.js"><link rel="prefetch" href="/assets/js/page-19嵌入文档.d9db9c64.js"><link rel="prefetch" href="/assets/js/page-1Listen指令.bb082db0.js"><link rel="prefetch" href="/assets/js/page-1Modulengxhttpgzip_module.e74d5745.js"><link rel="prefetch" href="/assets/js/page-1Nginx的三个主要应用场景.4895428b.js"><link rel="prefetch" href="/assets/js/page-1Nginx请求处理流程.e404972f.js"><link rel="prefetch" href="/assets/js/page-1example.54f03f78.js"><link rel="prefetch" href="/assets/js/page-1初识Ansible.a1111f1d.js"><link rel="prefetch" href="/assets/js/page-1匹配模式优先级.1dfbf7cf.js"><link rel="prefetch" href="/assets/js/page-1在浏览器中打开httpIPphpldapadmin.f41ce43d.js"><link rel="prefetch" href="/assets/js/page-1数据库基本概念.436bc482.js"><link rel="prefetch" href="/assets/js/page-1数据库相关概念.84f3b5d4.js"><link rel="prefetch" href="/assets/js/page-1数据类型.dee33c19.js"><link rel="prefetch" href="/assets/js/page-1用户.bc7d0884.js"><link rel="prefetch" href="/assets/js/page-1背景.7634e2ce.js"><link rel="prefetch" href="/assets/js/page-1视图【view】.eac7ecdb.js"><link rel="prefetch" href="/assets/js/page-1配置块的嵌套.e32be206.js"><link rel="prefetch" href="/assets/js/page-1锁等待模拟.1fb5d0b4.js"><link rel="prefetch" href="/assets/js/page-201使用exec.2dfb6de5.js"><link rel="prefetch" href="/assets/js/page-202重定向代码块.81045d91.js"><link rel="prefetch" href="/assets/js/page-203应用程序.d20adc0d.js"><link rel="prefetch" href="/assets/js/page-20IO重定向.2f6e02b2.js"><link rel="prefetch" href="/assets/js/page-21调用一个脚本.00b2990f.js"><link rel="prefetch" href="/assets/js/page-22牛刀小试.045d7cee.js"><link rel="prefetch" href="/assets/js/page-241复杂函数和函数复杂性.4d6ce7f1.js"><link rel="prefetch" href="/assets/js/page-242局部变量.3c942eec.js"><link rel="prefetch" href="/assets/js/page-243不使用局部变量的递归.344ef86f.js"><link rel="prefetch" href="/assets/js/page-24函数.d43cc3db.js"><link rel="prefetch" href="/assets/js/page-25别名.8f02aaf3.js"><link rel="prefetch" href="/assets/js/page-27数组.fe3e431e.js"><link rel="prefetch" href="/assets/js/page-2AnsibleInventory配置详解.27bebb43.js"><link rel="prefetch" href="/assets/js/page-30网络编程.97fcf7d6.js"><link rel="prefetch" href="/assets/js/page-31Ansiblelineinfile模块详解.72217eac.js"><link rel="prefetch" href="/assets/js/page-32调试.de9a6e1f.js"><link rel="prefetch" href="/assets/js/page-33选项.0f444a9c.js"><link rel="prefetch" href="/assets/js/page-361交互和非交互shell以及脚本.e2deb9b0.js"><link rel="prefetch" href="/assets/js/page-362shellwrappers.b12630db.js"><link rel="prefetch" href="/assets/js/page-363测试和比较的其他方法.ecfe3554.js"><link rel="prefetch" href="/assets/js/page-364递归：可以调用自己的脚本.c8acf001.js"><link rel="prefetch" href="/assets/js/page-3AnsibleAd-hoc命令集.d432d30f.js"><link rel="prefetch" href="/assets/js/page-41Playbook的结构及handler用法.94938066.js"><link rel="prefetch" href="/assets/js/page-41变量替换.cd598ac1.js"><link rel="prefetch" href="/assets/js/page-42Playbook循环语句.9c3e4724.js"><link rel="prefetch" href="/assets/js/page-42变量赋值.a9d9223c.js"><link rel="prefetch" href="/assets/js/page-43Bash变量是弱类型的.97421eaa.js"><link rel="prefetch" href="/assets/js/page-43Playbook条件语句.96a507e6.js"><link rel="prefetch" href="/assets/js/page-44Playbook高级用法.c1cc7ddd.js"><link rel="prefetch" href="/assets/js/page-44特殊的变量类型.4a1f98a8.js"><link rel="prefetch" href="/assets/js/page-45Playbook之tags.0064e9e7.js"><link rel="prefetch" href="/assets/js/page-46巧用Roles.35db881f.js"><link rel="prefetch" href="/assets/js/page-48yaml语法.47bcf160.js"><link rel="prefetch" href="/assets/js/page-4AnsiblePlaybook.bc4a4dae.js"><link rel="prefetch" href="/assets/js/page-51引用变量.36a36949.js"><link rel="prefetch" href="/assets/js/page-51自定义变量.597f16c8.js"><link rel="prefetch" href="/assets/js/page-52转义.87ffdac7.js"><link rel="prefetch" href="/assets/js/page-53魔法变量.f1b01700.js"><link rel="prefetch" href="/assets/js/page-54使用lookup生成变量.dbffeb3b.js"><link rel="prefetch" href="/assets/js/page-55使用vault配置加密.e0e5fa2e.js"><link rel="prefetch" href="/assets/js/page-5Ansible变量.7679dfeb.js"><link rel="prefetch" href="/assets/js/page-6Ansible使用优化.eebc3961.js"><link rel="prefetch" href="/assets/js/page-71测试结构.8d3ef882.js"><link rel="prefetch" href="/assets/js/page-72文件测试操作.e2810f81.js"><link rel="prefetch" href="/assets/js/page-73其他比较操作.cb52ed24.js"><link rel="prefetch" href="/assets/js/page-74嵌套ifthen条件测试.9f6957d4.js"><link rel="prefetch" href="/assets/js/page-75牛刀小试.5be4704c.js"><link rel="prefetch" href="/assets/js/page-7常见问题.f3683449.js"><link rel="prefetch" href="/assets/js/page-81运算符.2aa5188a.js"><link rel="prefetch" href="/assets/js/page-82数字常量.49eafc12.js"><link rel="prefetch" href="/assets/js/page-91内部变量.f7ce0890.js"><link rel="prefetch" href="/assets/js/page-921declare的另类用法.89fc3b58.js"><link rel="prefetch" href="/assets/js/page-92变量类型标注：declare与typeset.e21cac90.js"><link rel="prefetch" href="/assets/js/page-93$RANDOM：生成随机数.ebf0d6de.js"><link rel="prefetch" href="/assets/js/page-Analysis.76c6b524.js"><link rel="prefetch" href="/assets/js/page-Centos76下Elasticseatch72集群搭建步骤.e4071038.js"><link rel="prefetch" href="/assets/js/page-Centos7安装升级Ruby.0fb1e7e1.js"><link rel="prefetch" href="/assets/js/page-ElasticStack与Docker容器.6b1ce439.js"><link rel="prefetch" href="/assets/js/page-ElasticStack生态圈.fd9e94ae.js"><link rel="prefetch" href="/assets/js/page-Elasticsearch分词.3052be23.js"><link rel="prefetch" href="/assets/js/page-Elasticsearch基础概念.709962ca.js"><link rel="prefetch" href="/assets/js/page-Harbor创建.538efebf.js"><link rel="prefetch" href="/assets/js/page-Harbor简介.d09185c8.js"><link rel="prefetch" href="/assets/js/page-Jenkins报错Errorcloningremoterepo'origin'.c1104ceb.js"><link rel="prefetch" href="/assets/js/page-Linux下配置jdk的环境变量.68d3c517.js"><link rel="prefetch" href="/assets/js/page-Linux，du、df统计的硬盘使用情况不一致问题.426c7800.js"><link rel="prefetch" href="/assets/js/page-MySQLAB简介.d690200b.js"><link rel="prefetch" href="/assets/js/page-Nginxcode常用状态码学习小结.272ae8ae.js"><link rel="prefetch" href="/assets/js/page-Nginx升级加固SSLTLS协议信息泄露漏洞(CVE-2016-2183)和HTTP服务器的缺省banner漏洞.67e5ad1d.js"><link rel="prefetch" href="/assets/js/page-PrometheusAlert.7717f7d0.js"><link rel="prefetch" href="/assets/js/page-Python介绍.58893715.js"><link rel="prefetch" href="/assets/js/page-RabbitMQ高可用集群架构.deaac2d3.js"><link rel="prefetch" href="/assets/js/page-Redis-集群.bfa63c5f.js"><link rel="prefetch" href="/assets/js/page-Redis是什么.e26f9aeb.js"><link rel="prefetch" href="/assets/js/page-RequestBodySearch.b5c3c0c9.js"><link rel="prefetch" href="/assets/js/page-SearchAPI.c6bca5be.js"><link rel="prefetch" href="/assets/js/page-Summary.3fbbb63e.js"><link rel="prefetch" href="/assets/js/page-TemplateDBMySQL简介.70cc545f.js"><link rel="prefetch" href="/assets/js/page-Tomcat学习笔记（一）.d74695c9.js"><link rel="prefetch" href="/assets/js/page-Zabbix-Zookeper-Template.dbdf0448.js"><link rel="prefetch" href="/assets/js/page-Zabbix客户端日志出现(Notallprocessescouldbeidentified）.873307c3.js"><link rel="prefetch" href="/assets/js/page-activemq5159集群搭建步骤.400da6fa.js"><link rel="prefetch" href="/assets/js/page-ansible安装jenkins.de718e61.js"><link rel="prefetch" href="/assets/js/page-ansible配置.6c1819cc.js"><link rel="prefetch" href="/assets/js/page-centos65下安装python36、pip、ipython.63b697af.js"><link rel="prefetch" href="/assets/js/page-centos7下搭建shadowsocks.0e0ca996.js"><link rel="prefetch" href="/assets/js/page-centos7下时区问题.56f11a4a.js"><link rel="prefetch" href="/assets/js/page-curlhttps报错curl(35)SSLconnecterror.e519d3b5.js"><link rel="prefetch" href="/assets/js/page-curl方式执行shell脚本时如何传参.da628edb.js"><link rel="prefetch" href="/assets/js/page-docker搭建redis集群.f763deeb.js"><link rel="prefetch" href="/assets/js/page-echo命令.23b94aea.js"><link rel="prefetch" href="/assets/js/page-filebeat的安装注意.8d5660d0.js"><link rel="prefetch" href="/assets/js/page-gitlab安装.0683c72d.js"><link rel="prefetch" href="/assets/js/page-hash类型.c191f13a.js"><link rel="prefetch" href="/assets/js/page-hexo(next)+github博客的搭建.0f7406f6.js"><link rel="prefetch" href="/assets/js/page-kafka212集群搭建步骤.68ea7c02.js"><link rel="prefetch" href="/assets/js/page-keepalived简介.7e3d87f4.js"><link rel="prefetch" href="/assets/js/page-keepalived详解.20e2b3ad.js"><link rel="prefetch" href="/assets/js/page-linux下如何增加swap交换分区.b4afe633.js"><link rel="prefetch" href="/assets/js/page-linux内核参数优化（网络模块）.ffc01b11.js"><link rel="prefetch" href="/assets/js/page-list类型.b0b95e11.js"><link rel="prefetch" href="/assets/js/page-logrotate简介.213c84bf.js"><link rel="prefetch" href="/assets/js/page-logstash安装注意.598148c8.js"><link rel="prefetch" href="/assets/js/page-mysql最大连接数的改变.e11f80fe.js"><link rel="prefetch" href="/assets/js/page-mysql架构.52aa859b.js"><link rel="prefetch" href="/assets/js/page-nginx前面有多个反向代理时，proxy的正确设置.07348173.js"><link rel="prefetch" href="/assets/js/page-redis-dump方式导入导出数据.4261dc2e.js"><link rel="prefetch" href="/assets/js/page-redis504集群搭建.5ea82d06.js"><link rel="prefetch" href="/assets/js/page-sed命令详解.d2d584de.js"><link rel="prefetch" href="/assets/js/page-string类型.8a179213.js"><link rel="prefetch" href="/assets/js/page-tomcat安全配置.d4d69950.js"><link rel="prefetch" href="/assets/js/page-war正确删除姿势.3c1a97ff.js"><link rel="prefetch" href="/assets/js/page-yum管理RPM包.1c1ab44d.js"><link rel="prefetch" href="/assets/js/page-zabbix-server安装.5694e52d.js"><link rel="prefetch" href="/assets/js/page-zabbix添加报警媒介.bd4f0fc8.js"><link rel="prefetch" href="/assets/js/page-zookeeper3414集群搭建步骤.89113ac5.js"><link rel="prefetch" href="/assets/js/page-一、Jenkins介绍.b5405515.js"><link rel="prefetch" href="/assets/js/page-一、etcsecuritylimitsconf详解.a3318a5a.js"><link rel="prefetch" href="/assets/js/page-下载redis-500安装包.764e1cf3.js"><link rel="prefetch" href="/assets/js/page-主库异常，从库手动切换为主库方案.cde1b14f.js"><link rel="prefetch" href="/assets/js/page-从开源到上市.06a1f7de.js"><link rel="prefetch" href="/assets/js/page-使用方法.8643b834.js"><link rel="prefetch" href="/assets/js/page-关闭jenkins.ea9b7ff7.js"><link rel="prefetch" href="/assets/js/page-关闭被监控端的防火墙.87d9d553.js"><link rel="prefetch" href="/assets/js/page-写作前.85cae1f7.js"><link rel="prefetch" href="/assets/js/page-分布式FastDfs+nginx缓存高可用集群构建.9ed0015a.js"><link rel="prefetch" href="/assets/js/page-创建、复制、移动、删除.7b9bceb5.js"><link rel="prefetch" href="/assets/js/page-博客主页.294163d4.js"><link rel="prefetch" href="/assets/js/page-双圆括号结构.d30d114c.js"><link rel="prefetch" href="/assets/js/page-命名.f1f160a9.js"><link rel="prefetch" href="/assets/js/page-基本权限UGO.38e147e3.js"><link rel="prefetch" href="/assets/js/page-存储引擎简介.2459bc7f.js"><link rel="prefetch" href="/assets/js/page-安装.c17f74b4.js"><link rel="prefetch" href="/assets/js/page-安装python解释器，配置好path变量。.d5aab12f.js"><link rel="prefetch" href="/assets/js/page-安装运行.b28d7143.js"><link rel="prefetch" href="/assets/js/page-导入nginx配置文件.9a9eda40.js"><link rel="prefetch" href="/assets/js/page-开机集成zabbix和jumpserver脚本.577b80ac.js"><link rel="prefetch" href="/assets/js/page-打包、压缩.627dde7a.js"><link rel="prefetch" href="/assets/js/page-数据类型.e9679e7a.js"><link rel="prefetch" href="/assets/js/page-文档的CRUD.04075876.js"><link rel="prefetch" href="/assets/js/page-显示当前正在编辑的文件名.6e18b4e5.js"><link rel="prefetch" href="/assets/js/page-服务器端.60c78d88.js"><link rel="prefetch" href="/assets/js/page-查看哪些表被锁住了.66213398.js"><link rel="prefetch" href="/assets/js/page-查看文件内容.dd0f2b23.js"><link rel="prefetch" href="/assets/js/page-查看文件类型.2c7f6256.js"><link rel="prefetch" href="/assets/js/page-查看文件详细属性.7d9adb3c.js"><link rel="prefetch" href="/assets/js/page-标准输入、标准输出、标准错误.1d642226.js"><link rel="prefetch" href="/assets/js/page-核心知识点概览.20c9d558.js"><link rel="prefetch" href="/assets/js/page-模板导入.e1161d8a.js"><link rel="prefetch" href="/assets/js/page-正排与倒排索引.06a89144.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（21）-find之xargs.ce7efd5a.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（29）-chown.6d80dd2d.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（33）-du.fa326ade.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（35）-diff.56b384ae.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（36）-date.912eb08d.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（42）-killall.90d077fa.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（45）-vmstat.a143e792.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（46）-iostat.aead0f8c.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（49）-lsof.62787d3a.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（52）-ping.6ec86d85.js"><link rel="prefetch" href="/assets/js/page-每天一个linux命令（53）-traceroute.8e6eab3f.js"><link rel="prefetch" href="/assets/js/page-用户管理.f7671ba7.js"><link rel="prefetch" href="/assets/js/page-由来.a2f2fbbd.js"><link rel="prefetch" href="/assets/js/page-白天做运维，晚上搞副业赚钱.d4fe9f7e.js"><link rel="prefetch" href="/assets/js/page-第34章陷阱.d2308726.js"><link rel="prefetch" href="/assets/js/page-第36章杂项.19fd4d69.js"><link rel="prefetch" href="/assets/js/page-第一章为什么使用shell编程.dd949513.js"><link rel="prefetch" href="/assets/js/page-第一部分初见Shell.4d4f8aa3.js"><link rel="prefetch" href="/assets/js/page-第七章测试.7d950178.js"><link rel="prefetch" href="/assets/js/page-第三章特殊字符.48bc5172.js"><link rel="prefetch" href="/assets/js/page-第三部分shell进阶.882db758.js"><link rel="prefetch" href="/assets/js/page-第九章换个角度看变量.73bbee1b.js"><link rel="prefetch" href="/assets/js/page-第二十一章子shell.c9f4e850.js"><link rel="prefetch" href="/assets/js/page-第二十三章进程替换.93432a0e.js"><link rel="prefetch" href="/assets/js/page-第二十二章限制模式的Shell.dda33df1.js"><link rel="prefetch" href="/assets/js/page-第二十六章列表结构.73fe609e.js"><link rel="prefetch" href="/assets/js/page-第二章和Sha-Bang（!）一起出发.bd4a7bcc.js"><link rel="prefetch" href="/assets/js/page-第二部分shell基础.4c1c1458.js"><link rel="prefetch" href="/assets/js/page-第五章引用.bb67d2f0.js"><link rel="prefetch" href="/assets/js/page-第五部分高级话题.8bd3dbde.js"><link rel="prefetch" href="/assets/js/page-第八章运算符相关话题.3e3b93a2.js"><link rel="prefetch" href="/assets/js/page-第六章退出与退出状态.013dec3a.js"><link rel="prefetch" href="/assets/js/page-第十一章循环与分支.9cd458ba.js"><link rel="prefetch" href="/assets/js/page-第十三章算术扩展.33623b29.js"><link rel="prefetch" href="/assets/js/page-第十二章命令替换.72ff2839.js"><link rel="prefetch" href="/assets/js/page-第十章变量处理.7db713b7.js"><link rel="prefetch" href="/assets/js/page-第四章变量与参数.63ff48df.js"><link rel="prefetch" href="/assets/js/page-第四部分命令.46b72020.js"><link rel="prefetch" href="/assets/js/page-网络基础.fe4b833e.js"><link rel="prefetch" href="/assets/js/page-聊透监控体系，就这一篇够不够？.a868cd20.js"><link rel="prefetch" href="/assets/js/page-背景.c4851342.js"><link rel="prefetch" href="/assets/js/page-自动清理.5e9c8b79.js"><link rel="prefetch" href="/assets/js/page-调优的目的：.a16afda7.js"><link rel="prefetch" href="/assets/js/page-运算符优先级.4278a679.js"><link rel="prefetch" href="/assets/js/page-通过URIquery实现搜索.176df6be.js"><link rel="prefetch" href="/assets/js/page-配置.ed95bea5.js"><link rel="prefetch" href="/assets/js/page-键命令.c191a72e.js"><link rel="prefetch" href="/assets/js/page-附录FIO与IO重定向详细介绍.6007a1f7.js"><link rel="prefetch" href="/assets/js/page-附录TASCII表.efdd5ae6.js"><link rel="prefetch" href="/assets/js/page-静态查看进程ps.0aae9d07.js"><link rel="prefetch" href="/assets/js/page-高可用开源方案KeepalivedVSHeartbeat对比.59cf3b86.js"><link rel="prefetch" href="/assets/js/vendors~flowchart.bd2938ae.js"><link rel="prefetch" href="/assets/js/vendors~photo-swipe.9f3d223e.js"><link rel="prefetch" href="/assets/js/vendors~reveal.82aa63cb.js"><link rel="prefetch" href="/assets/js/vendors~valine.f32f45ff.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74e162d4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container has-navbar has-sidebar has-anchor"><header class="navbar"><button class="sidebar-button"><span class="icon"></span></button> <a href="/" class="home-link router-link-active"><img src="/lufei.jpg" alt="IT外卖小哥" class="logo"> <!----> <span class="site-name can-hide">IT外卖小哥</span></a> <div class="links"><button class="color-button"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="skin-icon"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4
+        38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32
+        51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0
+        102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2
+        6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4
+        0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2
+        9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224
+        419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4
+        470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0
+        22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6
+        12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128
+        505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2
+        16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8
+        86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4
+        80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6
+        6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></svg> <div class="color-picker-menu" style="display:none;"><div class="theme-options"><ul class="themecolor-select"><label for="themecolor-select">主题色:</label> <li><a href="#" class="default-theme"></a></li> </ul> <div class="darkmode-toggle"><label for="darkmode-toggle" class="desc">主题模式:</label> <div class="darkmode-switch"><div class="item day"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon light-icon"><path d="M512 256a42.667 42.667 0 0 0 42.667-42.667V128a42.667 42.667 0 0 0-85.334 0v85.333A42.667 42.667 0 0 0 512 256zm384 213.333h-85.333a42.667 42.667 0 0 0 0 85.334H896a42.667 42.667 0 0 0 0-85.334zM256 512a42.667 42.667 0 0 0-42.667-42.667H128a42.667 42.667 0 0 0 0 85.334h85.333A42.667 42.667 0 0 0 256 512zm9.387-298.667a42.667 42.667 0 0 0-59.307 62.72l61.44 59.307a42.667 42.667 0 0 0 31.147 11.947 42.667 42.667 0 0 0 30.72-13.227 42.667 42.667 0 0 0 0-60.16zm459.946 133.974a42.667 42.667 0 0 0 29.44-11.947l61.44-59.307a42.667 42.667 0 0 0-57.6-62.72l-61.44 60.587a42.667 42.667 0 0 0 0 60.16 42.667 42.667 0 0 0 28.16 13.227zM512 768a42.667 42.667 0 0 0-42.667 42.667V896a42.667 42.667 0 0 0 85.334 0v-85.333A42.667 42.667 0 0 0 512 768zm244.48-79.36a42.667 42.667 0 0 0-59.307 61.44l61.44 60.587a42.667 42.667 0 0 0 29.44 11.946 42.667 42.667 0 0 0 30.72-12.8 42.667 42.667 0 0 0 0-60.586zm-488.96 0-61.44 59.307a42.667 42.667 0 0 0 0 60.586 42.667 42.667 0 0 0 30.72 12.8 42.667 42.667 0 0 0 28.587-10.666l61.44-59.307a42.667 42.667 0 0 0-59.307-61.44zM512 341.333A170.667 170.667 0 1 0 682.667 512 170.667 170.667 0 0 0 512 341.333z" fill="currentColor"></path></svg></div> <div class="item auto active"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon auto-icon"><path d="M460.864 539.072H564.8L510.592 376l-49.728 163.072zM872 362.368V149.504H659.648L510.528 0l-149.12 149.504H149.12v212.928L0 511.872l149.12 149.504v212.928h212.352l149.12 149.504 149.12-149.504h212.352V661.376l149.12-149.504L872 362.368zM614.464 693.12l-31.616-90.624H438.272l-31.616 90.624h-85.888l144.576-407.68h90.368l144.576 407.68h-85.824zm0 0" fill="currentColor"></path></svg></div> <div class="item night"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon dark-icon"><path d="M935.539 630.402c-11.43-11.432-28.674-14.739-43.531-8.354-46.734 20.103-96.363 30.297-147.508 30.297-99.59 0-193.221-38.784-263.64-109.203-108.637-108.637-139.61-270.022-78.908-411.148a39.497 39.497 0 0 0-51.886-51.887c-52.637 22.64-100.017 54.81-140.826 95.616-85.346 85.346-132.346 198.821-132.346 319.52 0 120.7 47.001 234.172 132.347 319.519S408.063 947.11 528.76 947.11c120.7 0 234.172-47.003 319.52-132.351 40.809-40.81 72.978-88.19 95.616-140.826a39.497 39.497 0 0 0-8.356-43.532z" fill="currentColor"></path></svg></div></div> <!----></div></div></div></button> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link router-link-active"><i class="iconfont icon-home"></i>
+  博客主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="学习笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+        学习笔记
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>开发框架</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/django/" class="nav-link"><i class="iconfont icon-django"></i>
+  Django
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="容器" class="dropdown-title"><span class="title"><i class="iconfont icon-kubernetes"></i>
+        容器
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/container/docker/" class="nav-link"><i class="iconfont icon-docker"></i>
+  Docker
+</a></li><li class="dropdown-item"><a href="/container/kubernetes/" class="nav-link"><i class="iconfont icon-kubernetes"></i>
+  Kubernetes
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="代码笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+        代码笔记
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>自动化工具</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/automate/ansible/" class="nav-link router-link-active active"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="监控工具" class="dropdown-title"><span class="title"><i class="iconfont icon-monitor"></i>
+        监控工具
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link"><i class="iconfont icon-zabbix"></i>
+  Zabbix
+</a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link"><i class="iconfont icon-prometheus"></i>
+  Prometheus
+</a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link"><i class="iconfont icon-grafana"></i>
+  Grafana
+</a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link"><i class="iconfont icon-elastic"></i>
+  ELK
+</a></li><li class="dropdown-item"><a href="/monitor/apm/" class="nav-link"><i class="iconfont icon-apm"></i>
+  APM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="web中间件" class="dropdown-title"><span class="title"><i class="iconfont icon-web"></i>
+        web中间件
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link"><i class="iconfont icon-nginx"></i>
+  Nginx
+</a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link"><i class="iconfont icon-tomcat"></i>
+  tomcat
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="自动化工具" class="dropdown-title"><span class="title"><i class="iconfont icon-automate"></i>
+        自动化工具
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link router-link-active active"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link"><i class="iconfont icon-jenkins"></i>
+  Jenkins
+</a></li><li class="dropdown-item"><a href="/automate/gitlab/" class="nav-link"><i class="iconfont icon-gitlab"></i>
+  Gitlab
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title"><i class="iconfont icon-db"></i>
+        数据库
+      </span> <span class="arrow down"></span></button> <ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link"><i class="iconfont icon-mysql"></i>
+  MySQL
+</a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link"><i class="iconfont icon-redis"></i>
+  Redis
+</a></li></ul></div></div></nav> <!----> <a rel="noopener noreferrer" href="https://github.com/vuepress-theme-hope/vuepress-theme-hope" target="_blank" class="repo-link can-hide">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><div vocab="https://schema.org/" typeof="Person" class="blogger-info mobile"><div data-balloon-pos="down" class="blogger hasIntro"><img property="image" alt="Blogger Avatar" src="/lufei.jpg" class="avatar round"> <div property="name" class="name">Clay</div> <meta property="url" content="/intro/"></div> <div class="num-wrapper"><div><div class="num">232</div> <div>文章</div></div> <div><div class="num">2</div> <div>分类</div></div> <div><div class="num">6</div> <div>标签</div></div> <div><div class="num">232</div> <div>时间轴</div></div></div> <div class="media-links-wrapper"><a href="mailto:clay_wangzhi@163.com" rel="noopener noreferrer" target="_blank" aria-label="Email" data-balloon-pos="up" class="media-link"><span class="sr-only">Email</span> <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon icon-email"><path d="M0 512a512 512 0 101024 0A512 512 0 100 512z" fill="#1384FF"></path> <path d="M299.372 313.572H722.93c28.945 0 52.61 21.845 52.975 48.787L511.333 500.35 246.76 362.481c.182-27.003 23.666-48.97 52.611-48.97zm-52.671 101.702l-.243 244.121c0 27.186 23.848 49.395 52.914 49.395H722.93c29.127 0 52.975-22.21 52.975-49.395V415.152L517.522 546.71a13.957 13.957 0 01-12.682 0L246.7 415.274z" fill="#FFF"></path></svg></a></div></div> <hr>  <nav class="sidebar-nav-links"><div class="nav-item"><a href="/" class="nav-link router-link-active"><i class="iconfont icon-home"></i>
+  博客主页
+</a></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="学习笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+      学习笔记
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>开发框架</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/django/" class="nav-link"><i class="iconfont icon-django"></i>
+  Django
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="容器" class="dropdown-title"><span class="title"><i class="iconfont icon-kubernetes"></i>
+      容器
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/container/docker/" class="nav-link"><i class="iconfont icon-docker"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/container/kubernetes/" class="nav-link"><i class="iconfont icon-kubernetes"></i>
+  Kubernetes
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="代码笔记" class="dropdown-title"><span class="title"><i class="iconfont icon-code"></i>
+      代码笔记
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>编程语言</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/code/python/" class="nav-link"><i class="iconfont icon-python"></i>
+  Python
+</a></li><li class="dropdown-subitem"><a href="/code/golang/" class="nav-link"><i class="iconfont icon-go"></i>
+  Golang
+</a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>自动化工具</span></h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/automate/ansible/" class="nav-link router-link-active active"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-subitem"><a href="/code/beego/" class="nav-link"><i class="iconfont icon-beego"></i>
+  Beego
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="监控工具" class="dropdown-title"><span class="title"><i class="iconfont icon-monitor"></i>
+      监控工具
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/monitor/zabbix/" class="nav-link"><i class="iconfont icon-zabbix"></i>
+  Zabbix
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/prometheus/" class="nav-link"><i class="iconfont icon-prometheus"></i>
+  Prometheus
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/grafana/" class="nav-link"><i class="iconfont icon-grafana"></i>
+  Grafana
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/elk/" class="nav-link"><i class="iconfont icon-elastic"></i>
+  ELK
+</a></li><li class="dropdown-item"><!----> <a href="/monitor/apm/" class="nav-link"><i class="iconfont icon-apm"></i>
+  APM
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="web中间件" class="dropdown-title"><span class="title"><i class="iconfont icon-web"></i>
+      web中间件
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web/nginx/" class="nav-link"><i class="iconfont icon-nginx"></i>
+  Nginx
+</a></li><li class="dropdown-item"><!----> <a href="/web/tomcat/" class="nav-link"><i class="iconfont icon-tomcat"></i>
+  tomcat
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="自动化工具" class="dropdown-title"><span class="title"><i class="iconfont icon-automate"></i>
+      自动化工具
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/automate/ansible/" class="nav-link router-link-active active"><i class="iconfont icon-ansible"></i>
+  Ansible
+</a></li><li class="dropdown-item"><!----> <a href="/automate/jenkins/" class="nav-link"><i class="iconfont icon-jenkins"></i>
+  Jenkins
+</a></li><li class="dropdown-item"><!----> <a href="/automate/gitlab/" class="nav-link"><i class="iconfont icon-gitlab"></i>
+  Gitlab
+</a></li></ul></div></div><div class="nav-item"><div class="mobile-dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title"><i class="iconfont icon-db"></i>
+      数据库
+    </span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/db/mysql/" class="nav-link"><i class="iconfont icon-mysql"></i>
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/db/redis/" class="nav-link"><i class="iconfont icon-redis"></i>
+  Redis
+</a></li></ul></div></div> <a rel="noopener noreferrer" href="https://github.com/vuepress-theme-hope/vuepress-theme-hope" target="_blank" class="repo-link">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><a href="/automate/ansible/" aria-current="page" class="sidebar-link">1 初识Ansible</a></li><li><a href="/automate/ansible/inventory/" class="sidebar-link">2 Ansible Inventory配置详解</a></li><li><section class="sidebar-group depth-0"><a href="/automate/ansible/ad-hoc/" class="sidebar-heading clickable"><!----> <span class="title">3 Ansible Ad-hoc命令集</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/automate/ansible/lineinfile/" class="sidebar-link">3.1 Ansible lineinfile模块详解</a></li></ul></section></li><li><section class="sidebar-group depth-0"><a href="/automate/ansible/playbook/" class="sidebar-heading clickable"><!----> <span class="title">4 Ansible Playbook</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/automate/ansible/dir-handler/" class="sidebar-link">4.1 Playbook的结构及handler用法</a></li><li><a href="/automate/ansible/playbook-for/" class="sidebar-link">4.2 Playbook循环语句</a></li><li><a href="/automate/ansible/playbook-if/" class="sidebar-link">4.3 Playbook条件语句</a></li><li><a href="/automate/ansible/advanced-playbook/" class="sidebar-link">4.4 Playbook高级用法</a></li><li><a href="/automate/ansible/playbook-tags/" class="sidebar-link">4.5 Playbook之tags</a></li><li><a href="/automate/ansible/roles/" class="sidebar-link">4.6 巧用Roles</a></li><li><!----></li><li><a href="/automate/ansible/yaml/" class="sidebar-link">4.8 yaml语法</a></li></ul></section></li><li><section class="sidebar-group depth-0"><a href="/automate/ansible/var/" class="sidebar-heading clickable open"><!----> <span class="title">5 Ansible变量</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/automate/ansible/custom/" class="sidebar-link">5.1 自定义变量</a></li><li><a href="/automate/ansible/fact/" aria-current="page" class="active sidebar-link">5.2 Fact变量</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_1-fact简介" class="sidebar-link">1 fact简介</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_2-自定义fact-local-facts" class="sidebar-link">2 自定义fact(Local Facts)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_2-1-手动设置fact" class="sidebar-link heading3">2.1 手动设置fact</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_2-2-使用set-fact模块定义新的变量" class="sidebar-link heading3">2.2 使用set_fact模块定义新的变量</a></li></ul></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_3-手动采集fact" class="sidebar-link">3 手动采集fact</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_4-启用fact缓存" class="sidebar-link">4 启用fact缓存</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_4-1-json文件fact缓存后端" class="sidebar-link heading3">4.1 Json文件fact缓存后端</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_4-2-redis-fact缓存后端" class="sidebar-link heading3">4.2  Redis fact缓存后端</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_4-3-memcached-fact缓存后端" class="sidebar-link heading3">4.3 Memcached fact缓存后端</a></li></ul></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_5-关闭fact" class="sidebar-link">5 关闭fact</a></li><li class="sidebar-sub-header"><a href="/automate/ansible/fact/#_6-委托facts" class="sidebar-link">6 委托Facts</a></li></ul></li><li><a href="/automate/ansible/magic/" class="sidebar-link">5.3 魔法变量</a></li><li><a href="/automate/ansible/lookup/" class="sidebar-link">5.4 使用lookup生成变量</a></li><li><a href="/automate/ansible/vault/" class="sidebar-link">5.5 使用vault配置加密</a></li></ul></section></li><li><a href="/automate/ansible/optimize/" class="sidebar-link">6 Ansible使用优化</a></li><li><a href="/automate/ansible/qa/" class="sidebar-link">7 常见问题</a></li></ul> </aside> <main class="page"><nav class="breadcrumb"><ol vocab="https://schema.org/" typeof="BreadcrumbList"><li property="itemListElement" typeof="ListItem"><a href="/automate/ansible/" property="item" typeof="WebPage" class="router-link-active"><!----> <span property="name">1 初识Ansible</span></a> <meta property="position" content="1"></li><li property="itemListElement" typeof="ListItem" class="is-active"><a href="/automate/ansible/fact/" aria-current="page" property="item" typeof="WebPage" class="router-link-exact-active router-link-active"><!----> <span property="name">5.2 Fact变量</span></a> <meta property="position" content="2"></li></ol></nav>  <div vocab="https://schema.org/" typeof="Article" class="page-title"><h1><!----> <span property="headline">5.2 Fact变量</span></h1> <div class="page-info"><!----> <span aria-label="写作日期📅" data-balloon-pos="down" class="time-info"><svg viewBox="0 0 1030 1024" xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 0 1-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 0 1-33.473-33.473V143.657H180.6A134.314 134.314 0 0 0 46.66 277.595v535.756A134.314 134.314 0 0 0 180.6 947.289h669.74a134.36 134.36 0 0 0 133.94-133.938V277.595a134.314 134.314 0 0 0-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 0 1-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 0 1-33.472 33.473z" fill="currentColor"></path></svg> <span property="datePublished">2021年4月2日 11:11</span></span><span aria-label="作者🖊" data-balloon-pos="down"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon author-icon"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z" fill="currentColor"></path></svg> <span property="author">Clay</span></span><span aria-label="访问量🔢" data-balloon-pos="down" class="visitor-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon eye-icon"><path d="M992 512.096c0-5.76-.992-10.592-1.28-11.136-.192-2.88-1.152-8.064-2.08-10.816-.256-.672-.544-1.376-.832-2.08-.48-1.568-1.024-3.104-1.6-4.32C897.664 290.112 707.104 160 512 160c-195.072 0-385.632 130.016-473.76 322.592-1.056 2.112-1.792 4.096-2.272 5.856a55.512 55.512 0 0 0-.64 1.6c-1.76 5.088-1.792 8.64-1.632 7.744-.832 3.744-1.568 11.168-1.568 11.168-.224 2.272-.224 4.032.032 6.304 0 0 .736 6.464 1.088 7.808.128 1.824.576 4.512 1.12 6.976h-.032c.448 2.08 1.12 4.096 1.984 6.08.48 1.536.992 2.976 1.472 4.032C126.432 733.856 316.992 864 512 864c195.136 0 385.696-130.048 473.216-321.696 1.376-2.496 2.24-4.832 2.848-6.912.256-.608.48-1.184.672-1.728 1.536-4.48 1.856-8.32 1.728-8.32l-.032.032c.608-3.104 1.568-7.744 1.568-13.28zM512 672c-88.224 0-160-71.776-160-160s71.776-160 160-160 160 71.776 160 160-71.776 160-160 160z" fill="currentColor"></path></svg> <span id="/automate/ansible/fact/" data-flag-title="5.2 Fact变量" class="leancloud_visitors"><span class="leancloud-visitors-count">...</span></span></span><span aria-label="阅读时间⌛" data-balloon-pos="down" class="reading-time-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon timer-icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z" fill="currentColor"></path></svg> <span>大约 14 分钟</span> <meta property="timeRequired" content="PT14M"></span><span aria-label="字数🔠" data-balloon-pos="down" class="words-info"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon word-icon"><path d="M518.217 432.64V73.143A73.143 73.143 0 0 1 603.43 1.097a512 512 0 0 1 419.474 419.474 73.143 73.143 0 0 1-72.046 85.212H591.36a73.143 73.143 0 0 1-73.143-73.143z" fill="currentColor"></path> <path d="M493.714 566.857h340.297a73.143 73.143 0 0 1 73.143 85.577A457.143 457.143 0 1 1 371.566 117.76a73.143 73.143 0 0 1 85.577 73.143v339.383a36.571 36.571 0 0 0 36.571 36.571z" fill="currentColor"></path></svg> <span>约 4116 字</span> <meta property="wordCount" content="4116"></span><!----><!----></div> <!----> <hr></div> <div class="anchor-place-holder"><aside id="anchor"><div class="anchor-wrapper"><ul class="anchor-list"><li class="anchor"><a href="/automate/ansible/fact/#_1-fact简介" class="anchor-link heading2"><div>1 fact简介</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_2-自定义fact-local-facts" class="anchor-link heading2"><div>2 自定义fact(Local Facts)</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_2-1-手动设置fact" class="anchor-link heading3"><div>2.1 手动设置fact</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_2-2-使用set-fact模块定义新的变量" class="anchor-link heading3"><div>2.2 使用set_fact模块定义新的变量</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_3-手动采集fact" class="anchor-link heading2"><div>3 手动采集fact</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_4-启用fact缓存" class="anchor-link heading2"><div>4 启用fact缓存</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_4-1-json文件fact缓存后端" class="anchor-link heading3"><div>4.1 Json文件fact缓存后端</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_4-2-redis-fact缓存后端" class="anchor-link heading3"><div>4.2  Redis fact缓存后端</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_4-3-memcached-fact缓存后端" class="anchor-link heading3"><div>4.3 Memcached fact缓存后端</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_5-关闭fact" class="anchor-link heading2"><div>5 关闭fact</div></a></li><li class="anchor"><a href="/automate/ansible/fact/#_6-委托facts" class="anchor-link heading2"><div>6 委托Facts</div></a></li></ul></div></aside></div> <div class="theme-default-content content__default"><h1 id="_5-2-fact变量"><a href="#_5-2-fact变量" class="header-anchor">#</a> 5.2 Fact变量</h1> <h2 id="_1-fact简介"><a href="#_1-fact简介" class="header-anchor">#</a> 1 fact简介</h2> <p>为了让Ansible更了解目标节点，可以让它去收集目标节点的信息，比如获取对方的主机名、系统版本、IP地址或其它网卡信息、分区挂载信息等等。在Ansible中，收集到的这些节点信息称为Facts。</p> <p>有了这些信息，用户可以更好的控制管理节点，比如当IP地址为xxx时就怎样怎样，当系统是CentOS 6时怎样怎样，是CentOS 7时怎样怎样，等等。</p> <p>有这些信息当然好，但是收集这些信息是有代价的，而且代价很大：因为要收集的信息量很大，所以收集的过程非常慢。所以，如果在playbook中用不上这些信息时，应当禁用收集行为，这也是一个非常有效的效率优化手段。</p> <p>ansible两个模块叫setup、gather_facts，用于获取远程主机的相关信息，并可以将这些信息作为变量在playbook里进行调用。而setup模块获取这些信息的方法就是依赖于fact。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>$ ansible localhost -m setup
+$ ansible localhost -m gather_facts
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>简单说明一下setup模块和gather_facts模块的区别。setup模块是早就存在的模块，而gather_facts模块是Ansible 2.8才提供的，它是一个二次封装的模块，内部很可能就是调用setup模块，但为何还要提供gather_facts模块呢？也许原因就在于gather_facts模块相比setup模块多的一个功能：并行收集多个节点的信息，而且在探测到要收集多个节点信息时会自动并行。</p> <p>既然setup和gather_facts是模块，那么它们也可以在playbook中当作任务来执行。但是playbook专门为此提供了一个play级别的指令：gather_facts。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ansible test -m setup
+10.1.61.187 | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_all_ipv4_addresses&quot;: [
+            &quot;10.1.61.187&quot;
+        ],
+        &quot;ansible_all_ipv6_addresses&quot;: [
+            &quot;fe80::f816:3eff:fe4f:6611&quot;
+        ],
+        &quot;ansible_apparmor&quot;: {
+            &quot;status&quot;: &quot;disabled&quot;
+        },
+        &quot;ansible_architecture&quot;: &quot;x86_64&quot;,
+        &quot;ansible_bios_date&quot;: &quot;04/01/2014&quot;,
+        &quot;ansible_bios_version&quot;: &quot;Ubuntu-1.8.2-1ubuntu1~cloud0&quot;,
+        
+        ...output omitted...
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>setup获取的这些信息，都是可用于该主机的变量。</p> <h2 id="_2-自定义fact-local-facts"><a href="#_2-自定义fact-local-facts" class="header-anchor">#</a> 2 自定义fact(Local Facts)</h2> <h3 id="_2-1-手动设置fact"><a href="#_2-1-手动设置fact" class="header-anchor">#</a> 2.1 手动设置fact</h3> <p>ansible除了能获取到预定义的fact的内容,还支持手动为某个主机定制fact。称之为本地fact。本地fact默认存放于被控端的<code>/etc/ansible/facts.d</code>目录下，如果文件为<code>ini</code>格式或者<code>json</code>格式，ansible会自动识别。以这种形式加载的fact是key为<code>ansible_local</code>的特殊变量。</p> <p>下面是一个简单的示例，在ansibler主控端定义一个<code>ini</code>格式的custom.fact文件内容如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[general]
+package = httpd
+service = httpd
+state = started
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>然后我们编写一个playbook文件名为setup_facts.yml内容如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>---
+- name: Install remote facts
+  hosts: test
+  vars: 
+    remote_dir: /etc/ansible/facts.d
+    facts_file: custom.fact
+  tasks:
+    - name: Create the remote directory
+      file:
+        state: directory
+        recurse: yes
+        path: &quot;{{ remote_dir }}&quot;
+    - name: Install the new facts
+      copy:
+        src: &quot;{{ facts_file }}&quot;
+        dest: &quot;{{ remote_dir }}&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>执行该playbook，完成facts的推送：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>ansible-playbook setup_facts.yml
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>此时，我们可以在被控端看到新的facts已经生成：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ansible test -m setup        
+10.1.61.187 | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+    
+        ...output omitted...
+        
+        &quot;ansible_local&quot;: {
+            &quot;custom&quot;: {
+                &quot;general&quot;: {
+                    &quot;package&quot;: &quot;httpd&quot;,
+                    &quot;service&quot;: &quot;httpd&quot;,
+                    &quot;state&quot;: &quot;started&quot;
+                }
+            }
+        },
+
+        ...output omitted...
+  
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>我们可以写一个简单的playbook来使用这些facts：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- name: Install Apache and starts the service
+  hosts: test
+  tasks:
+    - name: Install the required package
+      yum: 
+        name: &quot;{{ ansible_facts.ansible_local.custom.general.package }}&quot;
+        state: latest
+    - name: Start the service
+      service: 
+        name: &quot;{{ ansible_facts.ansible_local.custom.general.service }}&quot;
+        state: &quot;{{ ansible_facts.ansible_local.custom.general.state }}&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h3 id="_2-2-使用set-fact模块定义新的变量"><a href="#_2-2-使用set-fact模块定义新的变量" class="header-anchor">#</a> 2.2 使用set_fact模块定义新的变量</h3> <p><code>set_fact</code>模块可以自定义facts，这些自定义的facts可以通过template或者变量的方式在playbook中使用。如果你想要获取一个进程使用的内存的百分比，则必须通过set_fact来进行计算之后得出其值，并将其值在playbook中引用。</p> <p>下面是一个set_fact模块的应用示例：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- name: set_fact example
+  hosts: test
+  tasks:
+    - name: Calculate InnoDB buffer pool size
+      set_fact: innodb_buffer_pool_size_mb=&quot;{{ ansible_memtotal_mb / 2 |int }}&quot;
+      
+    - debug: var=innodb_buffer_pool_size_mb
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>执行playbook如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># ansible-playbook set_fact_ex.yaml 
+
+PLAY [set_fact example] *****************************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************************************
+ok: [10.1.61.187]
+
+TASK [Calculate InnoDB buffer pool size] ************************************************************************************************************************************
+ok: [10.1.61.187]
+
+TASK [debug] ****************************************************************************************************************************************************************
+ok: [10.1.61.187] =&gt; {
+    &quot;innodb_buffer_pool_size_mb&quot;: &quot;3911.0&quot;
+}
+
+PLAY RECAP ******************************************************************************************************************************************************************
+10.1.61.187                : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><blockquote><p>这种设置方式只在当前playbook当中有效</p></blockquote> <h2 id="_3-手动采集fact"><a href="#_3-手动采集fact" class="header-anchor">#</a> 3 手动采集fact</h2> <p>收集到目标节点信息之后，各信息都保存在一个名为ansible_facts的变量中，所以可以直接debug去查看这个变量里保存了什么东西，也即收集了目标节点的哪些信息。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- name: info in ansible_facts
+  debug:
+    var: ansible_facts
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>此外也可以直接使用下面的方式来查看Facts中收集了哪些信息：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>$ ansible localhost -m 'setup'
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>下面是收集到的部分Facts信息：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>localhost | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_all_ipv4_addresses&quot;: [
+            &quot;192.168.135.234&quot;
+        ],
+        &quot;ansible_all_ipv6_addresses&quot;: [
+            &quot;fe80::c38:ea5:1598:8169&quot;
+        ],
+        &quot;ansible_apparmor&quot;: {
+            &quot;status&quot;: &quot;disabled&quot;
+        },
+        &quot;ansible_architecture&quot;: &quot;x86_64&quot;,
+        &quot;ansible_bios_date&quot;: &quot;04/01/2014&quot;,
+        &quot;ansible_bios_version&quot;: &quot;1.11.0-2.el7&quot;,
+        &quot;ansible_cmdline&quot;: {
+            &quot;BOOT_IMAGE&quot;: &quot;/vmlinuz-3.10.0-957.el7.x86_64&quot;,
+            &quot;biosdevname&quot;: &quot;0&quot;,
+            &quot;crashkernel&quot;: &quot;auto&quot;,
+            &quot;net.ifnames&quot;: &quot;0&quot;,
+            &quot;quiet&quot;: true,
+            &quot;rhgb&quot;: true,
+            &quot;ro&quot;: true,
+            &quot;root&quot;: &quot;UUID=120cca73-ddab-4aac-b751-7421263b55ad&quot;
+        },
+        &quot;ansible_date_time&quot;: {
+            &quot;date&quot;: &quot;2021-03-16&quot;,
+            &quot;day&quot;: &quot;16&quot;,
+            &quot;epoch&quot;: &quot;1615886206&quot;,
+            &quot;hour&quot;: &quot;17&quot;,
+            &quot;iso8601&quot;: &quot;2021-03-16T09:16:46Z&quot;,
+            &quot;iso8601_basic&quot;: &quot;20210316T171646952201&quot;,
+            &quot;iso8601_basic_short&quot;: &quot;20210316T171646&quot;,
+            &quot;iso8601_micro&quot;: &quot;2021-03-16T09:16:46.952201Z&quot;,
+            &quot;minute&quot;: &quot;16&quot;,
+            &quot;month&quot;: &quot;03&quot;,
+            &quot;second&quot;: &quot;46&quot;,
+            &quot;time&quot;: &quot;17:16:46&quot;,
+            &quot;tz&quot;: &quot;CST&quot;,
+            &quot;tz_offset&quot;: &quot;+0800&quot;,
+            &quot;weekday&quot;: &quot;Tuesday&quot;,
+            &quot;weekday_number&quot;: &quot;2&quot;,
+            &quot;weeknumber&quot;: &quot;11&quot;,
+            &quot;year&quot;: &quot;2021&quot;
+        },
+        &quot;ansible_default_ipv4&quot;: {
+            &quot;address&quot;: &quot;192.168.135.234&quot;,
+            &quot;alias&quot;: &quot;eth0&quot;,
+            &quot;broadcast&quot;: &quot;192.168.135.255&quot;,
+            &quot;gateway&quot;: &quot;192.168.135.254&quot;,
+            &quot;interface&quot;: &quot;eth0&quot;,
+            &quot;macaddress&quot;: &quot;fa:16:3e:7e:9b:47&quot;,
+            &quot;mtu&quot;: 1500,
+            &quot;netmask&quot;: &quot;255.255.255.0&quot;,
+            &quot;network&quot;: &quot;192.168.135.0&quot;,
+            &quot;type&quot;: &quot;ether&quot;
+        },
+        &quot;ansible_default_ipv6&quot;: {},
+        &quot;ansible_device_links&quot;: {
+            &quot;ids&quot;: {
+                &quot;sr0&quot;: [
+                    &quot;ata-QEMU_DVD-ROM_QM00002&quot;
+                ],
+                &quot;sr1&quot;: [
+                    &quot;ata-QEMU_DVD-ROM_QM00004&quot;
+                ],
+                &quot;vda&quot;: [
+                    &quot;virtio-c1672133-7ae6-4318-8&quot;
+                ],
+                &quot;vda1&quot;: [
+                    &quot;virtio-c1672133-7ae6-4318-8-part1&quot;
+                ],
+                &quot;vda2&quot;: [
+                    &quot;virtio-c1672133-7ae6-4318-8-part2&quot;
+                ]
+            },
+            &quot;labels&quot;: {
+                &quot;sr1&quot;: [
+                    &quot;config-2&quot;
+                ]
+            },
+            &quot;masters&quot;: {},
+            &quot;uuids&quot;: {
+                &quot;sr1&quot;: [
+                    &quot;2021-03-08-14-55-38-00&quot;
+                ],
+                &quot;vda1&quot;: [
+                    &quot;fef1f8c8-02fb-440c-b8aa-8fec6bfb4a88&quot;
+                ],
+                &quot;vda2&quot;: [
+                    &quot;120cca73-ddab-4aac-b751-7421263b55ad&quot;
+                ]
+            }
+        },
+        &quot;ansible_devices&quot;: {
+            &quot;sr0&quot;: {
+                &quot;holders&quot;: [],
+                &quot;host&quot;: &quot;&quot;,
+                &quot;links&quot;: {
+                    &quot;ids&quot;: [
+                        &quot;ata-QEMU_DVD-ROM_QM00002&quot;
+                    ],
+                    &quot;labels&quot;: [],
+                    &quot;masters&quot;: [],
+                    &quot;uuids&quot;: []
+                },
+                &quot;model&quot;: &quot;QEMU DVD-ROM&quot;,
+                &quot;partitions&quot;: {},
+                &quot;removable&quot;: &quot;1&quot;,
+                &quot;rotational&quot;: &quot;1&quot;,
+                &quot;sas_address&quot;: null,
+                &quot;sas_device_handle&quot;: null,
+                &quot;scheduler_mode&quot;: &quot;deadline&quot;,
+                &quot;sectors&quot;: &quot;2097151&quot;,
+                &quot;sectorsize&quot;: &quot;512&quot;,
+                &quot;size&quot;: &quot;1024.00 MB&quot;,
+                &quot;support_discard&quot;: &quot;0&quot;,
+                &quot;vendor&quot;: &quot;QEMU&quot;,
+                &quot;virtual&quot;: 1
+            },
+            &quot;sr1&quot;: {
+                &quot;holders&quot;: [],
+                &quot;host&quot;: &quot;&quot;,
+                &quot;links&quot;: {
+                    &quot;ids&quot;: [
+                        &quot;ata-QEMU_DVD-ROM_QM00004&quot;
+                    ],
+                    &quot;labels&quot;: [
+                        &quot;config-2&quot;
+                    ],
+                    &quot;masters&quot;: [],
+                    &quot;uuids&quot;: [
+                        &quot;2021-03-08-14-55-38-00&quot;
+                    ]
+                },
+                &quot;model&quot;: &quot;QEMU DVD-ROM&quot;,
+                &quot;partitions&quot;: {},
+                &quot;removable&quot;: &quot;1&quot;,
+                &quot;rotational&quot;: &quot;1&quot;,
+                &quot;sas_address&quot;: null,
+                &quot;sas_device_handle&quot;: null,
+                &quot;scheduler_mode&quot;: &quot;deadline&quot;,
+                &quot;sectors&quot;: &quot;964&quot;,
+                &quot;sectorsize&quot;: &quot;2048&quot;,
+                &quot;size&quot;: &quot;482.00 KB&quot;,
+                &quot;support_discard&quot;: &quot;0&quot;,
+                &quot;vendor&quot;: &quot;QEMU&quot;,
+                &quot;virtual&quot;: 1
+            },
+            &quot;vda&quot;: {
+                &quot;holders&quot;: [],
+                &quot;host&quot;: &quot;&quot;,
+                &quot;links&quot;: {
+                    &quot;ids&quot;: [
+                        &quot;virtio-c1672133-7ae6-4318-8&quot;
+                    ],
+                    &quot;labels&quot;: [],
+                    &quot;masters&quot;: [],
+                    &quot;uuids&quot;: []
+                },
+                &quot;model&quot;: null,
+                &quot;partitions&quot;: {
+                    &quot;vda1&quot;: {
+                        &quot;holders&quot;: [],
+                        &quot;links&quot;: {
+                            &quot;ids&quot;: [
+                                &quot;virtio-c1672133-7ae6-4318-8-part1&quot;
+                            ],
+                            &quot;labels&quot;: [],
+                            &quot;masters&quot;: [],
+                            &quot;uuids&quot;: [
+                                &quot;fef1f8c8-02fb-440c-b8aa-8fec6bfb4a88&quot;
+                            ]
+                        },
+                        &quot;sectors&quot;: &quot;1024000&quot;,
+                        &quot;sectorsize&quot;: 512,
+                        &quot;size&quot;: &quot;500.00 MB&quot;,
+                        &quot;start&quot;: &quot;2048&quot;,
+                        &quot;uuid&quot;: &quot;fef1f8c8-02fb-440c-b8aa-8fec6bfb4a88&quot;
+                    },
+                    &quot;vda2&quot;: {
+                        &quot;holders&quot;: [],
+                        &quot;links&quot;: {
+                            &quot;ids&quot;: [
+                                &quot;virtio-c1672133-7ae6-4318-8-part2&quot;
+                            ],
+                            &quot;labels&quot;: [],
+                            &quot;masters&quot;: [],
+                            &quot;uuids&quot;: [
+                                &quot;120cca73-ddab-4aac-b751-7421263b55ad&quot;
+                            ]
+                        },
+                        &quot;sectors&quot;: &quot;208689152&quot;,
+                        &quot;sectorsize&quot;: 512,
+                        &quot;size&quot;: &quot;99.51 GB&quot;,
+                        &quot;start&quot;: &quot;1026048&quot;,
+                        &quot;uuid&quot;: &quot;120cca73-ddab-4aac-b751-7421263b55ad&quot;
+                    }
+                },
+                &quot;removable&quot;: &quot;0&quot;,
+                &quot;rotational&quot;: &quot;1&quot;,
+                &quot;sas_address&quot;: null,
+                &quot;sas_device_handle&quot;: null,
+                &quot;scheduler_mode&quot;: &quot;mq-deadline&quot;,
+                &quot;sectors&quot;: &quot;209715200&quot;,
+                &quot;sectorsize&quot;: &quot;512&quot;,
+                &quot;size&quot;: &quot;100.00 GB&quot;,
+                &quot;support_discard&quot;: &quot;0&quot;,
+                &quot;vendor&quot;: &quot;0x1af4&quot;,
+                &quot;virtual&quot;: 1
+            }
+        },
+        &quot;ansible_distribution&quot;: &quot;CentOS&quot;,
+        &quot;ansible_distribution_file_parsed&quot;: true,
+        &quot;ansible_distribution_file_path&quot;: &quot;/etc/redhat-release&quot;,
+        &quot;ansible_distribution_file_variety&quot;: &quot;RedHat&quot;,
+        &quot;ansible_distribution_major_version&quot;: &quot;7&quot;,
+        &quot;ansible_distribution_release&quot;: &quot;Core&quot;,
+        &quot;ansible_distribution_version&quot;: &quot;7.6&quot;,
+        &quot;ansible_dns&quot;: {
+            &quot;nameservers&quot;: [
+                &quot;202.96.209.5&quot;,
+                &quot;114.114.114.114&quot;
+            ],
+            &quot;search&quot;: [
+                &quot;openstacklocal&quot;
+            ]
+        },
+        &quot;ansible_domain&quot;: &quot;&quot;,
+        &quot;ansible_effective_group_id&quot;: 0,
+        &quot;ansible_effective_user_id&quot;: 0,
+        &quot;ansible_env&quot;: {
+            &quot;CLASSPATH&quot;: &quot;.::/opt/jdk1.8.0_144/lib:/opt/jdk1.8.0_144/jre/lib&quot;,
+            &quot;HISTCONTROL&quot;: &quot;ignoredups&quot;,
+            &quot;HISTSIZE&quot;: &quot;1000&quot;,
+            &quot;HOME&quot;: &quot;/root&quot;,
+            &quot;HOSTNAME&quot;: &quot;host-192-168-135-234&quot;,
+            &quot;JAVA_HOME&quot;: &quot;/opt/jdk1.8.0_144&quot;,
+            &quot;JRE_HOME&quot;: &quot;/opt/jdk1.8.0_144/jre&quot;,
+            &quot;LANG&quot;: &quot;en_US.UTF-8&quot;,
+            &quot;LESSOPEN&quot;: &quot;||/usr/bin/lesspipe.sh %s&quot;,
+            &quot;LOGNAME&quot;: &quot;root&quot;,
+            &quot;LS_COLORS&quot;: &quot;rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:&quot;,
+            &quot;MAIL&quot;: &quot;/var/spool/mail/root&quot;,
+            &quot;PATH&quot;: &quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/jdk1.8.0_144/bin:/opt/jdk1.8.0_144/jre/bin:/root/bin&quot;,
+            &quot;PWD&quot;: &quot;/etc/ansible/playbooks&quot;,
+            &quot;SHELL&quot;: &quot;/bin/bash&quot;,
+            &quot;SHLVL&quot;: &quot;3&quot;,
+            &quot;SSH_CLIENT&quot;: &quot;192.168.135.72 6220 22&quot;,
+            &quot;SSH_CONNECTION&quot;: &quot;192.168.135.72 6220 192.168.135.234 22&quot;,
+            &quot;SSH_TTY&quot;: &quot;/dev/pts/0&quot;,
+            &quot;TERM&quot;: &quot;xterm&quot;,
+            &quot;USER&quot;: &quot;root&quot;,
+            &quot;XDG_RUNTIME_DIR&quot;: &quot;/run/user/0&quot;,
+            &quot;XDG_SESSION_ID&quot;: &quot;5879&quot;,
+            &quot;_&quot;: &quot;/usr/bin/python3&quot;
+        },
+        &quot;ansible_eth0&quot;: {
+            &quot;active&quot;: true,
+            &quot;device&quot;: &quot;eth0&quot;,
+            &quot;features&quot;: {
+                &quot;busy_poll&quot;: &quot;off [fixed]&quot;,
+                &quot;fcoe_mtu&quot;: &quot;off [fixed]&quot;,
+                &quot;generic_receive_offload&quot;: &quot;on&quot;,
+                &quot;generic_segmentation_offload&quot;: &quot;on&quot;,
+                &quot;highdma&quot;: &quot;on [fixed]&quot;,
+                &quot;hw_tc_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;l2_fwd_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;large_receive_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;loopback&quot;: &quot;off [fixed]&quot;,
+                &quot;netns_local&quot;: &quot;off [fixed]&quot;,
+                &quot;ntuple_filters&quot;: &quot;off [fixed]&quot;,
+                &quot;receive_hashing&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_all&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_checksumming&quot;: &quot;on [fixed]&quot;,
+                &quot;rx_fcs&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_gro_hw&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_udp_tunnel_port_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_filter&quot;: &quot;on [fixed]&quot;,
+                &quot;rx_vlan_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_stag_filter&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_stag_hw_parse&quot;: &quot;off [fixed]&quot;,
+                &quot;scatter_gather&quot;: &quot;on&quot;,
+                &quot;tcp_segmentation_offload&quot;: &quot;on&quot;,
+                &quot;tx_checksum_fcoe_crc&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_ip_generic&quot;: &quot;on&quot;,
+                &quot;tx_checksum_ipv4&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_ipv6&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_sctp&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksumming&quot;: &quot;on&quot;,
+                &quot;tx_fcoe_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gre_csum_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gre_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gso_partial&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gso_robust&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_ipip_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_lockless&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_nocache_copy&quot;: &quot;off&quot;,
+                &quot;tx_scatter_gather&quot;: &quot;on&quot;,
+                &quot;tx_scatter_gather_fraglist&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_sctp_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_sit_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_tcp6_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_tcp_ecn_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_tcp_mangleid_segmentation&quot;: &quot;off&quot;,
+                &quot;tx_tcp_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_udp_tnl_csum_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_udp_tnl_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_vlan_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_vlan_stag_hw_insert&quot;: &quot;off [fixed]&quot;,
+                &quot;udp_fragmentation_offload&quot;: &quot;on&quot;,
+                &quot;vlan_challenged&quot;: &quot;off [fixed]&quot;
+            },
+            &quot;hw_timestamp_filters&quot;: [],
+            &quot;ipv4&quot;: {
+                &quot;address&quot;: &quot;192.168.135.234&quot;,
+                &quot;broadcast&quot;: &quot;192.168.135.255&quot;,
+                &quot;netmask&quot;: &quot;255.255.255.0&quot;,
+                &quot;network&quot;: &quot;192.168.135.0&quot;
+            },
+            &quot;ipv6&quot;: [
+                {
+                    &quot;address&quot;: &quot;fe80::c38:ea5:1598:8169&quot;,
+                    &quot;prefix&quot;: &quot;64&quot;,
+                    &quot;scope&quot;: &quot;link&quot;
+                }
+            ],
+            &quot;macaddress&quot;: &quot;fa:16:3e:7e:9b:47&quot;,
+            &quot;module&quot;: &quot;virtio_net&quot;,
+            &quot;mtu&quot;: 1500,
+            &quot;pciid&quot;: &quot;virtio0&quot;,
+            &quot;promisc&quot;: false,
+            &quot;timestamping&quot;: [
+                &quot;rx_software&quot;,
+                &quot;software&quot;
+            ],
+            &quot;type&quot;: &quot;ether&quot;
+        },
+        &quot;ansible_fibre_channel_wwn&quot;: [],
+        &quot;ansible_fips&quot;: false,
+        &quot;ansible_form_factor&quot;: &quot;Other&quot;,
+        &quot;ansible_fqdn&quot;: &quot;host-192-168-135-234&quot;,
+        &quot;ansible_hostname&quot;: &quot;host-192-168-135-234&quot;,
+        &quot;ansible_hostnqn&quot;: &quot;&quot;,
+        &quot;ansible_interfaces&quot;: [
+            &quot;lo&quot;,
+            &quot;eth0&quot;
+        ],
+        &quot;ansible_is_chroot&quot;: false,
+        &quot;ansible_iscsi_iqn&quot;: &quot;&quot;,
+        &quot;ansible_kernel&quot;: &quot;3.10.0-957.el7.x86_64&quot;,
+        &quot;ansible_kernel_version&quot;: &quot;#1 SMP Thu Nov 8 23:39:32 UTC 2018&quot;,
+        &quot;ansible_lo&quot;: {
+            &quot;active&quot;: true,
+            &quot;device&quot;: &quot;lo&quot;,
+            &quot;features&quot;: {
+                &quot;busy_poll&quot;: &quot;off [fixed]&quot;,
+                &quot;fcoe_mtu&quot;: &quot;off [fixed]&quot;,
+                &quot;generic_receive_offload&quot;: &quot;on&quot;,
+                &quot;generic_segmentation_offload&quot;: &quot;on&quot;,
+                &quot;highdma&quot;: &quot;on [fixed]&quot;,
+                &quot;hw_tc_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;l2_fwd_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;large_receive_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;loopback&quot;: &quot;on [fixed]&quot;,
+                &quot;netns_local&quot;: &quot;on [fixed]&quot;,
+                &quot;ntuple_filters&quot;: &quot;off [fixed]&quot;,
+                &quot;receive_hashing&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_all&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_checksumming&quot;: &quot;on [fixed]&quot;,
+                &quot;rx_fcs&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_gro_hw&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_udp_tunnel_port_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_filter&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_stag_filter&quot;: &quot;off [fixed]&quot;,
+                &quot;rx_vlan_stag_hw_parse&quot;: &quot;off [fixed]&quot;,
+                &quot;scatter_gather&quot;: &quot;on&quot;,
+                &quot;tcp_segmentation_offload&quot;: &quot;on&quot;,
+                &quot;tx_checksum_fcoe_crc&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_ip_generic&quot;: &quot;on [fixed]&quot;,
+                &quot;tx_checksum_ipv4&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_ipv6&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_checksum_sctp&quot;: &quot;on [fixed]&quot;,
+                &quot;tx_checksumming&quot;: &quot;on&quot;,
+                &quot;tx_fcoe_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gre_csum_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gre_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gso_partial&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_gso_robust&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_ipip_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_lockless&quot;: &quot;on [fixed]&quot;,
+                &quot;tx_nocache_copy&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_scatter_gather&quot;: &quot;on [fixed]&quot;,
+                &quot;tx_scatter_gather_fraglist&quot;: &quot;on [fixed]&quot;,
+                &quot;tx_sctp_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_sit_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_tcp6_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_tcp_ecn_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_tcp_mangleid_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_tcp_segmentation&quot;: &quot;on&quot;,
+                &quot;tx_udp_tnl_csum_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_udp_tnl_segmentation&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_vlan_offload&quot;: &quot;off [fixed]&quot;,
+                &quot;tx_vlan_stag_hw_insert&quot;: &quot;off [fixed]&quot;,
+                &quot;udp_fragmentation_offload&quot;: &quot;on&quot;,
+                &quot;vlan_challenged&quot;: &quot;on [fixed]&quot;
+            },
+            &quot;hw_timestamp_filters&quot;: [],
+            &quot;ipv4&quot;: {
+                &quot;address&quot;: &quot;127.0.0.1&quot;,
+                &quot;broadcast&quot;: &quot;&quot;,
+                &quot;netmask&quot;: &quot;255.0.0.0&quot;,
+                &quot;network&quot;: &quot;127.0.0.0&quot;
+            },
+            &quot;ipv6&quot;: [
+                {
+                    &quot;address&quot;: &quot;::1&quot;,
+                    &quot;prefix&quot;: &quot;128&quot;,
+                    &quot;scope&quot;: &quot;host&quot;
+                }
+            ],
+            &quot;mtu&quot;: 65536,
+            &quot;promisc&quot;: false,
+            &quot;timestamping&quot;: [
+                &quot;rx_software&quot;,
+                &quot;software&quot;
+            ],
+            &quot;type&quot;: &quot;loopback&quot;
+        },
+        &quot;ansible_local&quot;: {},
+        &quot;ansible_lsb&quot;: {},
+        &quot;ansible_machine&quot;: &quot;x86_64&quot;,
+        &quot;ansible_machine_id&quot;: &quot;5da37d186bbc4fab946458f383820cc2&quot;,
+        &quot;ansible_memfree_mb&quot;: 5793,
+        &quot;ansible_memory_mb&quot;: {
+            &quot;nocache&quot;: {
+                &quot;free&quot;: 6652,
+                &quot;used&quot;: 1150
+            },
+            &quot;real&quot;: {
+                &quot;free&quot;: 5793,
+                &quot;total&quot;: 7802,
+                &quot;used&quot;: 2009
+            },
+            &quot;swap&quot;: {
+                &quot;cached&quot;: 0,
+                &quot;free&quot;: 0,
+                &quot;total&quot;: 0,
+                &quot;used&quot;: 0
+            }
+        },
+        &quot;ansible_memtotal_mb&quot;: 7802,
+        &quot;ansible_mounts&quot;: [
+            {
+                &quot;block_available&quot;: 25154087,
+                &quot;block_size&quot;: 4096,
+                &quot;block_total&quot;: 26073407,
+                &quot;block_used&quot;: 919320,
+                &quot;device&quot;: &quot;/dev/vda2&quot;,
+                &quot;fstype&quot;: &quot;xfs&quot;,
+                &quot;inode_available&quot;: 52034972,
+                &quot;inode_total&quot;: 52172288,
+                &quot;inode_used&quot;: 137316,
+                &quot;mount&quot;: &quot;/&quot;,
+                &quot;options&quot;: &quot;rw,relatime,attr2,inode64,noquota&quot;,
+                &quot;size_available&quot;: 103031140352,
+                &quot;size_total&quot;: 106796675072,
+                &quot;uuid&quot;: &quot;120cca73-ddab-4aac-b751-7421263b55ad&quot;
+            },
+            {
+                &quot;block_available&quot;: 93950,
+                &quot;block_size&quot;: 4096,
+                &quot;block_total&quot;: 127145,
+                &quot;block_used&quot;: 33195,
+                &quot;device&quot;: &quot;/dev/vda1&quot;,
+                &quot;fstype&quot;: &quot;xfs&quot;,
+                &quot;inode_available&quot;: 255673,
+                &quot;inode_total&quot;: 256000,
+                &quot;inode_used&quot;: 327,
+                &quot;mount&quot;: &quot;/boot&quot;,
+                &quot;options&quot;: &quot;rw,relatime,attr2,inode64,noquota&quot;,
+                &quot;size_available&quot;: 384819200,
+                &quot;size_total&quot;: 520785920,
+                &quot;uuid&quot;: &quot;fef1f8c8-02fb-440c-b8aa-8fec6bfb4a88&quot;
+            }
+        ],
+        &quot;ansible_nodename&quot;: &quot;host-192-168-135-234&quot;,
+        &quot;ansible_os_family&quot;: &quot;RedHat&quot;,
+        &quot;ansible_pkg_mgr&quot;: &quot;yum&quot;,
+        &quot;ansible_proc_cmdline&quot;: {
+            &quot;BOOT_IMAGE&quot;: &quot;/vmlinuz-3.10.0-957.el7.x86_64&quot;,
+            &quot;biosdevname&quot;: [
+                &quot;0&quot;,
+                &quot;0&quot;,
+                &quot;0&quot;
+            ],
+            &quot;crashkernel&quot;: &quot;auto&quot;,
+            &quot;net.ifnames&quot;: [
+                &quot;0&quot;,
+                &quot;0&quot;,
+                &quot;0&quot;
+            ],
+            &quot;quiet&quot;: true,
+            &quot;rhgb&quot;: true,
+            &quot;ro&quot;: true,
+            &quot;root&quot;: &quot;UUID=120cca73-ddab-4aac-b751-7421263b55ad&quot;
+        },
+        &quot;ansible_processor&quot;: [
+            &quot;0&quot;,
+            &quot;GenuineIntel&quot;,
+            &quot;QEMU Virtual CPU version (cpu64-rhel6)&quot;,
+            &quot;1&quot;,
+            &quot;GenuineIntel&quot;,
+            &quot;QEMU Virtual CPU version (cpu64-rhel6)&quot;,
+            &quot;2&quot;,
+            &quot;GenuineIntel&quot;,
+            &quot;QEMU Virtual CPU version (cpu64-rhel6)&quot;,
+            &quot;3&quot;,
+            &quot;GenuineIntel&quot;,
+            &quot;QEMU Virtual CPU version (cpu64-rhel6)&quot;
+        ],
+        &quot;ansible_processor_cores&quot;: 1,
+        &quot;ansible_processor_count&quot;: 4,
+        &quot;ansible_processor_threads_per_core&quot;: 1,
+        &quot;ansible_processor_vcpus&quot;: 4,
+        &quot;ansible_product_name&quot;: &quot;ArStack&quot;,
+        &quot;ansible_product_serial&quot;: &quot;ed734a0c-5e92-45e4-8491-1f2882a28b98&quot;,
+        &quot;ansible_product_uuid&quot;: &quot;E9D04AFD-381C-4EF2-8523-A5F2177334A9&quot;,
+        &quot;ansible_product_version&quot;: &quot;2020.5.15-1.el7.centos&quot;,
+        &quot;ansible_python&quot;: {
+            &quot;executable&quot;: &quot;/usr/bin/python3&quot;,
+            &quot;has_sslcontext&quot;: true,
+            &quot;type&quot;: &quot;cpython&quot;,
+            &quot;version&quot;: {
+                &quot;major&quot;: 3,
+                &quot;micro&quot;: 8,
+                &quot;minor&quot;: 6,
+                &quot;releaselevel&quot;: &quot;final&quot;,
+                &quot;serial&quot;: 0
+            },
+            &quot;version_info&quot;: [
+                3,
+                6,
+                8,
+                &quot;final&quot;,
+                0
+            ]
+        },
+        &quot;ansible_python_version&quot;: &quot;3.6.8&quot;,
+        &quot;ansible_real_group_id&quot;: 0,
+        &quot;ansible_real_user_id&quot;: 0,
+        &quot;ansible_selinux&quot;: {
+            &quot;status&quot;: &quot;Missing selinux Python library&quot;
+        },
+        &quot;ansible_selinux_python_present&quot;: false,
+        &quot;ansible_service_mgr&quot;: &quot;systemd&quot;,
+        &quot;ansible_ssh_host_key_ecdsa_public&quot;: &quot;AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNxkCyohIHmaY5FLaLU4NRenQ6QE9qcjzbs87lvJhhH7TpWKHw3/NOVLks1amivsFJ1CQsgzk+XkU/YLfDFGNRo=&quot;,
+        &quot;ansible_ssh_host_key_ed25519_public&quot;: &quot;AAAAC3NzaC1lZDI1NTE5AAAAILGRRrB9EPLkKsnOkyTzCpIyfWuIPEh7Qy9l2H0O+k4U&quot;,
+        &quot;ansible_ssh_host_key_rsa_public&quot;: &quot;AAAAB3NzaC1yc2EAAAADAQABAAABAQDXqv9l/aw5jmEeKMRIVCUSUCpAPSUYyiVzfe7MNGDJ/Wd/ZHBMScAKgPq31z5OXJBpzDzIULZ5Di3WwmIdRHU6f4+PQ7E2LHQN4SDQvk7Flz7ivUv/aGtwUft929llVyT7/jrVFzWeR3ABtc6Roux2UMwWZANDwGWLkv+R6qluFNZ4yGTmYr7i/WTa0IXqI0AgZbAjGcSxqwGpgC7+NW8UVn975sz2pBRgCz9PG0mTWLKjcpESPpeypX0D0liq3rkwCjmU3OutwrTOYX1Di5n9miufUvZeSauWfska++t8xSYcOvbkzWidCOWOYtmx6VqrbKSSQiEDAbWJipIGcX+T&quot;,
+        &quot;ansible_swapfree_mb&quot;: 0,
+        &quot;ansible_swaptotal_mb&quot;: 0,
+        &quot;ansible_system&quot;: &quot;Linux&quot;,
+        &quot;ansible_system_capabilities&quot;: [
+            &quot;cap_chown&quot;,
+            &quot;cap_dac_override&quot;,
+            &quot;cap_dac_read_search&quot;,
+            &quot;cap_fowner&quot;,
+            &quot;cap_fsetid&quot;,
+            &quot;cap_kill&quot;,
+            &quot;cap_setgid&quot;,
+            &quot;cap_setuid&quot;,
+            &quot;cap_setpcap&quot;,
+            &quot;cap_linux_immutable&quot;,
+            &quot;cap_net_bind_service&quot;,
+            &quot;cap_net_broadcast&quot;,
+            &quot;cap_net_admin&quot;,
+            &quot;cap_net_raw&quot;,
+            &quot;cap_ipc_lock&quot;,
+            &quot;cap_ipc_owner&quot;,
+            &quot;cap_sys_module&quot;,
+            &quot;cap_sys_rawio&quot;,
+            &quot;cap_sys_chroot&quot;,
+            &quot;cap_sys_ptrace&quot;,
+            &quot;cap_sys_pacct&quot;,
+            &quot;cap_sys_admin&quot;,
+            &quot;cap_sys_boot&quot;,
+            &quot;cap_sys_nice&quot;,
+            &quot;cap_sys_resource&quot;,
+            &quot;cap_sys_time&quot;,
+            &quot;cap_sys_tty_config&quot;,
+            &quot;cap_mknod&quot;,
+            &quot;cap_lease&quot;,
+            &quot;cap_audit_write&quot;,
+            &quot;cap_audit_control&quot;,
+            &quot;cap_setfcap&quot;,
+            &quot;cap_mac_override&quot;,
+            &quot;cap_mac_admin&quot;,
+            &quot;cap_syslog&quot;,
+            &quot;35&quot;,
+            &quot;36+ep&quot;
+        ],
+        &quot;ansible_system_capabilities_enforced&quot;: &quot;True&quot;,
+        &quot;ansible_system_vendor&quot;: &quot;Huayun&quot;,
+        &quot;ansible_uptime_seconds&quot;: 571792,
+        &quot;ansible_user_dir&quot;: &quot;/root&quot;,
+        &quot;ansible_user_gecos&quot;: &quot;root&quot;,
+        &quot;ansible_user_gid&quot;: 0,
+        &quot;ansible_user_id&quot;: &quot;root&quot;,
+        &quot;ansible_user_shell&quot;: &quot;/bin/bash&quot;,
+        &quot;ansible_user_uid&quot;: 0,
+        &quot;ansible_userspace_architecture&quot;: &quot;x86_64&quot;,
+        &quot;ansible_userspace_bits&quot;: &quot;64&quot;,
+        &quot;ansible_virtualization_role&quot;: &quot;guest&quot;,
+        &quot;ansible_virtualization_type&quot;: &quot;kvm&quot;,
+        &quot;gather_subset&quot;: [
+            &quot;all&quot;
+        ],
+        &quot;module_setup&quot;: true
+    },
+    &quot;changed&quot;: false
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br><span class="line-number">163</span><br><span class="line-number">164</span><br><span class="line-number">165</span><br><span class="line-number">166</span><br><span class="line-number">167</span><br><span class="line-number">168</span><br><span class="line-number">169</span><br><span class="line-number">170</span><br><span class="line-number">171</span><br><span class="line-number">172</span><br><span class="line-number">173</span><br><span class="line-number">174</span><br><span class="line-number">175</span><br><span class="line-number">176</span><br><span class="line-number">177</span><br><span class="line-number">178</span><br><span class="line-number">179</span><br><span class="line-number">180</span><br><span class="line-number">181</span><br><span class="line-number">182</span><br><span class="line-number">183</span><br><span class="line-number">184</span><br><span class="line-number">185</span><br><span class="line-number">186</span><br><span class="line-number">187</span><br><span class="line-number">188</span><br><span class="line-number">189</span><br><span class="line-number">190</span><br><span class="line-number">191</span><br><span class="line-number">192</span><br><span class="line-number">193</span><br><span class="line-number">194</span><br><span class="line-number">195</span><br><span class="line-number">196</span><br><span class="line-number">197</span><br><span class="line-number">198</span><br><span class="line-number">199</span><br><span class="line-number">200</span><br><span class="line-number">201</span><br><span class="line-number">202</span><br><span class="line-number">203</span><br><span class="line-number">204</span><br><span class="line-number">205</span><br><span class="line-number">206</span><br><span class="line-number">207</span><br><span class="line-number">208</span><br><span class="line-number">209</span><br><span class="line-number">210</span><br><span class="line-number">211</span><br><span class="line-number">212</span><br><span class="line-number">213</span><br><span class="line-number">214</span><br><span class="line-number">215</span><br><span class="line-number">216</span><br><span class="line-number">217</span><br><span class="line-number">218</span><br><span class="line-number">219</span><br><span class="line-number">220</span><br><span class="line-number">221</span><br><span class="line-number">222</span><br><span class="line-number">223</span><br><span class="line-number">224</span><br><span class="line-number">225</span><br><span class="line-number">226</span><br><span class="line-number">227</span><br><span class="line-number">228</span><br><span class="line-number">229</span><br><span class="line-number">230</span><br><span class="line-number">231</span><br><span class="line-number">232</span><br><span class="line-number">233</span><br><span class="line-number">234</span><br><span class="line-number">235</span><br><span class="line-number">236</span><br><span class="line-number">237</span><br><span class="line-number">238</span><br><span class="line-number">239</span><br><span class="line-number">240</span><br><span class="line-number">241</span><br><span class="line-number">242</span><br><span class="line-number">243</span><br><span class="line-number">244</span><br><span class="line-number">245</span><br><span class="line-number">246</span><br><span class="line-number">247</span><br><span class="line-number">248</span><br><span class="line-number">249</span><br><span class="line-number">250</span><br><span class="line-number">251</span><br><span class="line-number">252</span><br><span class="line-number">253</span><br><span class="line-number">254</span><br><span class="line-number">255</span><br><span class="line-number">256</span><br><span class="line-number">257</span><br><span class="line-number">258</span><br><span class="line-number">259</span><br><span class="line-number">260</span><br><span class="line-number">261</span><br><span class="line-number">262</span><br><span class="line-number">263</span><br><span class="line-number">264</span><br><span class="line-number">265</span><br><span class="line-number">266</span><br><span class="line-number">267</span><br><span class="line-number">268</span><br><span class="line-number">269</span><br><span class="line-number">270</span><br><span class="line-number">271</span><br><span class="line-number">272</span><br><span class="line-number">273</span><br><span class="line-number">274</span><br><span class="line-number">275</span><br><span class="line-number">276</span><br><span class="line-number">277</span><br><span class="line-number">278</span><br><span class="line-number">279</span><br><span class="line-number">280</span><br><span class="line-number">281</span><br><span class="line-number">282</span><br><span class="line-number">283</span><br><span class="line-number">284</span><br><span class="line-number">285</span><br><span class="line-number">286</span><br><span class="line-number">287</span><br><span class="line-number">288</span><br><span class="line-number">289</span><br><span class="line-number">290</span><br><span class="line-number">291</span><br><span class="line-number">292</span><br><span class="line-number">293</span><br><span class="line-number">294</span><br><span class="line-number">295</span><br><span class="line-number">296</span><br><span class="line-number">297</span><br><span class="line-number">298</span><br><span class="line-number">299</span><br><span class="line-number">300</span><br><span class="line-number">301</span><br><span class="line-number">302</span><br><span class="line-number">303</span><br><span class="line-number">304</span><br><span class="line-number">305</span><br><span class="line-number">306</span><br><span class="line-number">307</span><br><span class="line-number">308</span><br><span class="line-number">309</span><br><span class="line-number">310</span><br><span class="line-number">311</span><br><span class="line-number">312</span><br><span class="line-number">313</span><br><span class="line-number">314</span><br><span class="line-number">315</span><br><span class="line-number">316</span><br><span class="line-number">317</span><br><span class="line-number">318</span><br><span class="line-number">319</span><br><span class="line-number">320</span><br><span class="line-number">321</span><br><span class="line-number">322</span><br><span class="line-number">323</span><br><span class="line-number">324</span><br><span class="line-number">325</span><br><span class="line-number">326</span><br><span class="line-number">327</span><br><span class="line-number">328</span><br><span class="line-number">329</span><br><span class="line-number">330</span><br><span class="line-number">331</span><br><span class="line-number">332</span><br><span class="line-number">333</span><br><span class="line-number">334</span><br><span class="line-number">335</span><br><span class="line-number">336</span><br><span class="line-number">337</span><br><span class="line-number">338</span><br><span class="line-number">339</span><br><span class="line-number">340</span><br><span class="line-number">341</span><br><span class="line-number">342</span><br><span class="line-number">343</span><br><span class="line-number">344</span><br><span class="line-number">345</span><br><span class="line-number">346</span><br><span class="line-number">347</span><br><span class="line-number">348</span><br><span class="line-number">349</span><br><span class="line-number">350</span><br><span class="line-number">351</span><br><span class="line-number">352</span><br><span class="line-number">353</span><br><span class="line-number">354</span><br><span class="line-number">355</span><br><span class="line-number">356</span><br><span class="line-number">357</span><br><span class="line-number">358</span><br><span class="line-number">359</span><br><span class="line-number">360</span><br><span class="line-number">361</span><br><span class="line-number">362</span><br><span class="line-number">363</span><br><span class="line-number">364</span><br><span class="line-number">365</span><br><span class="line-number">366</span><br><span class="line-number">367</span><br><span class="line-number">368</span><br><span class="line-number">369</span><br><span class="line-number">370</span><br><span class="line-number">371</span><br><span class="line-number">372</span><br><span class="line-number">373</span><br><span class="line-number">374</span><br><span class="line-number">375</span><br><span class="line-number">376</span><br><span class="line-number">377</span><br><span class="line-number">378</span><br><span class="line-number">379</span><br><span class="line-number">380</span><br><span class="line-number">381</span><br><span class="line-number">382</span><br><span class="line-number">383</span><br><span class="line-number">384</span><br><span class="line-number">385</span><br><span class="line-number">386</span><br><span class="line-number">387</span><br><span class="line-number">388</span><br><span class="line-number">389</span><br><span class="line-number">390</span><br><span class="line-number">391</span><br><span class="line-number">392</span><br><span class="line-number">393</span><br><span class="line-number">394</span><br><span class="line-number">395</span><br><span class="line-number">396</span><br><span class="line-number">397</span><br><span class="line-number">398</span><br><span class="line-number">399</span><br><span class="line-number">400</span><br><span class="line-number">401</span><br><span class="line-number">402</span><br><span class="line-number">403</span><br><span class="line-number">404</span><br><span class="line-number">405</span><br><span class="line-number">406</span><br><span class="line-number">407</span><br><span class="line-number">408</span><br><span class="line-number">409</span><br><span class="line-number">410</span><br><span class="line-number">411</span><br><span class="line-number">412</span><br><span class="line-number">413</span><br><span class="line-number">414</span><br><span class="line-number">415</span><br><span class="line-number">416</span><br><span class="line-number">417</span><br><span class="line-number">418</span><br><span class="line-number">419</span><br><span class="line-number">420</span><br><span class="line-number">421</span><br><span class="line-number">422</span><br><span class="line-number">423</span><br><span class="line-number">424</span><br><span class="line-number">425</span><br><span class="line-number">426</span><br><span class="line-number">427</span><br><span class="line-number">428</span><br><span class="line-number">429</span><br><span class="line-number">430</span><br><span class="line-number">431</span><br><span class="line-number">432</span><br><span class="line-number">433</span><br><span class="line-number">434</span><br><span class="line-number">435</span><br><span class="line-number">436</span><br><span class="line-number">437</span><br><span class="line-number">438</span><br><span class="line-number">439</span><br><span class="line-number">440</span><br><span class="line-number">441</span><br><span class="line-number">442</span><br><span class="line-number">443</span><br><span class="line-number">444</span><br><span class="line-number">445</span><br><span class="line-number">446</span><br><span class="line-number">447</span><br><span class="line-number">448</span><br><span class="line-number">449</span><br><span class="line-number">450</span><br><span class="line-number">451</span><br><span class="line-number">452</span><br><span class="line-number">453</span><br><span class="line-number">454</span><br><span class="line-number">455</span><br><span class="line-number">456</span><br><span class="line-number">457</span><br><span class="line-number">458</span><br><span class="line-number">459</span><br><span class="line-number">460</span><br><span class="line-number">461</span><br><span class="line-number">462</span><br><span class="line-number">463</span><br><span class="line-number">464</span><br><span class="line-number">465</span><br><span class="line-number">466</span><br><span class="line-number">467</span><br><span class="line-number">468</span><br><span class="line-number">469</span><br><span class="line-number">470</span><br><span class="line-number">471</span><br><span class="line-number">472</span><br><span class="line-number">473</span><br><span class="line-number">474</span><br><span class="line-number">475</span><br><span class="line-number">476</span><br><span class="line-number">477</span><br><span class="line-number">478</span><br><span class="line-number">479</span><br><span class="line-number">480</span><br><span class="line-number">481</span><br><span class="line-number">482</span><br><span class="line-number">483</span><br><span class="line-number">484</span><br><span class="line-number">485</span><br><span class="line-number">486</span><br><span class="line-number">487</span><br><span class="line-number">488</span><br><span class="line-number">489</span><br><span class="line-number">490</span><br><span class="line-number">491</span><br><span class="line-number">492</span><br><span class="line-number">493</span><br><span class="line-number">494</span><br><span class="line-number">495</span><br><span class="line-number">496</span><br><span class="line-number">497</span><br><span class="line-number">498</span><br><span class="line-number">499</span><br><span class="line-number">500</span><br><span class="line-number">501</span><br><span class="line-number">502</span><br><span class="line-number">503</span><br><span class="line-number">504</span><br><span class="line-number">505</span><br><span class="line-number">506</span><br><span class="line-number">507</span><br><span class="line-number">508</span><br><span class="line-number">509</span><br><span class="line-number">510</span><br><span class="line-number">511</span><br><span class="line-number">512</span><br><span class="line-number">513</span><br><span class="line-number">514</span><br><span class="line-number">515</span><br><span class="line-number">516</span><br><span class="line-number">517</span><br><span class="line-number">518</span><br><span class="line-number">519</span><br><span class="line-number">520</span><br><span class="line-number">521</span><br><span class="line-number">522</span><br><span class="line-number">523</span><br><span class="line-number">524</span><br><span class="line-number">525</span><br><span class="line-number">526</span><br><span class="line-number">527</span><br><span class="line-number">528</span><br><span class="line-number">529</span><br><span class="line-number">530</span><br><span class="line-number">531</span><br><span class="line-number">532</span><br><span class="line-number">533</span><br><span class="line-number">534</span><br><span class="line-number">535</span><br><span class="line-number">536</span><br><span class="line-number">537</span><br><span class="line-number">538</span><br><span class="line-number">539</span><br><span class="line-number">540</span><br><span class="line-number">541</span><br><span class="line-number">542</span><br><span class="line-number">543</span><br><span class="line-number">544</span><br><span class="line-number">545</span><br><span class="line-number">546</span><br><span class="line-number">547</span><br><span class="line-number">548</span><br><span class="line-number">549</span><br><span class="line-number">550</span><br><span class="line-number">551</span><br><span class="line-number">552</span><br><span class="line-number">553</span><br><span class="line-number">554</span><br><span class="line-number">555</span><br><span class="line-number">556</span><br><span class="line-number">557</span><br><span class="line-number">558</span><br><span class="line-number">559</span><br><span class="line-number">560</span><br><span class="line-number">561</span><br><span class="line-number">562</span><br><span class="line-number">563</span><br><span class="line-number">564</span><br><span class="line-number">565</span><br><span class="line-number">566</span><br><span class="line-number">567</span><br><span class="line-number">568</span><br><span class="line-number">569</span><br><span class="line-number">570</span><br><span class="line-number">571</span><br><span class="line-number">572</span><br><span class="line-number">573</span><br><span class="line-number">574</span><br><span class="line-number">575</span><br><span class="line-number">576</span><br><span class="line-number">577</span><br><span class="line-number">578</span><br><span class="line-number">579</span><br><span class="line-number">580</span><br><span class="line-number">581</span><br><span class="line-number">582</span><br><span class="line-number">583</span><br><span class="line-number">584</span><br><span class="line-number">585</span><br><span class="line-number">586</span><br><span class="line-number">587</span><br><span class="line-number">588</span><br><span class="line-number">589</span><br><span class="line-number">590</span><br><span class="line-number">591</span><br><span class="line-number">592</span><br><span class="line-number">593</span><br><span class="line-number">594</span><br><span class="line-number">595</span><br><span class="line-number">596</span><br><span class="line-number">597</span><br><span class="line-number">598</span><br><span class="line-number">599</span><br><span class="line-number">600</span><br><span class="line-number">601</span><br><span class="line-number">602</span><br><span class="line-number">603</span><br><span class="line-number">604</span><br><span class="line-number">605</span><br><span class="line-number">606</span><br><span class="line-number">607</span><br><span class="line-number">608</span><br><span class="line-number">609</span><br><span class="line-number">610</span><br><span class="line-number">611</span><br><span class="line-number">612</span><br><span class="line-number">613</span><br><span class="line-number">614</span><br><span class="line-number">615</span><br><span class="line-number">616</span><br><span class="line-number">617</span><br><span class="line-number">618</span><br><span class="line-number">619</span><br><span class="line-number">620</span><br><span class="line-number">621</span><br></div></div><p>收集到的信息量非常大，但很幸运，只需关注其中常见的几项即可，比如系统版本号、主机名、IP地址、分区信息、挂载信息。</p> <p>有了这些信息，就可以去访问这些信息。由于它们都存放在ansible_facts变量中，所以通过这个变量去访问即可。但需要注意的是，对于收集到的绝大多数Facts信息，都有两种访问方式：</p> <p>(1).一种是debug查看ansible_facts变量得到的结果，这也是真正存储这些信息的方式</p> <p>(2).一种是命令行执行setup模块输出的方式</p> <p>直接使用debug模块去输出ansible_facts变量，即可知如何访问这些信息。例如：</p> <p>要获取eth0的ipv4地址：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>debug:
+  var: ansible_facts.eth0.ipv4.address
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>再看在ansible命令行中执行setup模块的输出信息，会发现原本ansible_facts内几乎所有顶级的key现在都以ansible_开头，例如：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>debug:
+  var: ansible_all_ipv4_addresses
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>之所以可以这样直接访问，是因为Ansible将Facts中绝大多数的顶级key都注入到了Ansible自身维护的变量表(即hostvars)中，这样访问它们就方便的多。</p> <p>至于采用何种方式访问，这无所谓，但是要知道的是，虽然绝大多数Facts信息都单独定义了变量，但并非所有(主要是那些可能产生歧义或冲突的变量)。</p> <p>另外再多提醒一句，ansible_facts自身也是变量，它也保存在各自节点的hostvars变量中，所以也可以通过hostvars去访问Facts信息。例如：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>debug:
+  var: hostvars['logstash2']['ansible_facts'].eth0.ipv4.address
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>通常情况下，我们在运行play的时候，ansible会先尝试ssh到被控端采集fact，如果此时，被控制端的ssh还没有完全启动，就会导致整个play执行失败。这个时候，我们可以先显示的关闭fact采集，然后在task中通过wait_for等待被控端ssh端口被正常监听，再在task中使用setup模块来手动采集fact：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- name: Deploy apps
+  hosts: webservers
+  gather_facts: false
+  tasks：
+    - name: wait for ssh to be running
+      local_action: wait_for port=22 host=&quot;{{ inventory_hostname }}&quot; search_regex=OpenSSH
+    - name: gather facts
+      setup:
+    ......
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h2 id="_4-启用fact缓存"><a href="#_4-启用fact缓存" class="header-anchor">#</a> 4 启用fact缓存</h2> <p>如果在play中需要引入fact，则可以开启fact缓存。fact缓存目前支持三种存储方式，分别为JSON、memcached、redis。</p> <p>redis：缓存在redis服务中，直到目前(Ansible 2.9)为止，Ansible还不支持指定连接redis的端口、密码等</p> <p>1.gathering：控制Ansible是否自动收集Facts，它有三种值：</p> <p>(1).implicit：这是默认值，表示执行play时会自动收集Facts，除非显式指定gather_facts: false禁止收集</p> <p>(2).explicit：不自动收集Facts，除非显式指定gather_facts: true开启收集</p> <p>(3).smart：自动收集Facts，但如果已存在(缓存)则不重复收集</p> <h3 id="_4-1-json文件fact缓存后端"><a href="#_4-1-json文件fact缓存后端" class="header-anchor">#</a> 4.1 Json文件fact缓存后端</h3> <p>使用JSON文件作为fact缓存后端的时候，ansible将会把采集的fact写入到控制主机的文件中。</p> <p>ansible.cfg配置如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[defaults]
+gathering = smart
+#缓存时间，单位为秒
+fact_caching_timeout = 86400    
+fact_caching = jsonfile
+#指定ansible包含fact的json文件位置，如果目录不存在，会自动创建
+fact_caching_connection = /tmp/ansible_fact_cache    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h3 id="_4-2-redis-fact缓存后端"><a href="#_4-2-redis-fact缓存后端" class="header-anchor">#</a> 4.2  Redis fact缓存后端</h3> <p>使用redis作为fact缓存后端，需要在控制主机上安装redis服务并保持运行。需要安装python操作redis的软件包。</p> <p>ansible.cfg配置如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[defaults]
+gathering = smart
+fact_caching_timeout = 86400 
+fact_caching = redis
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_4-3-memcached-fact缓存后端"><a href="#_4-3-memcached-fact缓存后端" class="header-anchor">#</a> 4.3 Memcached fact缓存后端</h3> <p>使用memcached作为fact缓存后端，需要在控制主机上安装Memcached服务并保持运行，需要安装python操作memcached的软件包。</p> <p>ansible.cfg配置如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[defaults]
+gathering = smart
+fact_caching_timeout = 86400 
+fact_caching = memcached
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="_5-关闭fact"><a href="#_5-关闭fact" class="header-anchor">#</a> 5 关闭fact</h2> <p>如果不想从fact中获取变量，或者说整个playbook当中都没有使用到fact变量，可以通过如下方法关闭fact以提升执行效率：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- hosts: test
+  gather_facts: false
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>也可以在ansible.cfg中添加如下配置：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[defaults]
+gathering = explicit
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h2 id="_6-委托facts"><a href="#_6-委托facts" class="header-anchor">#</a> 6 委托Facts</h2> <p>略：我暂时还没有用到</p></div> <footer class="page-meta"><div class="edit-link"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon edit-icon"><path d="M117.953 696.992 64.306 959.696l265.931-49.336 450.204-452.505-212.284-213.376-450.204 452.513zm496.384-296.326L219.039 797.993l-46.108-46.34L568.233 354.33l46.104 46.335zm345.357-122.99-114.45 115.04-212.288-213.377 114.45-115.035 212.288 213.371zm0 0" fill="currentColor"></path></svg> <a href="https://github.com/vuepress-theme-hope/vuepress-theme-hope/edit/master/automate/ansible/fact.md" target="_blank" rel="noopener noreferrer">编辑此页</a></div> <div class="meta-item update-time"><span class="label">上次编辑于:</span> <span class="info">2021年4月2日 11:11</span></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/automate/ansible/custom/" class="prev"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon prev-icon"><path d="M906.783 588.79c-.02 8.499-6.882 15.36-15.38 15.37l-443.7-.01 75.704 191.682c2.52 6.42.482 13.763-5.038 17.91-5.52 4.168-13.138 4.147-18.616-.092L123.228 524.175a15.362 15.362 0 0 1-6-12.165c0-4.782 2.222-9.277 6-12.185L499.753 210.35a15.388 15.388 0 0 1 9.38-3.195c3.236 0 6.502 1.034 9.236 3.103 5.52 4.147 7.578 11.49 5.038 17.91L447.683 419.84l443.72-.01c8.498.01 15.36 6.881 15.36 15.36l.02 153.6z" fill="currentColor"></path></svg>
+        5.1 自定义变量
+      </a></span> <span class="next"><a href="/automate/ansible/magic/">
+        5.3 魔法变量
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon next-icon"><path d="M906.772 512c0 4.772-2.211 9.267-5.99 12.175L524.257 813.66a15.37 15.37 0 0 1-18.616.092 15.368 15.368 0 0 1-5.038-17.91l75.714-191.672h-443.73c-8.488 0-15.36-6.881-15.36-15.36v-153.6c0-8.489 6.872-15.36 15.36-15.36h443.73l-75.714-191.682a15.358 15.358 0 0 1 5.048-17.91c5.51-4.158 13.128-4.137 18.606.092l376.525 289.485a15.323 15.323 0 0 1 5.99 12.165z" fill="currentColor"></path></svg></a></span></p></div> <div class="comments-wrapper"><div class="valine-wrapper"><div id="valine"></div></div></div> </main> <footer class="footer-wrapper"><div class="media-links-wrapper"><a href="mailto:clay_wangzhi@163.com" rel="noopener noreferrer" target="_blank" aria-label="Email" data-balloon-pos="up" class="media-link"><span class="sr-only">Email</span> <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon icon-email"><path d="M0 512a512 512 0 101024 0A512 512 0 100 512z" fill="#1384FF"></path> <path d="M299.372 313.572H722.93c28.945 0 52.61 21.845 52.975 48.787L511.333 500.35 246.76 362.481c.182-27.003 23.666-48.97 52.611-48.97zm-52.671 101.702l-.243 244.121c0 27.186 23.848 49.395 52.914 49.395H722.93c29.127 0 52.975-22.21 52.975-49.395V415.152L517.522 546.71a13.957 13.957 0 01-12.682 0L246.7 415.274z" fill="#FFF"></path></svg></a></div> <!----> <div class="copyright">Copyright © 2021 Clay</div></footer></div><div class="global-ui"><!----><!----><div id="pwa-install"><!----> <div id="install-modal-wrapper" style="display:none;"><div class="background"></div> <div class="install-modal"><div class="header"><button aria-label="Close" class="close-button"><svg width="23" height="22" xmlns="http://www.w3.org/2000/svg" class="icon close-icon"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.12.358a1.224 1.224 0 011.729 0l8.92 8.914L20.686.358a1.224 1.224 0 011.73 1.728L13.497 11l8.92 8.913a1.222 1.222 0 11-1.73 1.729l-8.919-8.913-8.92 8.913a1.224 1.224 0 01-1.729-1.729L10.04 11l-8.92-8.914a1.222 1.222 0 010-1.728z" fill="currentColor"></path></svg></button> <div class="logo"><!----> <div class="title"><h1></h1> <p class="desc">该应用可以安装在您的 PC 或移动设备上。这将使该 Web 应用程序外观和行为与其他应用程序相同。它将在出现在应用程序列表中，并可以固定到主屏幕，开始菜单或任务栏。此 Web 应用程序还将能够与其他应用程序和您的操作系统安全地进行交互。</p></div></div></div> <div class="content"><div class="highlight"><!----> <!----></div> <div class="description"><h3>详情</h3> <p></p></div></div> <div class="button-wrapper"><button class="install-button">
+        安装 <span></span></button> <button class="cancel-button">
+        取消
+      </button></div></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" class="pswp"><div class="pswp__bg"></div> <div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div> <div class="pswp__item"></div> <div class="pswp__item"></div></div> <div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div> <button title="Close (Esc)" class="pswp__button pswp__button--close"></button> <button title="Share" class="pswp__button pswp__button--share"></button> <button title="Toggle fullscreen" class="pswp__button pswp__button--fs"></button> <button title="Zoom in/out" class="pswp__button pswp__button--zoom"></button> <div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div> <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div> <button title="Previous (arrow left)" class="pswp__button pswp__button--arrow--left"></button> <button title="Next (arrow right)" class="pswp__button pswp__button--arrow--right"></button> <div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div></div></div>
+    <script src="/assets/js/app.f9f4d28a.js" defer></script><script src="/assets/js/layout-Layout.a5c96210.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound.699456de.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout~layout-NotFound~layout-Slide.e30cf8f9.js" defer></script><script src="/assets/js/vendors~layout-Blog~layout-Layout.e02ffb1a.js" defer></script><script src="/assets/js/page-52Fact变量.481329e0.js" defer></script>
+  </body>
+</html>
