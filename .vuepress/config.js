@@ -107,6 +107,7 @@ module.exports = config({
               collapsable: false,
               children: ["part1/02_1_invoking_the_script", "part1/02_2_preliminary_exercises"],
             },
+		  ],
         },
 		{
           title: "第二部分 shell基础",
