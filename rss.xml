@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 02 Apr 2021 08:21:20 GMT</pubDate>
-    <lastBuildDate>Fri, 02 Apr 2021 08:21:20 GMT</lastBuildDate>
+    <pubDate>Fri, 02 Apr 2021 08:25:32 GMT</pubDate>
+    <lastBuildDate>Fri, 02 Apr 2021 08:25:32 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -11950,6 +11950,65 @@ https://www.jianshu.com/p/f1167e8850cd</p>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
     </item>
     <item>
+      <title>jenkins的安装配置</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">jenkins的安装配置</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="jenkins的安装配置"> jenkins的安装配置</h1>
+<h2 id="ansible安装jenkins"> ansible安装jenkins</h2>
+<div><pre><code>ansible-galaxy <span>install</span> clay_wangzhi.jenkins
+</code></pre>
+<div><span>1</span><br></div></div><p>galaxy中有详细的文档说明：</p>
+<blockquote>
+<p>链接地址：https://galaxy.ansible.com/clay_wangzhi/jenkins</p>
+</blockquote>
+<p>额外注意一些插件的安装：</p>
+<div><pre><code>Role-based Authorization Strategy  #权限控制插件
+git-parameter
+Publish Over SSH
+DIngDIng
+git-parameter #选项参数增加，git-brach选项
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="配置管理工具"> 配置管理工具</h2>
+<p>安装完成后，配置管理工具</p>
+<h3 id="安装并配置git"> 安装并配置git</h3>
+<div><pre><code>yum -y <span>install</span> <span>git</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
+<h3 id="安装并配置maven"> 安装并配置maven</h3>
+<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
+<span>mv</span> apache-maven-3.6.3 /usr/local/maven
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
+mvn --version
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
+<h3 id="安装并配置ansible"> 安装并配置ansible</h3>
+<div><pre><code>yum -y <span>install</span> ansible
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
+<h2 id="jenkins集成openldap"> jenkins集成openldap</h2>
+<p>参考图片</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jen_ld.png" alt="jen_ld"></p>
+<blockquote>
+<p>集成ldap参考链接：https://www.cnblogs.com/mascot1/p/10498513.html</p>
+</blockquote>
+<h2 id="三种构建方式"> 三种构建方式</h2>
+<p>**jenkins触发式构建：<strong>用于开发环境部署</strong>，**开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
+<p>**jenkins参数化构建：**用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
+<p><strong>jenkins定时构建</strong>：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jen_ld.png" type="image/png"/>
+    </item>
+    <item>
       <title>jenkins 常见问题</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</guid>
@@ -12015,65 +12074,6 @@ config.xml            config.xml2019-06-12
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>文章来源：https://www.58jb.com/html/jenkins_ldap_login_failure.html</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>jenkins的安装配置</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">jenkins的安装配置</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="jenkins的安装配置"> jenkins的安装配置</h1>
-<h2 id="ansible安装jenkins"> ansible安装jenkins</h2>
-<div><pre><code>ansible-galaxy <span>install</span> clay_wangzhi.jenkins
-</code></pre>
-<div><span>1</span><br></div></div><p>galaxy中有详细的文档说明：</p>
-<blockquote>
-<p>链接地址：https://galaxy.ansible.com/clay_wangzhi/jenkins</p>
-</blockquote>
-<p>额外注意一些插件的安装：</p>
-<div><pre><code>Role-based Authorization Strategy  #权限控制插件
-git-parameter
-Publish Over SSH
-DIngDIng
-git-parameter #选项参数增加，git-brach选项
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="配置管理工具"> 配置管理工具</h2>
-<p>安装完成后，配置管理工具</p>
-<h3 id="安装并配置git"> 安装并配置git</h3>
-<div><pre><code>yum -y <span>install</span> <span>git</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
-<h3 id="安装并配置maven"> 安装并配置maven</h3>
-<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
-<span>mv</span> apache-maven-3.6.3 /usr/local/maven
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
-mvn --version
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
-<h3 id="安装并配置ansible"> 安装并配置ansible</h3>
-<div><pre><code>yum -y <span>install</span> ansible
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
-<h2 id="jenkins集成openldap"> jenkins集成openldap</h2>
-<p>参考图片</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jen_ld.png" alt="jen_ld"></p>
-<blockquote>
-<p>集成ldap参考链接：https://www.cnblogs.com/mascot1/p/10498513.html</p>
-</blockquote>
-<h2 id="三种构建方式"> 三种构建方式</h2>
-<p>**jenkins触发式构建：<strong>用于开发环境部署</strong>，**开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
-<p>**jenkins参数化构建：**用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
-<p><strong>jenkins定时构建</strong>：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jen_ld.png" type="image/png"/>
     </item>
     <item>
       <title>Jenkins关闭和重启的实现方式</title>
@@ -16921,6 +16921,80 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
+      <title>双圆括号结构</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">双圆括号结构</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="双圆括号结构"> 双圆括号结构</h1>
+<p>与<code>let</code>命令类似，<code>(( ... ))</code> 结构允许对算术表达式的扩展和求值。它是<code>let</code>命令的简化形式。例如，a=$(( 5 + 3 )) 会将变量a赋值成 5 + 3，也就是8。在Bash中，双圆括号结构也允许以C风格的方式操作变量。例如，(( var++ ))。</p>
+<p><strong>样例 8-5. 以C风格的方式操作变量</strong></p>
+<div><pre><code>#!/bin/bash
+# c-vars.sh
+# 以C风格的方式操作变量，使用(( ... ))结构
+
+
+echo
+
+(( a = 23 ))  #  C风格的变量赋值，注意&quot;=&quot;等号前后都有空格
+
+echo &quot;a (initial value) = $a&quot;   # 23
+
+(( a++ ))     #  后缀自增&#39;a&#39;，C-style.
+echo &quot;a (after a++) = $a&quot;       # 24
+
+(( a-- ))     #  后缀自减&#39;a&#39;, C-style.
+echo &quot;a (after a--) = $a&quot;       # 23
+
+
+(( ++a ))     #  前缀自增&#39;a&#39;, C-style.
+echo &quot;a (after ++a) = $a&quot;       # 24
+
+(( --a ))     #  前缀自减&#39;a&#39;, C-style.
+echo &quot;a (after --a) = $a&quot;       # 23
+
+echo
+
+########################################################
+#  注意，C风格的++，--运算符，前缀形式与后缀形式有不同的
+#+ 副作用。
+
+n=1; let --n &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # False
+n=1; let n-- &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # True
+
+#  感谢 Jeroen Domburg。
+########################################################
+
+echo
+
+(( t = a&lt;45?7:11 ))   # C风格三目运算符。
+#       ^  ^ ^
+echo &quot;If a &lt; 45, then t = 7, else t = 11.&quot;  # a = 23
+echo &quot;t = $t &quot;                              # t = 7
+
+echo
+
+
+# -----------
+# 复活节彩蛋!
+# -----------
+#  Chet Ramey 偷偷往Bash里加入了C风格的语句结构，
+#  还没写文档说明 (实际上很多是从ksh中继承过来的)。
+#  在Bash 文档中，Ramey把 (( ... ))结构称为shell 算术运算，
+#  但是这种表述并不准确...
+#  抱歉啊，Chet，把你的秘密抖出来了。
+
+#  参看 &quot;for&quot; 和 &quot;while&quot; 循环章节关于 (( ... )) 结构的部分。
+
+#  (( ... )) 结构在Bash 2.04版本之后才能正常工作。
+
+exit
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>还可以参看 <strong>样例 11-13</strong> 与 <strong>样例 8-4</strong>。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>8.2. 数字常量</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</guid>
@@ -16995,80 +17069,6 @@ exit $?        # 退出码 = 1 (错误)
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>双圆括号结构</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">双圆括号结构</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="双圆括号结构"> 双圆括号结构</h1>
-<p>与<code>let</code>命令类似，<code>(( ... ))</code> 结构允许对算术表达式的扩展和求值。它是<code>let</code>命令的简化形式。例如，a=$(( 5 + 3 )) 会将变量a赋值成 5 + 3，也就是8。在Bash中，双圆括号结构也允许以C风格的方式操作变量。例如，(( var++ ))。</p>
-<p><strong>样例 8-5. 以C风格的方式操作变量</strong></p>
-<div><pre><code>#!/bin/bash
-# c-vars.sh
-# 以C风格的方式操作变量，使用(( ... ))结构
-
-
-echo
-
-(( a = 23 ))  #  C风格的变量赋值，注意&quot;=&quot;等号前后都有空格
-
-echo &quot;a (initial value) = $a&quot;   # 23
-
-(( a++ ))     #  后缀自增&#39;a&#39;，C-style.
-echo &quot;a (after a++) = $a&quot;       # 24
-
-(( a-- ))     #  后缀自减&#39;a&#39;, C-style.
-echo &quot;a (after a--) = $a&quot;       # 23
-
-
-(( ++a ))     #  前缀自增&#39;a&#39;, C-style.
-echo &quot;a (after ++a) = $a&quot;       # 24
-
-(( --a ))     #  前缀自减&#39;a&#39;, C-style.
-echo &quot;a (after --a) = $a&quot;       # 23
-
-echo
-
-########################################################
-#  注意，C风格的++，--运算符，前缀形式与后缀形式有不同的
-#+ 副作用。
-
-n=1; let --n &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # False
-n=1; let n-- &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # True
-
-#  感谢 Jeroen Domburg。
-########################################################
-
-echo
-
-(( t = a&lt;45?7:11 ))   # C风格三目运算符。
-#       ^  ^ ^
-echo &quot;If a &lt; 45, then t = 7, else t = 11.&quot;  # a = 23
-echo &quot;t = $t &quot;                              # t = 7
-
-echo
-
-
-# -----------
-# 复活节彩蛋!
-# -----------
-#  Chet Ramey 偷偷往Bash里加入了C风格的语句结构，
-#  还没写文档说明 (实际上很多是从ksh中继承过来的)。
-#  在Bash 文档中，Ramey把 (( ... ))结构称为shell 算术运算，
-#  但是这种表述并不准确...
-#  抱歉啊，Chet，把你的秘密抖出来了。
-
-#  参看 &quot;for&quot; 和 &quot;while&quot; 循环章节关于 (( ... )) 结构的部分。
-
-#  (( ... )) 结构在Bash 2.04版本之后才能正常工作。
-
-exit
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>还可以参看 <strong>样例 11-13</strong> 与 <strong>样例 8-4</strong>。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>运算符优先级</title>
@@ -17311,51 +17311,6 @@ if [[ &quot;$v1&quot; -gt &quot;$v2&quot; ]] || [[ &quot;$v1&quot; -lt &quot;$v2
 <li><a href="./08_2_numerical_constants.html">8.2 数字常量</a></li>
 <li><a href="./08_3_the_double_parentheses_construct.html">8.3 双圆括号结构</a></li>
 <li><a href="./08_4_operator_precedence.html">8.4 运算符优先级</a></li>
-</ul>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>第二部分 shell基础</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第二部分 shell基础</source>
-      <pubDate>Fri, 02 Apr 2021 07:45:01 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第二部分-shell基础"> 第二部分 shell基础</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./03_special_characters.html">3. 特殊字符</a></li>
-<li><a href="./04_introduction_to_variables_and_parameters.html">4. 变量与参数</a>
-<ul>
-<li><a href="./04_1_variable_substitution.html">4.1 变量替换</a></li>
-<li><a href="./04_2_variable_assignment.html">4.2 变量赋值</a></li>
-<li><a href="./04_3_bash_variables_are_untyped.html">4.3 Bash弱类型变量</a></li>
-<li><a href="./04_4_special_variable_types.html">4.4 特殊变量类型</a></li>
-</ul>
-</li>
-<li><a href="./05_quoting.html">5. 引用</a>
-<ul>
-<li><a href="./05_1_quoting_variables.html">5.1 引用变量</a></li>
-<li><a href="./05_2_escaping.html">5.2 转义</a></li>
-</ul>
-</li>
-<li><a href="./06_exit_and_exit_status.html">6. 退出与退出状态</a></li>
-<li><a href="./07_tests.html">7. 测试</a>
-<ul>
-<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
-<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
-<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
-<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
-<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
-</ul>
-</li>
-<li><a href="./08_operations_and_related_topics.html">8. 运算符和相关话题</a>
-<ul>
-<li><a href="./08_1_operators.html">8.1 运算符</a></li>
-<li>8.2 数字常量</li>
-<li>8.3 双圆括号结构</li>
-<li>8.4 运算符优先级</li>
-</ul>
-</li>
 </ul>
 ]]></content:encoded>
     </item>
@@ -18431,6 +18386,51 @@ possibly_hanging_job <span>&amp;</span> <span>{</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>第二部分 shell基础</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第二部分 shell基础</source>
+      <pubDate>Fri, 02 Apr 2021 07:45:01 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第二部分-shell基础"> 第二部分 shell基础</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./03_special_characters.html">3. 特殊字符</a></li>
+<li><a href="./04_introduction_to_variables_and_parameters.html">4. 变量与参数</a>
+<ul>
+<li><a href="./04_1_variable_substitution.html">4.1 变量替换</a></li>
+<li><a href="./04_2_variable_assignment.html">4.2 变量赋值</a></li>
+<li><a href="./04_3_bash_variables_are_untyped.html">4.3 Bash弱类型变量</a></li>
+<li><a href="./04_4_special_variable_types.html">4.4 特殊变量类型</a></li>
+</ul>
+</li>
+<li><a href="./05_quoting.html">5. 引用</a>
+<ul>
+<li><a href="./05_1_quoting_variables.html">5.1 引用变量</a></li>
+<li><a href="./05_2_escaping.html">5.2 转义</a></li>
+</ul>
+</li>
+<li><a href="./06_exit_and_exit_status.html">6. 退出与退出状态</a></li>
+<li><a href="./07_tests.html">7. 测试</a>
+<ul>
+<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
+<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
+<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
+<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
+<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
+</ul>
+</li>
+<li><a href="./08_operations_and_related_topics.html">8. 运算符和相关话题</a>
+<ul>
+<li><a href="./08_1_operators.html">8.1 运算符</a></li>
+<li>8.2 数字常量</li>
+<li>8.3 双圆括号结构</li>
+<li>8.4 运算符优先级</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>9.2.1 declare 的另类用法</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/09_2_1_another_use_for_declare/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/09_2_1_another_use_for_declare/</guid>
@@ -19376,22 +19376,551 @@ echo | awk '</span>
 ]]></content:encoded>
     </item>
     <item>
-      <title>第十章 变量处理</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十章 变量处理</source>
+      <title>10.2 参数替换</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">10.2 参数替换</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
+      <content:encoded><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
+<p>参数替换用来处理或扩展变量。</p>
+<h3 id="parameter"> <code>${parameter}</code></h3>
+<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
+<p>可以用于连接变量与字符串。</p>
+<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
+<span>echo</span> <span>"<span>$your_id</span>"</span>
+<span># </span>
+<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
+<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
+<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
+<p>在没有设置变量的情况下使用缺省值。</p>
+<div><pre><code><span>var1</span><span>=</span><span>1</span>
+<span>var2</span><span>=</span><span>2</span>
+<span># 没有设置 var3。</span>
+
+<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
+<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
+<span>#           ^          注意前面的 $ 前缀。</span>
+
+
+
+<span>echo</span> <span>${username-`whoami`}</span>
+<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
+</blockquote>
+<div><pre><code><span>#!/bin/bash</span>
+<span># param-sub.sh</span>
+
+<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
+
+<span>username0</span><span>=</span>
+<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
+<span># 将不会输出 `whoami` 的结果。</span>
+
+<span>echo</span>
+
+<span>echo</span> username1 has not been declared.
+<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
+<span># 将会输出 `whoami` 的结果。</span>
+
+<span>username2</span><span>=</span>
+<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
+<span>#                            ^</span>
+<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
+<span># 与上面的 username0 比较。</span>
+
+
+<span># </span>
+
+<span># 再来一次：</span>
+
+<span>variable</span><span>=</span>
+<span># 变量已被声明，但其值为空。</span>
+
+<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
+<span>#               ^</span>
+
+unser variable
+
+<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
+<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
+<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
+<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
+<span># 代码块开始</span>
+<span># ...</span>
+<span># ...</span>
+<span># ...</span>
+<span># 代码块结束</span>
+
+
+
+<span># 摘自样例 "hanoi2.bash"：</span>
+<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
+<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
+<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
+<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
+<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
+<p>在没有设置变量的情况下，将其设置为缺省值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
+<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
+<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
+<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
+<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
+<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param1+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param2</span><span>=</span>
+<span>a</span><span>=</span><span>${param2+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>param3</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param3+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>echo</span>
+<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param5</span><span>=</span>
+<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+<span># 不同于 a=${param5+xyz}</span>
+
+<span>param6</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
+<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
+<p>样例 10-7. 如何使用变量替换和错误信息</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span># 检查系统环境变量。</span>
+<span># 这是一种良好的预防性维护措施。</span>
+<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
+
+<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
+  <span>echo</span> <span>"You are <span>$USER</span>."</span>
+  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
+  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
+  <span>echo</span>
+  <span>echo</span> <span>"If you are reading this message,"</span>
+  <span>echo</span> <span>"critcial environmental variables have been set."</span>
+  <span>echo</span>
+  <span>echo</span>
+  
+<span># ------------------------------------------------------</span>
+
+<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
+
+<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
+<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
+<span>:</span> <span>${ThisVariable?}</span>
+<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+
+<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
+
+<span># 你可以指定错误消息。</span>
+<span># : ${variablename?"ERROR MESSAGE"}</span>
+
+
+<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
+<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span>#</span>
+<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
+
+<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
+
+
+
+<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
+
+<span>HERE</span><span>=</span><span>0</span>
+<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
+
+<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># usage-message.sh</span>
+
+<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
+<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
+<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
+
+<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
+<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
+
+<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
+
+<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
+<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
+<span># 如果没有，那么 "$?" 的结果是1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
+<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
+<h4 id="var"> <code>${#var}</code></h4>
+<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 以下情况例外：</p>
 <ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
+<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
 </ul>
+</blockquote>
+<p>样例 10-9. 变量长度</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># length.sh</span>
+
+<span>E_NO_ARGS</span><span>=</span><span>65</span>
+
+<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
+<span>then</span>
+  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
+  <span>exit</span> <span>$E_NO_ARGS</span>
+<span>fi</span>
+
+<span>var01</span><span>=</span>abcdEFGH28ij
+<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
+<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
+<span># 现在我们尝试加入空格。</span>
+<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
+<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
+<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
+
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
+<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
+<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
+<span># 删除传入的参数中的前缀0。</span>
+
+strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
+<span>{</span>                     <span>#+ 前缀0。</span>
+  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
+<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
+<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
+<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
+  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
+  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
+  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
+  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
+                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
+<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
+<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
+<span>echo</span>
+<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
+<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
+<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
+<span>echo</span>
+<span>filename</span><span>=</span>test.data
+<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
+                            <span># 文件扩展名。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
+<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
+<p>样例 10-10. 参数替换中的模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># patt-matching.sh</span>
+
+<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
+
+<span>var1</span><span>=</span>abcd12345abc6789
+<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
+
+<span>echo</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
+<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
+                              <span># （另一种形式）</span>
+<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
+<span>echo</span>
+
+<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
+<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
+<span>#             ^                                           |-|</span>
+<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
+<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
+<span>#             ^                                           |----------|</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
+<span>echo</span>
+<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
+<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
+<span>#             ^                                                    |----|</span>
+<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
+<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
+<span>#             ^                                           |-------------|</span>
+
+<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
+<span>#      % 与 %% 是从右侧开始。</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rfe.sh: 更改文件扩展名。</span>
+<span>#</span>
+<span>#         rfe old_extension new_extension</span>
+<span>#</span>
+<span># 如：</span>
+<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
+<span>#         rfe gif jpg</span>
+
+
+<span>E_BADARGS</span><span>=</span><span>65</span>
+
+<span>case</span> <span>$#</span> <span>in</span>
+  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
+  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
+  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
+  <span>;</span><span>;</span>
+<span>esac</span>
+
+
+<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
+<span># 遍历以第一个参数作为后缀名的文件列表。</span>
+<span>do</span>
+  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
+  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
+<p>下面这些结构采用自 ksh。</p>
+<h4 id="var-pos"> <code>${var:pos}</code></h4>
+<p>扩展为从偏移量 pos 处截取的变量 var。</p>
+<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
+<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
+<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
+<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
+<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
+<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
+<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
+<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
+<p>样例 10-12. 使用模式匹配解析任意字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>var1</span><span>=</span>abcd-1234-defg
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
+
+<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
+<span>#  t=${var1#*-} 效果相同，</span>
+<span>#+ 因为 # 只匹配最短的字符串，</span>
+<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
+<span># （感谢 Stephane Chazelas 指出这一点。）</span>
+
+<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
+<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
+
+
+<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span># -------------------------------------------</span>
+<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
+<span># -------------------------------------------</span>
+<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
+<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
+<span># 在这里与 t=`basename $path_name` 效果相同。</span>
+<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
+<span>#+ 但有时仍旧也会出现问题。</span>
+<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
+<span>#+ 但是上面这种表达式却可以。</span>
+<span># （感谢 S.C.）</span>
+
+<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
+<span># 同 t=`dirname $path_name` 效果相同。</span>
+<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
+<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
+<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
+<span>#+ 事情会变的非常复杂。</span>
+<span># （感谢 S.C.）</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
+<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
+<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
+<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
+<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># var-match.sh:</span>
+<span># 演示在字符串首部或尾部进行模式替换。</span>
+
+<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
+<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
+<span>echo</span>
+
+<span># 在字符串首部进行匹配</span>
+<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span># |-|</span>
+<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
+                        <span># |----|</span>
+                        
+<span># 在字符串尾部进行匹配</span>
+<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span>#              |-|</span>
+<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
+                        <span>#               |----|</span>
+                        
+<span>echo</span>
+
+<span>#  --------------------------------------------</span>
+<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
+<span>#+ 否则将不会发生替换。</span>
+<span>#  --------------------------------------------</span>
+<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
+<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
+<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
+<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
+<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
+<span># 在 Bash 2.04 版本中加入了这个特性。</span>
+
+<span>xyz23</span><span>=</span>whatever
+<span>xyz23</span><span>=</span>
+
+<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
+<span># ^ ^   ^           + 开头变量名。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+
+<span>echo</span> <span>"---"</span>
+
+<span>abc23</span><span>=</span>something_else
+<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
+<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
+<span>echo</span> <span>$c</span>            <span>#  something_else</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
+<section>
+<ol>
+<li id="fn1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
 </li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
+</ol>
+</section>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>11.2 嵌套循环</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.2 嵌套循环</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -20144,47 +20673,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>11.2 嵌套循环</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.2 嵌套循环</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>11.3 循环控制</title>
@@ -23668,6 +24156,273 @@ x=x &lt; &lt;(:)
 ]]></content:encoded>
     </item>
     <item>
+      <title>24.2 局部变量</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_2_local_variables/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_2_local_variables/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">24.2 局部变量</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
+<p>怎样使一个变量变成“局部”变量？</p>
+<p>局部变量
+如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
+<p>例子 24-12. 局部变量的可见范围</p>
+<div><pre><code>#!/bin/bash
+# ex62.sh: 函数内部的局部变量与全局变量。
+
+func () {
+    local loc_var=23       # 声明为局部变量。
+    echo                   # 使用&#39;local&#39;内建命令
+    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
+    global_var=999         # 没有声明为局部变量。
+    # 默认为全局变量。
+
+    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
+}
+
+func
+
+# 现在，来看看局部变量“loc_var”在函数外部是否可见。
+
+echo
+echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
+                                    # $loc_var outside function =
+                                    # 不行, $loc_var 不是全局可见的.
+echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
+                                    # $在函数外部global_var = 999
+                                    # $global_var 是全局可见的.
+echo
+
+exit 0
+#  与C语言相比，在函数内声明的Bash变量
+#+ 除非它被明确声明为local时，它才是局部的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice"> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
+<div><pre><code>#!/bin/bash
+
+func ()
+{
+    global_var=37    #  变量只在函数体内可见
+                     #+ 在函数被调用之前。
+}                    #  函数结束
+
+echo &quot;global_var = $global_var&quot;  # global_var =
+                                 #  函数 &quot;func&quot; 还没被调用，
+                                 #+ 所以$global_var 在这里还不是可见的.
+func
+echo &quot;global_var = $global_var&quot;  # global_var = 37
+                                 # 已经在函数调用的时候设置。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
+<div><pre><code>#!/bin/bash
+
+echo &quot;==OUTSIDE Function (global)==&quot;
+t=$(exit 1)
+echo $?     # 1
+            # 如预期一样.
+
+echo
+function0 ()
+{
+    echo &quot;==INSIDE Function==&quot;
+    echo &quot;Global&quot;
+    t0=$(exit 1)
+    echo $?      # 1
+                 # 如预期一样.
+
+    echo
+    echo &quot;Local declared &amp; assigned in same command.&quot;
+    local t1=$(exit 1)
+    echo $?      # 0
+                 # 意料之外!
+#  显然，变量赋值发生在Apparently, 
+#+ 局部声明之前。
+#+ 返回值是为了latter.
+
+    echo
+    echo &quot;Local declared, then assigned (separate commands).&quot;
+    local t2
+    t2=$(exit 1)
+    echo $?
+}
+
+function0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
+<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
+<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
+<p>例子 24-13. 一个简单的递归函数表示</p>
+<div><pre><code>#!/bin/bash
+# recursion-demo.sh
+# 递归演示.
+
+RECURSIONS=9   # 递归的次数.
+r_count=0      # 必须是全局变量，为什么？
+
+recurse ()
+{
+    var=&quot;$1&quot;
+
+    while [ &quot;$var&quot; -ge 0 ]
+    do
+        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
+        (( var-- )); (( r_count++ ))
+        recurse &quot;$var&quot;  #  函数调用自身(递归)
+    done              #+ 直到遇到什么样的终止条件？
+}
+
+recurse $RECURSIONS
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
+<div><pre><code>#!/bin/bash
+# recursion-def.sh
+# 另外一个描述递归的比较生动的脚本。
+
+RECURSIONS=10
+r_count=0
+sp=&quot; &quot;
+
+define_recursion ()
+{
+    ((r_count++))
+    sp=&quot;$sp&quot;&quot; &quot;
+    echo -n &quot;$sp&quot;
+    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
+
+    while [ $r_count -le $RECURSIONS ]
+    do
+        define_recursion
+    done
+}
+
+echo
+echo &quot;Recursion: &quot;
+define_recursion
+echo
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
+<p>例子24-15. 使用局部变量进行递归</p>
+<div><pre><code>#!/bin/bash
+
+# 阶乘
+# ---------
+
+# Bash允许递归么？
+# 恩，允许，但是...
+# 他太慢了，所以恐怕你难以忍受。
+
+MAX_ARG=5
+E_WRONG_ARGS=85
+E_RANGE_ERR=86
+
+
+if [ -z &quot;$1&quot; ]
+then
+    echo &quot;Usage: `basename $0` number&quot;
+    exit $E_WRONG_ARGS
+fi
+
+if [ &quot;$1&quot; -gt $MAX_ARG ]
+then
+    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
+    #  现在让我们来了解一些实际情况。
+    #  如果你想计算比这个更大的范围的阶乘，
+    #+ 应该用真正的编程语言来重写它。
+    exit $E_RANGE_ERR
+fi
+
+fact () 
+{
+    local number=$1
+    #  变量&quot;number&quot; 必须被定义为局部变量，
+    #+ 否则不能正常工作。
+    if [ &quot;$number&quot; -eq 0 ]
+    then
+        factorial=1    # 0的阶乘为1.
+    else
+        let &quot;decrnum = number - 1&quot;
+        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
+        let &quot;factorial = $number * $?&quot;
+    fi
+    return $factorial
+}
+
+fact $1
+echo &quot;Factorial of $1 is $?.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
+<h2 id="注释"> 注释</h2>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
+<div><pre><code>#!/bin/bash
+
+function1 ()
+{
+  local func1var=20
+
+  echo &quot;Within function1, \$func1var = $func1var.&quot;
+
+  function2
+}
+
+function2 ()
+{
+  echo &quot;Within function2, \$func1var = $func1var.&quot;
+}
+
+function1
+
+exit 0
+
+
+# 脚本的输出:
+
+# Within function1, $func1var = 20.
+# Within function2, $func1var = 20.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
+<blockquote>
+<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
+The ABS Guide的作者认为这个行为一个bug.</p>
+</blockquote>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
+<div><pre><code>#!/bin/bash
+
+#  提醒: 运行这个脚本可能会让你的系统卡死。
+#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
+
+recursive_function ()		   
+{
+echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
+(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
+#  只要第一个参数小于第二个参数，
+#+ 让第一个参数加1，然后递归。
+}
+
+recursive_function 1 50000  # 递归 50,000层!
+#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
+
+#  即使是C语言，递归调用这么多层也会发生段错误，
+#+ 通过分配栈耗尽所有的内存。
+
+
+echo &quot;This will probably not print.&quot;
+exit 0  # 这个脚本可能不会正常退出。
+
+#  感谢, Stéphane Chazelas.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
+    </item>
+    <item>
       <title>24.1 复杂函数和函数复杂性</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_1_complex_functions_and_function_complexities/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_1_complex_functions_and_function_complexities/</guid>
@@ -24226,273 +24981,6 @@ Function ()  # 不行.
 <h3 id="echo"> echo</h3>
 <p>shell中函数返回值，个人觉得可以用<code>echo</code></p>
 ]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>24.2 局部变量</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_2_local_variables/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_2_local_variables/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">24.2 局部变量</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
-<p>怎样使一个变量变成“局部”变量？</p>
-<p>局部变量
-如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
-<p>例子 24-12. 局部变量的可见范围</p>
-<div><pre><code>#!/bin/bash
-# ex62.sh: 函数内部的局部变量与全局变量。
-
-func () {
-    local loc_var=23       # 声明为局部变量。
-    echo                   # 使用&#39;local&#39;内建命令
-    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
-    global_var=999         # 没有声明为局部变量。
-    # 默认为全局变量。
-
-    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
-}
-
-func
-
-# 现在，来看看局部变量“loc_var”在函数外部是否可见。
-
-echo
-echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
-                                    # $loc_var outside function =
-                                    # 不行, $loc_var 不是全局可见的.
-echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
-                                    # $在函数外部global_var = 999
-                                    # $global_var 是全局可见的.
-echo
-
-exit 0
-#  与C语言相比，在函数内声明的Bash变量
-#+ 除非它被明确声明为local时，它才是局部的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice"> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
-<div><pre><code>#!/bin/bash
-
-func ()
-{
-    global_var=37    #  变量只在函数体内可见
-                     #+ 在函数被调用之前。
-}                    #  函数结束
-
-echo &quot;global_var = $global_var&quot;  # global_var =
-                                 #  函数 &quot;func&quot; 还没被调用，
-                                 #+ 所以$global_var 在这里还不是可见的.
-func
-echo &quot;global_var = $global_var&quot;  # global_var = 37
-                                 # 已经在函数调用的时候设置。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
-<div><pre><code>#!/bin/bash
-
-echo &quot;==OUTSIDE Function (global)==&quot;
-t=$(exit 1)
-echo $?     # 1
-            # 如预期一样.
-
-echo
-function0 ()
-{
-    echo &quot;==INSIDE Function==&quot;
-    echo &quot;Global&quot;
-    t0=$(exit 1)
-    echo $?      # 1
-                 # 如预期一样.
-
-    echo
-    echo &quot;Local declared &amp; assigned in same command.&quot;
-    local t1=$(exit 1)
-    echo $?      # 0
-                 # 意料之外!
-#  显然，变量赋值发生在Apparently, 
-#+ 局部声明之前。
-#+ 返回值是为了latter.
-
-    echo
-    echo &quot;Local declared, then assigned (separate commands).&quot;
-    local t2
-    t2=$(exit 1)
-    echo $?
-}
-
-function0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
-<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
-<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
-<p>例子 24-13. 一个简单的递归函数表示</p>
-<div><pre><code>#!/bin/bash
-# recursion-demo.sh
-# 递归演示.
-
-RECURSIONS=9   # 递归的次数.
-r_count=0      # 必须是全局变量，为什么？
-
-recurse ()
-{
-    var=&quot;$1&quot;
-
-    while [ &quot;$var&quot; -ge 0 ]
-    do
-        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
-        (( var-- )); (( r_count++ ))
-        recurse &quot;$var&quot;  #  函数调用自身(递归)
-    done              #+ 直到遇到什么样的终止条件？
-}
-
-recurse $RECURSIONS
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
-<div><pre><code>#!/bin/bash
-# recursion-def.sh
-# 另外一个描述递归的比较生动的脚本。
-
-RECURSIONS=10
-r_count=0
-sp=&quot; &quot;
-
-define_recursion ()
-{
-    ((r_count++))
-    sp=&quot;$sp&quot;&quot; &quot;
-    echo -n &quot;$sp&quot;
-    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
-
-    while [ $r_count -le $RECURSIONS ]
-    do
-        define_recursion
-    done
-}
-
-echo
-echo &quot;Recursion: &quot;
-define_recursion
-echo
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
-<p>例子24-15. 使用局部变量进行递归</p>
-<div><pre><code>#!/bin/bash
-
-# 阶乘
-# ---------
-
-# Bash允许递归么？
-# 恩，允许，但是...
-# 他太慢了，所以恐怕你难以忍受。
-
-MAX_ARG=5
-E_WRONG_ARGS=85
-E_RANGE_ERR=86
-
-
-if [ -z &quot;$1&quot; ]
-then
-    echo &quot;Usage: `basename $0` number&quot;
-    exit $E_WRONG_ARGS
-fi
-
-if [ &quot;$1&quot; -gt $MAX_ARG ]
-then
-    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
-    #  现在让我们来了解一些实际情况。
-    #  如果你想计算比这个更大的范围的阶乘，
-    #+ 应该用真正的编程语言来重写它。
-    exit $E_RANGE_ERR
-fi
-
-fact () 
-{
-    local number=$1
-    #  变量&quot;number&quot; 必须被定义为局部变量，
-    #+ 否则不能正常工作。
-    if [ &quot;$number&quot; -eq 0 ]
-    then
-        factorial=1    # 0的阶乘为1.
-    else
-        let &quot;decrnum = number - 1&quot;
-        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
-        let &quot;factorial = $number * $?&quot;
-    fi
-    return $factorial
-}
-
-fact $1
-echo &quot;Factorial of $1 is $?.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
-<h2 id="注释"> 注释</h2>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
-<div><pre><code>#!/bin/bash
-
-function1 ()
-{
-  local func1var=20
-
-  echo &quot;Within function1, \$func1var = $func1var.&quot;
-
-  function2
-}
-
-function2 ()
-{
-  echo &quot;Within function2, \$func1var = $func1var.&quot;
-}
-
-function1
-
-exit 0
-
-
-# 脚本的输出:
-
-# Within function1, $func1var = 20.
-# Within function2, $func1var = 20.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
-<blockquote>
-<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
-The ABS Guide的作者认为这个行为一个bug.</p>
-</blockquote>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
-<div><pre><code>#!/bin/bash
-
-#  提醒: 运行这个脚本可能会让你的系统卡死。
-#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
-
-recursive_function ()		   
-{
-echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
-(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
-#  只要第一个参数小于第二个参数，
-#+ 让第一个参数加1，然后递归。
-}
-
-recursive_function 1 50000  # 递归 50,000层!
-#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
-
-#  即使是C语言，递归调用这么多层也会发生段错误，
-#+ 通过分配栈耗尽所有的内存。
-
-
-echo &quot;This will probably not print.&quot;
-exit 0  # 这个脚本可能不会正常退出。
-
-#  感谢, Stéphane Chazelas.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
@@ -31023,6 +31511,145 @@ innodb  myisam  memory  引擎是决定数据存储的方式
 ]]></content:encoded>
     </item>
     <item>
+      <title>1 锁等待模拟</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">1 锁等待模拟</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="_1-锁等待模拟"> 1 锁等待模拟</h2>
+<p>创建数据库</p>
+<div><pre><code>create database clay_test default charset utf8 collate utf8_general_ci;
+use clay_test
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>创建表</p>
+<div><pre><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
+</code></pre>
+<div><span>1</span><br></div></div><p>插入数据</p>
+<div><pre><code>insert into t1 values(1, &#39;clay&#39;);
+</code></pre>
+<div><span>1</span><br></div></div><p>取消自动提交</p>
+<p>则当执行语句commit或者rollback执行提交事务或者回滚</p>
+<div><pre><code>set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &#39;autocommit&#39;;
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | OFF   |
++---------------+-------+
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>更新第一条插入的数据</p>
+<div><pre><code>update t1 set name=&#39;hello&#39; where id=1;
+</code></pre>
+<div><span>1</span><br></div></div><p>新开一个终端，也更新第一条数据</p>
+<div><pre><code>update t1 set name=&#39;world&#39; where id=1;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-监控锁状态"> 2 监控锁状态</h2>
+<h3 id="_2-1-查看有无锁等待"> 2.1 查看有无锁等待</h3>
+<div><pre><code>mysql&gt; show status like &#39;%innodb_row_lock%&#39;;
++-------------------------------+---------+
+| Variable_name                 | Value   |
++-------------------------------+---------+
+| Innodb_row_lock_current_waits | 1       |
+| Innodb_row_lock_time          | 2270662 |
+| Innodb_row_lock_time_avg      | 44522   |
+| Innodb_row_lock_time_max      | 51599   |
+| Innodb_row_lock_waits         | 51      |
++-------------------------------+---------+
+5 rows in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
+<li>Innodb_row_lock_current_waits 表示当前所等待的数量</li>
+<li>Innodb_row_lock_waits 表示历史发生锁等待的数量</li>
+</ul>
+<p>查看哪个表的打开数量大于0</p>
+<div><pre><code>show open tables where in_use&gt;0;
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了"> 2.2 查看哪个事务在等待（被阻塞了）</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_state=&#39;lock wait&#39; \G;
+*************************** 1. row ***************************
+                    trx_id: 2502
+                 trx_state: LOCK WAIT
+               trx_started: 2020-02-15 17:19:37
+     trx_requested_lock_id: 2502:9:3:2
+          trx_wait_started: 2020-02-15 17:19:37
+                trx_weight: 2
+       trx_mysql_thread_id: 38
+                 trx_query: update t1 set name=&#39;world&#39; where id=1
+       trx_operation_state: starting index read
+         trx_tables_in_use: 1
+         trx_tables_locked: 1
+          trx_lock_structs: 2
+     trx_lock_memory_bytes: 360
+           trx_rows_locked: 1
+         trx_rows_modified: 0
+   trx_concurrency_tickets: 0
+       trx_isolation_level: REPEATABLE READ
+         trx_unique_checks: 1
+    trx_foreign_key_checks: 1
+trx_last_foreign_key_error: NULL
+ trx_adaptive_hash_latched: 0
+ trx_adaptive_hash_timeout: 10000
+          trx_is_read_only: 0
+trx_autocommit_non_locking: 0
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h3 id="_2-3-查看索源"> 2.3 查看索源</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_lock_waits;
++-------------------+-------------------+-----------------+------------------+
+| requesting_trx_id | requested_lock_id | blocking_trx_id | blocking_lock_id |
++-------------------+-------------------+-----------------+------------------+
+| 2502              | 2500:9:3:2        | 2491            | 2491:9:3:2       |
++-------------------+-------------------+-----------------+------------------+
+1 row in set (0.00 sec)
+
+select * from information_schema.innodb_locks;
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+| lock_id    | lock_trx_id | lock_mode | lock_type | lock_table       | lock_index      | lock_space | lock_page | lock_rec | lock_data      |
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+| 2500:9:3:2 | 2502        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
+| 2491:9:3:2 | 2491        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+2 rows in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_2-4-找到锁源的sql语句"> 2.4 找到锁源的SQL语句</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_id=&#39;2491&#39; \G;
+*************************** 1. row ***************************
+                    trx_id: 2491
+                 trx_state: RUNNING
+               trx_started: 2020-02-15 17:01:28
+     trx_requested_lock_id: NULL
+          trx_wait_started: NULL
+                trx_weight: 5
+       trx_mysql_thread_id: 37
+                 trx_query: update t1 set name=&#39;hello&#39; where id=1;
+       trx_operation_state: NULL
+         trx_tables_in_use: 0
+         trx_tables_locked: 0
+          trx_lock_structs: 2
+     trx_lock_memory_bytes: 360
+           trx_rows_locked: 2
+         trx_rows_modified: 3
+   trx_concurrency_tickets: 0
+       trx_isolation_level: REPEATABLE READ
+         trx_unique_checks: 1
+    trx_foreign_key_checks: 1
+trx_last_foreign_key_error: NULL
+ trx_adaptive_hash_latched: 0
+ trx_adaptive_hash_timeout: 10000
+          trx_is_read_only: 0
+trx_autocommit_non_locking: 0
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="_3-杀掉进程"> 3 杀掉进程</h2>
+<p>线程ID（trx_mysql_thread_id）</p>
+<div><pre><code>mysql&gt; kill 37;
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>主库异常，从库手动切换为主库方案</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.13%20MySQL%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.13%20MySQL%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
@@ -31286,145 +31913,6 @@ EOF</span>
 Install_MySQL
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br><span>132</span><br><span>133</span><br><span>134</span><br><span>135</span><br><span>136</span><br><span>137</span><br><span>138</span><br><span>139</span><br><span>140</span><br><span>141</span><br><span>142</span><br><span>143</span><br><span>144</span><br><span>145</span><br><span>146</span><br><span>147</span><br><span>148</span><br><span>149</span><br><span>150</span><br><span>151</span><br><span>152</span><br><span>153</span><br><span>154</span><br><span>155</span><br><span>156</span><br><span>157</span><br><span>158</span><br><span>159</span><br><span>160</span><br><span>161</span><br><span>162</span><br><span>163</span><br><span>164</span><br><span>165</span><br><span>166</span><br><span>167</span><br><span>168</span><br><span>169</span><br><span>170</span><br><span>171</span><br><span>172</span><br><span>173</span><br><span>174</span><br><span>175</span><br><span>176</span><br><span>177</span><br><span>178</span><br><span>179</span><br><span>180</span><br><span>181</span><br><span>182</span><br><span>183</span><br><span>184</span><br><span>185</span><br><span>186</span><br><span>187</span><br><span>188</span><br><span>189</span><br><span>190</span><br><span>191</span><br><span>192</span><br><span>193</span><br><span>194</span><br><span>195</span><br><span>196</span><br><span>197</span><br><span>198</span><br><span>199</span><br><span>200</span><br><span>201</span><br><span>202</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>1 锁等待模拟</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">1 锁等待模拟</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="_1-锁等待模拟"> 1 锁等待模拟</h2>
-<p>创建数据库</p>
-<div><pre><code>create database clay_test default charset utf8 collate utf8_general_ci;
-use clay_test
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>创建表</p>
-<div><pre><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
-</code></pre>
-<div><span>1</span><br></div></div><p>插入数据</p>
-<div><pre><code>insert into t1 values(1, &#39;clay&#39;);
-</code></pre>
-<div><span>1</span><br></div></div><p>取消自动提交</p>
-<p>则当执行语句commit或者rollback执行提交事务或者回滚</p>
-<div><pre><code>set autocommit=0;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; show variables like &#39;autocommit&#39;;
-+---------------+-------+
-| Variable_name | Value |
-+---------------+-------+
-| autocommit    | OFF   |
-+---------------+-------+
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>更新第一条插入的数据</p>
-<div><pre><code>update t1 set name=&#39;hello&#39; where id=1;
-</code></pre>
-<div><span>1</span><br></div></div><p>新开一个终端，也更新第一条数据</p>
-<div><pre><code>update t1 set name=&#39;world&#39; where id=1;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-监控锁状态"> 2 监控锁状态</h2>
-<h3 id="_2-1-查看有无锁等待"> 2.1 查看有无锁等待</h3>
-<div><pre><code>mysql&gt; show status like &#39;%innodb_row_lock%&#39;;
-+-------------------------------+---------+
-| Variable_name                 | Value   |
-+-------------------------------+---------+
-| Innodb_row_lock_current_waits | 1       |
-| Innodb_row_lock_time          | 2270662 |
-| Innodb_row_lock_time_avg      | 44522   |
-| Innodb_row_lock_time_max      | 51599   |
-| Innodb_row_lock_waits         | 51      |
-+-------------------------------+---------+
-5 rows in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
-<li>Innodb_row_lock_current_waits 表示当前所等待的数量</li>
-<li>Innodb_row_lock_waits 表示历史发生锁等待的数量</li>
-</ul>
-<p>查看哪个表的打开数量大于0</p>
-<div><pre><code>show open tables where in_use&gt;0;
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了"> 2.2 查看哪个事务在等待（被阻塞了）</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_state=&#39;lock wait&#39; \G;
-*************************** 1. row ***************************
-                    trx_id: 2502
-                 trx_state: LOCK WAIT
-               trx_started: 2020-02-15 17:19:37
-     trx_requested_lock_id: 2502:9:3:2
-          trx_wait_started: 2020-02-15 17:19:37
-                trx_weight: 2
-       trx_mysql_thread_id: 38
-                 trx_query: update t1 set name=&#39;world&#39; where id=1
-       trx_operation_state: starting index read
-         trx_tables_in_use: 1
-         trx_tables_locked: 1
-          trx_lock_structs: 2
-     trx_lock_memory_bytes: 360
-           trx_rows_locked: 1
-         trx_rows_modified: 0
-   trx_concurrency_tickets: 0
-       trx_isolation_level: REPEATABLE READ
-         trx_unique_checks: 1
-    trx_foreign_key_checks: 1
-trx_last_foreign_key_error: NULL
- trx_adaptive_hash_latched: 0
- trx_adaptive_hash_timeout: 10000
-          trx_is_read_only: 0
-trx_autocommit_non_locking: 0
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h3 id="_2-3-查看索源"> 2.3 查看索源</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_lock_waits;
-+-------------------+-------------------+-----------------+------------------+
-| requesting_trx_id | requested_lock_id | blocking_trx_id | blocking_lock_id |
-+-------------------+-------------------+-----------------+------------------+
-| 2502              | 2500:9:3:2        | 2491            | 2491:9:3:2       |
-+-------------------+-------------------+-----------------+------------------+
-1 row in set (0.00 sec)
-
-select * from information_schema.innodb_locks;
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-| lock_id    | lock_trx_id | lock_mode | lock_type | lock_table       | lock_index      | lock_space | lock_page | lock_rec | lock_data      |
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-| 2500:9:3:2 | 2502        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
-| 2491:9:3:2 | 2491        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-2 rows in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_2-4-找到锁源的sql语句"> 2.4 找到锁源的SQL语句</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_id=&#39;2491&#39; \G;
-*************************** 1. row ***************************
-                    trx_id: 2491
-                 trx_state: RUNNING
-               trx_started: 2020-02-15 17:01:28
-     trx_requested_lock_id: NULL
-          trx_wait_started: NULL
-                trx_weight: 5
-       trx_mysql_thread_id: 37
-                 trx_query: update t1 set name=&#39;hello&#39; where id=1;
-       trx_operation_state: NULL
-         trx_tables_in_use: 0
-         trx_tables_locked: 0
-          trx_lock_structs: 2
-     trx_lock_memory_bytes: 360
-           trx_rows_locked: 2
-         trx_rows_modified: 3
-   trx_concurrency_tickets: 0
-       trx_isolation_level: REPEATABLE READ
-         trx_unique_checks: 1
-    trx_foreign_key_checks: 1
-trx_last_foreign_key_error: NULL
- trx_adaptive_hash_latched: 0
- trx_adaptive_hash_timeout: 10000
-          trx_is_read_only: 0
-trx_autocommit_non_locking: 0
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="_3-杀掉进程"> 3 杀掉进程</h2>
-<p>线程ID（trx_mysql_thread_id）</p>
-<div><pre><code>mysql&gt; kill 37;
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>自动清理</title>
@@ -35488,6 +35976,53 @@ ERR Target instance replied with error: NOAUTH Authentication required.</li>
 ]]></content:encoded>
     </item>
     <item>
+      <title>Centos7安装升级Ruby</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Centos7安装升级Ruby</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="centos7安装升级ruby"> Centos7安装升级Ruby</h2>
+<p>转载自：<a href="https://blog.csdn.net/qq_26440803/article/details/82717244" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_26440803/article/details/82717244</a></p>
+<h3 id="在线安装ruby"> 在线安装ruby</h3>
+<div><pre><code>yum -y install ruby
+ruby -v
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="添加ruby仓库"> 添加ruby仓库</h3>
+<p>添加aliyun镜像</p>
+<div><pre><code>gem sources -a http://mirrors.aliyun.com/rubygems/ 
+</code></pre>
+<div><span>1</span><br></div></div><p>删除原来的镜像</p>
+<div><pre><code>gem sources --remove https://rubygems.org/
+</code></pre>
+<div><span>1</span><br></div></div><p>查看当前镜像源</p>
+<div><pre><code>gem sources -l
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="安装ram"> 安装RAM</h3>
+<blockquote>
+<p>RAM（<a href="https://rvm.io/" target="_blank" rel="noopener noreferrer">Ruby Version Manager</a> ）是一款RAM的命令行工具，可以使用RAM轻松安装，管理Ruby版本。RVM包含了Ruby的版本管理和Gem库管理(gemset)安装</p>
+</blockquote>
+<p>安装</p>
+<div><pre><code>gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io | bash -s stable
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>更新配置文件，使其立马生效：</p>
+<div><pre><code>source /etc/profile.d/rvm.sh
+</code></pre>
+<div><span>1</span><br></div></div><p>查看RVM版本信息，如果可以代表安装成功。</p>
+<div><pre><code>rvm -v
+</code></pre>
+<div><span>1</span><br></div></div><p>查看Ruby版本</p>
+<div><pre><code>rvm list known
+</code></pre>
+<div><span>1</span><br></div></div><p>选定版本进行安装</p>
+<div><pre><code>rvm install 2.5
+</code></pre>
+<div><span>1</span><br></div></div><p>验证版本</p>
+<div><pre><code>ruby -v
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>redis-dump方式导入导出数据</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</guid>
@@ -36188,53 +36723,6 @@ $ <span>git</span> archive
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Centos7安装升级Ruby</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Centos7安装升级Ruby</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="centos7安装升级ruby"> Centos7安装升级Ruby</h2>
-<p>转载自：<a href="https://blog.csdn.net/qq_26440803/article/details/82717244" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_26440803/article/details/82717244</a></p>
-<h3 id="在线安装ruby"> 在线安装ruby</h3>
-<div><pre><code>yum -y install ruby
-ruby -v
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="添加ruby仓库"> 添加ruby仓库</h3>
-<p>添加aliyun镜像</p>
-<div><pre><code>gem sources -a http://mirrors.aliyun.com/rubygems/ 
-</code></pre>
-<div><span>1</span><br></div></div><p>删除原来的镜像</p>
-<div><pre><code>gem sources --remove https://rubygems.org/
-</code></pre>
-<div><span>1</span><br></div></div><p>查看当前镜像源</p>
-<div><pre><code>gem sources -l
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="安装ram"> 安装RAM</h3>
-<blockquote>
-<p>RAM（<a href="https://rvm.io/" target="_blank" rel="noopener noreferrer">Ruby Version Manager</a> ）是一款RAM的命令行工具，可以使用RAM轻松安装，管理Ruby版本。RVM包含了Ruby的版本管理和Gem库管理(gemset)安装</p>
-</blockquote>
-<p>安装</p>
-<div><pre><code>gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-curl -sSL https://get.rvm.io | bash -s stable
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>更新配置文件，使其立马生效：</p>
-<div><pre><code>source /etc/profile.d/rvm.sh
-</code></pre>
-<div><span>1</span><br></div></div><p>查看RVM版本信息，如果可以代表安装成功。</p>
-<div><pre><code>rvm -v
-</code></pre>
-<div><span>1</span><br></div></div><p>查看Ruby版本</p>
-<div><pre><code>rvm list known
-</code></pre>
-<div><span>1</span><br></div></div><p>选定版本进行安装</p>
-<div><pre><code>rvm install 2.5
-</code></pre>
-<div><span>1</span><br></div></div><p>验证版本</p>
-<div><pre><code>ruby -v
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>聊透监控体系，就这一篇够不够？</title>
@@ -39122,6 +39610,25 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 ]]></content:encoded>
     </item>
     <item>
+      <title>第十章 变量处理</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十章 变量处理</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>zabbix-server安装</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</guid>
@@ -39410,65 +39917,6 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 ]]></content:encoded>
     </item>
     <item>
-      <title>zabbix添加报警媒介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>模板导入</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
@@ -39492,511 +39940,29 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>10.2 参数替换</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_2_parameter_substitution/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">10.2 参数替换</source>
+      <title>Zabbix客户端日志出现(Not all processes could be identified）</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Zabbix客户端日志出现(Not all processes could be identified）</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
-<p>参数替换用来处理或扩展变量。</p>
-<h3 id="parameter"> <code>${parameter}</code></h3>
-<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
-<p>可以用于连接变量与字符串。</p>
-<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
-<span>echo</span> <span>"<span>$your_id</span>"</span>
-<span># </span>
-<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
-<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
-<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
+      <content:encoded><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
-<p>在没有设置变量的情况下使用缺省值。</p>
-<div><pre><code><span>var1</span><span>=</span><span>1</span>
-<span>var2</span><span>=</span><span>2</span>
-<span># 没有设置 var3。</span>
-
-<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
-<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
-<span>#           ^          注意前面的 $ 前缀。</span>
-
-
-
-<span>echo</span> <span>${username-`whoami`}</span>
-<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
-</blockquote>
-<div><pre><code><span>#!/bin/bash</span>
-<span># param-sub.sh</span>
-
-<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
-
-<span>username0</span><span>=</span>
-<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
-<span># 将不会输出 `whoami` 的结果。</span>
-
-<span>echo</span>
-
-<span>echo</span> username1 has not been declared.
-<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
-<span># 将会输出 `whoami` 的结果。</span>
-
-<span>username2</span><span>=</span>
-<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
-<span>#                            ^</span>
-<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
-<span># 与上面的 username0 比较。</span>
-
-
-<span># </span>
-
-<span># 再来一次：</span>
-
-<span>variable</span><span>=</span>
-<span># 变量已被声明，但其值为空。</span>
-
-<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
-<span>#               ^</span>
-
-unser variable
-
-<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
-<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
-<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
-<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
-<span># 代码块开始</span>
-<span># ...</span>
-<span># ...</span>
-<span># ...</span>
-<span># 代码块结束</span>
-
-
-
-<span># 摘自样例 "hanoi2.bash"：</span>
-<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
-<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
-<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
-<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
-<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
-<p>在没有设置变量的情况下，将其设置为缺省值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
-<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
-<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
-<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
-<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
-<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param1+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param2</span><span>=</span>
-<span>a</span><span>=</span><span>${param2+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>param3</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param3+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>echo</span>
-<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param5</span><span>=</span>
-<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-<span># 不同于 a=${param5+xyz}</span>
-
-<span>param6</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
-<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
-<p>样例 10-7. 如何使用变量替换和错误信息</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span># 检查系统环境变量。</span>
-<span># 这是一种良好的预防性维护措施。</span>
-<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
-
-<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
-  <span>echo</span> <span>"You are <span>$USER</span>."</span>
-  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
-  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
-  <span>echo</span>
-  <span>echo</span> <span>"If you are reading this message,"</span>
-  <span>echo</span> <span>"critcial environmental variables have been set."</span>
-  <span>echo</span>
-  <span>echo</span>
-  
-<span># ------------------------------------------------------</span>
-
-<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
-
-<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
-<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
-<span>:</span> <span>${ThisVariable?}</span>
-<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-
-<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
-
-<span># 你可以指定错误消息。</span>
-<span># : ${variablename?"ERROR MESSAGE"}</span>
-
-
-<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
-<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span>#</span>
-<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
-
-<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
-
-
-
-<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
-
-<span>HERE</span><span>=</span><span>0</span>
-<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
-
-<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># usage-message.sh</span>
-
-<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
-<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
-<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
-
-<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
-<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
-
-<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
-
-<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
-<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
-<span># 如果没有，那么 "$?" 的结果是1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
-<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
-<h4 id="var"> <code>${#var}</code></h4>
-<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
 <blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 以下情况例外：</p>
-<ul>
-<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
-<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
-</ul>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
 </blockquote>
-<p>样例 10-9. 变量长度</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># length.sh</span>
-
-<span>E_NO_ARGS</span><span>=</span><span>65</span>
-
-<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
-<span>then</span>
-  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
-  <span>exit</span> <span>$E_NO_ARGS</span>
-<span>fi</span>
-
-<span>var01</span><span>=</span>abcdEFGH28ij
-<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
-<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
-<span># 现在我们尝试加入空格。</span>
-<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
-<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
-<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
-
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
-<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
-<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
-<span># 删除传入的参数中的前缀0。</span>
-
-strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
-<span>{</span>                     <span>#+ 前缀0。</span>
-  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
-<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
-<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
-<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
-  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
-  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
-  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
-  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
-                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
-<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
-<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
-<span>echo</span>
-<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
-<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
-<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
-<span>echo</span>
-<span>filename</span><span>=</span>test.data
-<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
-                            <span># 文件扩展名。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
-<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
-<p>样例 10-10. 参数替换中的模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># patt-matching.sh</span>
-
-<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
-
-<span>var1</span><span>=</span>abcd12345abc6789
-<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
-
-<span>echo</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
-<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
-                              <span># （另一种形式）</span>
-<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
-<span>echo</span>
-
-<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
-<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
-<span>#             ^                                           |-|</span>
-<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
-<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
-<span>#             ^                                           |----------|</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
-<span>echo</span>
-<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
-<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
-<span>#             ^                                                    |----|</span>
-<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
-<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
-<span>#             ^                                           |-------------|</span>
-
-<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
-<span>#      % 与 %% 是从右侧开始。</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rfe.sh: 更改文件扩展名。</span>
-<span>#</span>
-<span>#         rfe old_extension new_extension</span>
-<span>#</span>
-<span># 如：</span>
-<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
-<span>#         rfe gif jpg</span>
-
-
-<span>E_BADARGS</span><span>=</span><span>65</span>
-
-<span>case</span> <span>$#</span> <span>in</span>
-  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
-  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
-  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
-  <span>;</span><span>;</span>
-<span>esac</span>
-
-
-<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
-<span># 遍历以第一个参数作为后缀名的文件列表。</span>
-<span>do</span>
-  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
-  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
-<p>下面这些结构采用自 ksh。</p>
-<h4 id="var-pos"> <code>${var:pos}</code></h4>
-<p>扩展为从偏移量 pos 处截取的变量 var。</p>
-<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
-<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
-<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
-<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
-<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
-<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
-<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
-<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
-<p>样例 10-12. 使用模式匹配解析任意字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>var1</span><span>=</span>abcd-1234-defg
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
-
-<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
-<span>#  t=${var1#*-} 效果相同，</span>
-<span>#+ 因为 # 只匹配最短的字符串，</span>
-<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
-<span># （感谢 Stephane Chazelas 指出这一点。）</span>
-
-<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
-<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
-
-
-<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span># -------------------------------------------</span>
-<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
-<span># -------------------------------------------</span>
-<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
-<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
-<span># 在这里与 t=`basename $path_name` 效果相同。</span>
-<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
-<span>#+ 但有时仍旧也会出现问题。</span>
-<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
-<span>#+ 但是上面这种表达式却可以。</span>
-<span># （感谢 S.C.）</span>
-
-<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
-<span># 同 t=`dirname $path_name` 效果相同。</span>
-<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
-<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
-<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
-<span>#+ 事情会变的非常复杂。</span>
-<span># （感谢 S.C.）</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
-<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
-<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
-<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
-<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># var-match.sh:</span>
-<span># 演示在字符串首部或尾部进行模式替换。</span>
-
-<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
-<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
-<span>echo</span>
-
-<span># 在字符串首部进行匹配</span>
-<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span># |-|</span>
-<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
-                        <span># |----|</span>
-                        
-<span># 在字符串尾部进行匹配</span>
-<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span>#              |-|</span>
-<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
-                        <span>#               |----|</span>
-                        
-<span>echo</span>
-
-<span>#  --------------------------------------------</span>
-<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
-<span>#+ 否则将不会发生替换。</span>
-<span>#  --------------------------------------------</span>
-<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
-<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
-<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
-<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
-<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
-<span># 在 Bash 2.04 版本中加入了这个特性。</span>
-
-<span>xyz23</span><span>=</span>whatever
-<span>xyz23</span><span>=</span>
-
-<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
-<span># ^ ^   ^           + 开头变量名。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-
-<span>echo</span> <span>"---"</span>
-
-<span>abc23</span><span>=</span>something_else
-<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
-<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
-<span>echo</span> <span>$c</span>            <span>#  something_else</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
-<section>
-<ol>
-<li id="fn1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
-</li>
-</ol>
-</section>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
 ]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
       <title>关闭被监控端的防火墙</title>
@@ -40033,31 +39999,6 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
 <p>在被监控主机上增加宏设置
 加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>Zabbix客户端日志出现(Not all processes could be identified）</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Zabbix客户端日志出现(Not all processes could be identified）</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -40137,6 +40078,141 @@ will not be shown, you would have to be root to see it all.)
 <p>正常模式下 :f 或CTRL+G</p>
 <h2 id="vim粘贴"> vim粘贴</h2>
 <p>要粘贴时：set paste</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Template DB MySQL简介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Template DB MySQL简介</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
+<h3 id="应用集"> 应用集</h3>
+<p>MySQL</p>
+<h3 id="监控项"> 监控项</h3>
+<ol>
+<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
+<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
+<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
+<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
+<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
+<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
+<li>MySQL queries per second（MySQL每秒查询）</li>
+<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
+<li>MySQL select operations per second（MySQL每秒选择操作）</li>
+<li>MySQL slow queries（MySQL慢查询）</li>
+<li>MySQL status（MySQL的存活状态）</li>
+<li>MySQL update operations per second（MySQL每秒更新操作）</li>
+<li>MySQL uptime（MySQL正常运行时间）</li>
+<li>MySQL version（MySQL的版本信息）</li>
+</ol>
+<h3 id="触发器"> 触发器</h3>
+<p>MySQL is down</p>
+<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
+<h3 id="图形"> 图形</h3>
+<ol>
+<li>MySQL operations（MySQL业务操作）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
+<ol start="2">
+<li>MySQL bandwidth（MySQL带宽）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
+<h3 id="聚合图形"> 聚合图形</h3>
+<p>MySQL performance（MySQL性能）</p>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
+<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
+<h3 id="mysql监控授权"> MySQL监控授权</h3>
+<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
+<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
+&gt; flush privileges;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
+<ol>
+<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
+</ol>
+<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
+[mysql]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
+[mysqladmin]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
+<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
+</ul>
+<ol start="2">
+<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
+</ol>
+<div><pre><code>#vim userparameter_mysql.conf
+</code></pre>
+<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<h3 id="重启agent服务"> 重启agent服务</h3>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
+<p><img src="images/mysqlweb.png" alt=""></p>
+<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
+<h3 id="主从状态监控"> 主从状态监控</h3>
+<ol>
+<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
+</ol>
+<p>vim mysql_slave.sh</p>
+<div><pre><code>#!/usr/bin/env bash
+user=&#39;monitor&#39;
+passwd=
+# Seconds_Behind_Master 阈值
+tho=1000
+
+# rs为Yes成功数,sbr为同步时间差
+rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
+sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
+
+# 判断主从状态是否正常,0代表正常,1代表异常
+if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
+    echo 0
+else
+    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
+    echo 1
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
+<li>在zabbix_agentd.conf中添加自定义key</li>
+</ol>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><ol start="4">
+<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
+</ol>
+<ul>
+<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
+</ul>
+<h2 id="连接数监控"> 连接数监控</h2>
+<ol>
+<li>在zabbix_agentd.conf中添加自定义key</li>
+</ol>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>添加监控项和触发器</li>
+</ol>
 ]]></content:encoded>
     </item>
     <item>
@@ -41482,6 +41558,130 @@ nodes (check with CLUSTER NODES) or contains some key in database 0.
       <enclosure url="https://vuepress-theme-hope-demo.mrhope.site/images/redis1.png" type="image/png"/>
     </item>
     <item>
+      <title>docker搭建redis集群</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">docker搭建redis集群</source>
+      <pubDate>Sun, 17 Sep 2017 21:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>docker搭建redis集群</p>
+
+<h2 id="下载镜像"> 下载镜像</h2>
+<div><pre><code>docker pull redis
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
+<div><pre><code>mkdir /home/docker/redis/  
+wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
+cd /home/docker/redis/  
+sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
+<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
+<div><pre><code>redis-cli 
+127.0.0.1:6379&gt; info
+# Server
+redis_version:3.0.6
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:48bba53ba79f07ac
+redis_mode:standalone
+os:Linux 3.13.0-27-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.9.2
+process_id:1
+run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
+tcp_port:6379
+uptime_in_seconds:21554
+uptime_in_days:0
+hz:10
+lru_clock:10637013
+config_file:
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:1926248
+used_memory_human:1.84M
+used_memory_rss:4419584
+used_memory_peak:1963096
+used_memory_peak_human:1.87M
+used_memory_lua:36864
+mem_fragmentation_ratio:2.29
+mem_allocator:jemalloc-3.6.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1453456066
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+# Stats
+total_connections_received:5
+total_commands_processed:64476
+instantaneous_ops_per_sec:3
+total_net_input_bytes:2426080
+total_net_output_bytes:92455
+instantaneous_input_kbps:0.14
+instantaneous_output_kbps:0.02
+rejected_connections:0
+sync_full:3
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:222
+migrate_cached_sockets:0
+
+# Replication
+role:master
+connected_slaves:3
+slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
+slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
+slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
+master_repl_offset:30101
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:2
+repl_backlog_histlen:30100
+
+# CPU
+used_cpu_sys:7.37
+used_cpu_user:5.34
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>sed命令详解</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/</guid>
@@ -41839,130 +42039,6 @@ sed -n &#39;2~2p&#39; test.txt  #偶数行
 <p>https://qianngchn.github.io/wiki/4.html#s%E5%91%BD%E4%BB%A4</p>
 <p>http://man.linuxde.net/sed</p>
 <p>https://www.cnblogs.com/edwardlost/archive/2010/09/17/1829145.html</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>docker搭建redis集群</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">docker搭建redis集群</source>
-      <pubDate>Sun, 17 Sep 2017 21:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>docker搭建redis集群</p>
-
-<h2 id="下载镜像"> 下载镜像</h2>
-<div><pre><code>docker pull redis
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
-<div><pre><code>mkdir /home/docker/redis/  
-wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
-cd /home/docker/redis/  
-sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
-<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
-<div><pre><code>redis-cli 
-127.0.0.1:6379&gt; info
-# Server
-redis_version:3.0.6
-redis_git_sha1:00000000
-redis_git_dirty:0
-redis_build_id:48bba53ba79f07ac
-redis_mode:standalone
-os:Linux 3.13.0-27-generic x86_64
-arch_bits:64
-multiplexing_api:epoll
-gcc_version:4.9.2
-process_id:1
-run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
-tcp_port:6379
-uptime_in_seconds:21554
-uptime_in_days:0
-hz:10
-lru_clock:10637013
-config_file:
-
-# Clients
-connected_clients:1
-client_longest_output_list:0
-client_biggest_input_buf:0
-blocked_clients:0
-
-# Memory
-used_memory:1926248
-used_memory_human:1.84M
-used_memory_rss:4419584
-used_memory_peak:1963096
-used_memory_peak_human:1.87M
-used_memory_lua:36864
-mem_fragmentation_ratio:2.29
-mem_allocator:jemalloc-3.6.0
-
-# Persistence
-loading:0
-rdb_changes_since_last_save:0
-rdb_bgsave_in_progress:0
-rdb_last_save_time:1453456066
-rdb_last_bgsave_status:ok
-rdb_last_bgsave_time_sec:0
-rdb_current_bgsave_time_sec:-1
-aof_enabled:0
-aof_rewrite_in_progress:0
-aof_rewrite_scheduled:0
-aof_last_rewrite_time_sec:-1
-aof_current_rewrite_time_sec:-1
-aof_last_bgrewrite_status:ok
-aof_last_write_status:ok
-
-# Stats
-total_connections_received:5
-total_commands_processed:64476
-instantaneous_ops_per_sec:3
-total_net_input_bytes:2426080
-total_net_output_bytes:92455
-instantaneous_input_kbps:0.14
-instantaneous_output_kbps:0.02
-rejected_connections:0
-sync_full:3
-sync_partial_ok:0
-sync_partial_err:0
-expired_keys:0
-evicted_keys:0
-keyspace_hits:0
-keyspace_misses:0
-pubsub_channels:0
-pubsub_patterns:0
-latest_fork_usec:222
-migrate_cached_sockets:0
-
-# Replication
-role:master
-connected_slaves:3
-slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
-slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
-slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
-master_repl_offset:30101
-repl_backlog_active:1
-repl_backlog_size:1048576
-repl_backlog_first_byte_offset:2
-repl_backlog_histlen:30100
-
-# CPU
-used_cpu_sys:7.37
-used_cpu_user:5.34
-used_cpu_sys_children:0.00
-used_cpu_user_children:0.00
-
-# Cluster
-cluster_enabled:0
-
-# Keyspace
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -42452,94 +42528,6 @@ drwxrwxr-x 2 root root   4096 11-13 05:50 test4
 ]]></content:encoded>
     </item>
     <item>
-      <title>每天一个linux命令（29）-chown</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（29）-chown</source>
-      <pubDate>Fri, 27 Jul 2018 18:58:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>chown(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
--f或--quite或——silent：不显示错误信息；
--h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
--R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
--v或——version：显示指令执行过程；
---dereference：效果和“-h”参数相同；
---help：在线帮助；
---reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
-文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
-<h2 id="功能"> 功能</h2>
-<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）<strong>改变拥有者和群组</strong></p>
-<div><pre><code># ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root users 302108 11-30 08:39 log2012.log
-# chown mail:mail log2012.log 
-# ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
-<div><pre><code>ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-# chown root: log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root root  302108 11-30 08:39 log2012.log
-# chown :mail log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
-<div><pre><code># ll
-drwxr-xr-x 2 root users   4096 11-30 08:39 test6
-# chown -R -v root:mail test6
-“test6/log2014.log” 的所有者已更改为 root:mail
-“test6/linklog.log” 的所有者已更改为 root:mail
-“test6/log2015.log” 的所有者已更改为 root:mail
-“test6/log2013.log” 的所有者已更改为 root:mail
-“test6/log2012.log” 的所有者已保留为 root:mail
-“test6/log2017.log” 的所有者已更改为 root:mail
-“test6/log2016.log” 的所有者已更改为 root:mail
-“test6” 的所有者已更改为 root:mail
-# ll
-drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
-# cd test6
-# ll
-总计 604
----xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
-<p>http://man.linuxde.net/chown</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（33）-du</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</guid>
@@ -42663,6 +42651,94 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
 <p>http://man.linuxde.net/du</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>每天一个linux命令（29）-chown</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（29）-chown</source>
+      <pubDate>Fri, 27 Jul 2018 18:58:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>chown(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
+-f或--quite或——silent：不显示错误信息；
+-h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
+-R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
+-v或——version：显示指令执行过程；
+--dereference：效果和“-h”参数相同；
+--help：在线帮助；
+--reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
+文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
+<h2 id="功能"> 功能</h2>
+<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）<strong>改变拥有者和群组</strong></p>
+<div><pre><code># ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root users 302108 11-30 08:39 log2012.log
+# chown mail:mail log2012.log 
+# ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
+<div><pre><code>ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+# chown root: log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root root  302108 11-30 08:39 log2012.log
+# chown :mail log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
+<div><pre><code># ll
+drwxr-xr-x 2 root users   4096 11-30 08:39 test6
+# chown -R -v root:mail test6
+“test6/log2014.log” 的所有者已更改为 root:mail
+“test6/linklog.log” 的所有者已更改为 root:mail
+“test6/log2015.log” 的所有者已更改为 root:mail
+“test6/log2013.log” 的所有者已更改为 root:mail
+“test6/log2012.log” 的所有者已保留为 root:mail
+“test6/log2017.log” 的所有者已更改为 root:mail
+“test6/log2016.log” 的所有者已更改为 root:mail
+“test6” 的所有者已更改为 root:mail
+# ll
+drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
+# cd test6
+# ll
+总计 604
+---xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
+<p>http://man.linuxde.net/chown</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -47058,141 +47134,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>Template DB MySQL简介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Template DB MySQL简介</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
-<h3 id="应用集"> 应用集</h3>
-<p>MySQL</p>
-<h3 id="监控项"> 监控项</h3>
-<ol>
-<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
-<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
-<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
-<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
-<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
-<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
-<li>MySQL queries per second（MySQL每秒查询）</li>
-<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
-<li>MySQL select operations per second（MySQL每秒选择操作）</li>
-<li>MySQL slow queries（MySQL慢查询）</li>
-<li>MySQL status（MySQL的存活状态）</li>
-<li>MySQL update operations per second（MySQL每秒更新操作）</li>
-<li>MySQL uptime（MySQL正常运行时间）</li>
-<li>MySQL version（MySQL的版本信息）</li>
-</ol>
-<h3 id="触发器"> 触发器</h3>
-<p>MySQL is down</p>
-<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
-<h3 id="图形"> 图形</h3>
-<ol>
-<li>MySQL operations（MySQL业务操作）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
-<ol start="2">
-<li>MySQL bandwidth（MySQL带宽）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
-<h3 id="聚合图形"> 聚合图形</h3>
-<p>MySQL performance（MySQL性能）</p>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
-<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
-<h3 id="mysql监控授权"> MySQL监控授权</h3>
-<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
-<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
-&gt; flush privileges;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
-<ol>
-<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
-</ol>
-<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
-[mysql]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-[mysqladmin]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
-<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
-</ul>
-<ol start="2">
-<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
-</ol>
-<div><pre><code>#vim userparameter_mysql.conf
-</code></pre>
-<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
-<h3 id="重启agent服务"> 重启agent服务</h3>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
-<p><img src="images/mysqlweb.png" alt=""></p>
-<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
-<h3 id="主从状态监控"> 主从状态监控</h3>
-<ol>
-<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
-</ol>
-<p>vim mysql_slave.sh</p>
-<div><pre><code>#!/usr/bin/env bash
-user=&#39;monitor&#39;
-passwd=
-# Seconds_Behind_Master 阈值
-tho=1000
-
-# rs为Yes成功数,sbr为同步时间差
-rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
-sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
-
-# 判断主从状态是否正常,0代表正常,1代表异常
-if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
-    echo 0
-else
-    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
-    echo 1
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
-</code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>重启agent服务</li>
-</ol>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><ol start="4">
-<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
-</ol>
-<ul>
-<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
-</ul>
-<h2 id="连接数监控"> 连接数监控</h2>
-<ol>
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>重启agent服务</li>
-</ol>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>添加监控项和触发器</li>
-</ol>
-]]></content:encoded>
-    </item>
-    <item>
       <title>10.1 字符串处理</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</guid>
@@ -47642,6 +47583,65 @@ test2 is <span>'value2'</span>
 </li>
 </ol>
 </section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>zabbix添加报警媒介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
 ]]></content:encoded>
     </item>
   </channel>
