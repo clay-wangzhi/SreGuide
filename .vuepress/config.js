@@ -100,7 +100,7 @@ module.exports = config({
           title: "第一部分 初见shell",
           path: "part1/",
           collapsable: false,
-          children: ["01-shell-programming", "02_starting_off_with_a_sha_bang", "02_1_invoking_the_script", "02_2_preliminary_exercises",],
+          children: ["shell-programming", "02_starting_off_with_a_sha_bang", "02_1_invoking_the_script", "02_2_preliminary_exercises",],
         },
 		"part6",
       ],		
