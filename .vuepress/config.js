@@ -48,6 +48,24 @@ module.exports = config({
 
     nav: [
       { text: "博客主页", link: "/", icon: "home" },
+	  {
+        text: "学习笔记",
+        icon: "code",
+        items: [
+        { text: "编程语言",
+          items: [
+          { text: "Python", icon: "python", link: "/code/python/" },
+          { text: "Golang", icon: "go", link: "/code/golang/" },
+          ],
+        },
+        { text: "开发框架",
+          items: [
+          { text: "Django", icon: "django", link: "/code/django/" },
+          { text: "Beego", icon: "beego", link: "/code/beego/" },
+          ],
+        },
+        ],
+      },
       {
         text: "容器",
         icon: "kubernetes",
@@ -66,9 +84,9 @@ module.exports = config({
           { text: "Golang", icon: "go", link: "/code/golang/" },
           ],
         },
-        { text: "开发框架",
+        { text: "自动化工具",
           items: [
-          { text: "Django", icon: "django", link: "/code/django/" },
+          { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
           { text: "Beego", icon: "beego", link: "/code/beego/" },
           ],
         },
