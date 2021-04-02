@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 02 Apr 2021 08:02:08 GMT</pubDate>
-    <lastBuildDate>Fri, 02 Apr 2021 08:02:08 GMT</lastBuildDate>
+    <pubDate>Fri, 02 Apr 2021 08:06:25 GMT</pubDate>
+    <lastBuildDate>Fri, 02 Apr 2021 08:06:25 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -25183,139 +25183,6 @@ false &amp;&amp; ( true || echo false )     # (什么都不显示)
 ]]></content:encoded>
     </item>
     <item>
-      <title>30 网络编程</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/30_network_programming/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/30_network_programming/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">30 网络编程</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_30-网络编程"> 30 网络编程</h1>
-<blockquote>The Net's a cross between an elephant and a white elephant sale: it never forgets, and it's always crap.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--Nemo</blockquote>
-<p>Linux系统拥有一系列的工具，用于访问、操作和调解网络连接。我们能够把其中的一部分工具整合到脚本中 -- 这些脚本能扩展我们对网络的认知，有用的脚本还能方便网络管理。</p>
-<p>以下是一个简单的CGI脚本，阐述如何连接到远程服务器。</p>
-<p>例子 30-1. 打印服务器环境</p>
-<div><pre><code>#!/bin/bash
-# test-cgi.sh
-# by Michael Zick
-# Used with permission
-
-# 您应该根据您的情况修改相应的Bash路径
-# （在ISP的服务器中，Bash一般不会放在正常的位置）
-# 其他位置： /usr/bin 或者 /usr/local/bin
-# 甚至应该在sha-bang中不用任何路径运行它
-
-# 取消通配符
-set -f
-
-# Http Header（译者注：此头信息是告诉浏览器服务器返回的内容格式）
-echo Content-type: text/plain
-echo
-
-echo CGI/1.0 test script report:
-echo
-
-echo environment settings:
-set
-echo
-
-echo whereis bash?
-whereis bash
-echo
-
-
-echo who are we?
-echo ${BASH_VERSINFO[*]}
-echo
-
-echo argc is $#. argv is &quot;$*&quot;.
-echo
-
-# CGI/1.0 预期的环境变量。
-
-echo SERVER_SOFTWARE = $SERVER_SOFTWARE
-echo SERVER_NAME = $SERVER_NAME
-echo GATEWAY_INTERFACE = $GATEWAY_INTERFACE
-echo SERVER_PROTOCOL = $SERVER_PROTOCOL
-echo SERVER_PORT = $SERVER_PORT
-echo REQUEST_METHOD = $REQUEST_METHOD
-echo HTTP_ACCEPT = &quot;$HTTP_ACCEPT&quot;
-echo PATH_INFO = &quot;$PATH_INFO&quot;
-echo PATH_TRANSLATED = &quot;$PATH_TRANSLATED&quot;
-echo SCRIPT_NAME = &quot;$SCRIPT_NAME&quot;
-echo QUERY_STRING = &quot;$QUERY_STRING&quot;
-echo REMOTE_HOST = $REMOTE_HOST
-echo REMOTE_ADDR = $REMOTE_ADDR
-echo REMOTE_USER = $REMOTE_USER
-echo AUTH_TYPE = $AUTH_TYPE
-echo CONTENT_TYPE = $CONTENT_TYPE
-echo CONTENT_LENGTH = $CONTENT_LENGTH
-
-exit 0
-
-# 在这里，文档给出一些简短的指令。
-:&lt;&lt;-&#39;_test_CGI_&#39;
-
-1) 将此文档放到http://domain.name/cgi-bin的目录。
-2) 然后，访问http://domain.name/cgi-bin/test-cgi.sh.
-
-_test_CGI_
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br></div></div><p>出于安全的考虑，确认连接计算机的IP地址是有用的。
-例子 30-2. IP地址</p>
-<div><pre><code>#!/bin/bash
-# ip-addresses.sh
-# 列出您的计算机所连接的IP地址。
-
-#  受Greg Bledsoe的ddos.sh脚本所启发，
-#  Linux Journal，2011年3月9号。
-#    URL:
-#  http://www.linuxjournal.com/content/back-dead-simple-bash-complex-ddos
-#  Greg licensed his script under the GPL2,
-#+ and as a derivative, this script is likewise GPL2.
-
-connection_type=TCP      # 也可以使用UDP
-field=2           # Which field of the output we&#39;re interested in.
-no_match=LISTEN   # 过滤出包含此字符串的记录，为什么？
-lsof_args=-ni     # -i 列出互联网相关的文件。
-                  # -n 使用数值IP地址。
-		  # 如果不使用-n选项，会发生什么情况？试试看。
-router=&quot;[0-9][0-9][0-9][0-9][0-9]-&gt;&quot;
-#       删除路由信息。
-
-lsof &quot;$lsof_args&quot; | grep $connection_type | grep -v &quot;$no_match&quot; |
-      awk &#39;{print $9}&#39; | cut -d : -f $field | sort | uniq |
-      sed s/&quot;^$router&quot;//
-
-#  Bledsoe的脚本将过滤出的IP地址结果赋给一个变量（类似上面的19行到22行）。
-#  他检查连接到一个IP地址的多个连接，
-#  使用：
-#
-#    iptables -I INPUT -s $ip -p tcp -j REJECT --reject-with tcp-reset
-#
-#  ... 在每一次的60秒延迟循环中，拒绝来自DDOS攻击的数据包。
-
-
-#  练习：
-#  --------
-#  使用&#39;iptable&#39;命令扩展这个脚本
-#+ 来拒绝一些来自垃圾邮件发送者的IP域名的连接请求。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><hr>
-<p>更多网络编程的例子：</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NPREF" target="_blank" rel="noopener noreferrer">Getting the time from nist.gov</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NW001" target="_blank" rel="noopener noreferrer">Downloading a URL</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/system.html#IPSCRIPT0" target="_blank" rel="noopener noreferrer">A GRE tunnel</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/communications.html#PING0" target="_blank" rel="noopener noreferrer">Checking if an Internet server is up</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/communications.html#ISSPAMMER" target="_blank" rel="noopener noreferrer">例子 16-41</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">例子 A-28</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#WHX" target="_blank" rel="noopener noreferrer">例子 A-29</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#DEVTCP" target="_blank" rel="noopener noreferrer">例子 29-1</a></li>
-</ul>
-<p>更多资料请看<a href="http://tldp.org/LDP/abs/html/system.html" target="_blank" rel="noopener noreferrer">《System and Administrative Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/system.html#NETWORKSYS1" target="_blank" rel="noopener noreferrer">“网络命令”</a>，以及<a href="http://tldp.org/LDP/abs/html/external.html" target="_blank" rel="noopener noreferrer">《External Filters, Programs and Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/communications.html" target="_blank" rel="noopener noreferrer">“通信命令”</a>。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>27 数组</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/27_arrays/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/27_arrays/</guid>
@@ -26875,6 +26742,139 @@ exit 0
 </ul>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>30 网络编程</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/30_network_programming/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/30_network_programming/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">30 网络编程</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_30-网络编程"> 30 网络编程</h1>
+<blockquote>The Net's a cross between an elephant and a white elephant sale: it never forgets, and it's always crap.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--Nemo</blockquote>
+<p>Linux系统拥有一系列的工具，用于访问、操作和调解网络连接。我们能够把其中的一部分工具整合到脚本中 -- 这些脚本能扩展我们对网络的认知，有用的脚本还能方便网络管理。</p>
+<p>以下是一个简单的CGI脚本，阐述如何连接到远程服务器。</p>
+<p>例子 30-1. 打印服务器环境</p>
+<div><pre><code>#!/bin/bash
+# test-cgi.sh
+# by Michael Zick
+# Used with permission
+
+# 您应该根据您的情况修改相应的Bash路径
+# （在ISP的服务器中，Bash一般不会放在正常的位置）
+# 其他位置： /usr/bin 或者 /usr/local/bin
+# 甚至应该在sha-bang中不用任何路径运行它
+
+# 取消通配符
+set -f
+
+# Http Header（译者注：此头信息是告诉浏览器服务器返回的内容格式）
+echo Content-type: text/plain
+echo
+
+echo CGI/1.0 test script report:
+echo
+
+echo environment settings:
+set
+echo
+
+echo whereis bash?
+whereis bash
+echo
+
+
+echo who are we?
+echo ${BASH_VERSINFO[*]}
+echo
+
+echo argc is $#. argv is &quot;$*&quot;.
+echo
+
+# CGI/1.0 预期的环境变量。
+
+echo SERVER_SOFTWARE = $SERVER_SOFTWARE
+echo SERVER_NAME = $SERVER_NAME
+echo GATEWAY_INTERFACE = $GATEWAY_INTERFACE
+echo SERVER_PROTOCOL = $SERVER_PROTOCOL
+echo SERVER_PORT = $SERVER_PORT
+echo REQUEST_METHOD = $REQUEST_METHOD
+echo HTTP_ACCEPT = &quot;$HTTP_ACCEPT&quot;
+echo PATH_INFO = &quot;$PATH_INFO&quot;
+echo PATH_TRANSLATED = &quot;$PATH_TRANSLATED&quot;
+echo SCRIPT_NAME = &quot;$SCRIPT_NAME&quot;
+echo QUERY_STRING = &quot;$QUERY_STRING&quot;
+echo REMOTE_HOST = $REMOTE_HOST
+echo REMOTE_ADDR = $REMOTE_ADDR
+echo REMOTE_USER = $REMOTE_USER
+echo AUTH_TYPE = $AUTH_TYPE
+echo CONTENT_TYPE = $CONTENT_TYPE
+echo CONTENT_LENGTH = $CONTENT_LENGTH
+
+exit 0
+
+# 在这里，文档给出一些简短的指令。
+:&lt;&lt;-&#39;_test_CGI_&#39;
+
+1) 将此文档放到http://domain.name/cgi-bin的目录。
+2) 然后，访问http://domain.name/cgi-bin/test-cgi.sh.
+
+_test_CGI_
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br></div></div><p>出于安全的考虑，确认连接计算机的IP地址是有用的。
+例子 30-2. IP地址</p>
+<div><pre><code>#!/bin/bash
+# ip-addresses.sh
+# 列出您的计算机所连接的IP地址。
+
+#  受Greg Bledsoe的ddos.sh脚本所启发，
+#  Linux Journal，2011年3月9号。
+#    URL:
+#  http://www.linuxjournal.com/content/back-dead-simple-bash-complex-ddos
+#  Greg licensed his script under the GPL2,
+#+ and as a derivative, this script is likewise GPL2.
+
+connection_type=TCP      # 也可以使用UDP
+field=2           # Which field of the output we&#39;re interested in.
+no_match=LISTEN   # 过滤出包含此字符串的记录，为什么？
+lsof_args=-ni     # -i 列出互联网相关的文件。
+                  # -n 使用数值IP地址。
+		  # 如果不使用-n选项，会发生什么情况？试试看。
+router=&quot;[0-9][0-9][0-9][0-9][0-9]-&gt;&quot;
+#       删除路由信息。
+
+lsof &quot;$lsof_args&quot; | grep $connection_type | grep -v &quot;$no_match&quot; |
+      awk &#39;{print $9}&#39; | cut -d : -f $field | sort | uniq |
+      sed s/&quot;^$router&quot;//
+
+#  Bledsoe的脚本将过滤出的IP地址结果赋给一个变量（类似上面的19行到22行）。
+#  他检查连接到一个IP地址的多个连接，
+#  使用：
+#
+#    iptables -I INPUT -s $ip -p tcp -j REJECT --reject-with tcp-reset
+#
+#  ... 在每一次的60秒延迟循环中，拒绝来自DDOS攻击的数据包。
+
+
+#  练习：
+#  --------
+#  使用&#39;iptable&#39;命令扩展这个脚本
+#+ 来拒绝一些来自垃圾邮件发送者的IP域名的连接请求。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><hr>
+<p>更多网络编程的例子：</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NPREF" target="_blank" rel="noopener noreferrer">Getting the time from nist.gov</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NW001" target="_blank" rel="noopener noreferrer">Downloading a URL</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/system.html#IPSCRIPT0" target="_blank" rel="noopener noreferrer">A GRE tunnel</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/communications.html#PING0" target="_blank" rel="noopener noreferrer">Checking if an Internet server is up</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/communications.html#ISSPAMMER" target="_blank" rel="noopener noreferrer">例子 16-41</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">例子 A-28</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#WHX" target="_blank" rel="noopener noreferrer">例子 A-29</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#DEVTCP" target="_blank" rel="noopener noreferrer">例子 29-1</a></li>
+</ul>
+<p>更多资料请看<a href="http://tldp.org/LDP/abs/html/system.html" target="_blank" rel="noopener noreferrer">《System and Administrative Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/system.html#NETWORKSYS1" target="_blank" rel="noopener noreferrer">“网络命令”</a>，以及<a href="http://tldp.org/LDP/abs/html/external.html" target="_blank" rel="noopener noreferrer">《External Filters, Programs and Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/communications.html" target="_blank" rel="noopener noreferrer">“通信命令”</a>。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>32 调试</title>
@@ -34708,6 +34708,48 @@ e) redis-check-rdb  RDB文件检索工具</p>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>配置</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.2%20%E9%85%8D%E7%BD%AE/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.2%20%E9%85%8D%E7%BD%AE/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">配置</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="配置"> 配置</h1>
+<p>Redis的配置信息在/etc/redis/redis.conf下。
+查看</p>
+<div><pre><code>sudo vi /etc/redis/redis.conf
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="核心配置选项"> 核心配置选项</h2>
+<p>绑定ip：如果需要远程访问，可将此⾏注释，或绑定⼀个真实ip</p>
+<div><pre><code>bind 127.0.0.1
+</code></pre>
+<div><span>1</span><br></div></div><p>端⼝，默认为6379</p>
+<div><pre><code>port 6379
+</code></pre>
+<div><span>1</span><br></div></div><p>是否以守护进程运⾏
+a) 如果以守护进程运⾏，则不会在命令⾏阻塞，类似于服务
+b) 如果以⾮守护进程运⾏，则当前终端被阻塞
+c) 设置为yes表示守护进程，设置为no表示⾮守护进程
+d) 推荐设置为yes</p>
+<div><pre><code>daemonize yes
+</code></pre>
+<div><span>1</span><br></div></div><p>数据⽂件</p>
+<div><pre><code>dbfilename dump.rdb
+</code></pre>
+<div><span>1</span><br></div></div><p>数据⽂件存储路径</p>
+<div><pre><code>dir /var/lib/redis
+</code></pre>
+<div><span>1</span><br></div></div><p>⽇志⽂件</p>
+<div><pre><code>logfile /var/log/redis/redis-server.log
+</code></pre>
+<div><span>1</span><br></div></div><p>数据库，默认有16个</p>
+<div><pre><code>database 16
+</code></pre>
+<div><span>1</span><br></div></div><p>主从复制，类似于双机备份。</p>
+<div><pre><code>slaveof
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>服务器端</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</guid>
@@ -34751,46 +34793,56 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>配置</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.2%20%E9%85%8D%E7%BD%AE/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.2%20%E9%85%8D%E7%BD%AE/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">配置</source>
+      <title>string类型</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">string类型</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="配置"> 配置</h1>
-<p>Redis的配置信息在/etc/redis/redis.conf下。
-查看</p>
-<div><pre><code>sudo vi /etc/redis/redis.conf
+      <content:encoded><![CDATA[<h1 id="string类型"> string类型</h1>
+<p>字符串类型是Redis中最为基础的数据存储类型，该类型可以接受任何格式的数据，如JPEG图像数据或Json对象描述信息等。在Redis中字符串类型的Value最多可以容纳的数据长度是512M。</p>
+<h2 id="保存"> 保存</h2>
+<p>如果设置的键不存在则为添加，如果设置的键已经存在则修改</p>
+<ul>
+<li>设置键值</li>
+</ul>
+<div><pre><code>set key value
 </code></pre>
-<div><span>1</span><br></div></div><h2 id="核心配置选项"> 核心配置选项</h2>
-<p>绑定ip：如果需要远程访问，可将此⾏注释，或绑定⼀个真实ip</p>
-<div><pre><code>bind 127.0.0.1
+<div><span>1</span><br></div></div><ul>
+<li>设置键值及过期时间，以秒为单位</li>
+</ul>
+<div><pre><code>setex key seconds value
 </code></pre>
-<div><span>1</span><br></div></div><p>端⼝，默认为6379</p>
-<div><pre><code>port 6379
+<div><span>1</span><br></div></div><ul>
+<li>设置多个键值</li>
+</ul>
+<div><pre><code>mset key1 value1 key2 value2 ...
 </code></pre>
-<div><span>1</span><br></div></div><p>是否以守护进程运⾏
-a) 如果以守护进程运⾏，则不会在命令⾏阻塞，类似于服务
-b) 如果以⾮守护进程运⾏，则当前终端被阻塞
-c) 设置为yes表示守护进程，设置为no表示⾮守护进程
-d) 推荐设置为yes</p>
-<div><pre><code>daemonize yes
+<div><span>1</span><br></div></div><ul>
+<li>追加值</li>
+</ul>
+<div><pre><code>append key value
 </code></pre>
-<div><span>1</span><br></div></div><p>数据⽂件</p>
-<div><pre><code>dbfilename dump.rdb
+<div><span>1</span><br></div></div><h2 id="中文乱码问题的解决"> 中文乱码问题的解决</h2>
+<p>a) 退出redis客户端</p>
+<div><pre><code>Exit
 </code></pre>
-<div><span>1</span><br></div></div><p>数据⽂件存储路径</p>
-<div><pre><code>dir /var/lib/redis
+<div><span>1</span><br></div></div><p>b) 再次进图redis客户端</p>
+<div><pre><code>Redis-cli --raw
 </code></pre>
-<div><span>1</span><br></div></div><p>⽇志⽂件</p>
-<div><pre><code>logfile /var/log/redis/redis-server.log
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取：根据键获取值，如果不存在此键则返回nil</li>
+</ul>
+<div><pre><code>get key
 </code></pre>
-<div><span>1</span><br></div></div><p>数据库，默认有16个</p>
-<div><pre><code>database 16
+<div><span>1</span><br></div></div><ul>
+<li>根据多个键获取多个值</li>
+</ul>
+<div><pre><code>mget key1 key2 ...
 </code></pre>
-<div><span>1</span><br></div></div><p>主从复制，类似于双机备份。</p>
-<div><pre><code>slaveof
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<p>详⻅下节键的操作，删除键时会将值删除</p>
+]]></content:encoded>
     </item>
     <item>
       <title>键命令</title>
@@ -34890,58 +34942,6 @@ d) 推荐设置为yes</p>
 <div><pre><code>hdel key field1 field2 ...
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>string类型</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">string类型</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="string类型"> string类型</h1>
-<p>字符串类型是Redis中最为基础的数据存储类型，该类型可以接受任何格式的数据，如JPEG图像数据或Json对象描述信息等。在Redis中字符串类型的Value最多可以容纳的数据长度是512M。</p>
-<h2 id="保存"> 保存</h2>
-<p>如果设置的键不存在则为添加，如果设置的键已经存在则修改</p>
-<ul>
-<li>设置键值</li>
-</ul>
-<div><pre><code>set key value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置键值及过期时间，以秒为单位</li>
-</ul>
-<div><pre><code>setex key seconds value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个键值</li>
-</ul>
-<div><pre><code>mset key1 value1 key2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>追加值</li>
-</ul>
-<div><pre><code>append key value
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="中文乱码问题的解决"> 中文乱码问题的解决</h2>
-<p>a) 退出redis客户端</p>
-<div><pre><code>Exit
-</code></pre>
-<div><span>1</span><br></div></div><p>b) 再次进图redis客户端</p>
-<div><pre><code>Redis-cli --raw
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取：根据键获取值，如果不存在此键则返回nil</li>
-</ul>
-<div><pre><code>get key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>根据多个键获取多个值</li>
-</ul>
-<div><pre><code>mget key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<p>详⻅下节键的操作，删除键时会将值删除</p>
-]]></content:encoded>
     </item>
     <item>
       <title>list类型</title>
@@ -35535,6 +35535,34 @@ curl -sSL https://get.rvm.io | bash -s stable
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>redis-dump方式导入导出数据</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">redis-dump方式导入导出数据</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
+<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div><pre><code>gem install redis-dump -V
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
+<p>示例</p>
+<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
+<p>示例</p>
+<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div><pre><code>&lt; test1.json redis-load
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div><pre><code>&lt; test.json redis-load -n 
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>Redis是什么</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/redis%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/redis%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
@@ -35685,34 +35713,6 @@ curl -sSL https://get.rvm.io | bash -s stable
 <h2 id="redis集群如何选择数据库"> Redis集群如何选择数据库</h2>
 <p>Redis集群目前无法做数据库选择，默认在0数据库。</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>redis-dump方式导入导出数据</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">redis-dump方式导入导出数据</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
-<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
-<p>安装ruby（略）,详见上一章节</p>
-<div><pre><code>gem install redis-dump -V
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
-<p>示例</p>
-<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
-<p>示例</p>
-<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
-<div><pre><code>&lt; test1.json redis-load
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
-<p>-n （以二进制形式导入）</p>
-<div><pre><code>&lt; test.json redis-load -n 
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>由来</title>
@@ -37345,80 +37345,6 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 ]]></content:encoded>
     </item>
     <item>
-      <title>正排与倒排索引</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.3%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%85%A5%E9%97%A8/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.3%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%85%A5%E9%97%A8/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">正排与倒排索引</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="images/1568083459813.png" alt=""></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="images/1568083528241.png" alt=""></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="images/1568084661010.png" alt=""></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="images/1568085534232.png" alt=""></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Analysis</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.4%20%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%E5%99%A8%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.4%20%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%E5%99%A8%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D/</guid>
@@ -37499,6 +37425,80 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 ]]></content:encoded>
     </item>
     <item>
+      <title>正排与倒排索引</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.3%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%85%A5%E9%97%A8/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.3%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%85%A5%E9%97%A8/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">正排与倒排索引</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="images/1568083459813.png" alt=""></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="images/1568083528241.png" alt=""></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="images/1568084661010.png" alt=""></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="images/1568085534232.png" alt=""></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Search API</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.5%20Search%20API%E6%A6%82%E8%A7%88/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.5%20Search%20API%E6%A6%82%E8%A7%88/</guid>
@@ -37541,6 +37541,61 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 </li>
 </ul>
 <p><img src="images/1568098803331.png" alt=""></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Request Body Search</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.7%20Request%20Body%E5%92%8CQuery%20DSL%E7%AE%80%E4%BB%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.7%20Request%20Body%E5%92%8CQuery%20DSL%E7%AE%80%E4%BB%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Request Body Search</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="request-body-search"> Request Body Search</h2>
+<ul>
+<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
+<li>Query DSL</li>
+</ul>
+<p>举例</p>
+<p><img src="images/1568169039971.png" alt=""></p>
+<h3 id="分页"> 分页</h3>
+<ul>
+<li>From从0开始，默认返回10个结果</li>
+<li>获取靠后的翻页成本较高</li>
+</ul>
+<p><img src="images/1568169125069.png" alt=""></p>
+<h3 id="排序"> 排序</h3>
+<ul>
+<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
+<ul>
+<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/1568170207936.png" alt=""></p>
+<h3 id="source-filtering"> _source filtering</h3>
+<ul>
+<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
+<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
+</ul>
+<p><img src="images/1568191600446.png" alt=""></p>
+<h3 id="脚本字段"> 脚本字段</h3>
+<ul>
+<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
+</ul>
+<p><img src="images/1568191768549.png" alt=""></p>
+<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
+<ul>
+<li>默认使用term类型，或的关系</li>
+</ul>
+<p><img src="images/1568191830422.png" alt=""></p>
+<ul>
+<li>可以指定操作类型为AND</li>
+</ul>
+<p><img src="images/1568191867781.png" alt=""></p>
+<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
+<ul>
+<li>slop参数表示，允许各个单词之间插入的单词个数</li>
+</ul>
+<p><img src="images/1568192076860.png" alt=""></p>
 ]]></content:encoded>
     </item>
     <item>
@@ -37633,61 +37688,6 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 </ul>
 </li>
 </ul>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>Request Body Search</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.7%20Request%20Body%E5%92%8CQuery%20DSL%E7%AE%80%E4%BB%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.3%20Elasticsearch%E5%85%A5%E9%97%A8/9.3.7%20Request%20Body%E5%92%8CQuery%20DSL%E7%AE%80%E4%BB%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Request Body Search</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="request-body-search"> Request Body Search</h2>
-<ul>
-<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
-<li>Query DSL</li>
-</ul>
-<p>举例</p>
-<p><img src="images/1568169039971.png" alt=""></p>
-<h3 id="分页"> 分页</h3>
-<ul>
-<li>From从0开始，默认返回10个结果</li>
-<li>获取靠后的翻页成本较高</li>
-</ul>
-<p><img src="images/1568169125069.png" alt=""></p>
-<h3 id="排序"> 排序</h3>
-<ul>
-<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
-<ul>
-<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
-</ul>
-</li>
-</ul>
-<p><img src="images/1568170207936.png" alt=""></p>
-<h3 id="source-filtering"> _source filtering</h3>
-<ul>
-<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
-<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
-</ul>
-<p><img src="images/1568191600446.png" alt=""></p>
-<h3 id="脚本字段"> 脚本字段</h3>
-<ul>
-<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
-</ul>
-<p><img src="images/1568191768549.png" alt=""></p>
-<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
-<ul>
-<li>默认使用term类型，或的关系</li>
-</ul>
-<p><img src="images/1568191830422.png" alt=""></p>
-<ul>
-<li>可以指定操作类型为AND</li>
-</ul>
-<p><img src="images/1568191867781.png" alt=""></p>
-<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
-<ul>
-<li>slop参数表示，允许各个单词之间插入的单词个数</li>
-</ul>
-<p><img src="images/1568192076860.png" alt=""></p>
 ]]></content:encoded>
     </item>
     <item>
@@ -39410,6 +39410,65 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 ]]></content:encoded>
     </item>
     <item>
+      <title>zabbix添加报警媒介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>10.1 字符串处理</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</guid>
@@ -40349,33 +40408,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>调优的目的：</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">调优的目的：</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="调优的目的"> 调优的目的：</h2>
-<ol>
-<li>根据不同的角色调优的方法是不一样的</li>
-<li>找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）</li>
-<li>通常做两种调优：
-response time:  Web服务器，用户感受度好
-throughput: 	文件服务器，拷贝的速度</li>
-</ol>
-<h2 id="性能调优的效率问题"> 性能调优的效率问题：</h2>
-<h3 id="业务级调优"> 业务级调优</h3>
-<p>尽量在业务级调，效果最明显</p>
-<p>例如： 网站一定要使用Apache吗?
-例如：将原有的调度器由LVS换成F5-BigIP
-例如：能否禁用一些不必要的服务如蓝牙、smart card，makewathis, updatadb</p>
-<h3 id="应用级调优"> 应用级调优</h3>
-<p>NFS，Samba，Apache、Nginx、MySQL、Oracle、LVS本身调优				
-对于日志的处理： 只要有日志产生，就会存盘fsync()，可以调整记录的日志等级或延后日志写，从而避免大量的I/O操作
-kernel级调优		最后的希望，kernel调优具有普遍性</p>
-<p>自上往下，效果越来越不明显</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>centos7下时区问题</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/centos%E6%97%B6%E5%8C%BA/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/centos%E6%97%B6%E5%8C%BA/</guid>
@@ -40402,6 +40434,33 @@ NTP synchronized: yes
 <div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>调优的目的：</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">调优的目的：</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="调优的目的"> 调优的目的：</h2>
+<ol>
+<li>根据不同的角色调优的方法是不一样的</li>
+<li>找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）</li>
+<li>通常做两种调优：
+response time:  Web服务器，用户感受度好
+throughput: 	文件服务器，拷贝的速度</li>
+</ol>
+<h2 id="性能调优的效率问题"> 性能调优的效率问题：</h2>
+<h3 id="业务级调优"> 业务级调优</h3>
+<p>尽量在业务级调，效果最明显</p>
+<p>例如： 网站一定要使用Apache吗?
+例如：将原有的调度器由LVS换成F5-BigIP
+例如：能否禁用一些不必要的服务如蓝牙、smart card，makewathis, updatadb</p>
+<h3 id="应用级调优"> 应用级调优</h3>
+<p>NFS，Samba，Apache、Nginx、MySQL、Oracle、LVS本身调优				
+对于日志的处理： 只要有日志产生，就会存盘fsync()，可以调整记录的日志等级或延后日志写，从而避免大量的I/O操作
+kernel级调优		最后的希望，kernel调优具有普遍性</p>
+<p>自上往下，效果越来越不明显</p>
+]]></content:encoded>
     </item>
     <item>
       <title>curl https报错: curl: (35) SSL connect error</title>
@@ -40938,130 +40997,6 @@ message：可以不用写
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
-      <title>docker搭建redis集群</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">docker搭建redis集群</source>
-      <pubDate>Sun, 17 Sep 2017 21:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>docker搭建redis集群</p>
-
-<h2 id="下载镜像"> 下载镜像</h2>
-<div><pre><code>docker pull redis
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
-<div><pre><code>mkdir /home/docker/redis/  
-wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
-cd /home/docker/redis/  
-sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
-<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
-<div><pre><code>redis-cli 
-127.0.0.1:6379&gt; info
-# Server
-redis_version:3.0.6
-redis_git_sha1:00000000
-redis_git_dirty:0
-redis_build_id:48bba53ba79f07ac
-redis_mode:standalone
-os:Linux 3.13.0-27-generic x86_64
-arch_bits:64
-multiplexing_api:epoll
-gcc_version:4.9.2
-process_id:1
-run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
-tcp_port:6379
-uptime_in_seconds:21554
-uptime_in_days:0
-hz:10
-lru_clock:10637013
-config_file:
-
-# Clients
-connected_clients:1
-client_longest_output_list:0
-client_biggest_input_buf:0
-blocked_clients:0
-
-# Memory
-used_memory:1926248
-used_memory_human:1.84M
-used_memory_rss:4419584
-used_memory_peak:1963096
-used_memory_peak_human:1.87M
-used_memory_lua:36864
-mem_fragmentation_ratio:2.29
-mem_allocator:jemalloc-3.6.0
-
-# Persistence
-loading:0
-rdb_changes_since_last_save:0
-rdb_bgsave_in_progress:0
-rdb_last_save_time:1453456066
-rdb_last_bgsave_status:ok
-rdb_last_bgsave_time_sec:0
-rdb_current_bgsave_time_sec:-1
-aof_enabled:0
-aof_rewrite_in_progress:0
-aof_rewrite_scheduled:0
-aof_last_rewrite_time_sec:-1
-aof_current_rewrite_time_sec:-1
-aof_last_bgrewrite_status:ok
-aof_last_write_status:ok
-
-# Stats
-total_connections_received:5
-total_commands_processed:64476
-instantaneous_ops_per_sec:3
-total_net_input_bytes:2426080
-total_net_output_bytes:92455
-instantaneous_input_kbps:0.14
-instantaneous_output_kbps:0.02
-rejected_connections:0
-sync_full:3
-sync_partial_ok:0
-sync_partial_err:0
-expired_keys:0
-evicted_keys:0
-keyspace_hits:0
-keyspace_misses:0
-pubsub_channels:0
-pubsub_patterns:0
-latest_fork_usec:222
-migrate_cached_sockets:0
-
-# Replication
-role:master
-connected_slaves:3
-slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
-slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
-slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
-master_repl_offset:30101
-repl_backlog_active:1
-repl_backlog_size:1048576
-repl_backlog_first_byte_offset:2
-repl_backlog_histlen:30100
-
-# CPU
-used_cpu_sys:7.37
-used_cpu_user:5.34
-used_cpu_sys_children:0.00
-used_cpu_user_children:0.00
-
-# Cluster
-cluster_enabled:0
-
-# Keyspace
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Redis-集群</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/</guid>
@@ -41490,6 +41425,130 @@ nodes (check with CLUSTER NODES) or contains some key in database 0.
 <p><img src="/images/redis17.png" alt="avator"></p>
 ]]></content:encoded>
       <enclosure url="https://vuepress-theme-hope-demo.mrhope.site/images/redis1.png" type="image/png"/>
+    </item>
+    <item>
+      <title>docker搭建redis集群</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">docker搭建redis集群</source>
+      <pubDate>Sun, 17 Sep 2017 21:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>docker搭建redis集群</p>
+
+<h2 id="下载镜像"> 下载镜像</h2>
+<div><pre><code>docker pull redis
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
+<div><pre><code>mkdir /home/docker/redis/  
+wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
+cd /home/docker/redis/  
+sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
+<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
+<div><pre><code>redis-cli 
+127.0.0.1:6379&gt; info
+# Server
+redis_version:3.0.6
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:48bba53ba79f07ac
+redis_mode:standalone
+os:Linux 3.13.0-27-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.9.2
+process_id:1
+run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
+tcp_port:6379
+uptime_in_seconds:21554
+uptime_in_days:0
+hz:10
+lru_clock:10637013
+config_file:
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:1926248
+used_memory_human:1.84M
+used_memory_rss:4419584
+used_memory_peak:1963096
+used_memory_peak_human:1.87M
+used_memory_lua:36864
+mem_fragmentation_ratio:2.29
+mem_allocator:jemalloc-3.6.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1453456066
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+# Stats
+total_connections_received:5
+total_commands_processed:64476
+instantaneous_ops_per_sec:3
+total_net_input_bytes:2426080
+total_net_output_bytes:92455
+instantaneous_input_kbps:0.14
+instantaneous_output_kbps:0.02
+rejected_connections:0
+sync_full:3
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:222
+migrate_cached_sockets:0
+
+# Replication
+role:master
+connected_slaves:3
+slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
+slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
+slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
+master_repl_offset:30101
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:2
+repl_backlog_histlen:30100
+
+# CPU
+used_cpu_sys:7.37
+used_cpu_user:5.34
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
+]]></content:encoded>
     </item>
     <item>
       <title>sed命令详解</title>
@@ -42552,6 +42611,105 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
 ]]></content:encoded>
     </item>
     <item>
+      <title>每天一个linux命令（36）-date</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（36）-date</source>
+      <pubDate>Fri, 27 Jul 2018 19:07:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>date(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
+-s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
+-u：显示GMT；
+--help：在线帮助；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
+<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
+<div><pre><code>%H 小时，24小时制（00~23）
+%I 小时，12小时制（01~12）
+%k 小时，24小时制（0~23）
+%l 小时，12小时制（1~12）
+%M 分钟（00~59）
+%p 显示出AM或PM
+%r 显示时间，12小时制（hh:mm:ss %p）
+%s 从1970年1月1日00:00:00到目前经历的秒数
+%S 显示秒（00~59）
+%T 显示时间，24小时制（hh:mm:ss）
+%X 显示时间的格式（%H:%M:%S）
+%Z 显示时区，日期域（CST）
+%a 星期的简称（Sun~Sat）
+%A 星期的全称（Sunday~Saturday）
+%h,%b 月的简称（Jan~Dec）
+%B 月的全称（January~December）
+%c 日期和时间（Tue Nov 20 14:12:58 2012）
+%d 一个月的第几天（01~31）
+%x,%D 日期（mm/dd/yy）
+%j 一年的第几天（001~366）
+%m 月份（01~12）
+%w 一个星期的第几天（0代表星期天）
+%W 一年的第几个星期（00~53，星期一为第一天）
+%y 年的最后两个数字（1999则是99）
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）格式化输出：</p>
+<div><pre><code>#date +&quot;%Y-%m-%d&quot;
+2018-03-29
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
+<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
+2018-03-28
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
+<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
+2018-03-29 10:08:37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2009-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2007-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
+<div><pre><code>date +%Y%m%d                   //显示前天年月日
+date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
+date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
+date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
+date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
+date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
+date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
+<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
+date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
+date -s 01:01:01               //设置具体时间，不会对日期做更改
+date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
+date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
+date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
+date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
+<div><pre><code>#!/bin/bash
+
+start=$(date +%s)
+nmap man.linuxde.net &amp;&gt; /dev/null
+
+end=$(date +%s)
+difference=$(( end - start ))
+echo $difference seconds.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
+<p>http://man.linuxde.net/date</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>每天一个linux命令（35）-diff</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</guid>
@@ -42842,105 +43000,6 @@ patching file log2013.log
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/12/2814048.html</p>
 <p>http://man.linuxde.net/diff</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>每天一个linux命令（36）-date</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（36）-date</source>
-      <pubDate>Fri, 27 Jul 2018 19:07:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>date(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
--s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
--u：显示GMT；
---help：在线帮助；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
-<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
-<div><pre><code>%H 小时，24小时制（00~23）
-%I 小时，12小时制（01~12）
-%k 小时，24小时制（0~23）
-%l 小时，12小时制（1~12）
-%M 分钟（00~59）
-%p 显示出AM或PM
-%r 显示时间，12小时制（hh:mm:ss %p）
-%s 从1970年1月1日00:00:00到目前经历的秒数
-%S 显示秒（00~59）
-%T 显示时间，24小时制（hh:mm:ss）
-%X 显示时间的格式（%H:%M:%S）
-%Z 显示时区，日期域（CST）
-%a 星期的简称（Sun~Sat）
-%A 星期的全称（Sunday~Saturday）
-%h,%b 月的简称（Jan~Dec）
-%B 月的全称（January~December）
-%c 日期和时间（Tue Nov 20 14:12:58 2012）
-%d 一个月的第几天（01~31）
-%x,%D 日期（mm/dd/yy）
-%j 一年的第几天（001~366）
-%m 月份（01~12）
-%w 一个星期的第几天（0代表星期天）
-%W 一年的第几个星期（00~53，星期一为第一天）
-%y 年的最后两个数字（1999则是99）
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）格式化输出：</p>
-<div><pre><code>#date +&quot;%Y-%m-%d&quot;
-2018-03-29
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
-<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
-2018-03-28
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
-<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
-2018-03-29 10:08:37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2009-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2007-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
-<div><pre><code>date +%Y%m%d                   //显示前天年月日
-date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
-date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
-date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
-date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
-date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
-date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
-<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
-date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
-date -s 01:01:01               //设置具体时间，不会对日期做更改
-date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
-date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
-date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
-date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
-<div><pre><code>#!/bin/bash
-
-start=$(date +%s)
-nmap man.linuxde.net &amp;&gt; /dev/null
-
-end=$(date +%s)
-difference=$(( end - start ))
-echo $difference seconds.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
-<p>http://man.linuxde.net/date</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -46834,6 +46893,57 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
 ]]></content:encoded>
     </item>
     <item>
+      <title>tomcat简介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">tomcat简介</source>
+      <category>web中间件</category>
+      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="tomcat简介"> tomcat简介</h1>
+<h2 id="tomcat学习笔记-一"> Tomcat学习笔记（一）</h2>
+<p>Hello everyone, let's learn tomcat together！</p>
+<h3 id="tomcat的开幕式"> Tomcat的开幕式</h3>
+<p>Tomcat以Java编写</p>
+<h4 id="安装tomcat"> 安装Tomcat</h4>
+<p>官网地址为：https://tomcat.apache.org</p>
+<p>各个版本的下载地址为：https://archive.apache.org/dist/tomcat/</p>
+<p>安装方式</p>
+<p>二进制文件（文件为tar.gz）</p>
+<div><pre><code>wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
+tar -xvf apache-tomcat-8.5.23.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>需提前配置好jdk的环境变量，jdk配置详见上一章节</p>
+<h4 id="tomcat启动、停止、重启"> Tomcat启动、停止、重启</h4>
+<p>主要用到的脚本有</p>
+<p>catalina.sh、shutdown.sh、startup.sh、version.sh</p>
+<p><img src="images/tomcat1.png" alt=""></p>
+<p>catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等</p>
+<p>shutdown是停止tomcat脚本</p>
+<p>startup是启动tomcat脚本</p>
+<p>version是查看tomcat的版本信息</p>
+<ul>
+<li>
+<p>常用的catalina脚本启动参数</p>
+<p>config [server.xml file]	  指定另一个server.xml配置文件。默认是使用驻留在$CATALINA_BASE/conf目录中的server.xml</p>
+<p>help					输出命令行选项摘要表</p>
+<p>ebug					以调试模式启动tomcat</p>
+<p>tart					启动tomcat，并将标准输出与错误送至tomcat的日志文件</p>
+<p>top					停止tomcat</p>
+<p>ersion 					输出tomcat的版本信息</p>
+</li>
+</ul>
+<h4 id="安装后的测试"> 安装后的测试</h4>
+<p>当安装以及启动tomcat后，测试是否成功启动，可以访问网页进行测试，默认端口为8080</p>
+<p><img src="images/tomcat2.png" alt=""></p>
+<h3 id="配置tomcat"> 配置tomcat</h3>
+<h4 id="从8080改变端口号"> 从8080改变端口号</h4>
+<p>把机器上目的地为80端口的所有连接需重定向到8080端口的信息通知给内核。</p>
+<div><pre><code>iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
+iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>Tomcat 错误代号及状态码</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/status/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/status/</guid>
@@ -46891,57 +47001,6 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
 <p>https://www.jianshu.com/p/8ad1009f927d</p>
 </blockquote>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>tomcat简介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">tomcat简介</source>
-      <category>web中间件</category>
-      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="tomcat简介"> tomcat简介</h1>
-<h2 id="tomcat学习笔记-一"> Tomcat学习笔记（一）</h2>
-<p>Hello everyone, let's learn tomcat together！</p>
-<h3 id="tomcat的开幕式"> Tomcat的开幕式</h3>
-<p>Tomcat以Java编写</p>
-<h4 id="安装tomcat"> 安装Tomcat</h4>
-<p>官网地址为：https://tomcat.apache.org</p>
-<p>各个版本的下载地址为：https://archive.apache.org/dist/tomcat/</p>
-<p>安装方式</p>
-<p>二进制文件（文件为tar.gz）</p>
-<div><pre><code>wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
-tar -xvf apache-tomcat-8.5.23.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>需提前配置好jdk的环境变量，jdk配置详见上一章节</p>
-<h4 id="tomcat启动、停止、重启"> Tomcat启动、停止、重启</h4>
-<p>主要用到的脚本有</p>
-<p>catalina.sh、shutdown.sh、startup.sh、version.sh</p>
-<p><img src="images/tomcat1.png" alt=""></p>
-<p>catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等</p>
-<p>shutdown是停止tomcat脚本</p>
-<p>startup是启动tomcat脚本</p>
-<p>version是查看tomcat的版本信息</p>
-<ul>
-<li>
-<p>常用的catalina脚本启动参数</p>
-<p>config [server.xml file]	  指定另一个server.xml配置文件。默认是使用驻留在$CATALINA_BASE/conf目录中的server.xml</p>
-<p>help					输出命令行选项摘要表</p>
-<p>ebug					以调试模式启动tomcat</p>
-<p>tart					启动tomcat，并将标准输出与错误送至tomcat的日志文件</p>
-<p>top					停止tomcat</p>
-<p>ersion 					输出tomcat的版本信息</p>
-</li>
-</ul>
-<h4 id="安装后的测试"> 安装后的测试</h4>
-<p>当安装以及启动tomcat后，测试是否成功启动，可以访问网页进行测试，默认端口为8080</p>
-<p><img src="images/tomcat2.png" alt=""></p>
-<h3 id="配置tomcat"> 配置tomcat</h3>
-<h4 id="从8080改变端口号"> 从8080改变端口号</h4>
-<p>把机器上目的地为80端口的所有连接需重定向到8080端口的信息通知给内核。</p>
-<div><pre><code>iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
-iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>Template DB MySQL简介</title>
@@ -47584,65 +47643,6 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>zabbix添加报警媒介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content:encoded>
     </item>
   </channel>
 </rss>
