@@ -1,3 +1,12 @@
+---
+time: 2018-01-03
+category: 前端
+tags:
+  - CSS
+---
+
+# 行高和字号、超链接美化、background
+
 好了，今天继续学习CSS，go！本节内容有行高和字号、超链接的美化、background系列属性。
 
 
@@ -337,4 +346,3 @@ background-color:red;background-image:url(1.jpg);background-repeat:no-repeat;bac
 ```
 
 
- 
