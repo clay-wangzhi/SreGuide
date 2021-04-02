@@ -1,4 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
 # 7 常见问题
+
 ### 4.3 关于ssh连接一些常见的错误说明
 
 1. `ERROR! to use the 'ssh' connection type with passwords, you must install the sshpass program`

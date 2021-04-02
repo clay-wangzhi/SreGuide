@@ -1,4 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
 # 4.1 Playbook的结构及handler用法
+
 ## 1 playbook的结构说明
 
 playbook是由一个或多个"play"组成的列表。play的主要功能就是对一组主机应用play中定义好的task。从根本上来讲一个task就是对ansible一个module的调用。而将多个play按照一定的顺序组织到一个playbook中，我们称之为编排。
