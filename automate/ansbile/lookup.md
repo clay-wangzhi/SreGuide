@@ -1,3 +1,4 @@
+# 5.4 使用lookup生成变量
 # 简单说明
 
 在通常情况下，所有的配置信息都会被作为ansible的变量保存了，而且可以保存在ansible允许定义变量的各种地方，诸如vars区段，`vars_files`加载的文件中，以及host_vars和group_vars目录中。

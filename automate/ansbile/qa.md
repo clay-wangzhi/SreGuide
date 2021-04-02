@@ -1,3 +1,4 @@
+# 7 常见问题
 ### 4.3 关于ssh连接一些常见的错误说明
 
 1. `ERROR! to use the 'ssh' connection type with passwords, you must install the sshpass program`
