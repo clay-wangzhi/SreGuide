@@ -172,9 +172,29 @@ module.exports = config({
           title: "第五部分 高级话题",
           path: "part5/",
           collapsable: false,
-          children: ["part5/18_regular_expressions", "part5/18_1_a_brief_introduction_to_regular_expressions", "part5/18_2_globbing", "part5/18_3_regular_expression_comparison_table", "part5/19_here_documents", "part5/20_io_redirection",
-		  	"part5/20_1_use_exec", "part5/20_2_redirecting_code_blocks", "part5/20_3_applications", "part5/21_subshells", "part5/22_Restricted_Shells", "part5/23_Process_Substitution", "part5/24_functions", "part5/24_1_complex_functions_and_function_complexities", "part5/24_2_local_variables", "part5/24_3_recursion_without_local_variables", "part5/25_aliases",
-		    "part5/26_List_Constructs", "part5/27_arrays", "part5/30_network_programming", "part5/33_options", "part5/34_Gotchas", "part5/36_miscellany", "part5/36_5_colorizing_scripts", "part5/36_11_ssh_remote_operate", 
+          children: [
+		    {
+              title: "18 正则表达式",
+			  path: "part5/18_regular_expressions",
+              collapsable: false,
+              children: ["part5/18_1_a_brief_introduction_to_regular_expressions", "part5/18_2_globbing", "part5/18_3_regular_expression_comparison_table",],
+            },			    
+		    "part5/19_here_documents", 
+		    {
+              title: "20 I/O 重定向",
+			  path: "part5/20_io_redirection",
+              collapsable: false,
+              children: ["part5/20_1_use_exec", "part5/20_2_redirecting_code_blocks", "part5/20_3_applications", ],
+            },				
+		  	"part5/21_subshells", "part5/22_Restricted_Shells", "part5/23_Process_Substitution", 
+		    {
+              title: "part5/24_functions", 
+			  path: "part5/20_io_redirection",
+              collapsable: false,
+              children: ["part5/24_1_complex_functions_and_function_complexities", "part5/24_2_local_variables", "part5/24_3_recursion_without_local_variables", ],
+            },			
+			"part5/25_aliases",
+		    "part5/26_List_Constructs", "part5/27_arrays", "part5/30_network_programming", "part5/33_options", "part5/34_Gotchas", "part5/36_miscellany", "part5/36_5_colorizing_scripts", 
 		  ]
         },
 		"part6",
