@@ -1,3 +1,4 @@
+# 4.8 yaml语法
 ## playbook的语法：YAML
 
 ansible的playbook采用yaml语法，它以非常简洁的方式实现了json格式的事件描述。

@@ -1,3 +1,4 @@
+# 2 Ansible Inventory配置详解
 在使用Ansible来批量管理主机的时候，通常我们需要先定义要管理哪些主机或者主机组，而这个用于管理主机与主机组的文件就叫做Inventory，也叫主机清单。
 
 Ansible Inventory 是包含`静态 Inventory` 和`动态 Inventory` 两部分的，静态 Inventory 指的是在文件中指定的主机和组，动态 Inventory 指通过外部脚本获取主机列表，并按照 ansible 所要求的格式返回给 ansilbe 命令的。

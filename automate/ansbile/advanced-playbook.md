@@ -1,3 +1,4 @@
+# 4.4 Playbook高级用法
 ## 1 本地执行
 
 默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。
