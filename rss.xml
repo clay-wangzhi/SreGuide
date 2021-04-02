@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 02 Apr 2021 03:11:36 GMT</pubDate>
-    <lastBuildDate>Fri, 02 Apr 2021 03:11:36 GMT</lastBuildDate>
+    <pubDate>Fri, 02 Apr 2021 03:29:33 GMT</pubDate>
+    <lastBuildDate>Fri, 02 Apr 2021 03:29:33 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -5936,6 +5936,48 @@ Slave_SQL_Running: Yes
 ]]></content:encoded>
     </item>
     <item>
+      <title>配置</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.2%20%E9%85%8D%E7%BD%AE/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.2%20%E9%85%8D%E7%BD%AE/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">配置</source>
+      <pubDate>Thu, 05 Sep 2019 06:34:58 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="配置"> 配置</h1>
+<p>Redis的配置信息在/etc/redis/redis.conf下。
+查看</p>
+<div><pre><code>sudo vi /etc/redis/redis.conf
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="核心配置选项"> 核心配置选项</h2>
+<p>绑定ip：如果需要远程访问，可将此⾏注释，或绑定⼀个真实ip</p>
+<div><pre><code>bind 127.0.0.1
+</code></pre>
+<div><span>1</span><br></div></div><p>端⼝，默认为6379</p>
+<div><pre><code>port 6379
+</code></pre>
+<div><span>1</span><br></div></div><p>是否以守护进程运⾏
+a) 如果以守护进程运⾏，则不会在命令⾏阻塞，类似于服务
+b) 如果以⾮守护进程运⾏，则当前终端被阻塞
+c) 设置为yes表示守护进程，设置为no表示⾮守护进程
+d) 推荐设置为yes</p>
+<div><pre><code>daemonize yes
+</code></pre>
+<div><span>1</span><br></div></div><p>数据⽂件</p>
+<div><pre><code>dbfilename dump.rdb
+</code></pre>
+<div><span>1</span><br></div></div><p>数据⽂件存储路径</p>
+<div><pre><code>dir /var/lib/redis
+</code></pre>
+<div><span>1</span><br></div></div><p>⽇志⽂件</p>
+<div><pre><code>logfile /var/log/redis/redis-server.log
+</code></pre>
+<div><span>1</span><br></div></div><p>数据库，默认有16个</p>
+<div><pre><code>database 16
+</code></pre>
+<div><span>1</span><br></div></div><p>主从复制，类似于双机备份。</p>
+<div><pre><code>slaveof
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>安装</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.1%20%E5%AE%89%E8%A3%85/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.1%20%E5%AE%89%E8%A3%85/</guid>
@@ -5990,48 +6032,6 @@ e) redis-check-rdb  RDB文件检索工具</p>
 <p>step9:配置⽂件，移动到/etc/⽬录下
 配置⽂件⽬录为/usr/local/redis/redis.conf</p>
 <div><pre><code>sudo cp /usr/local/redis/redis.conf /etc/redis/
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>配置</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.2%20%E9%85%8D%E7%BD%AE/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/17%20Redis/17.2%20%E9%85%8D%E7%BD%AE/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">配置</source>
-      <pubDate>Thu, 05 Sep 2019 06:34:58 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="配置"> 配置</h1>
-<p>Redis的配置信息在/etc/redis/redis.conf下。
-查看</p>
-<div><pre><code>sudo vi /etc/redis/redis.conf
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="核心配置选项"> 核心配置选项</h2>
-<p>绑定ip：如果需要远程访问，可将此⾏注释，或绑定⼀个真实ip</p>
-<div><pre><code>bind 127.0.0.1
-</code></pre>
-<div><span>1</span><br></div></div><p>端⼝，默认为6379</p>
-<div><pre><code>port 6379
-</code></pre>
-<div><span>1</span><br></div></div><p>是否以守护进程运⾏
-a) 如果以守护进程运⾏，则不会在命令⾏阻塞，类似于服务
-b) 如果以⾮守护进程运⾏，则当前终端被阻塞
-c) 设置为yes表示守护进程，设置为no表示⾮守护进程
-d) 推荐设置为yes</p>
-<div><pre><code>daemonize yes
-</code></pre>
-<div><span>1</span><br></div></div><p>数据⽂件</p>
-<div><pre><code>dbfilename dump.rdb
-</code></pre>
-<div><span>1</span><br></div></div><p>数据⽂件存储路径</p>
-<div><pre><code>dir /var/lib/redis
-</code></pre>
-<div><span>1</span><br></div></div><p>⽇志⽂件</p>
-<div><pre><code>logfile /var/log/redis/redis-server.log
-</code></pre>
-<div><span>1</span><br></div></div><p>数据库，默认有16个</p>
-<div><pre><code>database 16
-</code></pre>
-<div><span>1</span><br></div></div><p>主从复制，类似于双机备份。</p>
-<div><pre><code>slaveof
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -10028,387 +10028,6 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
 <p><img src="images/1567740876961.png" alt=""></p>
 <p><img src="images/1567740904642.png" alt=""></p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>ansible配置</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">ansible配置</source>
-      <pubDate>Thu, 25 Mar 2021 01:54:12 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="ansible配置"> ansible配置</h2>
-<div><pre><code><span># 修改主机名</span>
-hostnamectl set-hostname elk_ans
-<span># 生产密钥对，生成后将公钥导入到私有云主机中，创建新主机时使用</span>
-ssh-keygen -t rsa -f ~/.ssh/id_rsa -N <span>''</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># yum 安装</span>
-yum -y <span>install</span> ansible
-<span># 修改主机列表为yaml格式</span>
-<span>mv</span> /etc/ansible/hosts<span>{</span>,.yml<span>}</span>
-<span># 优化配置</span>
-<span>cp</span> /etc/ansible/ansible.cfg<span>{</span>,.bak<span>}</span>
-<span>cat</span> <span>></span> /etc/ansible/ansible.cfg <span>&lt;&lt;</span><span>EOF
-[defaults]
-inventory      = /etc/ansible/hosts.yml
-roles_path    = /etc/ansible/roles
-host_key_checking = False
-deprecation_warnings = False
-retry_files_enabled = False
-[inventory]
-[privilege_escalation]
-[paramiko_connection]
-[ssh_connection]
-ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
-[persistent_connection]
-[accelerate]
-[selinux]
-[colors]
-[diff]
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><div><pre><code><span># 编写ansible主机清单</span>
-<span>export</span> <span>es_master1</span><span>=</span><span>192.168</span>.135.125 <span>es_master2</span><span>=</span><span>192.168</span>.135.214 <span>es_master3</span><span>=</span><span>192.168</span>.135.62 <span>es_data1</span><span>=</span><span>192.168</span>.135.160 <span>es_data2</span><span>=</span><span>192.168</span>.135.73 <span>es_data3</span><span>=</span><span>192.168</span>.135.105 <span>es_ingest1</span><span>=</span><span>192.168</span>.135.8 <span>es_ingest2</span><span>=</span><span>192.168</span>.135.187 <span>es_ingest3</span><span>=</span><span>192.168</span>.135.189 <span>kibana1</span><span>=</span><span>192.168</span>.135.178 <span>kibana2</span><span>=</span><span>192.168</span>.135.196 <span>kibana3</span><span>=</span><span>192.168</span>.135.198 <span>logstash1</span><span>=</span><span>192.168</span>.135.89 <span>logstash2</span><span>=</span><span>192.168</span>.135.30 <span>logstash3</span><span>=</span><span>192.168</span>.135.96 <span>kafka1</span><span>=</span><span>192.168</span>.135.32 <span>kafka2</span><span>=</span><span>192.168</span>.135.22 <span>kafka3</span><span>=</span><span>192.168</span>.135.51
-<span>cat</span> <span>></span> /etc/ansible/hosts.yml <span>&lt;&lt;</span><span>EOF
-all:
-  children:
-    elasticsearch:
-      children:
-        es_master:
-        es_data:
-        es_ingest:
-    es_master:
-      hosts:
-        es_master1:
-          ansible_host: <span>${es_master1}</span>
-        es_master2:
-          ansible_host: <span>${es_master2}</span>
-        es_master3:
-          ansible_host: <span>${es_master3}</span>
-    es_data:
-      hosts:
-        es_data1:
-          ansible_host: <span>${es_data1}</span>
-        es_data2:
-          ansible_host: <span>${es_data2}</span>
-        es_data3:
-          ansible_host: <span>${es_data3}</span>
-    es_ingest:
-      hosts:
-        es_ingest1:
-          ansible_host: <span>${es_ingest1}</span>
-        es_ingest2:
-          ansible_host: <span>${es_ingest2}</span>
-        es_ingest3:
-          ansible_host: <span>${es_ingest3}</span>
-    kibana:
-      hosts:
-        kibana1:
-          ansible_host: <span>${kibana1}</span>
-        kibana2:
-          ansible_host: <span>${kibana2}</span>
-        kibana3:
-          ansible_host: <span>${kibana3}</span>
-    logstash:
-      hosts:
-        logstash1:
-          ansible_host: <span>${logstash1}</span>
-        logstash2:
-          ansible_host: <span>${logstash2}</span>
-        logstash3:
-          ansible_host: <span>${logstash3}</span>
-    kafka:
-      hosts:
-        kafka1:
-          ansible_host: <span>${kafka1}</span>
-          zookeeper_id: 1
-        kafka2:
-          ansible_host: <span>${kafka2}</span>
-          zookeeper_id: 2
-        kafka3:
-          ansible_host: <span>${kafka3}</span>
-          zookeeper_id: 3
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div><div><pre><code><span># 镜像yum源有问题得，替换下yum源</span>
-ansible-galaxy <span>install</span> clay_wangzhi.sysinit
-<span>mkdir</span> -p /etc/ansible/playbooks/vars
-<span>cat</span> <span>></span> /etc/ansible/playbooks/sysinit.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: all
-  roles:
-    - clay_wangzhi.sysinit
-EOF</span>
-ansible all -m shell -a <span>"rm -rf /etc/yum.repos.d/bak/"</span>
-ansible-playbook /etc/ansible/playbooks/sysinit.yml --tags upgrade_repo
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="安装-elasticsearch"> 安装 Elasticsearch</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> elastic.elasticsearch,v7.11.2
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 编写playbook</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/elasticsearch.yml <span>&lt;&lt;</span> <span>EOF
----
-# 注意修改yum源为清华源
-- hosts: es_master
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: true
-    node_data: false
-  vars_files:
-    - vars/es_vars.yml
-
-- hosts: es_data
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: false
-    node_data: true
-  vars_files:
-    - vars/es_vars.yml
-
-- hosts: es_ingest
-  roles:
-    - role: elastic.elasticsearch
-  vars:
-    node_master: false
-    node_data: false
-  vars_files:
-    - vars/es_vars.yml
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><div><pre><code><span># 新增var_files</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/vars/es_vars.yml <span>&lt;&lt;</span> <span>EOF
-es_heap_size: "4g"
-es_api_host: "{{ansible_ssh_host}}"
-es_data_dirs:
-  - "/opt/elasticsearch/data"
-es_log_dir: "/opt/elasticsearch/logs"
-es_config:
-  cluster.name: "suncar-es"
-  node.name: "{{inventory_hostname}}"
-  network.host: "{{ansible_ssh_host}}"
-  cluster.initial_master_nodes: '["{{hostvars[groups["es_master"][0]].ansible_host}}"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}"{% endfor %}]'
-  discovery.seed_hosts: '["{{hostvars[groups["es_master"][0]].ansible_host}}:9300"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}:9300"{% endfor %}]'
-  http.port: 9200
-  node.master: "{{node_master}}"
-  node.data: "{{node_data}}"
-  bootstrap.memory_lock: true
-  gateway.recover_after_nodes: 2
-  xpack.monitoring.collection.enabled: true
-  http.cors.enabled: true
-  http.cors.allow-origin: "*"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
-<span>cat</span> <span>></span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.repo <span>&lt;&lt;</span> <span>EOF
-[elasticsearch-7.x]
-name=Elasticsearch repository for 7.x packages
-baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
-gpgcheck=0
-enabled=1
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 修改es yml配置文件,将安全功能开启，并自己设置密码</span>
-<span>vim</span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.yml.j2
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code>{% if es_enable_xpack and es_api_basic_auth_username is defined and es_api_basic_auth_password is defined %}   #将这一行改为下面
-{% if not oss_version %}
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，es数据节点磁盘占用很大</p>
-</blockquote>
-<div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/elasticsearch.yml 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ansible安装完成后，初始化es通信的密码，在任意es_master1节点执行</span>
-<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
-<span>cd</span> /usr/share/elasticsearch/
-bin/elasticsearch-setup-passwords interactive
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>配置Node间SSL</strong></p>
-<p>注意：这里是指配置ES集群节点间transport的SSL认证，对于ES节点的HTTP API接口并没有配置，所以通过API访问ES时不需要提供证书。</p>
-<p>参考官网:</p>
-<p>https://www.elastic.co/guide/en/elasticsearch/reference/current/ssl-tls.html</p>
-<p>https://www.elastic.co/guide/en/elasticsearch/reference/7.4/configuring-tls.html</p>
-<p>创建SSL/TLS证书：</p>
-<div><pre><code><span>cd</span> /usr/share/elasticsearch/bin
-<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
-./elasticsearch-certutil ca -v   //一路回车
-<span>cd</span> <span>..</span>
-./bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12  //一路回车
-<span>mv</span> elastic-* /etc/elasticsearch/
-<span>cd</span> /etc/elasticsearch/
-<span>chown</span> elasticsearch.elasticsearch *.p12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>操作完成后，把证书传到剩余节点，修改剩余节点的配置文件，并重启</p>
-<div><pre><code><span># 将证书传到 ansible /tmp 目录下</span>
-ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-certificates.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
-ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-stack-ca.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code><span># 修改/etc/elasticsearch/elasticsearch.yml 配置文件</span>
-ansible elasticsearch -m lineinfile -a <span>"path=/etc/elasticsearch/elasticsearch.yml line='xpack.security.transport.ssl.enabled: true<span title="\n">\n</span>xpack.security.transport.ssl.verification_mode: certificate<span title="\n">\n</span>xpack.security.transport.ssl.keystore.path: /etc/elasticsearch/elastic-certificates.p12<span title="\n">\n</span>xpack.security.transport.ssl.truststore.path: /etc/elasticsearch/elastic-certificates.p12'"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 重启es</span>
-ansible elasticsearch -m <span>service</span> -a <span>"name=elasticsearch state=restarted"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>在此过程中，所有节点必须全部更新完，否则之前的用户名和密码将会认证失败</p>
-<p>更新完成之后，集群的健康检查为yellow，不要着急，等待它自己自动恢复成green，当es中数据较多时会出现</p>
-</blockquote>
-<blockquote>
-<p>Kibana，logstash，kafka的安装可以同时进行，提高效率</p>
-</blockquote>
-<h2 id="安装-kibana"> 安装 Kibana</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.kibana
-<span># 编写playbook，根据实际情况，填写用户名，密码</span>
-<span>export</span> <span>k_username</span><span>=</span>elastic <span>k_pass</span><span>=</span>E<span>#2021</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/kibana.yml <span>&lt;&lt;</span> <span>EOF
-- hosts: kibana
-  roles:
-    - clay_wangzhi.kibana
-  vars:
-    kibana_version: "7.x"
-    kibana_dversion: "7.11.2"
-    kibana_server_host: "{{ansible_ssh_host}}"
-    kibana_server_name: "{{inventory_hostname}}"
-    kibana_elasticsearch_url: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
-    kibana_elasticsearch_username: "<span>${k_username}</span>"
-    kibana_elasticsearch_password: "<span>${k_pass}</span>"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/kibana.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>TODO：Kibana7.11.x 版本具有告警功能，已经GA了，后续可以看一下</p>
-</blockquote>
-<h2 id="安装-logstash"> 安装 logstash</h2>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.logstash
-<span># 编写playbook，根据实际情况，填写用户名，密码</span>
-<span>export</span> <span>l_username</span><span>=</span>elastic <span>l_pass</span><span>=</span>E<span>#2021</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/logstash.yml <span>&lt;&lt;</span> <span>EOF
-- hosts: logstash
-  roles:
-    - clay_wangzhi.logstash
-  vars:
-    logstash_version: '7.x'
-    logstash_dversion: '7.11.2'
-    logstash_elasticsearch_hosts: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
-    es_user: "<span>${l_username}</span>"
-    es_pass: "<span>${l_pass}</span>"
-    kafka_topic: "h5-jar"
-    kafka_group_id: "suncar-h5"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/logstash.yml 
-<span># kafka 还未安装，先停止logstash</span>
-ansible logstash -m <span>service</span> -a <span>"name=logstash state=stopped"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>TODO: logstash 的playbook后期有空，可以优化一下</p>
-</blockquote>
-<h2 id="安装-kafka"> 安装 kafka</h2>
-<p>kafka集群依赖zookeeper，先安装zookeeper集群</p>
-<blockquote>
-<p>由于下载源有问题，需要手工注释掉了下载的task，我事先把压缩包下载到了ansible控制节点，先传到各个客户端</p>
-<div><pre><code>ansible kafka -m copy -a &quot;src=/tmp/zookeeper-3.4.14.tar.gz dest=/tmp/&quot;
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p><strong>安装zookeeper</strong></p>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.zookeeper
-<span># 编写playbook</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/zookeeper.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: kafka
-  roles:
-  - role: clay_wangzhi.zookeeper
-    zookeeper_version: 3.4.14
-    zookeeper_mirror: "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper"
-    zookeeper_servers: "{{groups['kafka']}}"
-    zookeeper_environment:
-      "JAVA_HOME": "/opt/jdk1.8.0_144"
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/zookeeper.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>安装kafka</strong></p>
-<div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> clay_wangzhi.kafka
-<span>cat</span> <span>></span> /etc/ansible/playbooks/kafka.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: kafka
-  roles:
-    - clay_wangzhi.kafka
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
-<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，kafka数据节点磁盘占用很大</p>
-</blockquote>
-<div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/kafka.yml
-<span># 启动logstash，上面停止了</span>
-ansible logstash -m <span>service</span> -a <span>"name=logstash state=started"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="安装-filebeat"> 安装 filebeat</h2>
-<div><pre><code># 添加filebeat主机到主机清单
-    filebeat:
-      hosts:
-        192.168.124.3:
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># 下载roles</span>
-ansible-galaxy <span>install</span> elastic.beats,v7.11.2
-<span># 编写playbook，beat_conf 请根据实际情况来填写</span>
-<span>cat</span> <span>></span> /etc/ansible/playbooks/filebeat.yml <span>&lt;&lt;</span> <span>EOF
----
-- hosts: filebeat
-  roles:
-    - elastic.beats
-  vars:
-    beat: filebeat
-    beat_conf:
-      filebeat:
-        inputs:
-          - type: log
-            enabled: true
-            paths:
-              - /home/ncar/service/webapps/logs/ShengDaGFHD/ShengDaGFHD.log
-            multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-            multiline.negate: true
-            multiline.match: after
-            tags: ["jar"]
-            fields:
-              type: h5-jar
-              ip: "{{inventory_hostname}}"
-              service_name: shengdasxgh
-      processors:
-        - drop_fields:
-            fields: ["agent", "ecs.version", "host.name"]
-    
-    output_conf:
-      kafka:
-        hosts: '["{{hostvars[groups["kafka"][0]].ansible_host}}:9092"{% for host in groups["kafka"][1:] %}, "{{hostvars[host].ansible_host}}:9092"{% endfor %}]'
-        topic: 'h5-jar'
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
-<span>cat</span> <span>></span> /etc/ansible/roles/elastic.beats/templates/beats.repo.j2 <span>&lt;&lt;</span> <span>EOF
-[filebeat-7.x]
-name=Elasticsearch repository for 7.x packages
-baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
-gpgcheck=0
-enabled=1
-EOF</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 安装</span>
-ansible-playbook /etc/ansible/playbooks/filebeat.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>安装</title>
@@ -22235,142 +21854,6 @@ server2
 ]]></content:encoded>
     </item>
     <item>
-      <title>6 Ansible使用优化</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">6 Ansible使用优化</source>
-      <pubDate>Fri, 02 Apr 2021 03:11:10 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-ansible使用优化"> 6 Ansible使用优化</h1>
-<h2 id="_1-加大forks的值"> 1 加大forks的值</h2>
-<p>默认forks=5，即最多5个Ansible工作进程。即便是只有6个目标节点，对于&quot;效率&quot;常挂嘴边的21世纪IT人来说，这么一点数量的工作进程，也显然是杯水车薪。</p>
-<p>对于Ansible来说，它的的大多数任务都是分派给目标节点去执行的，所以控制端通常比较闲暇。换句话说，控制端在浪费宝贵的资源。因此，如果没有其它资源的瓶颈(比如网络带宽瓶颈、磁盘IO瓶颈)，Ansible控制端可以尽可能开大马力，让足够多的节点同时开始运行。</p>
-<p>加大forks的值，甚至尽情地加大forks的值，可以很大幅度地提升整个任务的执行效率。不用担心太多Ansible工作进程数量会影响Ansible控制端的性能，Ansible工作进程那缓慢的工作量对OS来说实在太轻松了(除非是一些会占用大量资源的特殊任务)。我想，对于一般任务来说，唯一需要考虑的是网络带宽是否足够支撑足够数量目标节点，偶尔可能还需要考虑磁盘瓶颈。</p>
-<h2 id="_2-修改执行策略"> 2 修改执行策略</h2>
-<p>默认情况下Ansible会让所有节点(或者serial指定的数量)执行完同一个任务后才让它们进入下一个任务，这体现了各节点的公平性和实时性：每个节点都能尽早执行到任务。这其实和操作系统的进程调度是类似的概念，只不过相对于操作系统的调度系统来说，Ansible的调度策略实在是太简陋了。</p>
-<p>假设forks设置的比较大，可以一次性让足够多的节点并发执行任务，那么同时设置任务的执行策略为strategy=free便能让这些执行任务的节点彻底放飞自我。只是剩余的一部分节点可能会比较悲剧，它们处于调度不公平的一方。但是从整体来说，先让大部分节点快速完成任务是值得的。</p>
-<p>但是要注意，有些场景下要小心使用free策略，特别是节点依赖时。比如，某些节点运行服务A，另一些节点运行服务B，而服务B是依赖于服务A的，那么必须不能让运行B服务的节点先执行，对于有节点依赖关系的任务，为了健壮性，一般会定义好等待条件，但是出现等待有可能就意味着浪费。</p>
-<h2 id="_3-使ansible异步执行任务"> 3 使Ansible异步执行任务</h2>
-<p>默认情况下，Ansible按照同步执行的方式执行每个任务。即对每个任务来说，都需要等待目标节点执行完该任务后回馈给Ansible端的报告，然后Ansible才认为该节点上的该任务已经执行完成，才会考虑下一步骤，比如free策略下该节点继续执行下一个任务，或者等待其它节点完成该任务，等等。</p>
-<h3 id="_3-1-async和poll指令"> 3.1 async和poll指令</h3>
-<p>Ansible允许在task级别(且只支持task级别)指定该task是否以异步模式(即放入后台)执行，即将该异步任务放入后台。例如：</p>
-<div><pre><code>- name: it is an async task
-  copy:
-    src:
-    dest:
-  async: 200
-  poll: 2
-- name: a sync task
-  copy:
-    src:
-    dest:
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>其中async指令表示该任务将以异步的模式执行。async指令的值200表示，如果该后台任务200秒还未完成，则认为该任务失败。poll指令表示该任务丢入后台后，Ansible每隔多久去检查一次异步任务是否已成功、是否报错等，只有检查到已完成后才认为该异步任务执行完成，才会进入下一个任务。</p>
-<p>如此看来，似乎这个异步执行模式并非想象中那样真正的异步：将一个任务放入后台执行，立即进入下一个任务。而且这里的异步似乎会减慢任务的执行流程。比如后台任务在第3秒完成，也必须等到第4秒检查的时候才认为执行完成。</p>
-<p>如果poll指令的值大于0，这确实不是真正的异步，每个工作进程必须等待放入后台的任务执行完成才会进入下一个任务，换句话说，尽管使用了async异步指令，也仍然会阻塞在该异步任务上。这会减慢任务的执行速度，但此时执行该异步任务的Ansible工作进程会放弃CPU，使得CPU可以执行其它进程(对于Ansible控制节点来说，这算哪门子优点？)。</p>
-<p>但如果poll指令的值为0，将会以真正的异步模式执行任务，表示Ansible工作进程不检查后台任务的执行状况，而是直接执行下一个任务。</p>
-<p>不管poll指令的值是否大于0，只要使用了异步，那么强烈建议将forks指令的值设置的足够大。比如能够一次性让所有节点都开始异步执行某任务，这样的话，无论poll的值是否大于0，都能提升效率。</p>
-<p>此外，也可以在ansible命令中使用-B N选项指定async功能，N为超时时长，-P N选项指定poll功能，N为检查后台任务状况的时间间隔。</p>
-<p>例如：</p>
-<div><pre><code>ansible inventory_file -B200 -P 0 -m yum -a &#39;name=dos2unix&#39; -o -f 20
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_3-2-等待异步任务"> 3.2 等待异步任务</h3>
-<p>略，后续补充</p>
-<h3 id="_3-3-何时使用异步任务"> 3.3 何时使用异步任务</h3>
-<p>有时候合理应用异步任务能大幅提升Ansible的执行效率，但也并非所有场景都能够使用异步任务。</p>
-<p>总结来说，以下一些场景可能使用到Ansible的异步特性：</p>
-<ul>
-<li>某个task需要运行很长的时间，这个task很可能会达到ssh连接的timeout</li>
-<li>没有任务是需要等待它才能完成的，即没有任务依赖此任务是否完成的状态</li>
-<li>需要尽快返回当前shell执行其它命令，此时应将所有异步任务的poll设置为0，否则仍然会阻塞在异步任务上</li>
-</ul>
-<p>不适合使用异步特性的场景：</p>
-<ul>
-<li>需要执行完该任务后才能继续另外某个任务</li>
-<li>申请排它锁的任务</li>
-<li>从上到下几乎全是非常短的任务，异步与否影响不大，甚至可能会因为poll非0而降低效率</li>
-</ul>
-<h2 id="_4-controlpresist-持久化socket"> 4 controlpresist 持久化socket</h2>
-<p><strong>controlpresist 持久化socket，一次验证，多次通信,被控主机的ssh版本需要时5.6以上</strong></p>
-<p>安装在ansible被管理主机上</p>
-<div><pre><code># cat ~/.ssh/config
-Host * 
-  Compression yes 
-  ServerAliveInterval 60 
-  ServerAliveCountMax 5
-  ControlMaster auto
-  ControlPath ~/.ssh/sockets/%r@%h-%p
-  ControlPersist 4h
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
-<p>个人感觉效果不明显，不如下面ansible设置开启ssh长连接</p>
-</blockquote>
-<h2 id="_5-开启ssh长连接"> 5 开启SSH长连接</h2>
-<p>开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v</p>
-<div><pre><code># cat /etc/ansible/ansible.cfg
-ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>设置之后，连接信息会被保留在~.ansible/cp下, netstat -nltpa | grep ESTABLISH | grep ssh 会看到长连接存在</p>
-<h2 id="_6-关闭gather-facts"> 6 关闭gather_facts</h2>
-<p>关闭获取被控主机信息：在playbook中关闭即可，在大量的主机下，其效果明显</p>
-<div><pre><code>hosts: all
-gather_facts: no
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="_7-开启pipeling"> 7 开启pipeling</h2>
-<p>在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数</p>
-<div><pre><code>修改ansible.cfg中pipelining=False改为True
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_8-shell层次上的优化-将任务分开执行"> 8 Shell层次上的优化：将任务分开执行</h2>
-<p>在LNMP的示例中，分别为nginx和php和MySQL都单独定义了自己的Role，它们分别在三批节点上执行。为了统筹这些Role，一般会定义一个汇聚了所有的Role的playbook文件，称为入口playbook，比如称为main.yml或site.yml。</p>
-<p>但是，把这些Role聚集到单个playbook文件中后就必然会产生前后顺序关系。比如执行nginx Role的时候，PHP Role和MySQL Role对应的节点都在空闲。这是一种很低效的执行方式。</p>
-<p>因此，可以为每个Role单独定义一个入口playbook文件，比如分别称之为nginx.yml、php.yml和mysql.yml，然后在Shell中使用多个ansible-playbook命令去分别执行这些入口文件。</p>
-<p>这样一来，分别执行这三个Role的三批节点就可以同时开始执行任务了。</p>
-<h2 id="_9-第三方策略插件-mitogen-for-ansible"> 9 第三方策略插件：Mitogen for Ansible</h2>
-<p>略，后续补充</p>
-<h2 id="_10-优化常规配置"> 10 优化常规配置</h2>
-<div><pre><code>inventory      = /etc/ansible/hosts.yml   # 指定主机列表文件
-roles_path    = /etc/ansible/roles # 指定roles下载位置
-host_key_checking = False #关闭密码检查
-remote_user = ane #指定连接到的ssh用户
-deprecation_warnings = False #关闭一些告警
-retry_files_enabled = False #关闭book产生的retry文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="_11-其他优化项"> 11 其他优化项</h2>
-<ol>
-<li>
-<p>目录结构</p>
-<p>如果只是一个简单的独立任务，使用playbook文件即可,方便我们在其他地方引用. 复杂建议采用role形式管理.</p>
-</li>
-<li>
-<p>定义多环境</p>
-<p>通过Inventory 方式去区分多环境下的主机或者主机组信息. 生成多个主机文件.
-不同环境需要调用不同的playbook 或者task ，可以通过when 方式去判断当前的主机信息存在哪个环境中，然后进行引用.</p>
-</li>
-<li>
-<p>检测
-ansible-playbook 命令的–syntax-check 参数即可</p>
-</li>
-<li>
-<p>灰度发布</p>
-<p>挑选一台机器进行测试，只有进行测试之后我们才知道整个配置流程是否达到我们想要结果.
-进行预运行时，我们只需要把一个或者多个task 使用delegate_to参数指定到一台设备上进行测试. 如果测试通过后，再进行接下来的工作.</p>
-</li>
-<li>
-<p>统一管理</p>
-<p>纳入git仓库管理</p>
-</li>
-<li>
-<p><strong>Facts缓存优化</strong>，可以加入redis缓存（但会有一些问题，比如创建带有时间的文件夹）</p>
-</li>
-</ol>
-<p>参考链接：</p>
-<blockquote>
-<p>https://blog.51cto.com/cloumn/blog/1544</p>
-<p>https://blog.csdn.net/Jack_Yangyj/article/details/86503591</p>
-<p>https://blog.csdn.net/goodlife111/article/details/94440672</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>4.2 Playbook循环语句</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/playbook-for/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/playbook-for/</guid>
@@ -22857,6 +22340,142 @@ ok: [192.168.1.65] =&gt; (item=[&#39;d&#39;, 4]) =&gt; {
 <p>参考链接：</p>
 <p>https://www.cnblogs.com/breezey/p/10996629.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>6 Ansible使用优化</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">6 Ansible使用优化</source>
+      <pubDate>Fri, 02 Apr 2021 03:11:10 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-ansible使用优化"> 6 Ansible使用优化</h1>
+<h2 id="_1-加大forks的值"> 1 加大forks的值</h2>
+<p>默认forks=5，即最多5个Ansible工作进程。即便是只有6个目标节点，对于&quot;效率&quot;常挂嘴边的21世纪IT人来说，这么一点数量的工作进程，也显然是杯水车薪。</p>
+<p>对于Ansible来说，它的的大多数任务都是分派给目标节点去执行的，所以控制端通常比较闲暇。换句话说，控制端在浪费宝贵的资源。因此，如果没有其它资源的瓶颈(比如网络带宽瓶颈、磁盘IO瓶颈)，Ansible控制端可以尽可能开大马力，让足够多的节点同时开始运行。</p>
+<p>加大forks的值，甚至尽情地加大forks的值，可以很大幅度地提升整个任务的执行效率。不用担心太多Ansible工作进程数量会影响Ansible控制端的性能，Ansible工作进程那缓慢的工作量对OS来说实在太轻松了(除非是一些会占用大量资源的特殊任务)。我想，对于一般任务来说，唯一需要考虑的是网络带宽是否足够支撑足够数量目标节点，偶尔可能还需要考虑磁盘瓶颈。</p>
+<h2 id="_2-修改执行策略"> 2 修改执行策略</h2>
+<p>默认情况下Ansible会让所有节点(或者serial指定的数量)执行完同一个任务后才让它们进入下一个任务，这体现了各节点的公平性和实时性：每个节点都能尽早执行到任务。这其实和操作系统的进程调度是类似的概念，只不过相对于操作系统的调度系统来说，Ansible的调度策略实在是太简陋了。</p>
+<p>假设forks设置的比较大，可以一次性让足够多的节点并发执行任务，那么同时设置任务的执行策略为strategy=free便能让这些执行任务的节点彻底放飞自我。只是剩余的一部分节点可能会比较悲剧，它们处于调度不公平的一方。但是从整体来说，先让大部分节点快速完成任务是值得的。</p>
+<p>但是要注意，有些场景下要小心使用free策略，特别是节点依赖时。比如，某些节点运行服务A，另一些节点运行服务B，而服务B是依赖于服务A的，那么必须不能让运行B服务的节点先执行，对于有节点依赖关系的任务，为了健壮性，一般会定义好等待条件，但是出现等待有可能就意味着浪费。</p>
+<h2 id="_3-使ansible异步执行任务"> 3 使Ansible异步执行任务</h2>
+<p>默认情况下，Ansible按照同步执行的方式执行每个任务。即对每个任务来说，都需要等待目标节点执行完该任务后回馈给Ansible端的报告，然后Ansible才认为该节点上的该任务已经执行完成，才会考虑下一步骤，比如free策略下该节点继续执行下一个任务，或者等待其它节点完成该任务，等等。</p>
+<h3 id="_3-1-async和poll指令"> 3.1 async和poll指令</h3>
+<p>Ansible允许在task级别(且只支持task级别)指定该task是否以异步模式(即放入后台)执行，即将该异步任务放入后台。例如：</p>
+<div><pre><code>- name: it is an async task
+  copy:
+    src:
+    dest:
+  async: 200
+  poll: 2
+- name: a sync task
+  copy:
+    src:
+    dest:
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>其中async指令表示该任务将以异步的模式执行。async指令的值200表示，如果该后台任务200秒还未完成，则认为该任务失败。poll指令表示该任务丢入后台后，Ansible每隔多久去检查一次异步任务是否已成功、是否报错等，只有检查到已完成后才认为该异步任务执行完成，才会进入下一个任务。</p>
+<p>如此看来，似乎这个异步执行模式并非想象中那样真正的异步：将一个任务放入后台执行，立即进入下一个任务。而且这里的异步似乎会减慢任务的执行流程。比如后台任务在第3秒完成，也必须等到第4秒检查的时候才认为执行完成。</p>
+<p>如果poll指令的值大于0，这确实不是真正的异步，每个工作进程必须等待放入后台的任务执行完成才会进入下一个任务，换句话说，尽管使用了async异步指令，也仍然会阻塞在该异步任务上。这会减慢任务的执行速度，但此时执行该异步任务的Ansible工作进程会放弃CPU，使得CPU可以执行其它进程(对于Ansible控制节点来说，这算哪门子优点？)。</p>
+<p>但如果poll指令的值为0，将会以真正的异步模式执行任务，表示Ansible工作进程不检查后台任务的执行状况，而是直接执行下一个任务。</p>
+<p>不管poll指令的值是否大于0，只要使用了异步，那么强烈建议将forks指令的值设置的足够大。比如能够一次性让所有节点都开始异步执行某任务，这样的话，无论poll的值是否大于0，都能提升效率。</p>
+<p>此外，也可以在ansible命令中使用-B N选项指定async功能，N为超时时长，-P N选项指定poll功能，N为检查后台任务状况的时间间隔。</p>
+<p>例如：</p>
+<div><pre><code>ansible inventory_file -B200 -P 0 -m yum -a &#39;name=dos2unix&#39; -o -f 20
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_3-2-等待异步任务"> 3.2 等待异步任务</h3>
+<p>略，后续补充</p>
+<h3 id="_3-3-何时使用异步任务"> 3.3 何时使用异步任务</h3>
+<p>有时候合理应用异步任务能大幅提升Ansible的执行效率，但也并非所有场景都能够使用异步任务。</p>
+<p>总结来说，以下一些场景可能使用到Ansible的异步特性：</p>
+<ul>
+<li>某个task需要运行很长的时间，这个task很可能会达到ssh连接的timeout</li>
+<li>没有任务是需要等待它才能完成的，即没有任务依赖此任务是否完成的状态</li>
+<li>需要尽快返回当前shell执行其它命令，此时应将所有异步任务的poll设置为0，否则仍然会阻塞在异步任务上</li>
+</ul>
+<p>不适合使用异步特性的场景：</p>
+<ul>
+<li>需要执行完该任务后才能继续另外某个任务</li>
+<li>申请排它锁的任务</li>
+<li>从上到下几乎全是非常短的任务，异步与否影响不大，甚至可能会因为poll非0而降低效率</li>
+</ul>
+<h2 id="_4-controlpresist-持久化socket"> 4 controlpresist 持久化socket</h2>
+<p><strong>controlpresist 持久化socket，一次验证，多次通信,被控主机的ssh版本需要时5.6以上</strong></p>
+<p>安装在ansible被管理主机上</p>
+<div><pre><code># cat ~/.ssh/config
+Host * 
+  Compression yes 
+  ServerAliveInterval 60 
+  ServerAliveCountMax 5
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h-%p
+  ControlPersist 4h
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
+<p>个人感觉效果不明显，不如下面ansible设置开启ssh长连接</p>
+</blockquote>
+<h2 id="_5-开启ssh长连接"> 5 开启SSH长连接</h2>
+<p>开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v</p>
+<div><pre><code># cat /etc/ansible/ansible.cfg
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>设置之后，连接信息会被保留在~.ansible/cp下, netstat -nltpa | grep ESTABLISH | grep ssh 会看到长连接存在</p>
+<h2 id="_6-关闭gather-facts"> 6 关闭gather_facts</h2>
+<p>关闭获取被控主机信息：在playbook中关闭即可，在大量的主机下，其效果明显</p>
+<div><pre><code>hosts: all
+gather_facts: no
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="_7-开启pipeling"> 7 开启pipeling</h2>
+<p>在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数</p>
+<div><pre><code>修改ansible.cfg中pipelining=False改为True
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_8-shell层次上的优化-将任务分开执行"> 8 Shell层次上的优化：将任务分开执行</h2>
+<p>在LNMP的示例中，分别为nginx和php和MySQL都单独定义了自己的Role，它们分别在三批节点上执行。为了统筹这些Role，一般会定义一个汇聚了所有的Role的playbook文件，称为入口playbook，比如称为main.yml或site.yml。</p>
+<p>但是，把这些Role聚集到单个playbook文件中后就必然会产生前后顺序关系。比如执行nginx Role的时候，PHP Role和MySQL Role对应的节点都在空闲。这是一种很低效的执行方式。</p>
+<p>因此，可以为每个Role单独定义一个入口playbook文件，比如分别称之为nginx.yml、php.yml和mysql.yml，然后在Shell中使用多个ansible-playbook命令去分别执行这些入口文件。</p>
+<p>这样一来，分别执行这三个Role的三批节点就可以同时开始执行任务了。</p>
+<h2 id="_9-第三方策略插件-mitogen-for-ansible"> 9 第三方策略插件：Mitogen for Ansible</h2>
+<p>略，后续补充</p>
+<h2 id="_10-优化常规配置"> 10 优化常规配置</h2>
+<div><pre><code>inventory      = /etc/ansible/hosts.yml   # 指定主机列表文件
+roles_path    = /etc/ansible/roles # 指定roles下载位置
+host_key_checking = False #关闭密码检查
+remote_user = ane #指定连接到的ssh用户
+deprecation_warnings = False #关闭一些告警
+retry_files_enabled = False #关闭book产生的retry文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="_11-其他优化项"> 11 其他优化项</h2>
+<ol>
+<li>
+<p>目录结构</p>
+<p>如果只是一个简单的独立任务，使用playbook文件即可,方便我们在其他地方引用. 复杂建议采用role形式管理.</p>
+</li>
+<li>
+<p>定义多环境</p>
+<p>通过Inventory 方式去区分多环境下的主机或者主机组信息. 生成多个主机文件.
+不同环境需要调用不同的playbook 或者task ，可以通过when 方式去判断当前的主机信息存在哪个环境中，然后进行引用.</p>
+</li>
+<li>
+<p>检测
+ansible-playbook 命令的–syntax-check 参数即可</p>
+</li>
+<li>
+<p>灰度发布</p>
+<p>挑选一台机器进行测试，只有进行测试之后我们才知道整个配置流程是否达到我们想要结果.
+进行预运行时，我们只需要把一个或者多个task 使用delegate_to参数指定到一台设备上进行测试. 如果测试通过后，再进行接下来的工作.</p>
+</li>
+<li>
+<p>统一管理</p>
+<p>纳入git仓库管理</p>
+</li>
+<li>
+<p><strong>Facts缓存优化</strong>，可以加入redis缓存（但会有一些问题，比如创建带有时间的文件夹）</p>
+</li>
+</ol>
+<p>参考链接：</p>
+<blockquote>
+<p>https://blog.51cto.com/cloumn/blog/1544</p>
+<p>https://blog.csdn.net/Jack_Yangyj/article/details/86503591</p>
+<p>https://blog.csdn.net/goodlife111/article/details/94440672</p>
 </blockquote>
 ]]></content:encoded>
     </item>
@@ -24005,33 +23624,6 @@ host_key_checking = False
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ansible1-1585014469983.png" type="image/png"/>
     </item>
     <item>
-      <title>5 Ansible变量</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/var/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/var/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">5 Ansible变量</source>
-      <pubDate>Fri, 02 Apr 2021 03:11:10 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-ansible变量"> 5 Ansible变量</h1>
-<h2 id="变量优先级"> 变量优先级</h2>
-<p>这些变量定义的方法，它们的优先级如下：</p>
-<ol>
-<li>在命令行中定义的变量（即用<code>-e</code>或<code>--extra-vars</code>定义的变量）；</li>
-<li>在Inventory中定义的连接变量（比如：ansible_ssh_user）;</li>
-<li>大多数的其他变量（命令行转换、play中的变量、included的变量、role中的变量等）；</li>
-<li>在Inventory中定义的其他变量；</li>
-<li>Facts变量；</li>
-<li>“Role”默认变量，这个是默认的值，很容易丧失优先权。</li>
-</ol>
-<h2 id="变量作用域"> 变量作用域</h2>
-<p>Ansible中变量主要有五种作用域概念：</p>
-<p>(1).全局作用域：Ansible配置文件、环境变量、命令行选项-e,--extra-vars设置的变量都是全局变量</p>
-<p>(2).Play作用域：整个Play中都有效的变量，vars_files、vars_prompt、play级别的vars以及Role的变量，它们都是play级别的变量</p>
-<p>(3).主机变量：绑定在各主机上的变量，各种方式定义的inventory变量、Facts信息变量(这个就划分在这吧)、set_fact、register、include_vars都是主机变量</p>
-<p>(4).任务变量：只在当前任务中生效的变量，task级别的vars定义的变量属于任务变量</p>
-<p>(5).block变量：只在当前block内生效，block级别的vars定义的变量属于block变量</p>
-<p>最后还有预定义特殊变量未分类，这些变量由Ansible自身内部维护，有些是全局变量，有些是play变量，有些是主机变量，所以不方便对它们分类。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>4.6 巧用Roles</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/roles/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/roles/</guid>
@@ -24570,6 +24162,33 @@ ansible-galaxy init role_name
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210316113538941.png" type="image/png"/>
+    </item>
+    <item>
+      <title>5 Ansible变量</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/var/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/var/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">5 Ansible变量</source>
+      <pubDate>Fri, 02 Apr 2021 03:11:10 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-ansible变量"> 5 Ansible变量</h1>
+<h2 id="变量优先级"> 变量优先级</h2>
+<p>这些变量定义的方法，它们的优先级如下：</p>
+<ol>
+<li>在命令行中定义的变量（即用<code>-e</code>或<code>--extra-vars</code>定义的变量）；</li>
+<li>在Inventory中定义的连接变量（比如：ansible_ssh_user）;</li>
+<li>大多数的其他变量（命令行转换、play中的变量、included的变量、role中的变量等）；</li>
+<li>在Inventory中定义的其他变量；</li>
+<li>Facts变量；</li>
+<li>“Role”默认变量，这个是默认的值，很容易丧失优先权。</li>
+</ol>
+<h2 id="变量作用域"> 变量作用域</h2>
+<p>Ansible中变量主要有五种作用域概念：</p>
+<p>(1).全局作用域：Ansible配置文件、环境变量、命令行选项-e,--extra-vars设置的变量都是全局变量</p>
+<p>(2).Play作用域：整个Play中都有效的变量，vars_files、vars_prompt、play级别的vars以及Role的变量，它们都是play级别的变量</p>
+<p>(3).主机变量：绑定在各主机上的变量，各种方式定义的inventory变量、Facts信息变量(这个就划分在这吧)、set_fact、register、include_vars都是主机变量</p>
+<p>(4).任务变量：只在当前任务中生效的变量，task级别的vars定义的变量属于任务变量</p>
+<p>(5).block变量：只在当前block内生效，block级别的vars定义的变量属于block变量</p>
+<p>最后还有预定义特殊变量未分类，这些变量由Ansible自身内部维护，有些是全局变量，有些是play变量，有些是主机变量，所以不方便对它们分类。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>5.5 使用vault配置加密</title>
@@ -29019,6 +28638,31 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
+      <title>7.5 牛刀小试</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">7.5 牛刀小试</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
+<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
+<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> <span>$HOME</span>/.Xclients
+<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> /etc/X11/xinit/Xclients
+<span>else</span>
+    <span># 安全分支。尽管程序不会执行这个分支。</span>
+    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
+    xclock -geometry 100x100-5+5 <span>&amp;</span>
+    xterm -geometry 80x50-50+150 <span>&amp;</span>
+    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
+            netscape /usr/share/doc/HTML/index.html
+    <span>fi</span>
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>7.4 嵌套 if/then 条件测试</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_4_nested_if_then_condition_tests/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_4_nested_if_then_condition_tests/</guid>
@@ -29062,31 +28706,6 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
 <li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
 </ul>
 <p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>7.5 牛刀小试</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">7.5 牛刀小试</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
-<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
-<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> <span>$HOME</span>/.Xclients
-<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> /etc/X11/xinit/Xclients
-<span>else</span>
-    <span># 安全分支。尽管程序不会执行这个分支。</span>
-    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
-    xclock -geometry 100x100-5+5 <span>&amp;</span>
-    xterm -geometry 80x50-50+150 <span>&amp;</span>
-    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
-            netscape /usr/share/doc/HTML/index.html
-    <span>fi</span>
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -33631,6 +33250,84 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
+      <title>11.2 嵌套循环</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.2 嵌套循环</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>安装运行</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
+      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="images/1567761679082.png" alt=""></p>
+<p>解压并安装运行</p>
+<p><img src="images/1567761719575.png" alt=""></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>11.3 循环控制</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_3_loop_control/</guid>
@@ -33824,108 +33521,24 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>Elastic Stack 与Docker 容器</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Elastic Stack 与Docker 容器</source>
-      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
+      <title>第十一章 循环与分支</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十一章 循环与分支</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
 <ul>
-<li>Elastic官方提供Docker Image</li>
-<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
-<li>2018年12月加入CNCF，提供helm</li>
-<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
 </ul>
-<h2 id="编写dockerfile"> 编写dockerfile</h2>
-<p>vim docker-compose.yaml</p>
-<div><pre><code>version<span>:</span> <span>'2.2'</span>
-services<span>:</span>
-  cerebro<span>:</span>
-    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
-    container_name<span>:</span> cerebro
-    ports<span>:</span>
-      <span>-</span> <span>"9000:9000"</span>
-    command<span>:</span>
-      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  kibana<span>:</span>
-    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
-    container_name<span>:</span> kibana7
-    environment<span>:</span>
-      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
-      <span>-</span> XPACK_GRAPH_ENABLED=true
-      <span>-</span> TIMELION_ENABLED=true
-      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
-    ports<span>:</span>
-      <span>-</span> <span>"5601:5601"</span>
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_01
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_01
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
-    ports<span>:</span>
-      <span>-</span> 9200<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch2<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_02
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_02
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
-    networks<span>:</span>
-      <span>-</span> es7net
-
-
-volumes<span>:</span>
-  es7data1<span>:</span>
-    driver<span>:</span> local
-  es7data2<span>:</span>
-    driver<span>:</span> local
-
-networks<span>:</span>
-  es7net<span>:</span>
-    driver<span>:</span> bridge
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
-<ul>
-<li>启动</li>
-</ul>
-<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
-<div><pre><code>docker-compose up 
-</code></pre>
-<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
-<ul>
-<li>关闭</li>
-</ul>
-<div><pre><code>docker-compose down
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
-<p>可以用来监控es集群的状态，非常好用，推荐</p>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -34712,27 +34325,6 @@ bash$ echo $(echo \\)
 ]]></content:encoded>
     </item>
     <item>
-      <title>第十一章 循环与分支</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_loops_and_branches/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第十一章 循环与分支</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第三部分 shell进阶</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/part3/</guid>
@@ -34776,130 +34368,6 @@ bash$ echo $(echo \\)
 <li><a href="./14_recess_time.html">14. 休息时间</a></li>
 </ul>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>18.1 正则表达式简介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18.1 正则表达式简介</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-1-正则表达式简介"> 18.1 正则表达式简介</h1>
-<p>正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning<a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a>。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。</p>
-<p>一个正则表达式包含下面的一个或多个选项：</p>
-<ul>
-<li>一组字符串。这是仅仅表示字面意思的字符串。最简单形式的正则表达式仅仅包含一组字符串。</li>
-<li>一个锚字符。锚节点指定了正则表达式在一行文本中的匹配位置。例如，^和$就是锚字符。</li>
-<li>修饰符。修饰符扩展或者限定（修改）了正则表达式在文本中的匹配范围。修饰符包括星号、方括号和反斜线。</li>
-</ul>
-<p>正则表达式的主要用在文本搜索和字符串操作。一个正则表达式匹配单个字符或者一组字符 -- 一系列的字符或者字符串的一部分。</p>
-<ul>
-<li>
-<p>星号 * 匹配前面的子表达式任意次，包括0次</p>
-<p>&quot;1133*&quot;匹配&quot;11&quot;加一个或多个&quot;3&quot;：113，1133，1133333，及以后</p>
-</li>
-<li>
-<p>点号 . 匹配任意字符，除了新的一行<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a></p>
-<p>&quot;13.&quot;匹配&quot;13&quot;加至少一个字符（包括空格）：1133，11333，但不是13（缺少额外的字符）<br>
-参见例子<a href="http://tldp.org/LDP/abs/html/textproc.html#CWSOLVER" target="_blank" rel="noopener noreferrer">16-18</a>，展示单字符匹配</p>
-</li>
-<li>
-<p>脱字符 ^ 匹配行的起始位置，但有时候会根据上下文环境匹配其相反的意义（译者注：例如[^a]匹配任意一个非a的字符）</p>
-</li>
-<li>
-<p>美元符 $ 匹配行的结束位置</p>
-<p>&quot;XXX<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;^&#039; at position 19: …行尾处的&quot;XXX&quot;  
-  &quot;^̲'>&quot;匹配行尾处的&quot;XXX&quot;  
-  &quot;^</span>&quot;匹配空行</p>
-</li>
-<li>
-<p>方括号 [...] 匹配所包含的任意一个字符</p>
-<p>&quot;[xyz]&quot;匹配x、y或z中的任意一个字符<br>
-&quot;[c-n]&quot;匹配c到n之间的任意一个字符<br>
-&quot;[B-Pk-y]&quot;匹配B到P和k到y之间任意一个字符<br>
-&quot;[a-z0-9]&quot;匹配任意一个小写字符和任意一个数字<br>
-&quot;[<sup>b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;</sup>&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
-组合一连串的用方括号括起来的字符能匹配非常多的词组模式。&quot;[Yy][Ee][Ss]&quot;匹配yes、Yes、YES、yEs等等。&quot;[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]&quot;匹配任何一个社会保险号</p>
-</li>
-<li>
-<p>反斜线 \ 转义一个特殊字符，意味着这个字符被解释为字面意义（因此不再包含特殊意思）</p>
-<p>&quot;$&quot;表示回它的字面意义&quot;$&quot;，而不是它原本在正则表达式中代表行尾的意义。同样，&quot;\&quot;表示字面意义&quot;&quot;</p>
-</li>
-<li>
-<p>转义后的尖括号 &lt;..&gt; 代表词组的边界</p>
-<p>尖括号必须进行转义，否则它们就代表其字面意义<br>
-&quot;&lt;the&gt;&quot;匹配词组&quot;the&quot;，而不是词组&quot;them,&quot; &quot;there,&quot; &quot;other,&quot;等等</p>
-</li>
-</ul>
-<div><pre><code>bash$ <span>cat</span> textfile
-This is line <span>1</span>, of <span>which</span> there is only one instance.
- This is the only instance of line <span>2</span>.
- This is line <span>3</span>, another line.
- This is line <span>4</span>.
-
-
-bash$ <span>grep</span> <span>'the'</span> textfile
-This is line <span>1</span>, of <span>which</span> there is only one instance.
- This is the only instance of line <span>2</span>.
- This is line <span>3</span>, another line.
-
-
-bash$ <span>grep</span> <span>'\&lt;the\>'</span> textfile
-This is the only instance of line <span>2</span>.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
-<div><pre><code>测试文件: tstfile                          <span># No match.</span>
-                                            <span># No match.</span>
-运行 <span>grep</span> <span>"1133*"</span>  tstfile                  <span># Match.</span>
-                                            <span># No match.</span>
-                                            <span># No match.</span>
-This line contains the number <span>113</span>.          <span># Match.</span>
-This line contains the number <span>13</span>.           <span># No match.</span>
-This line contains the number <span>133</span>.          <span># No match.</span>
-This line contains the number <span>1133</span>.         <span># Match.</span>
-This line contains the number <span>113312</span>.       <span># Match.</span>
-This line contains the number <span>1112</span>.         <span># No match.</span>
-This line contains the number <span>113312312</span>.    <span># Match.</span>
-This line contains no numbers at all.       <span># No match.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><div><pre><code>bash$ <span>grep</span> <span>"1133*"</span> tstfile
-Run   <span>grep</span> <span>"1133*"</span>  on this file.           <span># Match.</span>
- This line contains the number <span>113</span>.          <span># Match.</span>
- This line contains the number <span>1133</span>.         <span># Match.</span>
- This line contains the number <span>113312</span>.       <span># Match.</span>
- This line contains the number <span>113312312</span>.    <span># Match.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>注解</p>
-<p><a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a> 元意义指的是一个词组或者表达式在更高层次的抽象上的意义。例如，正则表达式的字面意思就是所有人接受其用法的普通表达式。元意义则完全不同，正如在本章最终讨论的那样。
-<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a>
-Since sed, awk, and grep process single lines, there will usually not be a newline to match. In those cases where there is a newline in a multiple line expression, the dot will match the newline.</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>sed</span> -e <span>'N;s/.*/[&amp;]/'</span> <span>&lt;&lt;</span> <span>EOF<span>   <span># Here Document</span></span>
-line1
-line2
-EOF</span>
-<span># OUTPUT:</span>
-<span># [line1</span>
-<span># line2]</span>
-
-
-
-<span>echo</span>
-
-<span>awk</span> <span>'{ <span>$0</span>=<span>$1</span> "<span title="\n">\n</span>" <span>$2</span>; if (/line.1/) {print}}'</span> <span>&lt;&lt;</span> <span>EOF
-line 1
-line 2
-EOF</span>
-<span># OUTPUT:</span>
-<span># line</span>
-<span># 1</span>
-
-
-<span># Thanks, S.C.</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>第四部分 命令</title>
@@ -35322,31 +34790,136 @@ EOF</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>18.1 正则表达式简介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18.1 正则表达式简介</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_18-1-正则表达式简介"> 18.1 正则表达式简介</h1>
+<p>正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning<a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a>。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。</p>
+<p>一个正则表达式包含下面的一个或多个选项：</p>
+<ul>
+<li>一组字符串。这是仅仅表示字面意思的字符串。最简单形式的正则表达式仅仅包含一组字符串。</li>
+<li>一个锚字符。锚节点指定了正则表达式在一行文本中的匹配位置。例如，^和$就是锚字符。</li>
+<li>修饰符。修饰符扩展或者限定（修改）了正则表达式在文本中的匹配范围。修饰符包括星号、方括号和反斜线。</li>
+</ul>
+<p>正则表达式的主要用在文本搜索和字符串操作。一个正则表达式匹配单个字符或者一组字符 -- 一系列的字符或者字符串的一部分。</p>
+<ul>
+<li>
+<p>星号 * 匹配前面的子表达式任意次，包括0次</p>
+<p>&quot;1133*&quot;匹配&quot;11&quot;加一个或多个&quot;3&quot;：113，1133，1133333，及以后</p>
+</li>
+<li>
+<p>点号 . 匹配任意字符，除了新的一行<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a></p>
+<p>&quot;13.&quot;匹配&quot;13&quot;加至少一个字符（包括空格）：1133，11333，但不是13（缺少额外的字符）<br>
+参见例子<a href="http://tldp.org/LDP/abs/html/textproc.html#CWSOLVER" target="_blank" rel="noopener noreferrer">16-18</a>，展示单字符匹配</p>
+</li>
+<li>
+<p>脱字符 ^ 匹配行的起始位置，但有时候会根据上下文环境匹配其相反的意义（译者注：例如[^a]匹配任意一个非a的字符）</p>
+</li>
+<li>
+<p>美元符 $ 匹配行的结束位置</p>
+<p>&quot;XXX<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;^&#039; at position 19: …行尾处的&quot;XXX&quot;  
+  &quot;^̲'>&quot;匹配行尾处的&quot;XXX&quot;  
+  &quot;^</span>&quot;匹配空行</p>
+</li>
+<li>
+<p>方括号 [...] 匹配所包含的任意一个字符</p>
+<p>&quot;[xyz]&quot;匹配x、y或z中的任意一个字符<br>
+&quot;[c-n]&quot;匹配c到n之间的任意一个字符<br>
+&quot;[B-Pk-y]&quot;匹配B到P和k到y之间任意一个字符<br>
+&quot;[a-z0-9]&quot;匹配任意一个小写字符和任意一个数字<br>
+&quot;[<sup>b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;</sup>&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
+组合一连串的用方括号括起来的字符能匹配非常多的词组模式。&quot;[Yy][Ee][Ss]&quot;匹配yes、Yes、YES、yEs等等。&quot;[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]&quot;匹配任何一个社会保险号</p>
+</li>
+<li>
+<p>反斜线 \ 转义一个特殊字符，意味着这个字符被解释为字面意义（因此不再包含特殊意思）</p>
+<p>&quot;$&quot;表示回它的字面意义&quot;$&quot;，而不是它原本在正则表达式中代表行尾的意义。同样，&quot;\&quot;表示字面意义&quot;&quot;</p>
+</li>
+<li>
+<p>转义后的尖括号 &lt;..&gt; 代表词组的边界</p>
+<p>尖括号必须进行转义，否则它们就代表其字面意义<br>
+&quot;&lt;the&gt;&quot;匹配词组&quot;the&quot;，而不是词组&quot;them,&quot; &quot;there,&quot; &quot;other,&quot;等等</p>
+</li>
+</ul>
+<div><pre><code>bash$ <span>cat</span> textfile
+This is line <span>1</span>, of <span>which</span> there is only one instance.
+ This is the only instance of line <span>2</span>.
+ This is line <span>3</span>, another line.
+ This is line <span>4</span>.
+
+
+bash$ <span>grep</span> <span>'the'</span> textfile
+This is line <span>1</span>, of <span>which</span> there is only one instance.
+ This is the only instance of line <span>2</span>.
+ This is line <span>3</span>, another line.
+
+
+bash$ <span>grep</span> <span>'\&lt;the\>'</span> textfile
+This is the only instance of line <span>2</span>.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
+<div><pre><code>测试文件: tstfile                          <span># No match.</span>
+                                            <span># No match.</span>
+运行 <span>grep</span> <span>"1133*"</span>  tstfile                  <span># Match.</span>
+                                            <span># No match.</span>
+                                            <span># No match.</span>
+This line contains the number <span>113</span>.          <span># Match.</span>
+This line contains the number <span>13</span>.           <span># No match.</span>
+This line contains the number <span>133</span>.          <span># No match.</span>
+This line contains the number <span>1133</span>.         <span># Match.</span>
+This line contains the number <span>113312</span>.       <span># Match.</span>
+This line contains the number <span>1112</span>.         <span># No match.</span>
+This line contains the number <span>113312312</span>.    <span># Match.</span>
+This line contains no numbers at all.       <span># No match.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><div><pre><code>bash$ <span>grep</span> <span>"1133*"</span> tstfile
+Run   <span>grep</span> <span>"1133*"</span>  on this file.           <span># Match.</span>
+ This line contains the number <span>113</span>.          <span># Match.</span>
+ This line contains the number <span>1133</span>.         <span># Match.</span>
+ This line contains the number <span>113312</span>.       <span># Match.</span>
+ This line contains the number <span>113312312</span>.    <span># Match.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>注解</p>
+<p><a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a> 元意义指的是一个词组或者表达式在更高层次的抽象上的意义。例如，正则表达式的字面意思就是所有人接受其用法的普通表达式。元意义则完全不同，正如在本章最终讨论的那样。
+<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a>
+Since sed, awk, and grep process single lines, there will usually not be a newline to match. In those cases where there is a newline in a multiple line expression, the dot will match the newline.</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>sed</span> -e <span>'N;s/.*/[&amp;]/'</span> <span>&lt;&lt;</span> <span>EOF<span>   <span># Here Document</span></span>
+line1
+line2
+EOF</span>
+<span># OUTPUT:</span>
+<span># [line1</span>
+<span># line2]</span>
+
+
+
+<span>echo</span>
+
+<span>awk</span> <span>'{ <span>$0</span>=<span>$1</span> "<span title="\n">\n</span>" <span>$2</span>; if (/line.1/) {print}}'</span> <span>&lt;&lt;</span> <span>EOF
+line 1
+line 2
+EOF</span>
+<span># OUTPUT:</span>
+<span># line</span>
+<span># 1</span>
+
+
+<span># Thanks, S.C.</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>18.2文件名替换</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_2_globbing/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_2_globbing/</guid>
       <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18.2文件名替换</source>
       <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>18 正则表达式</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_regular_expressions/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_regular_expressions/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18 正则表达式</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
-<blockquote>
-<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
-<em>--Stowe Boyd</em></p>
-</blockquote>
-<p>目录</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
-</ul>
-<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -35937,6 +35510,25 @@ EOF
 ]]></content:encoded>
     </item>
     <item>
+      <title>18 正则表达式</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_regular_expressions/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/18_regular_expressions/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18 正则表达式</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
+<blockquote>
+<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
+<em>--Stowe Boyd</em></p>
+</blockquote>
+<p>目录</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
+</ul>
+<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>20.1 使用 exec</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_1_use_exec/</guid>
@@ -36393,89 +35985,6 @@ echo &quot;$nr files totaling $totalSize bytes&quot;
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>20.3 应用程序</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_3_applications/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_3_applications/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.3 应用程序</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
-<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
-<p>样例 20-12. 日志记录事件</p>
-<div><pre><code>#!/bin/bash
-# logevents.sh
-# 作者: Stephane Chazelas.
-# 用于 ABS 许可指南.
-
-# 事件记录到文件.
-# 必须 root 身份执行 (可以写入 /var/log).
-
-ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
-E_NOTROOT=67   # 非 root 会报错.
-
-
-if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
-then
-  echo &quot;Must be root to run this script.&quot;
-  exit $E_NOTROOT
-fi  
-
-
-FD_DEBUG1=3
-FD_DEBUG2=4
-FD_DEBUG3=5
-
-# === 取消下面两行注释来激活脚本. ===
-# LOG_EVENTS=1
-# LOG_VARS=1
-
-
-log()  # 时间和日期写入日志文件.
-{
-echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
-#     ^^^^^^^  命令替换
-                           # 见下文.
-}
-
-
-
-case $LOG_LEVEL in
- 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
- 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
- 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
- *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
-esac
-
-FD_LOGVARS=6
-if [[ $LOG_VARS ]]
-then exec 6&gt;&gt; /var/log/vars.log
-else exec 6&gt; /dev/null                     # 清空输出.
-fi
-
-FD_LOGEVENTS=7
-if [[ $LOG_EVENTS ]]
-then
-  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
-  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
-  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
-  log                                      # 写入时间和日期.
-else exec 7&gt; /dev/null                     # 清空输出.
-fi
-
-echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
-
-ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
-
-echo &quot;Done&quot;                                # 命令2 
-
-echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
-# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
-
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>20 I/O 重定向</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_io_redirection/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_io_redirection/</guid>
@@ -36663,6 +36172,89 @@ exec 3&gt;&amp;-                              # 现在关闭它.
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17894" target="_blank" rel="noopener noreferrer">[2]</a>	 <code>文件描述符</code> 仅仅是操作系统分配的一个可追踪的打开的文件号. 可以认为是一个简化的文件指针. 类似于 C 语言的 <code>文件句柄</code>.</p>
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17906" target="_blank" rel="noopener noreferrer">[3]</a>	当 bash 创建一个子进程的时候使用 <code>文件描述符 5</code> 会有问题. 例如 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a>, 子进程继承了文件描述符 5 (详情见 Chet Ramey's 归档的 e-mail, <a href="https://groups.google.com/forum/#!topic/gnu.bash.bug/E5Vdqv3tO1w" target="_blank" rel="noopener noreferrer">SUBJECT: RE: File descriptor 5 is held open</a>). 最好将这个文件描述符单独规避.</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>20.3 应用程序</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_3_applications/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part5/20_3_applications/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.3 应用程序</source>
+      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
+<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
+<p>样例 20-12. 日志记录事件</p>
+<div><pre><code>#!/bin/bash
+# logevents.sh
+# 作者: Stephane Chazelas.
+# 用于 ABS 许可指南.
+
+# 事件记录到文件.
+# 必须 root 身份执行 (可以写入 /var/log).
+
+ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
+E_NOTROOT=67   # 非 root 会报错.
+
+
+if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
+then
+  echo &quot;Must be root to run this script.&quot;
+  exit $E_NOTROOT
+fi  
+
+
+FD_DEBUG1=3
+FD_DEBUG2=4
+FD_DEBUG3=5
+
+# === 取消下面两行注释来激活脚本. ===
+# LOG_EVENTS=1
+# LOG_VARS=1
+
+
+log()  # 时间和日期写入日志文件.
+{
+echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
+#     ^^^^^^^  命令替换
+                           # 见下文.
+}
+
+
+
+case $LOG_LEVEL in
+ 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
+ 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
+ 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
+ *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
+esac
+
+FD_LOGVARS=6
+if [[ $LOG_VARS ]]
+then exec 6&gt;&gt; /var/log/vars.log
+else exec 6&gt; /dev/null                     # 清空输出.
+fi
+
+FD_LOGEVENTS=7
+if [[ $LOG_EVENTS ]]
+then
+  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
+  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
+  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
+  log                                      # 写入时间和日期.
+else exec 7&gt; /dev/null                     # 清空输出.
+fi
+
+echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
+
+ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
+
+echo &quot;Done&quot;                                # 命令2 
+
+echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
+# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
+
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>第二十一章 子shell</title>
@@ -46647,81 +46239,489 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
-      <title>安装运行</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
-      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="images/1567761679082.png" alt=""></p>
-<p>解压并安装运行</p>
-<p><img src="images/1567761719575.png" alt=""></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
+      <title>ansible配置</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/elk%E5%80%9F%E5%8A%A9%E5%AE%89%E8%A3%85ansible/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">ansible配置</source>
+      <pubDate>Thu, 25 Mar 2021 01:54:12 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="ansible配置"> ansible配置</h2>
+<div><pre><code><span># 修改主机名</span>
+hostnamectl set-hostname elk_ans
+<span># 生产密钥对，生成后将公钥导入到私有云主机中，创建新主机时使用</span>
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -N <span>''</span>
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
-]]></content:encoded>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># yum 安装</span>
+yum -y <span>install</span> ansible
+<span># 修改主机列表为yaml格式</span>
+<span>mv</span> /etc/ansible/hosts<span>{</span>,.yml<span>}</span>
+<span># 优化配置</span>
+<span>cp</span> /etc/ansible/ansible.cfg<span>{</span>,.bak<span>}</span>
+<span>cat</span> <span>></span> /etc/ansible/ansible.cfg <span>&lt;&lt;</span><span>EOF
+[defaults]
+inventory      = /etc/ansible/hosts.yml
+roles_path    = /etc/ansible/roles
+host_key_checking = False
+deprecation_warnings = False
+retry_files_enabled = False
+[inventory]
+[privilege_escalation]
+[paramiko_connection]
+[ssh_connection]
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
+[persistent_connection]
+[accelerate]
+[selinux]
+[colors]
+[diff]
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><div><pre><code><span># 编写ansible主机清单</span>
+<span>export</span> <span>es_master1</span><span>=</span><span>192.168</span>.135.125 <span>es_master2</span><span>=</span><span>192.168</span>.135.214 <span>es_master3</span><span>=</span><span>192.168</span>.135.62 <span>es_data1</span><span>=</span><span>192.168</span>.135.160 <span>es_data2</span><span>=</span><span>192.168</span>.135.73 <span>es_data3</span><span>=</span><span>192.168</span>.135.105 <span>es_ingest1</span><span>=</span><span>192.168</span>.135.8 <span>es_ingest2</span><span>=</span><span>192.168</span>.135.187 <span>es_ingest3</span><span>=</span><span>192.168</span>.135.189 <span>kibana1</span><span>=</span><span>192.168</span>.135.178 <span>kibana2</span><span>=</span><span>192.168</span>.135.196 <span>kibana3</span><span>=</span><span>192.168</span>.135.198 <span>logstash1</span><span>=</span><span>192.168</span>.135.89 <span>logstash2</span><span>=</span><span>192.168</span>.135.30 <span>logstash3</span><span>=</span><span>192.168</span>.135.96 <span>kafka1</span><span>=</span><span>192.168</span>.135.32 <span>kafka2</span><span>=</span><span>192.168</span>.135.22 <span>kafka3</span><span>=</span><span>192.168</span>.135.51
+<span>cat</span> <span>></span> /etc/ansible/hosts.yml <span>&lt;&lt;</span><span>EOF
+all:
+  children:
+    elasticsearch:
+      children:
+        es_master:
+        es_data:
+        es_ingest:
+    es_master:
+      hosts:
+        es_master1:
+          ansible_host: <span>${es_master1}</span>
+        es_master2:
+          ansible_host: <span>${es_master2}</span>
+        es_master3:
+          ansible_host: <span>${es_master3}</span>
+    es_data:
+      hosts:
+        es_data1:
+          ansible_host: <span>${es_data1}</span>
+        es_data2:
+          ansible_host: <span>${es_data2}</span>
+        es_data3:
+          ansible_host: <span>${es_data3}</span>
+    es_ingest:
+      hosts:
+        es_ingest1:
+          ansible_host: <span>${es_ingest1}</span>
+        es_ingest2:
+          ansible_host: <span>${es_ingest2}</span>
+        es_ingest3:
+          ansible_host: <span>${es_ingest3}</span>
+    kibana:
+      hosts:
+        kibana1:
+          ansible_host: <span>${kibana1}</span>
+        kibana2:
+          ansible_host: <span>${kibana2}</span>
+        kibana3:
+          ansible_host: <span>${kibana3}</span>
+    logstash:
+      hosts:
+        logstash1:
+          ansible_host: <span>${logstash1}</span>
+        logstash2:
+          ansible_host: <span>${logstash2}</span>
+        logstash3:
+          ansible_host: <span>${logstash3}</span>
+    kafka:
+      hosts:
+        kafka1:
+          ansible_host: <span>${kafka1}</span>
+          zookeeper_id: 1
+        kafka2:
+          ansible_host: <span>${kafka2}</span>
+          zookeeper_id: 2
+        kafka3:
+          ansible_host: <span>${kafka3}</span>
+          zookeeper_id: 3
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div><div><pre><code><span># 镜像yum源有问题得，替换下yum源</span>
+ansible-galaxy <span>install</span> clay_wangzhi.sysinit
+<span>mkdir</span> -p /etc/ansible/playbooks/vars
+<span>cat</span> <span>></span> /etc/ansible/playbooks/sysinit.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: all
+  roles:
+    - clay_wangzhi.sysinit
+EOF</span>
+ansible all -m shell -a <span>"rm -rf /etc/yum.repos.d/bak/"</span>
+ansible-playbook /etc/ansible/playbooks/sysinit.yml --tags upgrade_repo
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="安装-elasticsearch"> 安装 Elasticsearch</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> elastic.elasticsearch,v7.11.2
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 编写playbook</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/elasticsearch.yml <span>&lt;&lt;</span> <span>EOF
+---
+# 注意修改yum源为清华源
+- hosts: es_master
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: true
+    node_data: false
+  vars_files:
+    - vars/es_vars.yml
+
+- hosts: es_data
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: false
+    node_data: true
+  vars_files:
+    - vars/es_vars.yml
+
+- hosts: es_ingest
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    node_master: false
+    node_data: false
+  vars_files:
+    - vars/es_vars.yml
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><div><pre><code><span># 新增var_files</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/vars/es_vars.yml <span>&lt;&lt;</span> <span>EOF
+es_heap_size: "4g"
+es_api_host: "{{ansible_ssh_host}}"
+es_data_dirs:
+  - "/opt/elasticsearch/data"
+es_log_dir: "/opt/elasticsearch/logs"
+es_config:
+  cluster.name: "suncar-es"
+  node.name: "{{inventory_hostname}}"
+  network.host: "{{ansible_ssh_host}}"
+  cluster.initial_master_nodes: '["{{hostvars[groups["es_master"][0]].ansible_host}}"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}"{% endfor %}]'
+  discovery.seed_hosts: '["{{hostvars[groups["es_master"][0]].ansible_host}}:9300"{% for host in groups["es_master"][1:] %}, "{{hostvars[host].ansible_host}}:9300"{% endfor %}]'
+  http.port: 9200
+  node.master: "{{node_master}}"
+  node.data: "{{node_data}}"
+  bootstrap.memory_lock: true
+  gateway.recover_after_nodes: 2
+  xpack.monitoring.collection.enabled: true
+  http.cors.enabled: true
+  http.cors.allow-origin: "*"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
+<span>cat</span> <span>></span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.repo <span>&lt;&lt;</span> <span>EOF
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
+gpgcheck=0
+enabled=1
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 修改es yml配置文件,将安全功能开启，并自己设置密码</span>
+<span>vim</span> /etc/ansible/roles/elastic.elasticsearch/templates/elasticsearch.yml.j2
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code>{% if es_enable_xpack and es_api_basic_auth_username is defined and es_api_basic_auth_password is defined %}   #将这一行改为下面
+{% if not oss_version %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，es数据节点磁盘占用很大</p>
+</blockquote>
+<div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/elasticsearch.yml 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ansible安装完成后，初始化es通信的密码，在任意es_master1节点执行</span>
+<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
+<span>cd</span> /usr/share/elasticsearch/
+bin/elasticsearch-setup-passwords interactive
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>配置Node间SSL</strong></p>
+<p>注意：这里是指配置ES集群节点间transport的SSL认证，对于ES节点的HTTP API接口并没有配置，所以通过API访问ES时不需要提供证书。</p>
+<p>参考官网:</p>
+<p>https://www.elastic.co/guide/en/elasticsearch/reference/current/ssl-tls.html</p>
+<p>https://www.elastic.co/guide/en/elasticsearch/reference/7.4/configuring-tls.html</p>
+<p>创建SSL/TLS证书：</p>
+<div><pre><code><span>cd</span> /usr/share/elasticsearch/bin
+<span>export</span> <span>JAVA_HOME</span><span>=</span>/usr/share/elasticsearch/jdk/
+./elasticsearch-certutil ca -v   //一路回车
+<span>cd</span> <span>..</span>
+./bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12  //一路回车
+<span>mv</span> elastic-* /etc/elasticsearch/
+<span>cd</span> /etc/elasticsearch/
+<span>chown</span> elasticsearch.elasticsearch *.p12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>操作完成后，把证书传到剩余节点，修改剩余节点的配置文件，并重启</p>
+<div><pre><code><span># 将证书传到 ansible /tmp 目录下</span>
+ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-certificates.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
+ansible elasticsearch -m copy -a <span>"src=/tmp/elastic-stack-ca.p12 dest=/etc/elasticsearch/ owner=elasticsearch group=elasticsearch"</span> 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code><span># 修改/etc/elasticsearch/elasticsearch.yml 配置文件</span>
+ansible elasticsearch -m lineinfile -a <span>"path=/etc/elasticsearch/elasticsearch.yml line='xpack.security.transport.ssl.enabled: true<span title="\n">\n</span>xpack.security.transport.ssl.verification_mode: certificate<span title="\n">\n</span>xpack.security.transport.ssl.keystore.path: /etc/elasticsearch/elastic-certificates.p12<span title="\n">\n</span>xpack.security.transport.ssl.truststore.path: /etc/elasticsearch/elastic-certificates.p12'"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># 重启es</span>
+ansible elasticsearch -m <span>service</span> -a <span>"name=elasticsearch state=restarted"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>在此过程中，所有节点必须全部更新完，否则之前的用户名和密码将会认证失败</p>
+<p>更新完成之后，集群的健康检查为yellow，不要着急，等待它自己自动恢复成green，当es中数据较多时会出现</p>
+</blockquote>
+<blockquote>
+<p>Kibana，logstash，kafka的安装可以同时进行，提高效率</p>
+</blockquote>
+<h2 id="安装-kibana"> 安装 Kibana</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.kibana
+<span># 编写playbook，根据实际情况，填写用户名，密码</span>
+<span>export</span> <span>k_username</span><span>=</span>elastic <span>k_pass</span><span>=</span>E<span>#2021</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/kibana.yml <span>&lt;&lt;</span> <span>EOF
+- hosts: kibana
+  roles:
+    - clay_wangzhi.kibana
+  vars:
+    kibana_version: "7.x"
+    kibana_dversion: "7.11.2"
+    kibana_server_host: "{{ansible_ssh_host}}"
+    kibana_server_name: "{{inventory_hostname}}"
+    kibana_elasticsearch_url: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
+    kibana_elasticsearch_username: "<span>${k_username}</span>"
+    kibana_elasticsearch_password: "<span>${k_pass}</span>"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/kibana.yml
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>TODO：Kibana7.11.x 版本具有告警功能，已经GA了，后续可以看一下</p>
+</blockquote>
+<h2 id="安装-logstash"> 安装 logstash</h2>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.logstash
+<span># 编写playbook，根据实际情况，填写用户名，密码</span>
+<span>export</span> <span>l_username</span><span>=</span>elastic <span>l_pass</span><span>=</span>E<span>#2021</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/logstash.yml <span>&lt;&lt;</span> <span>EOF
+- hosts: logstash
+  roles:
+    - clay_wangzhi.logstash
+  vars:
+    logstash_version: '7.x'
+    logstash_dversion: '7.11.2'
+    logstash_elasticsearch_hosts: '["http://{{hostvars[groups["es_ingest"][0]].ansible_host}}:9200"{% for host in groups["es_ingest"][1:] %}, "http://{{hostvars[host].ansible_host}}:9200"{% endfor %}]'
+    es_user: "<span>${l_username}</span>"
+    es_pass: "<span>${l_pass}</span>"
+    kafka_topic: "h5-jar"
+    kafka_group_id: "suncar-h5"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/logstash.yml 
+<span># kafka 还未安装，先停止logstash</span>
+ansible logstash -m <span>service</span> -a <span>"name=logstash state=stopped"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>TODO: logstash 的playbook后期有空，可以优化一下</p>
+</blockquote>
+<h2 id="安装-kafka"> 安装 kafka</h2>
+<p>kafka集群依赖zookeeper，先安装zookeeper集群</p>
+<blockquote>
+<p>由于下载源有问题，需要手工注释掉了下载的task，我事先把压缩包下载到了ansible控制节点，先传到各个客户端</p>
+<div><pre><code>ansible kafka -m copy -a &quot;src=/tmp/zookeeper-3.4.14.tar.gz dest=/tmp/&quot;
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p><strong>安装zookeeper</strong></p>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.zookeeper
+<span># 编写playbook</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/zookeeper.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: kafka
+  roles:
+  - role: clay_wangzhi.zookeeper
+    zookeeper_version: 3.4.14
+    zookeeper_mirror: "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper"
+    zookeeper_servers: "{{groups['kafka']}}"
+    zookeeper_environment:
+      "JAVA_HOME": "/opt/jdk1.8.0_144"
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/zookeeper.yml
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>安装kafka</strong></p>
+<div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> clay_wangzhi.kafka
+<span>cat</span> <span>></span> /etc/ansible/playbooks/kafka.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: kafka
+  roles:
+    - clay_wangzhi.kafka
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
+<p>执行playbook前，首先要进行数据磁盘的挂载，挂载到数据目录，kafka数据节点磁盘占用很大</p>
+</blockquote>
+<div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/kafka.yml
+<span># 启动logstash，上面停止了</span>
+ansible logstash -m <span>service</span> -a <span>"name=logstash state=started"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="安装-filebeat"> 安装 filebeat</h2>
+<div><pre><code># 添加filebeat主机到主机清单
+    filebeat:
+      hosts:
+        192.168.124.3:
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span># 下载roles</span>
+ansible-galaxy <span>install</span> elastic.beats,v7.11.2
+<span># 编写playbook，beat_conf 请根据实际情况来填写</span>
+<span>cat</span> <span>></span> /etc/ansible/playbooks/filebeat.yml <span>&lt;&lt;</span> <span>EOF
+---
+- hosts: filebeat
+  roles:
+    - elastic.beats
+  vars:
+    beat: filebeat
+    beat_conf:
+      filebeat:
+        inputs:
+          - type: log
+            enabled: true
+            paths:
+              - /home/ncar/service/webapps/logs/ShengDaGFHD/ShengDaGFHD.log
+            multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+            multiline.negate: true
+            multiline.match: after
+            tags: ["jar"]
+            fields:
+              type: h5-jar
+              ip: "{{inventory_hostname}}"
+              service_name: shengdasxgh
+      processors:
+        - drop_fields:
+            fields: ["agent", "ecs.version", "host.name"]
+    
+    output_conf:
+      kafka:
+        hosts: '["{{hostvars[groups["kafka"][0]].ansible_host}}:9092"{% for host in groups["kafka"][1:] %}, "{{hostvars[host].ansible_host}}:9092"{% endfor %}]'
+        topic: 'h5-jar'
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><div><pre><code><span># 修改roles文件，修改yum源为清华源</span>
+<span>cat</span> <span>></span> /etc/ansible/roles/elastic.beats/templates/beats.repo.j2 <span>&lt;&lt;</span> <span>EOF
+[filebeat-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/elasticstack/yum/elastic-7.x/
+gpgcheck=0
+enabled=1
+EOF</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span># 安装</span>
+ansible-playbook /etc/ansible/playbooks/filebeat.yml
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>11.2 嵌套循环</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/shell/part3/11_2_nested_loops/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">11.2 嵌套循环</source>
-      <pubDate>Sun, 30 Aug 2020 03:45:41 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+      <title>Elastic Stack 与Docker 容器</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/9%20elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Elastic Stack 与Docker 容器</source>
+      <pubDate>Fri, 06 Sep 2019 07:59:43 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
+<ul>
+<li>Elastic官方提供Docker Image</li>
+<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
+<li>2018年12月加入CNCF，提供helm</li>
+<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
+</ul>
+<h2 id="编写dockerfile"> 编写dockerfile</h2>
+<p>vim docker-compose.yaml</p>
+<div><pre><code>version<span>:</span> <span>'2.2'</span>
+services<span>:</span>
+  cerebro<span>:</span>
+    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
+    container_name<span>:</span> cerebro
+    ports<span>:</span>
+      <span>-</span> <span>"9000:9000"</span>
+    command<span>:</span>
+      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  kibana<span>:</span>
+    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
+    container_name<span>:</span> kibana7
+    environment<span>:</span>
+      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
+      <span>-</span> XPACK_GRAPH_ENABLED=true
+      <span>-</span> TIMELION_ENABLED=true
+      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
+    ports<span>:</span>
+      <span>-</span> <span>"5601:5601"</span>
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_01
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_01
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
+    ports<span>:</span>
+      <span>-</span> 9200<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch2<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_02
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_02
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
+    networks<span>:</span>
+      <span>-</span> es7net
 
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
 
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
+volumes<span>:</span>
+  es7data1<span>:</span>
+    driver<span>:</span> local
+  es7data2<span>:</span>
+    driver<span>:</span> local
 
-<span>exit</span> <span>0</span>
+networks<span>:</span>
+  es7net<span>:</span>
+    driver<span>:</span> bridge
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
+<ul>
+<li>启动</li>
+</ul>
+<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
+<div><pre><code>docker-compose up 
+</code></pre>
+<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
+<ul>
+<li>关闭</li>
+</ul>
+<div><pre><code>docker-compose down
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
+<p>可以用来监控es集群的状态，非常好用，推荐</p>
 ]]></content:encoded>
     </item>
   </channel>
