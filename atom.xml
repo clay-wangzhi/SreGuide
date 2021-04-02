@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-04-02T09:28:46.440Z</updated>
+  <updated>2021-04-02T09:48:42.489Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml"/>
   <link rel="alternate" href="https://vuepress-theme-hope-demo.mrhope.site/"/>
@@ -17095,6 +17095,89 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">8.2. 数字常量</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-2-数字常量"> 8.2. 数字常量</h1>
+<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
+带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
+内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
+<p><strong>样例 8-4. 数字常量的表示</strong></p>
+<div><pre><code>#!/bin/bash
+# numbers.sh: 不同进制数的表示
+
+# 十进制数: 默认
+let &quot;dec = 32&quot;
+echo &quot;decimal number = $dec&quot;             # 32
+# 一切正常。
+
+
+# 八进制数: 带前导&#39;0&#39;的数
+let &quot;oct = 032&quot;
+echo &quot;octal number = $oct&quot;               # 26
+# 结果以 十进制 打印输出了。
+# ------ ------ -----------
+
+
+# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
+let &quot;hex = 0x32&quot;
+echo &quot;hexadecimal number = $hex&quot;         # 50
+
+echo $((0x9abc))                         # 39612
+#     ^^      ^^   双圆括号进行表达式求值
+# 结果以十进制打印输出。
+
+
+
+# 其他进制数: BASE#NUMBER
+# BASE 范围:  2 - 64
+# NUMBER 必须以 BASE 规定的正确形式书写，如下:
+
+let &quot;bin = 2#111100111001101&quot;
+echo &quot;binary number = $bin&quot;              # 31181
+
+let &quot;b32 = 32#77&quot;
+echo &quot;base-32 number = $b32&quot;             # 231
+
+let &quot;b64 = 64#@_&quot;
+echo &quot;base-64 number = $b64&quot;             # 4031
+
+# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
+# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
+
+
+echo
+
+echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
+                                         # 1295 170 44822 3375
+
+#  重要提醒:
+#  ---------
+#  使用超出进制范围以外的符号会报错。
+
+let &quot;bad_oct = 081&quot;
+
+# (可能的) 报错信息:
+#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
+#              Octal numbers use only digits in the range 0 - 7.
+
+exit $?        # 退出码 = 1 (错误)
+
+# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">8.1. 运算符</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/"/>
@@ -17448,89 +17531,6 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
 </ol>
 </section>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">8.2. 数字常量</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-2-数字常量"> 8.2. 数字常量</h1>
-<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
-带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
-内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
-<p><strong>样例 8-4. 数字常量的表示</strong></p>
-<div><pre><code>#!/bin/bash
-# numbers.sh: 不同进制数的表示
-
-# 十进制数: 默认
-let &quot;dec = 32&quot;
-echo &quot;decimal number = $dec&quot;             # 32
-# 一切正常。
-
-
-# 八进制数: 带前导&#39;0&#39;的数
-let &quot;oct = 032&quot;
-echo &quot;octal number = $oct&quot;               # 26
-# 结果以 十进制 打印输出了。
-# ------ ------ -----------
-
-
-# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
-let &quot;hex = 0x32&quot;
-echo &quot;hexadecimal number = $hex&quot;         # 50
-
-echo $((0x9abc))                         # 39612
-#     ^^      ^^   双圆括号进行表达式求值
-# 结果以十进制打印输出。
-
-
-
-# 其他进制数: BASE#NUMBER
-# BASE 范围:  2 - 64
-# NUMBER 必须以 BASE 规定的正确形式书写，如下:
-
-let &quot;bin = 2#111100111001101&quot;
-echo &quot;binary number = $bin&quot;              # 31181
-
-let &quot;b32 = 32#77&quot;
-echo &quot;base-32 number = $b32&quot;             # 231
-
-let &quot;b64 = 64#@_&quot;
-echo &quot;base-64 number = $b64&quot;             # 4031
-
-# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
-# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
-
-
-echo
-
-echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
-                                         # 1295 170 44822 3375
-
-#  重要提醒:
-#  ---------
-#  使用超出进制范围以外的符号会报错。
-
-let &quot;bad_oct = 081&quot;
-
-# (可能的) 报错信息:
-#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
-#              Octal numbers use only digits in the range 0 - 7.
-
-exit $?        # 退出码 = 1 (错误)
-
-# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -19919,6 +19919,33 @@ random_numbers
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">10.1.2 参考资料</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_2_further_reference/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_2_further_reference/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-1-2-参考资料"> 10.1.2 参考资料</h1>
+<p>更多关于脚本中处理字符串的资料，可以查看 <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html" target="_blank" rel="noopener noreferrer">章节 10.2</a> 以及 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 命令的<a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPEXTRSUB" target="_blank" rel="noopener noreferrer">相关章节</a>。</p>
+<p>脚本样例：</p>
+<ol>
+<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#LENGTH" target="_blank" rel="noopener noreferrer">样例 10-9</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PATTMATCHING" target="_blank" rel="noopener noreferrer">样例 10-10</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#RFE" target="_blank" rel="noopener noreferrer">样例 10-11</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#VARMATCH" target="_blank" rel="noopener noreferrer">样例 10-13</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#INSERTIONSORT" target="_blank" rel="noopener noreferrer">样例 A-36</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a></li>
+</ol>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">10.1.1 使用 awk 处理字符串</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_1_manipulating_strings_using_awk/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_1_manipulating_strings_using_awk/"/>
@@ -19969,22 +19996,21 @@ echo | awk '</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">10.1.2 参考资料</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_2_further_reference/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_2_further_reference/"/>
+    <title type="html">第十章 变量处理</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/"/>
     <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-1-2-参考资料"> 10.1.2 参考资料</h1>
-<p>更多关于脚本中处理字符串的资料，可以查看 <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html" target="_blank" rel="noopener noreferrer">章节 10.2</a> 以及 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 命令的<a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPEXTRSUB" target="_blank" rel="noopener noreferrer">相关章节</a>。</p>
-<p>脚本样例：</p>
-<ol>
-<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#LENGTH" target="_blank" rel="noopener noreferrer">样例 10-9</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PATTMATCHING" target="_blank" rel="noopener noreferrer">样例 10-10</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#RFE" target="_blank" rel="noopener noreferrer">样例 10-11</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#VARMATCH" target="_blank" rel="noopener noreferrer">样例 10-13</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#INSERTIONSORT" target="_blank" rel="noopener noreferrer">样例 A-36</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a></li>
-</ol>
+    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -20753,54 +20779,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">11.2 嵌套循环</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">11.3 循环控制</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_3_loop_control/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_3_loop_control/"/>
@@ -20989,6 +20967,54 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">11.2 嵌套循环</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_2_nested_loops/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -21412,34 +21438,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">第十二章 命令替换</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/"/>
@@ -21766,6 +21764,34 @@ bash$ echo $(echo \\)
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -22471,600 +22497,6 @@ EOF</span>
 <li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
 </ul>
 <p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">19 嵌入文档</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_19-嵌入文档"> 19 嵌入文档</h1>
-<blockquote>Here and now, boys.
-&emsp;&emsp;&emsp;&emsp;--Aldous Huxley, Island</blockquote>
-<p>嵌入文档是一段有特殊作用的代码块，它用 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">I/O 重定向</a> 在交互程序和交互命令中传递和反馈一个命令列表，例如 <a href="http://tldp.org/LDP/abs/html/communications.html#FTPREF" target="_blank" rel="noopener noreferrer">ftp</a>，<a href="http://tldp.org/LDP/abs/html/basic.html#CATREF" target="_blank" rel="noopener noreferrer">cat</a> 或者是 ex 文本编辑器</p>
-<div><pre><code>COMMAND &lt;&lt;InputComesFromHERE
-...
-...
-...
-InputComesFromHERE
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>嵌入文档用限定符作为命令列表的边界，在限定符前需要一个指定的标识符 <code>&lt;&lt;</code>，这会将一个程序或命令的标准输入(stdin)进行重定向，它类似 <code>交互程序 &lt; 命令文件</code> 的方式，其中命令文件内容如下</p>
-<div><pre><code>command #1
-command #2
-...
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>嵌入文档的格式大致如下</p>
-<div><pre><code>interactive-program &lt;&lt;LimitString
-command #1
-command #2
-...
-LimitString
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>限定符的选择必须保证特殊以确保不会和命令列表里的内容发生混淆。</p>
-<p>注意嵌入文档有时候用作非交互的工具和命令有着非常好的效果，例如 <a href="http://tldp.org/LDP/abs/html/system.html#WALLREF" target="_blank" rel="noopener noreferrer">wall</a></p>
-<p>样例 19-1. broadcast: 给每个登陆者发送信息</p>
-<div><pre><code>#!/bin/bash
-
-wall &lt;&lt;zzz23EndOfMessagezzz23
-E-mail your noontime orders for pizza to the system administrator.
-    (Add an extra dollar for anchovy or mushroom topping.)
-# 额外的信息文本.
-# 注意: &#39;wall&#39; 会打印注释行.
-zzz23EndOfMessagezzz23
-
-# 更有效的做法是通过
-#         wall &lt; 信息文本
-#  然而, 在脚本里嵌入信息模板不乏是一种迅速而又随性的解决方式.
-
-exit
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>样例: 19-2. dummyfile：创建一个有两行内容的虚拟文件</p>
-<div><pre><code>#!/bin/bash
-
-# 非交互的使用 `vi` 编辑文件.
-# 仿照 &#39;sed&#39;.
-
-E_BADARGS=85
-
-if [ -z &quot;$1&quot; ]
-then
-  echo &quot;Usage: `basename $0` filename&quot;
-  exit $E_BADARGS
-fi
-
-TARGETFILE=$1
-
-# 插入两行到文件中保存
-#--------Begin here document-----------#
-vi $TARGETFILE &lt;&lt;x23LimitStringx23
-i
-This is line 1 of the example file.
-This is line 2 of the example file.
-^[
-ZZ
-x23LimitStringx23
-#----------End here document-----------#
-
-#  注意 &quot;^&quot; 对 &quot;[&quot; 进行了转义 
-#+ 这段起到了和键盘上按下 Control-V &lt;Esc&gt; 相同的效果.
-
-#  Bram Moolenaar 指出这种情况下 &#39;vim&#39; 可能无法正常工作
-#+ 因为在与终端交互的过程中可能会出现问题.
-
-exit
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>上述脚本实现了 <code>ex</code> 的功能, 而不是 <code>vi</code>. 嵌入文档包含了 <code>ex</code> 足够通用的命令列表来形成自有的类别, 所以又称之为 <code>ex</code> 脚本.</p>
-<div><pre><code>#!/bin/bash
-#  替换所有的以 &quot;.txt&quot; 后缀结尾的文件的 &quot;Smith&quot; 为 &quot;Jones&quot;
-
-ORIGINAL=Smith
-REPLACEMENT=Jones
-
-for word in $(fgrep -l $ORIGINAL *.txt)
-do
-  # -------------------------------------
-  ex $word &lt;&lt;EOF
-  :%s/$ORIGINAL/$REPLACEMENT/g
-  :wq
-EOF
-  # :%s is the &quot;ex&quot; substitution command.
-  # :wq is write-and-quit.
-  # -------------------------------------
-done
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>类似的 <code>ex 脚本</code> 是 <code>cat 脚本</code>.</p>
-<p>样例 19-3. 使用 <code>cat</code> 的多行信息</p>
-<div><pre><code>#!/bin/bash
-
-#  &#39;echo&#39; 可以输出单行信息,
-#+  但是如果是输出消息块就有点问题了.
-#   &#39;cat&#39; 嵌入文档却能解决这个局限.
-
-cat &lt;&lt;End-of-message
--------------------------------------
-This is line 1 of the message.
-This is line 2 of the message.
-This is line 3 of the message.
-This is line 4 of the message.
-This is the last line of the message.
--------------------------------------
-End-of-message
-
-#  替换上述嵌入文档内的 7 行文本
-#+   cat &gt; $Newfile &lt;&lt;End-of-message
-#+       ^^^^^^^^^^
-#+ 将输出追加到 $Newfile, 而不是标准输出.
-
-exit 0
-
-
-#--------------------------------------------
-# 由于上面的 &quot;exit 0&quot;，下面的代码将不会生效.
-
-# S.C. points out that the following also works.
-echo &quot;-------------------------------------
-This is line 1 of the message.
-This is line 2 of the message.
-This is line 3 of the message.
-This is line 4 of the message.
-This is the last line of the message.
--------------------------------------&quot;
-# 然而, 文本可能不包括双引号除非出现了字符串逃逸.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p><code>-</code> 的作用是标记了一个嵌入文档限制符 (&lt;&lt;-LimitString) ，它能抑制输出的行首的 <code>tab</code> (非空格). 这在脚本可读性方面可能非常有用.</p>
-<p>样例 19-4. 抑制 tab 的多行信息</p>
-<div><pre><code>#!/bin/bash
-# 和之前的样例一样, 但...
-
-#  嵌入文档内的 &#39;-&#39; ，也就是 &lt;&lt;-
-#+ 抑制了文档行首的 &#39;tab&#39;,
-#+ 但 *不是* 空格.
-
-cat &lt;&lt;-ENDOFMESSAGE
-	This is line 1 of the message.
-	This is line 2 of the message.
-	This is line 3 of the message.
-	This is line 4 of the message.
-	This is the last line of the message.
-ENDOFMESSAGE
-# 脚本的输出将左对齐.
-# 行首的 tab 将不会输出.
-
-# 上面 5 行的 &quot;信息&quot; 以 tab 开始, 不是空格.
-# 空格不会受影响 &lt;&lt;- .
-
-# 注意这个选项对 *内嵌的* tab 没有影响.
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>嵌入文档支持参数和命令替换. 因此可以向嵌入文档传递不同的参数,变向的改其输出.</p>
-<p>样例 19-5. 可替换参数的嵌入文档</p>
-<div><pre><code>#!/bin/bash
-# 另一个使用参数替换的 &#39;cat&#39; 嵌入文档.
-
-# 试一试没有命令行参数,   ./scriptname
-# 试一试一个命令行参数,   ./scriptname Mortimer
-# 试试用一两个单词引用命令行参数,
-#                           ./scriptname &quot;Mortimer Jones&quot;
-
-CMDLINEPARAM=1     #  Expect at least command-line parameter.
-
-if [ $# -ge $CMDLINEPARAM ]
-then
-  NAME=$1          #  If more than one command-line param,
-                   #+ then just take the first.
-else
-  NAME=&quot;John Doe&quot;  #  Default, if no command-line parameter.
-fi  
-
-RESPONDENT=&quot;the author of this fine script&quot;  
-  
-
-cat &lt;&lt;Endofmessage
-
-Hello, there, $NAME.
-Greetings to you, $NAME, from $RESPONDENT.
-
-# 这个注释在输出时显示 (为什么?).
-
-Endofmessage
-
-# 注意输出了空行.
-# 所以可以这样注释.
-
-exit
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><p>这个包含参数替换的嵌入文档是相当有用的</p>
-<p>样例 19-6. 上传文件对到 <code>Sunsite</code> 入口目录</p>
-<div><pre><code>#!/bin/bash
-# upload.sh
-
-#  上传文件对 (Filename.lsm, Filename.tar.gz)
-#+ 到 Sunsite/UNC (ibiblio.org) 的入口目录.
-#  Filename.tar.gz 是个 tarball.
-#  Filename.lsm is 是个描述文件.
-#  Sunsite 需要 &quot;lsm&quot; 文件, 否则将会退回给发送者
-
-
-E_ARGERROR=85
-
-if [ -z &quot;$1&quot; ]
-then
-  echo &quot;Usage: `basename $0` Filename-to-upload&quot;
-  exit $E_ARGERROR
-fi  
-
-
-Filename=`basename $1`           # Strips pathname out of file name.
-
-Server=&quot;ibiblio.org&quot;
-Directory=&quot;/incoming/Linux&quot;
-#  脚本里不需要硬编码,
-#+ 但最好可以替换命令行参数.
-
-Password=&quot;your.e-mail.address&quot;   # Change above to suit.
-
-ftp -n $Server &lt;&lt;End-Of-Session
-# -n 禁用自动登录
-
-user anonymous &quot;$Password&quot;       #  If this doesn&#39;t work, then try:
-                                 #  quote user anonymous &quot;$Password&quot;
-binary
-bell                             # Ring &#39;bell&#39; after each file transfer.
-cd $Directory
-put &quot;$Filename.lsm&quot;
-put &quot;$Filename.tar.gz&quot;
-bye
-End-Of-Session
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>在嵌入文档头部引用或转义&quot;限制符&quot;来禁用参数替换.原因是 <code>引用/转义</code> 限定符能有效的<a href="http://tldp.org/LDP/abs/html/escapingsection.html#ESCP" target="_blank" rel="noopener noreferrer">转义</a>  &quot;$&quot;, &quot;`&quot;, 和 &quot;&quot; 这些<a href="http://tldp.org/LDP/abs/html/special-chars.html#SCHARLIST" target="_blank" rel="noopener noreferrer">特殊符号</a>, 使他们维持字面上的意思. (感谢 Allen Halsey 指出这点.)</p>
-<p>样例 19-7. 禁用参数替换</p>
-<div><pre><code>#!/bin/bash
-#  A &#39;cat&#39; here-document, but with parameter substitution disabled.
-
-NAME=&quot;John Doe&quot;
-RESPONDENT=&quot;the author of this fine script&quot;  
-
-cat &lt;&lt;&#39;Endofmessage&#39;
-
-Hello, there, $NAME.
-Greetings to you, $NAME, from $RESPONDENT.
-
-Endofmessage
-
-#   当&#39;限制符&#39;引用或转义时不会有参数替换.
-#   下面的嵌入文档也有同样的效果
-#   cat &lt;&lt;&quot;Endofmessage&quot;
-#   cat &lt;&lt;\Endofmessage
-
-
-
-#   同样的:
-
-cat &lt;&lt;&quot;SpecialCharTest&quot;
-
-Directory listing would follow
-if limit string were not quoted.
-`ls -l`
-
-Arithmetic expansion would take place
-if limit string were not quoted.
-$((5 + 3))
-
-A a single backslash would echo
-if limit string were not quoted.
-\\
-
-SpecialCharTest
-
-
-exit
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>生成脚本或者程序代码时可以用禁用参数的方式来输出文本.</p>
-<p>样例 19-8. 生成其他脚本的脚本</p>
-<div><pre><code>#!/bin/bash
-# generate-script.sh
-# Based on an idea by Albert Reiner.
-
-OUTFILE=generated.sh         # Name of the file to generate.
-
-
-# -----------------------------------------------------------
-# &#39;嵌入文档涵盖了生成脚本的主体部分.
-(
-cat &lt;&lt;&#39;EOF&#39;
-#!/bin/bash
-
-echo &quot;This is a generated shell script.&quot;
-#  注意我们现在在一个子 shell 内,
-#+ 我们不能访问 &quot;外部&quot; 脚本变量.
-
-echo &quot;Generated file will be named: $OUTFILE&quot;
-#  上面这行并不能按照预期的正常工作
-#+ 因为参数扩展已被禁用.
-#  相反的, 结果是文字输出.
-
-a=7
-b=3
-
-let &quot;c = $a * $b&quot;
-echo &quot;c = $c&quot;
-
-exit 0
-EOF
-) &gt; $OUTFILE
-# -----------------------------------------------------------
-
-#  在上述的嵌入文档内引用&#39;限制符&#39;防止变量扩展
-
-if [ -f &quot;$OUTFILE&quot; ]
-then
-  chmod 755 $OUTFILE
-  # 生成可执行文件.
-else
-  echo &quot;Problem in creating file: \&quot;$OUTFILE\&quot;&quot;
-fi
-
-#  这个方法适用于生成 C, Perl, Python, Makefiles 等等
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>可以从嵌入文档的输出设置一个变量的值. 这实际上是种灵活的 <a href="http://tldp.org/LDP/abs/html/commandsub.html#COMMANDSUBREF" target="_blank" rel="noopener noreferrer">命令替换</a>.</p>
-<div><pre><code>variable=$(cat &lt;&lt;SETVAR
-This variable
-runs over multiple lines.
-SETVAR
-)
-
-echo &quot;$variable&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>同样的脚本里嵌入文档可以作为函数的输入.</p>
-<p>样例 19-9. 嵌入文档和函数</p>
-<div><pre><code>#!/bin/bash
-# here-function.sh
-
-GetPersonalData ()
-{
-  read firstname
-  read lastname
-  read address
-  read city 
-  read state 
-  read zipcode
-} # 可以肯定的是这应该是个交互式的函数, 但 . . .
-
-
-# 作为函数的输入.
-GetPersonalData &lt;&lt;RECORD001
-Bozo
-Bozeman
-2726 Nondescript Dr.
-Bozeman
-MT
-21226
-RECORD001
-
-
-echo
-echo &quot;$firstname $lastname&quot;
-echo &quot;$address&quot;
-echo &quot;$city, $state $zipcode&quot;
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>可以这样使用: 作为一个虚构的命令接受嵌入文档的输出. 这样实际上就创建了一个 &quot;匿名&quot; 嵌入文档.</p>
-<p>样例 19-10. &quot;匿名&quot; 嵌入文档</p>
-<div><pre><code>#!/bin/bash
-
-: &lt;&lt;TESTVARIABLES
-${HOSTNAME?}${USER?}${MAIL?}  # Print error message if one of the variables not set.
-TESTVARIABLES
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><ul>
-<li>上面技巧的一种变体允许 &quot;可添加注释&quot; 的代码块.</li>
-</ul>
-<p>样例 19-11. 可添加注释的代码块</p>
-<div><pre><code>#!/bin/bash
-# commentblock.sh
-
-: &lt;&lt;COMMENTBLOCK
-echo &quot;This line will not echo.&quot;
-这些注释没有 &quot;#&quot; 前缀.
-则是另一种没有 &quot;#&quot; 前缀的注释方法.
-
-&amp;*@!!++=
-上面这行不会产生报错信息,
-因为 bash 解释器会忽略它.
-
-COMMENTBLOCK
-
-echo &quot;Exit value of above \&quot;COMMENTBLOCK\&quot; is $?.&quot;   # 0
-# 没有错误输出.
-echo
-
-#  上面的技巧经常用于工作代码的注释用作排错目的
-#  这省去了在每一行开头加上 &quot;#&quot; 前缀,
-#+ 然后调试完不得不删除每行的前缀的重复工作.
-#  注意我们用了 &quot;:&quot;, 在这之上，是可选的.
-
-echo &quot;Just before commented-out code block.&quot;
-#  下面这个在双破折号之间的代码不会被执行.
-#  ===================================================================
-: &lt;&lt;DEBUGXXX
-for file in *
-do
- cat &quot;$file&quot;
-done
-DEBUGXXX
-#  ===================================================================
-echo &quot;Just after commented-out code block.&quot;
-
-exit 0
-
-
-
-######################################################################
-#  注意, 然而, 如果将变量中包含一个注释的代码块将会引发问题
-#  例如:
-
-
-#/!/bin/bash
-
-  : &lt;&lt;COMMENTBLOCK
-  echo &quot;This line will not echo.&quot;
-  &amp;*@!!++=
-  ${foo_bar_bazz?}
-  $(rm -rf /tmp/foobar/)
-  $(touch my_build_directory/cups/Makefile)
-COMMENTBLOCK
-
-
-$ sh commented-bad.sh
-commented-bad.sh: line 3: foo_bar_bazz: parameter null or not set
-
-# 有效的补救办法就是在 49 行的位置加上单引号，变为 &#39;COMMENTBLOCK&#39;.
-
-  : &lt;&lt;&#39;COMMENTBLOCK&#39;
-
-# 感谢 Kurt Pfeifle 指出这一点.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br></div></div><ul>
-<li>另一个漂亮的方法使得&quot;自文档化&quot;的脚本成为可能</li>
-</ul>
-<p>样例 19-12. 自文档化的脚本</p>
-<div><pre><code>#!/bin/bash
-# self-document.sh: self-documenting script
-# Modification of &quot;colm.sh&quot;.
-
-DOC_REQUEST=70
-
-if [ &quot;$1&quot; = &quot;-h&quot;  -o &quot;$1&quot; = &quot;--help&quot; ]     # 请求帮助.
-then
-  echo; echo &quot;Usage: $0 [directory-name]&quot;; echo
-  sed --silent -e &#39;/DOCUMENTATIONXX$/,/^DOCUMENTATIONXX$/p&#39; &quot;$0&quot; |
-  sed -e &#39;/DOCUMENTATIONXX$/d&#39;; exit $DOC_REQUEST; fi
-
-
-: &lt;&lt;DOCUMENTATIONXX
-List the statistics of a specified directory in tabular format.
----------------------------------------------------------------
-The command-line parameter gives the directory to be listed.
-If no directory specified or directory specified cannot be read,
-then list the current working directory.
-
-DOCUMENTATIONXX
-
-if [ -z &quot;$1&quot; -o ! -r &quot;$1&quot; ]
-then
-  directory=.
-else
-  directory=&quot;$1&quot;
-fi  
-
-echo &quot;Listing of &quot;$directory&quot;:&quot;; echo
-(printf &quot;PERMISSIONS LINKS OWNER GROUP SIZE MONTH DAY HH:MM PROG-NAME\n&quot; \
-; ls -l &quot;$directory&quot; | sed 1d) | column -t
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><p>使用 <a href="http://tldp.org/LDP/abs/html/here-docs.html#CATSCRIPTREF" target="_blank" rel="noopener noreferrer">cat script</a> 是另一种可行的方法.</p>
-<div><pre><code>DOC_REQUEST=70
-
-if [ &quot;$1&quot; = &quot;-h&quot;  -o &quot;$1&quot; = &quot;--help&quot; ]     # Request help.
-then                                       # Use a &quot;cat script&quot; . . .
-  cat &lt;&lt;DOCUMENTATIONXX
-List the statistics of a specified directory in tabular format.
----------------------------------------------------------------
-The command-line parameter gives the directory to be listed.
-If no directory specified or directory specified cannot be read,
-then list the current working directory.
-
-DOCUMENTATIONXX
-exit $DOC_REQUEST
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><blockquote>
-<p>另请参阅 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">样例 A-28</a>, <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PETALS" target="_blank" rel="noopener noreferrer">样例 A-40</a>, <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a>, and <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#NIM" target="_blank" rel="noopener noreferrer">样例 A-42</a> 更多样例请阅读脚本附带的注释文档.</p>
-</blockquote>
-<ul>
-<li>嵌入文档创建了临时文件, 但这些文件在打开且不可被其他程序访问后删除.</li>
-</ul>
-<div><pre><code>bash$ bash -c &#39;lsof -a -p $$ -d0&#39; &lt;&lt; EOF
-&gt; EOF
-lsof    1213 bozo    0r   REG    3,5    0 30386 /tmp/t1213-0-sh (deleted)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>
-<p>某些工具在嵌入文档内部并不能正常运行.</p>
-</li>
-<li>
-<p>在嵌入文档的最后关闭限定符必须在起始的第一个字符的位置开始.行首不能是空格. 限制符后尾随空格同样会导致意想不到的行为.空格可以防止限制符被当做其他用途. <a href="http://tldp.org/LDP/abs/html/here-docs.html#FTN.AEN17822" target="_blank" rel="noopener noreferrer">[1]</a></p>
-</li>
-</ul>
-<div><pre><code>#!/bin/bash
-
-echo &quot;----------------------------------------------------------------------&quot;
-
-cat &lt;&lt;LimitString
-echo &quot;This is line 1 of the message inside the here document.&quot;
-echo &quot;This is line 2 of the message inside the here document.&quot;
-echo &quot;This is the final line of the message inside the here document.&quot;
-     LimitString
-#^^^^限制符的缩进. 出错! 这个脚本将不会如期运行.
-
-echo &quot;----------------------------------------------------------------------&quot;
-
-#  这些评论在嵌入文档范围外并不能输出
-
-echo &quot;Outside the here document.&quot;
-
-exit 0
-
-echo &quot;This line had better not echo.&quot;  # 紧跟着个 &#39;exit&#39; 命令.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><ul>
-<li>有些人非常聪明的使用了一个单引号(!)做为限制符. 但这并不是个好主意</li>
-</ul>
-<div><pre><code># 这个可以运行.
-cat &lt;&lt;!
-Hello!
-! Three more exclamations !!!
-!
-
-
-# 但是 . . .
-cat &lt;&lt;!
-Hello!
-Single exclamation point follows!
-!
-!
-# Crashes with an error message.
-
-
-# 然而, 下面这样也能运行.
-cat &lt;&lt;EOF
-Hello!
-Single exclamation point follows!
-!
-EOF
-# 使用多字符限制符更为安全.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>为嵌入文档设置这些任务有些复杂, 可以考虑使用 <code>expect</code>, 一种专门用来和程序进行交互的脚本语言。</p>
-<p><strong>Notes:</strong>
-  除此之外, Dennis Benzinger 指出,  <a href="http://tldp.org/LDP/abs/html/here-docs.html#LIMITSTRDASH" target="_blank" rel="noopener noreferrer">使用 &lt;&lt;- 抑制 tab.</a></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -23832,6 +23264,600 @@ exec 3&gt;&amp;-                              # 现在关闭它.
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">19 嵌入文档</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_19-嵌入文档"> 19 嵌入文档</h1>
+<blockquote>Here and now, boys.
+&emsp;&emsp;&emsp;&emsp;--Aldous Huxley, Island</blockquote>
+<p>嵌入文档是一段有特殊作用的代码块，它用 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">I/O 重定向</a> 在交互程序和交互命令中传递和反馈一个命令列表，例如 <a href="http://tldp.org/LDP/abs/html/communications.html#FTPREF" target="_blank" rel="noopener noreferrer">ftp</a>，<a href="http://tldp.org/LDP/abs/html/basic.html#CATREF" target="_blank" rel="noopener noreferrer">cat</a> 或者是 ex 文本编辑器</p>
+<div><pre><code>COMMAND &lt;&lt;InputComesFromHERE
+...
+...
+...
+InputComesFromHERE
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>嵌入文档用限定符作为命令列表的边界，在限定符前需要一个指定的标识符 <code>&lt;&lt;</code>，这会将一个程序或命令的标准输入(stdin)进行重定向，它类似 <code>交互程序 &lt; 命令文件</code> 的方式，其中命令文件内容如下</p>
+<div><pre><code>command #1
+command #2
+...
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>嵌入文档的格式大致如下</p>
+<div><pre><code>interactive-program &lt;&lt;LimitString
+command #1
+command #2
+...
+LimitString
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>限定符的选择必须保证特殊以确保不会和命令列表里的内容发生混淆。</p>
+<p>注意嵌入文档有时候用作非交互的工具和命令有着非常好的效果，例如 <a href="http://tldp.org/LDP/abs/html/system.html#WALLREF" target="_blank" rel="noopener noreferrer">wall</a></p>
+<p>样例 19-1. broadcast: 给每个登陆者发送信息</p>
+<div><pre><code>#!/bin/bash
+
+wall &lt;&lt;zzz23EndOfMessagezzz23
+E-mail your noontime orders for pizza to the system administrator.
+    (Add an extra dollar for anchovy or mushroom topping.)
+# 额外的信息文本.
+# 注意: &#39;wall&#39; 会打印注释行.
+zzz23EndOfMessagezzz23
+
+# 更有效的做法是通过
+#         wall &lt; 信息文本
+#  然而, 在脚本里嵌入信息模板不乏是一种迅速而又随性的解决方式.
+
+exit
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>样例: 19-2. dummyfile：创建一个有两行内容的虚拟文件</p>
+<div><pre><code>#!/bin/bash
+
+# 非交互的使用 `vi` 编辑文件.
+# 仿照 &#39;sed&#39;.
+
+E_BADARGS=85
+
+if [ -z &quot;$1&quot; ]
+then
+  echo &quot;Usage: `basename $0` filename&quot;
+  exit $E_BADARGS
+fi
+
+TARGETFILE=$1
+
+# 插入两行到文件中保存
+#--------Begin here document-----------#
+vi $TARGETFILE &lt;&lt;x23LimitStringx23
+i
+This is line 1 of the example file.
+This is line 2 of the example file.
+^[
+ZZ
+x23LimitStringx23
+#----------End here document-----------#
+
+#  注意 &quot;^&quot; 对 &quot;[&quot; 进行了转义 
+#+ 这段起到了和键盘上按下 Control-V &lt;Esc&gt; 相同的效果.
+
+#  Bram Moolenaar 指出这种情况下 &#39;vim&#39; 可能无法正常工作
+#+ 因为在与终端交互的过程中可能会出现问题.
+
+exit
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>上述脚本实现了 <code>ex</code> 的功能, 而不是 <code>vi</code>. 嵌入文档包含了 <code>ex</code> 足够通用的命令列表来形成自有的类别, 所以又称之为 <code>ex</code> 脚本.</p>
+<div><pre><code>#!/bin/bash
+#  替换所有的以 &quot;.txt&quot; 后缀结尾的文件的 &quot;Smith&quot; 为 &quot;Jones&quot;
+
+ORIGINAL=Smith
+REPLACEMENT=Jones
+
+for word in $(fgrep -l $ORIGINAL *.txt)
+do
+  # -------------------------------------
+  ex $word &lt;&lt;EOF
+  :%s/$ORIGINAL/$REPLACEMENT/g
+  :wq
+EOF
+  # :%s is the &quot;ex&quot; substitution command.
+  # :wq is write-and-quit.
+  # -------------------------------------
+done
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>类似的 <code>ex 脚本</code> 是 <code>cat 脚本</code>.</p>
+<p>样例 19-3. 使用 <code>cat</code> 的多行信息</p>
+<div><pre><code>#!/bin/bash
+
+#  &#39;echo&#39; 可以输出单行信息,
+#+  但是如果是输出消息块就有点问题了.
+#   &#39;cat&#39; 嵌入文档却能解决这个局限.
+
+cat &lt;&lt;End-of-message
+-------------------------------------
+This is line 1 of the message.
+This is line 2 of the message.
+This is line 3 of the message.
+This is line 4 of the message.
+This is the last line of the message.
+-------------------------------------
+End-of-message
+
+#  替换上述嵌入文档内的 7 行文本
+#+   cat &gt; $Newfile &lt;&lt;End-of-message
+#+       ^^^^^^^^^^
+#+ 将输出追加到 $Newfile, 而不是标准输出.
+
+exit 0
+
+
+#--------------------------------------------
+# 由于上面的 &quot;exit 0&quot;，下面的代码将不会生效.
+
+# S.C. points out that the following also works.
+echo &quot;-------------------------------------
+This is line 1 of the message.
+This is line 2 of the message.
+This is line 3 of the message.
+This is line 4 of the message.
+This is the last line of the message.
+-------------------------------------&quot;
+# 然而, 文本可能不包括双引号除非出现了字符串逃逸.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p><code>-</code> 的作用是标记了一个嵌入文档限制符 (&lt;&lt;-LimitString) ，它能抑制输出的行首的 <code>tab</code> (非空格). 这在脚本可读性方面可能非常有用.</p>
+<p>样例 19-4. 抑制 tab 的多行信息</p>
+<div><pre><code>#!/bin/bash
+# 和之前的样例一样, 但...
+
+#  嵌入文档内的 &#39;-&#39; ，也就是 &lt;&lt;-
+#+ 抑制了文档行首的 &#39;tab&#39;,
+#+ 但 *不是* 空格.
+
+cat &lt;&lt;-ENDOFMESSAGE
+	This is line 1 of the message.
+	This is line 2 of the message.
+	This is line 3 of the message.
+	This is line 4 of the message.
+	This is the last line of the message.
+ENDOFMESSAGE
+# 脚本的输出将左对齐.
+# 行首的 tab 将不会输出.
+
+# 上面 5 行的 &quot;信息&quot; 以 tab 开始, 不是空格.
+# 空格不会受影响 &lt;&lt;- .
+
+# 注意这个选项对 *内嵌的* tab 没有影响.
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>嵌入文档支持参数和命令替换. 因此可以向嵌入文档传递不同的参数,变向的改其输出.</p>
+<p>样例 19-5. 可替换参数的嵌入文档</p>
+<div><pre><code>#!/bin/bash
+# 另一个使用参数替换的 &#39;cat&#39; 嵌入文档.
+
+# 试一试没有命令行参数,   ./scriptname
+# 试一试一个命令行参数,   ./scriptname Mortimer
+# 试试用一两个单词引用命令行参数,
+#                           ./scriptname &quot;Mortimer Jones&quot;
+
+CMDLINEPARAM=1     #  Expect at least command-line parameter.
+
+if [ $# -ge $CMDLINEPARAM ]
+then
+  NAME=$1          #  If more than one command-line param,
+                   #+ then just take the first.
+else
+  NAME=&quot;John Doe&quot;  #  Default, if no command-line parameter.
+fi  
+
+RESPONDENT=&quot;the author of this fine script&quot;  
+  
+
+cat &lt;&lt;Endofmessage
+
+Hello, there, $NAME.
+Greetings to you, $NAME, from $RESPONDENT.
+
+# 这个注释在输出时显示 (为什么?).
+
+Endofmessage
+
+# 注意输出了空行.
+# 所以可以这样注释.
+
+exit
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><p>这个包含参数替换的嵌入文档是相当有用的</p>
+<p>样例 19-6. 上传文件对到 <code>Sunsite</code> 入口目录</p>
+<div><pre><code>#!/bin/bash
+# upload.sh
+
+#  上传文件对 (Filename.lsm, Filename.tar.gz)
+#+ 到 Sunsite/UNC (ibiblio.org) 的入口目录.
+#  Filename.tar.gz 是个 tarball.
+#  Filename.lsm is 是个描述文件.
+#  Sunsite 需要 &quot;lsm&quot; 文件, 否则将会退回给发送者
+
+
+E_ARGERROR=85
+
+if [ -z &quot;$1&quot; ]
+then
+  echo &quot;Usage: `basename $0` Filename-to-upload&quot;
+  exit $E_ARGERROR
+fi  
+
+
+Filename=`basename $1`           # Strips pathname out of file name.
+
+Server=&quot;ibiblio.org&quot;
+Directory=&quot;/incoming/Linux&quot;
+#  脚本里不需要硬编码,
+#+ 但最好可以替换命令行参数.
+
+Password=&quot;your.e-mail.address&quot;   # Change above to suit.
+
+ftp -n $Server &lt;&lt;End-Of-Session
+# -n 禁用自动登录
+
+user anonymous &quot;$Password&quot;       #  If this doesn&#39;t work, then try:
+                                 #  quote user anonymous &quot;$Password&quot;
+binary
+bell                             # Ring &#39;bell&#39; after each file transfer.
+cd $Directory
+put &quot;$Filename.lsm&quot;
+put &quot;$Filename.tar.gz&quot;
+bye
+End-Of-Session
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>在嵌入文档头部引用或转义&quot;限制符&quot;来禁用参数替换.原因是 <code>引用/转义</code> 限定符能有效的<a href="http://tldp.org/LDP/abs/html/escapingsection.html#ESCP" target="_blank" rel="noopener noreferrer">转义</a>  &quot;$&quot;, &quot;`&quot;, 和 &quot;&quot; 这些<a href="http://tldp.org/LDP/abs/html/special-chars.html#SCHARLIST" target="_blank" rel="noopener noreferrer">特殊符号</a>, 使他们维持字面上的意思. (感谢 Allen Halsey 指出这点.)</p>
+<p>样例 19-7. 禁用参数替换</p>
+<div><pre><code>#!/bin/bash
+#  A &#39;cat&#39; here-document, but with parameter substitution disabled.
+
+NAME=&quot;John Doe&quot;
+RESPONDENT=&quot;the author of this fine script&quot;  
+
+cat &lt;&lt;&#39;Endofmessage&#39;
+
+Hello, there, $NAME.
+Greetings to you, $NAME, from $RESPONDENT.
+
+Endofmessage
+
+#   当&#39;限制符&#39;引用或转义时不会有参数替换.
+#   下面的嵌入文档也有同样的效果
+#   cat &lt;&lt;&quot;Endofmessage&quot;
+#   cat &lt;&lt;\Endofmessage
+
+
+
+#   同样的:
+
+cat &lt;&lt;&quot;SpecialCharTest&quot;
+
+Directory listing would follow
+if limit string were not quoted.
+`ls -l`
+
+Arithmetic expansion would take place
+if limit string were not quoted.
+$((5 + 3))
+
+A a single backslash would echo
+if limit string were not quoted.
+\\
+
+SpecialCharTest
+
+
+exit
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>生成脚本或者程序代码时可以用禁用参数的方式来输出文本.</p>
+<p>样例 19-8. 生成其他脚本的脚本</p>
+<div><pre><code>#!/bin/bash
+# generate-script.sh
+# Based on an idea by Albert Reiner.
+
+OUTFILE=generated.sh         # Name of the file to generate.
+
+
+# -----------------------------------------------------------
+# &#39;嵌入文档涵盖了生成脚本的主体部分.
+(
+cat &lt;&lt;&#39;EOF&#39;
+#!/bin/bash
+
+echo &quot;This is a generated shell script.&quot;
+#  注意我们现在在一个子 shell 内,
+#+ 我们不能访问 &quot;外部&quot; 脚本变量.
+
+echo &quot;Generated file will be named: $OUTFILE&quot;
+#  上面这行并不能按照预期的正常工作
+#+ 因为参数扩展已被禁用.
+#  相反的, 结果是文字输出.
+
+a=7
+b=3
+
+let &quot;c = $a * $b&quot;
+echo &quot;c = $c&quot;
+
+exit 0
+EOF
+) &gt; $OUTFILE
+# -----------------------------------------------------------
+
+#  在上述的嵌入文档内引用&#39;限制符&#39;防止变量扩展
+
+if [ -f &quot;$OUTFILE&quot; ]
+then
+  chmod 755 $OUTFILE
+  # 生成可执行文件.
+else
+  echo &quot;Problem in creating file: \&quot;$OUTFILE\&quot;&quot;
+fi
+
+#  这个方法适用于生成 C, Perl, Python, Makefiles 等等
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>可以从嵌入文档的输出设置一个变量的值. 这实际上是种灵活的 <a href="http://tldp.org/LDP/abs/html/commandsub.html#COMMANDSUBREF" target="_blank" rel="noopener noreferrer">命令替换</a>.</p>
+<div><pre><code>variable=$(cat &lt;&lt;SETVAR
+This variable
+runs over multiple lines.
+SETVAR
+)
+
+echo &quot;$variable&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>同样的脚本里嵌入文档可以作为函数的输入.</p>
+<p>样例 19-9. 嵌入文档和函数</p>
+<div><pre><code>#!/bin/bash
+# here-function.sh
+
+GetPersonalData ()
+{
+  read firstname
+  read lastname
+  read address
+  read city 
+  read state 
+  read zipcode
+} # 可以肯定的是这应该是个交互式的函数, 但 . . .
+
+
+# 作为函数的输入.
+GetPersonalData &lt;&lt;RECORD001
+Bozo
+Bozeman
+2726 Nondescript Dr.
+Bozeman
+MT
+21226
+RECORD001
+
+
+echo
+echo &quot;$firstname $lastname&quot;
+echo &quot;$address&quot;
+echo &quot;$city, $state $zipcode&quot;
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>可以这样使用: 作为一个虚构的命令接受嵌入文档的输出. 这样实际上就创建了一个 &quot;匿名&quot; 嵌入文档.</p>
+<p>样例 19-10. &quot;匿名&quot; 嵌入文档</p>
+<div><pre><code>#!/bin/bash
+
+: &lt;&lt;TESTVARIABLES
+${HOSTNAME?}${USER?}${MAIL?}  # Print error message if one of the variables not set.
+TESTVARIABLES
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><ul>
+<li>上面技巧的一种变体允许 &quot;可添加注释&quot; 的代码块.</li>
+</ul>
+<p>样例 19-11. 可添加注释的代码块</p>
+<div><pre><code>#!/bin/bash
+# commentblock.sh
+
+: &lt;&lt;COMMENTBLOCK
+echo &quot;This line will not echo.&quot;
+这些注释没有 &quot;#&quot; 前缀.
+则是另一种没有 &quot;#&quot; 前缀的注释方法.
+
+&amp;*@!!++=
+上面这行不会产生报错信息,
+因为 bash 解释器会忽略它.
+
+COMMENTBLOCK
+
+echo &quot;Exit value of above \&quot;COMMENTBLOCK\&quot; is $?.&quot;   # 0
+# 没有错误输出.
+echo
+
+#  上面的技巧经常用于工作代码的注释用作排错目的
+#  这省去了在每一行开头加上 &quot;#&quot; 前缀,
+#+ 然后调试完不得不删除每行的前缀的重复工作.
+#  注意我们用了 &quot;:&quot;, 在这之上，是可选的.
+
+echo &quot;Just before commented-out code block.&quot;
+#  下面这个在双破折号之间的代码不会被执行.
+#  ===================================================================
+: &lt;&lt;DEBUGXXX
+for file in *
+do
+ cat &quot;$file&quot;
+done
+DEBUGXXX
+#  ===================================================================
+echo &quot;Just after commented-out code block.&quot;
+
+exit 0
+
+
+
+######################################################################
+#  注意, 然而, 如果将变量中包含一个注释的代码块将会引发问题
+#  例如:
+
+
+#/!/bin/bash
+
+  : &lt;&lt;COMMENTBLOCK
+  echo &quot;This line will not echo.&quot;
+  &amp;*@!!++=
+  ${foo_bar_bazz?}
+  $(rm -rf /tmp/foobar/)
+  $(touch my_build_directory/cups/Makefile)
+COMMENTBLOCK
+
+
+$ sh commented-bad.sh
+commented-bad.sh: line 3: foo_bar_bazz: parameter null or not set
+
+# 有效的补救办法就是在 49 行的位置加上单引号，变为 &#39;COMMENTBLOCK&#39;.
+
+  : &lt;&lt;&#39;COMMENTBLOCK&#39;
+
+# 感谢 Kurt Pfeifle 指出这一点.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br></div></div><ul>
+<li>另一个漂亮的方法使得&quot;自文档化&quot;的脚本成为可能</li>
+</ul>
+<p>样例 19-12. 自文档化的脚本</p>
+<div><pre><code>#!/bin/bash
+# self-document.sh: self-documenting script
+# Modification of &quot;colm.sh&quot;.
+
+DOC_REQUEST=70
+
+if [ &quot;$1&quot; = &quot;-h&quot;  -o &quot;$1&quot; = &quot;--help&quot; ]     # 请求帮助.
+then
+  echo; echo &quot;Usage: $0 [directory-name]&quot;; echo
+  sed --silent -e &#39;/DOCUMENTATIONXX$/,/^DOCUMENTATIONXX$/p&#39; &quot;$0&quot; |
+  sed -e &#39;/DOCUMENTATIONXX$/d&#39;; exit $DOC_REQUEST; fi
+
+
+: &lt;&lt;DOCUMENTATIONXX
+List the statistics of a specified directory in tabular format.
+---------------------------------------------------------------
+The command-line parameter gives the directory to be listed.
+If no directory specified or directory specified cannot be read,
+then list the current working directory.
+
+DOCUMENTATIONXX
+
+if [ -z &quot;$1&quot; -o ! -r &quot;$1&quot; ]
+then
+  directory=.
+else
+  directory=&quot;$1&quot;
+fi  
+
+echo &quot;Listing of &quot;$directory&quot;:&quot;; echo
+(printf &quot;PERMISSIONS LINKS OWNER GROUP SIZE MONTH DAY HH:MM PROG-NAME\n&quot; \
+; ls -l &quot;$directory&quot; | sed 1d) | column -t
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><p>使用 <a href="http://tldp.org/LDP/abs/html/here-docs.html#CATSCRIPTREF" target="_blank" rel="noopener noreferrer">cat script</a> 是另一种可行的方法.</p>
+<div><pre><code>DOC_REQUEST=70
+
+if [ &quot;$1&quot; = &quot;-h&quot;  -o &quot;$1&quot; = &quot;--help&quot; ]     # Request help.
+then                                       # Use a &quot;cat script&quot; . . .
+  cat &lt;&lt;DOCUMENTATIONXX
+List the statistics of a specified directory in tabular format.
+---------------------------------------------------------------
+The command-line parameter gives the directory to be listed.
+If no directory specified or directory specified cannot be read,
+then list the current working directory.
+
+DOCUMENTATIONXX
+exit $DOC_REQUEST
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><blockquote>
+<p>另请参阅 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">样例 A-28</a>, <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PETALS" target="_blank" rel="noopener noreferrer">样例 A-40</a>, <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a>, and <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#NIM" target="_blank" rel="noopener noreferrer">样例 A-42</a> 更多样例请阅读脚本附带的注释文档.</p>
+</blockquote>
+<ul>
+<li>嵌入文档创建了临时文件, 但这些文件在打开且不可被其他程序访问后删除.</li>
+</ul>
+<div><pre><code>bash$ bash -c &#39;lsof -a -p $$ -d0&#39; &lt;&lt; EOF
+&gt; EOF
+lsof    1213 bozo    0r   REG    3,5    0 30386 /tmp/t1213-0-sh (deleted)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>
+<p>某些工具在嵌入文档内部并不能正常运行.</p>
+</li>
+<li>
+<p>在嵌入文档的最后关闭限定符必须在起始的第一个字符的位置开始.行首不能是空格. 限制符后尾随空格同样会导致意想不到的行为.空格可以防止限制符被当做其他用途. <a href="http://tldp.org/LDP/abs/html/here-docs.html#FTN.AEN17822" target="_blank" rel="noopener noreferrer">[1]</a></p>
+</li>
+</ul>
+<div><pre><code>#!/bin/bash
+
+echo &quot;----------------------------------------------------------------------&quot;
+
+cat &lt;&lt;LimitString
+echo &quot;This is line 1 of the message inside the here document.&quot;
+echo &quot;This is line 2 of the message inside the here document.&quot;
+echo &quot;This is the final line of the message inside the here document.&quot;
+     LimitString
+#^^^^限制符的缩进. 出错! 这个脚本将不会如期运行.
+
+echo &quot;----------------------------------------------------------------------&quot;
+
+#  这些评论在嵌入文档范围外并不能输出
+
+echo &quot;Outside the here document.&quot;
+
+exit 0
+
+echo &quot;This line had better not echo.&quot;  # 紧跟着个 &#39;exit&#39; 命令.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><ul>
+<li>有些人非常聪明的使用了一个单引号(!)做为限制符. 但这并不是个好主意</li>
+</ul>
+<div><pre><code># 这个可以运行.
+cat &lt;&lt;!
+Hello!
+! Three more exclamations !!!
+!
+
+
+# 但是 . . .
+cat &lt;&lt;!
+Hello!
+Single exclamation point follows!
+!
+!
+# Crashes with an error message.
+
+
+# 然而, 下面这样也能运行.
+cat &lt;&lt;EOF
+Hello!
+Single exclamation point follows!
+!
+EOF
+# 使用多字符限制符更为安全.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>为嵌入文档设置这些任务有些复杂, 可以考虑使用 <code>expect</code>, 一种专门用来和程序进行交互的脚本语言。</p>
+<p><strong>Notes:</strong>
+  除此之外, Dennis Benzinger 指出,  <a href="http://tldp.org/LDP/abs/html/here-docs.html#LIMITSTRDASH" target="_blank" rel="noopener noreferrer">使用 &lt;&lt;- 抑制 tab.</a></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">第二十一章 子shell</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/21_subshells/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/21_subshells/"/>
@@ -24055,87 +24081,6 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="notes"> <strong>Notes</strong></h3>
 <p>[^1] 和 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">第二十二章. 限制模式的Shell</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
-<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
-<ul>
-<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
-</ul>
-<p>被禁用的命令和功能：</p>
-<ul>
-<li>使用 <em>cd</em> 来改变工作目录。</li>
-<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
-<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
-<li>输出重定向。</li>
-<li>调用包含 / 的命令。</li>
-<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
-<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
-<li>在脚本中跳出限制模式。</li>
-</ul>
-<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
-<div><pre><code>#!/bin/bash
-
-#  在脚本开头用&quot;#!/bin/bash -r&quot;
-#+ 可以让整个脚本在限制模式运行。
-
-echo
-
-echo &quot;改变目录。&quot;
-cd /usr/local
-echo &quot;现在是在 `pwd`&quot;
-echo &quot;回到家目录。&quot;
-cd
-echo &quot;现在是在 `pwd`&quot;
-echo
-
-# 到此为止一切都是正常的，非限制模式。
-
-set -r
-# set --restricted 效果相同。
-echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
-
-echo
-echo
-
-echo &quot;在限制模式试图改变目录。&quot;
-cd ..
-echo &quot;依旧在 `pwd`&quot;
-
-echo
-echo
-
-echo &quot;\$SHELL = $SHELL&quot;
-echo &quot;试图在限制模式改变Shell 。&quot;
-SHELL=&quot;/bin/ash&quot;
-echo
-echo &quot;\$SHELL= $SHELL&quot;
-
-echo
-echo
-
-echo &quot;试图在限制模式重定向输出内容。&quot;
-ls -l /usr/bin &gt; bin.files
-ls -l bin.files    # 尝试列出试图创建的文件。
-
-echo
-
-exit 0
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -24395,6 +24340,87 @@ x=x &lt; &lt;(:)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
 这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">第二十二章. 限制模式的Shell</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
+<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
+<ul>
+<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
+</ul>
+<p>被禁用的命令和功能：</p>
+<ul>
+<li>使用 <em>cd</em> 来改变工作目录。</li>
+<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
+<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
+<li>输出重定向。</li>
+<li>调用包含 / 的命令。</li>
+<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
+<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
+<li>在脚本中跳出限制模式。</li>
+</ul>
+<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
+<div><pre><code>#!/bin/bash
+
+#  在脚本开头用&quot;#!/bin/bash -r&quot;
+#+ 可以让整个脚本在限制模式运行。
+
+echo
+
+echo &quot;改变目录。&quot;
+cd /usr/local
+echo &quot;现在是在 `pwd`&quot;
+echo &quot;回到家目录。&quot;
+cd
+echo &quot;现在是在 `pwd`&quot;
+echo
+
+# 到此为止一切都是正常的，非限制模式。
+
+set -r
+# set --restricted 效果相同。
+echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
+
+echo
+echo
+
+echo &quot;在限制模式试图改变目录。&quot;
+cd ..
+echo &quot;依旧在 `pwd`&quot;
+
+echo
+echo
+
+echo &quot;\$SHELL = $SHELL&quot;
+echo &quot;试图在限制模式改变Shell 。&quot;
+SHELL=&quot;/bin/ash&quot;
+echo
+echo &quot;\$SHELL= $SHELL&quot;
+
+echo
+echo
+
+echo &quot;试图在限制模式重定向输出内容。&quot;
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    # 尝试列出试图创建的文件。
+
+echo
+
+exit 0
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -25245,168 +25271,6 @@ exit 0  # 这个脚本可能不会正常退出。
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">24.3 不使用局部变量的递归</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
-<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
-<p>例子24-16. 斐波那契序列</p>
-<div><pre><code>#!/bin/bash
-# fibo.sh : 斐波那契序列 (递归)
-# 作者: M. Cooper
-# License: GPL3
-
-# ----------算法--------------
-# Fibo(0) = 0
-# Fibo(1) = 1
-# else
-#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
-# ---------------------------------
-
-MAXTERM=15       # 要产生的计算次数。
-MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
-
-Fibonacci ()
-{
-    idx=$1   # 不需要是局部变量，为什么？
-    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
-    then
-        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
-    else
-        (( --idx ))  # j-1
-        term1=$( Fibonacci $idx )   #  Fibo(j-1)
-        (( --idx ))  # j-2
-        term2=$( Fibonacci $idx )   #  Fibo(j-2)
-        echo $(( term1 + term2 ))
-    fi
-    #  一个丑陋的实现
-    #  C语言里，一个更加优雅的斐波那契递归实现
-    #+ 是一个简单的只需要7-10代码的算法翻译。
-}
-
-for i in $(seq 0 $MAXTERM)
-do  # 计算 $MAXTERM+1 次.
-    FIBO=$(Fibonacci $i)
-    echo -n &quot;$FIBO &quot;
-done
-# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
-# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
-<div><pre><code>#! /bin/bash
-#
-# 汉诺塔
-# Bash script
-# Copyright (C) 2000 Amit Singh. All Rights Reserved.
-# http://hanoi.kernelthread.com
-#
-# 在 Bash version 2.05b.0(13)-release下通过测试.
-# 同样在Bash3.x版本下工作正常。
-#
-#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
-#+ 经过了脚本作者的许可。
-#  ABS的作者对脚本进行了轻微的修改和注释。
-#=================================================================#
-#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
-#+  他是19世纪的法国数学家。
-#
-# 有三个直立的柱子竖在地面上。
-# 第一个柱子上有一组盘子套在上面。
-# 这些盘子是平的，中间有孔，
-#+ 可以套在柱子上面。
-# 这些盘子的直径不同，它们从下而上， 
-#+ 按照尺寸递减的顺序摆放。
-# 也就是说，最小的在最上边，最大的在最下面。
-#
-# 现在的任务是要把这组盘子  
-#+ 从一个柱子上全部搬到另一个柱子上 
-# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
-# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
-# 你只能把小的盘子放到大的盘子上。
-#+ 反过来就不行。
-# 切记，绝对不能把大盘子放到小盘子的上面。
-# 如果盘子的数量比较少，那么移不了几次就能完成。
-#+ 但是随着盘子数量的增加，
-#+ 移动次数几乎成倍的增长，
-#+ 而且移动的“策略”也会变得越来越复杂。
-#
-# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
-#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
-#
-#
-#           ...             ...         ...
-#           | |             | |         | |
-#          _|_|_            | |         | |
-#         |_____|           | |         | |
-#        |_______|          | |         | |
-#       |_________|         | |         | |
-#      |___________|        | |         | |
-#     |             |       | |         | |
-# .--------------------------------------------------------------. 
-# |**************************************************************| 
-#            #1              #2          #3
-# #=================================================================#
-
-E_NOPARAM=66  # 没有参数传给脚本。
-E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
-Moves=        # 保存移动次数的全局变量。
-              # 这里修改了原来的脚本。
-
-dohanoi() {   # 递归函数
-    case $1 in
-    0)
-        ;;
-    *)
-        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
-        echo move $2 &quot;--&gt;&quot; $3
-        ((Moves++))          # 这里修改了原来的脚本。
-        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
-        ;;
-    esac 
-}
-
-case $# in
-    1) case $(($1&gt;0)) in     # 至少要有一个盘子
-        1)  # Nested case statement.
-            dohanoi $1 1 3 2
-            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
-            exit 0;
-            ;; 
-        *)    
-            echo &quot;$0: illegal value for number of disks&quot;;
-            exit $E_BADPARAM;
-            ;;
-        esac ;;
-    *)
-        echo &quot;usage: $0 N&quot;
-        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
-        exit $E_NOPARAM;
-        ;;
-    esac
-
-# 练习:
-# ---------
-# 1) 这个位置以下的代码会不会执行？ 
-#    为什么不(容易)
-# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
-#    (比较难 可以参考上面的Dewdney 的引用)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">24 函数</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_functions/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_functions/"/>
@@ -25651,6 +25515,168 @@ exit $?
 #  当然，这并不是可取的。
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">24.3 不使用局部变量的递归</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
+<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
+<p>例子24-16. 斐波那契序列</p>
+<div><pre><code>#!/bin/bash
+# fibo.sh : 斐波那契序列 (递归)
+# 作者: M. Cooper
+# License: GPL3
+
+# ----------算法--------------
+# Fibo(0) = 0
+# Fibo(1) = 1
+# else
+#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
+# ---------------------------------
+
+MAXTERM=15       # 要产生的计算次数。
+MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
+
+Fibonacci ()
+{
+    idx=$1   # 不需要是局部变量，为什么？
+    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
+    then
+        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
+    else
+        (( --idx ))  # j-1
+        term1=$( Fibonacci $idx )   #  Fibo(j-1)
+        (( --idx ))  # j-2
+        term2=$( Fibonacci $idx )   #  Fibo(j-2)
+        echo $(( term1 + term2 ))
+    fi
+    #  一个丑陋的实现
+    #  C语言里，一个更加优雅的斐波那契递归实现
+    #+ 是一个简单的只需要7-10代码的算法翻译。
+}
+
+for i in $(seq 0 $MAXTERM)
+do  # 计算 $MAXTERM+1 次.
+    FIBO=$(Fibonacci $i)
+    echo -n &quot;$FIBO &quot;
+done
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
+# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
+<div><pre><code>#! /bin/bash
+#
+# 汉诺塔
+# Bash script
+# Copyright (C) 2000 Amit Singh. All Rights Reserved.
+# http://hanoi.kernelthread.com
+#
+# 在 Bash version 2.05b.0(13)-release下通过测试.
+# 同样在Bash3.x版本下工作正常。
+#
+#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
+#+ 经过了脚本作者的许可。
+#  ABS的作者对脚本进行了轻微的修改和注释。
+#=================================================================#
+#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
+#+  他是19世纪的法国数学家。
+#
+# 有三个直立的柱子竖在地面上。
+# 第一个柱子上有一组盘子套在上面。
+# 这些盘子是平的，中间有孔，
+#+ 可以套在柱子上面。
+# 这些盘子的直径不同，它们从下而上， 
+#+ 按照尺寸递减的顺序摆放。
+# 也就是说，最小的在最上边，最大的在最下面。
+#
+# 现在的任务是要把这组盘子  
+#+ 从一个柱子上全部搬到另一个柱子上 
+# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
+# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
+# 你只能把小的盘子放到大的盘子上。
+#+ 反过来就不行。
+# 切记，绝对不能把大盘子放到小盘子的上面。
+# 如果盘子的数量比较少，那么移不了几次就能完成。
+#+ 但是随着盘子数量的增加，
+#+ 移动次数几乎成倍的增长，
+#+ 而且移动的“策略”也会变得越来越复杂。
+#
+# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
+#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
+#
+#
+#           ...             ...         ...
+#           | |             | |         | |
+#          _|_|_            | |         | |
+#         |_____|           | |         | |
+#        |_______|          | |         | |
+#       |_________|         | |         | |
+#      |___________|        | |         | |
+#     |             |       | |         | |
+# .--------------------------------------------------------------. 
+# |**************************************************************| 
+#            #1              #2          #3
+# #=================================================================#
+
+E_NOPARAM=66  # 没有参数传给脚本。
+E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
+Moves=        # 保存移动次数的全局变量。
+              # 这里修改了原来的脚本。
+
+dohanoi() {   # 递归函数
+    case $1 in
+    0)
+        ;;
+    *)
+        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
+        echo move $2 &quot;--&gt;&quot; $3
+        ((Moves++))          # 这里修改了原来的脚本。
+        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
+        ;;
+    esac 
+}
+
+case $# in
+    1) case $(($1&gt;0)) in     # 至少要有一个盘子
+        1)  # Nested case statement.
+            dohanoi $1 1 3 2
+            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
+            exit 0;
+            ;; 
+        *)    
+            echo &quot;$0: illegal value for number of disks&quot;;
+            exit $E_BADPARAM;
+            ;;
+        esac ;;
+    *)
+        echo &quot;usage: $0 N&quot;
+        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
+        exit $E_NOPARAM;
+        ;;
+    esac
+
+# 练习:
+# ---------
+# 1) 这个位置以下的代码会不会执行？ 
+#    为什么不(容易)
+# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
+#    (比较难 可以参考上面的Dewdney 的引用)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -28227,205 +28253,6 @@ trap 2     # Reenables Control-C
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">33 选项</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/33_options/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/33_options/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
-<p>选项用来更改shell和脚本的行为.</p>
-<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
-<div><pre><code>#!/bin/bash
-
-set -o verbose
-# # 打印出所有执行前的命令.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
-
-set -v
-# 与上边的例子具有相同的效果.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
-<div><pre><code>#!/bin/bash
-set -o verbose
-# 激活命令回显.
-command
-...
-command
-
-set +o verbose
-# 禁用命令回显.
-command
-# 没有命令回显了.
-
-set -v
-# 激活命令回显.
-command
-...
-command
-
-set +v
-# 禁用命令回显.
-command
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
-<div><pre><code>#!/bin/bash -x
-#
-# 下边是脚本的主要内容.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
-<p><strong>bash - v script - name</strong></p>
-<p><strong>bash - o verbose script - name</strong></p>
-<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
-<p>表格 33-1. Bash选项</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">缩写</th>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">-B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
-</tr>
-<tr>
-<td style="text-align:left">+B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">关闭大括号展开</td>
-</tr>
-<tr>
-<td style="text-align:left">-C</td>
-<td style="text-align:left">noclobber</td>
-<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
-</tr>
-<tr>
-<td style="text-align:left">-D</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-a</td>
-<td style="text-align:left">all export</td>
-<td style="text-align:left">export(导出)所有定义过的变量</td>
-</tr>
-<tr>
-<td style="text-align:left">-b</td>
-<td style="text-align:left">notify</td>
-<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
-</tr>
-<tr>
-<td style="text-align:left">-c ...</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">从...中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">checkjobs</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
-</tr>
-<tr>
-<td style="text-align:left">-e</td>
-<td style="text-align:left">errexit</td>
-<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
-</tr>
-<tr>
-<td style="text-align:left">-f</td>
-<td style="text-align:left">noglob</td>
-<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
-</tr>
-<tr>
-<td style="text-align:left">globstar</td>
-<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
-<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
-</tr>
-<tr>
-<td style="text-align:left">-i</td>
-<td style="text-align:left">interactive</td>
-<td style="text-align:left">让脚本以交互模式运行</td>
-</tr>
-<tr>
-<td style="text-align:left">-n</td>
-<td style="text-align:left">noexec</td>
-<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
-</tr>
-<tr>
-<td style="text-align:left">-o Option-Name</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">调用Option-Name选项</td>
-</tr>
-<tr>
-<td style="text-align:left">-o posix</td>
-<td style="text-align:left">POSIX</td>
-<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
-</tr>
-<tr>
-<td style="text-align:left">-o pipefail</td>
-<td style="text-align:left">pipe failure</td>
-<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
-</tr>
-<tr>
-<td style="text-align:left">-p</td>
-<td style="text-align:left">privileged</td>
-<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
-</tr>
-<tr>
-<td style="text-align:left">-r</td>
-<td style="text-align:left">restricted</td>
-<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
-</tr>
-<tr>
-<td style="text-align:left">-s</td>
-<td style="text-align:left">stdin</td>
-<td style="text-align:left">从stdin 中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-t</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">执行完第一个命令之后, 就退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-u</td>
-<td style="text-align:left">nounset</td>
-<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-v</td>
-<td style="text-align:left">verbose</td>
-<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
-</tr>
-<tr>
-<td style="text-align:left">-x</td>
-<td style="text-align:left">xtrace</td>
-<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
-</tr>
-<tr>
-<td style="text-align:left">--</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">第34章 陷阱</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/34_Gotchas/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/34_Gotchas/"/>
@@ -28980,6 +28807,205 @@ bash$
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">33 选项</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/33_options/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/33_options/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
+<p>选项用来更改shell和脚本的行为.</p>
+<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
+<div><pre><code>#!/bin/bash
+
+set -o verbose
+# # 打印出所有执行前的命令.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
+
+set -v
+# 与上边的例子具有相同的效果.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
+<div><pre><code>#!/bin/bash
+set -o verbose
+# 激活命令回显.
+command
+...
+command
+
+set +o verbose
+# 禁用命令回显.
+command
+# 没有命令回显了.
+
+set -v
+# 激活命令回显.
+command
+...
+command
+
+set +v
+# 禁用命令回显.
+command
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
+<div><pre><code>#!/bin/bash -x
+#
+# 下边是脚本的主要内容.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
+<p><strong>bash - v script - name</strong></p>
+<p><strong>bash - o verbose script - name</strong></p>
+<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
+<p>表格 33-1. Bash选项</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
+</tr>
+<tr>
+<td style="text-align:left">+B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">关闭大括号展开</td>
+</tr>
+<tr>
+<td style="text-align:left">-C</td>
+<td style="text-align:left">noclobber</td>
+<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
+</tr>
+<tr>
+<td style="text-align:left">-D</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-a</td>
+<td style="text-align:left">all export</td>
+<td style="text-align:left">export(导出)所有定义过的变量</td>
+</tr>
+<tr>
+<td style="text-align:left">-b</td>
+<td style="text-align:left">notify</td>
+<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
+</tr>
+<tr>
+<td style="text-align:left">-c ...</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">从...中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">checkjobs</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
+</tr>
+<tr>
+<td style="text-align:left">-e</td>
+<td style="text-align:left">errexit</td>
+<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
+</tr>
+<tr>
+<td style="text-align:left">-f</td>
+<td style="text-align:left">noglob</td>
+<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
+</tr>
+<tr>
+<td style="text-align:left">globstar</td>
+<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
+<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">interactive</td>
+<td style="text-align:left">让脚本以交互模式运行</td>
+</tr>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">noexec</td>
+<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
+</tr>
+<tr>
+<td style="text-align:left">-o Option-Name</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">调用Option-Name选项</td>
+</tr>
+<tr>
+<td style="text-align:left">-o posix</td>
+<td style="text-align:left">POSIX</td>
+<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
+</tr>
+<tr>
+<td style="text-align:left">-o pipefail</td>
+<td style="text-align:left">pipe failure</td>
+<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">privileged</td>
+<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">restricted</td>
+<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
+</tr>
+<tr>
+<td style="text-align:left">-s</td>
+<td style="text-align:left">stdin</td>
+<td style="text-align:left">从stdin 中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">执行完第一个命令之后, 就退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-u</td>
+<td style="text-align:left">nounset</td>
+<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-v</td>
+<td style="text-align:left">verbose</td>
+<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
+</tr>
+<tr>
+<td style="text-align:left">-x</td>
+<td style="text-align:left">xtrace</td>
+<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
+</tr>
+<tr>
+<td style="text-align:left">--</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -30614,126 +30640,6 @@ Hello world
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Harbor创建</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="harbor创建"> Harbor创建</h1>
-<h2 id="安装依赖软件"> 安装依赖软件</h2>
-<div><pre><code>yum -y install openssl
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="installation-steps"> Installation Steps</h2>
-<p>1）Offline installer:</p>
-<p>从github上下载官方最新包，然后上传到服务器上</p>
-<p>2）解压</p>
-<div><pre><code>tar xvf harbor-offline-installer-&lt;version&gt;.tgz  -C /usr/local/
-</code></pre>
-<div><span>1</span><br></div></div><p>3）修改配置文件</p>
-<div><pre><code># cd /usr/local/harbor
-# vim harbor.yml
-# 将hostname改为对应的本机地址（not localhost or 127.0.0.1）
-# 修改harbor_admin_password管理用户密码，只能在这里改，改后不可再改
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>hostname一定要用域名</p>
-</blockquote>
-<p>4）安装启动</p>
-<div><pre><code>./install
-</code></pre>
-<div><span>1</span><br></div></div><h1 id="configuring-harbor-with-https-access"> Configuring Harbor with HTTPS Access</h1>
-<h2 id="getting-certificate-authority"> Getting Certificate Authority</h2>
-<div><pre><code># hostnamectl set-hostname sdqcharbor.com
-# echo &quot;本机地址 sdqcharbor.com&quot; &gt;&gt; /etc/hosts
-# mkdir -p /opt/certs
-# cd /opt/certs
-# openssl genrsa -out ca.key 4096
-# openssl req -x509 -new -nodes -sha512 -days 3650 \
-  -subj &quot;/CN=sdqcharbor.com&quot; \
-  -key ca.key \
-  -out ca.crt
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="getting-server-certificate"> Getting Server Certificate</h2>
-<p><strong>1) Create your own Private Key:</strong></p>
-<div><pre><code>openssl genrsa -out sdqcharbor.com.key 4096
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>2) Generate a Certificate Signing Request:</strong></p>
-<div><pre><code>openssl req -sha512 -new \
-  -subj &quot;/CN=sdqcharbor.com&quot; \
-  -key sdqcharbor.com.key \
-  -out sdqcharbor.com.csr
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>3) Generate the certificate of your registry host:</strong></p>
-<div><pre><code>cat &gt; v3.ext &lt;&lt;-EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
-extendedKeyUsage = serverAuth 
-subjectAltName = @alt_names
-
-[alt_names]
-DNS.1=sdqcharbor.com
-DNS.2=192.168.162.45
-EOF
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><div><pre><code>openssl x509 -req -sha512 -days 3650     -extfile v3.ext     -CA ca.crt -CAkey ca.key -CAcreateserial     -in sdqcharbor.com.csr     -out sdqcharbor.com.crt
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="configuration-and-installation"> Configuration and Installation</h2>
-<div><pre><code>mkdir /data/cert
-cp sdqcharbor.com.crt /data/cert/
-cp sdqcharbor.com.key /data/cert/
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>2) Configure Server Certificate, Key and CA for Docker</strong></p>
-<div><pre><code>openssl x509 -inform PEM -in sdqcharbor.com.crt -out sdqcharbor.com.cert
-</code></pre>
-<div><span>1</span><br></div></div><p>Delpoy .com.cert<code>,</code>yourdomain.com.key<code>, and</code>ca.crt` for Docker:</p>
-<div><pre><code>mkdir /etc/docker/certs.d/sdqcharbor.com
-cp sdqcharbor.com.cert sdqcharbor.com.key ca.crt /etc/docker/certs.d/sdqcharbor.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>3) Configure Harbor</strong></p>
-<p>vim /usr/local/harbor/harbor.yml</p>
-<p>修改为以下内容</p>
-<div><pre><code>hostname: sdqcharbor.com
-https:
-  certificate: /data/cert/sdqcharbor.com.crt
-  private_key: /data/cert/sdqcharbor.com.key
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>If Harbor is already running, stop and remove the existing instance. Your image data remain in the file system</p>
-<div><pre><code>docker-compose down -v
-rm -rf /data/database/
-rm -rf /data/registry/
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>编辑docker中配置文件，<code>daemon.json</code>，去掉<code>&quot;insecure-registries&quot;: [&quot;sdqcharbor.com&quot;]</code>这一行</p>
-<p>重启docker</p>
-<div><pre><code>systemctl daemon-reload
-systemctl restart docker
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>预编译</p>
-<div><pre><code>./prepare
-docker-compose -f ./docker-compose.yml up -d
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>登录</p>
-<div><pre><code>docker login sdqcharbor.com
-</code></pre>
-<div><span>1</span><br></div></div><p>上传镜像</p>
-<div><pre><code>docker tag centos:latest sdqcharbor.com/library/centos:latest
-docker push sdqcharbor.com/library/centos:latest 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h1 id="参考文档"> 参考文档</h1>
-<blockquote>
-<p><a href="https://goharbor.io/docs/1.10/install-config/download-installer/" target="_blank" rel="noopener noreferrer">官方文档</a></p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Harbor简介</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor_ha/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor_ha/"/>
@@ -31197,6 +31103,126 @@ proxy:
 <p>https://www.cnblogs.com/kevingrace/p/11422710.html</p>
 <p>https://juejin.im/post/5d973e246fb9a04dfa0963fb#heading-18</p>
 <p>https://mp.weixin.qq.com/s?__biz=MzU5Mzg4NTYyOA==&amp;mid=2247483698&amp;idx=1&amp;sn=79db67ba94f7de4a681f5827b32495c3&amp;chksm=fe08e1e1c97f68f79ce3c1de437d25a0262acdf6e50295d7b05f25fd9090c05ae17547f582c9&amp;mpshare=1&amp;scene=24&amp;srcid=0426o4pE2rlbV9jiC0uU7bbf&amp;sharer_sharetime=1587898963958&amp;sharer_shareid=9b928482ebeb2f07e6828859301773b2&amp;key=0c8b8599c39815a077ababf632218cf4dd47c3300ac756d5d1f91cab59a40607f01f1490e733f7642923a35122555c5af376a556d629fd23b6d57045ab998c4c8ef4c0069aaa95360699b46822a279da&amp;ascene=1&amp;uin=MjIyMjY5MjcyMg%3D%3D&amp;devicetype=Windows+10&amp;version=62080079&amp;lang=zh_CN&amp;exportkey=ATu2VmD5qWBN%2BODgGFu%2BLRg%3D&amp;pass_ticket=UKe3uNkZN8oXGdb8m9nzjnYYPVa%2B6oSRKUVpiOMdQ%2BemAGGjU653K0yx2yLVIF6J</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Harbor创建</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="harbor创建"> Harbor创建</h1>
+<h2 id="安装依赖软件"> 安装依赖软件</h2>
+<div><pre><code>yum -y install openssl
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="installation-steps"> Installation Steps</h2>
+<p>1）Offline installer:</p>
+<p>从github上下载官方最新包，然后上传到服务器上</p>
+<p>2）解压</p>
+<div><pre><code>tar xvf harbor-offline-installer-&lt;version&gt;.tgz  -C /usr/local/
+</code></pre>
+<div><span>1</span><br></div></div><p>3）修改配置文件</p>
+<div><pre><code># cd /usr/local/harbor
+# vim harbor.yml
+# 将hostname改为对应的本机地址（not localhost or 127.0.0.1）
+# 修改harbor_admin_password管理用户密码，只能在这里改，改后不可再改
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>hostname一定要用域名</p>
+</blockquote>
+<p>4）安装启动</p>
+<div><pre><code>./install
+</code></pre>
+<div><span>1</span><br></div></div><h1 id="configuring-harbor-with-https-access"> Configuring Harbor with HTTPS Access</h1>
+<h2 id="getting-certificate-authority"> Getting Certificate Authority</h2>
+<div><pre><code># hostnamectl set-hostname sdqcharbor.com
+# echo &quot;本机地址 sdqcharbor.com&quot; &gt;&gt; /etc/hosts
+# mkdir -p /opt/certs
+# cd /opt/certs
+# openssl genrsa -out ca.key 4096
+# openssl req -x509 -new -nodes -sha512 -days 3650 \
+  -subj &quot;/CN=sdqcharbor.com&quot; \
+  -key ca.key \
+  -out ca.crt
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="getting-server-certificate"> Getting Server Certificate</h2>
+<p><strong>1) Create your own Private Key:</strong></p>
+<div><pre><code>openssl genrsa -out sdqcharbor.com.key 4096
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>2) Generate a Certificate Signing Request:</strong></p>
+<div><pre><code>openssl req -sha512 -new \
+  -subj &quot;/CN=sdqcharbor.com&quot; \
+  -key sdqcharbor.com.key \
+  -out sdqcharbor.com.csr
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>3) Generate the certificate of your registry host:</strong></p>
+<div><pre><code>cat &gt; v3.ext &lt;&lt;-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth 
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1=sdqcharbor.com
+DNS.2=192.168.162.45
+EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><div><pre><code>openssl x509 -req -sha512 -days 3650     -extfile v3.ext     -CA ca.crt -CAkey ca.key -CAcreateserial     -in sdqcharbor.com.csr     -out sdqcharbor.com.crt
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="configuration-and-installation"> Configuration and Installation</h2>
+<div><pre><code>mkdir /data/cert
+cp sdqcharbor.com.crt /data/cert/
+cp sdqcharbor.com.key /data/cert/
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>2) Configure Server Certificate, Key and CA for Docker</strong></p>
+<div><pre><code>openssl x509 -inform PEM -in sdqcharbor.com.crt -out sdqcharbor.com.cert
+</code></pre>
+<div><span>1</span><br></div></div><p>Delpoy .com.cert<code>,</code>yourdomain.com.key<code>, and</code>ca.crt` for Docker:</p>
+<div><pre><code>mkdir /etc/docker/certs.d/sdqcharbor.com
+cp sdqcharbor.com.cert sdqcharbor.com.key ca.crt /etc/docker/certs.d/sdqcharbor.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>3) Configure Harbor</strong></p>
+<p>vim /usr/local/harbor/harbor.yml</p>
+<p>修改为以下内容</p>
+<div><pre><code>hostname: sdqcharbor.com
+https:
+  certificate: /data/cert/sdqcharbor.com.crt
+  private_key: /data/cert/sdqcharbor.com.key
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>If Harbor is already running, stop and remove the existing instance. Your image data remain in the file system</p>
+<div><pre><code>docker-compose down -v
+rm -rf /data/database/
+rm -rf /data/registry/
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>编辑docker中配置文件，<code>daemon.json</code>，去掉<code>&quot;insecure-registries&quot;: [&quot;sdqcharbor.com&quot;]</code>这一行</p>
+<p>重启docker</p>
+<div><pre><code>systemctl daemon-reload
+systemctl restart docker
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>预编译</p>
+<div><pre><code>./prepare
+docker-compose -f ./docker-compose.yml up -d
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>登录</p>
+<div><pre><code>docker login sdqcharbor.com
+</code></pre>
+<div><span>1</span><br></div></div><p>上传镜像</p>
+<div><pre><code>docker tag centos:latest sdqcharbor.com/library/centos:latest
+docker push sdqcharbor.com/library/centos:latest 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h1 id="参考文档"> 参考文档</h1>
+<blockquote>
+<p><a href="https://goharbor.io/docs/1.10/install-config/download-installer/" target="_blank" rel="noopener noreferrer">官方文档</a></p>
 </blockquote>
 ]]></content>
     <author>
@@ -36593,41 +36619,6 @@ curl -sSL https://get.rvm.io | bash -s stable
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">redis-dump方式导入导出数据</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
-<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
-<p>安装ruby（略）,详见上一章节</p>
-<div><pre><code>gem install redis-dump -V
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
-<p>示例</p>
-<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
-<p>示例</p>
-<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
-<div><pre><code>&lt; test1.json redis-load
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
-<p>-n （以二进制形式导入）</p>
-<div><pre><code>&lt; test.json redis-load -n 
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Redis是什么</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/redis%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/redis%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
@@ -36777,6 +36768,41 @@ curl -sSL https://get.rvm.io | bash -s stable
 <h2 id="redis集群如何选择数据库"> Redis集群如何选择数据库</h2>
 <p>Redis集群目前无法做数据库选择，默认在0数据库。</p>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">redis-dump方式导入导出数据</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
+<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div><pre><code>gem install redis-dump -V
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
+<p>示例</p>
+<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
+<p>示例</p>
+<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div><pre><code>&lt; test1.json redis-load
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div><pre><code>&lt; test.json redis-load -n 
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -37850,50 +37876,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">安装运行</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="images/1567761679082.png" alt=""></p>
-<p>解压并安装运行</p>
-<p><img src="images/1567761719575.png" alt=""></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Elastic Stack 与Docker 容器</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.3%20%E5%9C%A8Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CElasticsearch%EF%BC%8CKibana%E5%92%8CCerebro/"/>
@@ -37995,6 +37977,50 @@ networks<span>:</span>
 </code></pre>
 <div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
 <p>可以用来监控es集群的状态，非常好用，推荐</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">安装运行</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="images/1567761679082.png" alt=""></p>
+<p>解压并安装运行</p>
+<p><img src="images/1567761719575.png" alt=""></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -40136,61 +40162,6 @@ curl -XPOST http://localhost:9200/index/_create/4 -H &#39;Content-Type:applicati
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">filebeat的安装注意</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
-<div><pre><code># filebeat输出到kafka中时，需要指定topic
-output.kafka:
-  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
-  topic: &#39;credit&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>1.注意yaml文件的格式需要对齐</p>
-<p>2.注意注释掉默认的#output.elasticsearch:</p>
-</blockquote>
-<p>filebeat.yml配置文件</p>
-<p>改动地方</p>
-<div><pre><code>filebeat.inputs:
-
-# Each - is an input. Most options can be set at the input level, so
-# you can use different inputs for various configurations.
-# Below are the input specific configurations.
-
-- type: log
-
-  # Change to true to enable this input configuration.
-  enabled: true
-
-  # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-    - /var/log/aa.txt
-
-# setup.kibana:
-#output.elasticsearch:
-  # Array of hosts to connect to.
-  # hosts: [&quot;localhost:9200&quot;]
-
-  # Optional protocol and basic auth credentials.
-  #protocol: &quot;https&quot;
-  #username: &quot;elastic&quot;
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
-<p>setup.kibana注释掉</p>
-<p>output.elasticsearch:下面所有东西注释掉</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">kafka2.12集群搭建步骤</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/kafka2.12%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/kafka2.12%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"/>
@@ -40259,6 +40230,61 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 <p><a href="https://www.jianshu.com/p/5297773fcc1b" target="_blank" rel="noopener noreferrer">https://www.jianshu.com/p/5297773fcc1b</a>、、</p>
 </blockquote>
 <p>JVM，参数得调整一下</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">filebeat的安装注意</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
+<div><pre><code># filebeat输出到kafka中时，需要指定topic
+output.kafka:
+  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
+  topic: &#39;credit&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>1.注意yaml文件的格式需要对齐</p>
+<p>2.注意注释掉默认的#output.elasticsearch:</p>
+</blockquote>
+<p>filebeat.yml配置文件</p>
+<p>改动地方</p>
+<div><pre><code>filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/aa.txt
+
+# setup.kibana:
+#output.elasticsearch:
+  # Array of hosts to connect to.
+  # hosts: [&quot;localhost:9200&quot;]
+
+  # Optional protocol and basic auth credentials.
+  #protocol: &quot;https&quot;
+  #username: &quot;elastic&quot;
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
+<p>setup.kibana注释掉</p>
+<p>output.elasticsearch:下面所有东西注释掉</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -40631,94 +40657,6 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">第十章 变量处理</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_manipulating_variables/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">模板导入</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="images/redis_daoru.png" alt=""></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Zabbix客户端日志出现(Not all processes could be identified）</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -41309,6 +41247,68 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">模板导入</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="images/redis_daoru.png" alt=""></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Zabbix客户端日志出现(Not all processes could be identified）</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">关闭被监控端的防火墙</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.8%20activemq%E7%9B%91%E6%8E%A7/"/>
@@ -41866,32 +41866,6 @@ NTP synchronized: yes
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">curl https报错: curl: (35) SSL connect error</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="curl-https报错-curl-35-ssl-connect-error"> curl https报错: curl: (35) SSL connect error</h2>
-<p>源码编译curl</p>
-<div><pre><code>cd /usr/local/src/
-wget http://curl.haxx.se/download/archeology/curl-7.19.7.tar.gz
-tar -zxf curl-7.19.7.tar.gz
-cd curl-7.19.7
-./configure --without-nss --with-ssl
-make
-make install
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>转载自：<a href="https://blog.csdn.net/qq_34810257/article/details/80885622" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_34810257/article/details/80885622</a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/du-df%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E4%B8%8D%E4%B8%80%E8%87%B4/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/du-df%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E4%B8%8D%E4%B8%80%E8%87%B4/"/>
@@ -41916,22 +41890,21 @@ make install
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">mysql最大连接数的改变</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/mysql%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/mysql%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0/"/>
+    <title type="html">curl https报错: curl: (35) SSL connect error</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/"/>
     <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="mysql最大连接数的改变"> mysql最大连接数的改变</h2>
-<p>在使用MySQL数据库的时候，经常会遇到这么一个问题，就是“Can not connect to MySQL server. Too many connections”-mysql 1040错误，这是因为访问MySQL且还未释放的连接数目已经达到MySQL的上限。通常，mysql的最大连接数默认是100, 最大可以达到16384。</p>
-<p>常用的有两种方式修改最大连接数。</p>
-<h3 id="命令行修改"> 命令行修改</h3>
-<div><pre><code>#mysql -uuser -ppassword(命令行登录MySQL)
-mysql&gt;show variables like &#39;max_connections&#39;;(查可以看当前的最大连接数)
-msyql&gt;set global max_connections=1000;(设置最大连接数为1000，可以再次查看是否设置成功)
-mysql&gt;exit(退出)
+    <content type="html"><![CDATA[<h2 id="curl-https报错-curl-35-ssl-connect-error"> curl https报错: curl: (35) SSL connect error</h2>
+<p>源码编译curl</p>
+<div><pre><code>cd /usr/local/src/
+wget http://curl.haxx.se/download/archeology/curl-7.19.7.tar.gz
+tar -zxf curl-7.19.7.tar.gz
+cd curl-7.19.7
+./configure --without-nss --with-ssl
+make
+make install
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这种方式有个问题，就是设置的最大连接数只在mysql当前服务进程有效，一旦mysql重启，又会恢复到初始状态。因为mysql启动后的初始化工作是从其配置文件中读取数据的，而这种方式没有对其配置文件做更改。</p>
-<h3 id="修改配置文件"> 修改配置文件</h3>
-<p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>转载自：<a href="https://blog.csdn.net/qq_34810257/article/details/80885622" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_34810257/article/details/80885622</a></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -41970,6 +41943,33 @@ mysql&gt;exit(退出)
 /var/file   swap   swap   defaults  0   0
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">mysql最大连接数的改变</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/mysql%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/mysql%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="mysql最大连接数的改变"> mysql最大连接数的改变</h2>
+<p>在使用MySQL数据库的时候，经常会遇到这么一个问题，就是“Can not connect to MySQL server. Too many connections”-mysql 1040错误，这是因为访问MySQL且还未释放的连接数目已经达到MySQL的上限。通常，mysql的最大连接数默认是100, 最大可以达到16384。</p>
+<p>常用的有两种方式修改最大连接数。</p>
+<h3 id="命令行修改"> 命令行修改</h3>
+<div><pre><code>#mysql -uuser -ppassword(命令行登录MySQL)
+mysql&gt;show variables like &#39;max_connections&#39;;(查可以看当前的最大连接数)
+msyql&gt;set global max_connections=1000;(设置最大连接数为1000，可以再次查看是否设置成功)
+mysql&gt;exit(退出)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这种方式有个问题，就是设置的最大连接数只在mysql当前服务进程有效，一旦mysql重启，又会恢复到初始状态。因为mysql启动后的初始化工作是从其配置文件中读取数据的，而这种方式没有对其配置文件做更改。</p>
+<h3 id="修改配置文件"> 修改配置文件</h3>
+<p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -47325,234 +47325,6 @@ Context:	http, server, location
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">6. nginx的常见问题</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/qa/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/web/nginx/qa/"/>
-    <updated>2021-04-02T06:06:34.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_6-nginx的常见问题"> 6. nginx的常见问题</h1>
-<h2 id="nginx前面有多个反向代理时-proxy的正确设置"> nginx前面有多个反向代理时，proxy的正确设置</h2>
-<div><pre><code>#proxy_redirect off;
-#proxy_set_header Host $host
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>注释掉这两行，让它使用默认配置</p>
-<h2 id="nginx解决跨域问题"> nginx解决跨域问题</h2>
-<p>在nginx.conf中编辑</p>
-<div><pre><code><span>server</span> <span>{</span>
-        <span>location</span> <span>/</span> <span>{</span>
-            <span>root</span>   html<span>;</span>
-            <span>index</span>  <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-            <span>/</span><span>/</span>允许cros跨域访问
-            <span>add_header</span> <span>'Access-Control-Allow-Origin'</span> <span>'*'</span><span>;</span>
-        <span>}</span>
- <span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="从http跳转到https"> 从http跳转到https</h2>
-<p>项目前期使用http，后期为了安全方面的考虑，启用了https。
-项目架构：前端使用nginx作为多个tomcat实例的反向代理和负载均衡。
-实际上只需要在nginx上启用https即可，使客户端与nginx之后使用https方式通信，而nginx与tomcat之间依然以http方式通信。</p>
-<p>现在需要将之前客户端所有的http请求全部都自动重定向为https，只需要在nginx上添加相应配置即可。</p>
-<h3 id="使用rewrite指令"> 使用rewrite指令</h3>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span>$<span>1</span> permanent<span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
-<h3 id="使用return指令"> 使用return指令</h3>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>return</span> <span>301</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
-<h3 id="使用error-page指令"> 使用error_page指令</h3>
-<p>只允许HTTP来访问时，用HTTP访问会让Nginx报497错误，然后利用error_page将链接重定向至HTTPS上。</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span> 
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-    <span>error_page</span> <span>497</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
-<p>需要注意的是，此时需要将<code>error_page</code>指令语句写在最后，否则不能生效。</p>
-<h2 id="nginx出现403的原因"> nginx出现403的原因</h2>
-<h3 id="缺少index-html"> 缺少index.html</h3>
-<p>缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件</p>
-<div><pre><code>server {  
-      listen       80;  
-      server_name  localhost;  
-      index  index.php index.html;  
-      root  /data/www/;
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。</p>
-<h3 id="权限问题"> 权限问题</h3>
-<p>1）查看nginx的启动用户</p>
-<div><pre><code>ps aux | grep &quot;nginx: worker process&quot; | grep -v &quot;grep&quot; | awk &#39;{ print $1 }&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p><code>index</code>文件的权限，<code>nginx</code>启动用户要有读的权限，<code>index</code>所在的目录要有可以访问目录内容的权限（递归都要有，每一级）</p>
-<p>如果nginx没有web目录的操作权限，也会出现403错误。上一级目录权限，有读的权限就行，不必要改为777</p>
-<p>解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决</p>
-<div><pre><code>chmod -R 777 /data
-chmod -R 777 /data/www/
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="selinux设置问题"> SELinux设置问题</h3>
-<p>设置为：<code>SELINUX=disabled</code></p>
-<h2 id="通过nginx实现蓝绿发布"> 通过nginx实现蓝绿发布</h2>
-<p>样例</p>
-<p><code>nginx.conf</code>通过两个子配置文件来实现</p>
-<div><pre><code><span>include</span> conf<span>.</span>d<span>/</span>v1<span>.</span>conf
-<span>#include conf.d/v2.conf</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><code>v1.conf</code></p>
-<div><pre><code><span>upstream</span> app_v1 <span>{</span>
-	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-<span>upstream</span> app_v2 <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> localhost<span>;</span>
-    <span>set</span> <span>$group</span> <span>"app_v1"</span><span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><code>v2.conf</code></p>
-<div><pre><code><span>upstream</span> app_v1 <span>{</span>
-	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-<span>upstream</span> app_v2 <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> localhost<span>;</span>
-    <span>set</span> <span>$group</span> <span>"app_v2"</span><span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>有的时候还是结合cookie进行使用</p>
-<div><pre><code><span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"version=V1"</span><span>)</span> <span>{</span>
-	<span>set</span> <span>$group</span> app_v1<span>;</span>
-<span>}</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析"> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
-<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx</a>模块名<code>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
-<p>nginx的访问控制模块语法很简单，至少比apache好理解，apache的allow和deny的顺序让很多初学者抓头.好了具体看下这个插件的使用方法吧。</p>
-<h3 id="_1、安装模块"> 1、安装模块</h3>
-<p>这个模块内置在了nginx中，除非你安装中使用了--without-http_access_module。如果你还没安装过nginx，那么请参考下ttlsa之前写的<a href="http://www.ttlsa.com/html/1548.html" target="_blank" rel="noopener noreferrer">nginx安装</a>.</p>
-<h3 id="_2、指令"> 2、指令</h3>
-<p>allow
-语法:    allow address | CIDR | unix: | all;
-默认值:    —
-配置段:    http, server, location, limit_except</p>
-<p>允许某个ip或者一个ip段访问.如果指定unix:,那将允许socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
-<p>deny
-语法:    deny address | CIDR | unix: | all;
-默认值:    —
-配置段:    http, server, location, limit_except</p>
-<p>禁止某个ip或者一个ip段访问.如果指定unix:,那将禁止socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
-<h3 id="_3-allow、deny实例"> 3. allow、deny实例</h3>
-<p>location / {
-deny 192.168.1.1;
-allow 192.168.1.0/24;
-allow 10.1.1.0/16;
-allow 2001:0db8::/32;
-deny all;
-}</p>
-<p>从上到下的顺序，类似iptables。匹配到了便跳出。如上的例子先禁止了192.16.1.1，接下来允许了3个网段，其中包含了一个ipv6，最后未匹配的IP全部禁止访问. 在实际生产环境中，我们也会使用nginx 的geo模块配合使用，有兴趣的请参考ttlsa相关文章<a href="http://www.ttlsa.com/html/3203.html" target="_blank" rel="noopener noreferrer">nginx geo使用方法</a>.</p>
-<h3 id=""> </h3>
-<p>nginx访问控制模块要数nginx里面最简单的指令，只要记住你想禁止谁访问就deny加上IP，想允许则加上allow ip，想禁止或者允许所有，那么allow all或者deny all即可.</p>
-<p>但是具体的配置出现很多问题</p>
-<p>简单一点举例说明：
-ip段：10.0.0.1-10.0.0.255        的表示方法：10.0.0.0/24
-ip段：10.0.0.1-10.0.255.255     的表示方法：10.0.0.0/16
-ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
-<p>利用主机数来计算</p>
-<p>1)将主机数目转化为二进制来表示</p>
-<p>2)如果主机数小于或等于254（注意去掉保留的两个IP地址），则取得该主机的二进制位数，为 N，这里肯定 N&lt;8。如果大于254，则 N&gt;8，这就是说主机地址将占据不止8位。</p>
-<p>3)使用255.255.255.255来将该类IP地址的主机地址位数全部置1，然后从后向前的将N位全部置为 0，即为子网掩码值。</p>
-<p>如欲将B类IP地址168.195.0.0划分成若干子网，每个子网内有主机700台：</p>
-<ol>
-<li>700=1010111100</li>
-<li>该二进制为十位数，N = 10</li>
-<li>将该B类地址的子网掩码255.255.0.0的主机地址全部置 1，得到255.255.255.255 然后再从后向前将后 10位置0,即为： 11111111.11111111.11111100.00000000 即255.255.252.0。这就是该欲划分成主机为700台的B类IP地址 168.195.0.0的子网掩码。</li>
-</ol>
-<p>二进制表（表1）</p>
-<p>0  0  0  0   0  0  0 0</p>
-<p>128 64 32 16  8  4   2 1</p>
-<p>CIDR值（表2）</p>
-<p>子网掩码           CIDR值</p>
-<p>255.0.0.0           /8</p>
-<p>255.128.0.0          /9</p>
-<p>255.192.0.0          /10</p>
-<p>255.224.0.0          /11</p>
-<p>255.240.0.0          /12</p>
-<p>255.248.0.0          /13</p>
-<p>255.252.0.0          /14</p>
-<p>255.254.0.0          /15</p>
-<p>255.255.0.0          /16</p>
-<p>255.255.128.0        /17</p>
-<p>255.255.192.0        /18</p>
-<p>255.255.224.0        /19</p>
-<p>255.255.240.0        /20</p>
-<p>255.255.248.0        /21</p>
-<p>255.255.252.0        /22</p>
-<p>255.255.254.0        /23</p>
-<p>255.255.255.0        /24</p>
-<p>255.255.255.128       /25</p>
-<p>255.255.255.192       /26</p>
-<p>255.255.255.224       /27</p>
-<p>255.255.255.240       /28</p>
-<p>255.255.255.248       /29</p>
-<p>255.255.255.252       /30</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">1. 初识Nginx</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/web/nginx/"/>
@@ -48066,6 +47838,234 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
 <p>2.（可先不做）</p>
 <p>TLS应用实践</p>
 <p>OpenResty安装实践</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">6. nginx的常见问题</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/qa/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/web/nginx/qa/"/>
+    <updated>2021-04-02T06:06:34.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_6-nginx的常见问题"> 6. nginx的常见问题</h1>
+<h2 id="nginx前面有多个反向代理时-proxy的正确设置"> nginx前面有多个反向代理时，proxy的正确设置</h2>
+<div><pre><code>#proxy_redirect off;
+#proxy_set_header Host $host
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>注释掉这两行，让它使用默认配置</p>
+<h2 id="nginx解决跨域问题"> nginx解决跨域问题</h2>
+<p>在nginx.conf中编辑</p>
+<div><pre><code><span>server</span> <span>{</span>
+        <span>location</span> <span>/</span> <span>{</span>
+            <span>root</span>   html<span>;</span>
+            <span>index</span>  <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+            <span>/</span><span>/</span>允许cros跨域访问
+            <span>add_header</span> <span>'Access-Control-Allow-Origin'</span> <span>'*'</span><span>;</span>
+        <span>}</span>
+ <span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="从http跳转到https"> 从http跳转到https</h2>
+<p>项目前期使用http，后期为了安全方面的考虑，启用了https。
+项目架构：前端使用nginx作为多个tomcat实例的反向代理和负载均衡。
+实际上只需要在nginx上启用https即可，使客户端与nginx之后使用https方式通信，而nginx与tomcat之间依然以http方式通信。</p>
+<p>现在需要将之前客户端所有的http请求全部都自动重定向为https，只需要在nginx上添加相应配置即可。</p>
+<h3 id="使用rewrite指令"> 使用rewrite指令</h3>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span>$<span>1</span> permanent<span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+<h3 id="使用return指令"> 使用return指令</h3>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>return</span> <span>301</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+<h3 id="使用error-page指令"> 使用error_page指令</h3>
+<p>只允许HTTP来访问时，用HTTP访问会让Nginx报497错误，然后利用error_page将链接重定向至HTTPS上。</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span> 
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+    <span>error_page</span> <span>497</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
+<p>需要注意的是，此时需要将<code>error_page</code>指令语句写在最后，否则不能生效。</p>
+<h2 id="nginx出现403的原因"> nginx出现403的原因</h2>
+<h3 id="缺少index-html"> 缺少index.html</h3>
+<p>缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件</p>
+<div><pre><code>server {  
+      listen       80;  
+      server_name  localhost;  
+      index  index.php index.html;  
+      root  /data/www/;
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。</p>
+<h3 id="权限问题"> 权限问题</h3>
+<p>1）查看nginx的启动用户</p>
+<div><pre><code>ps aux | grep &quot;nginx: worker process&quot; | grep -v &quot;grep&quot; | awk &#39;{ print $1 }&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p><code>index</code>文件的权限，<code>nginx</code>启动用户要有读的权限，<code>index</code>所在的目录要有可以访问目录内容的权限（递归都要有，每一级）</p>
+<p>如果nginx没有web目录的操作权限，也会出现403错误。上一级目录权限，有读的权限就行，不必要改为777</p>
+<p>解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决</p>
+<div><pre><code>chmod -R 777 /data
+chmod -R 777 /data/www/
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="selinux设置问题"> SELinux设置问题</h3>
+<p>设置为：<code>SELINUX=disabled</code></p>
+<h2 id="通过nginx实现蓝绿发布"> 通过nginx实现蓝绿发布</h2>
+<p>样例</p>
+<p><code>nginx.conf</code>通过两个子配置文件来实现</p>
+<div><pre><code><span>include</span> conf<span>.</span>d<span>/</span>v1<span>.</span>conf
+<span>#include conf.d/v2.conf</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><code>v1.conf</code></p>
+<div><pre><code><span>upstream</span> app_v1 <span>{</span>
+	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+<span>upstream</span> app_v2 <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> localhost<span>;</span>
+    <span>set</span> <span>$group</span> <span>"app_v1"</span><span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><code>v2.conf</code></p>
+<div><pre><code><span>upstream</span> app_v1 <span>{</span>
+	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+<span>upstream</span> app_v2 <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> localhost<span>;</span>
+    <span>set</span> <span>$group</span> <span>"app_v2"</span><span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>有的时候还是结合cookie进行使用</p>
+<div><pre><code><span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"version=V1"</span><span>)</span> <span>{</span>
+	<span>set</span> <span>$group</span> app_v1<span>;</span>
+<span>}</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析"> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
+<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx</a>模块名<code>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
+<p>nginx的访问控制模块语法很简单，至少比apache好理解，apache的allow和deny的顺序让很多初学者抓头.好了具体看下这个插件的使用方法吧。</p>
+<h3 id="_1、安装模块"> 1、安装模块</h3>
+<p>这个模块内置在了nginx中，除非你安装中使用了--without-http_access_module。如果你还没安装过nginx，那么请参考下ttlsa之前写的<a href="http://www.ttlsa.com/html/1548.html" target="_blank" rel="noopener noreferrer">nginx安装</a>.</p>
+<h3 id="_2、指令"> 2、指令</h3>
+<p>allow
+语法:    allow address | CIDR | unix: | all;
+默认值:    —
+配置段:    http, server, location, limit_except</p>
+<p>允许某个ip或者一个ip段访问.如果指定unix:,那将允许socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
+<p>deny
+语法:    deny address | CIDR | unix: | all;
+默认值:    —
+配置段:    http, server, location, limit_except</p>
+<p>禁止某个ip或者一个ip段访问.如果指定unix:,那将禁止socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
+<h3 id="_3-allow、deny实例"> 3. allow、deny实例</h3>
+<p>location / {
+deny 192.168.1.1;
+allow 192.168.1.0/24;
+allow 10.1.1.0/16;
+allow 2001:0db8::/32;
+deny all;
+}</p>
+<p>从上到下的顺序，类似iptables。匹配到了便跳出。如上的例子先禁止了192.16.1.1，接下来允许了3个网段，其中包含了一个ipv6，最后未匹配的IP全部禁止访问. 在实际生产环境中，我们也会使用nginx 的geo模块配合使用，有兴趣的请参考ttlsa相关文章<a href="http://www.ttlsa.com/html/3203.html" target="_blank" rel="noopener noreferrer">nginx geo使用方法</a>.</p>
+<h3 id=""> </h3>
+<p>nginx访问控制模块要数nginx里面最简单的指令，只要记住你想禁止谁访问就deny加上IP，想允许则加上allow ip，想禁止或者允许所有，那么allow all或者deny all即可.</p>
+<p>但是具体的配置出现很多问题</p>
+<p>简单一点举例说明：
+ip段：10.0.0.1-10.0.0.255        的表示方法：10.0.0.0/24
+ip段：10.0.0.1-10.0.255.255     的表示方法：10.0.0.0/16
+ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
+<p>利用主机数来计算</p>
+<p>1)将主机数目转化为二进制来表示</p>
+<p>2)如果主机数小于或等于254（注意去掉保留的两个IP地址），则取得该主机的二进制位数，为 N，这里肯定 N&lt;8。如果大于254，则 N&gt;8，这就是说主机地址将占据不止8位。</p>
+<p>3)使用255.255.255.255来将该类IP地址的主机地址位数全部置1，然后从后向前的将N位全部置为 0，即为子网掩码值。</p>
+<p>如欲将B类IP地址168.195.0.0划分成若干子网，每个子网内有主机700台：</p>
+<ol>
+<li>700=1010111100</li>
+<li>该二进制为十位数，N = 10</li>
+<li>将该B类地址的子网掩码255.255.0.0的主机地址全部置 1，得到255.255.255.255 然后再从后向前将后 10位置0,即为： 11111111.11111111.11111100.00000000 即255.255.252.0。这就是该欲划分成主机为700台的B类IP地址 168.195.0.0的子网掩码。</li>
+</ol>
+<p>二进制表（表1）</p>
+<p>0  0  0  0   0  0  0 0</p>
+<p>128 64 32 16  8  4   2 1</p>
+<p>CIDR值（表2）</p>
+<p>子网掩码           CIDR值</p>
+<p>255.0.0.0           /8</p>
+<p>255.128.0.0          /9</p>
+<p>255.192.0.0          /10</p>
+<p>255.224.0.0          /11</p>
+<p>255.240.0.0          /12</p>
+<p>255.248.0.0          /13</p>
+<p>255.252.0.0          /14</p>
+<p>255.254.0.0          /15</p>
+<p>255.255.0.0          /16</p>
+<p>255.255.128.0        /17</p>
+<p>255.255.192.0        /18</p>
+<p>255.255.224.0        /19</p>
+<p>255.255.240.0        /20</p>
+<p>255.255.248.0        /21</p>
+<p>255.255.252.0        /22</p>
+<p>255.255.254.0        /23</p>
+<p>255.255.255.0        /24</p>
+<p>255.255.255.128       /25</p>
+<p>255.255.255.192       /26</p>
+<p>255.255.255.224       /27</p>
+<p>255.255.255.240       /28</p>
+<p>255.255.255.248       /29</p>
+<p>255.255.255.252       /30</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -48669,148 +48669,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Template DB MySQL简介</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
-<h3 id="应用集"> 应用集</h3>
-<p>MySQL</p>
-<h3 id="监控项"> 监控项</h3>
-<ol>
-<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
-<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
-<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
-<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
-<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
-<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
-<li>MySQL queries per second（MySQL每秒查询）</li>
-<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
-<li>MySQL select operations per second（MySQL每秒选择操作）</li>
-<li>MySQL slow queries（MySQL慢查询）</li>
-<li>MySQL status（MySQL的存活状态）</li>
-<li>MySQL update operations per second（MySQL每秒更新操作）</li>
-<li>MySQL uptime（MySQL正常运行时间）</li>
-<li>MySQL version（MySQL的版本信息）</li>
-</ol>
-<h3 id="触发器"> 触发器</h3>
-<p>MySQL is down</p>
-<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
-<h3 id="图形"> 图形</h3>
-<ol>
-<li>MySQL operations（MySQL业务操作）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
-<ol start="2">
-<li>MySQL bandwidth（MySQL带宽）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
-<h3 id="聚合图形"> 聚合图形</h3>
-<p>MySQL performance（MySQL性能）</p>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
-<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
-<h3 id="mysql监控授权"> MySQL监控授权</h3>
-<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
-<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
-&gt; flush privileges;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
-<ol>
-<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
-</ol>
-<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
-[mysql]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-[mysqladmin]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
-<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
-</ul>
-<ol start="2">
-<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
-</ol>
-<div><pre><code>#vim userparameter_mysql.conf
-</code></pre>
-<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
-<h3 id="重启agent服务"> 重启agent服务</h3>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
-<p><img src="images/mysqlweb.png" alt=""></p>
-<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
-<h3 id="主从状态监控"> 主从状态监控</h3>
-<ol>
-<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
-</ol>
-<p>vim mysql_slave.sh</p>
-<div><pre><code>#!/usr/bin/env bash
-user=&#39;monitor&#39;
-passwd=
-# Seconds_Behind_Master 阈值
-tho=1000
-
-# rs为Yes成功数,sbr为同步时间差
-rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
-sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
-
-# 判断主从状态是否正常,0代表正常,1代表异常
-if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
-    echo 0
-else
-    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
-    echo 1
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
-</code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>重启agent服务</li>
-</ol>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><ol start="4">
-<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
-</ol>
-<ul>
-<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
-</ul>
-<h2 id="连接数监控"> 连接数监控</h2>
-<ol>
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>重启agent服务</li>
-</ol>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>添加监控项和触发器</li>
-</ol>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">10.1 字符串处理</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/10_1_manipulating_strings/"/>
@@ -49259,6 +49117,148 @@ test2 is <span>'value2'</span>
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Template DB MySQL简介</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
+<h3 id="应用集"> 应用集</h3>
+<p>MySQL</p>
+<h3 id="监控项"> 监控项</h3>
+<ol>
+<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
+<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
+<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
+<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
+<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
+<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
+<li>MySQL queries per second（MySQL每秒查询）</li>
+<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
+<li>MySQL select operations per second（MySQL每秒选择操作）</li>
+<li>MySQL slow queries（MySQL慢查询）</li>
+<li>MySQL status（MySQL的存活状态）</li>
+<li>MySQL update operations per second（MySQL每秒更新操作）</li>
+<li>MySQL uptime（MySQL正常运行时间）</li>
+<li>MySQL version（MySQL的版本信息）</li>
+</ol>
+<h3 id="触发器"> 触发器</h3>
+<p>MySQL is down</p>
+<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
+<h3 id="图形"> 图形</h3>
+<ol>
+<li>MySQL operations（MySQL业务操作）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
+<ol start="2">
+<li>MySQL bandwidth（MySQL带宽）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
+<h3 id="聚合图形"> 聚合图形</h3>
+<p>MySQL performance（MySQL性能）</p>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
+<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
+<h3 id="mysql监控授权"> MySQL监控授权</h3>
+<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
+<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
+&gt; flush privileges;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
+<ol>
+<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
+</ol>
+<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
+[mysql]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
+[mysqladmin]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
+<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
+</ul>
+<ol start="2">
+<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
+</ol>
+<div><pre><code>#vim userparameter_mysql.conf
+</code></pre>
+<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<h3 id="重启agent服务"> 重启agent服务</h3>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
+<p><img src="images/mysqlweb.png" alt=""></p>
+<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
+<h3 id="主从状态监控"> 主从状态监控</h3>
+<ol>
+<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
+</ol>
+<p>vim mysql_slave.sh</p>
+<div><pre><code>#!/usr/bin/env bash
+user=&#39;monitor&#39;
+passwd=
+# Seconds_Behind_Master 阈值
+tho=1000
+
+# rs为Yes成功数,sbr为同步时间差
+rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
+sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
+
+# 判断主从状态是否正常,0代表正常,1代表异常
+if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
+    echo 0
+else
+    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
+    echo 1
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
+<li>在zabbix_agentd.conf中添加自定义key</li>
+</ol>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><ol start="4">
+<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
+</ol>
+<ul>
+<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
+</ul>
+<h2 id="连接数监控"> 连接数监控</h2>
+<ol>
+<li>在zabbix_agentd.conf中添加自定义key</li>
+</ol>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>添加监控项和触发器</li>
+</ol>
 ]]></content>
     <author>
       <name>Clay</name>
