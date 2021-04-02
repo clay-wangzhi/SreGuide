@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 3. nginx配置文件详解
+
 配置文件详解
 
 ```nginx

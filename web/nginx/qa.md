@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 6. nginx的常见问题
+
 ## nginx前面有多个反向代理时，proxy的正确设置
 
 ```

@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 5. 状态码
+
 ## Nginx code 常用状态码学习小结
 
 ### Nginx Code Status

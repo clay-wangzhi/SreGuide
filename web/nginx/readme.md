@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 1. 初识Nginx
+
 ## 1 Nginx的三个主要应用场景
 
 ![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200102212417067.png)

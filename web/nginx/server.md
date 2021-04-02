@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 3.3 nginxSERVER块配置
+
 ## 1 Listen 指令
 
 **Example Configuration**

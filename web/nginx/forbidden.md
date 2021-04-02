@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 6.1 Nginx出现403 forbidden的三种原因
+
 引起`nginx 403 forbidden`通常是三种情况：一是缺少主页文件，二是权限问题，三是`SELinux`状态。
 
 ## 缺少主页文件

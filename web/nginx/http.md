@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: web中间件
+tags:
+  - Nginx
+---
+
+# 3.2 nginxHTTP块配置
+
 ## 1 配置块的嵌套
 
 ```nginx
