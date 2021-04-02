@@ -188,8 +188,8 @@ module.exports = config({
             },				
 		  	"part5/21_subshells", "part5/22_Restricted_Shells", "part5/23_Process_Substitution", 
 		    {
-              title: "part5/24_functions", 
-			  path: "part5/20_io_redirection",
+              title: "24 函数", 
+			  path: "part5/24_functions",
               collapsable: false,
               children: ["part5/24_1_complex_functions_and_function_complexities", "part5/24_2_local_variables", "part5/24_3_recursion_without_local_variables", ],
             },			
