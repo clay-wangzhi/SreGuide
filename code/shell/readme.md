@@ -1,8 +1,10 @@
+# 《Advanced Bash-Scripting Guide》 in Chinese
+
 > 本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese
 >
 > 感谢开源翻译！！！
 
-# 《Advanced Bash-Scripting Guide》 in Chinese
+
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/)
 
@@ -189,3 +191,4 @@ Hello world
 - @zihengcat
 - @Zjie
 - @zy416548283
+```
