@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 07 序列化和反序列化
 
 ## csv

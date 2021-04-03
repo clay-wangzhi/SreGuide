@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 04 函数
 
 ## 函数

@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 09 面向对象-封装
 
 ## 面向对象

@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 12 线程
 
 ## 并发
