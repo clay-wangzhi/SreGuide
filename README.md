@@ -12,6 +12,11 @@ project:
     desc: Linux命令大全搜索工具
     link: https://jaywcjlove.gitee.io/linux-command/
 
+  - type: Docker — 从入门到实践
+    name: 链接名称
+    desc: 通过实际的DevOps实践，学习和理解Docker技术
+    link: https://vuepress.mirror.docker-practice.com/
+
   - type: project
     name: 项目名称
     desc: 项目详细描述
