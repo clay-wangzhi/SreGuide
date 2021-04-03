@@ -7,6 +7,11 @@ heroImage: /Kubernetes.svg
 heroText: IT外卖小哥
 tagline: 当你发现自己的才华撑不起野心时，就请安静下来学习吧！
 project:
+  - type: link
+    name: linux-command
+    desc: Linux命令大全搜索工具
+    link: https://jaywcjlove.gitee.io/linux-command/
+
   - type: project
     name: 项目名称
     desc: 项目详细描述
