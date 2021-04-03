@@ -94,7 +94,7 @@ module.exports = config({
       },
     ],
     sidebar: {
-        "/code/shell/": [
+        "/linux/shell/": [
         "",
         {
           title: "第一部分 初见shell",
