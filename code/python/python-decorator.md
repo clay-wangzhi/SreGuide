@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 05 装饰器
 
 ## 高阶函数

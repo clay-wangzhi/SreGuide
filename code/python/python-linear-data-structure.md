@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 02 线性数据结构
 
 ## 内建常用数据类型

@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 06 目录文件处理
 
 ## 文件IO操作

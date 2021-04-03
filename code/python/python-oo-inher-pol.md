@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 10 继承多态和Mixin
 
 ## 继承基本概念

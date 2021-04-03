@@ -1,3 +1,8 @@
+---
+category: Python
+tags:
+  - Python
+---
 # 08 异常处理
 
 **错误 Error**
