@@ -1,3 +1,10 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
+
 # 《Advanced Bash-Scripting Guide》 in Chinese
 
 > 本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese
