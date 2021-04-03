@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第一章 为什么使用shell编程
 > 没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。
 >

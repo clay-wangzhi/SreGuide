@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第十二章 命令替换
 
 命令替换重新指定一个[^1]或多个命令的输出。其实就是将命令的输出导到另外一个地方[^2]。

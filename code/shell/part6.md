@@ -1,3 +1,11 @@
+---
+author: LinuxStory
+category: Google
+tags:
+  - Bash
+  - 风格
+---
+
 # 第六部分 Google Shell 风格指南
 
 ## 1 背景

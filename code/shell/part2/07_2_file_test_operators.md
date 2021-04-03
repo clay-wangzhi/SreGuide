@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 7.2 文件测试操作
 
 下列每一个运算符在满足其下条件时，返回的结果为真。

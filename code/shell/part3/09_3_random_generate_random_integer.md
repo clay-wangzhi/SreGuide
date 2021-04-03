@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 9.3 `$RANDOM`：生成随机数
 
 > 任何试图通过确定性方法生成随机数的行为都是在犯罪。

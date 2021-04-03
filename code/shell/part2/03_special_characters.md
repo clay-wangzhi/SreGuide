@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第三章 特殊字符
 
 是什么让一个字符变得*特殊*呢？如果一个字符不仅具有*字面*意义，而且具有*元意（meta-meaning）*，我们就称它为特殊字符。特殊字符同命令和关键词（keywords）一样，是bash脚本的组成部分。

@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第六章 退出与退出状态
 
 > Bourne shell里存在不明确之处，但人们也会使用它们。

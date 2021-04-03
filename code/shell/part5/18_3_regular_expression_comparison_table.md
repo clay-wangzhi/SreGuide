@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 18.3 正则表达式对照表
 
 正则表达式分为三类（man grep可以看到，分别是basic RegExs，extended RegExs，perl RegExs）

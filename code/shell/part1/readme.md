@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第一部分 初见Shell
 
 > *脚本：文章；书面文档*

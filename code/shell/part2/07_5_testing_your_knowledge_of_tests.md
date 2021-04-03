@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 7.5 牛刀小试
 
 系统文件 `xinitrc` 可以用来启动软件 X Server。该文件包含了许多 `if/then` 测试结构。下面的代码摘录自较早版本的 `xinitrc`（大约在 Red Hat 7.1 版本）。

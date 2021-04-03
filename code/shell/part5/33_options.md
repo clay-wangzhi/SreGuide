@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 33 选项
 
 选项用来更改shell和脚本的行为.

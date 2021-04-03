@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 20.1 使用 exec
 一个 `exec < filename` 命令重定向了 `标准输入` 到一个文件。自此所有 `标准输入` 都来自该文件而不是默认来源(通常是键盘输入)。在使用 [sed](http://tldp.org/LDP/abs/html/sedawk.html#SEDREF) 和 [awk](http://tldp.org/LDP/abs/html/awk.html#AWKREF) 时候这种方式可以逐行读文件并逐行解析。
 

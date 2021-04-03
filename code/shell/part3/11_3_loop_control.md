@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 11.3 循环控制
 
 > Tournez cent tours, tournez mille tours,

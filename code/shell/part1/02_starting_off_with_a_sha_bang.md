@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第二章 和Sha-Bang（#!）一起出发
 
 > Shell编程声名显赫

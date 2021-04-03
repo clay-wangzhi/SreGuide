@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 10.1.2 参考资料
 
 更多关于脚本中处理字符串的资料，可以查看 [章节 10.2](http://tldp.org/LDP/abs/html/parameter-substitution.html) 以及 [`expr`](http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF) 命令的[相关章节](http://tldp.org/LDP/abs/html/moreadv.html#EXPEXTRSUB)。

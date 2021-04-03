@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 36.4 递归：可以调用自己的脚本
 
 脚本可以递归的调用自己吗？答案是肯定的。

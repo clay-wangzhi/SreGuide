@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 ﻿# 第34章 陷阱
 > Turandot: Gli enigmi sono tre, la morte una!
 > Caleph: No, no! Gli enigmi sono tre, una la vita!

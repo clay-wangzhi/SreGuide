@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 运算符优先级
 
 在脚本中，运算执行的顺序被称为*优先级*: 高优先级的操作会比低优先级的操作先执行。[^1]

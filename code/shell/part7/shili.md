@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 ## 开机集成zabbix和jumpserver脚本
 
 ```bash

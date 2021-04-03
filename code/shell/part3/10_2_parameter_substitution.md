@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 10.2 参数替换
 
 参数替换用来处理或扩展变量。

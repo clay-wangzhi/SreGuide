@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 20.2 重定向代码块
 有如 [while](http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF), [until](http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1), 和 [for](http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF) 循环, 甚至 [if/then](http://tldp.org/LDP/abs/html/tests.html#IFTHEN) 也可以重定向 标准输入 测试代码块. 甚至连一个函数都可以用这个方法进行重定向 (见 [样例 24-11](http://tldp.org/LDP/abs/html/complexfunct.html#REALNAME)).  代码块的末尾部分的 "<" 就是用来完成这个的.
 

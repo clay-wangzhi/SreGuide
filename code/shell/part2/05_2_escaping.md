@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 5.2 转义
 
 转义是一种引用单字符的方法。通过在特殊字符前加上转义符 `\` 来告诉shell按照字面意思去解释这个字符。

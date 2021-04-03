@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 20.3 应用程序
 使用 I/O 重定向可以同时解析和固定命令输出的片段(see [样例 15-7](http://tldp.org/LDP/abs/html/internal.html#READREDIR)). 这也使得可以生成报告和日志文件.
 

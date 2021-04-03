@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 4.4 特殊的变量类型
 
 ### 局部变量

@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第十一章 循环与分支
 
 > 奥赛罗夫人，您为什么把这句话说了又说呢？

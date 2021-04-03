@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 2.2 牛刀小试
 
 1. 系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。
