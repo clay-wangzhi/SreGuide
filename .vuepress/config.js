@@ -58,16 +58,9 @@ module.exports = config({
 	  {
         text: "学习笔记",
         icon: "code",
-        items: [
-		{ text: "容器",
-          items: [
-          { text: "Kubernetes", icon: "kubernetes", link: "/container/kubernetes/" },
-          ],
-        },
         { text: "编程语言",
           items: [
           { text: "Python", icon: "python", link: "/code/python/" },
-          { text: "Golang", icon: "go", link: "/code/golang/" },
           ],
         },
 		{ text: "web中间件",
