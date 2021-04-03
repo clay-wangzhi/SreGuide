@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第四部分 命令
 
 掌握 Linux 命令是编写有效的 shell 脚本必不可少的序曲。
