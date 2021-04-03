@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Sat, 03 Apr 2021 15:13:05 GMT</pubDate>
-    <lastBuildDate>Sat, 03 Apr 2021 15:13:05 GMT</lastBuildDate>
+    <pubDate>Sat, 03 Apr 2021 15:20:59 GMT</pubDate>
+    <lastBuildDate>Sat, 03 Apr 2021 15:20:59 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -95,6 +95,22 @@ COMMIT
 <p>如果其中有一个能访问，那就说明ActiveMQ+ZooKeeper集群高可用已经配置成功</p>
 <p>当一个ActiveMQ节点挂掉，或者一个ZooKeeper节点挂掉，ActiveMQ服务依然正常运转。如果仅剩一个ActiveMQ节点，因为不能选举Master，ActiveMQ不能正常运转；同样的，如果ZooKeeper仅剩一个节点活动，不管ActiveMQ各节点是否存活，ActiveMQ也不能正常提供服务。
 （ActiveMQ集群的高可用，依赖于ZooKeeper集群的高可用。）</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>高可用开源方案 Keepalived VS Heartbeat对比</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/12%20%E5%B8%B8%E8%A7%81%E9%9B%86%E7%BE%A4%E7%9A%84%E6%90%AD%E5%BB%BA/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/12%20%E5%B8%B8%E8%A7%81%E9%9B%86%E7%BE%A4%E7%9A%84%E6%90%AD%E5%BB%BA/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">高可用开源方案 Keepalived VS Heartbeat对比</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h2>
+<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
+<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
+<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
+<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
+<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
+<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
+<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -187,22 +203,6 @@ Node count: 4
 Connection closed by foreign host.
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>高可用开源方案 Keepalived VS Heartbeat对比</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/12%20%E5%B8%B8%E8%A7%81%E9%9B%86%E7%BE%A4%E7%9A%84%E6%90%AD%E5%BB%BA/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/12%20%E5%B8%B8%E8%A7%81%E9%9B%86%E7%BE%A4%E7%9A%84%E6%90%AD%E5%BB%BA/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">高可用开源方案 Keepalived VS Heartbeat对比</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h2>
-<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
-<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
-<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
-<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
-<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
-<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
-<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
-]]></content:encoded>
     </item>
     <item>
       <title>分布式FastDfs+nginx缓存高可用集群构建</title>
@@ -10993,6 +10993,52 @@ bash$ echo $(echo \\)
 ]]></content:encoded>
     </item>
     <item>
+      <title>第三部分 shell进阶</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第三部分 shell进阶</source>
+      <category>Linux</category>
+      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+</li>
+<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+</li>
+<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+</li>
+<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
+<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
+<li><a href="./14_recess_time.html">14. 休息时间</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>第四部分 命令</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part4-command/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part4-command/</guid>
@@ -11414,49 +11460,13 @@ bash$ echo $(echo \\)
 ]]></content:encoded>
     </item>
     <item>
-      <title>第三部分 shell进阶</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第三部分 shell进阶</source>
+      <title>18.2文件名替换</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/18_2_globbing/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/18_2_globbing/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18.2文件名替换</source>
       <category>Linux</category>
       <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-</li>
-<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-</li>
-<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-</li>
-<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
-<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
-<li><a href="./14_recess_time.html">14. 休息时间</a></li>
-</ul>
+      <content:encoded><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
 ]]></content:encoded>
     </item>
     <item>
@@ -11583,16 +11593,6 @@ EOF</span>
 <span>exit</span> <span>0</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>18.2文件名替换</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/18_2_globbing/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/18_2_globbing/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18.2文件名替换</source>
-      <category>Linux</category>
-      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
-]]></content:encoded>
     </item>
     <item>
       <title>18.3 正则表达式对照表</title>
@@ -19278,48 +19278,6 @@ exit 0
 ]]></content:encoded>
     </item>
     <item>
-      <title>第五部分 高级话题</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第五部分 高级话题</source>
-      <category>Linux</category>
-      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第五部分-高级话题"> 第五部分 高级话题</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./18_regular_expressions.html">18.正则表达式</a>
-<ul>
-<li><a href="./18_1_a_brief_introduction_to_regular_expressions.html">18.1正则表达式简介</a></li>
-<li><a href="./18_2_globbing.html">18.2文件名替换</a></li>
-</ul>
-</li>
-<li><a href="./19_here_documents.html">19. 嵌入文档</a></li>
-<li><a href="./20_io_redirection.html">20. I/O 重定向</a>
-<ul>
-<li><a href="./20_1_use_exec.html">20.1 使用 exec</a></li>
-<li><a href="./20_2_redirecting_code_blocks.html">20.2 重定向代码块</a></li>
-<li><a href="./20_3_applications.html">20.3 应用程序</a></li>
-</ul>
-</li>
-<li><a href="./22_Restricted_Shells.html">22. 限制模式的Shell</a></li>
-<li><a href="./23_Process_Substitution.html">23. 进程替换</a></li>
-<li><a href="./24_functions.html">24. 函数</a>
-<ul>
-<li><a href="./24_1_complex_functions_and_function_complexities.html">24.1 复杂函数和函数复杂性</a></li>
-<li><a href="./24_2_local_variables.html">24.2 局部变量</a></li>
-<li><a href="./24_3_recursion_without_local_variables.html">24.3 不适用局部变量的递归</a></li>
-</ul>
-</li>
-<li><a href="./25_aliases.html">25. 别名</a></li>
-<li><a href="./source/part5/26_List_Constructs.html">26. 列表结构</a></li>
-<li><a href="./27_arrays.html">27. 数组</a></li>
-<li><a href="./30_network_programming.html">30. 网络编程</a></li>
-<li><a href="./33_options.html">33. 选项</a></li>
-<li><a href="./34_Gotchsa.html">34. 陷阱</a></li>
-</ul>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第六部分 Google Shell 风格指南</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part6/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part6/</guid>
@@ -19935,6 +19893,48 @@ mypackage::<span>my_func</span><span>(</span><span>)</span> <span>{</span>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>第五部分 高级话题</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第五部分 高级话题</source>
+      <category>Linux</category>
+      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第五部分-高级话题"> 第五部分 高级话题</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./18_regular_expressions.html">18.正则表达式</a>
+<ul>
+<li><a href="./18_1_a_brief_introduction_to_regular_expressions.html">18.1正则表达式简介</a></li>
+<li><a href="./18_2_globbing.html">18.2文件名替换</a></li>
+</ul>
+</li>
+<li><a href="./19_here_documents.html">19. 嵌入文档</a></li>
+<li><a href="./20_io_redirection.html">20. I/O 重定向</a>
+<ul>
+<li><a href="./20_1_use_exec.html">20.1 使用 exec</a></li>
+<li><a href="./20_2_redirecting_code_blocks.html">20.2 重定向代码块</a></li>
+<li><a href="./20_3_applications.html">20.3 应用程序</a></li>
+</ul>
+</li>
+<li><a href="./22_Restricted_Shells.html">22. 限制模式的Shell</a></li>
+<li><a href="./23_Process_Substitution.html">23. 进程替换</a></li>
+<li><a href="./24_functions.html">24. 函数</a>
+<ul>
+<li><a href="./24_1_complex_functions_and_function_complexities.html">24.1 复杂函数和函数复杂性</a></li>
+<li><a href="./24_2_local_variables.html">24.2 局部变量</a></li>
+<li><a href="./24_3_recursion_without_local_variables.html">24.3 不适用局部变量的递归</a></li>
+</ul>
+</li>
+<li><a href="./25_aliases.html">25. 别名</a></li>
+<li><a href="./source/part5/26_List_Constructs.html">26. 列表结构</a></li>
+<li><a href="./27_arrays.html">27. 数组</a></li>
+<li><a href="./30_network_programming.html">30. 网络编程</a></li>
+<li><a href="./33_options.html">33. 选项</a></li>
+<li><a href="./34_Gotchsa.html">34. 陷阱</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>开机集成zabbix和jumpserver脚本</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part7/shili/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part7/shili/</guid>
@@ -20010,191 +20010,95 @@ main <span>"<span>$@</span>"</span>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>打包、压缩</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">打包、压缩</source>
+      <title>基本权限 UGO</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">基本权限 UGO</source>
       <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="打包、压缩"> 打包、压缩</h2>
-<h3 id="tar命令"> tar命令</h3>
-<p>tar命令可以为linux的文件和目录创建档案。利用tar，可以为某一特定文件创建档案（备份文件），也可以在档案中改变文件，或者向档案中加入新的文件。tar最初被用来在磁带上创建档案，现在，用户可以在任何设备上创建档案。利用tar命令，可以把一大堆的文件和目录全部打包成一个文件，这对于备份文件或将几个文件组合成为一个文件以便于网络传输是非常有用的。</p>
-<p>首先要弄清两个概念：打包和压缩。打包时指将一大堆文件或目录变成为一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</p>
-<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（<a href="http://man.linuxde.net/gzip" target="_blank" rel="noopener noreferrer">gzip</a> <a href="http://man.linuxde.net/bzip2" target="_blank" rel="noopener noreferrer">bzip2</a>命令）。</p>
-<h4 id="语法"> 语法</h4>
-<p><code>tar(选项)(参数)</code></p>
-<h4 id="选项"> 选项</h4>
-<div><pre><code>-A或--catenate：新增文件到以存在的备份文件；
--B：设置区块大小；
--c或--create：建立新的备份文件；
--C &lt;目录&gt;：这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项。
--d：记录文件的差别；
--x或--extract或--get：从备份文件中还原文件；
--t或--list：列出备份文件的内容；
--z或--gzip或--ungzip：通过gzip指令处理备份文件；
--Z或--compress或--uncompress：通过compress指令处理备份文件；
--f&lt;备份文件&gt;或--file=&lt;备份文件&gt;：指定备份文件；
--v或--verbose：显示指令执行过程；
--r：添加文件到已经压缩的文件；
--u：添加改变了和现有的文件到已经存在的压缩文件；
--j：支持bzip2解压文件；
--v：显示操作过程；
--l：文件系统边界设置；
--k：保留原有文件不覆盖；
--m：保留文件不被覆盖；
--w：确认压缩文件的正确性；
--p或--same-permissions：用原来的文件权限还原文件；
--P或--absolute-names：文件名使用绝对名称，不移除文件名称前的“/”号；
--N &lt;日期格式&gt; 或 --newer=&lt;日期时间&gt;：只将较指定日期更新的文件保存到备份文件里；
---exclude=&lt;范本样式&gt;：排除符合范本样式的文件。
+      <content:encoded><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
+<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
+<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
+<div><pre><code>    rw-r--r--  alice hr  install.log
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="参数"> 参数</h4>
-<p>文件或目录：指定要打包的文件或目录列表。</p>
-<h4 id="常用实例"> 常用实例</h4>
-<p>1）<strong>将文件全部打包成tar包</strong>：</p>
-<div><pre><code>tar -cvf log.tar log2012.log    仅打包，不压缩！ 
-tar -zcvf log.tar.gz log2012.log   打包后，以 gzip 压缩 
-tar -jcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩 
+<div><span>1</span><br></div></div><p>权限对象：</p>
+<ul>
+<li>属主： u</li>
+<li>属组：g</li>
+<li>其他人： o</li>
+</ul>
+<p>权限类型：</p>
+<ul>
+<li>
+<p>读：r  4</p>
+</li>
+<li>
+<p>写：w 2</p>
+</li>
+<li>
+<p>执行： x 1</p>
+</li>
+</ul>
+<h3 id="设置权限"> 设置权限</h3>
+<ol>
+<li>更改文件的属主、属组</li>
+</ol>
+<ul>
+<li>chown：</li>
+</ul>
+<div><pre><code>chown ops.sre file1 //改属主、属组
+chown ops file1     //只改属主
+chown .ser file1	//只改属组
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在选项<code>f</code>之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。 如果加<code>z</code>选项，则以.tar.gz或.tgz来代表gzip压缩过的tar包；如果加<code>j</code>选项，则以.tar.bz2来作为tar包名。</p>
-<p>2）<strong>查阅上述tar包内有哪些文件</strong>：</p>
-<div><pre><code>tar -ztvf log.tar.gz
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>chgrp：</li>
+</ul>
+<div><pre><code>chgrp it file1	    //改文件属组
+chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
 </code></pre>
-<div><span>1</span><br></div></div><p>由于我们使用 gzip 压缩的log.tar.gz，所以要查阅log.tar.gz包内的文件时，就得要加上<code>z</code>这个选项了。</p>
-<p>3）<strong>将tar包解压缩</strong>：</p>
-<div><pre><code>tar -zxvf /opt/soft/test/log.tar.gz
+<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
+<li>更改权限</li>
+</ol>
+<ul>
+<li>使用符号</li>
+</ul>
+<div><pre><code>chmod u+x file1		 //属主增加执行
+chmod a=rwx file1	 //所有人等于读写执行
+chmod a=- file1	     //所有人没有权限
+chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </code></pre>
-<div><span>1</span><br></div></div><p>在预设的情况下，我们可以将压缩档在任何地方解开的</p>
-<p>4）<strong>只将tar内的部分文件解压出来</strong>：</p>
-<div><pre><code>tar -zxvf /opt/soft/test/log30.tar.gz log2013.log
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
+<li>使用数字</li>
+</ul>
+<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
 </code></pre>
-<div><span>1</span><br></div></div><p>5）<strong>文件备份下来，并且保存其权限</strong>：</p>
-<div><pre><code>tar -zcvpf log31.tar.gz log2014.log log2015.log log2016.log
-</code></pre>
-<div><span>1</span><br></div></div><p>这个<code>-p</code>的属性是很重要的，尤其是当您要保留原本文件的属性时。</p>
-<p>6）<strong>在文件夹当中，比某个日期新的文件才备份</strong>：</p>
-<div><pre><code>tar -N &quot;2012/11/13&quot; -zcvf log17.tar.gz test
-</code></pre>
-<div><span>1</span><br></div></div><p>7）<strong>备份文件夹内容是排除部分文件：</strong></p>
-<div><pre><code>tar --exclude scf/service -zcvf scf.tar.gz scf/*
-</code></pre>
-<div><span>1</span><br></div></div><p>8）<strong>其实最简单的使用 tar 就只要记忆底下的方式即可：</strong></p>
-<div><pre><code>压　缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称
-查　询：tar -jtv -f filename.tar.bz2
-解压缩：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="gzip命令"> gzip命令</h3>
-<p><strong>gzip命令</strong>用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。</p>
-<p>gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和<a href="http://man.linuxde.net/tar" target="_blank" rel="noopener noreferrer">tar</a>命令一起构成Linux操作系统中比较流行的压缩文件格式。据统计，gzip命令对文本文件有60%～70%的压缩率。减少文件大小有两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。</p>
-<h4 id="语法-2"> 语法</h4>
-<p><code>gzip(选项)(参数)</code></p>
-<h4 id="选项-2"> 选项</h4>
-<div><pre><code>-a或——ascii：使用ASCII文字模式；
--d或--decompress或----uncompress：解开压缩文件；
--f或——force：强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接；
--h或——help：在线帮助；
--l或——list：列出压缩文件的相关信息；
--L或——license：显示版本与版权信息；
--n或--no-name：压缩文件时，不保存原来的文件名称及时间戳记；
--N或——name：压缩文件时，保存原来的文件名称及时间戳记；
--q或——quiet：不显示警告信息；
--r或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
--S或&lt;压缩字尾字符串&gt;或----suffix&lt;压缩字尾字符串&gt;：更改压缩字尾字符串；
--t或——test：测试压缩文件是否正确无误；
--v或——verbose：显示指令执行过程；
--V或——version：显示版本信息；
--&lt;压缩效率&gt;：压缩效率是一个介于1~9的数值，预设值为“6”，指定愈大的数值，压缩效率就会愈高；
---best：此参数的效果和指定“-9”参数相同；
---fast：此参数的效果和指定“-1”参数相同。
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h4 id="参数-2"> 参数</h4>
-<p>文件列表：指定要压缩的文件列表。</p>
-<h4 id="常用范例"> 常用范例</h4>
-<p>1）把test6目录下的每个文件压缩成.gz文件</p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-# gzip *
-# ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）把例1中每个压缩的文件解压，并列出详细的信息</p>
-<div><pre><code># ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-# gzip -dv *
-linklog.log.gz:  99.6% -- replaced with linklog.log
-log2012.log.gz:  99.6% -- replaced with log2012.log
-log2013.log.gz:  47.5% -- replaced with log2013.log
-# ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>3）详细显示例1中每个压缩的文件的信息，并不解压</p>
-<div><pre><code># gzip -l *
-         compressed        uncompressed  ratio uncompressed_name
-               1341              302108  99.6% linklog.log
-               1341              302108  99.6% log2012.log
-                 70                  61  47.5% log2013.log
-
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>4）压缩一个tar备份文件，此时压缩文件的扩展名为.tar.gz</p>
-<div><pre><code>#ls -al log.tar
--rw-r--r-- 1 root root 307200 11-29 17:54 log.tar
-# gzip -r log.tar
-# ls -al log.tar.gz 
--rw-r--r-- 1 root root 1421 11-29 17:54 log.tar.gz
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>5）递归的压缩目录</p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-# cd ..
-# gzip -rv test6
-test6/linklog.log:       99.6% -- replaced with test6/linklog.log.gz
-test6/log2013.log:       47.5% -- replaced with test6/log2013.log.gz
-test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
-# cd test6
-# ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>说明：</p>
-<p>这样，所有test下面的文件都变成了*.gz，目录依然存在只是目录里面的文件相应变成了*.gz.这就是压缩，和打包不同。因为是对目录操作，所以需要加上-r选项，这样也可以对子目录进行递归了。</p>
-<p>6）递归地解压目录</p>
-<div><pre><code># ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-# cd ..
-# gzip -dr test6
-# cd test6
-# ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content:encoded>
+<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>对文件的影响</th>
+<th>对目录的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r（读取）</td>
+<td>可以读取文件的内容</td>
+<td>可以列出目录的内容（文件名）</td>
+</tr>
+<tr>
+<td>w（写入）</td>
+<td>可以更改文件的内容</td>
+<td>可以创建或删除目录中的任一文件</td>
+</tr>
+<tr>
+<td>x（可执行）</td>
+<td>可以作为命令执行文件</td>
+<td>可以访问目录的内容（取决于目录中文件的权限）</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
     </item>
     <item>
       <title>创建、复制、移动、删除</title>
@@ -20801,122 +20705,191 @@ rmdir: logs: 目录非空
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>查看文件类型</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">查看文件类型</source>
+      <title>打包、压缩</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">打包、压缩</source>
       <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="查看文件类型"> 查看文件类型</h2>
-<h3 id="ls命令"> ls命令</h3>
-<p>ls命令时linux下最常用的命令。ls命令就是list的缩写，缺省下ls用来打印出当前目录的清单，如果ls指定其他目录，那么就会显示指定目录里的文件及文件夹清单。</p>
-<p>通过ls命令不仅可以查看linux文件夹包含的文件，而且可以查看文件权限（包括目录、文件夹、文件权限），查看目录信息等等。</p>
-<h4 id="常用选项"> 常用选项</h4>
-<div><pre><code>-a：显示所有档案及目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
--l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
--h:–human-readable 以容易理解的格式列出文件大小 (例如 1K 234M 2G);
--s：显示文件和目录的大小，以区块为单位；
--t：用文件和目录的更改时间排序；
--r：以文件名反序排列并输出目录内容列表；
--d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
--R：递归处理，将指定目录下的所有文件及子目录一并处理；
---color[=WHEN]：使用不同的颜色高亮显示不同类型的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="常用范例"> 常用范例</h4>
-<ol>
-<li>列出/opt文件夹下的所有文件和目录的详细资料</li>
-</ol>
-<div><pre><code>ls -lR /opt/
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>/opt/:
-total 124188
--rw-r--r-- 1 root root 127163815 Aug 25 06:10 go1.11.linux-amd64.tar.gz
--rw-r--r-- 1 root root      1003 Sep 11 14:16 setup.sh
-drwxr-xr-x 1 root root       512 Jan 28 22:17 test
-
-/opt/test:
-total 0
--rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol start="2">
-<li>列出当前目录中所有以“t”开头的目录的详细内容，可以使用如下命令：</li>
-</ol>
-<div><pre><code>ls -l t*
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>total 0
--rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ol start="3">
-<li>列出目前工作目录下所有名称是s 开头的档案，越新的排越后面，可以使用如下命令：</li>
-</ol>
-<div><pre><code>ls -ltr s*
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>-rw-r--r-- 1 root root 1003 Sep 11 14:16 setup.sh
--rw-r--r-- 1 root root    0 Jan 28 22:21 s.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h4 id="颜色"> 颜色</h4>
-<p>蓝色—–目录</p>
-<p>绿色—–可执行文件</p>
-<p>白色—–一般性文件，如文本文件，配置文件等</p>
-<p>红色—–压缩文件或归档文件</p>
-<p>浅蓝色—-链接文件</p>
-<p>红色闪烁—-链接文件存在问题</p>
-<p>黄色—–设备文件</p>
-<p>青黄色—-管道文件</p>
-<h3 id="file命令"> file命令</h3>
-<p>用来探测给定文件的类型。</p>
-<h4 id="补充说明"> 补充说明</h4>
-<p><strong>file命令</strong> 用来探测给定文件的类型。file命令对文件的检查分为文件系统、魔法幻数检查和语言检查3个过程。</p>
+      <content:encoded><![CDATA[<h2 id="打包、压缩"> 打包、压缩</h2>
+<h3 id="tar命令"> tar命令</h3>
+<p>tar命令可以为linux的文件和目录创建档案。利用tar，可以为某一特定文件创建档案（备份文件），也可以在档案中改变文件，或者向档案中加入新的文件。tar最初被用来在磁带上创建档案，现在，用户可以在任何设备上创建档案。利用tar命令，可以把一大堆的文件和目录全部打包成一个文件，这对于备份文件或将几个文件组合成为一个文件以便于网络传输是非常有用的。</p>
+<p>首先要弄清两个概念：打包和压缩。打包时指将一大堆文件或目录变成为一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</p>
+<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（<a href="http://man.linuxde.net/gzip" target="_blank" rel="noopener noreferrer">gzip</a> <a href="http://man.linuxde.net/bzip2" target="_blank" rel="noopener noreferrer">bzip2</a>命令）。</p>
 <h4 id="语法"> 语法</h4>
-<div><pre><code>file(选项)(参数)
+<p><code>tar(选项)(参数)</code></p>
+<h4 id="选项"> 选项</h4>
+<div><pre><code>-A或--catenate：新增文件到以存在的备份文件；
+-B：设置区块大小；
+-c或--create：建立新的备份文件；
+-C &lt;目录&gt;：这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项。
+-d：记录文件的差别；
+-x或--extract或--get：从备份文件中还原文件；
+-t或--list：列出备份文件的内容；
+-z或--gzip或--ungzip：通过gzip指令处理备份文件；
+-Z或--compress或--uncompress：通过compress指令处理备份文件；
+-f&lt;备份文件&gt;或--file=&lt;备份文件&gt;：指定备份文件；
+-v或--verbose：显示指令执行过程；
+-r：添加文件到已经压缩的文件；
+-u：添加改变了和现有的文件到已经存在的压缩文件；
+-j：支持bzip2解压文件；
+-v：显示操作过程；
+-l：文件系统边界设置；
+-k：保留原有文件不覆盖；
+-m：保留文件不被覆盖；
+-w：确认压缩文件的正确性；
+-p或--same-permissions：用原来的文件权限还原文件；
+-P或--absolute-names：文件名使用绝对名称，不移除文件名称前的“/”号；
+-N &lt;日期格式&gt; 或 --newer=&lt;日期时间&gt;：只将较指定日期更新的文件保存到备份文件里；
+--exclude=&lt;范本样式&gt;：排除符合范本样式的文件。
 </code></pre>
-<div><span>1</span><br></div></div><h4 id="选项"> 选项</h4>
-<div><pre><code>-b：列出辨识结果时，不显示文件名称；
--c：详细显示指令执行过程，便于排错或分析程序执行的情形；
--f&lt;名称文件&gt;：指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
--L：直接显示符号连接所指向的文件类别；
--m&lt;魔法数字文件&gt;：指定魔法数字文件；
--v：显示版本信息；
--z：尝试去解读压缩文件的内容。
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="参数"> 参数</h4>
+<p>文件或目录：指定要打包的文件或目录列表。</p>
+<h4 id="常用实例"> 常用实例</h4>
+<p>1）<strong>将文件全部打包成tar包</strong>：</p>
+<div><pre><code>tar -cvf log.tar log2012.log    仅打包，不压缩！ 
+tar -zcvf log.tar.gz log2012.log   打包后，以 gzip 压缩 
+tar -jcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩 
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="参数"> 参数</h4>
-<p>文件：要确定类型的文件列表，多个文件之间使用空格分开，可以使用shell通配符匹配多个文件。</p>
-<h4 id="实例"> 实例</h4>
-<p>显示文件类型</p>
-<div><pre><code>[root@localhost ~]# file install.log
-install.log: UTF-8 Unicode text
-
-[root@localhost ~]# file -b install.log      &lt;== 不显示文件名称
-UTF-8 Unicode text
-
-[root@localhost ~]# file -i install.log      &lt;== 显示MIME类别。
-install.log: text/plain; charset=utf-8
-
-[root@localhost ~]# file -b -i install.log
-text/plain; charset=utf-8
-
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在选项<code>f</code>之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。 如果加<code>z</code>选项，则以.tar.gz或.tgz来代表gzip压缩过的tar包；如果加<code>j</code>选项，则以.tar.bz2来作为tar包名。</p>
+<p>2）<strong>查阅上述tar包内有哪些文件</strong>：</p>
+<div><pre><code>tar -ztvf log.tar.gz
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>显示符号链接的文件类型</p>
-<div><pre><code>[root@localhost ~]# ls -l /var/mail
-lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
-
-[root@localhost ~]# file /var/mail
-/var/mail: symbolic link to `spool/mail&#39;
-
-[root@localhost ~]# file -L /var/mail
-/var/mail: directory
-
-[root@localhost ~]# file /var/spool/mail
-/var/spool/mail: directory
-
-[root@localhost ~]# file -L /var/spool/mail
-/var/spool/mail: directory
+<div><span>1</span><br></div></div><p>由于我们使用 gzip 压缩的log.tar.gz，所以要查阅log.tar.gz包内的文件时，就得要加上<code>z</code>这个选项了。</p>
+<p>3）<strong>将tar包解压缩</strong>：</p>
+<div><pre><code>tar -zxvf /opt/soft/test/log.tar.gz
+</code></pre>
+<div><span>1</span><br></div></div><p>在预设的情况下，我们可以将压缩档在任何地方解开的</p>
+<p>4）<strong>只将tar内的部分文件解压出来</strong>：</p>
+<div><pre><code>tar -zxvf /opt/soft/test/log30.tar.gz log2013.log
+</code></pre>
+<div><span>1</span><br></div></div><p>5）<strong>文件备份下来，并且保存其权限</strong>：</p>
+<div><pre><code>tar -zcvpf log31.tar.gz log2014.log log2015.log log2016.log
+</code></pre>
+<div><span>1</span><br></div></div><p>这个<code>-p</code>的属性是很重要的，尤其是当您要保留原本文件的属性时。</p>
+<p>6）<strong>在文件夹当中，比某个日期新的文件才备份</strong>：</p>
+<div><pre><code>tar -N &quot;2012/11/13&quot; -zcvf log17.tar.gz test
+</code></pre>
+<div><span>1</span><br></div></div><p>7）<strong>备份文件夹内容是排除部分文件：</strong></p>
+<div><pre><code>tar --exclude scf/service -zcvf scf.tar.gz scf/*
+</code></pre>
+<div><span>1</span><br></div></div><p>8）<strong>其实最简单的使用 tar 就只要记忆底下的方式即可：</strong></p>
+<div><pre><code>压　缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称
+查　询：tar -jtv -f filename.tar.bz2
+解压缩：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录
 
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content:encoded>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="gzip命令"> gzip命令</h3>
+<p><strong>gzip命令</strong>用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。</p>
+<p>gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和<a href="http://man.linuxde.net/tar" target="_blank" rel="noopener noreferrer">tar</a>命令一起构成Linux操作系统中比较流行的压缩文件格式。据统计，gzip命令对文本文件有60%～70%的压缩率。减少文件大小有两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。</p>
+<h4 id="语法-2"> 语法</h4>
+<p><code>gzip(选项)(参数)</code></p>
+<h4 id="选项-2"> 选项</h4>
+<div><pre><code>-a或——ascii：使用ASCII文字模式；
+-d或--decompress或----uncompress：解开压缩文件；
+-f或——force：强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接；
+-h或——help：在线帮助；
+-l或——list：列出压缩文件的相关信息；
+-L或——license：显示版本与版权信息；
+-n或--no-name：压缩文件时，不保存原来的文件名称及时间戳记；
+-N或——name：压缩文件时，保存原来的文件名称及时间戳记；
+-q或——quiet：不显示警告信息；
+-r或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
+-S或&lt;压缩字尾字符串&gt;或----suffix&lt;压缩字尾字符串&gt;：更改压缩字尾字符串；
+-t或——test：测试压缩文件是否正确无误；
+-v或——verbose：显示指令执行过程；
+-V或——version：显示版本信息；
+-&lt;压缩效率&gt;：压缩效率是一个介于1~9的数值，预设值为“6”，指定愈大的数值，压缩效率就会愈高；
+--best：此参数的效果和指定“-9”参数相同；
+--fast：此参数的效果和指定“-1”参数相同。
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h4 id="参数-2"> 参数</h4>
+<p>文件列表：指定要压缩的文件列表。</p>
+<h4 id="常用范例"> 常用范例</h4>
+<p>1）把test6目录下的每个文件压缩成.gz文件</p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+# gzip *
+# ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）把例1中每个压缩的文件解压，并列出详细的信息</p>
+<div><pre><code># ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+# gzip -dv *
+linklog.log.gz:  99.6% -- replaced with linklog.log
+log2012.log.gz:  99.6% -- replaced with log2012.log
+log2013.log.gz:  47.5% -- replaced with log2013.log
+# ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>3）详细显示例1中每个压缩的文件的信息，并不解压</p>
+<div><pre><code># gzip -l *
+         compressed        uncompressed  ratio uncompressed_name
+               1341              302108  99.6% linklog.log
+               1341              302108  99.6% log2012.log
+                 70                  61  47.5% log2013.log
+
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>4）压缩一个tar备份文件，此时压缩文件的扩展名为.tar.gz</p>
+<div><pre><code>#ls -al log.tar
+-rw-r--r-- 1 root root 307200 11-29 17:54 log.tar
+# gzip -r log.tar
+# ls -al log.tar.gz 
+-rw-r--r-- 1 root root 1421 11-29 17:54 log.tar.gz
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>5）递归的压缩目录</p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+# cd ..
+# gzip -rv test6
+test6/linklog.log:       99.6% -- replaced with test6/linklog.log.gz
+test6/log2013.log:       47.5% -- replaced with test6/log2013.log.gz
+test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
+# cd test6
+# ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>说明：</p>
+<p>这样，所有test下面的文件都变成了*.gz，目录依然存在只是目录里面的文件相应变成了*.gz.这就是压缩，和打包不同。因为是对目录操作，所以需要加上-r选项，这样也可以对子目录进行递归了。</p>
+<p>6）递归地解压目录</p>
+<div><pre><code># ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+# cd ..
+# gzip -dr test6
+# cd test6
+# ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>查看文件内容</title>
@@ -21472,6 +21445,124 @@ test.txt:linuxmint
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>查看文件类型</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">查看文件类型</source>
+      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="查看文件类型"> 查看文件类型</h2>
+<h3 id="ls命令"> ls命令</h3>
+<p>ls命令时linux下最常用的命令。ls命令就是list的缩写，缺省下ls用来打印出当前目录的清单，如果ls指定其他目录，那么就会显示指定目录里的文件及文件夹清单。</p>
+<p>通过ls命令不仅可以查看linux文件夹包含的文件，而且可以查看文件权限（包括目录、文件夹、文件权限），查看目录信息等等。</p>
+<h4 id="常用选项"> 常用选项</h4>
+<div><pre><code>-a：显示所有档案及目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
+-l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
+-h:–human-readable 以容易理解的格式列出文件大小 (例如 1K 234M 2G);
+-s：显示文件和目录的大小，以区块为单位；
+-t：用文件和目录的更改时间排序；
+-r：以文件名反序排列并输出目录内容列表；
+-d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
+-R：递归处理，将指定目录下的所有文件及子目录一并处理；
+--color[=WHEN]：使用不同的颜色高亮显示不同类型的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="常用范例"> 常用范例</h4>
+<ol>
+<li>列出/opt文件夹下的所有文件和目录的详细资料</li>
+</ol>
+<div><pre><code>ls -lR /opt/
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>/opt/:
+total 124188
+-rw-r--r-- 1 root root 127163815 Aug 25 06:10 go1.11.linux-amd64.tar.gz
+-rw-r--r-- 1 root root      1003 Sep 11 14:16 setup.sh
+drwxr-xr-x 1 root root       512 Jan 28 22:17 test
+
+/opt/test:
+total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol start="2">
+<li>列出当前目录中所有以“t”开头的目录的详细内容，可以使用如下命令：</li>
+</ol>
+<div><pre><code>ls -l t*
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><ol start="3">
+<li>列出目前工作目录下所有名称是s 开头的档案，越新的排越后面，可以使用如下命令：</li>
+</ol>
+<div><pre><code>ls -ltr s*
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>-rw-r--r-- 1 root root 1003 Sep 11 14:16 setup.sh
+-rw-r--r-- 1 root root    0 Jan 28 22:21 s.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="颜色"> 颜色</h4>
+<p>蓝色—–目录</p>
+<p>绿色—–可执行文件</p>
+<p>白色—–一般性文件，如文本文件，配置文件等</p>
+<p>红色—–压缩文件或归档文件</p>
+<p>浅蓝色—-链接文件</p>
+<p>红色闪烁—-链接文件存在问题</p>
+<p>黄色—–设备文件</p>
+<p>青黄色—-管道文件</p>
+<h3 id="file命令"> file命令</h3>
+<p>用来探测给定文件的类型。</p>
+<h4 id="补充说明"> 补充说明</h4>
+<p><strong>file命令</strong> 用来探测给定文件的类型。file命令对文件的检查分为文件系统、魔法幻数检查和语言检查3个过程。</p>
+<h4 id="语法"> 语法</h4>
+<div><pre><code>file(选项)(参数)
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="选项"> 选项</h4>
+<div><pre><code>-b：列出辨识结果时，不显示文件名称；
+-c：详细显示指令执行过程，便于排错或分析程序执行的情形；
+-f&lt;名称文件&gt;：指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
+-L：直接显示符号连接所指向的文件类别；
+-m&lt;魔法数字文件&gt;：指定魔法数字文件；
+-v：显示版本信息；
+-z：尝试去解读压缩文件的内容。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="参数"> 参数</h4>
+<p>文件：要确定类型的文件列表，多个文件之间使用空格分开，可以使用shell通配符匹配多个文件。</p>
+<h4 id="实例"> 实例</h4>
+<p>显示文件类型</p>
+<div><pre><code>[root@localhost ~]# file install.log
+install.log: UTF-8 Unicode text
+
+[root@localhost ~]# file -b install.log      &lt;== 不显示文件名称
+UTF-8 Unicode text
+
+[root@localhost ~]# file -i install.log      &lt;== 显示MIME类别。
+install.log: text/plain; charset=utf-8
+
+[root@localhost ~]# file -b -i install.log
+text/plain; charset=utf-8
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>显示符号链接的文件类型</p>
+<div><pre><code>[root@localhost ~]# ls -l /var/mail
+lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
+
+[root@localhost ~]# file /var/mail
+/var/mail: symbolic link to `spool/mail&#39;
+
+[root@localhost ~]# file -L /var/mail
+/var/mail: directory
+
+[root@localhost ~]# file /var/spool/mail
+/var/spool/mail: directory
+
+[root@localhost ~]# file -L /var/spool/mail
+/var/spool/mail: directory
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>查看文件详细属性</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%AF%A6%E7%BB%86%E5%B1%9E%E6%80%A7/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%AF%A6%E7%BB%86%E5%B1%9E%E6%80%A7/</guid>
@@ -21669,6 +21760,34 @@ exit 0
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>最后最后重启下cron服务：</p>
 <div><pre><code>/etc/init.d/crond restart
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>用户管理</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">用户管理</source>
+      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -26572,109 +26691,6 @@ sue,sue@exmaple.com
 ]]></content:encoded>
     </item>
     <item>
-      <title>5.3 魔法变量</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/magic/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/magic/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">5.3 魔法变量</source>
-      <category>自动化工具</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-3-魔法变量"> 5.3 魔法变量</h1>
-<p><strong>魔法变量</strong></p>
-<p>Ansible默认会提供一些内置的变量以实现一些特定的功能，我们称之为魔法变量。下面列举一些常用的魔法变量。</p>
-<p>https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html#magic</p>
-<h2 id="_1-hostvars"> 1. hostvars</h2>
-<p>hostvars变量用于保存所有和主机相关的变量，通常包括inventory中定义的主机变量和gather_facts收集到的主机信息变量。hostvars是一个key/value格式的字典(即hash结构、对象)，key是每个节点的主机名，value是该主机对应的变量数据。</p>
-<p>获取某台指定的主机的相关变量。如果有一台web服务器的配置文件中需要指定db服务器的ip地址，我们假定这台db服务器的hostname为db.exmaple.com,ip地址绑定在eth0网卡上，我们可以通过如下方法在web服务器上调用db服务器的ip地址：</p>
-<div><pre><code>{{ hostvars[&#39;db.example.com&#39;].ansible_eth0.ipv4.address }}
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>需要注意的是db.example.com不能使用ip地址来取代，只能使用主机名或别名。</p>
-</blockquote>
-<h2 id="_2-inventory-hostname"> 2. inventory_hostname</h2>
-<p>inventory_hostname是Ansible所识别的当前正在运行task的主机的主机名。如果在inventory里定义过别名，那么这里就是那个别名，如果inventory包含如下一行：</p>
-<div><pre><code>server1 ansible_ssh_host=192.168.1.1
-</code></pre>
-<div><span>1</span><br></div></div><p>则<code>inventory_hostname</code>即为<code>server1</code>
-利用<code>hostvars</code>和<code>inventory_hostname</code>变量，可以输出与当前主机相关联的所有变量：</p>
-<div><pre><code>- debug: var=hostvars[inventory_hostname]
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>与inventory_hostname相近的还有一个inventory_hostname_short，如果一台主机的inventory_hostname为server1.exmaple.com，则inventory_hostname_short的值为server1</p>
-</blockquote>
-<h2 id="_3-group-names"> 3. group_names</h2>
-<p>用于标识当前正在执行task的目标主机位于的主机组。假如我们有三台主机，用来配置成一主二从的mysql服务器。inventory配置如下：</p>
-<div><pre><code>[mdb]
-db1
-[sdb]
-db2
-db3
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>mysql配置文件my.conf.j2示例如下：</p>
-<div><pre><code><span>#我们知道db1在mdb组，当db1与当前正在执行任务的主机位于同一组时，我们认为当前主机即在mdb组，所以对当前主机应用mysql master的配置</span>
-<span>{</span>% if 'db1' in group_names %<span>}</span>
-<span>[</span>mysqld<span>]</span>
-server<span>-</span>id=1
-log<span>-</span>bin=mysql<span>-</span>bin
-log<span>-</span>bin<span>-</span>index=mysql<span>-</span>bin.index
-sync<span>-</span>binlog=1
-innodb_flush_log_at_trx_commit=1
-<span>#当db1与当前主机不在同一组时，则认为当前主机不在mdb组，即应用my slave的配置</span>
-<span>{</span>% else %<span>}</span>
-<span>[</span>mysqld<span>]</span>
-server<span>-</span>id=2
-relay<span>-</span>log=relay<span>-</span>log
-relay<span>-</span>log<span>-</span>index=relay<span>-</span>log.index
-read<span>-</span>only = yes
-sync_master_info = 1
-sync_relay_log = 1
-sync_relay_log_info = 1
-relay_log_recovery = 1
-skip_slave_start    
-<span>{</span>% endif %<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>我们执行如下task:</p>
-<div><pre><code>- name: copy config file to mysql master
-  template: src=my.conf.j2 dest=/etc/my.cnf
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="_4-groups"> 4. groups</h2>
-<p>groups是inventory中所有主机组的列表，可用于枚举主机组中的所有主机。</p>
-<p>假如我们有一个inventory文件定义如下：</p>
-<div><pre><code>[web]
-server1
-server2
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在配置一台HAproxy的负载均衡器时，我们的配置文件肯定需要web主机组的所有服务器的IP，配置文件包含如下片段：</p>
-<div><pre><code>backend web-backend
-{% for host in groups.web%}
-    server {{host.inventory_hostname}} {{ host.ansible_default_ipv4.address }}:80
-{% endfor %}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>最终生成的文件如下：</p>
-<div><pre><code>backend web-backend
-    server server1 192.168.1.1:80
-    server server2 192.168.1.2:80
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>再给一个例子，在所有的dbservers组的服务器上创建一个数据库用户kate：</p>
-<div><pre><code>- name: Create a user for all db servers
-  mysql_user: name=kate password=test host={{ hostvars.[item].ansible_eth0.ipv4.address }} state=present
-  with_items: groups[&#39;dbservers&#39;] 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_5-ansible-play-batch"> 5. ansible_play_batch</h2>
-<p>play_hosts 已废弃，等价于ansible_play_batch</p>
-<p>ansible_play_hosts等价于ansible_play_batch</p>
-<p>它存储当前play所涉及的所有主机列表，但连接失败或执行任务失败的节点不会留在此变量中。</p>
-<h2 id="_6-inventory-dir"> 6. inventory_dir</h2>
-<p>主机清单所在目录</p>
-<h2 id="_7-inventory-file"> 7. inventory_file</h2>
-<p>主机清单文件</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://www.cnblogs.com/breezey/p/9275763.html</p>
-<p>https://blog.51cto.com/cloumn/blog/1544</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>6 Ansible使用优化</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/optimize/</guid>
@@ -26808,6 +26824,109 @@ ansible-playbook 命令的–syntax-check 参数即可</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 <p>https://blog.csdn.net/Jack_Yangyj/article/details/86503591</p>
 <p>https://blog.csdn.net/goodlife111/article/details/94440672</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>5.3 魔法变量</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/magic/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/magic/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">5.3 魔法变量</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-3-魔法变量"> 5.3 魔法变量</h1>
+<p><strong>魔法变量</strong></p>
+<p>Ansible默认会提供一些内置的变量以实现一些特定的功能，我们称之为魔法变量。下面列举一些常用的魔法变量。</p>
+<p>https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html#magic</p>
+<h2 id="_1-hostvars"> 1. hostvars</h2>
+<p>hostvars变量用于保存所有和主机相关的变量，通常包括inventory中定义的主机变量和gather_facts收集到的主机信息变量。hostvars是一个key/value格式的字典(即hash结构、对象)，key是每个节点的主机名，value是该主机对应的变量数据。</p>
+<p>获取某台指定的主机的相关变量。如果有一台web服务器的配置文件中需要指定db服务器的ip地址，我们假定这台db服务器的hostname为db.exmaple.com,ip地址绑定在eth0网卡上，我们可以通过如下方法在web服务器上调用db服务器的ip地址：</p>
+<div><pre><code>{{ hostvars[&#39;db.example.com&#39;].ansible_eth0.ipv4.address }}
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>需要注意的是db.example.com不能使用ip地址来取代，只能使用主机名或别名。</p>
+</blockquote>
+<h2 id="_2-inventory-hostname"> 2. inventory_hostname</h2>
+<p>inventory_hostname是Ansible所识别的当前正在运行task的主机的主机名。如果在inventory里定义过别名，那么这里就是那个别名，如果inventory包含如下一行：</p>
+<div><pre><code>server1 ansible_ssh_host=192.168.1.1
+</code></pre>
+<div><span>1</span><br></div></div><p>则<code>inventory_hostname</code>即为<code>server1</code>
+利用<code>hostvars</code>和<code>inventory_hostname</code>变量，可以输出与当前主机相关联的所有变量：</p>
+<div><pre><code>- debug: var=hostvars[inventory_hostname]
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>与inventory_hostname相近的还有一个inventory_hostname_short，如果一台主机的inventory_hostname为server1.exmaple.com，则inventory_hostname_short的值为server1</p>
+</blockquote>
+<h2 id="_3-group-names"> 3. group_names</h2>
+<p>用于标识当前正在执行task的目标主机位于的主机组。假如我们有三台主机，用来配置成一主二从的mysql服务器。inventory配置如下：</p>
+<div><pre><code>[mdb]
+db1
+[sdb]
+db2
+db3
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>mysql配置文件my.conf.j2示例如下：</p>
+<div><pre><code><span>#我们知道db1在mdb组，当db1与当前正在执行任务的主机位于同一组时，我们认为当前主机即在mdb组，所以对当前主机应用mysql master的配置</span>
+<span>{</span>% if 'db1' in group_names %<span>}</span>
+<span>[</span>mysqld<span>]</span>
+server<span>-</span>id=1
+log<span>-</span>bin=mysql<span>-</span>bin
+log<span>-</span>bin<span>-</span>index=mysql<span>-</span>bin.index
+sync<span>-</span>binlog=1
+innodb_flush_log_at_trx_commit=1
+<span>#当db1与当前主机不在同一组时，则认为当前主机不在mdb组，即应用my slave的配置</span>
+<span>{</span>% else %<span>}</span>
+<span>[</span>mysqld<span>]</span>
+server<span>-</span>id=2
+relay<span>-</span>log=relay<span>-</span>log
+relay<span>-</span>log<span>-</span>index=relay<span>-</span>log.index
+read<span>-</span>only = yes
+sync_master_info = 1
+sync_relay_log = 1
+sync_relay_log_info = 1
+relay_log_recovery = 1
+skip_slave_start    
+<span>{</span>% endif %<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>我们执行如下task:</p>
+<div><pre><code>- name: copy config file to mysql master
+  template: src=my.conf.j2 dest=/etc/my.cnf
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="_4-groups"> 4. groups</h2>
+<p>groups是inventory中所有主机组的列表，可用于枚举主机组中的所有主机。</p>
+<p>假如我们有一个inventory文件定义如下：</p>
+<div><pre><code>[web]
+server1
+server2
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在配置一台HAproxy的负载均衡器时，我们的配置文件肯定需要web主机组的所有服务器的IP，配置文件包含如下片段：</p>
+<div><pre><code>backend web-backend
+{% for host in groups.web%}
+    server {{host.inventory_hostname}} {{ host.ansible_default_ipv4.address }}:80
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>最终生成的文件如下：</p>
+<div><pre><code>backend web-backend
+    server server1 192.168.1.1:80
+    server server2 192.168.1.2:80
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>再给一个例子，在所有的dbservers组的服务器上创建一个数据库用户kate：</p>
+<div><pre><code>- name: Create a user for all db servers
+  mysql_user: name=kate password=test host={{ hostvars.[item].ansible_eth0.ipv4.address }} state=present
+  with_items: groups[&#39;dbservers&#39;] 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_5-ansible-play-batch"> 5. ansible_play_batch</h2>
+<p>play_hosts 已废弃，等价于ansible_play_batch</p>
+<p>ansible_play_hosts等价于ansible_play_batch</p>
+<p>它存储当前play所涉及的所有主机列表，但连接失败或执行任务失败的节点不会留在此变量中。</p>
+<h2 id="_6-inventory-dir"> 6. inventory_dir</h2>
+<p>主机清单所在目录</p>
+<h2 id="_7-inventory-file"> 7. inventory_file</h2>
+<p>主机清单文件</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://www.cnblogs.com/breezey/p/9275763.html</p>
+<p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
 ]]></content:encoded>
     </item>
@@ -29282,6 +29401,200 @@ this: |
 ]]></content:encoded>
     </item>
     <item>
+      <title>gitlab备份迁移升级&amp;集成openldap</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/gitlab/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/gitlab/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">gitlab备份迁移升级&amp;集成openldap</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Dec 2019 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="gitlab备份迁移升级-集成openldap"> gitlab备份迁移升级&amp;集成openldap</h1>
+<h2 id="gitlab安装"> gitlab安装</h2>
+<h3 id="安装相关依赖"> 安装相关依赖</h3>
+<div><pre><code>yum <span>install</span> -y <span>curl</span> policycoreutils-python openssh-server
+yum <span>install</span> postfix
+systemctl <span>enable</span> postfix
+systemctl start postfix
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="镜像切换"> 镜像切换</h3>
+<p>切换为国内的清华源</p>
+<div><pre><code><span># cat gitlab_gitlab-ce.repo </span>
+<span>[</span>gitlab_gitlab-ce<span>]</span>
+<span>name</span><span>=</span>gitlab_gitlab-ce
+<span>baseurl</span><span>=</span>https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/
+<span>repo_gpgcheck</span><span>=</span><span>0</span>
+<span>gpgcheck</span><span>=</span><span>0</span>
+<span>enabled</span><span>=</span><span>1</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>由于不同版本号的备份文件不能相互使用，下载旧gitlab中的对应的版本</p>
+<div><pre><code>yum -y <span>install</span> gitlab-ce-11.5.1
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="配置使用"> 配置使用</h3>
+<p>安装完成之后，可以在<code>/etc/gitblab/gitlab.rb</code>中按照需求修改配置，
+主要需要修改<code>external_url</code>，改成自己使用的 url 地址。
+执行命令配置生效：</p>
+<div><pre><code>gitlab-ctl reconfigure
+gitlab-ctl restart
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="gitlab备份-恢复"> gitlab备份&amp;恢复</h2>
+<p>Gitlab 成功运行起来之后，最终的事情就是定期的备份，遇到问题后的还原。</p>
+<h3 id="备份配置"> 备份配置</h3>
+<p>默认 Gitlab 的备份文件会创建在<code>/var/opt/gitlab/backups</code>文件夹中，格式为<code>时间戳_日期_版本号_gitlab_backup.tar</code>，例如：<code>1515031353_2018_01_04_10.3.2_gitlab_backup.tar</code>。
+修改备份文件夹，需要修改配置文件<code>/etc/gitlab/gitlab.rb</code>中的：</p>
+<div><pre><code>gitlab_rails<span>[</span><span>'backup_path'</span><span>]</span> <span>=</span> <span>'/your_wish/backups'</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>然后<code>gitlabctl-reconfigure</code>生效。</p>
+<h3 id="手动备份"> 手动备份</h3>
+<p>命令：<code>gitlab-backup create</code></p>
+<p>For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:create</code>.
+会在命令执行的时间点，在你配置的文件夹或者默认文件夹创建一个备份文件。</p>
+<h3 id="自动备份"> 自动备份</h3>
+<div><pre><code><span>0</span> <span>2</span> * * * /opt/gitlab/bin/gitlab-backup create <span>CRON</span><span>=</span><span>1</span>
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p><strong>Note</strong> For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:create</code>.</p>
+</blockquote>
+<h3 id="备份恢复"> 备份恢复</h3>
+<p>First make sure your backup tar file is in the backup directory described in the <code>gitlab.rb</code> configuration <code>gitlab_rails['backup_path']</code>. The default is <code>/var/opt/gitlab/backups</code>. It needs to be owned by the <code>git</code> user.</p>
+<div><pre><code>cp 11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar /var/opt/gitlab/backups/
+chown git.git /var/opt/gitlab/backups/11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>Stop the processes that are connected to the database. Leave the rest of GitLab running:</p>
+<div><pre><code>gitlab-ctl stop unicorn
+gitlab-ctl stop sidekiq
+<span># Verify</span>
+gitlab-ctl status
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>Next, restore the backup, specifying the timestamp of the backup you wish to restore:</p>
+<div><pre><code><span># This command will overwrite the contents of your GitLab database!</span>
+gitlab-backup restore <span>BACKUP</span><span>=</span>1493107454_2018_04_25_10.6.4-ce
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p><strong>Note</strong> For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:restore</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Warning:</strong> <code>gitlab-rake gitlab:backup:restore</code> does not set the right file system permissions on your Registry directory. This is a <a href="https://gitlab.com/gitlab-org/gitlab-foss/issues/62759" target="_blank" rel="noopener noreferrer">known issue</a>. On GitLab 12.2 or newer, you can use <code>gitlab-backup restore</code> to avoid this issue.</p>
+</blockquote>
+<p>Next, restore <code>/etc/gitlab/gitlab-secrets.json</code> if necessary as mentioned above.</p>
+<p>Reconfigure, restart and check GitLab:</p>
+<div><pre><code>gitlab-ctl reconfigure
+gitlab-ctl restart
+gitlab-rake gitlab:check <span>SANITIZE</span><span>=</span>true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>If there is a GitLab version mismatch between your backup tar file and the installed version of GitLab, the restore command will abort with an error. Install the <a href="https://packages.gitlab.com/gitlab/" target="_blank" rel="noopener noreferrer">correct GitLab version</a> and try again.</p>
+<h2 id="gitlab升级"> gitlab升级</h2>
+<p>It is considered safe to jump between patch versions and minor versions within one major version. For example, it is safe to:</p>
+<ul>
+<li>Upgrade the patch version:
+<ul>
+<li><code>8.9.0</code> -&gt; <code>8.9.7</code></li>
+<li><code>8.9.0</code> -&gt; <code>8.9.1</code></li>
+<li><code>8.9.2</code> -&gt; <code>8.9.6</code></li>
+<li><code>9.5.5</code> -&gt; <code>9.5.9</code></li>
+<li><code>10.6.3</code> -&gt; <code>10.6.6</code></li>
+<li><code>11.11.1</code> -&gt; <code>11.11.8</code></li>
+<li><code>12.0.4</code> -&gt; <code>12.0.9</code></li>
+</ul>
+</li>
+<li>Upgrade the minor version:
+<ul>
+<li><code>8.9.4</code> -&gt; <code>8.12.3</code></li>
+<li><code>9.2.3</code> -&gt; <code>9.5.5</code></li>
+<li><code>10.6.6</code> -&gt; <code>10.8.7</code></li>
+<li><code>11.3.4</code> -&gt; <code>11.11.8</code></li>
+</ul>
+</li>
+</ul>
+<p>Upgrading the major version requires more attention. We cannot guarantee that upgrading between major versions will be seamless. As previously mentioned, major versions are reserved for backwards incompatible changes. We recommend that you first upgrade to the latest available minor version within your major version. By doing this, you can address any deprecation messages that could change behavior in the next major release. To ensure background migrations are successful, increment by one minor version during the version jump before installing newer releases.</p>
+<p>For example: <code>11.11.x</code> -&gt; <code>12.0.x</code> Please see the table below for some examples:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Latest stable version</th>
+<th style="text-align:left">Your version</th>
+<th style="text-align:left">Recommended upgrade path</th>
+<th style="text-align:left">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">9.4.5</td>
+<td style="text-align:left">8.13.4</td>
+<td style="text-align:left"><code>8.13.4</code> -&gt; <code>8.17.7</code> -&gt; <code>9.4.5</code></td>
+<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code></td>
+</tr>
+<tr>
+<td style="text-align:left">10.1.4</td>
+<td style="text-align:left">8.13.4</td>
+<td style="text-align:left"><code>8.13.4 -&gt; 8.17.7 -&gt; 9.5.10 -&gt; 10.1.4</code></td>
+<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code>, <code>9.5.10</code> is the last version in version <code>9</code></td>
+</tr>
+<tr>
+<td style="text-align:left">11.3.4</td>
+<td style="text-align:left">8.13.4</td>
+<td style="text-align:left"><code>8.13.4</code> -&gt; <code>8.17.7</code> -&gt; <code>9.5.10</code> -&gt; <code>10.8.7</code> -&gt; <code>11.3.4</code></td>
+<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code>, <code>9.5.10</code> is the last version in version <code>9</code>, <code>10.8.7</code> is the last version in version <code>10</code></td>
+</tr>
+<tr>
+<td style="text-align:left">12.5.8</td>
+<td style="text-align:left">11.3.4</td>
+<td style="text-align:left"><code>11.3.4</code> -&gt; <code>11.11.8</code> -&gt; <code>12.0.9</code> -&gt; <code>12.5.8</code></td>
+<td style="text-align:left"><code>11.11.8</code> is the last version in version <code>11</code></td>
+</tr>
+</tbody>
+</table>
+<p>我的升级路线为：表格中最后一个</p>
+<p>每次升级直接<code>yum -y install gitlab-ce-版本号</code>就可以了</p>
+<p>例如</p>
+<div><pre><code>yum -y <span>install</span> gitlab-ce-11.11.8
+</code></pre>
+<div><span>1</span><br></div></div><p>每升级一次，重载一下配置，重启一下gitlab</p>
+<div><pre><code>gitlab-ctl reconfigure
+gitlab-ctl restart
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="gitlab集成openldap"> gitlab集成openldap</h2>
+<h3 id="setting-up-ldap-sign-in"> Setting up LDAP sign-in</h3>
+<p>If you have an LDAP directory service such as Active Directory, you can configure GitLab so that your users can sign in with their LDAP credentials. Add the following to <code>/etc/gitlab/gitlab.rb</code>, edited for your server.</p>
+<p>For GitLab Community Edition:</p>
+<p>以下是我ldap的配置</p>
+<div><pre><code><span>### LDAP Settings</span>
+<span>###! Docs: https://docs.gitlab.com/omnibus/settings/ldap.html</span>
+<span>###! **Be careful not to break the indentation in the ldap_servers block. It is</span>
+<span>###!   in yaml format and the spaces must be retained. Using tabs will not work.**</span>
+
+gitlab_rails<span>[</span><span>'ldap_enabled'</span><span>]</span> <span>=</span> <span>true</span>
+gitlab_rails<span>[</span><span>'prevent_ldap_sign_in'</span><span>]</span> <span>=</span> <span>false</span>
+gitlab_rails<span>[</span><span>'ldap_servers'</span><span>]</span> <span>=</span> YAML.load <span>&lt;&lt;-</span><span>EOS
+main:
+  label: 'LDAP'
+  host: '192.168.x.x'
+  port: 389
+  uid: 'cn'
+  encryption: 'plain'
+  bind_dn: 'cn=admin,dc=xxx,dc=com'
+  password: 'xxx'
+  smartcard_auth: false
+  active_directory: true
+  allow_username_or_email_login: true
+  lowercase_usernames: false
+  base: 'ou=People,dc=xxx,dc=com'
+  user_filter: ''
+EOS</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><div><pre><code>gitlab-ctl reconfigure
+gitlab-ctl restart
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>参考文章：</p>
+<p>https://www.jianshu.com/p/d29c332bcf53</p>
+<p>https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations</p>
+<p>https://www.jianshu.com/p/6361cba123a8</p>
+<p>https://docs.gitlab.com/ee/policy/maintenance.html#upgrade-recommendations</p>
+<p>https://docs.gitlab.com/omnibus/settings/ldap.html</p>
+<p>https://www.jianshu.com/p/083cf462fed4</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Jenkins Job迁移</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/migrate-job/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/migrate-job/</guid>
@@ -29991,200 +30304,6 @@ https://www.jianshu.com/p/f1167e8850cd</p>
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
-    </item>
-    <item>
-      <title>gitlab备份迁移升级&amp;集成openldap</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/gitlab/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/gitlab/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">gitlab备份迁移升级&amp;集成openldap</source>
-      <category>自动化工具</category>
-      <pubDate>Fri, 20 Dec 2019 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="gitlab备份迁移升级-集成openldap"> gitlab备份迁移升级&amp;集成openldap</h1>
-<h2 id="gitlab安装"> gitlab安装</h2>
-<h3 id="安装相关依赖"> 安装相关依赖</h3>
-<div><pre><code>yum <span>install</span> -y <span>curl</span> policycoreutils-python openssh-server
-yum <span>install</span> postfix
-systemctl <span>enable</span> postfix
-systemctl start postfix
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="镜像切换"> 镜像切换</h3>
-<p>切换为国内的清华源</p>
-<div><pre><code><span># cat gitlab_gitlab-ce.repo </span>
-<span>[</span>gitlab_gitlab-ce<span>]</span>
-<span>name</span><span>=</span>gitlab_gitlab-ce
-<span>baseurl</span><span>=</span>https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/
-<span>repo_gpgcheck</span><span>=</span><span>0</span>
-<span>gpgcheck</span><span>=</span><span>0</span>
-<span>enabled</span><span>=</span><span>1</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>由于不同版本号的备份文件不能相互使用，下载旧gitlab中的对应的版本</p>
-<div><pre><code>yum -y <span>install</span> gitlab-ce-11.5.1
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="配置使用"> 配置使用</h3>
-<p>安装完成之后，可以在<code>/etc/gitblab/gitlab.rb</code>中按照需求修改配置，
-主要需要修改<code>external_url</code>，改成自己使用的 url 地址。
-执行命令配置生效：</p>
-<div><pre><code>gitlab-ctl reconfigure
-gitlab-ctl restart
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="gitlab备份-恢复"> gitlab备份&amp;恢复</h2>
-<p>Gitlab 成功运行起来之后，最终的事情就是定期的备份，遇到问题后的还原。</p>
-<h3 id="备份配置"> 备份配置</h3>
-<p>默认 Gitlab 的备份文件会创建在<code>/var/opt/gitlab/backups</code>文件夹中，格式为<code>时间戳_日期_版本号_gitlab_backup.tar</code>，例如：<code>1515031353_2018_01_04_10.3.2_gitlab_backup.tar</code>。
-修改备份文件夹，需要修改配置文件<code>/etc/gitlab/gitlab.rb</code>中的：</p>
-<div><pre><code>gitlab_rails<span>[</span><span>'backup_path'</span><span>]</span> <span>=</span> <span>'/your_wish/backups'</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>然后<code>gitlabctl-reconfigure</code>生效。</p>
-<h3 id="手动备份"> 手动备份</h3>
-<p>命令：<code>gitlab-backup create</code></p>
-<p>For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:create</code>.
-会在命令执行的时间点，在你配置的文件夹或者默认文件夹创建一个备份文件。</p>
-<h3 id="自动备份"> 自动备份</h3>
-<div><pre><code><span>0</span> <span>2</span> * * * /opt/gitlab/bin/gitlab-backup create <span>CRON</span><span>=</span><span>1</span>
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p><strong>Note</strong> For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:create</code>.</p>
-</blockquote>
-<h3 id="备份恢复"> 备份恢复</h3>
-<p>First make sure your backup tar file is in the backup directory described in the <code>gitlab.rb</code> configuration <code>gitlab_rails['backup_path']</code>. The default is <code>/var/opt/gitlab/backups</code>. It needs to be owned by the <code>git</code> user.</p>
-<div><pre><code>cp 11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar /var/opt/gitlab/backups/
-chown git.git /var/opt/gitlab/backups/11493107454_2018_04_25_10.6.4-ce_gitlab_backup.tar
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>Stop the processes that are connected to the database. Leave the rest of GitLab running:</p>
-<div><pre><code>gitlab-ctl stop unicorn
-gitlab-ctl stop sidekiq
-<span># Verify</span>
-gitlab-ctl status
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>Next, restore the backup, specifying the timestamp of the backup you wish to restore:</p>
-<div><pre><code><span># This command will overwrite the contents of your GitLab database!</span>
-gitlab-backup restore <span>BACKUP</span><span>=</span>1493107454_2018_04_25_10.6.4-ce
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p><strong>Note</strong> For GitLab 12.1 and earlier, use <code>gitlab-rake gitlab:backup:restore</code>.</p>
-</blockquote>
-<blockquote>
-<p><strong>Warning:</strong> <code>gitlab-rake gitlab:backup:restore</code> does not set the right file system permissions on your Registry directory. This is a <a href="https://gitlab.com/gitlab-org/gitlab-foss/issues/62759" target="_blank" rel="noopener noreferrer">known issue</a>. On GitLab 12.2 or newer, you can use <code>gitlab-backup restore</code> to avoid this issue.</p>
-</blockquote>
-<p>Next, restore <code>/etc/gitlab/gitlab-secrets.json</code> if necessary as mentioned above.</p>
-<p>Reconfigure, restart and check GitLab:</p>
-<div><pre><code>gitlab-ctl reconfigure
-gitlab-ctl restart
-gitlab-rake gitlab:check <span>SANITIZE</span><span>=</span>true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>If there is a GitLab version mismatch between your backup tar file and the installed version of GitLab, the restore command will abort with an error. Install the <a href="https://packages.gitlab.com/gitlab/" target="_blank" rel="noopener noreferrer">correct GitLab version</a> and try again.</p>
-<h2 id="gitlab升级"> gitlab升级</h2>
-<p>It is considered safe to jump between patch versions and minor versions within one major version. For example, it is safe to:</p>
-<ul>
-<li>Upgrade the patch version:
-<ul>
-<li><code>8.9.0</code> -&gt; <code>8.9.7</code></li>
-<li><code>8.9.0</code> -&gt; <code>8.9.1</code></li>
-<li><code>8.9.2</code> -&gt; <code>8.9.6</code></li>
-<li><code>9.5.5</code> -&gt; <code>9.5.9</code></li>
-<li><code>10.6.3</code> -&gt; <code>10.6.6</code></li>
-<li><code>11.11.1</code> -&gt; <code>11.11.8</code></li>
-<li><code>12.0.4</code> -&gt; <code>12.0.9</code></li>
-</ul>
-</li>
-<li>Upgrade the minor version:
-<ul>
-<li><code>8.9.4</code> -&gt; <code>8.12.3</code></li>
-<li><code>9.2.3</code> -&gt; <code>9.5.5</code></li>
-<li><code>10.6.6</code> -&gt; <code>10.8.7</code></li>
-<li><code>11.3.4</code> -&gt; <code>11.11.8</code></li>
-</ul>
-</li>
-</ul>
-<p>Upgrading the major version requires more attention. We cannot guarantee that upgrading between major versions will be seamless. As previously mentioned, major versions are reserved for backwards incompatible changes. We recommend that you first upgrade to the latest available minor version within your major version. By doing this, you can address any deprecation messages that could change behavior in the next major release. To ensure background migrations are successful, increment by one minor version during the version jump before installing newer releases.</p>
-<p>For example: <code>11.11.x</code> -&gt; <code>12.0.x</code> Please see the table below for some examples:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Latest stable version</th>
-<th style="text-align:left">Your version</th>
-<th style="text-align:left">Recommended upgrade path</th>
-<th style="text-align:left">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">9.4.5</td>
-<td style="text-align:left">8.13.4</td>
-<td style="text-align:left"><code>8.13.4</code> -&gt; <code>8.17.7</code> -&gt; <code>9.4.5</code></td>
-<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code></td>
-</tr>
-<tr>
-<td style="text-align:left">10.1.4</td>
-<td style="text-align:left">8.13.4</td>
-<td style="text-align:left"><code>8.13.4 -&gt; 8.17.7 -&gt; 9.5.10 -&gt; 10.1.4</code></td>
-<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code>, <code>9.5.10</code> is the last version in version <code>9</code></td>
-</tr>
-<tr>
-<td style="text-align:left">11.3.4</td>
-<td style="text-align:left">8.13.4</td>
-<td style="text-align:left"><code>8.13.4</code> -&gt; <code>8.17.7</code> -&gt; <code>9.5.10</code> -&gt; <code>10.8.7</code> -&gt; <code>11.3.4</code></td>
-<td style="text-align:left"><code>8.17.7</code> is the last version in version <code>8</code>, <code>9.5.10</code> is the last version in version <code>9</code>, <code>10.8.7</code> is the last version in version <code>10</code></td>
-</tr>
-<tr>
-<td style="text-align:left">12.5.8</td>
-<td style="text-align:left">11.3.4</td>
-<td style="text-align:left"><code>11.3.4</code> -&gt; <code>11.11.8</code> -&gt; <code>12.0.9</code> -&gt; <code>12.5.8</code></td>
-<td style="text-align:left"><code>11.11.8</code> is the last version in version <code>11</code></td>
-</tr>
-</tbody>
-</table>
-<p>我的升级路线为：表格中最后一个</p>
-<p>每次升级直接<code>yum -y install gitlab-ce-版本号</code>就可以了</p>
-<p>例如</p>
-<div><pre><code>yum -y <span>install</span> gitlab-ce-11.11.8
-</code></pre>
-<div><span>1</span><br></div></div><p>每升级一次，重载一下配置，重启一下gitlab</p>
-<div><pre><code>gitlab-ctl reconfigure
-gitlab-ctl restart
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="gitlab集成openldap"> gitlab集成openldap</h2>
-<h3 id="setting-up-ldap-sign-in"> Setting up LDAP sign-in</h3>
-<p>If you have an LDAP directory service such as Active Directory, you can configure GitLab so that your users can sign in with their LDAP credentials. Add the following to <code>/etc/gitlab/gitlab.rb</code>, edited for your server.</p>
-<p>For GitLab Community Edition:</p>
-<p>以下是我ldap的配置</p>
-<div><pre><code><span>### LDAP Settings</span>
-<span>###! Docs: https://docs.gitlab.com/omnibus/settings/ldap.html</span>
-<span>###! **Be careful not to break the indentation in the ldap_servers block. It is</span>
-<span>###!   in yaml format and the spaces must be retained. Using tabs will not work.**</span>
-
-gitlab_rails<span>[</span><span>'ldap_enabled'</span><span>]</span> <span>=</span> <span>true</span>
-gitlab_rails<span>[</span><span>'prevent_ldap_sign_in'</span><span>]</span> <span>=</span> <span>false</span>
-gitlab_rails<span>[</span><span>'ldap_servers'</span><span>]</span> <span>=</span> YAML.load <span>&lt;&lt;-</span><span>EOS
-main:
-  label: 'LDAP'
-  host: '192.168.x.x'
-  port: 389
-  uid: 'cn'
-  encryption: 'plain'
-  bind_dn: 'cn=admin,dc=xxx,dc=com'
-  password: 'xxx'
-  smartcard_auth: false
-  active_directory: true
-  allow_username_or_email_login: true
-  lowercase_usernames: false
-  base: 'ou=People,dc=xxx,dc=com'
-  user_filter: ''
-EOS</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><div><pre><code>gitlab-ctl reconfigure
-gitlab-ctl restart
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>参考文章：</p>
-<p>https://www.jianshu.com/p/d29c332bcf53</p>
-<p>https://docs.gitlab.com/ee/raketasks/backup_restore.html#restore-for-omnibus-gitlab-installations</p>
-<p>https://www.jianshu.com/p/6361cba123a8</p>
-<p>https://docs.gitlab.com/ee/policy/maintenance.html#upgrade-recommendations</p>
-<p>https://docs.gitlab.com/omnibus/settings/ldap.html</p>
-<p>https://www.jianshu.com/p/083cf462fed4</p>
-</blockquote>
-]]></content:encoded>
     </item>
     <item>
       <title>jenkins 常见问题</title>
@@ -36197,49 +36316,6 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 ]]></content:encoded>
     </item>
     <item>
-      <title>键命令</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">键命令</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>hash类型</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.3%20hash%E7%B1%BB%E5%9E%8B/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.3%20hash%E7%B1%BB%E5%9E%8B/</guid>
@@ -36382,6 +36458,49 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 <p>lrange a2 0 -1</p>
 <p><img src="images/512611397a7c8691dade0417ac834e0c81b82ea2.png" alt="Image"></p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>键命令</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">键命令</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>下载redis-5.0.0安装包</title>
@@ -36840,34 +36959,6 @@ ERR Target instance replied with error: NOAUTH Authentication required.</li>
 ]]></content:encoded>
     </item>
     <item>
-      <title>redis-dump方式导入导出数据</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">redis-dump方式导入导出数据</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
-<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
-<p>安装ruby（略）,详见上一章节</p>
-<div><pre><code>gem install redis-dump -V
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
-<p>示例</p>
-<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
-<p>示例</p>
-<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
-<div><pre><code>&lt; test1.json redis-load
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
-<p>-n （以二进制形式导入）</p>
-<div><pre><code>&lt; test.json redis-load -n 
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>Centos7安装升级Ruby</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.7%20centos7%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7ruby/</guid>
@@ -36911,6 +37002,34 @@ curl -sSL https://get.rvm.io | bash -s stable
 </code></pre>
 <div><span>1</span><br></div></div><p>验证版本</p>
 <div><pre><code>ruby -v
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>redis-dump方式导入导出数据</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.8%20redis-dump%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">redis-dump方式导入导出数据</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h2>
+<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div><pre><code>gem install redis-dump -V
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
+<p>示例</p>
+<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
+<p>示例</p>
+<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div><pre><code>&lt; test1.json redis-load
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div><pre><code>&lt; test.json redis-load -n 
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -40474,256 +40593,290 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 ]]></content:encoded>
     </item>
     <item>
-      <title>用户管理</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">用户管理</source>
-      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>基本权限 UGO</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">基本权限 UGO</source>
-      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
-<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
-<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
-<div><pre><code>    rw-r--r--  alice hr  install.log
-</code></pre>
-<div><span>1</span><br></div></div><p>权限对象：</p>
-<ul>
-<li>属主： u</li>
-<li>属组：g</li>
-<li>其他人： o</li>
-</ul>
-<p>权限类型：</p>
-<ul>
-<li>
-<p>读：r  4</p>
-</li>
-<li>
-<p>写：w 2</p>
-</li>
-<li>
-<p>执行： x 1</p>
-</li>
-</ul>
-<h3 id="设置权限"> 设置权限</h3>
-<ol>
-<li>更改文件的属主、属组</li>
-</ol>
-<ul>
-<li>chown：</li>
-</ul>
-<div><pre><code>chown ops.sre file1 //改属主、属组
-chown ops file1     //只改属主
-chown .ser file1	//只改属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>chgrp：</li>
-</ul>
-<div><pre><code>chgrp it file1	    //改文件属组
-chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
-<li>更改权限</li>
-</ol>
-<ul>
-<li>使用符号</li>
-</ul>
-<div><pre><code>chmod u+x file1		 //属主增加执行
-chmod a=rwx file1	 //所有人等于读写执行
-chmod a=- file1	     //所有人没有权限
-chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
-<li>使用数字</li>
-</ul>
-<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>对文件的影响</th>
-<th>对目录的影响</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>r（读取）</td>
-<td>可以读取文件的内容</td>
-<td>可以列出目录的内容（文件名）</td>
-</tr>
-<tr>
-<td>w（写入）</td>
-<td>可以更改文件的内容</td>
-<td>可以创建或删除目录中的任一文件</td>
-</tr>
-<tr>
-<td>x（可执行）</td>
-<td>可以作为命令执行文件</td>
-<td>可以访问目录的内容（取决于目录中文件的权限）</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>Template DB MySQL简介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Template DB MySQL简介</source>
+      <title>zabbix-server安装</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix-server安装</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
-<h3 id="应用集"> 应用集</h3>
-<p>MySQL</p>
-<h3 id="监控项"> 监控项</h3>
+      <content:encoded><![CDATA[<h2 id="zabbix-server安装"> zabbix-server安装</h2>
 <ol>
-<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
-<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
-<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
-<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
-<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
-<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
-<li>MySQL queries per second（MySQL每秒查询）</li>
-<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
-<li>MySQL select operations per second（MySQL每秒选择操作）</li>
-<li>MySQL slow queries（MySQL慢查询）</li>
-<li>MySQL status（MySQL的存活状态）</li>
-<li>MySQL update operations per second（MySQL每秒更新操作）</li>
-<li>MySQL uptime（MySQL正常运行时间）</li>
-<li>MySQL version（MySQL的版本信息）</li>
+<li>下载roles</li>
 </ol>
-<h3 id="触发器"> 触发器</h3>
-<p>MySQL is down</p>
-<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
-<h3 id="图形"> 图形</h3>
-<ol>
-<li>MySQL operations（MySQL业务操作）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
-<ol start="2">
-<li>MySQL bandwidth（MySQL带宽）</li>
-</ol>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
-<h3 id="聚合图形"> 聚合图形</h3>
-<p>MySQL performance（MySQL性能）</p>
-<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
-<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
-<h3 id="mysql监控授权"> MySQL监控授权</h3>
-<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
-<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
-&gt; flush privileges;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
-<ol>
-<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
-</ol>
-<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
-[mysql]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-[mysqladmin]
-host=localhost
-user=monitor
-password=W***
-socket=/var/lib/mysql/mysql.sock
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
-<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
-</ul>
-<ol start="2">
-<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
-</ol>
-<div><pre><code>#vim userparameter_mysql.conf
-</code></pre>
-<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
-<h3 id="重启agent服务"> 重启agent服务</h3>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
-<p><img src="images/mysqlweb.png" alt=""></p>
-<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
-<h3 id="主从状态监控"> 主从状态监控</h3>
-<ol>
-<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
-</ol>
-<p>vim mysql_slave.sh</p>
-<div><pre><code>#!/usr/bin/env bash
-user=&#39;monitor&#39;
-passwd=
-# Seconds_Behind_Master 阈值
-tho=1000
-
-# rs为Yes成功数,sbr为同步时间差
-rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
-sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
-
-# 判断主从状态是否正常,0代表正常,1代表异常
-if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
-    echo 0
-else
-    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
-    echo 1
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
-</code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>重启agent服务</li>
-</ol>
-<div><pre><code>service zabbix_agentd restart
-</code></pre>
-<div><span>1</span><br></div></div><ol start="4">
-<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
-</ol>
-<ul>
-<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
-</ul>
-<h2 id="连接数监控"> 连接数监控</h2>
-<ol>
-<li>在zabbix_agentd.conf中添加自定义key</li>
-</ol>
-<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
-<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
+<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-server
 </code></pre>
 <div><span>1</span><br></div></div><ol start="2">
-<li>重启agent服务</li>
+<li>编写playbook</li>
 </ol>
-<div><pre><code>service zabbix_agentd restart
+<p><code>vim new-zabbix-server.yml</code></p>
+<div><pre><code>---
+- hosts: zabbix-server
+  become: <span>yes</span>
+  vars:
+    <span># mysql</span>
+    <span># host memory is 16G</span>
+    mysql_thread_cache_size: <span>"64"</span>
+    mysql_query_cache_size: <span>"128M"</span>
+    mysql_innodb_buffer_pool_size: <span>"4096M"</span>
+    mysql_tmp_table_size: <span>"128M"</span>
+    mysql_table_open_cache: <span>"2048"</span>
+    <span># zabbix-server</span>
+    zabbix_version: <span>4.4</span>
+    zabbix_repo_yum:
+      - name: zabbix
+        description: Zabbix Official Repository - <span>$basearch</span>
+        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+      - name: zabbix-supported
+        description: Zabbix Official Repository non-supported - <span>$basearch</span>
+        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+    zabbix_server_startpollers: <span>12</span>
+    zabbix_server_startpollersunreachable: <span>5</span>
+    zabbix_server_starttrappers: <span>30</span>
+    zabbix_server_startdiscoverers: <span>10</span>
+    zabbix_server_housekeepingfrequency: <span>12</span>
+    zabbix_server_maxhousekeeperdelete: <span>100000</span>
+    zabbix_server_cachesize: 4096M
+    zabbix_server_startdbsyncers: <span>20</span>
+    zabbix_server_historyindexcachesize: 512M
+    zabbix_server_trendcachesize: 256M
+    zabbix_server_historytextcachesize: 80M
+    zabbix_server_valuecachesize: 4096M
+    zabbix_server_timeout: <span>30</span>
+    zabbix_server_database: mysql
+    zabbix_server_database_long: mysql 
+    <span># zabbi-web</span>
+    zabbix_url: <span>192.168</span>.165.231
+    zabbix_timezone: Asia/Shanghai
+  roles:
+    - role: geerlingguy.mysql
+    - role: geerlingguy.apache
+    - role: dj-wasabi.zabbix-server
+    - role: dj-wasabi.zabbix-web
 </code></pre>
-<div><span>1</span><br></div></div><ol start="3">
-<li>添加监控项和触发器</li>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><ol start="3">
+<li>安装zabbix-server</li>
+</ol>
+<div><pre><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-server.yml
+</code></pre>
+<div><span>1</span><br></div></div><ol start="4">
+<li>
+<p>优化</p>
+<p>优化磁盘，去除atime</p>
+</li>
+<li>
+<p>注意事项</p>
+<p>zabbix-web，筛选历史问题时，记得选择时间范围</p>
+</li>
+</ol>
+<h2 id="zabbix-proxy安装"> zabbix-proxy安装</h2>
+<ol>
+<li>下载roles</li>
+</ol>
+<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-proxy
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>编写playbook</li>
+</ol>
+<p><code>vim new-zabbix-proxy.yml</code></p>
+<div><pre><code>---
+- hosts: zabbix-proxy
+  become: <span>yes</span>
+  vars:
+    <span># mysql</span>
+    <span># host memory is 8G</span>
+    mysql_thread_cache_size: <span>"64"</span>
+    mysql_query_cache_size: <span>"128M"</span>
+    mysql_innodb_buffer_pool_size: <span>"2048M"</span>
+    mysql_tmp_table_size: <span>"64M"</span>
+    mysql_table_open_cache: <span>"1024"</span>
+
+    <span># zabbix-proxy</span>
+    zabbix_server_host: <span>192.168</span>.165.231 
+    zabbix_version: <span>4.4</span>
+    zabbix_repo_yum:
+      - name: zabbix
+        description: Zabbix Official Repository - <span>$basearch</span>
+        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+      - name: zabbix-supported
+        description: Zabbix Official Repository non-supported - <span>$basearch</span>
+        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+    zabbix_proxy_cachesize: <span>2048</span>
+    zabbix_proxy_startpollers: <span>12</span>
+    zabbix_proxy_housekeepingfrequency: <span>12</span>
+
+  roles:
+    - role: geerlingguy.mysql
+    - role: dj-wasabi.zabbix-proxy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><ol start="3">
+<li>安装zabbix-proxy</li>
+</ol>
+<div><pre><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-proxy.yml
+</code></pre>
+<div><span>1</span><br></div></div><ol start="4">
+<li>
+<p>将zabbix-proxy添加到zabbix-server中</p>
+<ol>
+<li>
+<p>) 进入zabbix的web页面，点击Administrator--&gt;Proxies--&gt;Create proxy；</p>
+</li>
+<li>
+<p>) 填写Proxy name为主机名称，Proxy mode为Active，然后Add。</p>
+<blockquote>
+<p>过几十秒，看看proxy是否添加成功，查看proxy和server日志，如无成功，将proxy和server端重启一下；</p>
+<p>proxy name一定要和配置文件中<code>/etc/zabbix/zabbix_proxy.conf</code>的<code>Hostname</code>一致。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="zabbix-agent安装"> zabbix-agent安装</h2>
+<ol>
+<li>下载roles</li>
+</ol>
+<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-agent
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>编写playbook</li>
+</ol>
+<p><code>vim new-zabbix-agent.yml</code></p>
+<div><pre><code>---
+- hosts: zabbix-server
+  vars:
+    zabbix_version: <span>4.4</span>
+    zabbix_repo_yum:
+      - name: zabbix
+        description: Zabbix Official Repository - <span>$basearch</span>
+        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+      - name: zabbix-supported
+        description: Zabbix Official Repository non-supported - <span>$basearch</span>
+        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+    zabbix_agent_server: <span>192.168</span>.165.231
+    zabbix_agent_serveractive: <span>192.168</span>.165.231
+    zabbix_url: http://192.168.165.231
+    zabbix_api_use: <span>true</span>
+    zabbix_api_create_hostgroup: <span>true</span>
+    zabbix_api_create_hosts: <span>true</span>
+    zabbix_api_user: Admin
+    zabbix_api_pass: zabbix
+    zabbix_create_host: present
+    zabbix_host_groups:
+      - Zabbix servers
+    zabbix_link_templates:
+      - Template OS Linux by Zabbix agent active
+      - Template App Zabbix Server
+  roles:
+    - role: dj-wasabi.zabbix-agent
+
+- hosts: hy-bes
+  vars:
+    zabbix_version: <span>4.4</span>
+    zabbix_repo_yum:
+      - name: zabbix
+        description: Zabbix Official Repository - <span>$basearch</span>
+        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+      - name: zabbix-supported
+        description: Zabbix Official Repository non-supported - <span>$basearch</span>
+        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
+        gpgcheck: <span>0</span>
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+        state: present
+    zabbix_agent_server: <span>192.168</span>.16.235,192.168.165.232
+    zabbix_agent_serveractive: <span>192.168</span>.16.235,192.168.165.232
+    zabbix_proxy: bes.zabbixproxy
+    zabbix_url: http://192.168.165.231
+    zabbix_api_use: <span>true</span>
+    zabbix_api_create_hostgroup: <span>true</span>
+    zabbix_api_create_hosts: <span>true</span>
+    zabbix_api_user: Admin
+    zabbix_api_pass: zabbix
+    zabbix_create_host: present
+    zabbix_host_groups:
+      - hy-bes
+    zabbix_link_templates:
+      - Template OS Linux by Zabbix agent active
+  roles:
+    - role: dj-wasabi.zabbix-agent
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br></div></div><ol start="3">
+<li>
+<p>修改roles，添加tags</p>
+<p>由于添加监控的主机数以千计，所以必须ansible执行playbook时，必须跳过不必要的判断，这样能大大减少playbook的执行时间，提高执行效率。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>修改<code>/dj-wasabi.zabbix-agent/tasks/main.yml</code>，给每个操作系统添加tags，例如</p>
+<div><pre><code>- name: &quot;Install the correct repository&quot;
+  include: &quot;Debian.yml&quot;
+  when:
+    - zabbix_agent_os_family == &quot;Debian&quot;
+    - not (zabbix_agent_docker | bool)
+  tags:
+    - zabbix-agent
+    - init
+    - config
+    - service
+    - debian
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><blockquote>
+<p>最后的debian是新增的。</p>
+</blockquote>
+</li>
+<li>
+<p>修改<code>dj-wasabi.zabbix-agent/tasks/Linux.yml</code>，给DOcker增加tags，如下：</p>
+<div><pre><code>- name: &quot;Install the Docker container&quot;
+  include: Docker.yml
+  when:
+    - zabbix_agent_docker | bool
+  tags:
+    - docker
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>最后两行是新增的。</p>
+</blockquote>
+</li>
+</ul>
+<ol start="4">
+<li>安装</li>
+</ol>
+<div><pre><code> ansible-playbook -i inventory/zabbix.yml new-zabbix-agent.yml -l <span>192.168</span>.163.150 --skip-tags <span>"sangoma,debian,suse,windows,docker"</span>
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>每次新增zabbix-agent，最后安装完成，重启一下zabbix-proxy，这样proxy会尽快发现agent节点</p>
+</blockquote>
+<ol start="5">
+<li>
+<p>监控模块</p>
+<p>我们采用的是zabbix主动式的监控方式，zabbix-agent主动推送数据给proxy或server，以减少server端压力。</p>
+<p>我发现在新的zabbix监控中，还可以检查时间有没有同步。</p>
+<p>而且还有磁盘IO的监控，就问你们棒不棒！！！</p>
+<p>很棒！</p>
+<blockquote>
+<p>4.4中新的主动式模板中，需要将监控项system.localtime	变为enabled，否则主机的可用性为unknown</p>
+</blockquote>
+<p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
+</li>
 </ol>
 ]]></content:encoded>
     </item>
@@ -40960,6 +41113,65 @@ Hello world
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content:encoded>
       <enclosure url="https://badges.gitter.im/gitterHQ/gitter.png" type="image/png"/>
+    </item>
+    <item>
+      <title>zabbix添加报警媒介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>模板导入</title>
@@ -44971,40 +45183,6 @@ rtt min/avg/max/mdev = 0.281/0.531/1.993/0.404 ms
 ]]></content:encoded>
     </item>
     <item>
-      <title>白天做运维，晚上搞副业赚钱</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">白天做运维，晚上搞副业赚钱</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="白天做运维-晚上搞副业赚钱"> 白天做运维，晚上搞副业赚钱</h1>
-<p>作为 <code>运维工程师</code>，除了固定工作外，你有想过副业变现提升收入吗？</p>
-<p>谁不想凭自己的努力赚点钱，让自己和家人过得更好呢？</p>
-<h2 id="_1-送外卖-写公号-录教程"> 1 送外卖？写公号？录教程？</h2>
-<p>你有对副业变现，增加收入，有深入研究么？</p>
-<h3 id="_1-1-送外卖-卖血汗"> 1.1 送外卖，卖血汗？</h3>
-<p>No，这个并不合适我，我第一次送外卖，就骑电动车摔了，摔了好几处伤，恢复了一个月，还把手机摔坏了，总共送了两单，赚了20元，很显然，不适合我。</p>
-<h3 id="_1-2-写公众号-然后接广告"> 1.2 写公众号，然后接广告？</h3>
-<p>可以，我看IT大佬<code>程序员小灰</code>说道，公众号仍然是所有自媒体中变现最好的方式，没有之一。</p>
-<p>当然，可以肯定的是，想短时间内去涨粉，实在太难了！</p>
-<p>我三年前，刚入<code>运维</code>行业时，写过公众号，但基本圈不了粉，后来也就没再推广过，我记得粉丝只有20人，其中大多数是我的亲戚，同学等（失败啊~~）。</p>
-<h3 id="_1-3-录教程-直接卖"> 1.3 录教程，直接卖？</h3>
-<p>直说吧，挑战非常大！当你立志想输出一套 NX 的课程，那你对技术的理解就不再是表层上简单应用了，比如某技术深层次实现原理、系统架构设计是否合理、是否满足高可用、高性能、高并发等特殊场景？对吧？</p>
-<p>目前在线还没有这个实力~~~</p>
-<h2 id="_2-如何才能更好落地-赚更多的钱"> 2 如何才能更好落地？赚更多的钱？</h2>
-<p>作为运维人员，我不建议大家兼职送外卖，如果没有很深的功底，也不建议大家录教程。</p>
-<p>我建议大家写公众号，<strong>要知道，写作确实是一个倒逼自己提升自己能力的很好方式！</strong></p>
-<p>而且还有以下好处：</p>
-<ul>
-<li>沉淀自己的知识体系</li>
-<li>方式自己回来查阅</li>
-<li>求职加分项</li>
-</ul>
-<h2 id="_3-如何运营自己的公众号"> 3 如何运营自己的公众号？</h2>
-<h3 id="_3-1-取个好名字"> 3.1 取个好名字</h3>
-<p>要通俗易懂，而且全网ID最好统一，</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（53）-traceroute</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8853%EF%BC%89-traceroute/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8853%EF%BC%89-traceroute/</guid>
@@ -45186,126 +45364,37 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
-      <title>4. 内核参数优化</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/core/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/core/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">4. 内核参数优化</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
-<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
-<p>文件内容如下：</p>
-<div><pre><code>net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 268435456
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.somaxconn = 262144
-net.core.netdev_max_backlog = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn_backlog = 30000
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 65536 4194304
-net.ipv4.tcp_mem = 524288 699050 1048576
-vm.swappiness = 0
-vm.min_free_kbytes = 65536
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
-<li>
-<p>net.core.somaxconn = 262144</p>
-<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
-</li>
-<li>
-<p>net.core.netdev_max_backlog = 262144</p>
-<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_orphans = 262144</p>
-<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
-<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
-<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
-这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
-<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
-<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_recycle = 0</p>
-<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
-<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
-当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
-会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_reuse = 1</p>
-<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syncookies = 1</p>
-<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
-假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
-这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
-正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
-设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
-开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
-如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
-<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
-该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
-实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syn_retries = 1</p>
-<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_synack_retries = 1</p>
-<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
-</li>
-<li>
-<p>net.ipv4.ip_local_port_range = 1024 65000</p>
-<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
-当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
-这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_fin_timeout = 30</p>
-<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_keepalive_time = 30</p>
-<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
-客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
-并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
-比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
-就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
-</li>
+      <title>白天做运维，晚上搞副业赚钱</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">白天做运维，晚上搞副业赚钱</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="白天做运维-晚上搞副业赚钱"> 白天做运维，晚上搞副业赚钱</h1>
+<p>作为 <code>运维工程师</code>，除了固定工作外，你有想过副业变现提升收入吗？</p>
+<p>谁不想凭自己的努力赚点钱，让自己和家人过得更好呢？</p>
+<h2 id="_1-送外卖-写公号-录教程"> 1 送外卖？写公号？录教程？</h2>
+<p>你有对副业变现，增加收入，有深入研究么？</p>
+<h3 id="_1-1-送外卖-卖血汗"> 1.1 送外卖，卖血汗？</h3>
+<p>No，这个并不合适我，我第一次送外卖，就骑电动车摔了，摔了好几处伤，恢复了一个月，还把手机摔坏了，总共送了两单，赚了20元，很显然，不适合我。</p>
+<h3 id="_1-2-写公众号-然后接广告"> 1.2 写公众号，然后接广告？</h3>
+<p>可以，我看IT大佬<code>程序员小灰</code>说道，公众号仍然是所有自媒体中变现最好的方式，没有之一。</p>
+<p>当然，可以肯定的是，想短时间内去涨粉，实在太难了！</p>
+<p>我三年前，刚入<code>运维</code>行业时，写过公众号，但基本圈不了粉，后来也就没再推广过，我记得粉丝只有20人，其中大多数是我的亲戚，同学等（失败啊~~）。</p>
+<h3 id="_1-3-录教程-直接卖"> 1.3 录教程，直接卖？</h3>
+<p>直说吧，挑战非常大！当你立志想输出一套 NX 的课程，那你对技术的理解就不再是表层上简单应用了，比如某技术深层次实现原理、系统架构设计是否合理、是否满足高可用、高性能、高并发等特殊场景？对吧？</p>
+<p>目前在线还没有这个实力~~~</p>
+<h2 id="_2-如何才能更好落地-赚更多的钱"> 2 如何才能更好落地？赚更多的钱？</h2>
+<p>作为运维人员，我不建议大家兼职送外卖，如果没有很深的功底，也不建议大家录教程。</p>
+<p>我建议大家写公众号，<strong>要知道，写作确实是一个倒逼自己提升自己能力的很好方式！</strong></p>
+<p>而且还有以下好处：</p>
+<ul>
+<li>沉淀自己的知识体系</li>
+<li>方式自己回来查阅</li>
+<li>求职加分项</li>
 </ul>
+<h2 id="_3-如何运营自己的公众号"> 3 如何运营自己的公众号？</h2>
+<h3 id="_3-1-取个好名字"> 3.1 取个好名字</h3>
+<p>要通俗易懂，而且全网ID最好统一，</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -45729,6 +45818,129 @@ $document_uri ： 与$uri相同。
 <p>http://nginx.org/en/docs/http/ngx_http_core_module.html#variables</p>
 <p>http://nginx.org/en/docs/</p>
 </blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>4. 内核参数优化</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/core/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/core/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">4. 内核参数优化</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
+<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>文件内容如下：</p>
+<div><pre><code>net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 268435456
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 30000
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_mem = 524288 699050 1048576
+vm.swappiness = 0
+vm.min_free_kbytes = 65536
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
+<li>
+<p>net.core.somaxconn = 262144</p>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
+</li>
+<li>
+<p>net.core.netdev_max_backlog = 262144</p>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_orphans = 262144</p>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
+<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
+这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
+<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
+<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_recycle = 0</p>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
+当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
+会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_reuse = 1</p>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syncookies = 1</p>
+<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
+假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
+这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
+正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
+设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
+开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
+如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
+<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
+该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
+实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syn_retries = 1</p>
+<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_synack_retries = 1</p>
+<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
+</li>
+<li>
+<p>net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
+当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
+这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_fin_timeout = 30</p>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_keepalive_time = 30</p>
+<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
+客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
+并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
+比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
+就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
+</li>
+</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -48044,349 +48256,137 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>zabbix添加报警媒介</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix添加报警媒介</source>
+      <title>Template DB MySQL简介</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Template DB MySQL简介</source>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>zabbix-server安装</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.2%20zabbix%E5%80%9F%E5%8A%A9ansible%E5%AE%89%E8%A3%85/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">zabbix-server安装</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="zabbix-server安装"> zabbix-server安装</h2>
+      <content:encoded><![CDATA[<h2 id="template-db-mysql简介"> Template DB MySQL简介</h2>
+<h3 id="应用集"> 应用集</h3>
+<p>MySQL</p>
+<h3 id="监控项"> 监控项</h3>
 <ol>
-<li>下载roles</li>
+<li>MySQL begin operations per second（MySQL每秒开始操作）</li>
+<li>MySQL bytes received per second（从所有客户端接收的字节数）</li>
+<li>MySQL bytes sent per second（发送到所有客户端的字节数）</li>
+<li>MySQL commit operations per second（MySQL每秒提交操作）</li>
+<li>MySQL delete operations per second（MySQL每秒删除操作）</li>
+<li>MySQL insert operations per second（MySQL每秒插入操作）</li>
+<li>MySQL queries per second（MySQL每秒查询）</li>
+<li>MySQL rollback operations per second（MySQL每秒回滚操作）</li>
+<li>MySQL select operations per second（MySQL每秒选择操作）</li>
+<li>MySQL slow queries（MySQL慢查询）</li>
+<li>MySQL status（MySQL的存活状态）</li>
+<li>MySQL update operations per second（MySQL每秒更新操作）</li>
+<li>MySQL uptime（MySQL正常运行时间）</li>
+<li>MySQL version（MySQL的版本信息）</li>
 </ol>
-<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-server
+<h3 id="触发器"> 触发器</h3>
+<p>MySQL is down</p>
+<p>表达式：{Template DB MySQL:mysql.ping.last(0)}=0</p>
+<h3 id="图形"> 图形</h3>
+<ol>
+<li>MySQL operations（MySQL业务操作）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A21.png" alt=""></p>
+<ol start="2">
+<li>MySQL bandwidth（MySQL带宽）</li>
+</ol>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A22.png" alt=""></p>
+<h3 id="聚合图形"> 聚合图形</h3>
+<p>MySQL performance（MySQL性能）</p>
+<p><img src="images/mysql%E5%9B%BE%E5%BD%A23.png" alt=""></p>
+<h2 id="实现mysql模板监控"> 实现MySQL模板监控</h2>
+<h3 id="mysql监控授权"> MySQL监控授权</h3>
+<p>配置mysql的客户端，创建一个用户来获取mysql的相关数据，使用mysql账号密码登陆数据库</p>
+<div><pre><code>&gt; grant all on *.* to monitor@&#39;localhost&#39; identified by &#39;W***&#39;;
+&gt; flush privileges;
 </code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>编写playbook</li>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改zabbix-agent配置文件"> 修改zabbix_agent配置文件</h3>
+<ol>
+<li>设置完帐户之后在被监控端新建/etc/zabbix/etc/.my.cnf以提供Zabbix Agent访问数据库，内容类似如下</li>
 </ol>
-<p><code>vim new-zabbix-server.yml</code></p>
-<div><pre><code>---
-- hosts: zabbix-server
-  become: <span>yes</span>
-  vars:
-    <span># mysql</span>
-    <span># host memory is 16G</span>
-    mysql_thread_cache_size: <span>"64"</span>
-    mysql_query_cache_size: <span>"128M"</span>
-    mysql_innodb_buffer_pool_size: <span>"4096M"</span>
-    mysql_tmp_table_size: <span>"128M"</span>
-    mysql_table_open_cache: <span>"2048"</span>
-    <span># zabbix-server</span>
-    zabbix_version: <span>4.4</span>
-    zabbix_repo_yum:
-      - name: zabbix
-        description: Zabbix Official Repository - <span>$basearch</span>
-        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-      - name: zabbix-supported
-        description: Zabbix Official Repository non-supported - <span>$basearch</span>
-        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-    zabbix_server_startpollers: <span>12</span>
-    zabbix_server_startpollersunreachable: <span>5</span>
-    zabbix_server_starttrappers: <span>30</span>
-    zabbix_server_startdiscoverers: <span>10</span>
-    zabbix_server_housekeepingfrequency: <span>12</span>
-    zabbix_server_maxhousekeeperdelete: <span>100000</span>
-    zabbix_server_cachesize: 4096M
-    zabbix_server_startdbsyncers: <span>20</span>
-    zabbix_server_historyindexcachesize: 512M
-    zabbix_server_trendcachesize: 256M
-    zabbix_server_historytextcachesize: 80M
-    zabbix_server_valuecachesize: 4096M
-    zabbix_server_timeout: <span>30</span>
-    zabbix_server_database: mysql
-    zabbix_server_database_long: mysql 
-    <span># zabbi-web</span>
-    zabbix_url: <span>192.168</span>.165.231
-    zabbix_timezone: Asia/Shanghai
-  roles:
-    - role: geerlingguy.mysql
-    - role: geerlingguy.apache
-    - role: dj-wasabi.zabbix-server
-    - role: dj-wasabi.zabbix-web
+<div><pre><code>#vim /etc/zabbix/etc/.my.cnf
+[mysql]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
+[mysqladmin]
+host=localhost
+user=monitor
+password=W***
+socket=/var/lib/mysql/mysql.sock
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><ol start="3">
-<li>安装zabbix-server</li>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
+<li>注意：agent安装路径/etc/zabbix/,etc目录若不存在，需要自已创建，创建.my.cnf,为隐藏文件。W***为mysql的密码。</li>
+</ul>
+<ol start="2">
+<li>修改模板中的mysql路径/etc/zabbix/zabbix_agentd.d，将以下三个目录补全</li>
 </ol>
-<div><pre><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-server.yml
+<div><pre><code>#vim userparameter_mysql.conf
+</code></pre>
+<div><span>1</span><br></div></div><p><img src="images/mysql%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<h3 id="重启agent服务"> 重启agent服务</h3>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="zabbix-web设置"> zabbix-web设置</h3>
+<p><img src="images/mysqlweb.png" alt=""></p>
+<h2 id="修改模板添加主从和连接数监控"> 修改模板添加主从和连接数监控</h2>
+<h3 id="主从状态监控"> 主从状态监控</h3>
+<ol>
+<li>在<code>/opt/monitor</code>目录下添加主从监控脚本</li>
+</ol>
+<p>vim mysql_slave.sh</p>
+<div><pre><code>#!/usr/bin/env bash
+user=&#39;monitor&#39;
+passwd=
+# Seconds_Behind_Master 阈值
+tho=1000
+
+# rs为Yes成功数,sbr为同步时间差
+rs=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Running | awk &#39;{print $2}&#39; | grep -c Yes)
+sbr=$(mysql -u&quot;$user&quot; -p&quot;$passwd&quot; -e &quot;show slave status\G;&quot; 2&gt;/dev/null | grep Seconds_Behind_Master | awk -F&#39;:&#39; &#39;{print $2}&#39;)
+
+# 判断主从状态是否正常,0代表正常,1代表异常
+if [ &quot;$rs&quot; -eq 2 -a &quot;$sbr&quot; -le &quot;$tho&quot; ];then
+    echo 0
+else
+    echo $(date +&quot;%Y-%m-%d %H:%M:%S&quot;) &quot;Yes成功数为$rs&quot; &quot;延时时间为$sbr&quot; &gt;&gt; /var/log/zabbix/mysql_slave.log
+    echo 1
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><ol start="2">
+<li>在zabbix_agentd.conf中添加自定义key</li>
+</ol>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.replication,/opt/monitor/mysql_slave.sh
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
 </code></pre>
 <div><span>1</span><br></div></div><ol start="4">
-<li>
-<p>优化</p>
-<p>优化磁盘，去除atime</p>
-</li>
-<li>
-<p>注意事项</p>
-<p>zabbix-web，筛选历史问题时，记得选择时间范围</p>
-</li>
-</ol>
-<h2 id="zabbix-proxy安装"> zabbix-proxy安装</h2>
-<ol>
-<li>下载roles</li>
-</ol>
-<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-proxy
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>编写playbook</li>
-</ol>
-<p><code>vim new-zabbix-proxy.yml</code></p>
-<div><pre><code>---
-- hosts: zabbix-proxy
-  become: <span>yes</span>
-  vars:
-    <span># mysql</span>
-    <span># host memory is 8G</span>
-    mysql_thread_cache_size: <span>"64"</span>
-    mysql_query_cache_size: <span>"128M"</span>
-    mysql_innodb_buffer_pool_size: <span>"2048M"</span>
-    mysql_tmp_table_size: <span>"64M"</span>
-    mysql_table_open_cache: <span>"1024"</span>
-
-    <span># zabbix-proxy</span>
-    zabbix_server_host: <span>192.168</span>.165.231 
-    zabbix_version: <span>4.4</span>
-    zabbix_repo_yum:
-      - name: zabbix
-        description: Zabbix Official Repository - <span>$basearch</span>
-        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-      - name: zabbix-supported
-        description: Zabbix Official Repository non-supported - <span>$basearch</span>
-        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-    zabbix_proxy_cachesize: <span>2048</span>
-    zabbix_proxy_startpollers: <span>12</span>
-    zabbix_proxy_housekeepingfrequency: <span>12</span>
-
-  roles:
-    - role: geerlingguy.mysql
-    - role: dj-wasabi.zabbix-proxy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><ol start="3">
-<li>安装zabbix-proxy</li>
-</ol>
-<div><pre><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-proxy.yml
-</code></pre>
-<div><span>1</span><br></div></div><ol start="4">
-<li>
-<p>将zabbix-proxy添加到zabbix-server中</p>
-<ol>
-<li>
-<p>) 进入zabbix的web页面，点击Administrator--&gt;Proxies--&gt;Create proxy；</p>
-</li>
-<li>
-<p>) 填写Proxy name为主机名称，Proxy mode为Active，然后Add。</p>
-<blockquote>
-<p>过几十秒，看看proxy是否添加成功，查看proxy和server日志，如无成功，将proxy和server端重启一下；</p>
-<p>proxy name一定要和配置文件中<code>/etc/zabbix/zabbix_proxy.conf</code>的<code>Hostname</code>一致。</p>
-</blockquote>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="zabbix-agent安装"> zabbix-agent安装</h2>
-<ol>
-<li>下载roles</li>
-</ol>
-<div><pre><code>ansible-galaxy <span>install</span> dj-wasabi.zabbix-agent
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>编写playbook</li>
-</ol>
-<p><code>vim new-zabbix-agent.yml</code></p>
-<div><pre><code>---
-- hosts: zabbix-server
-  vars:
-    zabbix_version: <span>4.4</span>
-    zabbix_repo_yum:
-      - name: zabbix
-        description: Zabbix Official Repository - <span>$basearch</span>
-        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-      - name: zabbix-supported
-        description: Zabbix Official Repository non-supported - <span>$basearch</span>
-        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-    zabbix_agent_server: <span>192.168</span>.165.231
-    zabbix_agent_serveractive: <span>192.168</span>.165.231
-    zabbix_url: http://192.168.165.231
-    zabbix_api_use: <span>true</span>
-    zabbix_api_create_hostgroup: <span>true</span>
-    zabbix_api_create_hosts: <span>true</span>
-    zabbix_api_user: Admin
-    zabbix_api_pass: zabbix
-    zabbix_create_host: present
-    zabbix_host_groups:
-      - Zabbix servers
-    zabbix_link_templates:
-      - Template OS Linux by Zabbix agent active
-      - Template App Zabbix Server
-  roles:
-    - role: dj-wasabi.zabbix-agent
-
-- hosts: hy-bes
-  vars:
-    zabbix_version: <span>4.4</span>
-    zabbix_repo_yum:
-      - name: zabbix
-        description: Zabbix Official Repository - <span>$basearch</span>
-        baseurl: http://mirrors.aliyun.com/zabbix/zabbix/<span>{</span><span>{</span> zabbix_version <span>}</span><span>}</span>/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-      - name: zabbix-supported
-        description: Zabbix Official Repository non-supported - <span>$basearch</span>
-        baseurl: https://mirrors.aliyun.com/zabbix/non-supported/rhel/<span>{</span><span>{</span> ansible_distribution_major_version <span>}</span><span>}</span>/<span>$basearch</span>/
-        gpgcheck: <span>0</span>
-        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
-        state: present
-    zabbix_agent_server: <span>192.168</span>.16.235,192.168.165.232
-    zabbix_agent_serveractive: <span>192.168</span>.16.235,192.168.165.232
-    zabbix_proxy: bes.zabbixproxy
-    zabbix_url: http://192.168.165.231
-    zabbix_api_use: <span>true</span>
-    zabbix_api_create_hostgroup: <span>true</span>
-    zabbix_api_create_hosts: <span>true</span>
-    zabbix_api_user: Admin
-    zabbix_api_pass: zabbix
-    zabbix_create_host: present
-    zabbix_host_groups:
-      - hy-bes
-    zabbix_link_templates:
-      - Template OS Linux by Zabbix agent active
-  roles:
-    - role: dj-wasabi.zabbix-agent
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br></div></div><ol start="3">
-<li>
-<p>修改roles，添加tags</p>
-<p>由于添加监控的主机数以千计，所以必须ansible执行playbook时，必须跳过不必要的判断，这样能大大减少playbook的执行时间，提高执行效率。</p>
-</li>
+<li>在mysql模板中新增监控项，新增触发器，返回值不是0时，报警。</li>
 </ol>
 <ul>
-<li>
-<p>修改<code>/dj-wasabi.zabbix-agent/tasks/main.yml</code>，给每个操作系统添加tags，例如</p>
-<div><pre><code>- name: &quot;Install the correct repository&quot;
-  include: &quot;Debian.yml&quot;
-  when:
-    - zabbix_agent_os_family == &quot;Debian&quot;
-    - not (zabbix_agent_docker | bool)
-  tags:
-    - zabbix-agent
-    - init
-    - config
-    - service
-    - debian
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><blockquote>
-<p>最后的debian是新增的。</p>
-</blockquote>
-</li>
-<li>
-<p>修改<code>dj-wasabi.zabbix-agent/tasks/Linux.yml</code>，给DOcker增加tags，如下：</p>
-<div><pre><code>- name: &quot;Install the Docker container&quot;
-  include: Docker.yml
-  when:
-    - zabbix_agent_docker | bool
-  tags:
-    - docker
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>最后两行是新增的。</p>
-</blockquote>
-</li>
+<li>注意：当监控非主从mysql时，把此项监控禁用掉</li>
 </ul>
-<ol start="4">
-<li>安装</li>
+<h2 id="连接数监控"> 连接数监控</h2>
+<ol>
+<li>在zabbix_agentd.conf中添加自定义key</li>
 </ol>
-<div><pre><code> ansible-playbook -i inventory/zabbix.yml new-zabbix-agent.yml -l <span>192.168</span>.163.150 --skip-tags <span>"sangoma,debian,suse,windows,docker"</span>
+<p>在<code>etc/zabbix/zabbix_agentd.conf</code>中新加</p>
+<div><pre><code>UserParameter=mysql.linknum, ss -an | grep 3306 | grep -c ESTAB
 </code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>每次新增zabbix-agent，最后安装完成，重启一下zabbix-proxy，这样proxy会尽快发现agent节点</p>
-</blockquote>
-<ol start="5">
-<li>
-<p>监控模块</p>
-<p>我们采用的是zabbix主动式的监控方式，zabbix-agent主动推送数据给proxy或server，以减少server端压力。</p>
-<p>我发现在新的zabbix监控中，还可以检查时间有没有同步。</p>
-<p>而且还有磁盘IO的监控，就问你们棒不棒！！！</p>
-<p>很棒！</p>
-<blockquote>
-<p>4.4中新的主动式模板中，需要将监控项system.localtime	变为enabled，否则主机的可用性为unknown</p>
-</blockquote>
-<p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
-</li>
+<div><span>1</span><br></div></div><ol start="2">
+<li>重启agent服务</li>
+</ol>
+<div><pre><code>service zabbix_agentd restart
+</code></pre>
+<div><span>1</span><br></div></div><ol start="3">
+<li>添加监控项和触发器</li>
 </ol>
 ]]></content:encoded>
     </item>
