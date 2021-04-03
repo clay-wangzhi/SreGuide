@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 10.1 字符串处理
 
 Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是[参数代换](http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF)的子集，另外一些则是 UNIX 下 [`expr`](http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF) 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。

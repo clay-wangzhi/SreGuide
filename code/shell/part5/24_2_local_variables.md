@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 24.2 局部变量
 怎样使一个变量变成“局部”变量？
 

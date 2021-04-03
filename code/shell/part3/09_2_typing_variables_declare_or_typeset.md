@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 9.2 变量类型标注：`declare` 与 `typeset`
 
 [内建命令]() `declare` 和 `typeset` 是完全相同的命令，其被用于修改变量的属性。相比起一部分编程语言来说，这种修改属于非常弱的类型标注方式[^1]。`declare` 命令只有在 Bash version 2 及更高版本才能使用，而 `typeset` 命令可以在 ksh 脚本中运行。

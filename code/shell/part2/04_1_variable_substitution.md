@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 4.1 变量替换
 
 变量名是其所指向值的一个占位符（placeholder）。引用变量值的过程我们称之为变量替换（variable substitution）。

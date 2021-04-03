@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 7.1 测试结构
 
 - `if/then` 结构是用来检测一系列命令的 [退出状态](http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF) 是否为0（按 UNIX 惯例,退出码 0 表示命令执行成功），如果为0，则执行接下来的一个或多个命令。

@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 ## echo命令
 
 * -e 使转义符生效 如:  解释\t \n含义

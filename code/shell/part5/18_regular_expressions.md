@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 18 正则表达式
 > _...the intellectual activity associated with software development is largely one of gaining insight._
 > _--Stowe Boyd_

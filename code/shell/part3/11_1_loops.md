@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 11.1 循环
 
 循环是当循环控制条件为真时，一系列命令迭代[^1]执行的代码块。

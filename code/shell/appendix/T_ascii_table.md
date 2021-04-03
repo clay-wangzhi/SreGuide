@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 附录 T. ASCII 表
 
 传统上，这类书的附录会有一个 ASCII 表。但本书不会。取而代之的是这些生成一张完整 ASCII 表的简短脚本。

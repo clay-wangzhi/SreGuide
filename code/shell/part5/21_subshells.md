@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第二十一章 子shell
 
 运行一个shell脚本会启动一个新的进程，即*子shell*。

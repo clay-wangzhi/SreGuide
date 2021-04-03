@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 9.2.1 `declare` 的另类用法
 
 `declare` 命令可以帮助用户识别变量、[环境变量]() 或是其他信息，与 [数组]() 搭配效果更佳。

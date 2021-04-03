@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 27 数组
 新版本的Bash支持一维数组。 数组元素可以使用符号**variable[xx]** 来初始化。另外，脚本可以使用**declare -a variable**语句来制定一个数组。 如果想引用一个数组元素（也就是取值），可以使用大括号，访问形式为 ${element[xx]} 。
 

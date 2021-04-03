@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 10.1.1 使用 `awk` 处理字符串
 
 在 Bash 脚本中可以调用字符串处理工具 `awk` 来替换内置的字符串处理操作。

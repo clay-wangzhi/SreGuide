@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 19 嵌入文档
 <blockquote class="blockquote-center">Here and now, boys.
 &emsp;&emsp;&emsp;&emsp;--Aldous Huxley, Island</blockquote>

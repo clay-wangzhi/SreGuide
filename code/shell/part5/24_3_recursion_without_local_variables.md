@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 24.3 不使用局部变量的递归
 即使不适用局部变量，函数也可以递归的调用自身。
 

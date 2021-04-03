@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 附录 F. I/O 与 I/O 重定向详细介绍
 
 一个指令会预期前三个文件描述符可用。第一个， *fd 0* (标准输入， `stdin`) 用于读取。其他两个 (*fd 1*, `stdout` 和 *fd 2*, `stderr`) 用于写入。

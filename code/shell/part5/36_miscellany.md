@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第36章 杂项
 > Nobody really knows what the Bourne shell's grammar is. Even examination of the source code is little help.
 > ——Tom Duff

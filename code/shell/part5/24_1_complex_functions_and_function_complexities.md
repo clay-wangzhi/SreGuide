@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 24.1 复杂函数和函数复杂性
 函数可以处理传递给它的参数，并且能返回它的[退出状态码](http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF)给脚本，以便后续处理。
 ```

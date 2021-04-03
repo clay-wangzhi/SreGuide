@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 7.3 其他比较操作
 
 二元比较操作比较变量或者数量。注意整数和字符串比较使用的是两套运算符。

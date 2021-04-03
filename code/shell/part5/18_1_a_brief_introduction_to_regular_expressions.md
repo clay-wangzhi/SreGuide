@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 18.1 正则表达式简介
 正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning[[1]](http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134)。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。
 

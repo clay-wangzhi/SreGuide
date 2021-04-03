@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 25. 别名
 
 Bash `别名` 本质上不外乎是键盘上的快捷键，缩写呢是避免输入很长的命令串的一种手段.举个例子, 在 [~/.bashrc](http://tldp.org/LDP/abs/html/sample-bashrc.html) 文件中包含别名 `lm="ls -l | more`, 而后每个命令行输入的 lm [[1]](http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18669) 将会自动被替换成 `ls -l | more`. 这可以节省大量的命令行输入和避免记住复杂的命令和选项. 设定别名 `rm="rm -i"` (交互的删除模式) 防止无意的删除重要文件，也许可以少些悲痛.

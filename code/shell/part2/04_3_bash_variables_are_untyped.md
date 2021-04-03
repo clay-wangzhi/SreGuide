@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 4.3 Bash变量是弱类型的
 
 不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，*Bash 变量是字符串*，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。

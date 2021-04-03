@@ -1,3 +1,9 @@
+---
+author: LinuxStory
+category: Linux
+tags:
+  - Bash
+---
 # 第二十三章. 进程替换
 
 用[管道](http://tldp.org/LDP/abs/html/special-chars.html#PIPEREF) 将一个命令的 ```标准输出``` 输送到另一个命令的 ```标准输入``` 是个强大的技术。但是如果你需要用管道输送_多个_命令的 ```标准输出``` 怎么办？这时候 _进程替换_ 就派上用场了。
