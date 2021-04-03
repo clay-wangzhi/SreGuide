@@ -1,6 +1,6 @@
 ---
-author: LinuxStory
-category: Google
+author: Google
+category: Linux
 tags:
   - Bash
   - 风格
