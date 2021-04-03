@@ -83,7 +83,6 @@ module.exports = config({
           { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
           ],
         },
-        ],
       },
     ],
     sidebar: {
