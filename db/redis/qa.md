@@ -1,3 +1,7 @@
+# redis面试题
+
+> todo: 添加小林coding的redis相关问题，缓存，穿透，雪崩等
+
 ## Redis是什么
 
 Redis（Remote Dictionary Server）是C语言开发的一个开源的（遵从BSD协议）高性能键值对（key-value）的内存数据库，可以用作数据库、缓存、消息中间件。它是一种NoSQL（not-only sql，泛指非关系型数据库）的数据库。
@@ -20,7 +24,7 @@ Reidis作为一个内存数据库：
 4. **set是string类型的无序集合。**集合是通过hashtable实现的。set中的元素是没有顺序的，而且是没有重复的。常用命令：sdd、spop、smembers、sunion等。
 5. **zset和set一样是string类型元素的集合，且不允许重复的元素。zset是有序集合。**常用命令：zadd、zrange、zrem、zcard等
 
-![img](images/640.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis-640.webp)
 
 ## 为什么单线程的redis这么快
 
@@ -38,7 +42,7 @@ Reidis作为一个内存数据库：
 
 ## Redis的淘汰策略
 
-![img](images/640-1578796973640.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578796973640.webp)
 
 补充一下：Redis4.0加入了LFU(least frequency use)淘汰策略，包括volatile-lfu和allkeys-lfu，通过统计访问频率，将访问频率最少，即最不经常使用的KV淘汰。
 
@@ -87,7 +91,7 @@ AOF将Redis执行的每一条命令追加到磁盘中，处理巨大的写入会
   * 主节点发送数据给从节点工程中，主节点还会进行一些写操作，这时候的数据存储在复制缓冲区中。从节点同步主节点数据完成后，主节点将缓冲区的数据继续发送给从节点，用于部分复制。
   * 主节点响应写命令时，不但会把命令发送给从节点，还会写入复制积压缓冲区，用于复制命令丢失的数据补救。
 
-![image-20191222150735579](images/image-20191222150735579.png)
+![image-20191222150735579](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20191222150735579.png)
 
 上面是psync的执行流程：
 
@@ -99,7 +103,7 @@ AOF将Redis执行的每一条命令追加到磁盘中，处理巨大的写入会
 
 ## 全量复制和部分复制的过程
 
-![img](images/640-1578797079401.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578797079401.webp)
 
 上面是全量复制的流程。主要有以下几步：
 
@@ -139,7 +143,7 @@ Redis为了达到最快的读写速度将数据都读到内存中，并通过异
 
 ## 哨兵有哪些功能
 
-![img](images/640-1578798554512.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578798554512.webp)
 
 如图，是Redis Sentinel（哨兵）的架构图。Redis Sentinel（哨兵）主要功能包括主节点存活检测、主从运行情况检测、自动故障转移、主从切换。Redis Sentinel最小配置是一主一从。
 
