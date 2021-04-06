@@ -1,7 +1,6 @@
 ---
 title: centos6.5下安装python3.6、pip、ipython
-tag: Python
-abbrlink: bb8c72a8
+category: 常见服务的搭建
 date: 2017-09-27 21:00:00
 ---
 

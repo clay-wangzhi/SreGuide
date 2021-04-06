@@ -1,4 +1,10 @@
-## centos7下搭建shadowsocks
+---
+category: 常见服务的搭建
+tags:
+  - shadowsocks
+---
+
+# centos7下搭建shadowsocks
 
 ### 安装pip
 
