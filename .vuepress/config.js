@@ -80,6 +80,7 @@ module.exports = config({
           {
             text: "监控工具",
             items: [
+              { text: "ELK", icon: "elastic", link: "/monitor/zabbix/" },
               { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
             ],
           },
@@ -265,6 +266,18 @@ module.exports = config({
         "python-tcp-pg.md",
         "python-socketserver.md",
         "python-io-model.md",
+      ],
+      "/monitor/zabbix/": [
+        "",
+        "zabbix-ans",
+        "zabbix-media",
+        "zabbix-mysql",
+        "zabbix-redis",
+        "qa",
+        "zabbix-api-web",
+        "zabbix-activemq",
+        "zabbix-zookeeper",
+        "todolist",
       ],
       "/db/mysql/": [
         "",
