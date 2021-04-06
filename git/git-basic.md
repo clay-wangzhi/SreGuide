@@ -1,3 +1,10 @@
+---
+tags:
+  - Git
+---
+
+# git的基本使用
+
 ## 由来
 
 ![git](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png)
