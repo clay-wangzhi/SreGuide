@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # 日志logrotate
 
 ## logrotate简介

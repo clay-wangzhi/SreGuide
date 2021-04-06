@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # 查看文件内容
 
 ### cat命令

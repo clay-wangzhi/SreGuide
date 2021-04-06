@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 #  /etc/security/limits.conf 详解与配置
 
 ## 一、 /etc/security/limits.conf 详解
