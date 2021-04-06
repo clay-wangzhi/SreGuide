@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # zset 类型
 
 

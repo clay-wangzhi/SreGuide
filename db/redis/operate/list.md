@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # list类型
 
 - 列表的元素类型为string

@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # centos7安装redis-5.0.0主从
 
 ## 下载redis-5.0.0安装包

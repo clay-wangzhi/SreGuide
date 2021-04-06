@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # set 类型
 
 

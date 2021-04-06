@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # hash类型
 
 hash⽤于存储对象
