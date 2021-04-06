@@ -1,3 +1,11 @@
+---
+category: 常见服务的搭建
+tags:
+  - confluence
+---
+
+# 基于docker搭建confluence
+
 系统版本：centos7
 
 ## 安装docker

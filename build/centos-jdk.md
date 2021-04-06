@@ -1,4 +1,10 @@
-## Linux下配置jdk的环境变量
+---
+category: 常见服务的搭建
+tags:
+  - jdk
+---
+
+# Linux下配置jdk的环境变量
 
 Hello everyone, let's learn jdk together！
 

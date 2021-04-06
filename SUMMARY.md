@@ -114,10 +114,6 @@
 * [17.8 redis-dump方式导入导出数据](17 Redis/17.8 redis-dump方式导入导出数据.md)
 * [redis面试题](17 Redis/redis面试题.md)
 
-
-
-
-
 ## 21 vim
 * [vim设置参数以方便YAML语句录入](21 vim/vim设置参数以方便YAML语句录入.md)
 * [vim常用命令](21 vim/vim常用命令.md)
@@ -141,9 +137,6 @@
 * [linux下增加交换分区](24 常见问题/linux下增加交换分区.md)
 * [mysql最大连接数](24 常见问题/mysql最大连接数.md)
 
-## 25 openldap
-* [Centos7 搭建openldap](25 openldap/Centos7 搭建openldap.md)
-* [phpldapadmin操作指导](25 openldap/phpldapadmin操作指导.md)
 
 ## 27 监控体系
 * [聊头监控体系](27 监控体系/聊头监控体系.md)
