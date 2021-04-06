@@ -1,3 +1,5 @@
+#  /etc/security/limits.conf 详解与配置
+
 ## 一、 /etc/security/limits.conf 详解
 
 `/etc/security/limits.conf` 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 `pam_limits.so` 的配置文件，而且只针对于单个会话。 该设置不会影响系统服务的资源限制。还要注意 `/etc/security/limits.d/` 的这个目录，

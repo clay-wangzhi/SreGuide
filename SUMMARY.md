@@ -40,11 +40,6 @@
     * 4.2.2 复合数据类型
 * 4.3 函数
 
-## Docker
-* [Docker文章推荐](Docker/docker_recommend.md)
-* [Docker Harbor](Docker/docker_harbor.md)
-* [Docker Harbor HA](Docker/docker_harbor_ha.md)
-* [快速搭建rabbitmq高可用集群](Docker/docker_rabbitmq.md)
 
 
 ## 9 Elasticsearch

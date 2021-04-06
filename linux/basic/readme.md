@@ -1,3 +1,5 @@
+# linux简介
+
 GNU/Linux 的历史
 
 自由软件之父Richard M. Stallman(理查德.斯托曼) 1984 GNU Copyleft OpenSource Free GPL

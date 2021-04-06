@@ -1,3 +1,5 @@
+# 日志logrotate
+
 ## logrotate简介
 
 日志是Linux系统中最重要的部分之一，通过日志可以知道系统中正在发生什么或者发生过什么，极大的方便了系统管理，常见的linux发行版中都自带了logrotate程序来管理系统日志，当然logrotate也可以用来管理软件日志。使用logrotate有以下几点好处：
