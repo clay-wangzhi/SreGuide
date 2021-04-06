@@ -52,7 +52,7 @@ module.exports = config({
         text: "推荐教程",
         icon: "software",
         items: [
-          { text: "Shell", icon: "shell", link: "/code/shell/" },
+          { text: "Shell", icon: "shell", link: "/linux/shell/" },
         ],
       },
       {
