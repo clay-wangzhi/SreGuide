@@ -1,4 +1,10 @@
-## activemq5.15.9集群搭建步骤
+---
+category: 常见服务的搭建
+tags:
+  - activemq
+---
+
+# activemq5.15.9集群搭建步骤
 
 ### 下载解压软件
 

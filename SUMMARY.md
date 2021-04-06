@@ -80,11 +80,7 @@
 * [11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)
 * [11.2 rabbitmq](11 消息中间件/11.2 centos7安装rabbitmq-3.7.9.md)
 
-## 12 常见集群的搭建
 * [12.1 keepalived和heartbeat对比](12 常见集群的搭建/12.1 keepalived和heartbeat对比.md)
-* [12.2 zookeeper集群](12 常见集群的搭建/12.2 zookeeper3.4.14集群搭建步骤.md)
-* [12.3 fastdfs](12 常见集群的搭建/12.3 分布式FastDfs+nginx缓存高可用集群构建.md)
-* [12.4 rocketmq集群的搭建](12 常见集群的搭建/12.4 rocketmq集群的搭建.md)
 
 
 ## 14 Markdown
