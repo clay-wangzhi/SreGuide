@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # redis5.0.4集群搭建
 
 ### redis5.0新特性

@@ -1,3 +1,7 @@
+---
+category: Redis
+---
+
 # redis面试题
 
 > todo: 添加小林coding的redis相关问题，缓存，穿透，雪崩等
