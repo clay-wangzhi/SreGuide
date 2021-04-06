@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 10 Todolist
 
 待整理链接有：

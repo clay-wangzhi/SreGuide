@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 8 activemq监控
 
 > zabbix旧版本可以用，新版本建议用官方模板

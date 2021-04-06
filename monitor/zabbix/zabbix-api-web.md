@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 7 用zabbix api批量添加web监控
 
 python脚本如下：

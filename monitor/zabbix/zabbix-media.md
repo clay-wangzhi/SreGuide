@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 3 zabbix添加报警媒介
 
 ## zabbix添加报警媒介
