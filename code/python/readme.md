@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # Python 学习笔记
 

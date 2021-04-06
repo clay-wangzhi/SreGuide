@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # 17 IO 模型
 

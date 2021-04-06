@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # 02 线性数据结构
 

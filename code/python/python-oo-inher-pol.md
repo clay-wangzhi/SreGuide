@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # 10 继承多态和Mixin
 

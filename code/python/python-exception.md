@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # 08 异常处理
 

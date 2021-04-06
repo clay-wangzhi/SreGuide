@@ -1,7 +1,5 @@
 ---
 category: Python
-tags:
-  - Python
 ---
 # 15 TCP 编程
 
