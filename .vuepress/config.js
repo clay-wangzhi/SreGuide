@@ -260,6 +260,22 @@ module.exports = config({
         "python-socketserver.md",
         "python-io-model.md",
       ],
+      "/db/mysql/": [
+        "",
+        "list-com",
+        "des-select",
+        "view-func",
+        "stro",
+        "user-contr",
+        "back",
+        "ab-copy",
+        "owner-kee",
+        "read-write",
+        "jiagou",
+        "lock",
+        "qa",
+        "bin-log",
+      ],
     },
 
     blog: {
