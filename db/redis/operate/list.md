@@ -1,4 +1,5 @@
 # list类型
+
 - 列表的元素类型为string
 - 按照插⼊顺序排序
 
@@ -36,38 +37,42 @@ lrange key start stop
 
 - 索引可以是负数，表示尾部开始计数，如-1表示最后⼀个元素
 
+```
 lset key index value
+```
 
 - 例5：修改键为'a1'的列表中下标为1的元素值为'z'
 
+```
 lset a1 1 z
-
-![Image](images/2d0e9776c8d627c94d31dda913cdee8690173dff.png)
+```
 
 删除
 
 - 删除指定元素
-
 - 将列表中前count次出现的值为value的元素移除
 - count > 0: 从头往尾移除
 - count < 0: 从尾往头移除
 - count = 0: 移除所有
 
+```
 lrem key count value
+```
 
 - 例6.1：向列表'a2'中加⼊元素'a'、'b'、'a'、'b'、'a'、'b'
 
+```
 lpush a2 a b a b a b
+```
 
-![Image](images/502fb1c7f71408b5df0098c5ea3cde1263bbbe94.png)
+* 例6.2：从'a2'列表右侧开始删除2个'b'
 
-例6.2：从'a2'列表右侧开始删除2个'b'
-
+```
 lrem a2 -2 b
+```
 
 - 例6.3：查看列表'py12'的所有元素
 
+```
 lrange a2 0 -1
-
-![Image](images/512611397a7c8691dade0417ac834e0c81b82ea2.png)
-
+```

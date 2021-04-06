@@ -1,3 +1,5 @@
+# set 类型
+
 
 - ⽆序集合
 - 元素为string类型
@@ -8,35 +10,41 @@
 
 - 添加元素
 
+```
 sadd key member1 member2 ...
+```
 
 - 例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'
 
+```
 sadd a3 zhangsan sili wangwu
-
-![Image](images/df11040715a63f064757956a24c5d7df6f4bed53.png)
+```
 
 获取
 
 - 返回所有的元素
 
+```
 smembers key
+```
 
 - 例2：获取键'a3'的集合中所有元素
 
+```
 smembers a3
-
-![Image](images/9ad9d7e260a7f33bf2d8ad74e1f4962dab096315.png)
+```
 
 删除
 
 - 删除指定元素
 
+```
 srem key value
+```
 
 - 例3：删除键'a3'的集合中元素'wangwu'
 
+```
 srem a3 wangwu
-
-![Image](images/542cd7f4df873335ac556491b7c97b8450654e45.png)
+```
 

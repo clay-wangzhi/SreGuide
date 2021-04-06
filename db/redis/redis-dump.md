@@ -1,4 +1,4 @@
-## redis-dump方式导入导出数据
+# redis-dump方式导入导出数据
 
 ### 安装redis-dump工具
 

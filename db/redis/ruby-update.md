@@ -1,4 +1,4 @@
-## Centos7安装升级Ruby
+# centos7安装升级ruby
 
 转载自：<https://blog.csdn.net/qq_26440803/article/details/82717244>
 

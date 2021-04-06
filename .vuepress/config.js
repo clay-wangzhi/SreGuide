@@ -88,6 +88,7 @@ module.exports = config({
             text: "数据库",
             items: [
               { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
+              { text: "Redis", icon: "redis", link: "/db/redis/" },
             ],
           },
           {
@@ -312,6 +313,19 @@ module.exports = config({
         "logrotate",
         "limit",
         "common-kno",
+      ],
+      "/db/redis/": [
+        "",
+        "redis-slave",
+        "server-client",
+        {
+          title: "数据库操作",
+          collapsable: false,
+          children: ["operate/string", "operate/key", "operate/hash", "operate/list", "operate/set", "operate/zset", ]
+        },
+        "redis-dump",
+        "ruby-update",
+        "qa",
       ],
       "/monitor/elk/": [
         {

@@ -21,25 +21,6 @@
 
 
 
-## 9 Elasticsearch
-* 9.1 概述
-    * [9.1.1 Elasticsearch 简介及其发展历史](9 elasticsearch/9.1 概述/9.1.1 Elasticsearch 简介及其发展历史.md)
-    * [9.1.2 Elastic Stack 家族成员及其应用场景](9 elasticsearch/9.1 概述/9.1.2 Elastic Stack 家族成员及其应用场景.md)
-* 9.2 安装上手
-    * [9.2.1 Elasticsearch的安装和简单配置](9 elasticsearch/9.2 安装上手/9.2.1 Elasticsearch的安装和简单配置.md)
-    * [9.2.2 Kibana的安装和界面快速浏览](9 elasticsearch/9.2 安装上手/9.2.2 Kibana的安装和界面快速浏览.md)
-    * [9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro](9 elasticsearch/9.2 安装上手/9.2.3 在Docker容器中运行Elasticsearch，Kibana和Cerebro.md)
-* 9.3 Elasticsearch入门
-    * [9.3.1 基本概念](9 elasticsearch/9.3 Elasticsearch入门/9.3.1 基本概念.md)
-    * [9.3.2 文档的基本操作CRUP与批量操作](9 elasticsearch/9.3 Elasticsearch入门/9.3.2 文档的基本操作CRUP与批量操作.md)
-    * [9.3.3 倒排索引入门](9 elasticsearch/9.3 Elasticsearch入门/9.3.3 倒排索引入门.md)
-    * [9.3.4 通过分析器进行分词](9 elasticsearch/9.3 Elasticsearch入门/9.3.4 通过分析器进行分词.md)
-    * [9.3.5 Search API概览](9 elasticsearch/9.3 Elasticsearch入门/9.3.5 Search API概览.md)
-    * [9.3.6 URI Search详解](9 elasticsearch/9.3 Elasticsearch入门/9.3.6 URI Search详解.md)
-    * [9.3.7 Request Body和Query DSL简介](9 elasticsearch/9.3 Elasticsearch入门/9.3.7 Request Body和Query DSL简介.md)
-
-
-
 
 * [12.1 keepalived和heartbeat对比](12 常见集群的搭建/12.1 keepalived和heartbeat对比.md)
 
@@ -49,8 +30,6 @@
 
 
 ## 17 Redis
-* [17.1 安装](17 Redis/17.1 安装.md)
-* [17.2 配置](17 Redis/17.2 配置.md)
 * [17.3 服务器端和客户端命令](17 Redis/17.3 服务器端和客户端命令.md)
 * 17.4 数据库操作
     * [17.4.1 string类型](17 Redis/17.4 数据库操作/17.4.1 string类型.md)
