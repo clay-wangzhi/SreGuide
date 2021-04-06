@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # 在Docker容器中运行Elasticsearch，Kibana和Cerebro
 
 ## Elastic Stack 与Docker 容器

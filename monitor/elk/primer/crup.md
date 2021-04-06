@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # 文档的基本操作CRUP与批量操作
 
 ## 文档的CRUD

@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # 容器部署ELK7.10
 
 > 转载自 YP小站
