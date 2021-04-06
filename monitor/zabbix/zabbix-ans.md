@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 2 zabbix借助ansible安装
 
 ## zabbix-server安装

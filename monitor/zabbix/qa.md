@@ -1,3 +1,11 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
+
+
 # 6 常见问题
 
 # Zabbix客户端日志出现(Not all processes could be identified）

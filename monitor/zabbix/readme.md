@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - Zabbix
+---
+
 # 1 zabbix4.4新功能
 
 探索Zabbix4.4新功能
