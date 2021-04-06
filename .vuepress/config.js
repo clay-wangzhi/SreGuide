@@ -89,6 +89,12 @@ module.exports = config({
               { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
             ],
           },
+          {
+            text: "Linux",
+            items: [
+              { text: "Linux", icon: "linux", link: "/linux/basic/" },
+            ],
+          },
         ],
       },
     ],
@@ -275,6 +281,24 @@ module.exports = config({
         "lock",
         "qa",
         "bin-log",
+      ],
+      "/linux/basic/": [
+        "",
+        {
+          title: "文件管理",
+          collapsable: false,
+          children: ["file/file-type","file/file-detail", "file/zsgc", "file/cat", "file/zip",]
+        },
+        "ugo",
+        "crontab",
+        "user",
+        "process",
+        "i-o",
+        "rpm",
+        "inter",
+        "logrotate",
+        "limit",
+        "common-kno",
       ],
     },
 
