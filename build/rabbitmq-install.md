@@ -1,3 +1,11 @@
+---
+category: 常见服务的搭建
+tags:
+  - rabbitmq
+---
+
+# centos7安装rabbitmq-3.7.9
+
 安装方式：rpm包安装
 
 系统版本: centos7.x
