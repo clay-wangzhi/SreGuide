@@ -1,3 +1,6 @@
+---
+category: MySQL
+---
 # 8 AB复制
 
 ## MySQL AB简介

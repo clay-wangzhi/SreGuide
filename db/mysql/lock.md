@@ -1,3 +1,6 @@
+---
+category: MySQL
+---
 # 12 MySQL锁等待
 
 ## 1 锁等待模拟

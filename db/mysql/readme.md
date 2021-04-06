@@ -1,3 +1,6 @@
+---
+category: MySQL
+---
 # 1 MySQL基本操作
 
 ## 1 数据库相关概念
