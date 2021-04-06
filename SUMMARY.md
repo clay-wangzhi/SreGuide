@@ -86,12 +86,6 @@
 * [12.3 fastdfs](12 常见集群的搭建/12.3 分布式FastDfs+nginx缓存高可用集群构建.md)
 * [12.4 rocketmq集群的搭建](12 常见集群的搭建/12.4 rocketmq集群的搭建.md)
 
-## 13 常见服务的搭建
-* [13.1 shadowsocks](13 常见服务的搭建/13.1 centos7下搭建shadowsocks.md)
-* [13.2 jdk](13 常见服务的搭建/13.2 centos下配置jdk的环境变量.md)
-* [13.3 python3.6](13 常见服务的搭建/13.3 安装python3-6.md)
-* [13.4 新建博客方法](13 常见服务的搭建/13.4 新建博客方法.md)
-* [13.5 confluence](13 常见服务的搭建/13.5 基于docker搭建confluence.md)
 
 ## 14 Markdown
 * [14.1 让Markdown写作更简单Typora完全使用指南](14 markdown/14.1 让Markdown写作更简单Typora完全使用指南.md)
