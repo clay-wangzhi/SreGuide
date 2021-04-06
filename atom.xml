@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-04-06T03:55:16.904Z</updated>
+  <updated>2021-04-06T04:06:55.548Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml"/>
   <link rel="alternate" href="https://vuepress-theme-hope-demo.mrhope.site/"/>
@@ -14,6 +14,7 @@
   <category term="Linux"/>
   <category term="自动化工具"/>
   <category term="Python"/>
+  <category term="linux"/>
   <category term="web中间件"/>
   <contributor>
     <name>Clay</name>
@@ -11324,6 +11325,59 @@ bash$ echo $(echo \\)
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第三部分 shell进阶</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/"/>
+    <updated>2021-04-03T14:55:08.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+</li>
+<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+</li>
+<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+</li>
+<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
+<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
+<li><a href="./14_recess_time.html">14. 休息时间</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-03T14:55:08.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第十三章 算术扩展</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/13_arithmetic_expansion/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/13_arithmetic_expansion/"/>
@@ -11366,59 +11420,6 @@ bash$ echo $(echo \\)
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-03T14:55:08.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第三部分 shell进阶</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part3/"/>
-    <updated>2021-04-03T14:55:08.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-</li>
-<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-</li>
-<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-</li>
-<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
-<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
-<li><a href="./14_recess_time.html">14. 休息时间</a></li>
-</ul>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -14296,6 +14297,88 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第二十二章. 限制模式的Shell</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/"/>
+    <updated>2021-04-03T14:55:08.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
+<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
+<ul>
+<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
+</ul>
+<p>被禁用的命令和功能：</p>
+<ul>
+<li>使用 <em>cd</em> 来改变工作目录。</li>
+<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
+<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
+<li>输出重定向。</li>
+<li>调用包含 / 的命令。</li>
+<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
+<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
+<li>在脚本中跳出限制模式。</li>
+</ul>
+<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
+<div><pre><code>#!/bin/bash
+
+#  在脚本开头用&quot;#!/bin/bash -r&quot;
+#+ 可以让整个脚本在限制模式运行。
+
+echo
+
+echo &quot;改变目录。&quot;
+cd /usr/local
+echo &quot;现在是在 `pwd`&quot;
+echo &quot;回到家目录。&quot;
+cd
+echo &quot;现在是在 `pwd`&quot;
+echo
+
+# 到此为止一切都是正常的，非限制模式。
+
+set -r
+# set --restricted 效果相同。
+echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
+
+echo
+echo
+
+echo &quot;在限制模式试图改变目录。&quot;
+cd ..
+echo &quot;依旧在 `pwd`&quot;
+
+echo
+echo
+
+echo &quot;\$SHELL = $SHELL&quot;
+echo &quot;试图在限制模式改变Shell 。&quot;
+SHELL=&quot;/bin/ash&quot;
+echo
+echo &quot;\$SHELL= $SHELL&quot;
+
+echo
+echo
+
+echo &quot;试图在限制模式重定向输出内容。&quot;
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    # 尝试列出试图创建的文件。
+
+echo
+
+exit 0
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-03T14:55:08.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第二十三章. 进程替换</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/23_Process_Substitution/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/23_Process_Substitution/"/>
@@ -14545,88 +14628,6 @@ x=x &lt; &lt;(:)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
 这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
 ]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-03T14:55:08.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第二十二章. 限制模式的Shell</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/"/>
-    <updated>2021-04-03T14:55:08.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
-<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
-<ul>
-<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
-</ul>
-<p>被禁用的命令和功能：</p>
-<ul>
-<li>使用 <em>cd</em> 来改变工作目录。</li>
-<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
-<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
-<li>输出重定向。</li>
-<li>调用包含 / 的命令。</li>
-<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
-<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
-<li>在脚本中跳出限制模式。</li>
-</ul>
-<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
-<div><pre><code>#!/bin/bash
-
-#  在脚本开头用&quot;#!/bin/bash -r&quot;
-#+ 可以让整个脚本在限制模式运行。
-
-echo
-
-echo &quot;改变目录。&quot;
-cd /usr/local
-echo &quot;现在是在 `pwd`&quot;
-echo &quot;回到家目录。&quot;
-cd
-echo &quot;现在是在 `pwd`&quot;
-echo
-
-# 到此为止一切都是正常的，非限制模式。
-
-set -r
-# set --restricted 效果相同。
-echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
-
-echo
-echo
-
-echo &quot;在限制模式试图改变目录。&quot;
-cd ..
-echo &quot;依旧在 `pwd`&quot;
-
-echo
-echo
-
-echo &quot;\$SHELL = $SHELL&quot;
-echo &quot;试图在限制模式改变Shell 。&quot;
-SHELL=&quot;/bin/ash&quot;
-echo
-echo &quot;\$SHELL= $SHELL&quot;
-
-echo
-echo
-
-echo &quot;试图在限制模式重定向输出内容。&quot;
-ls -l /usr/bin &gt; bin.files
-ls -l bin.files    # 尝试列出试图创建的文件。
-
-echo
-
-exit 0
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -20628,6 +20629,104 @@ main <span>"<span>$@</span>"</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">基本权限 UGO</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/"/>
+    <updated>2020-09-09T08:57:53.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
+<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
+<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
+<div><pre><code>    rw-r--r--  alice hr  install.log
+</code></pre>
+<div><span>1</span><br></div></div><p>权限对象：</p>
+<ul>
+<li>属主： u</li>
+<li>属组：g</li>
+<li>其他人： o</li>
+</ul>
+<p>权限类型：</p>
+<ul>
+<li>
+<p>读：r  4</p>
+</li>
+<li>
+<p>写：w 2</p>
+</li>
+<li>
+<p>执行： x 1</p>
+</li>
+</ul>
+<h3 id="设置权限"> 设置权限</h3>
+<ol>
+<li>更改文件的属主、属组</li>
+</ol>
+<ul>
+<li>chown：</li>
+</ul>
+<div><pre><code>chown ops.sre file1 //改属主、属组
+chown ops file1     //只改属主
+chown .ser file1	//只改属组
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>chgrp：</li>
+</ul>
+<div><pre><code>chgrp it file1	    //改文件属组
+chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
+<li>更改权限</li>
+</ol>
+<ul>
+<li>使用符号</li>
+</ul>
+<div><pre><code>chmod u+x file1		 //属主增加执行
+chmod a=rwx file1	 //所有人等于读写执行
+chmod a=- file1	     //所有人没有权限
+chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
+<li>使用数字</li>
+</ul>
+<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>对文件的影响</th>
+<th>对目录的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r（读取）</td>
+<td>可以读取文件的内容</td>
+<td>可以列出目录的内容（文件名）</td>
+</tr>
+<tr>
+<td>w（写入）</td>
+<td>可以更改文件的内容</td>
+<td>可以创建或删除目录中的任一文件</td>
+</tr>
+<tr>
+<td>x（可执行）</td>
+<td>可以作为命令执行文件</td>
+<td>可以访问目录的内容（取决于目录中文件的权限）</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-08-29T14:11:40.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">创建、复制、移动、删除</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/zsgc/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/zsgc/"/>
@@ -21239,200 +21338,6 @@ rmdir: logs: 目录非空
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">打包、压缩</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/"/>
-    <updated>2020-08-29T14:11:40.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="打包、压缩"> 打包、压缩</h2>
-<h3 id="tar命令"> tar命令</h3>
-<p>tar命令可以为linux的文件和目录创建档案。利用tar，可以为某一特定文件创建档案（备份文件），也可以在档案中改变文件，或者向档案中加入新的文件。tar最初被用来在磁带上创建档案，现在，用户可以在任何设备上创建档案。利用tar命令，可以把一大堆的文件和目录全部打包成一个文件，这对于备份文件或将几个文件组合成为一个文件以便于网络传输是非常有用的。</p>
-<p>首先要弄清两个概念：打包和压缩。打包时指将一大堆文件或目录变成为一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</p>
-<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（<a href="http://man.linuxde.net/gzip" target="_blank" rel="noopener noreferrer">gzip</a> <a href="http://man.linuxde.net/bzip2" target="_blank" rel="noopener noreferrer">bzip2</a>命令）。</p>
-<h4 id="语法"> 语法</h4>
-<p><code>tar(选项)(参数)</code></p>
-<h4 id="选项"> 选项</h4>
-<div><pre><code>-A或--catenate：新增文件到以存在的备份文件；
--B：设置区块大小；
--c或--create：建立新的备份文件；
--C &lt;目录&gt;：这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项。
--d：记录文件的差别；
--x或--extract或--get：从备份文件中还原文件；
--t或--list：列出备份文件的内容；
--z或--gzip或--ungzip：通过gzip指令处理备份文件；
--Z或--compress或--uncompress：通过compress指令处理备份文件；
--f&lt;备份文件&gt;或--file=&lt;备份文件&gt;：指定备份文件；
--v或--verbose：显示指令执行过程；
--r：添加文件到已经压缩的文件；
--u：添加改变了和现有的文件到已经存在的压缩文件；
--j：支持bzip2解压文件；
--v：显示操作过程；
--l：文件系统边界设置；
--k：保留原有文件不覆盖；
--m：保留文件不被覆盖；
--w：确认压缩文件的正确性；
--p或--same-permissions：用原来的文件权限还原文件；
--P或--absolute-names：文件名使用绝对名称，不移除文件名称前的“/”号；
--N &lt;日期格式&gt; 或 --newer=&lt;日期时间&gt;：只将较指定日期更新的文件保存到备份文件里；
---exclude=&lt;范本样式&gt;：排除符合范本样式的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="参数"> 参数</h4>
-<p>文件或目录：指定要打包的文件或目录列表。</p>
-<h4 id="常用实例"> 常用实例</h4>
-<p>1）<strong>将文件全部打包成tar包</strong>：</p>
-<div><pre><code>tar -cvf log.tar log2012.log    仅打包，不压缩！ 
-tar -zcvf log.tar.gz log2012.log   打包后，以 gzip 压缩 
-tar -jcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在选项<code>f</code>之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。 如果加<code>z</code>选项，则以.tar.gz或.tgz来代表gzip压缩过的tar包；如果加<code>j</code>选项，则以.tar.bz2来作为tar包名。</p>
-<p>2）<strong>查阅上述tar包内有哪些文件</strong>：</p>
-<div><pre><code>tar -ztvf log.tar.gz
-</code></pre>
-<div><span>1</span><br></div></div><p>由于我们使用 gzip 压缩的log.tar.gz，所以要查阅log.tar.gz包内的文件时，就得要加上<code>z</code>这个选项了。</p>
-<p>3）<strong>将tar包解压缩</strong>：</p>
-<div><pre><code>tar -zxvf /opt/soft/test/log.tar.gz
-</code></pre>
-<div><span>1</span><br></div></div><p>在预设的情况下，我们可以将压缩档在任何地方解开的</p>
-<p>4）<strong>只将tar内的部分文件解压出来</strong>：</p>
-<div><pre><code>tar -zxvf /opt/soft/test/log30.tar.gz log2013.log
-</code></pre>
-<div><span>1</span><br></div></div><p>5）<strong>文件备份下来，并且保存其权限</strong>：</p>
-<div><pre><code>tar -zcvpf log31.tar.gz log2014.log log2015.log log2016.log
-</code></pre>
-<div><span>1</span><br></div></div><p>这个<code>-p</code>的属性是很重要的，尤其是当您要保留原本文件的属性时。</p>
-<p>6）<strong>在文件夹当中，比某个日期新的文件才备份</strong>：</p>
-<div><pre><code>tar -N &quot;2012/11/13&quot; -zcvf log17.tar.gz test
-</code></pre>
-<div><span>1</span><br></div></div><p>7）<strong>备份文件夹内容是排除部分文件：</strong></p>
-<div><pre><code>tar --exclude scf/service -zcvf scf.tar.gz scf/*
-</code></pre>
-<div><span>1</span><br></div></div><p>8）<strong>其实最简单的使用 tar 就只要记忆底下的方式即可：</strong></p>
-<div><pre><code>压　缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称
-查　询：tar -jtv -f filename.tar.bz2
-解压缩：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="gzip命令"> gzip命令</h3>
-<p><strong>gzip命令</strong>用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。</p>
-<p>gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和<a href="http://man.linuxde.net/tar" target="_blank" rel="noopener noreferrer">tar</a>命令一起构成Linux操作系统中比较流行的压缩文件格式。据统计，gzip命令对文本文件有60%～70%的压缩率。减少文件大小有两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。</p>
-<h4 id="语法-2"> 语法</h4>
-<p><code>gzip(选项)(参数)</code></p>
-<h4 id="选项-2"> 选项</h4>
-<div><pre><code>-a或——ascii：使用ASCII文字模式；
--d或--decompress或----uncompress：解开压缩文件；
--f或——force：强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接；
--h或——help：在线帮助；
--l或——list：列出压缩文件的相关信息；
--L或——license：显示版本与版权信息；
--n或--no-name：压缩文件时，不保存原来的文件名称及时间戳记；
--N或——name：压缩文件时，保存原来的文件名称及时间戳记；
--q或——quiet：不显示警告信息；
--r或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
--S或&lt;压缩字尾字符串&gt;或----suffix&lt;压缩字尾字符串&gt;：更改压缩字尾字符串；
--t或——test：测试压缩文件是否正确无误；
--v或——verbose：显示指令执行过程；
--V或——version：显示版本信息；
--&lt;压缩效率&gt;：压缩效率是一个介于1~9的数值，预设值为“6”，指定愈大的数值，压缩效率就会愈高；
---best：此参数的效果和指定“-9”参数相同；
---fast：此参数的效果和指定“-1”参数相同。
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h4 id="参数-2"> 参数</h4>
-<p>文件列表：指定要压缩的文件列表。</p>
-<h4 id="常用范例"> 常用范例</h4>
-<p>1）把test6目录下的每个文件压缩成.gz文件</p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-# gzip *
-# ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）把例1中每个压缩的文件解压，并列出详细的信息</p>
-<div><pre><code># ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-# gzip -dv *
-linklog.log.gz:  99.6% -- replaced with linklog.log
-log2012.log.gz:  99.6% -- replaced with log2012.log
-log2013.log.gz:  47.5% -- replaced with log2013.log
-# ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>3）详细显示例1中每个压缩的文件的信息，并不解压</p>
-<div><pre><code># gzip -l *
-         compressed        uncompressed  ratio uncompressed_name
-               1341              302108  99.6% linklog.log
-               1341              302108  99.6% log2012.log
-                 70                  61  47.5% log2013.log
-
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>4）压缩一个tar备份文件，此时压缩文件的扩展名为.tar.gz</p>
-<div><pre><code>#ls -al log.tar
--rw-r--r-- 1 root root 307200 11-29 17:54 log.tar
-# gzip -r log.tar
-# ls -al log.tar.gz 
--rw-r--r-- 1 root root 1421 11-29 17:54 log.tar.gz
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>5）递归的压缩目录</p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-# cd ..
-# gzip -rv test6
-test6/linklog.log:       99.6% -- replaced with test6/linklog.log.gz
-test6/log2013.log:       47.5% -- replaced with test6/log2013.log.gz
-test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
-# cd test6
-# ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>说明：</p>
-<p>这样，所有test下面的文件都变成了*.gz，目录依然存在只是目录里面的文件相应变成了*.gz.这就是压缩，和打包不同。因为是对目录操作，所以需要加上-r选项，这样也可以对子目录进行递归了。</p>
-<p>6）递归地解压目录</p>
-<div><pre><code># ll
-总计 28
----xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
----xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
--rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
-# cd ..
-# gzip -dr test6
-# cd test6
-# ll
-总计 604
----xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
----xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-08-29T14:11:40.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">查看文件内容</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/"/>
@@ -21983,6 +21888,200 @@ test.txt:linuxmint
 <div><pre><code>grep -rl root /etc/
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-08-29T14:11:40.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">打包、压缩</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/%E6%89%93%E5%8C%85%E5%8E%8B%E7%BC%A9/"/>
+    <updated>2020-08-29T14:11:40.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="打包、压缩"> 打包、压缩</h2>
+<h3 id="tar命令"> tar命令</h3>
+<p>tar命令可以为linux的文件和目录创建档案。利用tar，可以为某一特定文件创建档案（备份文件），也可以在档案中改变文件，或者向档案中加入新的文件。tar最初被用来在磁带上创建档案，现在，用户可以在任何设备上创建档案。利用tar命令，可以把一大堆的文件和目录全部打包成一个文件，这对于备份文件或将几个文件组合成为一个文件以便于网络传输是非常有用的。</p>
+<p>首先要弄清两个概念：打包和压缩。打包时指将一大堆文件或目录变成为一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</p>
+<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（<a href="http://man.linuxde.net/gzip" target="_blank" rel="noopener noreferrer">gzip</a> <a href="http://man.linuxde.net/bzip2" target="_blank" rel="noopener noreferrer">bzip2</a>命令）。</p>
+<h4 id="语法"> 语法</h4>
+<p><code>tar(选项)(参数)</code></p>
+<h4 id="选项"> 选项</h4>
+<div><pre><code>-A或--catenate：新增文件到以存在的备份文件；
+-B：设置区块大小；
+-c或--create：建立新的备份文件；
+-C &lt;目录&gt;：这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项。
+-d：记录文件的差别；
+-x或--extract或--get：从备份文件中还原文件；
+-t或--list：列出备份文件的内容；
+-z或--gzip或--ungzip：通过gzip指令处理备份文件；
+-Z或--compress或--uncompress：通过compress指令处理备份文件；
+-f&lt;备份文件&gt;或--file=&lt;备份文件&gt;：指定备份文件；
+-v或--verbose：显示指令执行过程；
+-r：添加文件到已经压缩的文件；
+-u：添加改变了和现有的文件到已经存在的压缩文件；
+-j：支持bzip2解压文件；
+-v：显示操作过程；
+-l：文件系统边界设置；
+-k：保留原有文件不覆盖；
+-m：保留文件不被覆盖；
+-w：确认压缩文件的正确性；
+-p或--same-permissions：用原来的文件权限还原文件；
+-P或--absolute-names：文件名使用绝对名称，不移除文件名称前的“/”号；
+-N &lt;日期格式&gt; 或 --newer=&lt;日期时间&gt;：只将较指定日期更新的文件保存到备份文件里；
+--exclude=&lt;范本样式&gt;：排除符合范本样式的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="参数"> 参数</h4>
+<p>文件或目录：指定要打包的文件或目录列表。</p>
+<h4 id="常用实例"> 常用实例</h4>
+<p>1）<strong>将文件全部打包成tar包</strong>：</p>
+<div><pre><code>tar -cvf log.tar log2012.log    仅打包，不压缩！ 
+tar -zcvf log.tar.gz log2012.log   打包后，以 gzip 压缩 
+tar -jcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在选项<code>f</code>之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。 如果加<code>z</code>选项，则以.tar.gz或.tgz来代表gzip压缩过的tar包；如果加<code>j</code>选项，则以.tar.bz2来作为tar包名。</p>
+<p>2）<strong>查阅上述tar包内有哪些文件</strong>：</p>
+<div><pre><code>tar -ztvf log.tar.gz
+</code></pre>
+<div><span>1</span><br></div></div><p>由于我们使用 gzip 压缩的log.tar.gz，所以要查阅log.tar.gz包内的文件时，就得要加上<code>z</code>这个选项了。</p>
+<p>3）<strong>将tar包解压缩</strong>：</p>
+<div><pre><code>tar -zxvf /opt/soft/test/log.tar.gz
+</code></pre>
+<div><span>1</span><br></div></div><p>在预设的情况下，我们可以将压缩档在任何地方解开的</p>
+<p>4）<strong>只将tar内的部分文件解压出来</strong>：</p>
+<div><pre><code>tar -zxvf /opt/soft/test/log30.tar.gz log2013.log
+</code></pre>
+<div><span>1</span><br></div></div><p>5）<strong>文件备份下来，并且保存其权限</strong>：</p>
+<div><pre><code>tar -zcvpf log31.tar.gz log2014.log log2015.log log2016.log
+</code></pre>
+<div><span>1</span><br></div></div><p>这个<code>-p</code>的属性是很重要的，尤其是当您要保留原本文件的属性时。</p>
+<p>6）<strong>在文件夹当中，比某个日期新的文件才备份</strong>：</p>
+<div><pre><code>tar -N &quot;2012/11/13&quot; -zcvf log17.tar.gz test
+</code></pre>
+<div><span>1</span><br></div></div><p>7）<strong>备份文件夹内容是排除部分文件：</strong></p>
+<div><pre><code>tar --exclude scf/service -zcvf scf.tar.gz scf/*
+</code></pre>
+<div><span>1</span><br></div></div><p>8）<strong>其实最简单的使用 tar 就只要记忆底下的方式即可：</strong></p>
+<div><pre><code>压　缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称
+查　询：tar -jtv -f filename.tar.bz2
+解压缩：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="gzip命令"> gzip命令</h3>
+<p><strong>gzip命令</strong>用来压缩文件。gzip是个使用广泛的压缩程序，文件经它压缩过后，其名称后面会多处“.gz”扩展名。</p>
+<p>gzip是在Linux系统中经常使用的一个对文件进行压缩和解压缩的命令，既方便又好用。gzip不仅可以用来压缩大的、较少使用的文件以节省磁盘空间，还可以和<a href="http://man.linuxde.net/tar" target="_blank" rel="noopener noreferrer">tar</a>命令一起构成Linux操作系统中比较流行的压缩文件格式。据统计，gzip命令对文本文件有60%～70%的压缩率。减少文件大小有两个明显的好处，一是可以减少存储空间，二是通过网络传输文件时，可以减少传输的时间。</p>
+<h4 id="语法-2"> 语法</h4>
+<p><code>gzip(选项)(参数)</code></p>
+<h4 id="选项-2"> 选项</h4>
+<div><pre><code>-a或——ascii：使用ASCII文字模式；
+-d或--decompress或----uncompress：解开压缩文件；
+-f或——force：强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接；
+-h或——help：在线帮助；
+-l或——list：列出压缩文件的相关信息；
+-L或——license：显示版本与版权信息；
+-n或--no-name：压缩文件时，不保存原来的文件名称及时间戳记；
+-N或——name：压缩文件时，保存原来的文件名称及时间戳记；
+-q或——quiet：不显示警告信息；
+-r或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
+-S或&lt;压缩字尾字符串&gt;或----suffix&lt;压缩字尾字符串&gt;：更改压缩字尾字符串；
+-t或——test：测试压缩文件是否正确无误；
+-v或——verbose：显示指令执行过程；
+-V或——version：显示版本信息；
+-&lt;压缩效率&gt;：压缩效率是一个介于1~9的数值，预设值为“6”，指定愈大的数值，压缩效率就会愈高；
+--best：此参数的效果和指定“-9”参数相同；
+--fast：此参数的效果和指定“-1”参数相同。
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h4 id="参数-2"> 参数</h4>
+<p>文件列表：指定要压缩的文件列表。</p>
+<h4 id="常用范例"> 常用范例</h4>
+<p>1）把test6目录下的每个文件压缩成.gz文件</p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+# gzip *
+# ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）把例1中每个压缩的文件解压，并列出详细的信息</p>
+<div><pre><code># ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+# gzip -dv *
+linklog.log.gz:  99.6% -- replaced with linklog.log
+log2012.log.gz:  99.6% -- replaced with log2012.log
+log2013.log.gz:  47.5% -- replaced with log2013.log
+# ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>3）详细显示例1中每个压缩的文件的信息，并不解压</p>
+<div><pre><code># gzip -l *
+         compressed        uncompressed  ratio uncompressed_name
+               1341              302108  99.6% linklog.log
+               1341              302108  99.6% log2012.log
+                 70                  61  47.5% log2013.log
+
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>4）压缩一个tar备份文件，此时压缩文件的扩展名为.tar.gz</p>
+<div><pre><code>#ls -al log.tar
+-rw-r--r-- 1 root root 307200 11-29 17:54 log.tar
+# gzip -r log.tar
+# ls -al log.tar.gz 
+-rw-r--r-- 1 root root 1421 11-29 17:54 log.tar.gz
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>5）递归的压缩目录</p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+# cd ..
+# gzip -rv test6
+test6/linklog.log:       99.6% -- replaced with test6/linklog.log.gz
+test6/log2013.log:       47.5% -- replaced with test6/log2013.log.gz
+test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
+# cd test6
+# ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>说明：</p>
+<p>这样，所有test下面的文件都变成了*.gz，目录依然存在只是目录里面的文件相应变成了*.gz.这就是压缩，和打包不同。因为是对目录操作，所以需要加上-r选项，这样也可以对子目录进行递归了。</p>
+<p>6）递归地解压目录</p>
+<div><pre><code># ll
+总计 28
+---xr--r-- 1 root mail  1341 11-30 08:39 linklog.log.gz
+---xr--r-- 1 mail users 1341 11-30 08:39 log2012.log.gz
+-rw-r--r-- 1 mail users   70 11-30 08:39 log2013.log.gz
+# cd ..
+# gzip -dr test6
+# cd test6
+# ll
+总计 604
+---xr--r-- 1 root mail  302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail users 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -42627,37 +42726,6 @@ innodb  myisam  memory  引擎是决定数据存储的方式
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">mysql架构</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.11%20MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.11%20MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="mysql架构"> mysql架构</h2>
-<p>mysql架构分为三层：</p>
-<ol>
-<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
-<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
-<li>存储引擎层：存储和提取数据以及事务处理</li>
-</ol>
-<p><img src="images/1.png" alt=""></p>
-<h3 id="服务层"> 服务层</h3>
-<p>​         <img src="images/1-1581242308187.png" alt=""></p>
-<h3 id="核心层"> 核心层</h3>
-<p>​         <img src="images/1-1581242354457.png" alt=""></p>
-<h3 id="存储引擎层"> 存储引擎层</h3>
-<p>​         <img src="images/1-1581242634333.png" alt=""></p>
-<h2 id="总图"> 总图</h2>
-<p>​         <img src="images/1-1581242670762.png" alt=""></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">1 锁等待模拟</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.12%20MySQL%E9%94%81%E7%AD%89%E5%BE%85/"/>
@@ -42794,6 +42862,37 @@ trx_autocommit_non_locking: 0
 <div><pre><code>mysql&gt; kill 37;
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">mysql架构</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.11%20MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.11%20MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="mysql架构"> mysql架构</h2>
+<p>mysql架构分为三层：</p>
+<ol>
+<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
+<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
+<li>存储引擎层：存储和提取数据以及事务处理</li>
+</ol>
+<p><img src="images/1.png" alt=""></p>
+<h3 id="服务层"> 服务层</h3>
+<p>​         <img src="images/1-1581242308187.png" alt=""></p>
+<h3 id="核心层"> 核心层</h3>
+<p>​         <img src="images/1-1581242354457.png" alt=""></p>
+<h3 id="存储引擎层"> 存储引擎层</h3>
+<p>​         <img src="images/1-1581242634333.png" alt=""></p>
+<h2 id="总图"> 总图</h2>
+<p>​         <img src="images/1-1581242670762.png" alt=""></p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -46578,6 +46677,56 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">键命令</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">hash类型</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.3%20hash%E7%B1%BB%E5%9E%8B/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.3%20hash%E7%B1%BB%E5%9E%8B/"/>
@@ -46629,56 +46778,6 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 <li>删除属性，属性对应的值会被⼀起删除</li>
 </ul>
 <div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">键命令</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
     <author>
@@ -49577,6 +49676,246 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">《Advanced Bash-Scripting Guide》 in Chinese</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/"/>
+    <updated>2021-04-06T04:06:27.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
+<blockquote>
+<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
+<p>感谢开源翻译！！！</p>
+</blockquote>
+<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
+<p>《高级Bash脚本编程指南》Revision 10中文版</p>
+<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
+<h3 id="原著"> 原著</h3>
+<ul>
+<li>原著链接：http://tldp.org/LDP/abs/html/</li>
+<li>原作：Mendel Cooper</li>
+<li>原著版本：Revision 10, 10 Mar 2014</li>
+</ul>
+<h3 id="译著"> 译著</h3>
+<ul>
+<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
+<li>译者：杨春敏 黄毅</li>
+<li>译著版本：Revision 3.7, 23 Oct 2005</li>
+<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
+<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
+</ul>
+<h2 id="翻译作品"> 翻译作品</h2>
+<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
+<h2 id="翻译进度"> 翻译进度</h2>
+<ul>
+<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
+<ul>
+<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
+<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
+<ul>
+<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
+<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
+<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
+<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
+<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
+<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第三部分 Shell进阶[@imcmy]
+<ul>
+<li>[x] 9. 换个角度看变量[@imcmy]</li>
+<li>[x] 10. 变量处理[@imcmy]</li>
+<li>[x] 11. 循环与分支[@imcmy]</li>
+<li>[x] 12. 命令替换[@imcmy]</li>
+<li>[x] 13. 算术扩展[@imcmy]</li>
+<li>[x] 14. 休息时间[@imcmy]</li>
+</ul>
+</li>
+<li>[x] 第四部分. 命令[@imcmy]
+<ul>
+<li>[x] 15. 内建命令[@imcmy]</li>
+<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
+<ul>
+<li>[x] 16.1 基本命令[@hsupu]</li>
+<li>[ ] 16.2 复杂命令</li>
+<li>[ ] 16.3 时间与日期命令</li>
+<li>[ ] 16.4 文本处理命令</li>
+<li>[ ] 16.5 文件与归档命令</li>
+<li>[ ] 16.6 通信命令</li>
+<li>[ ] 16.7 终端控制命令</li>
+<li>[ ] 16.8 数学命令</li>
+<li>[ ] 16.9 杂项命令</li>
+</ul>
+</li>
+<li>[ ] 17. 系统与高级命令</li>
+</ul>
+</li>
+<li>[ ] 第五章. 高级话题
+<ul>
+<li>[x] 18. 正则表达式[@Zjie]</li>
+<li>[x] 19. 嵌入文档[@mingmings]</li>
+<li>[x] 20. I/O 重定向[@mingmings]</li>
+<li>[x] 21. Subshells[@ysun90]</li>
+<li>[x] 22. 限制模式的Shell[@panblack]</li>
+<li>[x] 23. 进程替换[@panblack]</li>
+<li>[x] 24. 函数[@zy416548283]</li>
+<li>[x] 25. 别名[@mingmings]</li>
+<li>[x] 26. 列表结构[@panblack]</li>
+<li>[x] 27. 数组[@zy416548283]</li>
+<li>[x] 28. 间接引用[@plutonji]</li>
+<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
+<li>[x] 30. 网络编程[@Zjie]</li>
+<li>[ ] 31. Of Zeros and Nulls</li>
+<li>[x] 32. 调试[@wuqichao]</li>
+<li>[x] 33. 选项[@zy416548283]</li>
+<li>[x] 34. 陷阱[@liuburn]</li>
+<li>[ ] 35. Scripting With Style</li>
+<li>[ ] 36. 杂项[@richard-ma]</li>
+<li>[ ] 37. Bash, versions 2, 3, and 4</li>
+</ul>
+</li>
+<li>[x] 38. 后记[@zy416548283]</li>
+<li>[ ] Bibliography</li>
+<li>[ ] 附录
+<ul>
+<li>[ ] A. Contributed Scripts</li>
+<li>[ ] B. Reference Cards</li>
+<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
+<ul>
+<li>[x] C.1 Sed[@wuqichao]</li>
+<li>[x] C.2 Awk[@wuqichao]</li>
+</ul>
+</li>
+<li>[ ] D. Parsing and Managing Pathnames</li>
+<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
+<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
+<li>[ ] G. Command-Line Options
+<ul>
+<li>[ ] G.1 Standard Command-Line Options</li>
+<li>[ ] G.2 Bash Command-Line Options</li>
+</ul>
+</li>
+<li>[x] H. 重要文件[@ShadowRZ]</li>
+<li>[ ] I. Important System Directories</li>
+<li>[ ] J. An Introduction to Programmable Completion</li>
+<li>[ ] K. Localization</li>
+<li>[ ] L. History Commands</li>
+<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
+<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
+<li>[ ] O. Exercises
+<ul>
+<li>O.1 Analyzing Scripts</li>
+<li>O.2 Writing Scripts</li>
+</ul>
+</li>
+<li>[ ] P. Revision History</li>
+<li>[ ] Q. Download and Mirror Sites</li>
+<li>[ ] R. To Do List</li>
+<li>[ ] S. Copyright</li>
+<li>[x] T. ASCII 表[@ShadowRZ]</li>
+</ul>
+</li>
+<li>[ ] Index</li>
+<li>[ ] List of Tables</li>
+<li>[ ] List of Examples</li>
+</ul>
+<h2 id="翻译校审流程"> 翻译校审流程</h2>
+<h3 id="初始化"> 初始化</h3>
+<ol>
+<li>首先fork项目</li>
+<li>把fork过去的项目clone到本地</li>
+<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
+<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
+<li>运行 <code>git remote update</code>更新</li>
+<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
+<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
+</ol>
+<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
+<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
+<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
+<ol>
+<li>
+<p>保证在dev分支中</p>
+</li>
+<li>
+<p>打开README.md，在翻译进度后加上你自己的github名</p>
+<blockquote>
+<p>1. Shell Programming! [@翻译人][@校审人]</p>
+</blockquote>
+</li>
+<li>
+<p>本地提交修改，写明提交信息</p>
+</li>
+<li>
+<p>push到你fork的项目中，然后登录GitHub</p>
+</li>
+<li>
+<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
+<blockquote>
+<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
+</blockquote>
+</li>
+<li>
+<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
+</li>
+</ol>
+<blockquote>
+<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
+</blockquote>
+<h2 id="翻译校审建议"> 翻译校审建议</h2>
+<ol>
+<li>使用markdown进行翻译校审，文件名必须使用英文</li>
+<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
+<li>有任何问题随时欢迎发issue</li>
+<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
+<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
+</ol>
+<h2 id="样式规范"> 样式规范</h2>
+<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
+<div><pre><code>{% hint style="info" %}
+Hello world
+{% endhint %}
+​```
+
+所有的脚注footnote都需使用html代码进行注释。
+
+## 关于版权
+
+根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
+
+翻译参与人员（按名称排序）：
+
+- @chuchingkai
+- @hsupu
+- @imcmy
+- @liuburn
+- @mingmings
+- @mr253727942
+- @panblack
+- @plutonji
+- @richard-ma
+- @samita2030
+- @ShadowRZ
+- @wuqichao
+- @ysun90
+- @zhaozq
+- @zihengcat
+- @Zjie
+- @zy416548283
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-03T14:55:08.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">背景</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.8%20%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84%E6%95%B0%E6%8D%AE/9.8.1%20%E9%9B%86%E7%BE%A4%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E4%B8%8E%E7%94%A8%E6%88%B7%E9%89%B4%E6%9D%83/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.8%20%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84%E6%95%B0%E6%8D%AE/9.8.1%20%E9%9B%86%E7%BE%A4%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E4%B8%8E%E7%94%A8%E6%88%B7%E9%89%B4%E6%9D%83/"/>
@@ -50987,246 +51326,6 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">《Advanced Bash-Scripting Guide》 in Chinese</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/"/>
-    <updated>2021-04-03T14:55:08.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
-<blockquote>
-<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
-<p>感谢开源翻译！！！</p>
-</blockquote>
-<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
-<p>《高级Bash脚本编程指南》Revision 10中文版</p>
-<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
-<h3 id="原著"> 原著</h3>
-<ul>
-<li>原著链接：http://tldp.org/LDP/abs/html/</li>
-<li>原作：Mendel Cooper</li>
-<li>原著版本：Revision 10, 10 Mar 2014</li>
-</ul>
-<h3 id="译著"> 译著</h3>
-<ul>
-<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
-<li>译者：杨春敏 黄毅</li>
-<li>译著版本：Revision 3.7, 23 Oct 2005</li>
-<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
-<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
-</ul>
-<h2 id="翻译作品"> 翻译作品</h2>
-<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
-<h2 id="翻译进度"> 翻译进度</h2>
-<ul>
-<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
-<ul>
-<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
-<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
-<ul>
-<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
-<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
-<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
-<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
-<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
-<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第三部分 Shell进阶[@imcmy]
-<ul>
-<li>[x] 9. 换个角度看变量[@imcmy]</li>
-<li>[x] 10. 变量处理[@imcmy]</li>
-<li>[x] 11. 循环与分支[@imcmy]</li>
-<li>[x] 12. 命令替换[@imcmy]</li>
-<li>[x] 13. 算术扩展[@imcmy]</li>
-<li>[x] 14. 休息时间[@imcmy]</li>
-</ul>
-</li>
-<li>[x] 第四部分. 命令[@imcmy]
-<ul>
-<li>[x] 15. 内建命令[@imcmy]</li>
-<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
-<ul>
-<li>[x] 16.1 基本命令[@hsupu]</li>
-<li>[ ] 16.2 复杂命令</li>
-<li>[ ] 16.3 时间与日期命令</li>
-<li>[ ] 16.4 文本处理命令</li>
-<li>[ ] 16.5 文件与归档命令</li>
-<li>[ ] 16.6 通信命令</li>
-<li>[ ] 16.7 终端控制命令</li>
-<li>[ ] 16.8 数学命令</li>
-<li>[ ] 16.9 杂项命令</li>
-</ul>
-</li>
-<li>[ ] 17. 系统与高级命令</li>
-</ul>
-</li>
-<li>[ ] 第五章. 高级话题
-<ul>
-<li>[x] 18. 正则表达式[@Zjie]</li>
-<li>[x] 19. 嵌入文档[@mingmings]</li>
-<li>[x] 20. I/O 重定向[@mingmings]</li>
-<li>[x] 21. Subshells[@ysun90]</li>
-<li>[x] 22. 限制模式的Shell[@panblack]</li>
-<li>[x] 23. 进程替换[@panblack]</li>
-<li>[x] 24. 函数[@zy416548283]</li>
-<li>[x] 25. 别名[@mingmings]</li>
-<li>[x] 26. 列表结构[@panblack]</li>
-<li>[x] 27. 数组[@zy416548283]</li>
-<li>[x] 28. 间接引用[@plutonji]</li>
-<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
-<li>[x] 30. 网络编程[@Zjie]</li>
-<li>[ ] 31. Of Zeros and Nulls</li>
-<li>[x] 32. 调试[@wuqichao]</li>
-<li>[x] 33. 选项[@zy416548283]</li>
-<li>[x] 34. 陷阱[@liuburn]</li>
-<li>[ ] 35. Scripting With Style</li>
-<li>[ ] 36. 杂项[@richard-ma]</li>
-<li>[ ] 37. Bash, versions 2, 3, and 4</li>
-</ul>
-</li>
-<li>[x] 38. 后记[@zy416548283]</li>
-<li>[ ] Bibliography</li>
-<li>[ ] 附录
-<ul>
-<li>[ ] A. Contributed Scripts</li>
-<li>[ ] B. Reference Cards</li>
-<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
-<ul>
-<li>[x] C.1 Sed[@wuqichao]</li>
-<li>[x] C.2 Awk[@wuqichao]</li>
-</ul>
-</li>
-<li>[ ] D. Parsing and Managing Pathnames</li>
-<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
-<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
-<li>[ ] G. Command-Line Options
-<ul>
-<li>[ ] G.1 Standard Command-Line Options</li>
-<li>[ ] G.2 Bash Command-Line Options</li>
-</ul>
-</li>
-<li>[x] H. 重要文件[@ShadowRZ]</li>
-<li>[ ] I. Important System Directories</li>
-<li>[ ] J. An Introduction to Programmable Completion</li>
-<li>[ ] K. Localization</li>
-<li>[ ] L. History Commands</li>
-<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
-<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
-<li>[ ] O. Exercises
-<ul>
-<li>O.1 Analyzing Scripts</li>
-<li>O.2 Writing Scripts</li>
-</ul>
-</li>
-<li>[ ] P. Revision History</li>
-<li>[ ] Q. Download and Mirror Sites</li>
-<li>[ ] R. To Do List</li>
-<li>[ ] S. Copyright</li>
-<li>[x] T. ASCII 表[@ShadowRZ]</li>
-</ul>
-</li>
-<li>[ ] Index</li>
-<li>[ ] List of Tables</li>
-<li>[ ] List of Examples</li>
-</ul>
-<h2 id="翻译校审流程"> 翻译校审流程</h2>
-<h3 id="初始化"> 初始化</h3>
-<ol>
-<li>首先fork项目</li>
-<li>把fork过去的项目clone到本地</li>
-<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
-<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
-<li>运行 <code>git remote update</code>更新</li>
-<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
-<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
-</ol>
-<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
-<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
-<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
-<ol>
-<li>
-<p>保证在dev分支中</p>
-</li>
-<li>
-<p>打开README.md，在翻译进度后加上你自己的github名</p>
-<blockquote>
-<p>1. Shell Programming! [@翻译人][@校审人]</p>
-</blockquote>
-</li>
-<li>
-<p>本地提交修改，写明提交信息</p>
-</li>
-<li>
-<p>push到你fork的项目中，然后登录GitHub</p>
-</li>
-<li>
-<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
-<blockquote>
-<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
-</blockquote>
-</li>
-<li>
-<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
-</li>
-</ol>
-<blockquote>
-<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
-</blockquote>
-<h2 id="翻译校审建议"> 翻译校审建议</h2>
-<ol>
-<li>使用markdown进行翻译校审，文件名必须使用英文</li>
-<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
-<li>有任何问题随时欢迎发issue</li>
-<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
-<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
-</ol>
-<h2 id="样式规范"> 样式规范</h2>
-<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
-<div><pre><code>{% hint style="info" %}
-Hello world
-{% endhint %}
-​```
-
-所有的脚注footnote都需使用html代码进行注释。
-
-## 关于版权
-
-根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
-
-翻译参与人员（按名称排序）：
-
-- @chuchingkai
-- @hsupu
-- @imcmy
-- @liuburn
-- @mingmings
-- @mr253727942
-- @panblack
-- @plutonji
-- @richard-ma
-- @samita2030
-- @ShadowRZ
-- @wuqichao
-- @ysun90
-- @zhaozq
-- @zihengcat
-- @Zjie
-- @zy416548283
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-03T14:55:08.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">logstash安装注意</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
@@ -51599,72 +51698,6 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">zabbix添加报警媒介</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/"/>
-    <updated>2021-04-02T06:48:33.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="images/image-20200115103058976.png" alt=""></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-02T06:48:33.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Template DB MySQL简介</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.4%20MySQL%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/"/>
@@ -51796,6 +51829,72 @@ fi
 <div><span>1</span><br></div></div><ol start="3">
 <li>添加监控项和触发器</li>
 </ol>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-02T06:48:33.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">zabbix添加报警媒介</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.3%20zabbix%E6%B7%BB%E5%8A%A0%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/"/>
+    <updated>2021-04-02T06:48:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="images/image-20200115103058976.png" alt=""></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="images/image-20200115103302741.png" alt="image-20200115103302741"></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -58694,6 +58793,25 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">tomcat注意事项</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/danger/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/danger/"/>
+    <updated>2021-04-02T06:11:28.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
+<h2 id="war正确删除姿势"> war正确删除姿势</h2>
+<p>tomcat中war包停止后才可以删除</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-08T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">5. 状态码</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/web/nginx/status/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/web/nginx/status/"/>
@@ -58768,25 +58886,6 @@ D -&gt; nginx将处理结果返回给客户端
       <name>Clay</name>
     </contributor>
     <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">tomcat注意事项</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/danger/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/web/tomcat/danger/"/>
-    <updated>2021-04-02T06:11:28.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
-<h2 id="war正确删除姿势"> war正确删除姿势</h2>
-<p>tomcat中war包停止后才可以删除</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-08T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -59226,104 +59325,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
       <name>Clay</name>
     </contributor>
     <published>2020-03-08T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">基本权限 UGO</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/"/>
-    <updated>2020-09-09T08:57:53.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
-<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
-<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
-<div><pre><code>    rw-r--r--  alice hr  install.log
-</code></pre>
-<div><span>1</span><br></div></div><p>权限对象：</p>
-<ul>
-<li>属主： u</li>
-<li>属组：g</li>
-<li>其他人： o</li>
-</ul>
-<p>权限类型：</p>
-<ul>
-<li>
-<p>读：r  4</p>
-</li>
-<li>
-<p>写：w 2</p>
-</li>
-<li>
-<p>执行： x 1</p>
-</li>
-</ul>
-<h3 id="设置权限"> 设置权限</h3>
-<ol>
-<li>更改文件的属主、属组</li>
-</ol>
-<ul>
-<li>chown：</li>
-</ul>
-<div><pre><code>chown ops.sre file1 //改属主、属组
-chown ops file1     //只改属主
-chown .ser file1	//只改属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>chgrp：</li>
-</ul>
-<div><pre><code>chgrp it file1	    //改文件属组
-chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
-<li>更改权限</li>
-</ol>
-<ul>
-<li>使用符号</li>
-</ul>
-<div><pre><code>chmod u+x file1		 //属主增加执行
-chmod a=rwx file1	 //所有人等于读写执行
-chmod a=- file1	     //所有人没有权限
-chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
-<li>使用数字</li>
-</ul>
-<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>对文件的影响</th>
-<th>对目录的影响</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>r（读取）</td>
-<td>可以读取文件的内容</td>
-<td>可以列出目录的内容（文件名）</td>
-</tr>
-<tr>
-<td>w（写入）</td>
-<td>可以更改文件的内容</td>
-<td>可以创建或删除目录中的任一文件</td>
-</tr>
-<tr>
-<td>x（可执行）</td>
-<td>可以作为命令执行文件</td>
-<td>可以访问目录的内容（取决于目录中文件的权限）</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-08-29T14:11:40.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
 </feed>
