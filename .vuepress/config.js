@@ -52,7 +52,7 @@ module.exports = config({
         text: "推荐教程",
         icon: "software",
         items: [
-          { text: "Shell", icon: "shell", link: "/linux/shell/" },
+          { text: "Shell", icon: "shell", link: "/code/shell/" },
         ],
       },
       {
@@ -93,7 +93,7 @@ module.exports = config({
       },
     ],
     sidebar: {
-      "/linux/shell/": [
+      "/code/shell/": [
         "",
         {
           title: "第一部分 初见shell",

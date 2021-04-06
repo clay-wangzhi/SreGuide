@@ -1,6 +1,6 @@
 ---
 author: LinuxStory
-category: linux
+category: Linux
 tags:
   - Bash
 ---
