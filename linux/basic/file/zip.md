@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # 打包、压缩
 
 ### tar命令

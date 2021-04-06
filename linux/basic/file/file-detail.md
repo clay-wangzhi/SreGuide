@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # 查看文件详细属性
 
 ### stat命令

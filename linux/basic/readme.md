@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # linux简介
 
 GNU/Linux 的历史

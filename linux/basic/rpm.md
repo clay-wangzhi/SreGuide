@@ -1,3 +1,6 @@
+---
+category: Linux
+---
 # 软件包管理
 
 ## yum管理RPM包
