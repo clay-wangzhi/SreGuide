@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Tue, 06 Apr 2021 06:58:23 GMT</pubDate>
-    <lastBuildDate>Tue, 06 Apr 2021 06:58:23 GMT</lastBuildDate>
+    <pubDate>Tue, 06 Apr 2021 07:02:55 GMT</pubDate>
+    <lastBuildDate>Tue, 06 Apr 2021 07:02:55 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -3628,24 +3628,35 @@ ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
 </ul>
 <h2 id="_10-zabbix"> 10 Zabbix</h2>
 <ul>
-<li>[10.1 zabbix4.4新功能](10 zabbix/10.1 zabbix4.4新功能.md)</li>
-<li>[10.2 zabbix借助ansible安装](10 zabbix/10.2 zabbix借助ansible安装.md)</li>
-<li>[10.3 zabbix添加报警媒介](10 zabbix/10.3 zabbix添加报警媒介.md)</li>
-<li>[10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)</li>
-<li>[10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)</li>
-<li>[10.6 常见问题](10 zabbix/10.6 常见问题.md)</li>
-<li>[10.7 用zabbix api批量添加web监控](10 zabbix/10.7 用zabbix api批量添加web监控.md)</li>
-<li>[10.8 activemq监控](10 zabbix/10.8 activemq监控.md)</li>
-<li>[10.9 zookeeper集群监控](10 zabbix/10.9 zookeeper集群监控.md)</li>
-<li>[10.10 Todolist](10 zabbix/10.10 Todolist.md)</li>
-</ul>
-<h2 id="_11-消息中间件"> 11 消息中间件</h2>
-<ul>
 <li>
-<p>[11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)</p>
+<p>[10.1 zabbix4.4新功能](10 zabbix/10.1 zabbix4.4新功能.md)</p>
 </li>
 <li>
-<p>[11.2 rabbitmq](11 消息中间件/11.2 centos7安装rabbitmq-3.7.9.md)</p>
+<p>[10.2 zabbix借助ansible安装](10 zabbix/10.2 zabbix借助ansible安装.md)</p>
+</li>
+<li>
+<p>[10.3 zabbix添加报警媒介](10 zabbix/10.3 zabbix添加报警媒介.md)</p>
+</li>
+<li>
+<p>[10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)</p>
+</li>
+<li>
+<p>[10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)</p>
+</li>
+<li>
+<p>[10.6 常见问题](10 zabbix/10.6 常见问题.md)</p>
+</li>
+<li>
+<p>[10.7 用zabbix api批量添加web监控](10 zabbix/10.7 用zabbix api批量添加web监控.md)</p>
+</li>
+<li>
+<p>[10.8 activemq监控](10 zabbix/10.8 activemq监控.md)</p>
+</li>
+<li>
+<p>[10.9 zookeeper集群监控](10 zabbix/10.9 zookeeper集群监控.md)</p>
+</li>
+<li>
+<p>[10.10 Todolist](10 zabbix/10.10 Todolist.md)</p>
 </li>
 <li>
 <p>[12.1 keepalived和heartbeat对比](12 常见集群的搭建/12.1 keepalived和heartbeat对比.md)</p>
@@ -3942,6 +3953,376 @@ ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d
 <li>default：定义默认值，当用户未输入时则使用默认值</li>
 <li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
 </ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>3 Ansible Ad-hoc命令集</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/ad-hoc/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/ad-hoc/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">3 Ansible Ad-hoc命令集</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-ansible-ad-hoc命令集"> 3 Ansible Ad-hoc命令集</h1>
+<h2 id="_1-ad-hoc简介"> 1 Ad-hoc简介</h2>
+<p>Ad-Hoc（点对点模式）是指ansible下临时执行的一条命令，并且不需要保存的命令，对于复杂的命令会使用playbook。Ad-hoc的执行依赖于模块，ansible官方提供了大量的模块。 如：command、raw、shell、file、cron等，具体可以通过ansible-doc -l 进行查看 。可以使用ansible-doc -s module来查看某个模块的参数，也可以使用ansible-doc module来查看该模块更详细的信息。</p>
+<h3 id="_1-1-命令说明"> 1.1 命令说明</h3>
+<p>一个ad-hoc命令的执行，需要按以下格式进行执行：</p>
+<div><pre><code>ansible 主机或组 -m 模块名 -a <span>'模块参数'</span>  ansible参数
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>主机和组，是在/etc/ansible/hosts 里进行指定的部分，当然动态Inventory 使用的是脚本从外部应用里获取的主机；</li>
+<li>模块名，可以通过ansible-doc -l 查看目前安装的模块，默认不指定时，使用的是command模块，具体可以查看/etc/ansible/ansible.cfg 的“#module_name = command ” 部分，默认模块可以在该配置文件中进行修改；</li>
+<li>模块参数，可以通过 “ansible-doc -s 模块名” 查看具体的用法及后面的参数；</li>
+<li>ansible参数，可以通过ansible命令的帮助信息里查看到，这里有很多参数可以供选择，如是否需要输入密码、是否sudo等。</li>
+</ul>
+<h3 id="_1-2-用户说明"> 1.2  用户说明</h3>
+<p>ansible在执行ad-hoc的时候，需要使用远程管理机上的一个用户身份，默认这个用户是root，而在实际生产环境中，不建议直接使用root，而推荐使用一个普通用户，需要配置该普通用户可通过sudo提权。</p>
+<p>下面是一个配置示例：</p>
+<ol>
+<li>在被管理机上创建一个普通用户ansible，并配置sudo提权：</li>
+</ol>
+<div><pre><code># 创建ansible用户
+useradd ansible
+
+# 设置ansible用户可免密提权
+vim /etc/sudoers.d/ansible
+ansible    ALL=(ALL)       NOPASSWD:ALL
+
+chmod 400 /etc/sudoers.d/ansible
+
+mkdir /home/ansible/.ssh
+chown ansible.ansible /home/ansible/.ssh
+chmod 700 /home/ansible/.ssh
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><ol>
+<li>在管理端修改ansible.cfg配置文件如下：</li>
+</ol>
+<div><pre><code>[default]
+remote_user = ansible
+ask_pass = False
+
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=False
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><ol>
+<li>将管理端用户的<code>id_rsa.pub</code>复制到被管理端的<code>/home/ansible/.ssh//home/ansible/.ssh/authorized_keys</code>文件中，并设置该文件的权限为400</li>
+</ol>
+<div><pre><code># 管理端执行：
+ssh-copy-id -i .ssh/id_rsa.pub ansible@db1.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>需要说明的是，通过上面的操作，需要为ansible用户先创建密码，在实际生产当中，不建议为该用户设置密码。可在安装系统时，提前将管理端公钥直接写入到被管理节点的ansible用户下</p>
+</blockquote>
+<h3 id="_1-3-命令执行模块"> 1.3 命令执行模块</h3>
+<p>命令执行模块包含如下 四个模块：</p>
+<ul>
+<li>command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;|&quot;, &quot;&amp;&quot;</li>
+<li>shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号</li>
+<li>raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，但目标主机上可能没有安装python，这时只能使用raw模块在远程主机上直接启动/bin/sh来执行命令，通常只有在目标主机上安装python时才使用raw模块，其它时候都不使用该模块</li>
+<li>script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行</li>
+</ul>
+<blockquote>
+<p>raw模块和comand、shell 模块不同的是其没有chdir、creates、removes参数，chdir参数的作用就是先切到chdir指定的目录后，再执行后面的命令，这在后面很多模块里都会有该参数 。</p>
+</blockquote>
+<h2 id="_2-常用模块"> 2 常用模块</h2>
+<p>根据官方的分类，将模块按功能分类为：云模块、命令模块、数据库模块、文件模块、资产模块、消息模块、监控模块、网络模块、通知模块、包管理模块、源码控制模块、系统模块、单元模块、web设施模块、windows模块 ，具体可以参看官方页面。</p>
+<p>这里从官方分类的模块里选择最常用的一些模块进行介绍。</p>
+<h3 id="_2-1-command模块"> 2.1 command模块</h3>
+<p>command模块包含如下选项：</p>
+<ul>
+<li>creates：一个文件名，当该文件存在，则该命令不执行</li>
+<li>free_form：要执行的linux指令</li>
+<li>chdir：在执行指令之前，先切换到该指定的目录</li>
+<li>removes：一个文件名，当该文件不存在，则该选项不执行</li>
+<li>executable：切换shell来执行指令，该执行路径必须是一个绝对路径</li>
+</ul>
+<p>chdir示例：</p>
+<div><pre><code><span># 三个命令都会返回执行成功的状态。不过实际上只有前两个文件会被创建成功。使用raw模块的执行的结果文件事实上也被正常创建了，不过不是在chdir指定的目录，而是在当前执行用户的家目录</span>
+ansible <span>192.168</span>.1.1 -m <span>command</span> -a <span>'chdir=/tmp/test.txt touch test.file'</span>
+ansible <span>192.168</span>.1.1 -m shell -a <span>'chdir=/tmp/test.txt touch test2.file'</span>
+ansible <span>192.168</span>.1.1 -m raw -a <span>'chdir=/tmp/text.txt touch test3.file'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>creates与removes示例：</p>
+<div><pre><code>ansible <span>192.168</span>.1.1 -a <span>'creates=/tmp/server.txt uptime'</span> <span>#当/tmp/server.txt文件存在时，则不执行uptime指令</span>
+ansible <span>192.168</span>.1.1 -a <span>'removes=/tmp/server.txt uptime'</span> <span>#当/tmp/server.txt文件不存在时，则不执行uptime指令</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-2-script模块"> 2.2 script模块</h3>
+<p>示例：</p>
+<div><pre><code><span>#要执行的脚本文件script.sh内容如下： </span>
+
+<span>#/bin/bash</span>
+<span>ifconfig</span>
+<span>df</span> -hT
+
+<span># 执行ansible指令：</span>
+ansible <span>10.212</span>.52.252 -m script -a <span>'script.sh'</span> 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="_2-3-ping模块"> 2.3 ping模块</h3>
+<p>测试主机是否是通的，用法很简单，不涉及参数：</p>
+<div><pre><code> ansible <span>test</span> -m <span>ping</span>
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_2-4-file模块"> 2.4 file模块</h3>
+<p>file模块主要用于远程主机上的文件操作，file模块包含如下选项：</p>
+<ul>
+<li>force：需要在两种情况下强制创建软链接，一种是源文件不存在但之后会建立的情况下；另一种是目标软链接已存在,需要先取消之前的软链，然后创建新的软链，有两个选项：yes|no</li>
+<li>group：定义文件/目录的属组</li>
+<li>mode：定义文件/目录的权限</li>
+<li>owner：定义文件/目录的属主</li>
+<li>path：必选项，定义文件/目录的路径</li>
+<li>src：要被链接的源文件的路径，只应用于state=link的情况</li>
+<li>dest：被链接到的路径，只应用于state=link的情况</li>
+<li>state：
+<ul>
+<li>directory：如果目录不存在，创建目录</li>
+<li>file：即使文件不存在，也不会被创建</li>
+<li>link：创建软链接</li>
+<li>hard：创建硬链接</li>
+<li>touch：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间</li>
+<li>absent：删除目录、文件或者取消链接文件</li>
+</ul>
+</li>
+</ul>
+<p>使用示例：</p>
+<div><pre><code>ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test.txt state=touch owner=root group=root mode=644'</span>
+
+ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'src=/tmp/test.txt dest=/root/test.txt state=link'</span>
+
+ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test.txt state=file'</span>
+
+ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test state=directory owner=root group=root mode=755'</span>
+
+ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test2/test3/aaa/bbb state=directory owner=root group=root mode=755'</span>
+
+ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test2 state=absent'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="_2-5-copy模块"> 2.5 copy模块</h3>
+<p>复制文件到远程主机，copy模块包含如下选项：</p>
+<ul>
+<li>backup：在覆盖之前将原文件备份，备份文件包含时间信息。有两个选项：yes|no</li>
+<li>content：用于替代&quot;src&quot;,可以直接设定指定文件的值</li>
+<li>dest：必选项。要将源文件复制到的远程主机的绝对路径，如果源文件是一个目录，那么该路径也必须是个目录</li>
+<li>force：如果目标主机包含该文件，但内容不同，如果设置为yes，则强制覆盖，如果为no，则只有当目标主机的目标位置不存在该文件时，才复制。默认为yes</li>
+<li>others：所有的file模块里的相关文件属性选项都可以在这里使用</li>
+<li>src：要复制到远程主机的文件在本地的地址，可以是绝对路径，也可以是相对路径。如果路径是一个目录，它将递归复制。在这种情况下，如果路径使用&quot;/&quot;来结尾，则只复制目录里的内容，如果没有使用&quot;/&quot;来结尾，则包含目录在内的整个内容全部复制，类似于rsync。</li>
+</ul>
+<p>示例如下：</p>
+<div><pre><code>ansible 192.168.8.120 -m copy -a &#39;src=/etc/ansible/ansible.cfg dest=/usr/local/src/ owner=root group=root mode=644&#39;
+
+ansible 192.168.8.120 -m copy -a &#39;backup=yes src=/etc/fstab dest=/usr/local/src/ansible.cfg owner=root group=root mode=644&#39;
+
+ansible 192.168.8.120 -m copy -a &#39;content=&quot;just a test!&quot; dest=/usr/local/src/test.txt&#39;
+
+ansible 192.168.8.120 -m copy -a &#39;src=/data dest=/usr/local/src/&#39;
+
+ansible 192.168.8.120 -m copy -a &#39;src=/data/ dest=/usr/local/src/&#39;
+
+ansible 192.168.8.120 -m copy -a &quot;src=/mine/sudoers dest=/etc/sudoers validate=&#39;visudo -cf %s&#39;&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="_2-6-yum模块"> 2.6 yum模块</h3>
+<p>使用yum包管理器来管理软件包，其选项有：</p>
+<ul>
+<li><code>name</code>：要进行操作的软件包的名字，也可以传递一个url或者一个本地的rpm包的路径</li>
+<li><code>state</code>：状态（present，absent，latest）</li>
+</ul>
+<p>示例如下：</p>
+<div><pre><code>ansible test -m yum -a &#39;name=httpd state=latest&#39;
+ansible test -m yum -a &#39;name=&quot;@Development tools&quot; state=present&#39;
+ansible test -m yum -a &#39;name=http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm state=present&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-7-service模块"> 2.7 service模块</h3>
+<p>用于管理服务
+该模块包含如下选项：</p>
+<ul>
+<li>arguments：给命令行提供一些选项</li>
+<li>enabled：是否开机启动 yes|no</li>
+<li>name：必选项，服务名称</li>
+<li>pattern：定义一个模式，如果通过status指令来查看服务的状态时，没有响应，就会通过ps指令在进程中根据该模式进行查找，如果匹配到，则认为该服务依然在运行</li>
+<li>runlevel：运行级别</li>
+<li>sleep：如果执行了restarted，在则stop和start之间沉睡几秒钟</li>
+<li>state：对当前服务执行启动，停止、重启、重新加载等操作（started,stopped,restarted,reloaded）</li>
+<li>daemon_reload：针对使用systemd的系统，重新加载systemd配置，yes/no</li>
+</ul>
+<p>使用示例：</p>
+<div><pre><code>ansible test -m service -a &quot;name=httpd state=started enabled=yes&quot;
+asnible test -m service -a &quot;name=foo pattern=/usr/bin/foo state=started&quot;
+ansible test -m service -a &quot;name=network state=restarted args=eth0&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-8-cron模块"> 2.8 cron模块</h3>
+<p>用于管理计划任务</p>
+<p>包含如下选项：</p>
+<ul>
+<li>backup：对远程主机上的原任务计划内容修改之前做备份</li>
+<li>cron_file：如果指定该选项，则用该文件替换远程主机上的cron.d目录下的用户的任务计划</li>
+<li>day：日（1-31，<em>，</em>/2,……）</li>
+<li>hour：小时（0-23，<em>，</em>/2，……）</li>
+<li>minute：分钟（0-59，<em>，</em>/2，……）</li>
+<li>month：月（1-12，<em>，</em>/2，……）</li>
+<li>weekday：周（0-7，*，……）</li>
+<li>job：要执行的任务，依赖于state=present</li>
+<li>name：该任务的描述</li>
+<li>special_time：指定什么时候执行，参数：reboot,yearly,annually,monthly,weekly,daily,hourly</li>
+<li>state：确认该任务计划是创建还是删除</li>
+<li>user：以哪个用户的身份执行</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>ansible <span>test</span> -m <span>cron</span> -a <span>'name="a job for reboot" special_time=reboot job="/some/job.sh"'</span>
+ansible <span>test</span> -m <span>cron</span> -a <span>'name="yum autoupdate" weekday="2" minute=0 hour=12 user="root"'</span>
+ansible <span>test</span> -m <span>cron</span>  -a <span>'backup="True" name="test" minute="0" hour="5,2" job="ls -alh > /dev/null"'</span>
+ansilbe <span>test</span> -m <span>cron</span> -a <span>'cron_file=ansible_yum-autoupdate state=absent'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-9-user模块与group模块"> 2.9 user模块与group模块</h3>
+<p>user模块是请求的是useradd, userdel, usermod三个指令，goup模块请求的是groupadd, groupdel, groupmod 三个指令。</p>
+<h4 id="_2-9-1-user模块"> 2.9.1 user模块</h4>
+<ul>
+<li>home：指定用户的家目录，需要与createhome配合使用</li>
+<li>groups：指定用户的属组</li>
+<li>uid：指定用的uid</li>
+<li>password：指定用户的密码</li>
+<li>name：指定用户名</li>
+<li>createhome：是否创建家目录 yes|no</li>
+<li>system：是否为系统用户</li>
+<li>remove：当state=absent时，remove=yes则表示连同家目录一起删除，等价于userdel -r</li>
+<li>state：是创建还是删除</li>
+<li>shell：指定用户的shell环境</li>
+</ul>
+<p>使用示例：</p>
+<div><pre><code>user: <span>name</span><span>=</span>johnd <span>comment</span><span>=</span><span>"John Doe"</span> <span>uid</span><span>=</span><span>1040</span> <span>group</span><span>=</span>admin
+user: <span>name</span><span>=</span>james <span>shell</span><span>=</span>/bin/bash <span>groups</span><span>=</span>admins,developers <span>append</span><span>=</span>yes user: <span>name</span><span>=</span>johnd <span>state</span><span>=</span>absent <span>remove</span><span>=</span>yes
+user: <span>name</span><span>=</span>james18 <span>shell</span><span>=</span>/bin/zsh <span>groups</span><span>=</span>developers <span>expires</span><span>=</span><span>1422403387</span>
+<span>#生成密钥时，只会生成公钥文件和私钥文件，和直接使用ssh-keygen指令效果相同，不会生成authorized_keys文件</span>
+user: <span>name</span><span>=</span>test <span>generate_ssh_key</span><span>=</span>yes <span>ssh_key_bits</span><span>=</span><span>2048</span> <span>ssh_key_file</span><span>=</span>.ssh/id_rsa  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>需要说明的是，在指定password参数时，不能使用明文密码，因为后面这一串密码会被直接传送到被管理主机的/etc/shadow文件中，所以需要先将密码字符串进行加密处理。然后将得到的字符串放到password中即可。</p>
+<div><pre><code>echo &quot;123456&quot; | openssl passwd -1 -salt $(&lt; /dev/urandom tr -dc &#39;[:alnum:]&#39; | head -c 32) -stdin
+$1$4P4PlFuE$ur9ObJiT5iHNrb9QnjaIB0
+
+#使用上面的密码创建用户
+ansible all -m user -a &#39;name=foo password=&quot;$1$4P4PlFuE$ur9ObJiT5iHNrb9QnjaIB0&quot;&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><blockquote>
+<p>不同的发行版默认使用的加密方式可能会有区别，具体可以查看/etc/login.defs文件确认，centos 6.5版本使用的是SHA512加密算法。</p>
+</blockquote>
+<h4 id="_2-9-2-group示例"> 2.9.2 group示例</h4>
+<div><pre><code>group: name=somegroup state=present
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_2-10-synchronize模块"> 2.10 synchronize模块</h3>
+<p>使用rsync同步文件，其参数如下：</p>
+<ul>
+<li>archive: 归档，相当于同时开启recursive(递归)、links、perms、times、owner、group、-D选项都为yes ，默认该项为开启</li>
+<li>checksum: 跳过检测sum值，默认关闭</li>
+<li>compress:是否开启压缩</li>
+<li>copy_links：复制链接文件，默认为no ，注意后面还有一个links参数</li>
+<li>delete: 删除不存在的文件，默认no</li>
+<li>dest：目录路径</li>
+<li>dest_port：默认目录主机上的端口 ，默认是22，走的ssh协议</li>
+<li>dirs：传输目录不进行递归，默认为no，即进行目录递归</li>
+<li>rsync_opts：rsync参数部分</li>
+<li>set_remote_user：主要用于/etc/ansible/hosts中定义或默认使用的用户与rsync使用的用户不同的情况</li>
+<li>mode: push或pull 模块，push模的话，一般用于从本机向远程主机上传文件，pull 模式用于从远程主机上取文件</li>
+</ul>
+<p>使用示例：</p>
+<div><pre><code>src=some/relative/path dest=/some/absolute/path rsync_path=&quot;sudo rsync&quot;
+src=some/relative/path dest=/some/absolute/path archive=no links=yes
+src=some/relative/path dest=/some/absolute/path checksum=yes times=no
+src=/tmp/helloworld dest=/var/www/helloword rsync_opts=--no-motd,--exclude=.git mode=pull
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-11-filesystem模块"> 2.11 filesystem模块</h3>
+<p>在块设备上创建文件系统
+常用选项：</p>
+<ul>
+<li>dev：目标块设备</li>
+<li>force：在一个已有文件系统 的设备上强制创建</li>
+<li>fstype：文件系统的类型</li>
+<li>opts：传递给mkfs命令的选项</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>ansible <span>test</span> -m filesystem -a <span>'fstype=ext2 dev=/dev/sdb1 force=yes'</span>
+ansible <span>test</span> -m filesystem -a <span>'fstype=ext4 dev=/dev/sdb1 opts="-cc"'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-12-mount模块"> 2.12 mount模块</h3>
+<p>配置挂载点
+选项：</p>
+<ul>
+<li>dump</li>
+<li>fstype：必选项，挂载文件的类型</li>
+<li>name：必选项，挂载点</li>
+<li>opts：传递给mount命令的参数</li>
+<li>src：必选项，要挂载的文件</li>
+<li>state：必选项
+<ul>
+<li>present：只处理fstab中的配置</li>
+<li>absent：删除挂载点</li>
+<li>mounted：自动创建挂载点并挂载之</li>
+<li>umounted：卸载</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>name=/mnt/dvd src=/dev/sr0 fstype=iso9660 opts=ro state=present
+name=/srv/disk src=&#39;LABEL=SOME_LABEL&#39; state=present
+name=/home src=&#39;UUID=b3e48f45-f933-4c8e-a700-22a159ec9077&#39; opts=noatime state=present
+
+ansible test -a &#39;dd if=/dev/zero of=/disk.img bs=4k count=1024&#39;
+ansible test -a &#39;losetup /dev/loop0 /disk.img&#39;
+ansible test -m filesystem &#39;fstype=ext4 force=yes opts=-F dev=/dev/loop0&#39;
+ansible test -m mount &#39;name=/mnt src=/dev/loop0 fstype=ext4 state=mounted opts=rw&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="_2-13-get-url-模块"> 2.13 get_url 模块</h3>
+<p>该模块主要用于从http、ftp、https服务器上下载文件（类似于wget），主要有如下选项：</p>
+<ul>
+<li>sha256sum：下载完成后进行sha256 check；</li>
+<li>timeout：下载超时时间，默认10s</li>
+<li>url：下载的URL</li>
+<li>url_password、url_username：主要用于需要用户名密码进行验证的情况</li>
+<li>use_proxy：是事使用代理，代理需事先在环境变更中定义</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>get_url: url=http://example.com/path/file.conf dest=/etc/foo.conf mode=0440
+get_url: url=http://example.com/path/file.conf dest=/etc/foo.conf sha256sum=b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-14-unarchive模块"> 2.14 unarchive模块</h3>
+<p>用于解压文件，模块包含如下选项：</p>
+<ul>
+<li>copy：在解压文件之前，是否先将文件复制到远程主机，默认为yes。若为no，则要求目标主机上压缩包必须存在。</li>
+<li>creates：指定一个文件名，当该文件存在时，则解压指令不执行</li>
+<li>dest：远程主机上的一个路径，即文件解压的路径</li>
+<li>group：解压后的目录或文件的属组</li>
+<li>list_files：如果为yes，则会列出压缩包里的文件，默认为no，2.0版本新增的选项</li>
+<li>mode：解决后文件的权限</li>
+<li>src：如果copy为yes，则需要指定压缩文件的源路径</li>
+<li>owner：解压后文件或目录的属主</li>
+</ul>
+<p>示例如下：</p>
+<div><pre><code>- unarchive: src=foo.tgz dest=/var/lib/foo
+- unarchive: src=/tmp/foo.zip dest=/usr/local/bin copy=no
+- unarchive: src=https://example.com/example.zip dest=/usr/local/bin copy=no
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-15-debug"> 2.15 debug</h3>
+<p>用于输出调试一些数据，模块包含如下选项：</p>
+<ul>
+<li>msg：可以输出字符串，可以输出变量的值，变量调用需加&quot;{{}}&quot;</li>
+<li>var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称</li>
+</ul>
+<p>示例如下：</p>
+<div><pre><code>$ ansible localhost -e <span>'str=world'</span> -m debug -a <span>'msg="hello {{str}}"'</span>
+localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
+    <span>"msg"</span><span>:</span> <span>"hello world"</span>
+<span>}</span>
+
+$ ansible localhost -e <span>'str="hello world"'</span> -m debug -a <span>'var=str'</span>
+localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
+    <span>"str"</span><span>:</span> <span>"hello world"</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><blockquote>
+<p>参考链接：</p>
+<p>https://www.cnblogs.com/breezey/p/8810414.html</p>
+<p>https://www.cnblogs.com/breezey/p/8811187.html</p>
+<p>https://blog.51cto.com/cloumn/blog/1544</p>
+</blockquote>
 ]]></content:encoded>
     </item>
     <item>
@@ -9268,373 +9649,70 @@ gitlab-ctl restart
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/g62phjjstk.jpeg" type="image/jpeg"/>
     </item>
     <item>
-      <title>3 Ansible Ad-hoc命令集</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/ad-hoc/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/ansible/ad-hoc/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">3 Ansible Ad-hoc命令集</source>
+      <title>jenkins 常见问题</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">jenkins 常见问题</source>
       <category>自动化工具</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-ansible-ad-hoc命令集"> 3 Ansible Ad-hoc命令集</h1>
-<h2 id="_1-ad-hoc简介"> 1 Ad-hoc简介</h2>
-<p>Ad-Hoc（点对点模式）是指ansible下临时执行的一条命令，并且不需要保存的命令，对于复杂的命令会使用playbook。Ad-hoc的执行依赖于模块，ansible官方提供了大量的模块。 如：command、raw、shell、file、cron等，具体可以通过ansible-doc -l 进行查看 。可以使用ansible-doc -s module来查看某个模块的参数，也可以使用ansible-doc module来查看该模块更详细的信息。</p>
-<h3 id="_1-1-命令说明"> 1.1 命令说明</h3>
-<p>一个ad-hoc命令的执行，需要按以下格式进行执行：</p>
-<div><pre><code>ansible 主机或组 -m 模块名 -a <span>'模块参数'</span>  ansible参数
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>主机和组，是在/etc/ansible/hosts 里进行指定的部分，当然动态Inventory 使用的是脚本从外部应用里获取的主机；</li>
-<li>模块名，可以通过ansible-doc -l 查看目前安装的模块，默认不指定时，使用的是command模块，具体可以查看/etc/ansible/ansible.cfg 的“#module_name = command ” 部分，默认模块可以在该配置文件中进行修改；</li>
-<li>模块参数，可以通过 “ansible-doc -s 模块名” 查看具体的用法及后面的参数；</li>
-<li>ansible参数，可以通过ansible命令的帮助信息里查看到，这里有很多参数可以供选择，如是否需要输入密码、是否sudo等。</li>
-</ul>
-<h3 id="_1-2-用户说明"> 1.2  用户说明</h3>
-<p>ansible在执行ad-hoc的时候，需要使用远程管理机上的一个用户身份，默认这个用户是root，而在实际生产环境中，不建议直接使用root，而推荐使用一个普通用户，需要配置该普通用户可通过sudo提权。</p>
-<p>下面是一个配置示例：</p>
-<ol>
-<li>在被管理机上创建一个普通用户ansible，并配置sudo提权：</li>
-</ol>
-<div><pre><code># 创建ansible用户
-useradd ansible
-
-# 设置ansible用户可免密提权
-vim /etc/sudoers.d/ansible
-ansible    ALL=(ALL)       NOPASSWD:ALL
-
-chmod 400 /etc/sudoers.d/ansible
-
-mkdir /home/ansible/.ssh
-chown ansible.ansible /home/ansible/.ssh
-chmod 700 /home/ansible/.ssh
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><ol>
-<li>在管理端修改ansible.cfg配置文件如下：</li>
-</ol>
-<div><pre><code>[default]
-remote_user = ansible
-ask_pass = False
-
-[privilege_escalation]
-become=True
-become_method=sudo
-become_user=root
-become_ask_pass=False
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><ol>
-<li>将管理端用户的<code>id_rsa.pub</code>复制到被管理端的<code>/home/ansible/.ssh//home/ansible/.ssh/authorized_keys</code>文件中，并设置该文件的权限为400</li>
-</ol>
-<div><pre><code># 管理端执行：
-ssh-copy-id -i .ssh/id_rsa.pub ansible@db1.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>需要说明的是，通过上面的操作，需要为ansible用户先创建密码，在实际生产当中，不建议为该用户设置密码。可在安装系统时，提前将管理端公钥直接写入到被管理节点的ansible用户下</p>
-</blockquote>
-<h3 id="_1-3-命令执行模块"> 1.3 命令执行模块</h3>
-<p>命令执行模块包含如下 四个模块：</p>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="jenkins-常见问题"> jenkins 常见问题</h1>
+<h2 id="jenkins报错error-cloning-remote-repo-origin"> Jenkins报错Error cloning remote repo 'origin'</h2>
+<p>Jenkins配置了2个节点，但是只有master安装了git，很有可能任务被调到slave上执行所以报错</p>
+<p>解决办法</p>
 <ul>
-<li>command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;|&quot;, &quot;&amp;&quot;</li>
-<li>shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号</li>
-<li>raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，但目标主机上可能没有安装python，这时只能使用raw模块在远程主机上直接启动/bin/sh来执行命令，通常只有在目标主机上安装python时才使用raw模块，其它时候都不使用该模块</li>
-<li>script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行</li>
+<li>slave安装git</li>
+<li>指定任务在master执行</li>
 </ul>
-<blockquote>
-<p>raw模块和comand、shell 模块不同的是其没有chdir、creates、removes参数，chdir参数的作用就是先切到chdir指定的目录后，再执行后面的命令，这在后面很多模块里都会有该参数 。</p>
-</blockquote>
-<h2 id="_2-常用模块"> 2 常用模块</h2>
-<p>根据官方的分类，将模块按功能分类为：云模块、命令模块、数据库模块、文件模块、资产模块、消息模块、监控模块、网络模块、通知模块、包管理模块、源码控制模块、系统模块、单元模块、web设施模块、windows模块 ，具体可以参看官方页面。</p>
-<p>这里从官方分类的模块里选择最常用的一些模块进行介绍。</p>
-<h3 id="_2-1-command模块"> 2.1 command模块</h3>
-<p>command模块包含如下选项：</p>
-<ul>
-<li>creates：一个文件名，当该文件存在，则该命令不执行</li>
-<li>free_form：要执行的linux指令</li>
-<li>chdir：在执行指令之前，先切换到该指定的目录</li>
-<li>removes：一个文件名，当该文件不存在，则该选项不执行</li>
-<li>executable：切换shell来执行指令，该执行路径必须是一个绝对路径</li>
-</ul>
-<p>chdir示例：</p>
-<div><pre><code><span># 三个命令都会返回执行成功的状态。不过实际上只有前两个文件会被创建成功。使用raw模块的执行的结果文件事实上也被正常创建了，不过不是在chdir指定的目录，而是在当前执行用户的家目录</span>
-ansible <span>192.168</span>.1.1 -m <span>command</span> -a <span>'chdir=/tmp/test.txt touch test.file'</span>
-ansible <span>192.168</span>.1.1 -m shell -a <span>'chdir=/tmp/test.txt touch test2.file'</span>
-ansible <span>192.168</span>.1.1 -m raw -a <span>'chdir=/tmp/text.txt touch test3.file'</span>
+<h2 id="jenkins添加从节点失败"> jenkins添加从节点失败</h2>
+<p>jenkins在添加从节点时
+可以在启动方式中选择：Non verifying Verification Strategy</p>
+<h2 id="jenkins配置ldap错误导致无法登陆的问题"> Jenkins配置ldap错误导致无法登陆的问题</h2>
+<p>为了方便用户管理，通过ldap集中式认证，让Gitlab和Jenkins都接入，这样就省去每个系统都是要创建用户的麻烦了。上一篇<a href="https://www.58jb.com/html/121.html" target="_blank" rel="noopener noreferrer">Jenkins整合ldap认证</a>的文章中有网友发邮件说了，配置不当导致Jenkins无法登陆，可能文章未能详细说明。</p>
+<p>运维人员都会有这样的操作，修改任何配置文件前都会来一个备份。就是确保万一出错了可以回到之前的状态。所以建议就是Jenkins配置的问题，特别是这个登陆认证的配置，一搞错了就无法登陆。甚至无法正常访问到系统。
+默认Centos7使用rpm安装的目录为：/var/lib/jenkins/</p>
+<p>备份配置文件：config.xml</p>
+<div><pre><code>[root@jenkins ~]# cp /var/lib/jenkins/config.xml{,$(date +%F)}
+[root@jenkins ~]# ls /var/lib/jenkins/config.xml
+config.xml            config.xml2019-06-12
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>creates与removes示例：</p>
-<div><pre><code>ansible <span>192.168</span>.1.1 -a <span>'creates=/tmp/server.txt uptime'</span> <span>#当/tmp/server.txt文件存在时，则不执行uptime指令</span>
-ansible <span>192.168</span>.1.1 -a <span>'removes=/tmp/server.txt uptime'</span> <span>#当/tmp/server.txt文件不存在时，则不执行uptime指令</span>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>然后在config.xml配置文件中找到这段关于ldap认证的信息：</p>
+<div><pre><code>  &lt;securityRealm class=&quot;hudson.security.LDAPSecurityRealm&quot; plugin=&quot;ldap@1.20&quot;&gt;
+    &lt;disableMailAddre***esolver&gt;false&lt;/disableMailAddre***esolver&gt;
+    &lt;configurations&gt;
+      &lt;jenkins.security.plugins.ldap.LDAPConfiguration&gt;
+        &lt;server&gt;ldap://XXXXXX.com:389&lt;/server&gt;
+        &lt;rootDN&gt;dc=XXXXXX,dc=com&lt;/rootDN&gt;
+        &lt;inhibitInferRootDN&gt;false&lt;/inhibitInferRootDN&gt;
+        &lt;userSearchBase&gt;&lt;/userSearchBase&gt;
+        &lt;userSearch&gt;uid={0}&lt;/userSearch&gt;
+        &lt;groupMembershipStrategy class=&quot;jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy&quot;&gt;
+          &lt;filter&gt;cn=jenkins&lt;/filter&gt;
+        &lt;/groupMembershipStrategy&gt;
+        &lt;managerDN&gt;uid=jarry,ou=People,dc=XXXXXX,dc=com&lt;/managerDN&gt;
+        &lt;managerPasswordSecret&gt;{AQAAABAAAAAQWfZrb7qoIjewuj3SK/z53/oRo86cW5wi/t07QeW/4mM=}&lt;/managerPasswordSecret&gt;
+        &lt;displayNameAttributeName&gt;uid&lt;/displayNameAttributeName&gt;
+        &lt;mailAddressAttributeName&gt;mail&lt;/mailAddressAttributeName&gt;
+        &lt;ignoreIfUnavailable&gt;false&lt;/ignoreIfUnavailable&gt;
+        &lt;extraEnvVars class=&quot;linked-hash-map&quot;&gt;
+          &lt;entry&gt;
+            &lt;string&gt;&lt;/string&gt;
+            &lt;string&gt;&lt;/string&gt;
+          &lt;/entry&gt;
+        &lt;/extraEnvVars&gt;
+      &lt;/jenkins.security.plugins.ldap.LDAPConfiguration&gt;
+    &lt;/configurations&gt;
+    &lt;userIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
+    &lt;groupIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
+    &lt;disableRolePrefixing&gt;true&lt;/disableRolePrefixing&gt;
+  &lt;/securityRealm&gt;
 </code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-2-script模块"> 2.2 script模块</h3>
-<p>示例：</p>
-<div><pre><code><span>#要执行的脚本文件script.sh内容如下： </span>
-
-<span>#/bin/bash</span>
-<span>ifconfig</span>
-<span>df</span> -hT
-
-<span># 执行ansible指令：</span>
-ansible <span>10.212</span>.52.252 -m script -a <span>'script.sh'</span> 
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>上面的配置不当导致了无法通过ldap认证，而且导致jenkins也无法正常登陆了，可以把上面一段修改成以下样子：</p>
+<div><pre><code>   &lt;securityRealm class=&quot;hudson.security.HudsonPrivateSecurityRealm&quot;&gt;
+     &lt;disableSignup&gt;false&lt;/disableSignup&gt;
+     &lt;enableCaptcha&gt;false&lt;/enableCaptcha&gt;
+   &lt;/securityRealm&gt;
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="_2-3-ping模块"> 2.3 ping模块</h3>
-<p>测试主机是否是通的，用法很简单，不涉及参数：</p>
-<div><pre><code> ansible <span>test</span> -m <span>ping</span>
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_2-4-file模块"> 2.4 file模块</h3>
-<p>file模块主要用于远程主机上的文件操作，file模块包含如下选项：</p>
-<ul>
-<li>force：需要在两种情况下强制创建软链接，一种是源文件不存在但之后会建立的情况下；另一种是目标软链接已存在,需要先取消之前的软链，然后创建新的软链，有两个选项：yes|no</li>
-<li>group：定义文件/目录的属组</li>
-<li>mode：定义文件/目录的权限</li>
-<li>owner：定义文件/目录的属主</li>
-<li>path：必选项，定义文件/目录的路径</li>
-<li>src：要被链接的源文件的路径，只应用于state=link的情况</li>
-<li>dest：被链接到的路径，只应用于state=link的情况</li>
-<li>state：
-<ul>
-<li>directory：如果目录不存在，创建目录</li>
-<li>file：即使文件不存在，也不会被创建</li>
-<li>link：创建软链接</li>
-<li>hard：创建硬链接</li>
-<li>touch：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间</li>
-<li>absent：删除目录、文件或者取消链接文件</li>
-</ul>
-</li>
-</ul>
-<p>使用示例：</p>
-<div><pre><code>ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test.txt state=touch owner=root group=root mode=644'</span>
-
-ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'src=/tmp/test.txt dest=/root/test.txt state=link'</span>
-
-ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test.txt state=file'</span>
-
-ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test state=directory owner=root group=root mode=755'</span>
-
-ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test2/test3/aaa/bbb state=directory owner=root group=root mode=755'</span>
-
-ansible <span>192.168</span>.8.120 -m <span>file</span> -a <span>'path=/tmp/test2 state=absent'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="_2-5-copy模块"> 2.5 copy模块</h3>
-<p>复制文件到远程主机，copy模块包含如下选项：</p>
-<ul>
-<li>backup：在覆盖之前将原文件备份，备份文件包含时间信息。有两个选项：yes|no</li>
-<li>content：用于替代&quot;src&quot;,可以直接设定指定文件的值</li>
-<li>dest：必选项。要将源文件复制到的远程主机的绝对路径，如果源文件是一个目录，那么该路径也必须是个目录</li>
-<li>force：如果目标主机包含该文件，但内容不同，如果设置为yes，则强制覆盖，如果为no，则只有当目标主机的目标位置不存在该文件时，才复制。默认为yes</li>
-<li>others：所有的file模块里的相关文件属性选项都可以在这里使用</li>
-<li>src：要复制到远程主机的文件在本地的地址，可以是绝对路径，也可以是相对路径。如果路径是一个目录，它将递归复制。在这种情况下，如果路径使用&quot;/&quot;来结尾，则只复制目录里的内容，如果没有使用&quot;/&quot;来结尾，则包含目录在内的整个内容全部复制，类似于rsync。</li>
-</ul>
-<p>示例如下：</p>
-<div><pre><code>ansible 192.168.8.120 -m copy -a &#39;src=/etc/ansible/ansible.cfg dest=/usr/local/src/ owner=root group=root mode=644&#39;
-
-ansible 192.168.8.120 -m copy -a &#39;backup=yes src=/etc/fstab dest=/usr/local/src/ansible.cfg owner=root group=root mode=644&#39;
-
-ansible 192.168.8.120 -m copy -a &#39;content=&quot;just a test!&quot; dest=/usr/local/src/test.txt&#39;
-
-ansible 192.168.8.120 -m copy -a &#39;src=/data dest=/usr/local/src/&#39;
-
-ansible 192.168.8.120 -m copy -a &#39;src=/data/ dest=/usr/local/src/&#39;
-
-ansible 192.168.8.120 -m copy -a &quot;src=/mine/sudoers dest=/etc/sudoers validate=&#39;visudo -cf %s&#39;&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="_2-6-yum模块"> 2.6 yum模块</h3>
-<p>使用yum包管理器来管理软件包，其选项有：</p>
-<ul>
-<li><code>name</code>：要进行操作的软件包的名字，也可以传递一个url或者一个本地的rpm包的路径</li>
-<li><code>state</code>：状态（present，absent，latest）</li>
-</ul>
-<p>示例如下：</p>
-<div><pre><code>ansible test -m yum -a &#39;name=httpd state=latest&#39;
-ansible test -m yum -a &#39;name=&quot;@Development tools&quot; state=present&#39;
-ansible test -m yum -a &#39;name=http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm state=present&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-7-service模块"> 2.7 service模块</h3>
-<p>用于管理服务
-该模块包含如下选项：</p>
-<ul>
-<li>arguments：给命令行提供一些选项</li>
-<li>enabled：是否开机启动 yes|no</li>
-<li>name：必选项，服务名称</li>
-<li>pattern：定义一个模式，如果通过status指令来查看服务的状态时，没有响应，就会通过ps指令在进程中根据该模式进行查找，如果匹配到，则认为该服务依然在运行</li>
-<li>runlevel：运行级别</li>
-<li>sleep：如果执行了restarted，在则stop和start之间沉睡几秒钟</li>
-<li>state：对当前服务执行启动，停止、重启、重新加载等操作（started,stopped,restarted,reloaded）</li>
-<li>daemon_reload：针对使用systemd的系统，重新加载systemd配置，yes/no</li>
-</ul>
-<p>使用示例：</p>
-<div><pre><code>ansible test -m service -a &quot;name=httpd state=started enabled=yes&quot;
-asnible test -m service -a &quot;name=foo pattern=/usr/bin/foo state=started&quot;
-ansible test -m service -a &quot;name=network state=restarted args=eth0&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-8-cron模块"> 2.8 cron模块</h3>
-<p>用于管理计划任务</p>
-<p>包含如下选项：</p>
-<ul>
-<li>backup：对远程主机上的原任务计划内容修改之前做备份</li>
-<li>cron_file：如果指定该选项，则用该文件替换远程主机上的cron.d目录下的用户的任务计划</li>
-<li>day：日（1-31，<em>，</em>/2,……）</li>
-<li>hour：小时（0-23，<em>，</em>/2，……）</li>
-<li>minute：分钟（0-59，<em>，</em>/2，……）</li>
-<li>month：月（1-12，<em>，</em>/2，……）</li>
-<li>weekday：周（0-7，*，……）</li>
-<li>job：要执行的任务，依赖于state=present</li>
-<li>name：该任务的描述</li>
-<li>special_time：指定什么时候执行，参数：reboot,yearly,annually,monthly,weekly,daily,hourly</li>
-<li>state：确认该任务计划是创建还是删除</li>
-<li>user：以哪个用户的身份执行</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>ansible <span>test</span> -m <span>cron</span> -a <span>'name="a job for reboot" special_time=reboot job="/some/job.sh"'</span>
-ansible <span>test</span> -m <span>cron</span> -a <span>'name="yum autoupdate" weekday="2" minute=0 hour=12 user="root"'</span>
-ansible <span>test</span> -m <span>cron</span>  -a <span>'backup="True" name="test" minute="0" hour="5,2" job="ls -alh > /dev/null"'</span>
-ansilbe <span>test</span> -m <span>cron</span> -a <span>'cron_file=ansible_yum-autoupdate state=absent'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-9-user模块与group模块"> 2.9 user模块与group模块</h3>
-<p>user模块是请求的是useradd, userdel, usermod三个指令，goup模块请求的是groupadd, groupdel, groupmod 三个指令。</p>
-<h4 id="_2-9-1-user模块"> 2.9.1 user模块</h4>
-<ul>
-<li>home：指定用户的家目录，需要与createhome配合使用</li>
-<li>groups：指定用户的属组</li>
-<li>uid：指定用的uid</li>
-<li>password：指定用户的密码</li>
-<li>name：指定用户名</li>
-<li>createhome：是否创建家目录 yes|no</li>
-<li>system：是否为系统用户</li>
-<li>remove：当state=absent时，remove=yes则表示连同家目录一起删除，等价于userdel -r</li>
-<li>state：是创建还是删除</li>
-<li>shell：指定用户的shell环境</li>
-</ul>
-<p>使用示例：</p>
-<div><pre><code>user: <span>name</span><span>=</span>johnd <span>comment</span><span>=</span><span>"John Doe"</span> <span>uid</span><span>=</span><span>1040</span> <span>group</span><span>=</span>admin
-user: <span>name</span><span>=</span>james <span>shell</span><span>=</span>/bin/bash <span>groups</span><span>=</span>admins,developers <span>append</span><span>=</span>yes user: <span>name</span><span>=</span>johnd <span>state</span><span>=</span>absent <span>remove</span><span>=</span>yes
-user: <span>name</span><span>=</span>james18 <span>shell</span><span>=</span>/bin/zsh <span>groups</span><span>=</span>developers <span>expires</span><span>=</span><span>1422403387</span>
-<span>#生成密钥时，只会生成公钥文件和私钥文件，和直接使用ssh-keygen指令效果相同，不会生成authorized_keys文件</span>
-user: <span>name</span><span>=</span>test <span>generate_ssh_key</span><span>=</span>yes <span>ssh_key_bits</span><span>=</span><span>2048</span> <span>ssh_key_file</span><span>=</span>.ssh/id_rsa  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>需要说明的是，在指定password参数时，不能使用明文密码，因为后面这一串密码会被直接传送到被管理主机的/etc/shadow文件中，所以需要先将密码字符串进行加密处理。然后将得到的字符串放到password中即可。</p>
-<div><pre><code>echo &quot;123456&quot; | openssl passwd -1 -salt $(&lt; /dev/urandom tr -dc &#39;[:alnum:]&#39; | head -c 32) -stdin
-$1$4P4PlFuE$ur9ObJiT5iHNrb9QnjaIB0
-
-#使用上面的密码创建用户
-ansible all -m user -a &#39;name=foo password=&quot;$1$4P4PlFuE$ur9ObJiT5iHNrb9QnjaIB0&quot;&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><blockquote>
-<p>不同的发行版默认使用的加密方式可能会有区别，具体可以查看/etc/login.defs文件确认，centos 6.5版本使用的是SHA512加密算法。</p>
-</blockquote>
-<h4 id="_2-9-2-group示例"> 2.9.2 group示例</h4>
-<div><pre><code>group: name=somegroup state=present
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_2-10-synchronize模块"> 2.10 synchronize模块</h3>
-<p>使用rsync同步文件，其参数如下：</p>
-<ul>
-<li>archive: 归档，相当于同时开启recursive(递归)、links、perms、times、owner、group、-D选项都为yes ，默认该项为开启</li>
-<li>checksum: 跳过检测sum值，默认关闭</li>
-<li>compress:是否开启压缩</li>
-<li>copy_links：复制链接文件，默认为no ，注意后面还有一个links参数</li>
-<li>delete: 删除不存在的文件，默认no</li>
-<li>dest：目录路径</li>
-<li>dest_port：默认目录主机上的端口 ，默认是22，走的ssh协议</li>
-<li>dirs：传输目录不进行递归，默认为no，即进行目录递归</li>
-<li>rsync_opts：rsync参数部分</li>
-<li>set_remote_user：主要用于/etc/ansible/hosts中定义或默认使用的用户与rsync使用的用户不同的情况</li>
-<li>mode: push或pull 模块，push模的话，一般用于从本机向远程主机上传文件，pull 模式用于从远程主机上取文件</li>
-</ul>
-<p>使用示例：</p>
-<div><pre><code>src=some/relative/path dest=/some/absolute/path rsync_path=&quot;sudo rsync&quot;
-src=some/relative/path dest=/some/absolute/path archive=no links=yes
-src=some/relative/path dest=/some/absolute/path checksum=yes times=no
-src=/tmp/helloworld dest=/var/www/helloword rsync_opts=--no-motd,--exclude=.git mode=pull
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-11-filesystem模块"> 2.11 filesystem模块</h3>
-<p>在块设备上创建文件系统
-常用选项：</p>
-<ul>
-<li>dev：目标块设备</li>
-<li>force：在一个已有文件系统 的设备上强制创建</li>
-<li>fstype：文件系统的类型</li>
-<li>opts：传递给mkfs命令的选项</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>ansible <span>test</span> -m filesystem -a <span>'fstype=ext2 dev=/dev/sdb1 force=yes'</span>
-ansible <span>test</span> -m filesystem -a <span>'fstype=ext4 dev=/dev/sdb1 opts="-cc"'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-12-mount模块"> 2.12 mount模块</h3>
-<p>配置挂载点
-选项：</p>
-<ul>
-<li>dump</li>
-<li>fstype：必选项，挂载文件的类型</li>
-<li>name：必选项，挂载点</li>
-<li>opts：传递给mount命令的参数</li>
-<li>src：必选项，要挂载的文件</li>
-<li>state：必选项
-<ul>
-<li>present：只处理fstab中的配置</li>
-<li>absent：删除挂载点</li>
-<li>mounted：自动创建挂载点并挂载之</li>
-<li>umounted：卸载</li>
-</ul>
-</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>name=/mnt/dvd src=/dev/sr0 fstype=iso9660 opts=ro state=present
-name=/srv/disk src=&#39;LABEL=SOME_LABEL&#39; state=present
-name=/home src=&#39;UUID=b3e48f45-f933-4c8e-a700-22a159ec9077&#39; opts=noatime state=present
-
-ansible test -a &#39;dd if=/dev/zero of=/disk.img bs=4k count=1024&#39;
-ansible test -a &#39;losetup /dev/loop0 /disk.img&#39;
-ansible test -m filesystem &#39;fstype=ext4 force=yes opts=-F dev=/dev/loop0&#39;
-ansible test -m mount &#39;name=/mnt src=/dev/loop0 fstype=ext4 state=mounted opts=rw&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="_2-13-get-url-模块"> 2.13 get_url 模块</h3>
-<p>该模块主要用于从http、ftp、https服务器上下载文件（类似于wget），主要有如下选项：</p>
-<ul>
-<li>sha256sum：下载完成后进行sha256 check；</li>
-<li>timeout：下载超时时间，默认10s</li>
-<li>url：下载的URL</li>
-<li>url_password、url_username：主要用于需要用户名密码进行验证的情况</li>
-<li>use_proxy：是事使用代理，代理需事先在环境变更中定义</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>get_url: url=http://example.com/path/file.conf dest=/etc/foo.conf mode=0440
-get_url: url=http://example.com/path/file.conf dest=/etc/foo.conf sha256sum=b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-14-unarchive模块"> 2.14 unarchive模块</h3>
-<p>用于解压文件，模块包含如下选项：</p>
-<ul>
-<li>copy：在解压文件之前，是否先将文件复制到远程主机，默认为yes。若为no，则要求目标主机上压缩包必须存在。</li>
-<li>creates：指定一个文件名，当该文件存在时，则解压指令不执行</li>
-<li>dest：远程主机上的一个路径，即文件解压的路径</li>
-<li>group：解压后的目录或文件的属组</li>
-<li>list_files：如果为yes，则会列出压缩包里的文件，默认为no，2.0版本新增的选项</li>
-<li>mode：解决后文件的权限</li>
-<li>src：如果copy为yes，则需要指定压缩文件的源路径</li>
-<li>owner：解压后文件或目录的属主</li>
-</ul>
-<p>示例如下：</p>
-<div><pre><code>- unarchive: src=foo.tgz dest=/var/lib/foo
-- unarchive: src=/tmp/foo.zip dest=/usr/local/bin copy=no
-- unarchive: src=https://example.com/example.zip dest=/usr/local/bin copy=no
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="_2-15-debug"> 2.15 debug</h3>
-<p>用于输出调试一些数据，模块包含如下选项：</p>
-<ul>
-<li>msg：可以输出字符串，可以输出变量的值，变量调用需加&quot;{{}}&quot;</li>
-<li>var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称</li>
-</ul>
-<p>示例如下：</p>
-<div><pre><code>$ ansible localhost -e <span>'str=world'</span> -m debug -a <span>'msg="hello {{str}}"'</span>
-localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
-    <span>"msg"</span><span>:</span> <span>"hello world"</span>
-<span>}</span>
-
-$ ansible localhost -e <span>'str="hello world"'</span> -m debug -a <span>'var=str'</span>
-localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
-    <span>"str"</span><span>:</span> <span>"hello world"</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><blockquote>
-<p>参考链接：</p>
-<p>https://www.cnblogs.com/breezey/p/8810414.html</p>
-<p>https://www.cnblogs.com/breezey/p/8811187.html</p>
-<p>https://blog.51cto.com/cloumn/blog/1544</p>
-</blockquote>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>文章来源：https://www.58jb.com/html/jenkins_ldap_login_failure.html</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -10284,73 +10362,6 @@ https://www.jianshu.com/p/f1167e8850cd</p>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
     </item>
     <item>
-      <title>jenkins 常见问题</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/qa/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">jenkins 常见问题</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="jenkins-常见问题"> jenkins 常见问题</h1>
-<h2 id="jenkins报错error-cloning-remote-repo-origin"> Jenkins报错Error cloning remote repo 'origin'</h2>
-<p>Jenkins配置了2个节点，但是只有master安装了git，很有可能任务被调到slave上执行所以报错</p>
-<p>解决办法</p>
-<ul>
-<li>slave安装git</li>
-<li>指定任务在master执行</li>
-</ul>
-<h2 id="jenkins添加从节点失败"> jenkins添加从节点失败</h2>
-<p>jenkins在添加从节点时
-可以在启动方式中选择：Non verifying Verification Strategy</p>
-<h2 id="jenkins配置ldap错误导致无法登陆的问题"> Jenkins配置ldap错误导致无法登陆的问题</h2>
-<p>为了方便用户管理，通过ldap集中式认证，让Gitlab和Jenkins都接入，这样就省去每个系统都是要创建用户的麻烦了。上一篇<a href="https://www.58jb.com/html/121.html" target="_blank" rel="noopener noreferrer">Jenkins整合ldap认证</a>的文章中有网友发邮件说了，配置不当导致Jenkins无法登陆，可能文章未能详细说明。</p>
-<p>运维人员都会有这样的操作，修改任何配置文件前都会来一个备份。就是确保万一出错了可以回到之前的状态。所以建议就是Jenkins配置的问题，特别是这个登陆认证的配置，一搞错了就无法登陆。甚至无法正常访问到系统。
-默认Centos7使用rpm安装的目录为：/var/lib/jenkins/</p>
-<p>备份配置文件：config.xml</p>
-<div><pre><code>[root@jenkins ~]# cp /var/lib/jenkins/config.xml{,$(date +%F)}
-[root@jenkins ~]# ls /var/lib/jenkins/config.xml
-config.xml            config.xml2019-06-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>然后在config.xml配置文件中找到这段关于ldap认证的信息：</p>
-<div><pre><code>  &lt;securityRealm class=&quot;hudson.security.LDAPSecurityRealm&quot; plugin=&quot;ldap@1.20&quot;&gt;
-    &lt;disableMailAddre***esolver&gt;false&lt;/disableMailAddre***esolver&gt;
-    &lt;configurations&gt;
-      &lt;jenkins.security.plugins.ldap.LDAPConfiguration&gt;
-        &lt;server&gt;ldap://XXXXXX.com:389&lt;/server&gt;
-        &lt;rootDN&gt;dc=XXXXXX,dc=com&lt;/rootDN&gt;
-        &lt;inhibitInferRootDN&gt;false&lt;/inhibitInferRootDN&gt;
-        &lt;userSearchBase&gt;&lt;/userSearchBase&gt;
-        &lt;userSearch&gt;uid={0}&lt;/userSearch&gt;
-        &lt;groupMembershipStrategy class=&quot;jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy&quot;&gt;
-          &lt;filter&gt;cn=jenkins&lt;/filter&gt;
-        &lt;/groupMembershipStrategy&gt;
-        &lt;managerDN&gt;uid=jarry,ou=People,dc=XXXXXX,dc=com&lt;/managerDN&gt;
-        &lt;managerPasswordSecret&gt;{AQAAABAAAAAQWfZrb7qoIjewuj3SK/z53/oRo86cW5wi/t07QeW/4mM=}&lt;/managerPasswordSecret&gt;
-        &lt;displayNameAttributeName&gt;uid&lt;/displayNameAttributeName&gt;
-        &lt;mailAddressAttributeName&gt;mail&lt;/mailAddressAttributeName&gt;
-        &lt;ignoreIfUnavailable&gt;false&lt;/ignoreIfUnavailable&gt;
-        &lt;extraEnvVars class=&quot;linked-hash-map&quot;&gt;
-          &lt;entry&gt;
-            &lt;string&gt;&lt;/string&gt;
-            &lt;string&gt;&lt;/string&gt;
-          &lt;/entry&gt;
-        &lt;/extraEnvVars&gt;
-      &lt;/jenkins.security.plugins.ldap.LDAPConfiguration&gt;
-    &lt;/configurations&gt;
-    &lt;userIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
-    &lt;groupIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
-    &lt;disableRolePrefixing&gt;true&lt;/disableRolePrefixing&gt;
-  &lt;/securityRealm&gt;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>上面的配置不当导致了无法通过ldap认证，而且导致jenkins也无法正常登陆了，可以把上面一段修改成以下样子：</p>
-<div><pre><code>   &lt;securityRealm class=&quot;hudson.security.HudsonPrivateSecurityRealm&quot;&gt;
-     &lt;disableSignup&gt;false&lt;/disableSignup&gt;
-     &lt;enableCaptcha&gt;false&lt;/enableCaptcha&gt;
-   &lt;/securityRealm&gt;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>文章来源：https://www.58jb.com/html/jenkins_ldap_login_failure.html</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>jenkins的安装配置</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</guid>
@@ -10807,6 +10818,313 @@ docker start confluence # 启动
 </code></pre>
 <div><span>1</span><br><span>2</span><br></div></div><blockquote>
 <p>参考文档：https://www.cnblogs.com/rslai/p/8845777.html</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>hexo(next)+github博客的搭建</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/build/hexo-blog/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/build/hexo-blog/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">hexo(next)+github博客的搭建</source>
+      <pubDate>Mon, 06 Jun 2016 14:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="images/blogchongjianfengmian.jpg" alt=""></p>
+
+<h2 id="hexo-github的搭建过程2"> hexo+github的搭建过程2</h2>
+<h3 id="准备安装软件"> 准备安装软件</h3>
+<p><strong>依次安装</strong></p>
+<ul>
+<li><a href="https://nodejs.org/en/" target="_blank" rel="noopener noreferrer">Node.js</a></li>
+<li><a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">Git</a></li>
+</ul>
+<h3 id="配置和使用github"> 配置和使用github</h3>
+<h4 id="注册github"> 注册github</h4>
+<p>访问<a href="https://github.com/" target="_blank" rel="noopener noreferrer">github.com</a>右上角singnup</p>
+<p>uername 最好都用小写，因为最后建立的博客地址是：<a href="https://link.zhihu.com/?target=http%3A//username.github.io" target="_blank" rel="noopener noreferrer">http://username.github.io</a>；邮箱十分重要，GitHub 上很多通知都是通过邮箱的。</p>
+<h4 id="创建repository"> 创建Repository</h4>
+<p>Repository 名字应该是<a href="https://link.zhihu.com/?target=http%3A//username.github.io" target="_blank" rel="noopener noreferrer">http://username.github.io</a>。</p>
+<p>其他的可以选择添加一些描述也可以选择默认什么也不添加 ，点击creat repository</p>
+<h4 id="配置ssh-keys"> 配置SSH keys</h4>
+<p>运行git bash</p>
+<div><pre><code>$ ssh-keygen -t rsa -C <span>"邮件地址@youremail.com"</span>
+Generating public/private rsa key pair.
+Enter <span>file</span> <span>in</span> <span>which</span> to save the key <span>(</span>/Users/your_user_directory/.ssh/id_rsa<span>)</span>:<span>&lt;</span>回车就好<span>></span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>【提示1】这里的邮箱地址，输入注册 Github 的邮箱地址；</p>
+<p>【提示2】「-C」的是大写的「C」</p>
+<p>然后系统会要你输入密码：</p>
+<div><pre><code>Enter passphrase <span>(</span>empty <span>for</span> no passphrase<span>)</span>:<span>&lt;</span>设置密码<span>></span>
+Enter same passphrase again:<span>&lt;</span>再次输入密码<span>></span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
+<p>注意：输入密码的时候没有输入痕迹的，不要以为什么也没有输入。</p>
+<h4 id="添加ssh-key到github"> 添加SSH Key到GitHub</h4>
+<p>在本地文件夹找到id_rsa.pub文件，.ssh文件夹里记事本打开这个文件复制全部内容到github相应位。</p>
+<p><strong>测试</strong></p>
+<p>打开git bash，输入以下代码</p>
+<div><pre><code>$ <span>ssh</span> -T git@github.com
+</code></pre>
+<div><span>1</span><br></div></div><p>如何返回值中有successfully字段代表配置成功了。</p>
+<h4 id="设置用户信息"> 设置用户信息</h4>
+<p>打开git bash，完善个人信息</p>
+<div><pre><code>$ <span>git</span> config --global user.name <span>"user"</span> //输入注册时的username
+$ <span>git</span> config --global user.email  <span>"email"</span> //填写注册邮箱
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="搭建hexo博客"> 搭建hexo博客</h3>
+<p>利用npm命令安装hexo</p>
+<div><pre><code>$ npm install -g hexo
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li><strong>创建独立博客项目文件夹</strong></li>
+</ul>
+<p>安装完成后，关掉前面那个 Git Bash 窗口。在本地创建一个与 Repository 中博客项目同名的文件夹（如E:\username.github.io）在文件夹上点击鼠标右键，选择 Git bash here；</p>
+<p>【提示】在进行博客搭建工作时，每次使用命令都要在E:\username.github.io目录下。</p>
+<p>执行下面的指令，Hexo 就会自动在 E:\username.github.io文件夹建立独立博客所需要的所有文件啦！</p>
+<div><pre><code>$ hexo init
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li><strong>安装依赖包</strong></li>
+</ul>
+<div><pre><code>$ <span>npm</span> <span>install</span>
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li><strong>确保git部署</strong></li>
+</ul>
+<div><pre><code>$ <span>npm</span> <span>install</span> hexo-deployer-git --save
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li><strong>本地查看</strong></li>
+</ul>
+<p>现在已经搭建好本地的 Hexo 博客了，执行完下面的命令就可以到浏览器输入 localhost:4000 查看到啦</p>
+<div><pre><code>$ hexo g
+$ hexo s
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>hexo g 每次进行相应改动都要hexo g 生成一下</p>
+<p>hexo s 启动服务预览</p>
+<p>执行完 hexo init 命令后会给一个默认的主题：landscape</p>
+<p>你可以到官网找你喜欢的主题进行下载 <a href="https://hexo.io/themes/" target="_blank" rel="noopener noreferrer">hexo themes</a> <a href="https://www.zhihu.com/question/24422335/answer/46357100" target="_blank" rel="noopener noreferrer">知乎：有哪些好看的 Hexo 主题？</a></p>
+<p>找到它所在的 Github Repository （怎么找，我喜欢的那个，恰好博主放了他的github地址）</p>
+<p>找到之后通过git命令下载</p>
+<p>在主题的repository点击clone 复制一下那个地址</p>
+<div><pre><code>$ <span>git</span> clone https://github.com/theme-next/hexo-theme-next themes/next
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="next主题使用及优化"> next主题使用及优化</h2>
+<h3 id="启用主题"> 启用主题</h3>
+<p>与所有 Hexo 主题启用的模式一样。 当 克隆/下载 完成后，打开 站点配置文件， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>。</p>
+<p>启用 NexT 主题</p>
+<div><pre><code><span>theme</span><span>:</span> next
+</code></pre>
+<div><span>1</span><br></div></div><p>到此，NexT 主题安装完成。下一步我们将验证主题是否正确启用。在切换主题之后、验证之前， 我们最好使用 <code>hexo clean</code> 来清除 Hexo 的缓存。</p>
+<h3 id="选择-scheme"> 选择 Scheme</h3>
+<p>Scheme 是 NexT 提供的一种特性，借助于 Scheme，NexT 为你提供多种不同的外观。同时，几乎所有的配置都可以 在 Scheme 之间共用。目前 NexT 支持三种 Scheme，他们是：</p>
+<ul>
+<li>Muse - 默认 Scheme，这是 NexT 最初的版本，黑白主调，大量留白</li>
+<li>Mist - Muse 的紧凑版本，整洁有序的单栏外观</li>
+<li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
+</ul>
+<p>Scheme 的切换通过更改 主题配置文件，搜索 scheme 关键字。 你会看到有三行 scheme 的配置，将你需用启用的 scheme 前面注释 <code>#</code> 去除即可。</p>
+<p>选择 Pisces Scheme</p>
+<div><pre><code><span>#scheme: Muse</span>
+<span>#scheme: Mist</span>
+<span>scheme</span><span>:</span> Pisces
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="设置-语言"> 设置 语言</h3>
+<p>编辑 站点配置文件， 将 <code>language</code> 设置成你所需要的语言。建议明确设置你所需要的语言，例如选用简体中文，配置如下：</p>
+<div><pre><code><span>language</span><span>:</span> zh<span>-</span>CN
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="local-search"> Local Search</h3>
+<p>添加百度/谷歌/本地 自定义站点内容搜索</p>
+<ol>
+<li>安装 <code>hexo-generator-searchdb</code>，在站点的根目录下执行以下命令：</li>
+</ol>
+<div><pre><code>$ <span>npm</span> <span>install</span> hexo-generator-searchdb --save
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>编辑 站点配置文件，新增以下内容到任意位置：</li>
+</ol>
+<div><pre><code><span>search</span><span>:</span>
+  <span>path</span><span>:</span> search.xml
+  <span>field</span><span>:</span> post
+  <span>format</span><span>:</span> html
+  <span>limit</span><span>:</span> <span>10000</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><ol start="3">
+<li>编辑 主题配置文件，启用本地搜索功能：</li>
+</ol>
+<div><pre><code><span># Local search</span>
+<span>local_search</span><span>:</span>
+  <span>enable</span><span>:</span> <span>true</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="文章模块的美化"> 文章模块的美化</h2>
+<h3 id="文章内代码美化"> 文章内代码美化</h3>
+<ul>
+<li>行内代码
+在主题目录下，将<code>source/css/_custom/custom.styl</code>文件修改如下：</li>
+</ul>
+<div><pre><code><span>//行内代码样式
+code</span> <span>{</span>
+    <span>color</span><span>:</span> #ff7600<span>;</span>
+    <span>background</span><span>:</span> #fbf7f8<span>;</span>
+    <span>border</span><span>:</span> 1px solid #d6d6d6<span>;</span>
+    <span>padding</span><span>:</span>1px 4px<span>;</span>
+    <span>word-break</span><span>:</span> break-all<span>;</span>
+    <span>border-radius</span><span>:</span>4px<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><ul>
+<li>区块代码
+在主题目录下，修改<code>config.yml</code>文件：</li>
+</ul>
+<div><pre><code><span>#   样式可选： normal | night | night eighties | night blue | night bright</span>
+<span>highlight_theme</span><span>:</span> night
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="文章结束语"> 文章结束语</h3>
+<ul>
+<li>**添加模块文件 **</li>
+</ul>
+<p>在主题目录下<code>layout/_macro</code>中新建 <code>passage-end-tag.swig</code>文件,并添加以下内容：</p>
+<div><pre><code><span>&lt;div></span>
+    <span>{</span>% if not is_index %<span>}</span>
+        <span>&lt;div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束&lt;i>&lt;/i>感谢您的阅读-------------
+        &lt;/div></span>
+    <span>{</span>% endif %<span>}</span>
+&lt;/div>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><ul>
+<li><strong>导入模板文件</strong></li>
+</ul>
+<p>在<code>layout/_macro/post.swig</code>文件中，找到：</p>
+<div><pre><code><span>{</span>#####################<span>}</span>
+<span>{</span>### END POST BODY ###<span>}</span>
+<span>{</span>#####################<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在上面代码之前添加：</p>
+<div><pre><code><span>&lt;div></span>
+      <span>{</span>% if not is_index %<span>}</span>
+          <span>{</span>% include <span>'passage-end-tag.swig'</span> %<span>}</span>
+      <span>{</span>% endif %<span>}</span>
+&lt;/div>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><ul>
+<li><strong>配置</strong>
+在主题配置文件中添加：</li>
+</ul>
+<div><pre><code><span># 文章末尾添加“本文结束”标记</span>
+<span>passage_end_tag</span><span>:</span>
+  <span>enabled</span><span>:</span> <span>true</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="增强文章底部版权信息"> 增强文章底部版权信息</h3>
+<ul>
+<li>增加文章md文件的头部信息中添加<code>copyright: true</code>时，添加版权声明</li>
+<li>增加文章标题、发布时间、更新时间等信息</li>
+</ul>
+<p>在目录 <code>next/layout/_macro/下</code>添加 <code>my-copyright.swig</code>：</p>
+<div><pre><code><span>{</span>% if page.copyright %<span>}</span>
+<span>&lt;div>
+  &lt;script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js">&lt;/script>
+  
+  &lt;!-- JS库 sweetalert 可修改路径 -->
+  &lt;script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js">&lt;/script>
+  &lt;script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">&lt;/script>
+  &lt;p>&lt;span>本文标题:&lt;/span>&lt;a href="{{ url_for(page.path) }}"></span><span>{</span><span>{</span> page.title <span>}</span><span>}</span><span>&lt;/a>&lt;/p>
+  &lt;p>&lt;span>文章作者:&lt;/span>&lt;a href="/" title="访问 {{ theme.author }} 的个人博客"></span><span>{</span><span>{</span> theme.author <span>}</span><span>}</span><span>&lt;/a>&lt;/p>
+  &lt;p>&lt;span>发布时间:&lt;/span></span><span>{</span><span>{</span> page.date.<span>format</span><span>(</span><span>"YYYY年MM月DD日 - HH:MM"</span><span>)</span> <span>}</span><span>}</span><span>&lt;/p>
+  &lt;p>&lt;span>最后更新:&lt;/span></span><span>{</span><span>{</span> page.updated.<span>format</span><span>(</span><span>"YYYY年MM月DD日 - HH:MM"</span><span>)</span> <span>}</span><span>}</span><span>&lt;/p>
+  &lt;p>&lt;span>原始链接:&lt;/span>&lt;a href="{{ url_for(page.path) }}" title="{{ page.title }}"></span><span>{</span><span>{</span> page.permalink <span>}</span><span>}</span>&lt;/a>
+    &lt;span class=<span>"copy-path"  title="点击复制文章链接">&lt;i data-clipboard-text="</span><span>{</span><span>{</span> page.permalink <span>}</span><span>}</span><span>"  aria-label="</span>复制成功！">&lt;/i>&lt;/span>
+  &lt;/p>
+  &lt;p>&lt;span><span>许可协议</span><span>:</span>&lt;/span>&lt;i class=<span>"fa fa-creative-commons"</span>>&lt;/i> &lt;a rel=<span>"license"</span> href=<span>"https://creativecommons.org/licenses/by-nc-nd/4.0/"</span> target=<span>"_blank"</span> title=<span>"Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"</span>>署名-非商业性使用-禁止演绎 4.0 国际&lt;/a> 转载请保留原文链接及作者。&lt;/p>  
+&lt;/div>
+&lt;script> 
+    var clipboard = new <span>Clipboard</span><span>(</span><span>'.fa-clipboard'</span><span>)</span><span>;
+    $(".fa-clipboard").click(function()</span><span>{</span>
+      <span>clipboard.on('success', function()</span><span>{</span>
+        <span>swal(</span><span>{</span>   
+          <span>title</span><span>:</span> <span>""</span><span>,</span>   
+          <span>text</span><span>:</span> <span>'复制成功'</span><span>,</span>
+          <span>icon</span><span>:</span> <span>"success"</span><span>,</span> 
+          <span>showConfirmButton</span><span>:</span> true
+          <span>}</span><span>)</span><span>;</span>
+	<span>}</span><span>)</span><span>;</span>
+    <span>}</span><span>)</span><span>;  
+&lt;/script></span>
+<span>{</span>% endif %<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>在目录<code>next/source/css/_common/components/post/</code>下添加<code>my-post-copyright.styl</code>：</p>
+<div><pre><code><span>.my_post_copyright</span> <span>{</span>
+  <span>width</span><span>:</span> 85%<span>;</span>
+  <span>max-width</span><span>:</span> 45em<span>;</span>
+  <span>margin</span><span>:</span> 2.8em auto 0<span>;</span>
+  <span>padding</span><span>:</span> 0.5em 1.0em<span>;</span>
+  <span>border</span><span>:</span> 1px solid #d3d3d3<span>;</span>
+  <span>font-size</span><span>:</span> 0.93rem<span>;</span>
+  <span>line-height</span><span>:</span> 1.6em<span>;</span>
+  <span>word-break</span><span>:</span> break-all<span>;</span>
+  <span>background</span><span>:</span> <span>rgba</span><span>(</span>255<span>,</span>255<span>,</span>255<span>,</span>0.4<span>)</span><span>;</span>
+<span>}</span>
+<span>.my_post_copyright p</span><span>{</span><span>margin</span><span>:</span>0<span>;</span><span>}</span>
+<span>.my_post_copyright span</span> <span>{</span>
+  <span>display</span><span>:</span> inline-block<span>;</span>
+  <span>width</span><span>:</span> 5.2em<span>;</span>
+  <span>color</span><span>:</span> #b5b5b5<span>;</span>
+  <span>font-weight</span><span>:</span> bold<span>;</span>
+<span>}</span>
+<span>.my_post_copyright .raw</span> <span>{</span>
+  <span>margin-left</span><span>:</span> 1em<span>;</span>
+  <span>width</span><span>:</span> 5em<span>;</span>
+<span>}</span>
+<span>.my_post_copyright a</span> <span>{</span>
+  <span>color</span><span>:</span> #808080<span>;</span>
+  <span>border-bottom</span><span>:</span>0<span>;</span>
+<span>}</span>
+<span>.my_post_copyright a:hover</span> <span>{</span>
+  <span>color</span><span>:</span> #a3d2a3<span>;</span>
+  <span>text-decoration</span><span>:</span> underline<span>;</span>
+<span>}</span>
+<span>.my_post_copyright:hover .fa-clipboard</span> <span>{</span>
+  <span>color</span><span>:</span> #000<span>;</span>
+<span>}</span>
+<span>.my_post_copyright .post-url:hover</span> <span>{</span>
+  <span>font-weight</span><span>:</span> normal<span>;</span>
+<span>}</span>
+<span>.my_post_copyright .copy-path</span> <span>{</span>
+  <span>margin-left</span><span>:</span> 1em<span>;</span>
+  <span>width</span><span>:</span> 1em<span>;
+  +mobile()</span><span>{</span><span>display</span><span>:</span>none<span>;</span><span>}</span>
+<span>}</span>
+<span>.my_post_copyright .copy-path:hover</span> <span>{</span>
+  <span>color</span><span>:</span> #808080<span>;</span>
+  <span>cursor</span><span>:</span> pointer<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>修改<code>next/layout/_macro/post.swig</code>，在代码</p>
+<div><pre><code><span>{</span>#####################<span>}</span>
+<span>{</span>### END POST BODY ###<span>}</span>
+<span>{</span>#####################<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>之前添加增加如下代码：</p>
+<div><pre><code><span>&lt;div></span>
+      <span>{</span>% if not is_index %<span>}</span>
+        <span>{</span>% include <span>'my-copyright.swig'</span> %<span>}</span>
+      <span>{</span>% endif %<span>}</span>
+&lt;/div>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>修改<code>next/source/css/_common/components/post/post.styl</code>文件，在最后一行增加代码：</p>
+<div><pre><code>@import <span>"my-post-copyright"</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>保存重新生成即可。</p>
+<h2 id="参考"> 参考</h2>
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/32957389" target="_blank" rel="noopener noreferrer">技术小白搭建hexo+github博客</a></p>
+<p><a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener noreferrer">next最新版主题下载使用</a></p>
+<p><a href="https://theme-next.iissnan.com" target="_blank" rel="noopener noreferrer">next主题官方文档</a></p>
+<p><a href="http://shenzekun.cn/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B.html" target="_blank" rel="noopener noreferrer">next主题个性化教程</a></p>
+<p><a href="https://iassas.com/archives/d6a90b9.html" target="_blank" rel="noopener noreferrer">next主题配置文件详解</a></p>
+<p><a href="https://blog.csdn.net/weixin_39345384/article/details/80544660" target="_blank" rel="noopener noreferrer">NexT v6.0+ 背景动画Canvas_nest设置无效的解决方案</a></p>
+<p><a href="http://zhuxin.tech/2017/10/20/%E7%BB%99%20Hexo%20%E6%90%AD%E5%BB%BA%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%A2%9E%E5%8A%A0%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E9%AA%8C%E8%AF%81/" target="_blank" rel="noopener noreferrer">给Hexo搭建的博客增加百度谷歌搜索引擎验证</a></p>
+<p><a href="https://github.com/theme-next/hexo-symbols-count-time" target="_blank" rel="noopener noreferrer">添加文章字数和读取文章的时间</a></p>
+<p><a href="https://www.jianshu.com/p/344cf061598d" target="_blank" rel="noopener noreferrer">hexo + next主题高级配置</a></p>
 </blockquote>
 ]]></content:encoded>
     </item>
@@ -11503,313 +11821,6 @@ COMMIT
 <p><a href="https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html</a></p>
 </blockquote>
 <h3 id=""> </h3>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>hexo(next)+github博客的搭建</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/build/hexo-blog/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/build/hexo-blog/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">hexo(next)+github博客的搭建</source>
-      <pubDate>Mon, 06 Jun 2016 14:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="images/blogchongjianfengmian.jpg" alt=""></p>
-
-<h2 id="hexo-github的搭建过程2"> hexo+github的搭建过程2</h2>
-<h3 id="准备安装软件"> 准备安装软件</h3>
-<p><strong>依次安装</strong></p>
-<ul>
-<li><a href="https://nodejs.org/en/" target="_blank" rel="noopener noreferrer">Node.js</a></li>
-<li><a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">Git</a></li>
-</ul>
-<h3 id="配置和使用github"> 配置和使用github</h3>
-<h4 id="注册github"> 注册github</h4>
-<p>访问<a href="https://github.com/" target="_blank" rel="noopener noreferrer">github.com</a>右上角singnup</p>
-<p>uername 最好都用小写，因为最后建立的博客地址是：<a href="https://link.zhihu.com/?target=http%3A//username.github.io" target="_blank" rel="noopener noreferrer">http://username.github.io</a>；邮箱十分重要，GitHub 上很多通知都是通过邮箱的。</p>
-<h4 id="创建repository"> 创建Repository</h4>
-<p>Repository 名字应该是<a href="https://link.zhihu.com/?target=http%3A//username.github.io" target="_blank" rel="noopener noreferrer">http://username.github.io</a>。</p>
-<p>其他的可以选择添加一些描述也可以选择默认什么也不添加 ，点击creat repository</p>
-<h4 id="配置ssh-keys"> 配置SSH keys</h4>
-<p>运行git bash</p>
-<div><pre><code>$ ssh-keygen -t rsa -C <span>"邮件地址@youremail.com"</span>
-Generating public/private rsa key pair.
-Enter <span>file</span> <span>in</span> <span>which</span> to save the key <span>(</span>/Users/your_user_directory/.ssh/id_rsa<span>)</span>:<span>&lt;</span>回车就好<span>></span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>【提示1】这里的邮箱地址，输入注册 Github 的邮箱地址；</p>
-<p>【提示2】「-C」的是大写的「C」</p>
-<p>然后系统会要你输入密码：</p>
-<div><pre><code>Enter passphrase <span>(</span>empty <span>for</span> no passphrase<span>)</span>:<span>&lt;</span>设置密码<span>></span>
-Enter same passphrase again:<span>&lt;</span>再次输入密码<span>></span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
-<p>注意：输入密码的时候没有输入痕迹的，不要以为什么也没有输入。</p>
-<h4 id="添加ssh-key到github"> 添加SSH Key到GitHub</h4>
-<p>在本地文件夹找到id_rsa.pub文件，.ssh文件夹里记事本打开这个文件复制全部内容到github相应位。</p>
-<p><strong>测试</strong></p>
-<p>打开git bash，输入以下代码</p>
-<div><pre><code>$ <span>ssh</span> -T git@github.com
-</code></pre>
-<div><span>1</span><br></div></div><p>如何返回值中有successfully字段代表配置成功了。</p>
-<h4 id="设置用户信息"> 设置用户信息</h4>
-<p>打开git bash，完善个人信息</p>
-<div><pre><code>$ <span>git</span> config --global user.name <span>"user"</span> //输入注册时的username
-$ <span>git</span> config --global user.email  <span>"email"</span> //填写注册邮箱
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="搭建hexo博客"> 搭建hexo博客</h3>
-<p>利用npm命令安装hexo</p>
-<div><pre><code>$ npm install -g hexo
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li><strong>创建独立博客项目文件夹</strong></li>
-</ul>
-<p>安装完成后，关掉前面那个 Git Bash 窗口。在本地创建一个与 Repository 中博客项目同名的文件夹（如E:\username.github.io）在文件夹上点击鼠标右键，选择 Git bash here；</p>
-<p>【提示】在进行博客搭建工作时，每次使用命令都要在E:\username.github.io目录下。</p>
-<p>执行下面的指令，Hexo 就会自动在 E:\username.github.io文件夹建立独立博客所需要的所有文件啦！</p>
-<div><pre><code>$ hexo init
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li><strong>安装依赖包</strong></li>
-</ul>
-<div><pre><code>$ <span>npm</span> <span>install</span>
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li><strong>确保git部署</strong></li>
-</ul>
-<div><pre><code>$ <span>npm</span> <span>install</span> hexo-deployer-git --save
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li><strong>本地查看</strong></li>
-</ul>
-<p>现在已经搭建好本地的 Hexo 博客了，执行完下面的命令就可以到浏览器输入 localhost:4000 查看到啦</p>
-<div><pre><code>$ hexo g
-$ hexo s
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>hexo g 每次进行相应改动都要hexo g 生成一下</p>
-<p>hexo s 启动服务预览</p>
-<p>执行完 hexo init 命令后会给一个默认的主题：landscape</p>
-<p>你可以到官网找你喜欢的主题进行下载 <a href="https://hexo.io/themes/" target="_blank" rel="noopener noreferrer">hexo themes</a> <a href="https://www.zhihu.com/question/24422335/answer/46357100" target="_blank" rel="noopener noreferrer">知乎：有哪些好看的 Hexo 主题？</a></p>
-<p>找到它所在的 Github Repository （怎么找，我喜欢的那个，恰好博主放了他的github地址）</p>
-<p>找到之后通过git命令下载</p>
-<p>在主题的repository点击clone 复制一下那个地址</p>
-<div><pre><code>$ <span>git</span> clone https://github.com/theme-next/hexo-theme-next themes/next
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="next主题使用及优化"> next主题使用及优化</h2>
-<h3 id="启用主题"> 启用主题</h3>
-<p>与所有 Hexo 主题启用的模式一样。 当 克隆/下载 完成后，打开 站点配置文件， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>。</p>
-<p>启用 NexT 主题</p>
-<div><pre><code><span>theme</span><span>:</span> next
-</code></pre>
-<div><span>1</span><br></div></div><p>到此，NexT 主题安装完成。下一步我们将验证主题是否正确启用。在切换主题之后、验证之前， 我们最好使用 <code>hexo clean</code> 来清除 Hexo 的缓存。</p>
-<h3 id="选择-scheme"> 选择 Scheme</h3>
-<p>Scheme 是 NexT 提供的一种特性，借助于 Scheme，NexT 为你提供多种不同的外观。同时，几乎所有的配置都可以 在 Scheme 之间共用。目前 NexT 支持三种 Scheme，他们是：</p>
-<ul>
-<li>Muse - 默认 Scheme，这是 NexT 最初的版本，黑白主调，大量留白</li>
-<li>Mist - Muse 的紧凑版本，整洁有序的单栏外观</li>
-<li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
-</ul>
-<p>Scheme 的切换通过更改 主题配置文件，搜索 scheme 关键字。 你会看到有三行 scheme 的配置，将你需用启用的 scheme 前面注释 <code>#</code> 去除即可。</p>
-<p>选择 Pisces Scheme</p>
-<div><pre><code><span>#scheme: Muse</span>
-<span>#scheme: Mist</span>
-<span>scheme</span><span>:</span> Pisces
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="设置-语言"> 设置 语言</h3>
-<p>编辑 站点配置文件， 将 <code>language</code> 设置成你所需要的语言。建议明确设置你所需要的语言，例如选用简体中文，配置如下：</p>
-<div><pre><code><span>language</span><span>:</span> zh<span>-</span>CN
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="local-search"> Local Search</h3>
-<p>添加百度/谷歌/本地 自定义站点内容搜索</p>
-<ol>
-<li>安装 <code>hexo-generator-searchdb</code>，在站点的根目录下执行以下命令：</li>
-</ol>
-<div><pre><code>$ <span>npm</span> <span>install</span> hexo-generator-searchdb --save
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>编辑 站点配置文件，新增以下内容到任意位置：</li>
-</ol>
-<div><pre><code><span>search</span><span>:</span>
-  <span>path</span><span>:</span> search.xml
-  <span>field</span><span>:</span> post
-  <span>format</span><span>:</span> html
-  <span>limit</span><span>:</span> <span>10000</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><ol start="3">
-<li>编辑 主题配置文件，启用本地搜索功能：</li>
-</ol>
-<div><pre><code><span># Local search</span>
-<span>local_search</span><span>:</span>
-  <span>enable</span><span>:</span> <span>true</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="文章模块的美化"> 文章模块的美化</h2>
-<h3 id="文章内代码美化"> 文章内代码美化</h3>
-<ul>
-<li>行内代码
-在主题目录下，将<code>source/css/_custom/custom.styl</code>文件修改如下：</li>
-</ul>
-<div><pre><code><span>//行内代码样式
-code</span> <span>{</span>
-    <span>color</span><span>:</span> #ff7600<span>;</span>
-    <span>background</span><span>:</span> #fbf7f8<span>;</span>
-    <span>border</span><span>:</span> 1px solid #d6d6d6<span>;</span>
-    <span>padding</span><span>:</span>1px 4px<span>;</span>
-    <span>word-break</span><span>:</span> break-all<span>;</span>
-    <span>border-radius</span><span>:</span>4px<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><ul>
-<li>区块代码
-在主题目录下，修改<code>config.yml</code>文件：</li>
-</ul>
-<div><pre><code><span>#   样式可选： normal | night | night eighties | night blue | night bright</span>
-<span>highlight_theme</span><span>:</span> night
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="文章结束语"> 文章结束语</h3>
-<ul>
-<li>**添加模块文件 **</li>
-</ul>
-<p>在主题目录下<code>layout/_macro</code>中新建 <code>passage-end-tag.swig</code>文件,并添加以下内容：</p>
-<div><pre><code><span>&lt;div></span>
-    <span>{</span>% if not is_index %<span>}</span>
-        <span>&lt;div style="text-align:center;color: #ccc;font-size:14px;">
-              -------------本文结束&lt;i>&lt;/i>感谢您的阅读-------------
-        &lt;/div></span>
-    <span>{</span>% endif %<span>}</span>
-&lt;/div>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><ul>
-<li><strong>导入模板文件</strong></li>
-</ul>
-<p>在<code>layout/_macro/post.swig</code>文件中，找到：</p>
-<div><pre><code><span>{</span>#####################<span>}</span>
-<span>{</span>### END POST BODY ###<span>}</span>
-<span>{</span>#####################<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>在上面代码之前添加：</p>
-<div><pre><code><span>&lt;div></span>
-      <span>{</span>% if not is_index %<span>}</span>
-          <span>{</span>% include <span>'passage-end-tag.swig'</span> %<span>}</span>
-      <span>{</span>% endif %<span>}</span>
-&lt;/div>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><ul>
-<li><strong>配置</strong>
-在主题配置文件中添加：</li>
-</ul>
-<div><pre><code><span># 文章末尾添加“本文结束”标记</span>
-<span>passage_end_tag</span><span>:</span>
-  <span>enabled</span><span>:</span> <span>true</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="增强文章底部版权信息"> 增强文章底部版权信息</h3>
-<ul>
-<li>增加文章md文件的头部信息中添加<code>copyright: true</code>时，添加版权声明</li>
-<li>增加文章标题、发布时间、更新时间等信息</li>
-</ul>
-<p>在目录 <code>next/layout/_macro/下</code>添加 <code>my-copyright.swig</code>：</p>
-<div><pre><code><span>{</span>% if page.copyright %<span>}</span>
-<span>&lt;div>
-  &lt;script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js">&lt;/script>
-  
-  &lt;!-- JS库 sweetalert 可修改路径 -->
-  &lt;script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js">&lt;/script>
-  &lt;script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">&lt;/script>
-  &lt;p>&lt;span>本文标题:&lt;/span>&lt;a href="{{ url_for(page.path) }}"></span><span>{</span><span>{</span> page.title <span>}</span><span>}</span><span>&lt;/a>&lt;/p>
-  &lt;p>&lt;span>文章作者:&lt;/span>&lt;a href="/" title="访问 {{ theme.author }} 的个人博客"></span><span>{</span><span>{</span> theme.author <span>}</span><span>}</span><span>&lt;/a>&lt;/p>
-  &lt;p>&lt;span>发布时间:&lt;/span></span><span>{</span><span>{</span> page.date.<span>format</span><span>(</span><span>"YYYY年MM月DD日 - HH:MM"</span><span>)</span> <span>}</span><span>}</span><span>&lt;/p>
-  &lt;p>&lt;span>最后更新:&lt;/span></span><span>{</span><span>{</span> page.updated.<span>format</span><span>(</span><span>"YYYY年MM月DD日 - HH:MM"</span><span>)</span> <span>}</span><span>}</span><span>&lt;/p>
-  &lt;p>&lt;span>原始链接:&lt;/span>&lt;a href="{{ url_for(page.path) }}" title="{{ page.title }}"></span><span>{</span><span>{</span> page.permalink <span>}</span><span>}</span>&lt;/a>
-    &lt;span class=<span>"copy-path"  title="点击复制文章链接">&lt;i data-clipboard-text="</span><span>{</span><span>{</span> page.permalink <span>}</span><span>}</span><span>"  aria-label="</span>复制成功！">&lt;/i>&lt;/span>
-  &lt;/p>
-  &lt;p>&lt;span><span>许可协议</span><span>:</span>&lt;/span>&lt;i class=<span>"fa fa-creative-commons"</span>>&lt;/i> &lt;a rel=<span>"license"</span> href=<span>"https://creativecommons.org/licenses/by-nc-nd/4.0/"</span> target=<span>"_blank"</span> title=<span>"Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"</span>>署名-非商业性使用-禁止演绎 4.0 国际&lt;/a> 转载请保留原文链接及作者。&lt;/p>  
-&lt;/div>
-&lt;script> 
-    var clipboard = new <span>Clipboard</span><span>(</span><span>'.fa-clipboard'</span><span>)</span><span>;
-    $(".fa-clipboard").click(function()</span><span>{</span>
-      <span>clipboard.on('success', function()</span><span>{</span>
-        <span>swal(</span><span>{</span>   
-          <span>title</span><span>:</span> <span>""</span><span>,</span>   
-          <span>text</span><span>:</span> <span>'复制成功'</span><span>,</span>
-          <span>icon</span><span>:</span> <span>"success"</span><span>,</span> 
-          <span>showConfirmButton</span><span>:</span> true
-          <span>}</span><span>)</span><span>;</span>
-	<span>}</span><span>)</span><span>;</span>
-    <span>}</span><span>)</span><span>;  
-&lt;/script></span>
-<span>{</span>% endif %<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>在目录<code>next/source/css/_common/components/post/</code>下添加<code>my-post-copyright.styl</code>：</p>
-<div><pre><code><span>.my_post_copyright</span> <span>{</span>
-  <span>width</span><span>:</span> 85%<span>;</span>
-  <span>max-width</span><span>:</span> 45em<span>;</span>
-  <span>margin</span><span>:</span> 2.8em auto 0<span>;</span>
-  <span>padding</span><span>:</span> 0.5em 1.0em<span>;</span>
-  <span>border</span><span>:</span> 1px solid #d3d3d3<span>;</span>
-  <span>font-size</span><span>:</span> 0.93rem<span>;</span>
-  <span>line-height</span><span>:</span> 1.6em<span>;</span>
-  <span>word-break</span><span>:</span> break-all<span>;</span>
-  <span>background</span><span>:</span> <span>rgba</span><span>(</span>255<span>,</span>255<span>,</span>255<span>,</span>0.4<span>)</span><span>;</span>
-<span>}</span>
-<span>.my_post_copyright p</span><span>{</span><span>margin</span><span>:</span>0<span>;</span><span>}</span>
-<span>.my_post_copyright span</span> <span>{</span>
-  <span>display</span><span>:</span> inline-block<span>;</span>
-  <span>width</span><span>:</span> 5.2em<span>;</span>
-  <span>color</span><span>:</span> #b5b5b5<span>;</span>
-  <span>font-weight</span><span>:</span> bold<span>;</span>
-<span>}</span>
-<span>.my_post_copyright .raw</span> <span>{</span>
-  <span>margin-left</span><span>:</span> 1em<span>;</span>
-  <span>width</span><span>:</span> 5em<span>;</span>
-<span>}</span>
-<span>.my_post_copyright a</span> <span>{</span>
-  <span>color</span><span>:</span> #808080<span>;</span>
-  <span>border-bottom</span><span>:</span>0<span>;</span>
-<span>}</span>
-<span>.my_post_copyright a:hover</span> <span>{</span>
-  <span>color</span><span>:</span> #a3d2a3<span>;</span>
-  <span>text-decoration</span><span>:</span> underline<span>;</span>
-<span>}</span>
-<span>.my_post_copyright:hover .fa-clipboard</span> <span>{</span>
-  <span>color</span><span>:</span> #000<span>;</span>
-<span>}</span>
-<span>.my_post_copyright .post-url:hover</span> <span>{</span>
-  <span>font-weight</span><span>:</span> normal<span>;</span>
-<span>}</span>
-<span>.my_post_copyright .copy-path</span> <span>{</span>
-  <span>margin-left</span><span>:</span> 1em<span>;</span>
-  <span>width</span><span>:</span> 1em<span>;
-  +mobile()</span><span>{</span><span>display</span><span>:</span>none<span>;</span><span>}</span>
-<span>}</span>
-<span>.my_post_copyright .copy-path:hover</span> <span>{</span>
-  <span>color</span><span>:</span> #808080<span>;</span>
-  <span>cursor</span><span>:</span> pointer<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>修改<code>next/layout/_macro/post.swig</code>，在代码</p>
-<div><pre><code><span>{</span>#####################<span>}</span>
-<span>{</span>### END POST BODY ###<span>}</span>
-<span>{</span>#####################<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>之前添加增加如下代码：</p>
-<div><pre><code><span>&lt;div></span>
-      <span>{</span>% if not is_index %<span>}</span>
-        <span>{</span>% include <span>'my-copyright.swig'</span> %<span>}</span>
-      <span>{</span>% endif %<span>}</span>
-&lt;/div>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>修改<code>next/source/css/_common/components/post/post.styl</code>文件，在最后一行增加代码：</p>
-<div><pre><code>@import <span>"my-post-copyright"</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>保存重新生成即可。</p>
-<h2 id="参考"> 参考</h2>
-<blockquote>
-<p><a href="https://zhuanlan.zhihu.com/p/32957389" target="_blank" rel="noopener noreferrer">技术小白搭建hexo+github博客</a></p>
-<p><a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener noreferrer">next最新版主题下载使用</a></p>
-<p><a href="https://theme-next.iissnan.com" target="_blank" rel="noopener noreferrer">next主题官方文档</a></p>
-<p><a href="http://shenzekun.cn/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B.html" target="_blank" rel="noopener noreferrer">next主题个性化教程</a></p>
-<p><a href="https://iassas.com/archives/d6a90b9.html" target="_blank" rel="noopener noreferrer">next主题配置文件详解</a></p>
-<p><a href="https://blog.csdn.net/weixin_39345384/article/details/80544660" target="_blank" rel="noopener noreferrer">NexT v6.0+ 背景动画Canvas_nest设置无效的解决方案</a></p>
-<p><a href="http://zhuxin.tech/2017/10/20/%E7%BB%99%20Hexo%20%E6%90%AD%E5%BB%BA%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%A2%9E%E5%8A%A0%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E9%AA%8C%E8%AF%81/" target="_blank" rel="noopener noreferrer">给Hexo搭建的博客增加百度谷歌搜索引擎验证</a></p>
-<p><a href="https://github.com/theme-next/hexo-symbols-count-time" target="_blank" rel="noopener noreferrer">添加文章字数和读取文章的时间</a></p>
-<p><a href="https://www.jianshu.com/p/344cf061598d" target="_blank" rel="noopener noreferrer">hexo + next主题高级配置</a></p>
-</blockquote>
 ]]></content:encoded>
     </item>
     <item>
@@ -25769,6 +25780,158 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>8.2. 数字常量</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">8.2. 数字常量</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_8-2-数字常量"> 8.2. 数字常量</h1>
+<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
+带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
+内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
+<p><strong>样例 8-4. 数字常量的表示</strong></p>
+<div><pre><code>#!/bin/bash
+# numbers.sh: 不同进制数的表示
+
+# 十进制数: 默认
+let &quot;dec = 32&quot;
+echo &quot;decimal number = $dec&quot;             # 32
+# 一切正常。
+
+
+# 八进制数: 带前导&#39;0&#39;的数
+let &quot;oct = 032&quot;
+echo &quot;octal number = $oct&quot;               # 26
+# 结果以 十进制 打印输出了。
+# ------ ------ -----------
+
+
+# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
+let &quot;hex = 0x32&quot;
+echo &quot;hexadecimal number = $hex&quot;         # 50
+
+echo $((0x9abc))                         # 39612
+#     ^^      ^^   双圆括号进行表达式求值
+# 结果以十进制打印输出。
+
+
+
+# 其他进制数: BASE#NUMBER
+# BASE 范围:  2 - 64
+# NUMBER 必须以 BASE 规定的正确形式书写，如下:
+
+let &quot;bin = 2#111100111001101&quot;
+echo &quot;binary number = $bin&quot;              # 31181
+
+let &quot;b32 = 32#77&quot;
+echo &quot;base-32 number = $b32&quot;             # 231
+
+let &quot;b64 = 64#@_&quot;
+echo &quot;base-64 number = $b64&quot;             # 4031
+
+# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
+# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
+
+
+echo
+
+echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
+                                         # 1295 170 44822 3375
+
+#  重要提醒:
+#  ---------
+#  使用超出进制范围以外的符号会报错。
+
+let &quot;bad_oct = 081&quot;
+
+# (可能的) 报错信息:
+#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
+#              Octal numbers use only digits in the range 0 - 7.
+
+exit $?        # 退出码 = 1 (错误)
+
+# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>双圆括号结构</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">双圆括号结构</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="双圆括号结构"> 双圆括号结构</h1>
+<p>与<code>let</code>命令类似，<code>(( ... ))</code> 结构允许对算术表达式的扩展和求值。它是<code>let</code>命令的简化形式。例如，a=$(( 5 + 3 )) 会将变量a赋值成 5 + 3，也就是8。在Bash中，双圆括号结构也允许以C风格的方式操作变量。例如，(( var++ ))。</p>
+<p><strong>样例 8-5. 以C风格的方式操作变量</strong></p>
+<div><pre><code>#!/bin/bash
+# c-vars.sh
+# 以C风格的方式操作变量，使用(( ... ))结构
+
+
+echo
+
+(( a = 23 ))  #  C风格的变量赋值，注意&quot;=&quot;等号前后都有空格
+
+echo &quot;a (initial value) = $a&quot;   # 23
+
+(( a++ ))     #  后缀自增&#39;a&#39;，C-style.
+echo &quot;a (after a++) = $a&quot;       # 24
+
+(( a-- ))     #  后缀自减&#39;a&#39;, C-style.
+echo &quot;a (after a--) = $a&quot;       # 23
+
+
+(( ++a ))     #  前缀自增&#39;a&#39;, C-style.
+echo &quot;a (after ++a) = $a&quot;       # 24
+
+(( --a ))     #  前缀自减&#39;a&#39;, C-style.
+echo &quot;a (after --a) = $a&quot;       # 23
+
+echo
+
+########################################################
+#  注意，C风格的++，--运算符，前缀形式与后缀形式有不同的
+#+ 副作用。
+
+n=1; let --n &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # False
+n=1; let n-- &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # True
+
+#  感谢 Jeroen Domburg。
+########################################################
+
+echo
+
+(( t = a&lt;45?7:11 ))   # C风格三目运算符。
+#       ^  ^ ^
+echo &quot;If a &lt; 45, then t = 7, else t = 11.&quot;  # a = 23
+echo &quot;t = $t &quot;                              # t = 7
+
+echo
+
+
+# -----------
+# 复活节彩蛋!
+# -----------
+#  Chet Ramey 偷偷往Bash里加入了C风格的语句结构，
+#  还没写文档说明 (实际上很多是从ksh中继承过来的)。
+#  在Bash 文档中，Ramey把 (( ... ))结构称为shell 算术运算，
+#  但是这种表述并不准确...
+#  抱歉啊，Chet，把你的秘密抖出来了。
+
+#  参看 &quot;for&quot; 和 &quot;while&quot; 循环章节关于 (( ... )) 结构的部分。
+
+#  (( ... )) 结构在Bash 2.04版本之后才能正常工作。
+
+exit
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>还可以参看 <strong>样例 11-13</strong> 与 <strong>样例 8-4</strong>。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>8.1. 运算符</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/</guid>
@@ -26125,158 +26288,6 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>8.2. 数字常量</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_2_numerical_constants/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">8.2. 数字常量</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_8-2-数字常量"> 8.2. 数字常量</h1>
-<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
-带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
-内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
-<p><strong>样例 8-4. 数字常量的表示</strong></p>
-<div><pre><code>#!/bin/bash
-# numbers.sh: 不同进制数的表示
-
-# 十进制数: 默认
-let &quot;dec = 32&quot;
-echo &quot;decimal number = $dec&quot;             # 32
-# 一切正常。
-
-
-# 八进制数: 带前导&#39;0&#39;的数
-let &quot;oct = 032&quot;
-echo &quot;octal number = $oct&quot;               # 26
-# 结果以 十进制 打印输出了。
-# ------ ------ -----------
-
-
-# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
-let &quot;hex = 0x32&quot;
-echo &quot;hexadecimal number = $hex&quot;         # 50
-
-echo $((0x9abc))                         # 39612
-#     ^^      ^^   双圆括号进行表达式求值
-# 结果以十进制打印输出。
-
-
-
-# 其他进制数: BASE#NUMBER
-# BASE 范围:  2 - 64
-# NUMBER 必须以 BASE 规定的正确形式书写，如下:
-
-let &quot;bin = 2#111100111001101&quot;
-echo &quot;binary number = $bin&quot;              # 31181
-
-let &quot;b32 = 32#77&quot;
-echo &quot;base-32 number = $b32&quot;             # 231
-
-let &quot;b64 = 64#@_&quot;
-echo &quot;base-64 number = $b64&quot;             # 4031
-
-# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
-# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
-
-
-echo
-
-echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
-                                         # 1295 170 44822 3375
-
-#  重要提醒:
-#  ---------
-#  使用超出进制范围以外的符号会报错。
-
-let &quot;bad_oct = 081&quot;
-
-# (可能的) 报错信息:
-#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
-#              Octal numbers use only digits in the range 0 - 7.
-
-exit $?        # 退出码 = 1 (错误)
-
-# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>双圆括号结构</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_3_the_double_parentheses_construct/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">双圆括号结构</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="双圆括号结构"> 双圆括号结构</h1>
-<p>与<code>let</code>命令类似，<code>(( ... ))</code> 结构允许对算术表达式的扩展和求值。它是<code>let</code>命令的简化形式。例如，a=$(( 5 + 3 )) 会将变量a赋值成 5 + 3，也就是8。在Bash中，双圆括号结构也允许以C风格的方式操作变量。例如，(( var++ ))。</p>
-<p><strong>样例 8-5. 以C风格的方式操作变量</strong></p>
-<div><pre><code>#!/bin/bash
-# c-vars.sh
-# 以C风格的方式操作变量，使用(( ... ))结构
-
-
-echo
-
-(( a = 23 ))  #  C风格的变量赋值，注意&quot;=&quot;等号前后都有空格
-
-echo &quot;a (initial value) = $a&quot;   # 23
-
-(( a++ ))     #  后缀自增&#39;a&#39;，C-style.
-echo &quot;a (after a++) = $a&quot;       # 24
-
-(( a-- ))     #  后缀自减&#39;a&#39;, C-style.
-echo &quot;a (after a--) = $a&quot;       # 23
-
-
-(( ++a ))     #  前缀自增&#39;a&#39;, C-style.
-echo &quot;a (after ++a) = $a&quot;       # 24
-
-(( --a ))     #  前缀自减&#39;a&#39;, C-style.
-echo &quot;a (after --a) = $a&quot;       # 23
-
-echo
-
-########################################################
-#  注意，C风格的++，--运算符，前缀形式与后缀形式有不同的
-#+ 副作用。
-
-n=1; let --n &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # False
-n=1; let n-- &amp;&amp; echo &quot;True&quot; || echo &quot;False&quot;  # True
-
-#  感谢 Jeroen Domburg。
-########################################################
-
-echo
-
-(( t = a&lt;45?7:11 ))   # C风格三目运算符。
-#       ^  ^ ^
-echo &quot;If a &lt; 45, then t = 7, else t = 11.&quot;  # a = 23
-echo &quot;t = $t &quot;                              # t = 7
-
-echo
-
-
-# -----------
-# 复活节彩蛋!
-# -----------
-#  Chet Ramey 偷偷往Bash里加入了C风格的语句结构，
-#  还没写文档说明 (实际上很多是从ksh中继承过来的)。
-#  在Bash 文档中，Ramey把 (( ... ))结构称为shell 算术运算，
-#  但是这种表述并不准确...
-#  抱歉啊，Chet，把你的秘密抖出来了。
-
-#  参看 &quot;for&quot; 和 &quot;while&quot; 循环章节关于 (( ... )) 结构的部分。
-
-#  (( ... )) 结构在Bash 2.04版本之后才能正常工作。
-
-exit
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>还可以参看 <strong>样例 11-13</strong> 与 <strong>样例 8-4</strong>。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>运算符优先级</title>
@@ -31973,26 +31984,6 @@ EOF</span>
 ]]></content:encoded>
     </item>
     <item>
-      <title>18 正则表达式</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_regular_expressions/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_regular_expressions/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18 正则表达式</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
-<blockquote>
-<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
-<em>--Stowe Boyd</em></p>
-</blockquote>
-<p>目录</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
-</ul>
-<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>18.3 正则表达式对照表</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_3_regular_expression_comparison_table/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_3_regular_expression_comparison_table/</guid>
@@ -32658,6 +32649,26 @@ awk 指令默认是使用 “EREs&quot;</p>
 ]]></content:encoded>
     </item>
     <item>
+      <title>18 正则表达式</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_regular_expressions/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_regular_expressions/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">18 正则表达式</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
+<blockquote>
+<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
+<em>--Stowe Boyd</em></p>
+</blockquote>
+<p>目录</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
+</ul>
+<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>19 嵌入文档</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/19_here_documents/</guid>
@@ -33244,195 +33255,6 @@ EOF
 <p><strong>Notes:</strong>
   除此之外, Dennis Benzinger 指出,  <a href="http://tldp.org/LDP/abs/html/here-docs.html#LIMITSTRDASH" target="_blank" rel="noopener noreferrer">使用 &lt;&lt;- 抑制 tab.</a></p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>20.1 使用 exec</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/20_1_use_exec/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/20_1_use_exec/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.1 使用 exec</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
-<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
-<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
-<div><pre><code>#!/bin/bash
-# 使用 &#39;exec&#39; 重定向 标准输入 .
-
-
-exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
-                   # .
-
-exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
-
-read a1            # 读取文件 &quot;data-file&quot; 首行.
-read a2            # 读取文件 &quot;data-file&quot; 第二行
-
-echo
-echo &quot;Following lines read from file.&quot;
-echo &quot;-------------------------------&quot;
-echo $a1
-echo $a2
-
-echo; echo; echo
-
-exec 0&lt;&amp;6 6&lt;&amp;-
-#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
-#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
-#
-# &lt;&amp;6 6&lt;&amp;-    also works.
-
-echo -n &quot;Enter data  &quot;
-read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
-echo &quot;Input read from stdin.&quot;
-echo &quot;----------------------&quot;
-echo &quot;b1 = $b1&quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
-<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
-<p>样例 20-2. 使用 exec 重定向标准输出</p>
-<div><pre><code>#!/bin/bash
-# reassign-stdout.sh
-
-LOGFILE=logfile.txt
-
-exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
-                    # 保存标准输出.
-
-exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
-
-# ----------------------------------------------------------- #
-# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
-
-echo -n &quot;Logfile: &quot;
-date
-echo &quot;-------------------------------------&quot;
-echo
-
-echo &quot;Output of \&quot;ls -al\&quot; command&quot;
-echo
-ls -al
-echo; echo
-echo &quot;Output of \&quot;df\&quot; command&quot;
-echo
-df
-
-# ----------------------------------------------------------- #
-
-exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
-
-echo
-echo &quot;== stdout now restored to default == &quot;
-echo
-ls -al
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
-<div><pre><code>#!/bin/bash
-# upperconv.sh
-# 转化指定的输入文件成大写.
-
-E_FILE_ACCESS=70
-E_WRONG_ARGS=71
-
-if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
-then
-  echo &quot;Can&#39;t read from input file!&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_FILE_ACCESS
-fi                   #  同样的错误退出
-                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
-
-if [ -z &quot;$2&quot; ]
-then
-  echo &quot;Need to specify output file.&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_WRONG_ARGS
-fi
-
-
-exec 4&lt;&amp;0
-exec &lt; $1            # 将从输入文件读取.
-
-exec 7&gt;&amp;1
-exec &gt; $2            # 将写入输出文件.
-                     # 假定输出文件可写 (增加检测?).
-
-# -----------------------------------------------
-    cat - | tr a-z A-Z   # 转化大写.
-#   ^^^^^                # 读取标准输入.
-#           ^^^^^^^^^^   # 写到标准输出.
-# 然而标准输入和标准输出都会被重定向.
-# 注意 &#39;cat&#39; 可能会被遗漏.
-# -----------------------------------------------
-
-exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
-exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
-
-# 恢复后, 下面这行会预期从标准输出打印.
-echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
-<p>样例 20-4. 规避子 shell</p>
-<div><pre><code>#!/bin/bash
-# avoid-subshell.sh
-# Matthew Walker 的建议.
-
-Lines=0
-
-echo
-
-cat myfile.txt | while read line;
-                 do {
-                   echo $line
-                   (( Lines++ ));  #  递增变量的值趋近外层循环
-                                   #  使用子 shell 会有问题.
-                 }
-                 done
-
-echo &quot;Number of lines read = $Lines&quot;     # 0
-                                         # 报错!
-
-echo &quot;------------------------&quot;
-
-
-exec 3&lt;&gt; myfile.txt
-while read line &lt;&amp;3
-do {
-  echo &quot;$line&quot;
-  (( Lines++ ));                   #  递增变量的值趋近外层循环.
-                                   #  没有子 shell，就不会有问题.
-}
-done
-exec 3&gt;&amp;-
-
-echo &quot;Number of lines read = $Lines&quot;     # 8
-
-echo
-
-exit 0
-
-# 下面的行并不在脚本里.
-
-$ cat myfile.txt
-
-Line 1.
-Line 2.
-Line 3.
-Line 4.
-Line 5.
-Line 6.
-Line 7.
-Line 8.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>20.2 重定向代码块</title>
@@ -34278,6 +34100,195 @@ exit 0
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>20.1 使用 exec</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/20_1_use_exec/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/20_1_use_exec/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">20.1 使用 exec</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
+<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
+<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
+<div><pre><code>#!/bin/bash
+# 使用 &#39;exec&#39; 重定向 标准输入 .
+
+
+exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
+                   # .
+
+exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
+
+read a1            # 读取文件 &quot;data-file&quot; 首行.
+read a2            # 读取文件 &quot;data-file&quot; 第二行
+
+echo
+echo &quot;Following lines read from file.&quot;
+echo &quot;-------------------------------&quot;
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0&lt;&amp;6 6&lt;&amp;-
+#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
+#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
+#
+# &lt;&amp;6 6&lt;&amp;-    also works.
+
+echo -n &quot;Enter data  &quot;
+read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
+echo &quot;Input read from stdin.&quot;
+echo &quot;----------------------&quot;
+echo &quot;b1 = $b1&quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
+<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
+<p>样例 20-2. 使用 exec 重定向标准输出</p>
+<div><pre><code>#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
+                    # 保存标准输出.
+
+exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
+
+# ----------------------------------------------------------- #
+# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
+
+echo -n &quot;Logfile: &quot;
+date
+echo &quot;-------------------------------------&quot;
+echo
+
+echo &quot;Output of \&quot;ls -al\&quot; command&quot;
+echo
+ls -al
+echo; echo
+echo &quot;Output of \&quot;df\&quot; command&quot;
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
+
+echo
+echo &quot;== stdout now restored to default == &quot;
+echo
+ls -al
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
+<div><pre><code>#!/bin/bash
+# upperconv.sh
+# 转化指定的输入文件成大写.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
+then
+  echo &quot;Can&#39;t read from input file!&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_FILE_ACCESS
+fi                   #  同样的错误退出
+                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
+
+if [ -z &quot;$2&quot; ]
+then
+  echo &quot;Need to specify output file.&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4&lt;&amp;0
+exec &lt; $1            # 将从输入文件读取.
+
+exec 7&gt;&amp;1
+exec &gt; $2            # 将写入输出文件.
+                     # 假定输出文件可写 (增加检测?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # 转化大写.
+#   ^^^^^                # 读取标准输入.
+#           ^^^^^^^^^^   # 写到标准输出.
+# 然而标准输入和标准输出都会被重定向.
+# 注意 &#39;cat&#39; 可能会被遗漏.
+# -----------------------------------------------
+
+exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
+exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
+
+# 恢复后, 下面这行会预期从标准输出打印.
+echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
+<p>样例 20-4. 规避子 shell</p>
+<div><pre><code>#!/bin/bash
+# avoid-subshell.sh
+# Matthew Walker 的建议.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  递增变量的值趋近外层循环
+                                   #  使用子 shell 会有问题.
+                 }
+                 done
+
+echo &quot;Number of lines read = $Lines&quot;     # 0
+                                         # 报错!
+
+echo &quot;------------------------&quot;
+
+
+exec 3&lt;&gt; myfile.txt
+while read line &lt;&amp;3
+do {
+  echo &quot;$line&quot;
+  (( Lines++ ));                   #  递增变量的值趋近外层循环.
+                                   #  没有子 shell，就不会有问题.
+}
+done
+exec 3&gt;&amp;-
+
+echo &quot;Number of lines read = $Lines&quot;     # 8
+
+echo
+
+exit 0
+
+# 下面的行并不在脚本里.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>第二十三章. 进程替换</title>
@@ -39629,33 +39640,6 @@ exit 0
 ]]></content:encoded>
     </item>
     <item>
-      <title>第36章 杂项</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_miscellany/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_miscellany/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第36章 杂项</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第36章-杂项"> 第36章 杂项</h1>
-<blockquote>
-<p>Nobody really knows what the Bourne shell's grammar is. Even examination of the source code is little help.
-——Tom Duff</p>
-</blockquote>
-<p>目录</p>
-<ul>
-<li><a href="./36_1_interactive_and_non-interactive_shells_and_scripts.html">36.1 交互和非交互shell以及脚本</a></li>
-<li><a href="./36_2_shell_wrappers.html">36.2 shell wrappers</a></li>
-<li><a href="./36_3_tests_and_comparisons_alternatives.html">36.3 测试和比较的其他方法</a></li>
-<li><a href="./36_4_recursion_a_script_calling_itself.html">36.4 递归：调用自己的脚本</a></li>
-<li><a href="./36_5_colorizing_scripts.html">36.5 “彩色”的脚本</a></li>
-<li><a href="./36_6_optimizations.html">36.6 优化</a></li>
-<li><a href="./36_7_assorted_tips.html">36.7 其他技巧</a></li>
-<li><a href="./36_8_security_issues.html">36.8 安全问题</a></li>
-<li><a href="./36_9_portability_issues.html">36.9 可移植性问题</a></li>
-<li><a href="./36_10_shell_scripting_under_windows.html">36.10 Windows系统下的脚本</a></li>
-</ul>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第五部分 高级话题</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/</guid>
@@ -39695,6 +39679,457 @@ exit 0
 <li><a href="./33_options.html">33. 选项</a></li>
 <li><a href="./34_Gotchsa.html">34. 陷阱</a></li>
 </ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>第36章 杂项</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_miscellany/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_miscellany/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第36章 杂项</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第36章-杂项"> 第36章 杂项</h1>
+<blockquote>
+<p>Nobody really knows what the Bourne shell's grammar is. Even examination of the source code is little help.
+——Tom Duff</p>
+</blockquote>
+<p>目录</p>
+<ul>
+<li><a href="./36_1_interactive_and_non-interactive_shells_and_scripts.html">36.1 交互和非交互shell以及脚本</a></li>
+<li><a href="./36_2_shell_wrappers.html">36.2 shell wrappers</a></li>
+<li><a href="./36_3_tests_and_comparisons_alternatives.html">36.3 测试和比较的其他方法</a></li>
+<li><a href="./36_4_recursion_a_script_calling_itself.html">36.4 递归：调用自己的脚本</a></li>
+<li><a href="./36_5_colorizing_scripts.html">36.5 “彩色”的脚本</a></li>
+<li><a href="./36_6_optimizations.html">36.6 优化</a></li>
+<li><a href="./36_7_assorted_tips.html">36.7 其他技巧</a></li>
+<li><a href="./36_8_security_issues.html">36.8 安全问题</a></li>
+<li><a href="./36_9_portability_issues.html">36.9 可移植性问题</a></li>
+<li><a href="./36_10_shell_scripting_under_windows.html">36.10 Windows系统下的脚本</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>开机集成zabbix和jumpserver脚本</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part7/shili/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part7/shili/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">开机集成zabbix和jumpserver脚本</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
+<div><pre><code><span>#!/bin/bash</span>
+<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
+<span>ANS_PASS</span><span>=</span><span>"****"</span>
+<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
+<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
+<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
+<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
+
+<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
+
+<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
+  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
+  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+<span>}</span>
+
+<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
+  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
+  <span>fi</span> 
+  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
+    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
+    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
+        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
+        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
+<span>}</span>
+
+<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
+  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
+  set timeout 180
+  spawn ssh root@192.168.162.1
+  expect {
+    "(yes/no)?" {
+      send "yes<span title="\r">\r</span>";
+      expect "password:";
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "password:" {
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "*#" {
+      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
+             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
+    }
+  }
+  expect eof
+EOF</span>
+<span>}</span>
+
+<span>main</span><span>(</span><span>)</span> <span>{</span>
+  update_ssh
+  integrate_jms <span>"<span>$@</span>"</span>
+  integrate_ans_zbx <span>"<span>$@</span>"</span> 
+<span>}</span>
+
+main <span>"<span>$@</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>《Advanced Bash-Scripting Guide》 in Chinese</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">《Advanced Bash-Scripting Guide》 in Chinese</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
+<blockquote>
+<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
+<p>感谢开源翻译！！！</p>
+</blockquote>
+<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
+<p>《高级Bash脚本编程指南》Revision 10中文版</p>
+<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
+<h3 id="原著"> 原著</h3>
+<ul>
+<li>原著链接：http://tldp.org/LDP/abs/html/</li>
+<li>原作：Mendel Cooper</li>
+<li>原著版本：Revision 10, 10 Mar 2014</li>
+</ul>
+<h3 id="译著"> 译著</h3>
+<ul>
+<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
+<li>译者：杨春敏 黄毅</li>
+<li>译著版本：Revision 3.7, 23 Oct 2005</li>
+<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
+<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
+</ul>
+<h2 id="翻译作品"> 翻译作品</h2>
+<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
+<h2 id="翻译进度"> 翻译进度</h2>
+<ul>
+<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
+<ul>
+<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
+<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
+<ul>
+<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
+<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
+<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
+<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
+<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
+<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第三部分 Shell进阶[@imcmy]
+<ul>
+<li>[x] 9. 换个角度看变量[@imcmy]</li>
+<li>[x] 10. 变量处理[@imcmy]</li>
+<li>[x] 11. 循环与分支[@imcmy]</li>
+<li>[x] 12. 命令替换[@imcmy]</li>
+<li>[x] 13. 算术扩展[@imcmy]</li>
+<li>[x] 14. 休息时间[@imcmy]</li>
+</ul>
+</li>
+<li>[x] 第四部分. 命令[@imcmy]
+<ul>
+<li>[x] 15. 内建命令[@imcmy]</li>
+<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
+<ul>
+<li>[x] 16.1 基本命令[@hsupu]</li>
+<li>[ ] 16.2 复杂命令</li>
+<li>[ ] 16.3 时间与日期命令</li>
+<li>[ ] 16.4 文本处理命令</li>
+<li>[ ] 16.5 文件与归档命令</li>
+<li>[ ] 16.6 通信命令</li>
+<li>[ ] 16.7 终端控制命令</li>
+<li>[ ] 16.8 数学命令</li>
+<li>[ ] 16.9 杂项命令</li>
+</ul>
+</li>
+<li>[ ] 17. 系统与高级命令</li>
+</ul>
+</li>
+<li>[ ] 第五章. 高级话题
+<ul>
+<li>[x] 18. 正则表达式[@Zjie]</li>
+<li>[x] 19. 嵌入文档[@mingmings]</li>
+<li>[x] 20. I/O 重定向[@mingmings]</li>
+<li>[x] 21. Subshells[@ysun90]</li>
+<li>[x] 22. 限制模式的Shell[@panblack]</li>
+<li>[x] 23. 进程替换[@panblack]</li>
+<li>[x] 24. 函数[@zy416548283]</li>
+<li>[x] 25. 别名[@mingmings]</li>
+<li>[x] 26. 列表结构[@panblack]</li>
+<li>[x] 27. 数组[@zy416548283]</li>
+<li>[x] 28. 间接引用[@plutonji]</li>
+<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
+<li>[x] 30. 网络编程[@Zjie]</li>
+<li>[ ] 31. Of Zeros and Nulls</li>
+<li>[x] 32. 调试[@wuqichao]</li>
+<li>[x] 33. 选项[@zy416548283]</li>
+<li>[x] 34. 陷阱[@liuburn]</li>
+<li>[ ] 35. Scripting With Style</li>
+<li>[ ] 36. 杂项[@richard-ma]</li>
+<li>[ ] 37. Bash, versions 2, 3, and 4</li>
+</ul>
+</li>
+<li>[x] 38. 后记[@zy416548283]</li>
+<li>[ ] Bibliography</li>
+<li>[ ] 附录
+<ul>
+<li>[ ] A. Contributed Scripts</li>
+<li>[ ] B. Reference Cards</li>
+<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
+<ul>
+<li>[x] C.1 Sed[@wuqichao]</li>
+<li>[x] C.2 Awk[@wuqichao]</li>
+</ul>
+</li>
+<li>[ ] D. Parsing and Managing Pathnames</li>
+<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
+<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
+<li>[ ] G. Command-Line Options
+<ul>
+<li>[ ] G.1 Standard Command-Line Options</li>
+<li>[ ] G.2 Bash Command-Line Options</li>
+</ul>
+</li>
+<li>[x] H. 重要文件[@ShadowRZ]</li>
+<li>[ ] I. Important System Directories</li>
+<li>[ ] J. An Introduction to Programmable Completion</li>
+<li>[ ] K. Localization</li>
+<li>[ ] L. History Commands</li>
+<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
+<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
+<li>[ ] O. Exercises
+<ul>
+<li>O.1 Analyzing Scripts</li>
+<li>O.2 Writing Scripts</li>
+</ul>
+</li>
+<li>[ ] P. Revision History</li>
+<li>[ ] Q. Download and Mirror Sites</li>
+<li>[ ] R. To Do List</li>
+<li>[ ] S. Copyright</li>
+<li>[x] T. ASCII 表[@ShadowRZ]</li>
+</ul>
+</li>
+<li>[ ] Index</li>
+<li>[ ] List of Tables</li>
+<li>[ ] List of Examples</li>
+</ul>
+<h2 id="翻译校审流程"> 翻译校审流程</h2>
+<h3 id="初始化"> 初始化</h3>
+<ol>
+<li>首先fork项目</li>
+<li>把fork过去的项目clone到本地</li>
+<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
+<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
+<li>运行 <code>git remote update</code>更新</li>
+<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
+<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
+</ol>
+<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
+<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
+<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
+<ol>
+<li>
+<p>保证在dev分支中</p>
+</li>
+<li>
+<p>打开README.md，在翻译进度后加上你自己的github名</p>
+<blockquote>
+<p>1. Shell Programming! [@翻译人][@校审人]</p>
+</blockquote>
+</li>
+<li>
+<p>本地提交修改，写明提交信息</p>
+</li>
+<li>
+<p>push到你fork的项目中，然后登录GitHub</p>
+</li>
+<li>
+<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
+<blockquote>
+<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
+</blockquote>
+</li>
+<li>
+<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
+</li>
+</ol>
+<blockquote>
+<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
+</blockquote>
+<h2 id="翻译校审建议"> 翻译校审建议</h2>
+<ol>
+<li>使用markdown进行翻译校审，文件名必须使用英文</li>
+<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
+<li>有任何问题随时欢迎发issue</li>
+<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
+<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
+</ol>
+<h2 id="样式规范"> 样式规范</h2>
+<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
+<div><pre><code>{% hint style="info" %}
+Hello world
+{% endhint %}
+​```
+
+所有的脚注footnote都需使用html代码进行注释。
+
+## 关于版权
+
+根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
+
+翻译参与人员（按名称排序）：
+
+- @chuchingkai
+- @hsupu
+- @imcmy
+- @liuburn
+- @mingmings
+- @mr253727942
+- @panblack
+- @plutonji
+- @richard-ma
+- @samita2030
+- @ShadowRZ
+- @wuqichao
+- @ysun90
+- @zhaozq
+- @zihengcat
+- @Zjie
+- @zy416548283
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content:encoded>
+      <enclosure url="https://badges.gitter.im/gitterHQ/gitter.png" type="image/png"/>
+    </item>
+    <item>
+      <title>Harbor 搭建</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Harbor 搭建</source>
+      <category>常见服务的搭建</category>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="harbor-搭建"> Harbor 搭建</h1>
+<h1 id="harbor创建"> Harbor创建</h1>
+<h2 id="安装依赖软件"> 安装依赖软件</h2>
+<div><pre><code>yum -y install openssl
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="installation-steps"> Installation Steps</h2>
+<p>1）Offline installer:</p>
+<p>从github上下载官方最新包，然后上传到服务器上</p>
+<p>2）解压</p>
+<div><pre><code>tar xvf harbor-offline-installer-&lt;version&gt;.tgz  -C /usr/local/
+</code></pre>
+<div><span>1</span><br></div></div><p>3）修改配置文件</p>
+<div><pre><code># cd /usr/local/harbor
+# vim harbor.yml
+# 将hostname改为对应的本机地址（not localhost or 127.0.0.1）
+# 修改harbor_admin_password管理用户密码，只能在这里改，改后不可再改
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>hostname一定要用域名</p>
+</blockquote>
+<p>4）安装启动</p>
+<div><pre><code>./install
+</code></pre>
+<div><span>1</span><br></div></div><h1 id="configuring-harbor-with-https-access"> Configuring Harbor with HTTPS Access</h1>
+<h2 id="getting-certificate-authority"> Getting Certificate Authority</h2>
+<div><pre><code># hostnamectl set-hostname sdqcharbor.com
+# echo &quot;本机地址 sdqcharbor.com&quot; &gt;&gt; /etc/hosts
+# mkdir -p /opt/certs
+# cd /opt/certs
+# openssl genrsa -out ca.key 4096
+# openssl req -x509 -new -nodes -sha512 -days 3650 \
+  -subj &quot;/CN=sdqcharbor.com&quot; \
+  -key ca.key \
+  -out ca.crt
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="getting-server-certificate"> Getting Server Certificate</h2>
+<p><strong>1) Create your own Private Key:</strong></p>
+<div><pre><code>openssl genrsa -out sdqcharbor.com.key 4096
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>2) Generate a Certificate Signing Request:</strong></p>
+<div><pre><code>openssl req -sha512 -new \
+  -subj &quot;/CN=sdqcharbor.com&quot; \
+  -key sdqcharbor.com.key \
+  -out sdqcharbor.com.csr
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>3) Generate the certificate of your registry host:</strong></p>
+<div><pre><code>cat &gt; v3.ext &lt;&lt;-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth 
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1=sdqcharbor.com
+DNS.2=192.168.162.45
+EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><div><pre><code>openssl x509 -req -sha512 -days 3650     -extfile v3.ext     -CA ca.crt -CAkey ca.key -CAcreateserial     -in sdqcharbor.com.csr     -out sdqcharbor.com.crt
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="configuration-and-installation"> Configuration and Installation</h2>
+<div><pre><code>mkdir /data/cert
+cp sdqcharbor.com.crt /data/cert/
+cp sdqcharbor.com.key /data/cert/
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>2) Configure Server Certificate, Key and CA for Docker</strong></p>
+<div><pre><code>openssl x509 -inform PEM -in sdqcharbor.com.crt -out sdqcharbor.com.cert
+</code></pre>
+<div><span>1</span><br></div></div><p>Delpoy .com.cert<code>,</code>yourdomain.com.key<code>, and</code>ca.crt` for Docker:</p>
+<div><pre><code>mkdir /etc/docker/certs.d/sdqcharbor.com
+cp sdqcharbor.com.cert sdqcharbor.com.key ca.crt /etc/docker/certs.d/sdqcharbor.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>3) Configure Harbor</strong></p>
+<p>vim /usr/local/harbor/harbor.yml</p>
+<p>修改为以下内容</p>
+<div><pre><code>hostname: sdqcharbor.com
+https:
+  certificate: /data/cert/sdqcharbor.com.crt
+  private_key: /data/cert/sdqcharbor.com.key
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>If Harbor is already running, stop and remove the existing instance. Your image data remain in the file system</p>
+<div><pre><code>docker-compose down -v
+rm -rf /data/database/
+rm -rf /data/registry/
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>编辑docker中配置文件，<code>daemon.json</code>，去掉<code>&quot;insecure-registries&quot;: [&quot;sdqcharbor.com&quot;]</code>这一行</p>
+<p>重启docker</p>
+<div><pre><code>systemctl daemon-reload
+systemctl restart docker
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>预编译</p>
+<div><pre><code>./prepare
+docker-compose -f ./docker-compose.yml up -d
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>登录</p>
+<div><pre><code>docker login sdqcharbor.com
+</code></pre>
+<div><span>1</span><br></div></div><p>上传镜像</p>
+<div><pre><code>docker tag centos:latest sdqcharbor.com/library/centos:latest
+docker push sdqcharbor.com/library/centos:latest 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h1 id="参考文档"> 参考文档</h1>
+<blockquote>
+<p><a href="https://goharbor.io/docs/1.10/install-config/download-installer/" target="_blank" rel="noopener noreferrer">官方文档</a></p>
+</blockquote>
 ]]></content:encoded>
     </item>
     <item>
@@ -40313,434 +40748,14 @@ mypackage::<span>my_func</span><span>(</span><span>)</span> <span>{</span>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>开机集成zabbix和jumpserver脚本</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part7/shili/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part7/shili/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">开机集成zabbix和jumpserver脚本</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
-<div><pre><code><span>#!/bin/bash</span>
-<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
-<span>ANS_PASS</span><span>=</span><span>"****"</span>
-<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
-<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
-<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
-<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
-
-<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
-
-<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
-  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
-  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-<span>}</span>
-
-<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
-  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
-  <span>fi</span> 
-  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
-    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
-    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
-        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
-        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
-<span>}</span>
-
-<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
-  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
-  set timeout 180
-  spawn ssh root@192.168.162.1
-  expect {
-    "(yes/no)?" {
-      send "yes<span title="\r">\r</span>";
-      expect "password:";
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "password:" {
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "*#" {
-      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
-             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
-    }
-  }
-  expect eof
-EOF</span>
-<span>}</span>
-
-<span>main</span><span>(</span><span>)</span> <span>{</span>
-  update_ssh
-  integrate_jms <span>"<span>$@</span>"</span>
-  integrate_ans_zbx <span>"<span>$@</span>"</span> 
-<span>}</span>
-
-main <span>"<span>$@</span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>《Advanced Bash-Scripting Guide》 in Chinese</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">《Advanced Bash-Scripting Guide》 in Chinese</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
-<blockquote>
-<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
-<p>感谢开源翻译！！！</p>
-</blockquote>
-<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
-<p>《高级Bash脚本编程指南》Revision 10中文版</p>
-<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
-<h3 id="原著"> 原著</h3>
-<ul>
-<li>原著链接：http://tldp.org/LDP/abs/html/</li>
-<li>原作：Mendel Cooper</li>
-<li>原著版本：Revision 10, 10 Mar 2014</li>
-</ul>
-<h3 id="译著"> 译著</h3>
-<ul>
-<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
-<li>译者：杨春敏 黄毅</li>
-<li>译著版本：Revision 3.7, 23 Oct 2005</li>
-<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
-<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
-</ul>
-<h2 id="翻译作品"> 翻译作品</h2>
-<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
-<h2 id="翻译进度"> 翻译进度</h2>
-<ul>
-<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
-<ul>
-<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
-<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
-<ul>
-<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
-<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
-<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
-<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
-<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
-<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第三部分 Shell进阶[@imcmy]
-<ul>
-<li>[x] 9. 换个角度看变量[@imcmy]</li>
-<li>[x] 10. 变量处理[@imcmy]</li>
-<li>[x] 11. 循环与分支[@imcmy]</li>
-<li>[x] 12. 命令替换[@imcmy]</li>
-<li>[x] 13. 算术扩展[@imcmy]</li>
-<li>[x] 14. 休息时间[@imcmy]</li>
-</ul>
-</li>
-<li>[x] 第四部分. 命令[@imcmy]
-<ul>
-<li>[x] 15. 内建命令[@imcmy]</li>
-<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
-<ul>
-<li>[x] 16.1 基本命令[@hsupu]</li>
-<li>[ ] 16.2 复杂命令</li>
-<li>[ ] 16.3 时间与日期命令</li>
-<li>[ ] 16.4 文本处理命令</li>
-<li>[ ] 16.5 文件与归档命令</li>
-<li>[ ] 16.6 通信命令</li>
-<li>[ ] 16.7 终端控制命令</li>
-<li>[ ] 16.8 数学命令</li>
-<li>[ ] 16.9 杂项命令</li>
-</ul>
-</li>
-<li>[ ] 17. 系统与高级命令</li>
-</ul>
-</li>
-<li>[ ] 第五章. 高级话题
-<ul>
-<li>[x] 18. 正则表达式[@Zjie]</li>
-<li>[x] 19. 嵌入文档[@mingmings]</li>
-<li>[x] 20. I/O 重定向[@mingmings]</li>
-<li>[x] 21. Subshells[@ysun90]</li>
-<li>[x] 22. 限制模式的Shell[@panblack]</li>
-<li>[x] 23. 进程替换[@panblack]</li>
-<li>[x] 24. 函数[@zy416548283]</li>
-<li>[x] 25. 别名[@mingmings]</li>
-<li>[x] 26. 列表结构[@panblack]</li>
-<li>[x] 27. 数组[@zy416548283]</li>
-<li>[x] 28. 间接引用[@plutonji]</li>
-<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
-<li>[x] 30. 网络编程[@Zjie]</li>
-<li>[ ] 31. Of Zeros and Nulls</li>
-<li>[x] 32. 调试[@wuqichao]</li>
-<li>[x] 33. 选项[@zy416548283]</li>
-<li>[x] 34. 陷阱[@liuburn]</li>
-<li>[ ] 35. Scripting With Style</li>
-<li>[ ] 36. 杂项[@richard-ma]</li>
-<li>[ ] 37. Bash, versions 2, 3, and 4</li>
-</ul>
-</li>
-<li>[x] 38. 后记[@zy416548283]</li>
-<li>[ ] Bibliography</li>
-<li>[ ] 附录
-<ul>
-<li>[ ] A. Contributed Scripts</li>
-<li>[ ] B. Reference Cards</li>
-<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
-<ul>
-<li>[x] C.1 Sed[@wuqichao]</li>
-<li>[x] C.2 Awk[@wuqichao]</li>
-</ul>
-</li>
-<li>[ ] D. Parsing and Managing Pathnames</li>
-<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
-<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
-<li>[ ] G. Command-Line Options
-<ul>
-<li>[ ] G.1 Standard Command-Line Options</li>
-<li>[ ] G.2 Bash Command-Line Options</li>
-</ul>
-</li>
-<li>[x] H. 重要文件[@ShadowRZ]</li>
-<li>[ ] I. Important System Directories</li>
-<li>[ ] J. An Introduction to Programmable Completion</li>
-<li>[ ] K. Localization</li>
-<li>[ ] L. History Commands</li>
-<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
-<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
-<li>[ ] O. Exercises
-<ul>
-<li>O.1 Analyzing Scripts</li>
-<li>O.2 Writing Scripts</li>
-</ul>
-</li>
-<li>[ ] P. Revision History</li>
-<li>[ ] Q. Download and Mirror Sites</li>
-<li>[ ] R. To Do List</li>
-<li>[ ] S. Copyright</li>
-<li>[x] T. ASCII 表[@ShadowRZ]</li>
-</ul>
-</li>
-<li>[ ] Index</li>
-<li>[ ] List of Tables</li>
-<li>[ ] List of Examples</li>
-</ul>
-<h2 id="翻译校审流程"> 翻译校审流程</h2>
-<h3 id="初始化"> 初始化</h3>
-<ol>
-<li>首先fork项目</li>
-<li>把fork过去的项目clone到本地</li>
-<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
-<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
-<li>运行 <code>git remote update</code>更新</li>
-<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
-<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
-</ol>
-<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
-<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
-<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
-<ol>
-<li>
-<p>保证在dev分支中</p>
-</li>
-<li>
-<p>打开README.md，在翻译进度后加上你自己的github名</p>
-<blockquote>
-<p>1. Shell Programming! [@翻译人][@校审人]</p>
-</blockquote>
-</li>
-<li>
-<p>本地提交修改，写明提交信息</p>
-</li>
-<li>
-<p>push到你fork的项目中，然后登录GitHub</p>
-</li>
-<li>
-<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
-<blockquote>
-<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
-</blockquote>
-</li>
-<li>
-<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
-</li>
-</ol>
-<blockquote>
-<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
-</blockquote>
-<h2 id="翻译校审建议"> 翻译校审建议</h2>
-<ol>
-<li>使用markdown进行翻译校审，文件名必须使用英文</li>
-<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
-<li>有任何问题随时欢迎发issue</li>
-<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
-<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
-</ol>
-<h2 id="样式规范"> 样式规范</h2>
-<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
-<div><pre><code>{% hint style="info" %}
-Hello world
-{% endhint %}
-​```
-
-所有的脚注footnote都需使用html代码进行注释。
-
-## 关于版权
-
-根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
-
-翻译参与人员（按名称排序）：
-
-- @chuchingkai
-- @hsupu
-- @imcmy
-- @liuburn
-- @mingmings
-- @mr253727942
-- @panblack
-- @plutonji
-- @richard-ma
-- @samita2030
-- @ShadowRZ
-- @wuqichao
-- @ysun90
-- @zhaozq
-- @zihengcat
-- @Zjie
-- @zy416548283
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content:encoded>
-      <enclosure url="https://badges.gitter.im/gitterHQ/gitter.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Harbor创建</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Harbor创建</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="harbor创建"> Harbor创建</h1>
-<h2 id="安装依赖软件"> 安装依赖软件</h2>
-<div><pre><code>yum -y install openssl
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="installation-steps"> Installation Steps</h2>
-<p>1）Offline installer:</p>
-<p>从github上下载官方最新包，然后上传到服务器上</p>
-<p>2）解压</p>
-<div><pre><code>tar xvf harbor-offline-installer-&lt;version&gt;.tgz  -C /usr/local/
-</code></pre>
-<div><span>1</span><br></div></div><p>3）修改配置文件</p>
-<div><pre><code># cd /usr/local/harbor
-# vim harbor.yml
-# 将hostname改为对应的本机地址（not localhost or 127.0.0.1）
-# 修改harbor_admin_password管理用户密码，只能在这里改，改后不可再改
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>hostname一定要用域名</p>
-</blockquote>
-<p>4）安装启动</p>
-<div><pre><code>./install
-</code></pre>
-<div><span>1</span><br></div></div><h1 id="configuring-harbor-with-https-access"> Configuring Harbor with HTTPS Access</h1>
-<h2 id="getting-certificate-authority"> Getting Certificate Authority</h2>
-<div><pre><code># hostnamectl set-hostname sdqcharbor.com
-# echo &quot;本机地址 sdqcharbor.com&quot; &gt;&gt; /etc/hosts
-# mkdir -p /opt/certs
-# cd /opt/certs
-# openssl genrsa -out ca.key 4096
-# openssl req -x509 -new -nodes -sha512 -days 3650 \
-  -subj &quot;/CN=sdqcharbor.com&quot; \
-  -key ca.key \
-  -out ca.crt
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="getting-server-certificate"> Getting Server Certificate</h2>
-<p><strong>1) Create your own Private Key:</strong></p>
-<div><pre><code>openssl genrsa -out sdqcharbor.com.key 4096
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>2) Generate a Certificate Signing Request:</strong></p>
-<div><pre><code>openssl req -sha512 -new \
-  -subj &quot;/CN=sdqcharbor.com&quot; \
-  -key sdqcharbor.com.key \
-  -out sdqcharbor.com.csr
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><strong>3) Generate the certificate of your registry host:</strong></p>
-<div><pre><code>cat &gt; v3.ext &lt;&lt;-EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
-extendedKeyUsage = serverAuth 
-subjectAltName = @alt_names
-
-[alt_names]
-DNS.1=sdqcharbor.com
-DNS.2=192.168.162.45
-EOF
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><div><pre><code>openssl x509 -req -sha512 -days 3650     -extfile v3.ext     -CA ca.crt -CAkey ca.key -CAcreateserial     -in sdqcharbor.com.csr     -out sdqcharbor.com.crt
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="configuration-and-installation"> Configuration and Installation</h2>
-<div><pre><code>mkdir /data/cert
-cp sdqcharbor.com.crt /data/cert/
-cp sdqcharbor.com.key /data/cert/
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>2) Configure Server Certificate, Key and CA for Docker</strong></p>
-<div><pre><code>openssl x509 -inform PEM -in sdqcharbor.com.crt -out sdqcharbor.com.cert
-</code></pre>
-<div><span>1</span><br></div></div><p>Delpoy .com.cert<code>,</code>yourdomain.com.key<code>, and</code>ca.crt` for Docker:</p>
-<div><pre><code>mkdir /etc/docker/certs.d/sdqcharbor.com
-cp sdqcharbor.com.cert sdqcharbor.com.key ca.crt /etc/docker/certs.d/sdqcharbor.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>3) Configure Harbor</strong></p>
-<p>vim /usr/local/harbor/harbor.yml</p>
-<p>修改为以下内容</p>
-<div><pre><code>hostname: sdqcharbor.com
-https:
-  certificate: /data/cert/sdqcharbor.com.crt
-  private_key: /data/cert/sdqcharbor.com.key
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>If Harbor is already running, stop and remove the existing instance. Your image data remain in the file system</p>
-<div><pre><code>docker-compose down -v
-rm -rf /data/database/
-rm -rf /data/registry/
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>编辑docker中配置文件，<code>daemon.json</code>，去掉<code>&quot;insecure-registries&quot;: [&quot;sdqcharbor.com&quot;]</code>这一行</p>
-<p>重启docker</p>
-<div><pre><code>systemctl daemon-reload
-systemctl restart docker
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>预编译</p>
-<div><pre><code>./prepare
-docker-compose -f ./docker-compose.yml up -d
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>登录</p>
-<div><pre><code>docker login sdqcharbor.com
-</code></pre>
-<div><span>1</span><br></div></div><p>上传镜像</p>
-<div><pre><code>docker tag centos:latest sdqcharbor.com/library/centos:latest
-docker push sdqcharbor.com/library/centos:latest 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h1 id="参考文档"> 参考文档</h1>
-<blockquote>
-<p><a href="https://goharbor.io/docs/1.10/install-config/download-installer/" target="_blank" rel="noopener noreferrer">官方文档</a></p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>Harbor简介</title>
+      <title>Harbor 高可用搭建</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor_ha/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_harbor_ha/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Harbor简介</source>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Harbor 高可用搭建</source>
+      <category>常见服务的搭建</category>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="harbor简介"> Harbor简介</h2>
+      <content:encoded><![CDATA[<h1 id="harbor-高可用搭建"> Harbor 高可用搭建</h1>
+<h2 id="harbor简介"> Harbor简介</h2>
 <p><a href="https://goharbor.io/" target="_blank" rel="noopener noreferrer">Harbor</a>是一个用于存储和分发<code>Docker镜像</code>的企业级<code>Registry</code>服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源Docker Distribution。</p>
 <p>作为一个企业级私有Registry服务器，Harbor提供了更好的性能和安全。</p>
 <p>提升用户使用Registry构建和运行环境传输镜像的效率。</p>
@@ -41204,12 +41219,14 @@ proxy:
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_CI.png" type="image/png"/>
     </item>
     <item>
-      <title>RabbitMQ 高可用集群架构</title>
+      <title>docker 安装rabbitmq集群</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_rabbitmq/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/container/Docker/docker_rabbitmq/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">RabbitMQ 高可用集群架构</source>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">docker 安装rabbitmq集群</source>
+      <category>常见服务的搭建</category>
       <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="rabbitmq-高可用集群架构"> RabbitMQ 高可用集群架构</h2>
+      <content:encoded><![CDATA[<h1 id="docker-安装rabbitmq集群"> docker 安装rabbitmq集群</h1>
+<h2 id="rabbitmq-高可用集群架构"> RabbitMQ 高可用集群架构</h2>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/rabbitmq_ha.png" alt="img"></p>
 <p>将两个 RabbitMQ 磁盘节点和一个 RabbitMQ 内存节点组成一个内建集群，之所以要用两个磁盘节点是防止，唯一的磁盘节点挂掉后，不能重建队列，交换器。用 HAProxy 作为 RabbitMQ 集群的负载均衡。为了防止 HAProxy 单点故障，用 Keepalived 将两个 HAProxy 节点做成一主一备。应用使用 VIP（虚拟IP） 访问 HAProxy 服务时，默认连接主机（Master）的 HAProxy，当主机（Master）上的 HAProxy 故障时，VIP 会漂移到备机（Backup）上，就会连接备机（Backup）上的 HAProxy 服务。</p>
 <h2 id="服务器规划"> 服务器规划</h2>
@@ -49724,25 +49741,6 @@ elasticsearch.password: &quot;changeme&quot;
 <div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>第七章 测试</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第七章 测试</source>
-      <category>Linux</category>
-      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
-<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
-<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
-<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
-<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
-</ul>
-<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Elasticsearch基础概念</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</guid>
@@ -50980,29 +50978,23 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 ]]></content:encoded>
     </item>
     <item>
-      <title>logstash安装注意</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">logstash安装注意</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
-<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
-<div><pre><code># cat /etc/sysconfig/logstash 
-JAVA_HOME=/opt/jdk1.8.0_144
-# source /etc/sysconfig/logstash 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
-<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
-等价于：
-/usr/share/logstash/bin/logstash -e &quot;&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
-ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
- ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
-ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
+      <title>第七章 测试</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第七章 测试</source>
+      <category>Linux</category>
+      <pubDate>Tue, 06 Apr 2021 04:13:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
+<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
+<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
+<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
+<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
+</ul>
+<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>数据类型</title>
@@ -51041,6 +51033,31 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 <li>join</li>
 </ul>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>logstash安装注意</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">logstash安装注意</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
+<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
+<div><pre><code># cat /etc/sysconfig/logstash 
+JAVA_HOME=/opt/jdk1.8.0_144
+# source /etc/sysconfig/logstash 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
+<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
+等价于：
+/usr/share/logstash/bin/logstash -e &quot;&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
+ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
+ ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
+ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>zabbix-server安装</title>
@@ -51525,29 +51542,6 @@ fi
 ]]></content:encoded>
     </item>
     <item>
-      <title>模板导入</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">模板导入</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="images/redis_daoru.png" alt=""></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>Zabbix客户端日志出现(Not all processes could be identified）</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.6%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
@@ -51571,6 +51565,29 @@ will not be shown, you would have to be root to see it all.)
 <p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
 <p>最后重启相应的agent即可</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>模板导入</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/10.5%20Redis%E7%9B%91%E6%8E%A7%E6%A8%A1%E5%9D%97/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">模板导入</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="images/redis_daoru.png" alt=""></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>关闭被监控端的防火墙</title>
@@ -52321,6 +52338,25 @@ kernel级调优		最后的希望，kernel调优具有普遍性</p>
 ]]></content:encoded>
     </item>
     <item>
+      <title>curl https报错: curl: (35) SSL connect error</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">curl https报错: curl: (35) SSL connect error</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="curl-https报错-curl-35-ssl-connect-error"> curl https报错: curl: (35) SSL connect error</h2>
+<p>源码编译curl</p>
+<div><pre><code>cd /usr/local/src/
+wget http://curl.haxx.se/download/archeology/curl-7.19.7.tar.gz
+tar -zxf curl-7.19.7.tar.gz
+cd curl-7.19.7
+./configure --without-nss --with-ssl
+make
+make install
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>转载自：<a href="https://blog.csdn.net/qq_34810257/article/details/80885622" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_34810257/article/details/80885622</a></p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>centos7下时区问题</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/centos%E6%97%B6%E5%8C%BA/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/centos%E6%97%B6%E5%8C%BA/</guid>
@@ -52347,25 +52383,6 @@ NTP synchronized: yes
 <div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>curl https报错: curl: (35) SSL connect error</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/24%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/curl%20https%E6%8A%A5%E9%94%99/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">curl https报错: curl: (35) SSL connect error</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="curl-https报错-curl-35-ssl-connect-error"> curl https报错: curl: (35) SSL connect error</h2>
-<p>源码编译curl</p>
-<div><pre><code>cd /usr/local/src/
-wget http://curl.haxx.se/download/archeology/curl-7.19.7.tar.gz
-tar -zxf curl-7.19.7.tar.gz
-cd curl-7.19.7
-./configure --without-nss --with-ssl
-make
-make install
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>转载自：<a href="https://blog.csdn.net/qq_34810257/article/details/80885622" target="_blank" rel="noopener noreferrer">https://blog.csdn.net/qq_34810257/article/details/80885622</a></p>
-]]></content:encoded>
     </item>
     <item>
       <title>Linux，du、df统计的硬盘使用情况不一致问题</title>
