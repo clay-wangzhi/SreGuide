@@ -1,3 +1,7 @@
+# 4 MySQL监控模块
+
+> zabbix旧版本可以用，新版本建议用官方模板
+
 ## Template DB MySQL简介
 
 ### 应用集
@@ -31,17 +35,17 @@ MySQL is down
 
 1. MySQL operations（MySQL业务操作）
 
-![](images/mysql图形1.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形1.png)
 
 2. MySQL bandwidth（MySQL带宽）
 
-![](images/mysql图形2.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形2.png)
 
 ### 聚合图形
 
 MySQL performance（MySQL性能）
 
-![](images/mysql图形3.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形3.png)
 
 ## 实现MySQL模板监控
 
@@ -80,7 +84,7 @@ socket=/var/lib/mysql/mysql.sock
 #vim userparameter_mysql.conf
 ```
 
-![](images/mysql配置.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql配置.png)
 
 ### 重启agent服务
 
@@ -90,7 +94,7 @@ service zabbix_agentd restart
 
 ### zabbix-web设置
 
-![](images/mysqlweb.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysqlweb.png)
 
 ## 修改模板添加主从和连接数监控
 

@@ -1,14 +1,16 @@
+# 3 zabbix添加报警媒介
+
 ## zabbix添加报警媒介
 
 进入zabbix-web，点击Administrator-->Media types-->Create Media type
 
 ### 添加Email报警
 
-![](C:\Github\wiki\monitor\zabbix\images\image-20200115103058976.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png)
 
 ### 添加钉钉报警
 
-![image-20200115103302741](images/image-20200115103302741.png)
+![image-20200115103302741](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png)
 
 图中Script内容如下
 

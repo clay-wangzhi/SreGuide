@@ -1,3 +1,5 @@
+# 7 用zabbix api批量添加web监控
+
 python脚本如下：
 
 `vim zabbix_agent.py`

@@ -1,3 +1,7 @@
+# 9 zookeeper集群监控
+
+> zabbix旧版本可以用，新版本建议用官方模板
+
 # Zabbix-Zookeper-Template
 
 ## System requirements

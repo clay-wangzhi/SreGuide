@@ -1,8 +1,12 @@
+# 5 Redis监控模块
+
+> zabbix旧版本可以用，新版本建议用官方模板
+
 ## 模板导入
 
 打开“配置”-->“模板”-->"导入"
 
-![](images/redis_daoru.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png)
 
 导入`zax_redis`文件夹下的`redis_templates_for_zbx_3.4.xml`文件
 

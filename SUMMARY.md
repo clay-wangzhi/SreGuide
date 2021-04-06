@@ -2,27 +2,6 @@
 
 * [Introduction](README.md)
 
-## Linux
-* [linux简介](Linux/linux简介.md)
-* 文件管理
-    * [查看文件类型](Linux/文件管理/查看文件类型.md)
-    * [查看文件详细属性](Linux/文件管理/查看文件详细属性.md)
-    * [创建、复制、移动、删除](Linux/文件管理/zsgc.md)
-    * [查看文件内容](Linux/文件管理/查看文件内容.md)
-    * [打包、压缩](Linux/文件管理/打包压缩.md)
-* 文件权限
-    * [基本权限UGO](Linux/文件权限/基本权限UGO.md)
-* [计划任务](Linux/计划任务.md)
-* [用户管理](Linux/用户管理.md)
-* [进程管理](Linux/进程管理.md)
-* [管道及I/O重定向](Linux/管道及I-O重定向.md)
-* [软件包管理](Linux/软件包管理.md)
-* [网络管理](Linux/网络管理.md)
-* [日志logrotate](Linux/日志logrotate.md)
-* [ /etc/security/limits.conf 详解与配置](Linux/limit.conf文件配置.md)
-* [常用知识](Linux/常用知识.md)
-
-
 
 ## 3 Python
 * [3.1 简介](3 python/3.1 简介.md)
