@@ -6,7 +6,7 @@ category: 监控
 
 经济高速发展的今天，我们处于信息大爆炸的时代。随着经济发展，信息借助互联网的力量在全球自由地流动，于是就催生了各种各样的服务平台和软件系统。
 
-![img](images/640-1579057066348.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp)
 
 由于业务的多样性，这些平台和系统也变得异常的复杂。如何对其进行监控和维护是我们 IT 人需要面对的重要问题。就在这样一个纷繁复杂地环境下，监控系统粉墨登场了。
 
@@ -21,7 +21,7 @@ category: 监控
 
 以上这些问题一旦发生，会对我们的业务产生巨大的影响。因此，每个公司或者 IT 团队都会针对此类情况建立自己的 IT 监控系统。
 
-![img](images/640-1579057079481.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057079481.webp)
 
 监控系统工作流程图
 
@@ -44,7 +44,7 @@ category: 监控
 - **调用链类**
 - **度量类**
 
-![img](images/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy93YUgwREdYaFFXUGliamtQV1lCV1RZa0QxVHNsczc4UkxHMm5XZ2hpYnFmMnAyY1lXWVdxZjJ6Y25pY1dBYlhtbDZNQ0E1MExnZlR6TWljSXhHM0QzZmhZQUEvNjQw.jpg)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/quan.jpg)
 
 ### 日志类(Logging)
 
@@ -54,7 +54,7 @@ category: 监控
 
 这类以日志的记录和查询的解决方案比较多。比如 ELK 方案（Elasticsearch+Logstash+Kibana），使用ELK（Elasticsearch、Logstash、Kibana）+Kafka/Redis/RabbitMQ 来搭建一个日志系统。
 
-![img](images/640-1579057091787.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057091787.webp)
 
 ELK 结合 Redis/Kafka/RabbitMQ 实现日志类监控
 
@@ -70,7 +70,7 @@ ELK 结合 Redis/Kafka/RabbitMQ 实现日志类监控
 
 调用链监控的实现原理如下：
 
-![img](images/640-1579057103643.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057103643.webp)
 
 Java 代码运行原理图
 
@@ -88,7 +88,7 @@ Java 探针，字节码增强的方式就是利用 Java 代理，这个代理是
 
 最后将相应耗时文件取下来，转化为 xml 格式并进行解析，通过浏览器将代码分层结构展示出来。
 
-![img](images/640-1579057113936.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057113936.webp)
 
 Java 探针工具原理图
 
@@ -106,7 +106,7 @@ ASM 从类文件中读入信息后，能够改变类行为，分析类信息，�
 
 Sleuth 提供链路追踪。由于一个请求会涉及到多个服务的互相调用，而这种调用往往成链式结构，经过多次层层调用以后请求才会返回。常常使用 Sleuth 追踪整个调用过程，方便理清服务间的调用关系。
 
-![img](images/640-1579057123079.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057123079.webp)
 
 Sleuth 服务调用追踪图例
 
@@ -125,7 +125,7 @@ Sleuth 服务调用追踪图例
 
 每次发起请求或者接受请求的状态分别记录成 Server Received，Client Sent，Server Sent，Client Received 四种状态来完成这个服务调用链路的跟踪的。
 
-![img](images/640-1579057133775.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057133775.webp)
 
 在调用服务的链路上每个被调用的服务节点都会通过 Parent ID 来记录发起调用服务的 Span ID，由于 Span ID 是唯一确认最小服务单元的，所以知道了 Parent 的 Span ID 也就知道了谁调用自己了。
 
@@ -143,7 +143,7 @@ Sleuth 服务调用追踪图例
 - “Tag”作为维度列，表示监控数据的属性。
 - “Field”作为指标列，作为测量值，也就是测量的结果。
 
-![img](images/640-1579057144929.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057144929.webp)
 
 时序数据库数据模型图例
 
@@ -159,7 +159,7 @@ LSMtree（Log Structured Merge Tree），从字面意义上理解，记录的数
 - 不可修改的 immutable memtable 文件（内存中）
 - 磁盘上的 SStable文件（Sorted String Table），有序字符串表，这个有序的字符串就是数据的key。SStable 一共有七层（L0 到 L6）。下一层的总大小限制是上一层的 10 倍。
 
-![img](images/640-1579057158151.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057158151.webp)
 
 LSMtree LevelDB 存储示意图
 
@@ -176,7 +176,7 @@ LSMtree 写入流程：
 
 谈完了监控系统的分类，再来聊聊监控系统的分层。用户请求到数据返回，经历系统中的层层关卡。
 
-![img](images/640-1579057169317.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057169317.webp)
 
 一般我们将监控系统分为五层来考虑，当然也有人分成三层，大致的意思都差不多，仅供参考：
 
@@ -217,7 +217,7 @@ Zabbix 由 Server，Agent，Proxy（可选项）组成：
 - Server 负责接受 Agent 的数据，进行保存或者告警。
 - Proxy 负责代理 Server 收集 Agent 传输的数据，并且转发给 Server。Proxy 是安装在被监控的服务器上的，用来和 Server 端进行通信，从而传输数据。
 
-![img](images/640-1579057180229.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/zabbix.webp)
 
 Zabbix 部署模式
 
@@ -259,7 +259,7 @@ Proxy，作为可选项，起到收集 Agent 数据并且转发到 Server 的作
 - **Alertmanager**，从 Prometheus Server 端接收到 Alerts 后，会对数据进行处理。例如：去重，分组，然后根据规则，发出报警。
 - **Web UI**，Prometheus Server 内置的 Express Browser UI，通过 PromQL 实现数据的查询以及可视化。
 
-![img](images/640-1579057191567.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/prome.webp)
 
 Prometheus 架构图
 
@@ -272,7 +272,7 @@ Prometheus 架构图
 
 最后将两个工具进行比较如下：
 
-![img](images/640-1579057211728.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/za-pr-duibi.webp)
 
 Zabbix 和 Prometheus 比较图
 
@@ -284,7 +284,7 @@ Zabbix 和 Prometheus 比较图
 
 ## 总结
 
-![img](images/640.webp)
+![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640.webp)
 
 监控系统思维导图
 
