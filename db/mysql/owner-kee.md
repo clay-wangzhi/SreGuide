@@ -1,3 +1,6 @@
+---
+category: MySQL
+---
 # 9 主主和keepalived
 
 ## keepalived简介

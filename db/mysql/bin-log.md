@@ -1,3 +1,6 @@
+---
+category: MySQL
+---
 # 14 MySQL bin-log日志清理
 
 ## 自动清理
