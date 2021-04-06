@@ -1,3 +1,11 @@
+---
+category: 常见服务的搭建
+tags:
+  - harbor
+---
+
+# Harbor 高可用搭建
+
 ## Harbor简介
 
 [Harbor](https://goharbor.io/)是一个用于存储和分发`Docker镜像`的企业级`Registry`服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源Docker Distribution。

@@ -76,9 +76,7 @@
 * [10.9 zookeeper集群监控](10 zabbix/10.9 zookeeper集群监控.md)
 * [10.10 Todolist](10 zabbix/10.10 Todolist.md)
 
-## 11 消息中间件
-* [11.1 activemq集群](11 消息中间件/11.1 activemq5.15.9集群搭建步骤.md)
-* [11.2 rabbitmq](11 消息中间件/11.2 centos7安装rabbitmq-3.7.9.md)
+
 
 * [12.1 keepalived和heartbeat对比](12 常见集群的搭建/12.1 keepalived和heartbeat对比.md)
 

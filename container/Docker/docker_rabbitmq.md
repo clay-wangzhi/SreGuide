@@ -1,3 +1,14 @@
+---
+category: 常见服务的搭建
+tags:
+  - docker
+  - rabbitmq
+---
+
+
+
+# docker 安装rabbitmq集群
+
 ## RabbitMQ 高可用集群架构
 
 ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/rabbitmq_ha.png)
