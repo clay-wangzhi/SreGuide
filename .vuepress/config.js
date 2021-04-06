@@ -328,6 +328,7 @@ module.exports = config({
         "qa",
       ],
       "/monitor/elk/": [
+        "",
         {
           title: "概述",
           collapsable: false,
