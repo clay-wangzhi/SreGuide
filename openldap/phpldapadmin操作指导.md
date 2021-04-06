@@ -1,3 +1,10 @@
+---
+tags:
+  - openldap
+---
+
+# phpldapadmin操作指导
+
 ### 1.****在浏览器中打开****http://IP/phpldapadmin
 
 ### 2. 点击【Login】按钮，输入管理员密码。

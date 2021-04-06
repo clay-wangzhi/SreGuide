@@ -2,28 +2,6 @@
 
 * [Introduction](README.md)
 
-## Ansible
-* [1 初识Ansible](Ansible/1 初识Ansible.md)
-* [2 Ansible Inventory 配置详解](Ansible/2 Ansible Inventory配置详解.md)
-* [3 Ansible Ad-hoc 命令集](Ansible/3 Ansible Ad-hoc命令集.md)
-* [3 Ansible lineinfile 模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
-* [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
-    * [4.1 Playbook的结构及handler用法](Ansible/4_1_ Playbook的结构及handler用法.md)
-    * [4.2 Playbook循环语句](Ansible/4_2_Playbook循环语句.md)
-    * [4.3 Playbook条件语句](Ansible/4_3_Playbook条件语句.md)
-    * [4.4 Playbook高级用法](Ansible/4_4_Playbook高级用法.md)
-    * [4.5 Playbook之tags](Ansible/4_5_Playbook之tags.md)
-    * [4.6 巧用Roles](Ansible/4_6_巧用Roles.md)
-    * [4.7 文件管理模块及Jinja2过滤器](Ansible/4_7_文件管理模块及Jinja2过滤器.md)
-    * [4.8 yaml 语法](Ansible/4_8_yaml语法.md)
-* [5 Ansible变量](Ansible/5 Ansible变量.md)
-    * [5.1 自定义变量](Ansible/5_1_自定义变量.md)
-    * [5.2 Fact变量](Ansible/5_2_Fact变量.md)
-    * [5.3 魔法变量](Ansible/5_3_魔法变量.md)
-    * [5.4 使用lookup生成变量](Ansible/5_4_使用lookup生成变量.md)
-    * [5.5 使用vault配置加密](Ansible/5_5_使用vault配置加密.md)
-* [6 Ansible使用优化](Ansible/6 Ansible使用优化.md)
-
 ## Linux
 * [linux简介](Linux/linux简介.md)
 * 文件管理
@@ -44,81 +22,7 @@
 * [ /etc/security/limits.conf 详解与配置](Linux/limit.conf文件配置.md)
 * [常用知识](Linux/常用知识.md)
 
-## Shell
-* [第一部分 初见shell](shell/part1/part1.md)
-    * [1. 为什么使用shell编程](shell/part1/01_shell_programming.md)
-    * [2. 和Sha-Bang(#!)一起出发](shell/part1/02_starting_off_with_a_sha_bang.md)
-        * [2.1 调用一个脚本](shell/part1/02_1_invoking_the_script.md)
-        * [2.2 牛刀小试](shell/part1/02_2_preliminary_exercises.md)
-* [第二部分 shell基础](shell/part2/part2.md)
-    * [3. 特殊字符](shell/part2/03_special_characters.md)
-    * [4. 变量与参数](shell/part2/04_introduction_to_variables_and_parameters.md)
-        * [4.1 变量替换](shell/part2/04_1_variable_substitution.md)
-        * [4.2 变量赋值](shell/part2/04_2_variable_assignment.md)
-        * [4.3 Bash弱类型变量](shell/part2/04_3_bash_variables_are_untyped.md)
-        * [4.4 特殊变量类型](shell/part2/04_4_special_variable_types.md)
-    * [5. 引用](shell/part2/05_quoting.md)
-        * [5.1 引用变量](shell/part2/05_1_quoting_variables.md)
-        * [5.2 转义](shell/part2/05_2_escaping.md)
-    * [6. 退出与退出状态](shell/part2/06_exit_and_exit_status.md)
-    * [7. 测试](shell/part2/07_tests.md)
-        * [7.1 测试结构](shell/part2/07_1_test_constructs.md)
-        * [7.2 文件测试操作](shell/part2/07_2_file_test_operators.md)
-        * [7.3 其他比较操作](shell/part2/07_3_other_comparison_operators.md)
-        * [7.4 嵌套 if/then 条件测试](shell/part2/07_4_nested_if_then_condition_tests.md)
-        * [7.5 牛刀小试](shell/part2/07_5_testing_your_knowledge_of_tests.md)
-    * [8. 运算符相关话题](shell/part2/08_operations_and_related_topics.md)
-        * [8.1 运算符](shell/part2/08_1_operators.md)
-        * [8.2 数字常量](shell/part2/08_2_numerical_constants.md)
-        * [8.3 双圆括号结构](shell/part2/08_3_the_double_parentheses_construct.md)
-        * [8.4 运算符优先级](shell/part2/08_4_operator_precedence.md)
-* [第三部分 shell进阶](shell/part3/part3.md)
-    * [9. 换个角度看变量](shell/part3/09_another_look_at_variables.md)
-        * [9.1 内部变量](shell/part3/09_1_internal_variables.md)
-        * [9.2 变量类型标注：declare 与 typeset](shell/part3/09_2_typing_variables_declare_or_typeset.md)
-            * [9.2.1 declare 的另类用法](shell/part3/09_2_1_another_use_for_declare.md)
-        * [9.3 $RANDOM：生成随机数](shell/part3/09_3_random_generate_random_integer.md)
-    * [10. 变量处理](shell/part3/10_manipulating_variables.md)
-        * [10.1 字符串处理](shell/part3/10_1_manipulating_strings.md)
-            * [10.1.1 使用 awk 处理字符串](shell/part3/10_1_1_manipulating_strings_using_awk.md)
-            * [10.1.2 参考资料](shell/part3/10_1_2_further_reference.md)
-        * [10.2 参数替换](shell/part3/10_2_parameter_substitution.md)
-    * [11. 循环与分支](shell/part3/11_loops_and_branches.md)
-        * [11.1 循环](shell/part3/11_1_loops.md)
-        * [11.2 嵌套循环](shell/part3/11_2_nested_loops.md)
-        * [11.3 循环控制](shell/part3/11_3_loop_control.md)
-        * [11.4 测试与分支](shell/part3/11_4_testing_and_branching.md)
-    * [12. 命令替换](shell/part3/12_command_substitution.md)
-    * [13. 算术扩展](shell/part3/13_arithmetic_expansion.md)
-* [第四部分 命令](shell/part4/part4.md)
-* [第五部分 高级话题](shell/part5/part5.md)
-    * [18.正则表达式](shell/part5/18_regular_expressions.md)
-        * [18.1正则表达式简介](shell/part5/18_1_a_brief_introduction_to_regular_expressions.md)
-        * [18.2文件名替换](shell/part5/18_2_globbing.md)
-        * [18.3 正则表达式对照表](shell/part5/18_3_regular_expression_comparison_table.md)
-    * [19. 嵌入文档](shell/part5/19_here_documents.md)
-    * [20. I/O 重定向](shell/part5/20_io_redirection.md)
-        * [20.1 使用 exec](shell/part5/20_1_use_exec.md)
-        * [20.2 重定向代码块](shell/part5/20_2_redirecting_code_blocks.md)
-        * [20.3 应用程序](shell/part5/20_3_applications.md)
-    * [21. 子shell](shell/part5/21_subshells.md)
-    * [22. 限制模式的Shell](shell/part5/22_Restricted_Shells.md)
-    * [23. 进程替换](shell/part5/23_Process_Substitution.md)
-    * [24. 函数](shell/part5/24_functions.md)
-        * [24.1 复杂函数和函数复杂性](shell/part5/24_1_complex_functions_and_function_complexities.md)
-        * [24.2 局部变量](shell/part5/24_2_local_variables.md)
-        * [24.3 不适用局部变量的递归](shell/part5/24_3_recursion_without_local_variables.md)
-    * [25. 别名](shell/part5/25_aliases.md)
-    * [26. 列表结构](shell/part5/26_List_Constructs.md)
-    * [27. 数组](shell/part5/27_arrays.md)
-    * [30. 网络编程](shell/part5/30_network_programming.md)
-    * [33. 选项](shell/part5/33_options.md)
-    * [34. 陷阱](shell/part5/34_Gotchas.md)
-    * [36. 其他](shell/part5/36_miscellany.md)
-        * [36.5 有颜色的脚本](shell/part5/36_5_colorizing_scripts.md)
-        * [36.11 ssh远程操作](shell/part5/36_11_ssh_remote_operate.md)
-* [第六部分 Google Shell 风格指南](shell/part6/part6.md)
-* [第七部分 实例](shell/part7/shili.md)
+
 
 ## 3 Python
 * [3.1 简介](3 python/3.1 简介.md)
@@ -142,26 +46,6 @@
 * [Docker Harbor HA](Docker/docker_harbor_ha.md)
 * [快速搭建rabbitmq高可用集群](Docker/docker_rabbitmq.md)
 
-## Nginx
-* [1.初识Nginx](Nginx/1.初识Nginx.md)
-* [2.nginx架构基础](Nginx/2.nginx架构基础.md)
-* [3.nginx配置文件详解](Nginx/3.nginx配置文件详解.md)
-    * [3.1 nginx全局块和events块配置](Nginx/3_1_nginx全局块和events块配置.md)
-    * [3.2 nginxHTTP块配置](Nginx/3_2_nginxHTTP块配置.md)
-    * [3.3 nginxSERVER块配置](Nginx/3_3_nginxSERVER块配置.md)
-    * [3.4 nginxLOCATION块配置](Nginx/3_4_nginxLOCATION块配置.md)
-    * [3.5 nginx常用模块](Nginx/3_5_nginx常用模块.md)
-* [4.内核参数优化](Nginx/4.内核参数优化.md)
-* [5.状态码](Nginx/5.状态码.md)
-* [6.nginx的常见问题](Nginx/6.nginx的常见问题.md)
-    * [Nginx出现403 forbidden的三种原因](Nginx/Nginx_FAQ/Nginx出现403 forbidden的三种原因.md)
-
-## 8 Tomcat
-* [8.1 tomcat简介](8 tomcat/8.1 tomcat简介.md)
-* [生产环境中的tomcat配置](8 tomcat/生产环境中的tomcat配置.md)
-* [tomcat假死现象](8 tomcat/tomcat假死现象.md)
-* [Tomcat 错误代号及状态码](8 tomcat/Tomcat 错误代号及状态码.md)
-* [tomcat注意事项](8 tomcat/tomcat注意事项.md)
 
 ## 9 Elasticsearch
 * 9.1 概述
@@ -212,21 +96,6 @@
 ## 14 Markdown
 * [14.1 让Markdown写作更简单Typora完全使用指南](14 markdown/14.1 让Markdown写作更简单Typora完全使用指南.md)
 
-## 16 Mysql
-* [16.1 MySQL基本操作](16 MySQL/16.1 MySQL基本操作.md)
-* [16.2 列表类型和数据完整性](16 MySQL/16.2 列表类型和数据完整性.md)
-* [16.3 数据库设计与查询语句](16 MySQL/16.3 数据库设计与查询语句.md)
-* [16.4 视图、事务、索引、函数](16 MySQL/16.4 视图、事务、索引、函数.md)
-* [16.5 MySQL存储引擎](16 MySQL/16.5 MySQL存储引擎.md)
-* [16.6 用户权限和访问控制](16 MySQL/16.6 用户权限和访问控制.md)
-* [16.7 备份恢复](16 MySQL/16.7 备份恢复.md)
-* [16.8 AB复制](16 MySQL/16.8 MySQLAB复制.md)
-* [16.9 主主和keepalived](16 MySQL/16.9 MySQL的主主和keepalived.md)
-* [16.10 读写分离和Amoeba](16 MySQL/16.10 Mysql读写分离和Amoeba.md)
-* [16.11 MySQL逻辑架构](16 MySQL/16.11 MySQL逻辑架构.md)
-* [16.12 MySQL锁等待](16 MySQL/16.12 MySQL锁等待.md)
-* [16.13 MySQL常见问题](16 MySQL/16.13 MySQL常见问题.md)
-* [16.14 MySQL bin-log日志清理 ](16 MySQL/16.14 MySQL bin-log日志清理 .md)
 
 ## 17 Redis
 * [17.1 安装](17 Redis/17.1 安装.md)
@@ -245,22 +114,9 @@
 * [17.8 redis-dump方式导入导出数据](17 Redis/17.8 redis-dump方式导入导出数据.md)
 * [redis面试题](17 Redis/redis面试题.md)
 
-## 18 HTML
-* [18.1 html入门](18 HTML/18.1 html入门.md)
 
-## 19 CSS
-* [19.1 列表、div、span](19 CSS/19.1 列表、div、span.md)
-* [19.2 整体感知、常见属性、选择器](19 CSS/19.2 整体感知、常见属性、选择器.md)
-* [19.3 css性质、盒模型、标准文档流、浮动](19 CSS/19.3 css性质、盒模型、标准文档流、浮动.md)
-* [19.4 行高和字号、超链接美化、background](19 CSS/19.4 行高和字号、超链接美化、background.md)
-* [19.5 相对定位、绝对定位、固定定位、z-index](19 CSS/19.5 相对定位、绝对定位、固定定位、z-index.md)
 
-## 20 jenkins
-* [20.1 jenkins的安装配置](20 jenkins/20.1 jenkins的安装配置.md)
-* [20.2 Jenkins Job迁移](20 jenkins/20.2 Jenkins Job迁移.md)
-* [Jenkins常见问题](20 jenkins/jenkins常见问题.md)
-* [Jenkins关闭和重启的实现方式](20 jenkins/Jenkins关闭和重启的实现方式.md)
-* [使用Jenkins Pipeline自动化构建发布](20 jenkins/使用Jenkins Pipeline自动化构建发布.md)
+
 
 ## 21 vim
 * [vim设置参数以方便YAML语句录入](21 vim/vim设置参数以方便YAML语句录入.md)
@@ -289,14 +145,9 @@
 * [Centos7 搭建openldap](25 openldap/Centos7 搭建openldap.md)
 * [phpldapadmin操作指导](25 openldap/phpldapadmin操作指导.md)
 
-## 26 gitlab
-* [gitlab备份迁移升级&集成openldap](26 gitlab/gitlab备份迁移升级&集成openldap.md)
-
 ## 27 监控体系
 * [聊头监控体系](27 监控体系/聊头监控体系.md)
 * [grafana问题](27 监控体系/grafana问题.md)
 
-## git
-* [git的基本使用](git/git-basic.md)
-* [Commit message 和 Change log 编写指南](git/git-commit-message.md)
+
 

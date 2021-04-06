@@ -1,3 +1,10 @@
+---
+tags:
+  - openldap
+---
+
+# Centos7 搭建openldap
+
 环境：
 
 * centos7.6
