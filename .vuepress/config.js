@@ -80,7 +80,7 @@ module.exports = config({
           {
             text: "监控工具",
             items: [
-              { text: "ELK", icon: "elastic", link: "/monitor/zabbix/" },
+              { text: "zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
               { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
             ],
           },
