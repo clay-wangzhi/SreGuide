@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # Kibana的安装和界面快速浏览
 
 ## 安装运行

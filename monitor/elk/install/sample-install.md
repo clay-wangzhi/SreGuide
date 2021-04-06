@@ -1,3 +1,11 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
+
+
 # Elasticsearch的安装和简单配置
 
 ## 安装

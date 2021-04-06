@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # 通过分析器进行分词
 
 ## Analysis

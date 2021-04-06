@@ -1,3 +1,9 @@
+---
+category: 监控
+tags:
+  - ELK
+---
+
 # elk借助安装ansible
 
 ## ansible配置
