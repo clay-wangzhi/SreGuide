@@ -38,17 +38,6 @@
     * [9.3.6 URI Search详解](9 elasticsearch/9.3 Elasticsearch入门/9.3.6 URI Search详解.md)
     * [9.3.7 Request Body和Query DSL简介](9 elasticsearch/9.3 Elasticsearch入门/9.3.7 Request Body和Query DSL简介.md)
 
-## 10 Zabbix
-* [10.1 zabbix4.4新功能](10 zabbix/10.1 zabbix4.4新功能.md)
-* [10.2 zabbix借助ansible安装](10 zabbix/10.2 zabbix借助ansible安装.md)
-* [10.3 zabbix添加报警媒介](10 zabbix/10.3 zabbix添加报警媒介.md)
-* [10.4 MySQL监控模块](10 zabbix/10.4 MySQL监控模块.md)
-* [10.5 Redis监控模块](10 zabbix/10.5 Redis监控模块.md)
-* [10.6 常见问题](10 zabbix/10.6 常见问题.md)
-* [10.7 用zabbix api批量添加web监控](10 zabbix/10.7 用zabbix api批量添加web监控.md)
-* [10.8 activemq监控](10 zabbix/10.8 activemq监控.md)
-* [10.9 zookeeper集群监控](10 zabbix/10.9 zookeeper集群监控.md)
-* [10.10 Todolist](10 zabbix/10.10 Todolist.md)
 
 
 
