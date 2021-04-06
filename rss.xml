@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-demo.mrhope.site/</link>
     <description>当你发现自己的才华撑不起野心时，就请安静下来学习吧！</description>
     <language>zh-CN</language>
-    <pubDate>Tue, 06 Apr 2021 03:44:46 GMT</pubDate>
-    <lastBuildDate>Tue, 06 Apr 2021 03:44:46 GMT</lastBuildDate>
+    <pubDate>Tue, 06 Apr 2021 03:55:16 GMT</pubDate>
+    <lastBuildDate>Tue, 06 Apr 2021 03:55:16 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -13828,81 +13828,6 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 ]]></content:encoded>
     </item>
     <item>
-      <title>第二十二章. 限制模式的Shell</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第二十二章. 限制模式的Shell</source>
-      <category>Linux</category>
-      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
-<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
-<ul>
-<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
-</ul>
-<p>被禁用的命令和功能：</p>
-<ul>
-<li>使用 <em>cd</em> 来改变工作目录。</li>
-<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
-<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
-<li>输出重定向。</li>
-<li>调用包含 / 的命令。</li>
-<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
-<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
-<li>在脚本中跳出限制模式。</li>
-</ul>
-<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
-<div><pre><code>#!/bin/bash
-
-#  在脚本开头用&quot;#!/bin/bash -r&quot;
-#+ 可以让整个脚本在限制模式运行。
-
-echo
-
-echo &quot;改变目录。&quot;
-cd /usr/local
-echo &quot;现在是在 `pwd`&quot;
-echo &quot;回到家目录。&quot;
-cd
-echo &quot;现在是在 `pwd`&quot;
-echo
-
-# 到此为止一切都是正常的，非限制模式。
-
-set -r
-# set --restricted 效果相同。
-echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
-
-echo
-echo
-
-echo &quot;在限制模式试图改变目录。&quot;
-cd ..
-echo &quot;依旧在 `pwd`&quot;
-
-echo
-echo
-
-echo &quot;\$SHELL = $SHELL&quot;
-echo &quot;试图在限制模式改变Shell 。&quot;
-SHELL=&quot;/bin/ash&quot;
-echo
-echo &quot;\$SHELL= $SHELL&quot;
-
-echo
-echo
-
-echo &quot;试图在限制模式重定向输出内容。&quot;
-ls -l /usr/bin &gt; bin.files
-ls -l bin.files    # 尝试列出试图创建的文件。
-
-echo
-
-exit 0
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>第二十三章. 进程替换</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/23_Process_Substitution/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/23_Process_Substitution/</guid>
@@ -14154,6 +14079,81 @@ x=x &lt; &lt;(:)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
 这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>第二十二章. 限制模式的Shell</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/part5/22_Restricted_Shells/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">第二十二章. 限制模式的Shell</source>
+      <category>Linux</category>
+      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
+<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
+<ul>
+<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
+</ul>
+<p>被禁用的命令和功能：</p>
+<ul>
+<li>使用 <em>cd</em> 来改变工作目录。</li>
+<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
+<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
+<li>输出重定向。</li>
+<li>调用包含 / 的命令。</li>
+<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
+<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
+<li>在脚本中跳出限制模式。</li>
+</ul>
+<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
+<div><pre><code>#!/bin/bash
+
+#  在脚本开头用&quot;#!/bin/bash -r&quot;
+#+ 可以让整个脚本在限制模式运行。
+
+echo
+
+echo &quot;改变目录。&quot;
+cd /usr/local
+echo &quot;现在是在 `pwd`&quot;
+echo &quot;回到家目录。&quot;
+cd
+echo &quot;现在是在 `pwd`&quot;
+echo
+
+# 到此为止一切都是正常的，非限制模式。
+
+set -r
+# set --restricted 效果相同。
+echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
+
+echo
+echo
+
+echo &quot;在限制模式试图改变目录。&quot;
+cd ..
+echo &quot;依旧在 `pwd`&quot;
+
+echo
+echo
+
+echo &quot;\$SHELL = $SHELL&quot;
+echo &quot;试图在限制模式改变Shell 。&quot;
+SHELL=&quot;/bin/ash&quot;
+echo
+echo &quot;\$SHELL= $SHELL&quot;
+
+echo
+echo
+
+echo &quot;试图在限制模式重定向输出内容。&quot;
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    # 尝试列出试图创建的文件。
+
+echo
+
+exit 0
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>24.1 复杂函数和函数复杂性</title>
@@ -20009,97 +20009,6 @@ EOF</span>
 main <span>"<span>$@</span>"</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>基本权限 UGO</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">基本权限 UGO</source>
-      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
-<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
-<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
-<div><pre><code>    rw-r--r--  alice hr  install.log
-</code></pre>
-<div><span>1</span><br></div></div><p>权限对象：</p>
-<ul>
-<li>属主： u</li>
-<li>属组：g</li>
-<li>其他人： o</li>
-</ul>
-<p>权限类型：</p>
-<ul>
-<li>
-<p>读：r  4</p>
-</li>
-<li>
-<p>写：w 2</p>
-</li>
-<li>
-<p>执行： x 1</p>
-</li>
-</ul>
-<h3 id="设置权限"> 设置权限</h3>
-<ol>
-<li>更改文件的属主、属组</li>
-</ol>
-<ul>
-<li>chown：</li>
-</ul>
-<div><pre><code>chown ops.sre file1 //改属主、属组
-chown ops file1     //只改属主
-chown .ser file1	//只改属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>chgrp：</li>
-</ul>
-<div><pre><code>chgrp it file1	    //改文件属组
-chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
-<li>更改权限</li>
-</ol>
-<ul>
-<li>使用符号</li>
-</ul>
-<div><pre><code>chmod u+x file1		 //属主增加执行
-chmod a=rwx file1	 //所有人等于读写执行
-chmod a=- file1	     //所有人没有权限
-chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
-<li>使用数字</li>
-</ul>
-<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>对文件的影响</th>
-<th>对目录的影响</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>r（读取）</td>
-<td>可以读取文件的内容</td>
-<td>可以列出目录的内容（文件名）</td>
-</tr>
-<tr>
-<td>w（写入）</td>
-<td>可以更改文件的内容</td>
-<td>可以创建或删除目录中的任一文件</td>
-</tr>
-<tr>
-<td>x（可执行）</td>
-<td>可以作为命令执行文件</td>
-<td>可以访问目录的内容（取决于目录中文件的权限）</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
     </item>
     <item>
       <title>创建、复制、移动、删除</title>
@@ -30374,22 +30283,6 @@ config.xml            config.xml2019-06-12
 ]]></content:encoded>
     </item>
     <item>
-      <title>Jenkins关闭和重启的实现方式</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/restart/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/restart/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Jenkins关闭和重启的实现方式</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="jenkins关闭和重启的实现方式"> Jenkins关闭和重启的实现方式</h1>
-<h2 id="关闭jenkins"> 关闭jenkins</h2>
-<p>只需要在访问jenkins服务器的网址url地址后加上exit。例如我jenkins的地址http://localhost:8080/，那么我只需要在浏览器地址栏上敲下<strong>http://localhost:8080/exit</strong> 网址就能关闭jenkins服务.</p>
-<h2 id="重启jenkins"> 重启Jenkins</h2>
-<p><strong>http://localhost:8080/restart</strong></p>
-<h2 id="重新加载配置信息"> 重新加载配置信息</h2>
-<p><strong>http://localhost:8080/reload</strong></p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>jenkins的安装配置</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/</guid>
@@ -30447,6 +30340,22 @@ mvn --version
 <p><strong>jenkins定时构建</strong>：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jen_ld.png" type="image/png"/>
+    </item>
+    <item>
+      <title>Jenkins关闭和重启的实现方式</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/restart/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/automate/jenkins/restart/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">Jenkins关闭和重启的实现方式</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="jenkins关闭和重启的实现方式"> Jenkins关闭和重启的实现方式</h1>
+<h2 id="关闭jenkins"> 关闭jenkins</h2>
+<p>只需要在访问jenkins服务器的网址url地址后加上exit。例如我jenkins的地址http://localhost:8080/，那么我只需要在浏览器地址栏上敲下<strong>http://localhost:8080/exit</strong> 网址就能关闭jenkins服务.</p>
+<h2 id="重启jenkins"> 重启Jenkins</h2>
+<p><strong>http://localhost:8080/restart</strong></p>
+<h2 id="重新加载配置信息"> 重新加载配置信息</h2>
+<p><strong>http://localhost:8080/reload</strong></p>
+]]></content:encoded>
     </item>
     <item>
       <title>命名</title>
@@ -33249,267 +33158,6 @@ logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>F
 ]]></content:encoded>
     </item>
     <item>
-      <title>17 IO 模型</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-io-model/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-io-model/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">17 IO 模型</source>
-      <category>Python</category>
-      <pubDate>Sat, 03 Apr 2021 15:30:56 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_17-io-模型"> 17 IO 模型</h1>
-<h2 id="重要概念"> 重要概念</h2>
-<h3 id="同步、异步"> 同步、异步</h3>
-<p>函数或方法被调用的时候，调用者是否得到<strong>最终结果</strong>的。
-直接得到最终结果结果的，就是同步调用；
-不直接得到最终结果的，就是异步调用。</p>
-<h3 id="阻塞、非阻塞"> 阻塞、非阻塞</h3>
-<p>函数或方法调用的时候，是否立刻返回。
-立即返回就是非阻塞调用；
-不立即返回就是阻塞调用。</p>
-<h3 id="区别"> 区别</h3>
-<p>同步、异步，与阻塞、非阻塞不相关。
-同步、异步强调的是，是否得到（最终的）<strong>结果</strong>；
-阻塞、非阻塞强调是时间，是否<strong>等待</strong>。</p>
-<p>同步与异步区别在于：调用者是否得到了想要的最终结果。
-同步就是一直要执行到返回最终结果；
-异步就是直接返回了，但是返回的不是最终结果。调用者不能通过这种调用得到结果，以后可以通过被调用者提供的某种方式（被调用者通知调用者、调用者反复查询、回调），来取回最终结果。</p>
-<p>阻塞与非阻塞的区别在于，调用者是否还能干其他事。
-阻塞，调用者就只能干等；
-非阻塞，调用者可以先去忙会别的，不用一直等。</p>
-<h3 id="联系"> 联系</h3>
-<p>同步阻塞，我啥事不干，就等你打饭打给我。打到饭是结果，而且我啥事不干一直等，同步加阻塞。
-同步非阻塞，我等着你打饭给我，饭没好，我不等，但是我无事可做，反复看饭好了没有。打饭是结果，但是我不一直等。</p>
-<p>异步阻塞，我要打饭，你说等叫号，并没有返回饭给我，我啥事不干，就干等着饭好了你叫我。例如，取了号什么不干就等叫自己的号。
-异步非阻塞，我要打饭，你给我号，你说等叫号，并没有返回饭给我，我去看电视、玩手机，饭打好了叫我。</p>
-<h2 id="io两个阶段"> IO两个阶段</h2>
-<p>IO过程分两阶段：
-1、数据准备阶段。从设备读取数据到内核空间的缓冲区（淘米，把米放饭锅里煮饭）
-2、内核空间复制回用户空间进程缓冲区阶段（盛饭，从内核这个饭锅里面把饭装到碗里来）</p>
-<p>系统调用——read函数、recv函数等</p>
-<h2 id="同步-io-模型"> 同步 IO 模型</h2>
-<p>同步IO模型包括 阻塞IO、非阻塞IO、IO多路复用</p>
-<h3 id="阻塞-io"> 阻塞 IO</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" alt="block_io"></p>
-<h3 id="非阻塞-io"> 非阻塞 IO</h3>
-<p>进程调用 recvfrom 操作，如果 IO 设备没有准备好，立即返回 ERROR，进程不阻塞。用户可以再次发起系统调用（可以轮询），如果内核已经准备好，就阻塞，然后复制数据到用户空间。</p>
-<p>第一阶段数据没有准备好，可以先忙别的，等会再来看看。检查数据是否准备好了的过程是非阻塞的。</p>
-<p>第二阶段是阻塞的，即内核空间和用户空间之间复制数据是阻塞的。</p>
-<p>淘米、蒸饭我不阻塞等，反复来询问，一直没有拿到饭。盛饭过程我等着你装好饭，但是要等到盛好饭才算完事，这是同步的，结果就是盛好饭。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/unblock-io.png" alt="unblock-io"></p>
-<h3 id="io多路复用"> IO多路复用</h3>
-<p>也称 Event-driven IO。</p>
-<p>所谓 IO 多路复用，就是同时监控多个 IO，有一个准备好了，就不需要等了开始处理，提高了同时处理 IO 的能力。
-select几乎所有操作系统平台都支持，poll是对的select的升级。</p>
-<p>epoll，Linux系统内核2.5+开始支持，对select和poll的增强，在监视的基础上，增加回调机制。BSD、
-Mac平台有kqueue，Windows有iocp。</p>
-<p>以 select 为例，将关注的 IO 操作告诉 select 函数并调用，进程阻塞，内核“监视” select 关注的文件描述符  fd，被关注的任何一个 fd 对应的IO准备好了数据，select 返回。再使用 read 将数据复制到用户进程。</p>
-<p>select举例：
-食堂供应很多菜（众多的IO），你需要吃某三菜一汤，大师傅（操作系统）说要现做，需要你等，好多人都在等菜，谁先好不知道，你只好等待大师傅叫。你的其中一样菜好了，大师傅叫你，说你点的菜有好的了，你得自己遍历找找看哪一样才好了，请服务员把做好的菜打给你。
-epoll是有菜准备好了，大师傅喊你去几号窗口直接打菜，不用自己找菜了。</p>
-<p>一般情况下，select 最多能监听1024个 fd（可以修改），但是由于select采用轮询的方式，当管理的 IO 多了，每次都要遍历全部fd，效率低下。
-epoll 没有管理的 fd 的上限，且是回调机制，不需遍历，效率很高。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-more-road.png" alt="io-more-road"></p>
-<h3 id="信号驱动io"> 信号驱动IO</h3>
-<p>进程在 IO 访问时，先通过 sigaction 系统调用，提交一个信号处理函数，立即返回。进程不阻塞。</p>
-<p>当内核准备好数据后，产生一个 SIGIO 信号并投递给信号处理函数。可以在此函数中调用 recvfrom 函数
-操作数据从内核空间复制到用户空间，这段过程进程阻塞。</p>
-<h2 id="异步-io"> 异步 IO</h2>
-<p>进程发起异步 IO 请求，立即返回。内核完成 IO 的两个阶段，内核给进程发一个信号。</p>
-<p>举例，来打饭，跟大师傅说饭好了叫你，饭菜准备好了，窗口服务员把饭盛好了打电话叫你。两阶段都是异步的。在整个过程中，进程都可以忙别的，等好了才过来。
-举例，今天不想出去到饭店吃饭了，点外卖，饭菜在饭店做好了（第一阶段），快递员从饭店送到你家门口（第二阶段）。
-Linux 的 aio 的系统调用，内核从版本2.6开始支持</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-async.png" alt="io-async"></p>
-<p>前4个都是同步 IO，因为核心操作 recv 函数调用时，进程阻塞直到拿到最终结果为止。</p>
-<p>而异步 IO 进程全程不阻塞。</p>
-<h2 id="python-中-io多路复用"> Python 中 IO多路复用</h2>
-<p>IO多路复用</p>
-<ul>
-<li>大多数操作系统都支持 select 和 poll</li>
-<li>Linux 2.5+ 支持 epoll</li>
-<li>BSD、Mac支持kqueue</li>
-<li>Solaris 实现了/dev/poll</li>
-<li>Windows的IOCP</li>
-</ul>
-<p>Python 的 select 库实现了 select、poll 系统调用，这个基本上操作系统都支持。对Linux内核2.5+支持了 epoll。</p>
-<p>开发中的选择
-1、完全跨平台，使用 select、poll。但是性能较差
-2、针对不同操作系统自行选择支持的技术，这样做会提高 IO 处理的性能</p>
-<p>select 维护一个文件描述符数据结构，单个进程使用有上限，通常是1024，线性扫描这个数据结构。效率低。</p>
-<p>pool 和 select 的区别是内部数据结构使用链表，没有这个最大限制，但是依然是线性遍历才知道哪个设备就绪了。
-epoll 使用事件通知机制，使用回调机制提高效率。
-select/poll 还要从内核空间复制消息到用户空间，而 epoll 通过内核空间和用户空间共享一块内存来减少复制。</p>
-<p><strong>selectors 库</strong></p>
-<p>3.4 版本提供 selectors 库，高级 IO 复用库。</p>
-<div><pre><code>类层次结构︰
-BaseSelector
-+-- SelectSelector  实现select
-+-- PollSelector   实现poll
-+-- EpollSelector   实现epoll
-+-- DevpollSelector  实现devpoll
-+-- KqueueSelector  实现kqueue
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>selectors.DefaultSelector 返回当前平台最有效、性能最高的实现。</p>
-<p>但是，由于没有实现 Windows 下的 IOCP，所以，Windows 下只能退化为 select。</p>
-<div><pre><code><span># 在selects模块源码最下面有如下代码</span>
-<span># Choose the best implementation, roughly:</span>
-<span>#    epoll|kqueue|devpoll > poll > select.</span>
-<span># select() also can't accept a FD > FD_SETSIZE (usually around 1024)</span>
-<span>if</span> <span>'KqueueSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
-    DefaultSelector <span>=</span> KqueueSelector
-<span>elif</span> <span>'EpollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
-    DefaultSelector <span>=</span> EpollSelector
-<span>elif</span> <span>'DevpollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
-    DefaultSelector <span>=</span> DevpollSelector
-<span>elif</span> <span>'PollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
-    DefaultSelector <span>=</span> PollSelector
-<span>else</span><span>:</span>
-    DefaultSelector <span>=</span> SelectSelector
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>事件注册</p>
-<div><pre><code><span>class</span> <span>SelectSelector</span><span>(</span>_BaseSelectorImpl<span>)</span><span>:</span>
-    <span>"""Select-based selector."""</span>
-    <span>def</span> <span>register</span><span>(</span>fileobj<span>,</span> events<span>,</span> data<span>=</span><span>None</span><span>)</span> <span>-</span><span>></span> SelectorKey<span>:</span> <span>pass</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>为 selector 注册一个文件对象，监视它的 IO 事件。返回 <strong>SelectKey</strong> 对象。</li>
-<li>fileobj 被监视文件对象，例如socket对象</li>
-<li>events 事件，该文件对象必须等待的事件</li>
-<li>data 可选的与此文件对象相关联的不透明数据，例如，关联用来存储每个客户端的会话 ID，关联方法。通过这个参数在关注的事件产生后让selector干什么事。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Event 常量</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>EVENT_READ</td>
-<td>可读 0b01，内核已经准备好输入设备，可以开始读了</td>
-</tr>
-<tr>
-<td>EVENT_WRITE</td>
-<td>可写 0b10，内核准备好了，可以往里写了</td>
-</tr>
-</tbody>
-</table>
-<p>selectors.SelectorKey 有4个属性：</p>
-<ol>
-<li>fileobj 注册的文件对象</li>
-<li>fd 文件描述符</li>
-<li>events 等待上面的文件描述符的文件对象的事件</li>
-<li>data 注册时关联的数据</li>
-</ol>
-<p><strong>练习：IO 多路复用 TCP Server</strong></p>
-<p>完成一个 TCP Server，能够接受客户端请求并回应客户端消息。</p>
-<div><pre><code><span>import</span> selectors
-<span>import</span> threading
-<span>import</span> socket
-<span>import</span> time
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s %(threadName)s %(thread)d %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span># 构建本系统最优Selector</span>
-selector <span>=</span> selectors<span>.</span>DefaultSelector<span>(</span><span>)</span>
-
-sock <span>=</span> socket<span>.</span>socket<span>(</span><span>)</span> <span># TCP Server</span>
-sock<span>.</span>bind<span>(</span><span>(</span><span>'127.0.0.1'</span><span>,</span> <span>9999</span><span>)</span><span>)</span>
-sock<span>.</span>listen<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>sock<span>)</span>
-
-sock<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 注意：建议非阻塞</span>
-
-<span># 回调函数，sock的读事件</span>
-<span># 形参自定义</span>
-<span>def</span> <span>accept</span><span>(</span>sock<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
-    <span>"""mask: 事件掩码"""</span>
-    conn<span>,</span> raddr <span>=</span> sock<span>.</span>accept<span>(</span><span>)</span>
-    conn<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 非阻塞</span>
-
-    logging<span>.</span>info<span>(</span><span>'new client socket {} in accept.'</span><span>.</span><span>format</span><span>(</span>conn<span>)</span><span>)</span>
-
-<span># 注册sock的被关注事件，返回SelectorKey对象</span>
-<span># key记录了fileobj, fileobj的fd, events, data</span>
-key <span>=</span> selector<span>.</span>register<span>(</span>sock<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> accept<span>)</span>
-logging<span>.</span>info<span>(</span>key<span>)</span>
-
-<span># 开始循环</span>
-<span>while</span> <span>True</span><span>:</span>
-    <span># 监听注册的对象的事件，发生被关注事件则返回events</span>
-    events <span>=</span> selector<span>.</span>select<span>(</span><span>)</span>
-    <span>print</span><span>(</span>events<span>)</span> <span># [(key, mask)]</span>
-    <span># 表示那个关注的对象的某事件发生了</span>
-    <span>for</span> key<span>,</span> mask <span>in</span> events<span>:</span>
-        <span># key.data => accept; key.fileobj => sock</span>
-        callback <span>=</span> key<span>.</span>data
-        callback<span>(</span>key<span>.</span>fileobj<span>,</span> mask<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br></div></div><p>上面的代码完成了 Server socket 的读事件的监听。注意，select() 方法会阻塞到监控的对象的等待的事件有发生（监听的读或者写就绪）。</p>
-<div><pre><code><span>import</span> selectors
-<span>import</span> threading
-<span>import</span> socket
-<span>import</span> time
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s %(threadName)s %(thread)d %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span># 构建本系统最优Selector</span>
-selector <span>=</span> selectors<span>.</span>DefaultSelector<span>(</span><span>)</span>
-
-sock <span>=</span> socket<span>.</span>socket<span>(</span><span>)</span> <span># TCP Server</span>
-sock<span>.</span>bind<span>(</span><span>(</span><span>'127.0.0.1'</span><span>,</span> <span>9999</span><span>)</span><span>)</span>
-sock<span>.</span>listen<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>sock<span>)</span>
-
-sock<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 注意：建议非阻塞</span>
-
-<span># 回调函数，sock的读事件</span>
-<span># 形参自定义</span>
-<span>def</span> <span>accept</span><span>(</span>sock<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
-    <span>"""mask: 事件掩码"""</span>
-    conn<span>,</span> raddr <span>=</span> sock<span>.</span>accept<span>(</span><span>)</span>
-    conn<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 非阻塞</span>
-
-    logging<span>.</span>info<span>(</span><span>'new client socket {} in accept.'</span><span>.</span><span>format</span><span>(</span>conn<span>)</span><span>)</span>
-
-    key <span>=</span> selector<span>.</span>register<span>(</span>conn<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> read<span>)</span>
-    logging<span>.</span>info<span>(</span>key<span>)</span>
-
-<span># 回调函数</span>
-<span>def</span> <span>read</span><span>(</span>conn<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
-    data <span>=</span> conn<span>.</span>recv<span>(</span><span>1024</span><span>)</span>
-    msg <span>=</span> <span>"Your msg = {} ~~~"</span><span>.</span><span>format</span><span>(</span>data<span>.</span>decode<span>(</span><span>)</span><span>)</span>
-    logging<span>.</span>info<span>(</span>msg<span>)</span>
-    conn<span>.</span>send<span>(</span>msg<span>.</span>encode<span>(</span><span>)</span><span>)</span>
-
-<span># 注册sock的被关注事件，返回SelectorKey对象</span>
-<span># key记录了fileobj, fileobj的fd, events, data</span>
-key <span>=</span> selector<span>.</span>register<span>(</span>sock<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> accept<span>)</span>
-logging<span>.</span>info<span>(</span>key<span>)</span>
-
-<span># 开始循环</span>
-<span>while</span> <span>True</span><span>:</span>
-    <span># 监听注册的对象的事件，发生被关注事件则返回events</span>
-    events <span>=</span> selector<span>.</span>select<span>(</span><span>)</span>
-    <span>print</span><span>(</span>events<span>)</span> <span># [(key, mask)]</span>
-    <span># 表示那个关注的对象的某事件发生了</span>
-    <span>for</span> key<span>,</span> mask <span>in</span> events<span>:</span>
-        <span># key.data => accept; key.fileobj => sock</span>
-        callback <span>=</span> key<span>.</span>data
-        callback<span>(</span>key<span>.</span>fileobj<span>,</span> mask<span>)</span>
-
-
-
-
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div>]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" type="image/png"/>
-    </item>
-    <item>
       <title>03 哈希表和解析式</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-ha-tables-analytic-expre/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-ha-tables-analytic-expre/</guid>
@@ -34048,6 +33696,267 @@ ret <span>=</span> <span>[</span><span>]</span>
 <span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>'ABC'</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>values<span>(</span><span>)</span><span>,</span> key<span>=</span><span>str</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>17 IO 模型</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-io-model/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-io-model/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">17 IO 模型</source>
+      <category>Python</category>
+      <pubDate>Sat, 03 Apr 2021 15:30:56 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_17-io-模型"> 17 IO 模型</h1>
+<h2 id="重要概念"> 重要概念</h2>
+<h3 id="同步、异步"> 同步、异步</h3>
+<p>函数或方法被调用的时候，调用者是否得到<strong>最终结果</strong>的。
+直接得到最终结果结果的，就是同步调用；
+不直接得到最终结果的，就是异步调用。</p>
+<h3 id="阻塞、非阻塞"> 阻塞、非阻塞</h3>
+<p>函数或方法调用的时候，是否立刻返回。
+立即返回就是非阻塞调用；
+不立即返回就是阻塞调用。</p>
+<h3 id="区别"> 区别</h3>
+<p>同步、异步，与阻塞、非阻塞不相关。
+同步、异步强调的是，是否得到（最终的）<strong>结果</strong>；
+阻塞、非阻塞强调是时间，是否<strong>等待</strong>。</p>
+<p>同步与异步区别在于：调用者是否得到了想要的最终结果。
+同步就是一直要执行到返回最终结果；
+异步就是直接返回了，但是返回的不是最终结果。调用者不能通过这种调用得到结果，以后可以通过被调用者提供的某种方式（被调用者通知调用者、调用者反复查询、回调），来取回最终结果。</p>
+<p>阻塞与非阻塞的区别在于，调用者是否还能干其他事。
+阻塞，调用者就只能干等；
+非阻塞，调用者可以先去忙会别的，不用一直等。</p>
+<h3 id="联系"> 联系</h3>
+<p>同步阻塞，我啥事不干，就等你打饭打给我。打到饭是结果，而且我啥事不干一直等，同步加阻塞。
+同步非阻塞，我等着你打饭给我，饭没好，我不等，但是我无事可做，反复看饭好了没有。打饭是结果，但是我不一直等。</p>
+<p>异步阻塞，我要打饭，你说等叫号，并没有返回饭给我，我啥事不干，就干等着饭好了你叫我。例如，取了号什么不干就等叫自己的号。
+异步非阻塞，我要打饭，你给我号，你说等叫号，并没有返回饭给我，我去看电视、玩手机，饭打好了叫我。</p>
+<h2 id="io两个阶段"> IO两个阶段</h2>
+<p>IO过程分两阶段：
+1、数据准备阶段。从设备读取数据到内核空间的缓冲区（淘米，把米放饭锅里煮饭）
+2、内核空间复制回用户空间进程缓冲区阶段（盛饭，从内核这个饭锅里面把饭装到碗里来）</p>
+<p>系统调用——read函数、recv函数等</p>
+<h2 id="同步-io-模型"> 同步 IO 模型</h2>
+<p>同步IO模型包括 阻塞IO、非阻塞IO、IO多路复用</p>
+<h3 id="阻塞-io"> 阻塞 IO</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" alt="block_io"></p>
+<h3 id="非阻塞-io"> 非阻塞 IO</h3>
+<p>进程调用 recvfrom 操作，如果 IO 设备没有准备好，立即返回 ERROR，进程不阻塞。用户可以再次发起系统调用（可以轮询），如果内核已经准备好，就阻塞，然后复制数据到用户空间。</p>
+<p>第一阶段数据没有准备好，可以先忙别的，等会再来看看。检查数据是否准备好了的过程是非阻塞的。</p>
+<p>第二阶段是阻塞的，即内核空间和用户空间之间复制数据是阻塞的。</p>
+<p>淘米、蒸饭我不阻塞等，反复来询问，一直没有拿到饭。盛饭过程我等着你装好饭，但是要等到盛好饭才算完事，这是同步的，结果就是盛好饭。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/unblock-io.png" alt="unblock-io"></p>
+<h3 id="io多路复用"> IO多路复用</h3>
+<p>也称 Event-driven IO。</p>
+<p>所谓 IO 多路复用，就是同时监控多个 IO，有一个准备好了，就不需要等了开始处理，提高了同时处理 IO 的能力。
+select几乎所有操作系统平台都支持，poll是对的select的升级。</p>
+<p>epoll，Linux系统内核2.5+开始支持，对select和poll的增强，在监视的基础上，增加回调机制。BSD、
+Mac平台有kqueue，Windows有iocp。</p>
+<p>以 select 为例，将关注的 IO 操作告诉 select 函数并调用，进程阻塞，内核“监视” select 关注的文件描述符  fd，被关注的任何一个 fd 对应的IO准备好了数据，select 返回。再使用 read 将数据复制到用户进程。</p>
+<p>select举例：
+食堂供应很多菜（众多的IO），你需要吃某三菜一汤，大师傅（操作系统）说要现做，需要你等，好多人都在等菜，谁先好不知道，你只好等待大师傅叫。你的其中一样菜好了，大师傅叫你，说你点的菜有好的了，你得自己遍历找找看哪一样才好了，请服务员把做好的菜打给你。
+epoll是有菜准备好了，大师傅喊你去几号窗口直接打菜，不用自己找菜了。</p>
+<p>一般情况下，select 最多能监听1024个 fd（可以修改），但是由于select采用轮询的方式，当管理的 IO 多了，每次都要遍历全部fd，效率低下。
+epoll 没有管理的 fd 的上限，且是回调机制，不需遍历，效率很高。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-more-road.png" alt="io-more-road"></p>
+<h3 id="信号驱动io"> 信号驱动IO</h3>
+<p>进程在 IO 访问时，先通过 sigaction 系统调用，提交一个信号处理函数，立即返回。进程不阻塞。</p>
+<p>当内核准备好数据后，产生一个 SIGIO 信号并投递给信号处理函数。可以在此函数中调用 recvfrom 函数
+操作数据从内核空间复制到用户空间，这段过程进程阻塞。</p>
+<h2 id="异步-io"> 异步 IO</h2>
+<p>进程发起异步 IO 请求，立即返回。内核完成 IO 的两个阶段，内核给进程发一个信号。</p>
+<p>举例，来打饭，跟大师傅说饭好了叫你，饭菜准备好了，窗口服务员把饭盛好了打电话叫你。两阶段都是异步的。在整个过程中，进程都可以忙别的，等好了才过来。
+举例，今天不想出去到饭店吃饭了，点外卖，饭菜在饭店做好了（第一阶段），快递员从饭店送到你家门口（第二阶段）。
+Linux 的 aio 的系统调用，内核从版本2.6开始支持</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-async.png" alt="io-async"></p>
+<p>前4个都是同步 IO，因为核心操作 recv 函数调用时，进程阻塞直到拿到最终结果为止。</p>
+<p>而异步 IO 进程全程不阻塞。</p>
+<h2 id="python-中-io多路复用"> Python 中 IO多路复用</h2>
+<p>IO多路复用</p>
+<ul>
+<li>大多数操作系统都支持 select 和 poll</li>
+<li>Linux 2.5+ 支持 epoll</li>
+<li>BSD、Mac支持kqueue</li>
+<li>Solaris 实现了/dev/poll</li>
+<li>Windows的IOCP</li>
+</ul>
+<p>Python 的 select 库实现了 select、poll 系统调用，这个基本上操作系统都支持。对Linux内核2.5+支持了 epoll。</p>
+<p>开发中的选择
+1、完全跨平台，使用 select、poll。但是性能较差
+2、针对不同操作系统自行选择支持的技术，这样做会提高 IO 处理的性能</p>
+<p>select 维护一个文件描述符数据结构，单个进程使用有上限，通常是1024，线性扫描这个数据结构。效率低。</p>
+<p>pool 和 select 的区别是内部数据结构使用链表，没有这个最大限制，但是依然是线性遍历才知道哪个设备就绪了。
+epoll 使用事件通知机制，使用回调机制提高效率。
+select/poll 还要从内核空间复制消息到用户空间，而 epoll 通过内核空间和用户空间共享一块内存来减少复制。</p>
+<p><strong>selectors 库</strong></p>
+<p>3.4 版本提供 selectors 库，高级 IO 复用库。</p>
+<div><pre><code>类层次结构︰
+BaseSelector
++-- SelectSelector  实现select
++-- PollSelector   实现poll
++-- EpollSelector   实现epoll
++-- DevpollSelector  实现devpoll
++-- KqueueSelector  实现kqueue
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>selectors.DefaultSelector 返回当前平台最有效、性能最高的实现。</p>
+<p>但是，由于没有实现 Windows 下的 IOCP，所以，Windows 下只能退化为 select。</p>
+<div><pre><code><span># 在selects模块源码最下面有如下代码</span>
+<span># Choose the best implementation, roughly:</span>
+<span>#    epoll|kqueue|devpoll > poll > select.</span>
+<span># select() also can't accept a FD > FD_SETSIZE (usually around 1024)</span>
+<span>if</span> <span>'KqueueSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
+    DefaultSelector <span>=</span> KqueueSelector
+<span>elif</span> <span>'EpollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
+    DefaultSelector <span>=</span> EpollSelector
+<span>elif</span> <span>'DevpollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
+    DefaultSelector <span>=</span> DevpollSelector
+<span>elif</span> <span>'PollSelector'</span> <span>in</span> <span>globals</span><span>(</span><span>)</span><span>:</span>
+    DefaultSelector <span>=</span> PollSelector
+<span>else</span><span>:</span>
+    DefaultSelector <span>=</span> SelectSelector
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>事件注册</p>
+<div><pre><code><span>class</span> <span>SelectSelector</span><span>(</span>_BaseSelectorImpl<span>)</span><span>:</span>
+    <span>"""Select-based selector."""</span>
+    <span>def</span> <span>register</span><span>(</span>fileobj<span>,</span> events<span>,</span> data<span>=</span><span>None</span><span>)</span> <span>-</span><span>></span> SelectorKey<span>:</span> <span>pass</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>为 selector 注册一个文件对象，监视它的 IO 事件。返回 <strong>SelectKey</strong> 对象。</li>
+<li>fileobj 被监视文件对象，例如socket对象</li>
+<li>events 事件，该文件对象必须等待的事件</li>
+<li>data 可选的与此文件对象相关联的不透明数据，例如，关联用来存储每个客户端的会话 ID，关联方法。通过这个参数在关注的事件产生后让selector干什么事。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Event 常量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVENT_READ</td>
+<td>可读 0b01，内核已经准备好输入设备，可以开始读了</td>
+</tr>
+<tr>
+<td>EVENT_WRITE</td>
+<td>可写 0b10，内核准备好了，可以往里写了</td>
+</tr>
+</tbody>
+</table>
+<p>selectors.SelectorKey 有4个属性：</p>
+<ol>
+<li>fileobj 注册的文件对象</li>
+<li>fd 文件描述符</li>
+<li>events 等待上面的文件描述符的文件对象的事件</li>
+<li>data 注册时关联的数据</li>
+</ol>
+<p><strong>练习：IO 多路复用 TCP Server</strong></p>
+<p>完成一个 TCP Server，能够接受客户端请求并回应客户端消息。</p>
+<div><pre><code><span>import</span> selectors
+<span>import</span> threading
+<span>import</span> socket
+<span>import</span> time
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s %(threadName)s %(thread)d %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span># 构建本系统最优Selector</span>
+selector <span>=</span> selectors<span>.</span>DefaultSelector<span>(</span><span>)</span>
+
+sock <span>=</span> socket<span>.</span>socket<span>(</span><span>)</span> <span># TCP Server</span>
+sock<span>.</span>bind<span>(</span><span>(</span><span>'127.0.0.1'</span><span>,</span> <span>9999</span><span>)</span><span>)</span>
+sock<span>.</span>listen<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>sock<span>)</span>
+
+sock<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 注意：建议非阻塞</span>
+
+<span># 回调函数，sock的读事件</span>
+<span># 形参自定义</span>
+<span>def</span> <span>accept</span><span>(</span>sock<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
+    <span>"""mask: 事件掩码"""</span>
+    conn<span>,</span> raddr <span>=</span> sock<span>.</span>accept<span>(</span><span>)</span>
+    conn<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 非阻塞</span>
+
+    logging<span>.</span>info<span>(</span><span>'new client socket {} in accept.'</span><span>.</span><span>format</span><span>(</span>conn<span>)</span><span>)</span>
+
+<span># 注册sock的被关注事件，返回SelectorKey对象</span>
+<span># key记录了fileobj, fileobj的fd, events, data</span>
+key <span>=</span> selector<span>.</span>register<span>(</span>sock<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> accept<span>)</span>
+logging<span>.</span>info<span>(</span>key<span>)</span>
+
+<span># 开始循环</span>
+<span>while</span> <span>True</span><span>:</span>
+    <span># 监听注册的对象的事件，发生被关注事件则返回events</span>
+    events <span>=</span> selector<span>.</span>select<span>(</span><span>)</span>
+    <span>print</span><span>(</span>events<span>)</span> <span># [(key, mask)]</span>
+    <span># 表示那个关注的对象的某事件发生了</span>
+    <span>for</span> key<span>,</span> mask <span>in</span> events<span>:</span>
+        <span># key.data => accept; key.fileobj => sock</span>
+        callback <span>=</span> key<span>.</span>data
+        callback<span>(</span>key<span>.</span>fileobj<span>,</span> mask<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br></div></div><p>上面的代码完成了 Server socket 的读事件的监听。注意，select() 方法会阻塞到监控的对象的等待的事件有发生（监听的读或者写就绪）。</p>
+<div><pre><code><span>import</span> selectors
+<span>import</span> threading
+<span>import</span> socket
+<span>import</span> time
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s %(threadName)s %(thread)d %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span># 构建本系统最优Selector</span>
+selector <span>=</span> selectors<span>.</span>DefaultSelector<span>(</span><span>)</span>
+
+sock <span>=</span> socket<span>.</span>socket<span>(</span><span>)</span> <span># TCP Server</span>
+sock<span>.</span>bind<span>(</span><span>(</span><span>'127.0.0.1'</span><span>,</span> <span>9999</span><span>)</span><span>)</span>
+sock<span>.</span>listen<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>sock<span>)</span>
+
+sock<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 注意：建议非阻塞</span>
+
+<span># 回调函数，sock的读事件</span>
+<span># 形参自定义</span>
+<span>def</span> <span>accept</span><span>(</span>sock<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
+    <span>"""mask: 事件掩码"""</span>
+    conn<span>,</span> raddr <span>=</span> sock<span>.</span>accept<span>(</span><span>)</span>
+    conn<span>.</span>setblocking<span>(</span><span>False</span><span>)</span> <span># 非阻塞</span>
+
+    logging<span>.</span>info<span>(</span><span>'new client socket {} in accept.'</span><span>.</span><span>format</span><span>(</span>conn<span>)</span><span>)</span>
+
+    key <span>=</span> selector<span>.</span>register<span>(</span>conn<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> read<span>)</span>
+    logging<span>.</span>info<span>(</span>key<span>)</span>
+
+<span># 回调函数</span>
+<span>def</span> <span>read</span><span>(</span>conn<span>:</span>socket<span>.</span>socket<span>,</span> mask<span>)</span><span>:</span>
+    data <span>=</span> conn<span>.</span>recv<span>(</span><span>1024</span><span>)</span>
+    msg <span>=</span> <span>"Your msg = {} ~~~"</span><span>.</span><span>format</span><span>(</span>data<span>.</span>decode<span>(</span><span>)</span><span>)</span>
+    logging<span>.</span>info<span>(</span>msg<span>)</span>
+    conn<span>.</span>send<span>(</span>msg<span>.</span>encode<span>(</span><span>)</span><span>)</span>
+
+<span># 注册sock的被关注事件，返回SelectorKey对象</span>
+<span># key记录了fileobj, fileobj的fd, events, data</span>
+key <span>=</span> selector<span>.</span>register<span>(</span>sock<span>,</span> selectors<span>.</span>EVENT_READ<span>,</span> accept<span>)</span>
+logging<span>.</span>info<span>(</span>key<span>)</span>
+
+<span># 开始循环</span>
+<span>while</span> <span>True</span><span>:</span>
+    <span># 监听注册的对象的事件，发生被关注事件则返回events</span>
+    events <span>=</span> selector<span>.</span>select<span>(</span><span>)</span>
+    <span>print</span><span>(</span>events<span>)</span> <span># [(key, mask)]</span>
+    <span># 表示那个关注的对象的某事件发生了</span>
+    <span>for</span> key<span>,</span> mask <span>in</span> events<span>:</span>
+        <span># key.data => accept; key.fileobj => sock</span>
+        callback <span>=</span> key<span>.</span>data
+        callback<span>(</span>key<span>.</span>fileobj<span>,</span> mask<span>)</span>
+
+
+
+
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div>]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" type="image/png"/>
     </item>
     <item>
       <title>02 线性数据结构</title>
@@ -42076,6 +41985,42 @@ Install_MySQL
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br><span>132</span><br><span>133</span><br><span>134</span><br><span>135</span><br><span>136</span><br><span>137</span><br><span>138</span><br><span>139</span><br><span>140</span><br><span>141</span><br><span>142</span><br><span>143</span><br><span>144</span><br><span>145</span><br><span>146</span><br><span>147</span><br><span>148</span><br><span>149</span><br><span>150</span><br><span>151</span><br><span>152</span><br><span>153</span><br><span>154</span><br><span>155</span><br><span>156</span><br><span>157</span><br><span>158</span><br><span>159</span><br><span>160</span><br><span>161</span><br><span>162</span><br><span>163</span><br><span>164</span><br><span>165</span><br><span>166</span><br><span>167</span><br><span>168</span><br><span>169</span><br><span>170</span><br><span>171</span><br><span>172</span><br><span>173</span><br><span>174</span><br><span>175</span><br><span>176</span><br><span>177</span><br><span>178</span><br><span>179</span><br><span>180</span><br><span>181</span><br><span>182</span><br><span>183</span><br><span>184</span><br><span>185</span><br><span>186</span><br><span>187</span><br><span>188</span><br><span>189</span><br><span>190</span><br><span>191</span><br><span>192</span><br><span>193</span><br><span>194</span><br><span>195</span><br><span>196</span><br><span>197</span><br><span>198</span><br><span>199</span><br><span>200</span><br><span>201</span><br><span>202</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>自动清理</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.14%20MySQL%20bin-log%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86%20/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.14%20MySQL%20bin-log%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86%20/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">自动清理</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="自动清理"> 自动清理</h2>
+<h3 id="永久生效"> 永久生效</h3>
+<p>需要重启mysql才能生效</p>
+<p>修改<code>my.cnf</code>文件</p>
+<p>添加下面一行</p>
+<div><pre><code>expire_logs_days = 7
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="临时生效"> 临时生效</h3>
+<p>进入mysql，执行，下面的语句</p>
+<div><pre><code>show variables like &#39;%expire_logs_days%&#39;;
+set global expire_logs_days = 7;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="手动清理"> 手动清理</h2>
+<p>进入mysql，查看binlog日志</p>
+<div><pre><code>show binary logs;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
+<div><pre><code>purge binary logs to &#39;mysql-bin.000035&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
+<div><pre><code>PURGE MASTER LOGS BEFORE &#39;2019-09-09 13:00:00&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>清除3天前的bin日志</strong></p>
+<div><pre><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>注意，不要轻易手动去删除binlog，会导致binlog.index和真实存在的binlog不匹配，而导致expire_logs_day失效</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
       <title>1 数据类型</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.2%20%E5%88%97%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.2%20%E5%88%97%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7/</guid>
@@ -42960,42 +42905,6 @@ mysql&gt; select * from stumarks;
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>自动清理</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.14%20MySQL%20bin-log%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86%20/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/mysql/16.14%20MySQL%20bin-log%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86%20/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">自动清理</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="自动清理"> 自动清理</h2>
-<h3 id="永久生效"> 永久生效</h3>
-<p>需要重启mysql才能生效</p>
-<p>修改<code>my.cnf</code>文件</p>
-<p>添加下面一行</p>
-<div><pre><code>expire_logs_days = 7
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="临时生效"> 临时生效</h3>
-<p>进入mysql，执行，下面的语句</p>
-<div><pre><code>show variables like &#39;%expire_logs_days%&#39;;
-set global expire_logs_days = 7;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="手动清理"> 手动清理</h2>
-<p>进入mysql，查看binlog日志</p>
-<div><pre><code>show binary logs;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
-<div><pre><code>purge binary logs to &#39;mysql-bin.000035&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
-<div><pre><code>PURGE MASTER LOGS BEFORE &#39;2019-09-09 13:00:00&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>清除3天前的bin日志</strong></p>
-<div><pre><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>注意，不要轻易手动去删除binlog，会导致binlog.index和真实存在的binlog不匹配，而导致expire_logs_day失效</p>
-</blockquote>
-]]></content:encoded>
     </item>
     <item>
       <title>1  数据库基本概念</title>
@@ -45399,6 +45308,49 @@ d) 推荐设置为yes</p>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>服务器端</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">服务器端</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="服务器端"> 服务器端</h2>
+<p>服务器端的命令为redis-server
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-server --help
+</code></pre>
+<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
+启动</p>
+<div><pre><code>sudo service redis start
+</code></pre>
+<div><span>1</span><br></div></div><p>停⽌</p>
+<div><pre><code>sudo service redis stop
+</code></pre>
+<div><span>1</span><br></div></div><p>重启</p>
+<div><pre><code>sudo service redis restart
+</code></pre>
+<div><span>1</span><br></div></div><p>个人习惯</p>
+<div><pre><code>ps -aux|grep redis //查看redis服务器进程
+sudo kill -9 pid //杀死redis服务器
+sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
+<p>客户端的命令为redis-cli
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-cli --help
+</code></pre>
+<div><span>1</span><br></div></div><p>连接redis</p>
+<div><pre><code>redis-cli
+</code></pre>
+<div><span>1</span><br></div></div><p>运⾏测试命令</p>
+<div><pre><code>ping //返回PONG
+</code></pre>
+<div><span>1</span><br></div></div><p>切换数据库
+数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
+<div><pre><code>select n
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>string类型</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.1%20string%E7%B1%BB%E5%9E%8B/</guid>
@@ -45449,92 +45401,6 @@ d) 推荐设置为yes</p>
 <div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
 <p>详⻅下节键的操作，删除键时会将值删除</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>服务器端</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.3%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">服务器端</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="服务器端"> 服务器端</h2>
-<p>服务器端的命令为redis-server
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-server --help
-</code></pre>
-<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
-启动</p>
-<div><pre><code>sudo service redis start
-</code></pre>
-<div><span>1</span><br></div></div><p>停⽌</p>
-<div><pre><code>sudo service redis stop
-</code></pre>
-<div><span>1</span><br></div></div><p>重启</p>
-<div><pre><code>sudo service redis restart
-</code></pre>
-<div><span>1</span><br></div></div><p>个人习惯</p>
-<div><pre><code>ps -aux|grep redis //查看redis服务器进程
-sudo kill -9 pid //杀死redis服务器
-sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
-<p>客户端的命令为redis-cli
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-cli --help
-</code></pre>
-<div><span>1</span><br></div></div><p>连接redis</p>
-<div><pre><code>redis-cli
-</code></pre>
-<div><span>1</span><br></div></div><p>运⾏测试命令</p>
-<div><pre><code>ping //返回PONG
-</code></pre>
-<div><span>1</span><br></div></div><p>切换数据库
-数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
-<div><pre><code>select n
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>键命令</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">键命令</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>hash类型</title>
@@ -45589,6 +45455,49 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 <li>删除属性，属性对应的值会被⼀起删除</li>
 </ul>
 <div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>键命令</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/db/redis/17.4%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/17.4.2%20%E9%94%AE%E5%91%BD%E4%BB%A4/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">键命令</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -47315,43 +47224,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 ]]></content:encoded>
     </item>
     <item>
-      <title>安装运行</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
-      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="images/1567761679082.png" alt=""></p>
-<p>解压并安装运行</p>
-<p><img src="images/1567761719575.png" alt=""></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>安装</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.1%20Elasticsearch%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.1%20Elasticsearch%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</guid>
@@ -47427,6 +47299,43 @@ bin/elasticsearch-plugin list
 </ul>
 </li>
 </ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>安装运行</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/monitor/elasticsearch/9.2%20%E5%AE%89%E8%A3%85%E4%B8%8A%E6%89%8B/9.2.2%20Kibana%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%95%8C%E9%9D%A2%E5%BF%AB%E9%80%9F%E6%B5%8F%E8%A7%88/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">安装运行</source>
+      <pubDate>Fri, 02 Apr 2021 06:48:33 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="images/1567761679082.png" alt=""></p>
+<p>解压并安装运行</p>
+<p><img src="images/1567761719575.png" alt=""></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -49706,6 +49615,240 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 </blockquote>
 <p>JVM，参数得调整一下</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>《Advanced Bash-Scripting Guide》 in Chinese</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">《Advanced Bash-Scripting Guide》 in Chinese</source>
+      <category>Linux</category>
+      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
+<blockquote>
+<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
+<p>感谢开源翻译！！！</p>
+</blockquote>
+<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
+<p>《高级Bash脚本编程指南》Revision 10中文版</p>
+<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
+<h3 id="原著"> 原著</h3>
+<ul>
+<li>原著链接：http://tldp.org/LDP/abs/html/</li>
+<li>原作：Mendel Cooper</li>
+<li>原著版本：Revision 10, 10 Mar 2014</li>
+</ul>
+<h3 id="译著"> 译著</h3>
+<ul>
+<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
+<li>译者：杨春敏 黄毅</li>
+<li>译著版本：Revision 3.7, 23 Oct 2005</li>
+<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
+<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
+</ul>
+<h2 id="翻译作品"> 翻译作品</h2>
+<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
+<h2 id="翻译进度"> 翻译进度</h2>
+<ul>
+<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
+<ul>
+<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
+<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
+<ul>
+<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
+<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
+<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
+<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
+<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
+<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
+</ul>
+</li>
+<li>[x] 第三部分 Shell进阶[@imcmy]
+<ul>
+<li>[x] 9. 换个角度看变量[@imcmy]</li>
+<li>[x] 10. 变量处理[@imcmy]</li>
+<li>[x] 11. 循环与分支[@imcmy]</li>
+<li>[x] 12. 命令替换[@imcmy]</li>
+<li>[x] 13. 算术扩展[@imcmy]</li>
+<li>[x] 14. 休息时间[@imcmy]</li>
+</ul>
+</li>
+<li>[x] 第四部分. 命令[@imcmy]
+<ul>
+<li>[x] 15. 内建命令[@imcmy]</li>
+<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
+<ul>
+<li>[x] 16.1 基本命令[@hsupu]</li>
+<li>[ ] 16.2 复杂命令</li>
+<li>[ ] 16.3 时间与日期命令</li>
+<li>[ ] 16.4 文本处理命令</li>
+<li>[ ] 16.5 文件与归档命令</li>
+<li>[ ] 16.6 通信命令</li>
+<li>[ ] 16.7 终端控制命令</li>
+<li>[ ] 16.8 数学命令</li>
+<li>[ ] 16.9 杂项命令</li>
+</ul>
+</li>
+<li>[ ] 17. 系统与高级命令</li>
+</ul>
+</li>
+<li>[ ] 第五章. 高级话题
+<ul>
+<li>[x] 18. 正则表达式[@Zjie]</li>
+<li>[x] 19. 嵌入文档[@mingmings]</li>
+<li>[x] 20. I/O 重定向[@mingmings]</li>
+<li>[x] 21. Subshells[@ysun90]</li>
+<li>[x] 22. 限制模式的Shell[@panblack]</li>
+<li>[x] 23. 进程替换[@panblack]</li>
+<li>[x] 24. 函数[@zy416548283]</li>
+<li>[x] 25. 别名[@mingmings]</li>
+<li>[x] 26. 列表结构[@panblack]</li>
+<li>[x] 27. 数组[@zy416548283]</li>
+<li>[x] 28. 间接引用[@plutonji]</li>
+<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
+<li>[x] 30. 网络编程[@Zjie]</li>
+<li>[ ] 31. Of Zeros and Nulls</li>
+<li>[x] 32. 调试[@wuqichao]</li>
+<li>[x] 33. 选项[@zy416548283]</li>
+<li>[x] 34. 陷阱[@liuburn]</li>
+<li>[ ] 35. Scripting With Style</li>
+<li>[ ] 36. 杂项[@richard-ma]</li>
+<li>[ ] 37. Bash, versions 2, 3, and 4</li>
+</ul>
+</li>
+<li>[x] 38. 后记[@zy416548283]</li>
+<li>[ ] Bibliography</li>
+<li>[ ] 附录
+<ul>
+<li>[ ] A. Contributed Scripts</li>
+<li>[ ] B. Reference Cards</li>
+<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
+<ul>
+<li>[x] C.1 Sed[@wuqichao]</li>
+<li>[x] C.2 Awk[@wuqichao]</li>
+</ul>
+</li>
+<li>[ ] D. Parsing and Managing Pathnames</li>
+<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
+<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
+<li>[ ] G. Command-Line Options
+<ul>
+<li>[ ] G.1 Standard Command-Line Options</li>
+<li>[ ] G.2 Bash Command-Line Options</li>
+</ul>
+</li>
+<li>[x] H. 重要文件[@ShadowRZ]</li>
+<li>[ ] I. Important System Directories</li>
+<li>[ ] J. An Introduction to Programmable Completion</li>
+<li>[ ] K. Localization</li>
+<li>[ ] L. History Commands</li>
+<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
+<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
+<li>[ ] O. Exercises
+<ul>
+<li>O.1 Analyzing Scripts</li>
+<li>O.2 Writing Scripts</li>
+</ul>
+</li>
+<li>[ ] P. Revision History</li>
+<li>[ ] Q. Download and Mirror Sites</li>
+<li>[ ] R. To Do List</li>
+<li>[ ] S. Copyright</li>
+<li>[x] T. ASCII 表[@ShadowRZ]</li>
+</ul>
+</li>
+<li>[ ] Index</li>
+<li>[ ] List of Tables</li>
+<li>[ ] List of Examples</li>
+</ul>
+<h2 id="翻译校审流程"> 翻译校审流程</h2>
+<h3 id="初始化"> 初始化</h3>
+<ol>
+<li>首先fork项目</li>
+<li>把fork过去的项目clone到本地</li>
+<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
+<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
+<li>运行 <code>git remote update</code>更新</li>
+<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
+<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
+</ol>
+<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
+<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
+<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
+<ol>
+<li>
+<p>保证在dev分支中</p>
+</li>
+<li>
+<p>打开README.md，在翻译进度后加上你自己的github名</p>
+<blockquote>
+<p>1. Shell Programming! [@翻译人][@校审人]</p>
+</blockquote>
+</li>
+<li>
+<p>本地提交修改，写明提交信息</p>
+</li>
+<li>
+<p>push到你fork的项目中，然后登录GitHub</p>
+</li>
+<li>
+<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
+<blockquote>
+<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
+</blockquote>
+</li>
+<li>
+<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
+</li>
+</ol>
+<blockquote>
+<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
+</blockquote>
+<h2 id="翻译校审建议"> 翻译校审建议</h2>
+<ol>
+<li>使用markdown进行翻译校审，文件名必须使用英文</li>
+<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
+<li>有任何问题随时欢迎发issue</li>
+<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
+<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
+</ol>
+<h2 id="样式规范"> 样式规范</h2>
+<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
+<div><pre><code>{% hint style="info" %}
+Hello world
+{% endhint %}
+​```
+
+所有的脚注footnote都需使用html代码进行注释。
+
+## 关于版权
+
+根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
+
+翻译参与人员（按名称排序）：
+
+- @chuchingkai
+- @hsupu
+- @imcmy
+- @liuburn
+- @mingmings
+- @mr253727942
+- @panblack
+- @plutonji
+- @richard-ma
+- @samita2030
+- @ShadowRZ
+- @wuqichao
+- @ysun90
+- @zhaozq
+- @zihengcat
+- @Zjie
+- @zy416548283
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content:encoded>
+      <enclosure url="https://badges.gitter.im/gitterHQ/gitter.png" type="image/png"/>
     </item>
     <item>
       <title>logstash安装注意</title>
@@ -52943,105 +53086,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
 ]]></content:encoded>
     </item>
     <item>
-      <title>每天一个linux命令（36）-date</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（36）-date</source>
-      <pubDate>Fri, 27 Jul 2018 19:07:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>date(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
--s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
--u：显示GMT；
---help：在线帮助；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
-<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
-<div><pre><code>%H 小时，24小时制（00~23）
-%I 小时，12小时制（01~12）
-%k 小时，24小时制（0~23）
-%l 小时，12小时制（1~12）
-%M 分钟（00~59）
-%p 显示出AM或PM
-%r 显示时间，12小时制（hh:mm:ss %p）
-%s 从1970年1月1日00:00:00到目前经历的秒数
-%S 显示秒（00~59）
-%T 显示时间，24小时制（hh:mm:ss）
-%X 显示时间的格式（%H:%M:%S）
-%Z 显示时区，日期域（CST）
-%a 星期的简称（Sun~Sat）
-%A 星期的全称（Sunday~Saturday）
-%h,%b 月的简称（Jan~Dec）
-%B 月的全称（January~December）
-%c 日期和时间（Tue Nov 20 14:12:58 2012）
-%d 一个月的第几天（01~31）
-%x,%D 日期（mm/dd/yy）
-%j 一年的第几天（001~366）
-%m 月份（01~12）
-%w 一个星期的第几天（0代表星期天）
-%W 一年的第几个星期（00~53，星期一为第一天）
-%y 年的最后两个数字（1999则是99）
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）格式化输出：</p>
-<div><pre><code>#date +&quot;%Y-%m-%d&quot;
-2018-03-29
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
-<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
-2018-03-28
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
-<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
-2018-03-29 10:08:37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2009-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2007-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
-<div><pre><code>date +%Y%m%d                   //显示前天年月日
-date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
-date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
-date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
-date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
-date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
-date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
-<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
-date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
-date -s 01:01:01               //设置具体时间，不会对日期做更改
-date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
-date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
-date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
-date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
-<div><pre><code>#!/bin/bash
-
-start=$(date +%s)
-nmap man.linuxde.net &amp;&gt; /dev/null
-
-end=$(date +%s)
-difference=$(( end - start ))
-echo $difference seconds.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
-<p>http://man.linuxde.net/date</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（35）-diff</title>
       <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</link>
       <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</guid>
@@ -53332,6 +53376,105 @@ patching file log2013.log
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/12/2814048.html</p>
 <p>http://man.linuxde.net/diff</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>每天一个linux命令（36）-date</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">每天一个linux命令（36）-date</source>
+      <pubDate>Fri, 27 Jul 2018 19:07:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>date(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
+-s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
+-u：显示GMT；
+--help：在线帮助；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
+<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
+<div><pre><code>%H 小时，24小时制（00~23）
+%I 小时，12小时制（01~12）
+%k 小时，24小时制（0~23）
+%l 小时，12小时制（1~12）
+%M 分钟（00~59）
+%p 显示出AM或PM
+%r 显示时间，12小时制（hh:mm:ss %p）
+%s 从1970年1月1日00:00:00到目前经历的秒数
+%S 显示秒（00~59）
+%T 显示时间，24小时制（hh:mm:ss）
+%X 显示时间的格式（%H:%M:%S）
+%Z 显示时区，日期域（CST）
+%a 星期的简称（Sun~Sat）
+%A 星期的全称（Sunday~Saturday）
+%h,%b 月的简称（Jan~Dec）
+%B 月的全称（January~December）
+%c 日期和时间（Tue Nov 20 14:12:58 2012）
+%d 一个月的第几天（01~31）
+%x,%D 日期（mm/dd/yy）
+%j 一年的第几天（001~366）
+%m 月份（01~12）
+%w 一个星期的第几天（0代表星期天）
+%W 一年的第几个星期（00~53，星期一为第一天）
+%y 年的最后两个数字（1999则是99）
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）格式化输出：</p>
+<div><pre><code>#date +&quot;%Y-%m-%d&quot;
+2018-03-29
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
+<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
+2018-03-28
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
+<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
+2018-03-29 10:08:37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2009-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2007-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
+<div><pre><code>date +%Y%m%d                   //显示前天年月日
+date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
+date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
+date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
+date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
+date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
+date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
+<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
+date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
+date -s 01:01:01               //设置具体时间，不会对日期做更改
+date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
+date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
+date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
+date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
+<div><pre><code>#!/bin/bash
+
+start=$(date +%s)
+nmap man.linuxde.net &amp;&gt; /dev/null
+
+end=$(date +%s)
+difference=$(( end - start ))
+echo $difference seconds.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
+<p>http://man.linuxde.net/date</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -57335,238 +57478,95 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>《Advanced Bash-Scripting Guide》 in Chinese</title>
-      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</link>
-      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/shell/</guid>
-      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">《Advanced Bash-Scripting Guide》 in Chinese</source>
-      <category>Linux</category>
-      <pubDate>Sat, 03 Apr 2021 14:55:08 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="《advanced-bash-scripting-guide》-in-chinese"> 《Advanced Bash-Scripting Guide》 in Chinese</h1>
-<blockquote>
-<p>本教程内容转载自：https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese</p>
-<p>感谢开源翻译！！！</p>
-</blockquote>
-<p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat"></a></p>
-<p>《高级Bash脚本编程指南》Revision 10中文版</p>
-<h2 id="原著及早期翻译作品"> 原著及早期翻译作品</h2>
-<h3 id="原著"> 原著</h3>
-<ul>
-<li>原著链接：http://tldp.org/LDP/abs/html/</li>
-<li>原作：Mendel Cooper</li>
-<li>原著版本：Revision 10, 10 Mar 2014</li>
-</ul>
-<h3 id="译著"> 译著</h3>
-<ul>
-<li>早期译著连接：http://www.linuxsir.org/bbs/thread256887.html</li>
-<li>译者：杨春敏 黄毅</li>
-<li>译著版本：Revision 3.7, 23 Oct 2005</li>
-<li>最新 Revision 10 由 Linux Story 社区的 imcmy 同学发起并组织翻译</li>
-<li>Linux Story 通告地址 ：http://www.linuxstory.org/asdvanced-bash-scripting-guide-in-chinese/</li>
-</ul>
-<h2 id="翻译作品"> 翻译作品</h2>
-<p>翻译作品放在<a href="https://linuxstory.gitbook.io/advanced-bash-scripting-guide-in-chinese/" target="_blank" rel="noopener noreferrer">GitBook</a>上，欢迎指正！</p>
-<h2 id="翻译进度"> 翻译进度</h2>
-<ul>
-<li>[x] 第一部分 初见Shell[@imcmy][@zihengcat]
-<ul>
-<li>[x] 1. 为什么使用shell编程[@imcmy][@zihengcat]</li>
-<li>[x] 2. Sha-Bang（#!）一起出发[@imcmy][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第二部分 Shell基础[@imcmy][@zihengcat]
-<ul>
-<li>[x] 3. 特殊字符[@imcmy][@zihengcat]</li>
-<li>[x] 4. 变量与参数[@imcmy][@zihengcat]</li>
-<li>[x] 5. 引用[@mr253727942][@zihengcat]</li>
-<li>[x] 6. 退出与退出状态[@samita2030][@zihengcat]</li>
-<li>[x] 7. 测试[@imcmy][@zihengcat]</li>
-<li>[x] 8. 运算符相关话题[@samita2030][@zihengcat]</li>
-</ul>
-</li>
-<li>[x] 第三部分 Shell进阶[@imcmy]
-<ul>
-<li>[x] 9. 换个角度看变量[@imcmy]</li>
-<li>[x] 10. 变量处理[@imcmy]</li>
-<li>[x] 11. 循环与分支[@imcmy]</li>
-<li>[x] 12. 命令替换[@imcmy]</li>
-<li>[x] 13. 算术扩展[@imcmy]</li>
-<li>[x] 14. 休息时间[@imcmy]</li>
-</ul>
-</li>
-<li>[x] 第四部分. 命令[@imcmy]
-<ul>
-<li>[x] 15. 内建命令[@imcmy]</li>
-<li>[ ] 16. 外部过滤器，程序与命令[@hsupu]
-<ul>
-<li>[x] 16.1 基本命令[@hsupu]</li>
-<li>[ ] 16.2 复杂命令</li>
-<li>[ ] 16.3 时间与日期命令</li>
-<li>[ ] 16.4 文本处理命令</li>
-<li>[ ] 16.5 文件与归档命令</li>
-<li>[ ] 16.6 通信命令</li>
-<li>[ ] 16.7 终端控制命令</li>
-<li>[ ] 16.8 数学命令</li>
-<li>[ ] 16.9 杂项命令</li>
-</ul>
-</li>
-<li>[ ] 17. 系统与高级命令</li>
-</ul>
-</li>
-<li>[ ] 第五章. 高级话题
-<ul>
-<li>[x] 18. 正则表达式[@Zjie]</li>
-<li>[x] 19. 嵌入文档[@mingmings]</li>
-<li>[x] 20. I/O 重定向[@mingmings]</li>
-<li>[x] 21. Subshells[@ysun90]</li>
-<li>[x] 22. 限制模式的Shell[@panblack]</li>
-<li>[x] 23. 进程替换[@panblack]</li>
-<li>[x] 24. 函数[@zy416548283]</li>
-<li>[x] 25. 别名[@mingmings]</li>
-<li>[x] 26. 列表结构[@panblack]</li>
-<li>[x] 27. 数组[@zy416548283]</li>
-<li>[x] 28. 间接引用[@plutonji]</li>
-<li>[x] 29. <code>/dev</code> 和 <code>/proc</code>[@plutonji]</li>
-<li>[x] 30. 网络编程[@Zjie]</li>
-<li>[ ] 31. Of Zeros and Nulls</li>
-<li>[x] 32. 调试[@wuqichao]</li>
-<li>[x] 33. 选项[@zy416548283]</li>
-<li>[x] 34. 陷阱[@liuburn]</li>
-<li>[ ] 35. Scripting With Style</li>
-<li>[ ] 36. 杂项[@richard-ma]</li>
-<li>[ ] 37. Bash, versions 2, 3, and 4</li>
-</ul>
-</li>
-<li>[x] 38. 后记[@zy416548283]</li>
-<li>[ ] Bibliography</li>
-<li>[ ] 附录
-<ul>
-<li>[ ] A. Contributed Scripts</li>
-<li>[ ] B. Reference Cards</li>
-<li>[x] C. A Sed and Awk Micro-Primer[@wuqichao]
-<ul>
-<li>[x] C.1 Sed[@wuqichao]</li>
-<li>[x] C.2 Awk[@wuqichao]</li>
-</ul>
-</li>
-<li>[ ] D. Parsing and Managing Pathnames</li>
-<li>[x] E. 带有特殊意义的退出代码[@ShadowRZ]</li>
-<li>[x] F. I/O 与 I/O 重定向详细介绍[@ShadowRZ]</li>
-<li>[ ] G. Command-Line Options
-<ul>
-<li>[ ] G.1 Standard Command-Line Options</li>
-<li>[ ] G.2 Bash Command-Line Options</li>
-</ul>
-</li>
-<li>[x] H. 重要文件[@ShadowRZ]</li>
-<li>[ ] I. Important System Directories</li>
-<li>[ ] J. An Introduction to Programmable Completion</li>
-<li>[ ] K. Localization</li>
-<li>[ ] L. History Commands</li>
-<li>[x] M. 示例 ~/.bashrc 与 ~/.bash_profile[@ShadowRZ]</li>
-<li>[ ] N. Converting DOS Batch Files to Shell Scripts</li>
-<li>[ ] O. Exercises
-<ul>
-<li>O.1 Analyzing Scripts</li>
-<li>O.2 Writing Scripts</li>
-</ul>
-</li>
-<li>[ ] P. Revision History</li>
-<li>[ ] Q. Download and Mirror Sites</li>
-<li>[ ] R. To Do List</li>
-<li>[ ] S. Copyright</li>
-<li>[x] T. ASCII 表[@ShadowRZ]</li>
-</ul>
-</li>
-<li>[ ] Index</li>
-<li>[ ] List of Tables</li>
-<li>[ ] List of Examples</li>
-</ul>
-<h2 id="翻译校审流程"> 翻译校审流程</h2>
-<h3 id="初始化"> 初始化</h3>
-<ol>
-<li>首先fork项目</li>
-<li>把fork过去的项目clone到本地</li>
-<li>命令行下运行 <code>git checkout -b dev</code> 创建一个新分支</li>
-<li>运行 <code>git remote add upstream https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese.git</code> 添加远端库</li>
-<li>运行 <code>git remote update</code>更新</li>
-<li>运行 <code>git fetch upstream master</code> 拉取更新到本地</li>
-<li>运行 <code>git rebase upstream/master</code> 将更新合并到你的分支</li>
-</ol>
-<p>初始化只需要做一遍，之后请在dev分支进行修改。</p>
-<p>如果修改过程中项目有更新，请重复5、6、7步。</p>
-<h3 id="翻译校审流程-2"> 翻译校审流程</h3>
-<ol>
-<li>
-<p>保证在dev分支中</p>
-</li>
-<li>
-<p>打开README.md，在翻译进度后加上你自己的github名</p>
-<blockquote>
-<p>1. Shell Programming! [@翻译人][@校审人]</p>
-</blockquote>
-</li>
-<li>
-<p>本地提交修改，写明提交信息</p>
-</li>
-<li>
-<p>push到你fork的项目中，然后登录GitHub</p>
-</li>
-<li>
-<p>在你fork的项目的首页可以看到一个 <code>pull request</code> 按钮，点击它，填写说明信息，然后提交即可</p>
-<blockquote>
-<p>为了不重复工作，请等待我们确认了你的pull request(即你的名字出现在项目中时)，再进行翻译校审工作</p>
-</blockquote>
-</li>
-<li>
-<p>进行翻译校审，重复3-5步提交翻译校审的作品</p>
-</li>
-</ol>
-<blockquote>
-<p>新手可以参阅针对github小白的<a href="https://github.com/LinuxStory/Advanced-Bash-Scripting-Guide-in-Chinese/wiki/%E7%BF%BB%E8%AF%91%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener noreferrer">《翻译流程详解》</a>,妹子写的呦～</p>
-</blockquote>
-<h2 id="翻译校审建议"> 翻译校审建议</h2>
-<ol>
-<li>使用markdown进行翻译校审，文件名必须使用英文</li>
-<li>翻译校审后的文档请放到source文件夹下的对应章节中，然后pull request即可</li>
-<li>有任何问题随时欢迎发issue</li>
-<li>术语尽量保证和已翻译的一致，也可以查询<a href="https://www.microsoft.com/zh-cn/language/search" target="_blank" rel="noopener noreferrer">微软术语搜索</a>或<a href="https://github.com/LCTT/TranslateProject/blob/master/Dict.md" target="_blank" rel="noopener noreferrer">Linux中国术语词典</a></li>
-<li>你可以将你认为是术语的词汇加入术语表<code>TERM.md</code>中</li>
-</ol>
-<h2 id="样式规范"> 样式规范</h2>
-<p>根据原文中不同的注释类型，可以使用 <code>&gt;</code> 或下列html代码进行注释。</p>
-<div><pre><code>{% hint style="info" %}
-Hello world
-{% endhint %}
-​```
-
-所有的脚注footnote都需使用html代码进行注释。
-
-## 关于版权
-
-根据原著作者的要求，翻译成果属于公有领域(CC0)，翻译参与人员及原著作者Mendel Cooper享有署名权
-
-翻译参与人员（按名称排序）：
-
-- @chuchingkai
-- @hsupu
-- @imcmy
-- @liuburn
-- @mingmings
-- @mr253727942
-- @panblack
-- @plutonji
-- @richard-ma
-- @samita2030
-- @ShadowRZ
-- @wuqichao
-- @ysun90
-- @zhaozq
-- @zihengcat
-- @Zjie
-- @zy416548283
+      <title>基本权限 UGO</title>
+      <link>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</link>
+      <guid>https://vuepress-theme-hope-demo.mrhope.site/Linux/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90UGO/</guid>
+      <source url="https://vuepress-theme-hope-demo.mrhope.site/rss.xml">基本权限 UGO</source>
+      <pubDate>Sat, 29 Aug 2020 14:11:40 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="基本权限-ugo"> 基本权限 UGO</h2>
+<p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
+<p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
+<div><pre><code>    rw-r--r--  alice hr  install.log
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div>]]></content:encoded>
-      <enclosure url="https://badges.gitter.im/gitterHQ/gitter.png" type="image/png"/>
+<div><span>1</span><br></div></div><p>权限对象：</p>
+<ul>
+<li>属主： u</li>
+<li>属组：g</li>
+<li>其他人： o</li>
+</ul>
+<p>权限类型：</p>
+<ul>
+<li>
+<p>读：r  4</p>
+</li>
+<li>
+<p>写：w 2</p>
+</li>
+<li>
+<p>执行： x 1</p>
+</li>
+</ul>
+<h3 id="设置权限"> 设置权限</h3>
+<ol>
+<li>更改文件的属主、属组</li>
+</ol>
+<ul>
+<li>chown：</li>
+</ul>
+<div><pre><code>chown ops.sre file1 //改属主、属组
+chown ops file1     //只改属主
+chown .ser file1	//只改属组
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>chgrp：</li>
+</ul>
+<div><pre><code>chgrp it file1	    //改文件属组
+chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><ol start="2">
+<li>更改权限</li>
+</ol>
+<ul>
+<li>使用符号</li>
+</ul>
+<div><pre><code>chmod u+x file1		 //属主增加执行
+chmod a=rwx file1	 //所有人等于读写执行
+chmod a=- file1	     //所有人没有权限
+chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><ul>
+<li>使用数字</li>
+</ul>
+<div><pre><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义"> r、w、x权限对文件和目录的意义</h3>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>对文件的影响</th>
+<th>对目录的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r（读取）</td>
+<td>可以读取文件的内容</td>
+<td>可以列出目录的内容（文件名）</td>
+</tr>
+<tr>
+<td>w（写入）</td>
+<td>可以更改文件的内容</td>
+<td>可以创建或删除目录中的任一文件</td>
+</tr>
+<tr>
+<td>x（可执行）</td>
+<td>可以作为命令执行文件</td>
+<td>可以访问目录的内容（取决于目录中文件的权限）</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
     </item>
   </channel>
 </rss>
