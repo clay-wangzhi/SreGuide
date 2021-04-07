@@ -267,6 +267,7 @@ module.exports = config({
         "python-tcp-pg.md",
         "python-socketserver.md",
         "python-io-model.md",
+        "python-instance",
       ],
       "/monitor/zabbix/": [
         "",
