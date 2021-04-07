@@ -545,6 +545,28 @@ python3 nginx_excel.py
 
 起因：activemq集群，由于私有云底层网路问题，隔一段时间假死一次，集群依赖zookeeper集群，后续将集群方式改为了共享存储的方式
 
+要监控Activemq集群的运行情况，我们就可以通过stomp协议的相关客户端来实现。
+
+**`stomp.py`安装**
+
+在此我们使用的是stomp协议的python客户端，来实现集群的监控。
+
+支持stomp协议的python客户端，我们使用的是stomp.py这个软件来实现，而stomp.py我们可以在github上来获得。
+
+stomp.py除了可以连接activemq，还可以连接rabbitmq。
+
+stomp.py仓库的github地址为：
+
+https://github.com/jasonrbriggs/stomp.py.git
+
+**安装stomp**
+
+```
+git clone https://github.com/jasonrbriggs/stomp.py.git
+cd stomp.py
+python setup.py install
+```
+
 脚本如下
 
 ```python
