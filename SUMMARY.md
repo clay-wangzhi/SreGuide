@@ -29,21 +29,6 @@
 * [14.1 让Markdown写作更简单Typora完全使用指南](14 markdown/14.1 让Markdown写作更简单Typora完全使用指南.md)
 
 
-## 17 Redis
-* [17.3 服务器端和客户端命令](17 Redis/17.3 服务器端和客户端命令.md)
-* 17.4 数据库操作
-    * [17.4.1 string类型](17 Redis/17.4 数据库操作/17.4.1 string类型.md)
-    * [17.4.2 键命令](17 Redis/17.4 数据库操作/17.4.2 键命令.md)
-    * [17.4.3 hash类型](17 Redis/17.4 数据库操作/17.4.3 hash类型.md)
-    * [17.4.4 list类型](17 Redis/17.4 数据库操作/17.4.4 list类型.md)
-    * [17.4.5 set类型](17 Redis/17.4 数据库操作/17.4.5 set类型.md)
-    * [17.4.6 zset类型](17 Redis/17.4 数据库操作/17.4.6 zset类型.md)
-* [17.5 centos7安装redis-5.0.0主从](17 Redis/17.5 centos7安装redis-5.0.0主从.md)
-* [17.6 redis5.0.4集群搭建步骤](17 Redis/17.6 redis5.0.4集群搭建步骤.md)
-* [17.7 centos7安装升级ruby](17 Redis/17.7 centos7安装升级ruby.md)
-* [17.8 redis-dump方式导入导出数据](17 Redis/17.8 redis-dump方式导入导出数据.md)
-* [redis面试题](17 Redis/redis面试题.md)
-
 ## 21 vim
 * [vim设置参数以方便YAML语句录入](21 vim/vim设置参数以方便YAML语句录入.md)
 * [vim常用命令](21 vim/vim常用命令.md)
