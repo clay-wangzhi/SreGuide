@@ -1,3 +1,9 @@
+---
+category: Linux
+tags:
+  - 常见问题
+---
+
 # mysql最大连接数的改变
 
 在使用MySQL数据库的时候，经常会遇到这么一个问题，就是“Can not connect to MySQL server. Too many connections”-mysql 1040错误，这是因为访问MySQL且还未释放的连接数目已经达到MySQL的上限。通常，mysql的最大连接数默认是100, 最大可以达到16384。

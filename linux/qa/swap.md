@@ -1,3 +1,9 @@
+---
+category: Linux
+tags:
+  - 常见问题
+---
+
 # linux下如何增加swap交换分区
 
 swap即交换分区，类似于[windows](http://www.ttlsa.com/windows/)虚拟内存功能，就是在硬盘上分配出一块空间作为虚拟内存来使用.

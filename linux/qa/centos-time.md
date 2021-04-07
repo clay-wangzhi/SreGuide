@@ -1,3 +1,9 @@
+---
+category: Linux
+tags:
+  - 常见问题
+---
+
 ## centos7下时区问题
 
 centos7时区同样, 在
