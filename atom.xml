@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-04-07T06:17:48.566Z</updated>
+  <updated>2021-04-07T06:27:31.384Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://vuepress-theme-hope-demo.mrhope.site/atom.xml"/>
   <link rel="alternate" href="https://vuepress-theme-hope-demo.mrhope.site/"/>
@@ -13233,7 +13233,7 @@ ret <span>=</span> <span>[</span><span>]</span>
     <title type="html">python 实际工作中的实例</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-instance/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/python/python-instance/"/>
-    <updated>2021-04-07T03:33:45.000Z</updated>
+    <updated>2021-04-07T06:26:52.000Z</updated>
     <content type="html"><![CDATA[<h1 id="python-实际工作中的实例"> python 实际工作中的实例</h1>
 <h2 id="调用zabbixapi批量添加web监控"> 调用zabbixAPI批量添加web监控</h2>
 <p>起因：刚来一家公司，要求我添加web监控，800多个页面监控，手动一个个加，不得加死了，所以写了个python脚本，批量添加</p>
@@ -13735,7 +13735,19 @@ new_branch <span>=</span> <span>'jxyz-csp-parent'</span>
 <div><span>1</span><br></div></div><p>表格生成在<code>/etc/nginx</code>目录下</p>
 <h2 id="监控-activemq-集群状态并自动重启"> 监控 activemq 集群状态并自动重启</h2>
 <p>起因：activemq集群，由于私有云底层网路问题，隔一段时间假死一次，集群依赖zookeeper集群，后续将集群方式改为了共享存储的方式</p>
-<p>脚本如下</p>
+<p>要监控Activemq集群的运行情况，我们就可以通过stomp协议的相关客户端来实现。</p>
+<p><strong><code>stomp.py</code>安装</strong></p>
+<p>在此我们使用的是stomp协议的python客户端，来实现集群的监控。</p>
+<p>支持stomp协议的python客户端，我们使用的是stomp.py这个软件来实现，而stomp.py我们可以在github上来获得。</p>
+<p>stomp.py除了可以连接activemq，还可以连接rabbitmq。</p>
+<p>stomp.py仓库的github地址为：</p>
+<p>https://github.com/jasonrbriggs/stomp.py.git</p>
+<p><strong>安装stomp</strong></p>
+<div><pre><code>git clone https://github.com/jasonrbriggs/stomp.py.git
+cd stomp.py
+python setup.py install
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>脚本如下</p>
 <div><pre><code><span>#!/usr/bin/env python</span>
 <span># coding:utf-8</span>
 
@@ -16657,6 +16669,472 @@ p1 <span>=</span> Point<span>(</span><span>4</span><span>,</span> <span>5</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">10 继承多态和Mixin</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-inher-pol/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-inher-pol/"/>
+    <updated>2021-04-06T03:44:06.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-继承多态和mixin"> 10 继承多态和Mixin</h1>
+<h2 id="继承基本概念"> 继承基本概念</h2>
+<p>面向对象三要素之一，继承 Inheritance</p>
+<p>人类和猫类都继承自动物类。
+个体继承自父母，继承了父母的一部分特征，但也可以有自己的个性。
+在面向对象的世界中，从父类继承，就可以直接拥有父类的属性和方法，这样可减少代码冗余、多复用。子类也可以定义自己的属性和方法。</p>
+<p>看一个不用继承的例子</p>
+<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'Animal shouts'</span><span>)</span>
+
+a <span>=</span> Animal<span>(</span><span>)</span>
+a<span>.</span>shout<span>(</span><span>)</span>
+
+<span>class</span> <span>Cat</span><span>:</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'Cat shouts'</span><span>)</span>
+
+c <span>=</span> Cat<span>(</span><span>)</span>
+c<span>.</span>shout<span>(</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>上面的2个类虽然有关系，但是定义时并没有建立这种关系，而是各自完成定义。
+动物类和猫类都会叫，但是它们的叫法有区别，所以分别定义。</p>
+<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> name
+
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span> <span># 一个通用的叫方法</span>
+        <span>print</span><span>(</span><span>'{} shouts'</span><span>.</span><span>format</span><span>(</span>self<span>.</span>__class__<span>.</span>__name__<span>)</span><span>)</span>
+
+    <span>@property</span>
+    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
+        <span>return</span> self<span>.</span>_name
+
+a <span>=</span> Animal<span>(</span><span>'monster'</span><span>)</span>
+a<span>.</span>shout<span>(</span><span>)</span>
+
+<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
+    <span>pass</span>
+
+cat <span>=</span> Cat<span>(</span><span>'garfield'</span><span>)</span>
+cat<span>.</span>shout<span>(</span><span>)</span>
+<span>print</span><span>(</span>cat<span>.</span>name<span>)</span>
+
+<span>class</span> <span>Dog</span><span>(</span>Animal<span>)</span><span>:</span>
+    <span>pass</span>
+
+dog <span>=</span> Dog<span>(</span><span>'ahuang'</span><span>)</span>
+dog<span>.</span>shout<span>(</span><span>)</span>
+<span>print</span><span>(</span>dog<span>.</span>name<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>上例可以看出，通过继承，猫类、狗类不用写代码，直接继承了父类的属性和方法。</p>
+<p><strong>继承</strong>
+class Cat(Animal) 这种形式就是从父类继承，括号中写上继承的类的列表。
+继承可以让子类从父类获取特征（属性和方法）</p>
+<p><strong>父类</strong>
+Animal就是Cat的父类，也称为基类、超类。</p>
+<p><strong>子类</strong>
+Cat就是Animal的子类，也称为派生类。</p>
+<h2 id="类继承的定义"> 类继承的定义</h2>
+<p>格式如下</p>
+<div><pre><code><span>class</span> 子类名<span>(</span>基类<span>1</span><span>[</span><span>,</span>基类<span>2</span><span>,</span><span>.</span><span>.</span><span>.</span><span>]</span><span>)</span><span>:</span>
+	语句块
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>如果类定义时，没有基类列表，等同于继承自 object 。在 Python3 中，object 类是所有对象的根基类。</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+	<span>pass</span>
+<span># 等价于</span>
+<span>class</span> <span>A</span><span>(</span><span>object</span><span>)</span><span>:</span>
+	<span>pass</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>注意，上例在 Python2 中，两种写法是不同的。</p>
+<p>Python 支持多继承，继承也可以多级。</p>
+<p>查看继承的特殊属性和方法有</p>
+<table>
+<thead>
+<tr>
+<th>特殊属性和方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_<em>bases</em>_</td>
+<td>类的基类元组</td>
+</tr>
+<tr>
+<td>_<em>base</em>_</td>
+<td>类的基类元组的第一项</td>
+</tr>
+<tr>
+<td>_<em>mro</em>_</td>
+<td>显示方法查找顺序，基类的元组</td>
+</tr>
+<tr>
+<td>mro()方法</td>
+<td>同上，返回列表</td>
+</tr>
+<tr>
+<td>_<em>subclasses</em>_()</td>
+<td>类的子类列表</td>
+</tr>
+</tbody>
+</table>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>pass</span>
+
+<span>print</span><span>(</span>A<span>.</span>__base__<span>)</span>
+<span>print</span><span>(</span>A<span>.</span>__bases__<span>)</span>
+<span>print</span><span>(</span><span>)</span>
+<span>print</span><span>(</span>A<span>.</span>mro<span>(</span><span>)</span><span>)</span>
+<span>print</span><span>(</span>A<span>.</span>__mro__<span>)</span>
+<span>print</span><span>(</span><span>int</span><span>.</span>__subclasses__<span>(</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>bool</span><span>.</span>mro<span>(</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="python-不通版本的类"> Python 不通版本的类</h2>
+<p>Python2.2之前类是没有共同的祖先的，之后，引入object类，它是所有类的共同祖先类 object。
+Python2 中为了兼容，分为古典类（旧式类）和新式类。
+Python3 中全部都是新式类。
+新式类都是继承自 object的，新式类可以使用super。</p>
+<div><pre><code><span># 以下代码在Python2.x中运行</span>
+<span># 古典类（旧式类）</span>
+<span>class</span> <span>A</span><span>:</span> <span>pass</span>
+<span># 新式类</span>
+<span>class</span> <span>B</span><span>(</span><span>object</span><span>)</span><span>:</span> <span>pass</span>
+<span>print</span><span>(</span><span>dir</span><span>(</span>A<span>)</span><span>)</span>
+<span>print</span><span>(</span><span>dir</span><span>(</span>B<span>)</span><span>)</span>
+<span>print</span><span>(</span>A<span>.</span>__bases__<span>)</span>
+<span>print</span><span>(</span>B<span>.</span>__bases__<span>)</span>
+<span># 古典类</span>
+a <span>=</span> A<span>(</span><span>)</span>
+<span>print</span><span>(</span>a<span>.</span>__class__<span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>a<span>)</span><span>)</span> <span># &lt;type 'instance'></span>
+<span># 新式类</span>
+b <span>=</span> B<span>(</span><span>)</span>
+<span>print</span><span>(</span>b<span>.</span>__class__<span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>b<span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><h2 id="继承中的访问控制"> 继承中的访问控制</h2>
+<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
+    __a <span>=</span> <span>10</span>
+    _b <span>=</span> <span>20</span>
+    c <span>=</span> <span>30</span>
+
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        self<span>.</span>__d <span>=</span> <span>40</span>
+        self<span>.</span>_e <span>=</span> <span>50</span>
+        self<span>.</span>f <span>=</span> <span>60</span>
+        self<span>.</span>__a <span>+=</span> <span>1</span>
+
+    <span>def</span> <span>showa</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>__a<span>)</span>
+        <span>print</span><span>(</span>self<span>.</span>__class__<span>.</span>__a<span>)</span>
+
+    <span>def</span> <span>__showb</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>_b<span>)</span>
+        <span>print</span><span>(</span>self<span>.</span>__a<span>)</span>
+        <span>print</span><span>(</span>self<span>.</span>__class__<span>.</span>__a<span>)</span>
+
+<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
+    __a <span>=</span> <span>100</span>
+    _b <span>=</span> <span>200</span>
+
+c <span>=</span> Cat<span>(</span><span>)</span>
+c<span>.</span>showa<span>(</span><span>)</span> <span># 11 10</span>
+c<span>.</span>_Animal__showb<span>(</span><span>)</span> <span># 200, 11, 10</span>
+<span>print</span><span>(</span>c<span>.</span>c<span>)</span> <span># 30</span>
+<span>print</span><span>(</span>c<span>.</span>_Animal__d<span>)</span> <span>#40</span>
+<span>print</span><span>(</span>c<span>.</span>_e<span>,</span> c<span>.</span>f<span>,</span> c<span>.</span>_Animal__a<span>)</span> <span># 50,60,11</span>
+<span>print</span><span>(</span>c<span>.</span>_Animal__a<span>,</span> c<span>.</span>_Cat__a<span>)</span> <span># 11 100</span>
+<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span> <span>#</span>
+<span>print</span><span>(</span>c<span>.</span>__class__<span>.</span>__dict__<span>.</span>keys<span>(</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>从父类继承，自己没有的，就可以到父类中找。</p>
+<p>私有的都是不可以访问的，但是本质上依然是改了名称放在这个属性所在类或实例的__dict__中。</p>
+<p>知道这个新名称就可以直接找到这个隐藏的变量，这是个黑魔法技巧，慎用。</p>
+<p><strong>总结</strong>
+继承时，公有成员，子类和实例都可以随意访问；私有成员被隐藏，子类和实例不可直接访问，但私有变量所在的类内的方法中可以访问这个私有变量。</p>
+<p>Python通过自己一套实现，实现和其它语言一样的面向对象的继承机制。</p>
+<p><strong>实例属性查找顺序</strong></p>
+<p><code>实例的__dict__</code> → <code>类__dict__</code> →如果有继承→ <code>父类 __dict__</code>
+如果搜索这些地方后没有找到就会抛异常，先找到就立即返回了。</p>
+<h2 id="方法的重写、覆盖override"> 方法的重写、覆盖override</h2>
+<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'Animal shouts'</span><span>)</span>
+
+<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
+    <span># 覆盖了父类方法</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'miao'</span><span>)</span>
+
+a <span>=</span> Animal<span>(</span><span>)</span>
+a<span>.</span>shout<span>(</span><span>)</span>
+c <span>=</span> Cat<span>(</span><span>)</span>
+c<span>.</span>shout<span>(</span><span>)</span>
+<span>print</span><span>(</span>a<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>Animal<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>Cat<span>.</span>__dict__<span>)</span>
+<span># Animal shouts</span>
+<span># miao</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>Cat中能否覆盖自己的方法吗？
+Cat中能否对父类方法做个增强，不需要完全重写？</p>
+<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'Animal shout'</span><span>)</span>
+        
+<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
+    <span># 覆盖了父类方法</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'miao'</span><span>)</span>
+    <span># 覆盖了自身的方法，显式调用了父类的方法</span>
+    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>super</span><span>(</span><span>)</span><span>)</span>
+        <span>print</span><span>(</span><span>super</span><span>(</span>Cat<span>,</span> self<span>)</span><span>)</span>
+
+        <span>super</span><span>(</span><span>)</span><span>.</span>shout<span>(</span><span>)</span>
+        <span>super</span><span>(</span>Cat<span>,</span> self<span>)</span><span>.</span>shout<span>(</span><span>)</span> <span># 等价于super()</span>
+        self<span>.</span>__class__<span>.</span>__base__<span>.</span>shout<span>(</span>self<span>)</span> <span># 不推荐</span>
+a <span>=</span> Animal<span>(</span><span>)</span>
+a<span>.</span>shout<span>(</span><span>)</span>
+c <span>=</span> Cat<span>(</span><span>)</span>
+c<span>.</span>shout<span>(</span><span>)</span>
+<span>print</span><span>(</span>a<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>Animal<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>Cat<span>.</span>__dict__<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>super()可以访问到父类的类属性。
+静态方法和类方法，是特殊的方法，也是类属性，所以访问方式一样。</p>
+<h2 id="继承时使用初始化"> 继承时使用初始化</h2>
+<p>先看下面一段代码，有没有问题</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> a<span>)</span><span>:</span>
+        self<span>.</span>a <span>=</span> a
+
+<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> b<span>,</span> c<span>)</span><span>:</span>
+        self<span>.</span>b <span>=</span> b
+        self<span>.</span>c <span>=</span> c
+    <span>def</span> <span>printv</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>b<span>)</span>
+        <span>print</span><span>(</span>self<span>.</span>a<span>)</span> <span># 出错吗？ 出错，没定义</span>
+
+f <span>=</span> B<span>(</span><span>200</span><span>,</span> <span>300</span><span>)</span>
+<span>print</span><span>(</span>f<span>.</span>__class__<span>.</span>__bases__<span>)</span>
+f<span>.</span>printv<span>(</span><span>)</span>
+<span>print</span><span>(</span>f<span>.</span>__dict__<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>上例代码可知：</p>
+<p>如果类B定义时声明继承自类A，则在类B中<code>__bases__</code>中是可以看到类A。
+但是这和是否调用类A的构造方法是两回事。</p>
+<p>如果B中调用了父类A的构造方法，就可以拥有父类的属性了。如何理解这一句话呢？
+观察B的实例 f 的<code>__dict__</code>中的属性。</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> a<span>,</span> d<span>=</span><span>10</span><span>)</span><span>:</span>
+        self<span>.</span>a <span>=</span> a
+        self<span>.</span>__d <span>=</span> d
+
+<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> b<span>,</span> c<span>)</span><span>:</span>
+        A<span>.</span>__init__<span>(</span>self<span>,</span> b <span>+</span> c<span>,</span> b <span>-</span> c<span>)</span>
+        self<span>.</span>b <span>=</span> b
+        self<span>.</span>c <span>=</span> c
+    <span>def</span> <span>printv</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>b<span>)</span>
+        <span>print</span><span>(</span>self<span>.</span>a<span>)</span> <span># 出错吗？</span>
+
+f <span>=</span> B<span>(</span><span>200</span><span>,</span> <span>300</span><span>)</span>
+<span>print</span><span>(</span>f<span>.</span>__class__<span>.</span>__bases__<span>)</span>
+f<span>.</span>printv<span>(</span><span>)</span>
+<span>print</span><span>(</span>f<span>.</span>__dict__<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><p>作为好的习惯，如果父类定义了<code>__init__</code>方法，你就该在子类的<code>__init__</code>中调用它。
+那么，子类什么时候自动调用父类的<code>__init__</code>方法呢？
+示例1</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
+        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
+<span>print</span><span>(</span><span>'init in A'</span><span>)</span>
+<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
+    <span>pass</span>
+b <span>=</span> B<span>(</span><span>)</span>
+<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>B实例的初始化会自动调用基类A的<code>__init__</code>方法</p>
+<p>示例2</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
+        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
+		<span>print</span><span>(</span><span>'init in A'</span><span>)</span>
+        
+<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        self<span>.</span>b1 <span>=</span> <span>'b1'</span>
+		<span>print</span><span>(</span><span>'init in B'</span><span>)</span>
+        
+b <span>=</span> B<span>(</span><span>)</span>
+<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>B实例一旦定义了初始化<code>__init__</code>方法，就不会自动调用父类的初始化<code>__init__</code>方法，需要手动调用。</p>
+<div><pre><code><span>class</span> <span>A</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
+        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
+        <span>print</span><span>(</span><span>'init in A'</span><span>)</span>
+
+<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
+        <span>#super().__init__()</span>
+        <span>#super(B, self).__init__()</span>
+        self<span>.</span>b1 <span>=</span> <span>'b1'</span>
+        <span>print</span><span>(</span><span>'init in B'</span><span>)</span>
+        A<span>.</span>__init__<span>(</span>self<span>)</span>
+        
+b <span>=</span> B<span>(</span><span>)</span>
+<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span> <span># 注意__a2</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p><strong>总结</strong></p>
+<ul>
+<li>如果在子类中覆盖了父类的<code>__init__</code>方法，那么在子类的<code>__init__</code>方法中，应该显式调用父类的<code>__init__</code>方法</li>
+<li>Python中并不限制在子类的<code>__init__</code>方法中调用父类的<code>__init__</code>方法的位置，但一般都应该尽早的调用</li>
+<li>推荐使用 <code>super().__init__()</code>或<code>super(B, self).__init__()</code></li>
+</ul>
+<h2 id="单继承"> 单继承</h2>
+<p>上面的例子中，类的继承列表中只有一个类，这种继承称为单一继承。</p>
+<p>OCP 原则：多用“继承”、少修改</p>
+<p>继承的用途：在子类上实现对基类的增强，实现多态</p>
+<h2 id="多态"> 多态</h2>
+<p>在面向对象中，父类、子类通过继承联系在一起，如果可以通过一套方法，就可以实现不同表现，就是多态。多态的前提：继承、覆盖</p>
+<h2 id="多继承"> 多继承</h2>
+<p>一个类继承自多个类就是多继承，它将具有多个类的特征。</p>
+<h3 id="多继承弊端"> 多继承弊端</h3>
+<p>多继承很好的模拟了世界，因为事物很少是单一继承，但是舍弃简单，必然引入复杂性，带来了冲突。</p>
+<p>如同一个孩子继承了来自父母双方的特征。那么到底眼睛像爸爸还是妈妈呢？孩子究竟该像谁多一点呢？</p>
+<p>多继承的实现会导致编译器设计的复杂度增加，所以有些高级编程语言舍弃了类的多继承。</p>
+<p>C++支持多继承；Java舍弃了多继承。</p>
+<p>Java中，一个类可以实现多个接口，一个接口也可以继承多个接口。Java的接口很纯粹，只是方法的声明，继承者必须实现这些方法，就具有了这些能力，就能干什么。</p>
+<p>多继承可能会带来二义性，例如，猫和狗都继承自动物类，现在如果一个类多继承了猫和狗类，猫和狗都有shout方法，子类究竟继承谁的shout呢？</p>
+<p>解决方案
+实现多继承的语言，要解决二义性，深度优先或者广度优先。</p>
+<h3 id="python多继承实现"> Python多继承实现</h3>
+<div><pre><code><span>class</span> <span>className</span><span>(</span>基类<span>1</span>， 基类<span>2</span><span>[</span><span>,</span><span>.</span><span>.</span><span>.</span><span>]</span><span>)</span><span>:</span>
+    类体
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/inher.png" alt="inher"></p>
+<p>左图是多继承（菱形继承），右图是单一继承</p>
+<p>多继承带来路径选择问题，究竟继承哪个父类的特征呢</p>
+<p>Python使用 MRO（method resolution order方法解析顺序）解决基类搜索顺序问题。</p>
+<ul>
+<li>历史原因，MRO有三个搜索算法：
+<ul>
+<li>经典算法，按照定义从左到右，深度优先策略。2.2版本之前
+左图的MRO是MyClass,D,B,A,C,A</li>
+<li>新式类算法，是经典算法的升级，深度优先，重复的只保留最后一个。2.2版本
+左图的MRO是MyClass,D,B,C,A,object</li>
+<li>C3算法，在类被创建出来的时候，就计算出一个MRO有序列表。2.3之后支持，Python3唯一支持的算法
+左图中的MRO是MyClass,D,B,C,A,object的列表
+C3算法解决多继承的二义性</li>
+</ul>
+</li>
+</ul>
+<p>经典算法有很大的问题，如果C中有方法覆盖了A的方法，也不会访问到C的方法，因为先访问A的（深度优先）。</p>
+<p>新式类算法，依然采用了深度优先，解决了重复问题，但是同经典算法一样，没有解决继承的单调性。</p>
+<p>C3算法，解决了继承的单调性，它阻止创建之前版本产生二义性的代码。求得的MRO 本质是为了线性化，且确定了顺序。</p>
+<p>单调性：假设有A、B、C三个类，C的mro是[C, A, B]，那么C的子类的mro中，A、B的顺序一致就是单调的。</p>
+<h3 id="多继承的缺点"> 多继承的缺点</h3>
+<p>当类很多且继承复杂的情况下，继承路径太多，很难说清什么样的继承路径。</p>
+<p>Python语法是允许多继承，但Python代码是解释执行，只有执行到的时候，才发现错误。
+团队协作开发，如果引入多继承，那代码很有可能不可控。</p>
+<p>不管编程语言是否支持多继承，都应当避免多继承。</p>
+<p>Python的面向对象，我们看到的太灵活了，太开放了，所以要团队守规矩。</p>
+<h2 id="mixin"> Mixin</h2>
+<p>在Python的很多类的实现中，都可以看到一个Mixin的名字，这种类是什么呢？</p>
+<p>类有下面的继承关系</p>
+<p>文档Document类是其他所有文档类的抽象基类；
+Word、Pdf类是Document的子类。</p>
+<p>需求：为Document子类提供打印能力</p>
+<p>思路：
+1、在Document中提供print方法
+假设已经有了下面3个类</p>
+<div><pre><code><span>class</span> <span>Document</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
+        self<span>.</span>content <span>=</span> content
+    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span> <span># 抽象方法</span>
+        <span>raise</span> NotImplementedError<span>(</span><span>)</span>
+    
+<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 其他功能略去</span>
+<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 其他功能略去</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>基类提供的方法可以不具体实现，因为它未必适合子类的打印，子类中需要覆盖重写。</p>
+<p>基类中只定义，不实现的方法，称为“抽象方法”。在Python中，如果采用这种方式定义的抽象方法，子类可以不实现，直到子类使用该方法的时候才报错。</p>
+<p>print算是一种能力 —— 打印功能，不是所有的Document的子类都需要的，所有，从这个角度出发，上面的基类Document设计有点问题。</p>
+<p>2、需要打印的子类上增加</p>
+<p>如果在现有子类Word或Pdf上直接增加，虽然可以，却违反了OCP的原则，所以可以继承后增加打印功能。</p>
+<div><pre><code><span>class</span> <span>Document</span><span>:</span> <span># 第三方库，不允许修改</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
+        self<span>.</span>content <span>=</span> content
+<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
+<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
+<span># 单继承</span>
+<span>class</span> <span>PrintableWord</span><span>(</span>Word<span>)</span><span>:</span>
+    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>content<span>)</span>
+
+<span>print</span><span>(</span>PrintableWord<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>PrintableWord<span>.</span>mro<span>(</span><span>)</span><span>)</span>
+pw <span>=</span> PrintableWord<span>(</span><span>'test string'</span><span>)</span>
+pw<span>.</span><span>print</span><span>(</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>看似不错，如果需要还要提供其他能力，如何继承？</p>
+<p>例如，如果该类用于网络，还应具备序列化的能力，在类上就应该实现序列化。</p>
+<p>可序列化还可能分为使用pickle、json、messagepack等。</p>
+<p>这个时候发现，为了</p>
+<p>增加一种能力，就要增加一次继承，类可能太多了，继承的方式不是很好了。</p>
+<p>功能太多，A类需要某几样功能，B类需要另几样功能，它们需要的是多个功能的自由组合，继承实现很繁琐。</p>
+<p>3、Mixin</p>
+<p>先看代码</p>
+<div><pre><code><span>class</span> <span>Document</span><span>:</span> <span># 第三方库，不允许修改</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
+        self<span>.</span>content <span>=</span> content
+<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
+<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
+<span>class</span> <span>PrintableMixin</span><span>:</span>
+    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>content<span>,</span> <span>'Mixin'</span><span>)</span>
+<span>class</span> <span>PrintableWord</span><span>(</span>PrintableMixin<span>,</span> Word<span>)</span><span>:</span> <span>pass</span>
+
+<span>print</span><span>(</span>PrintableWord<span>.</span>__dict__<span>)</span>
+<span>print</span><span>(</span>PrintableWord<span>.</span>mro<span>(</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>Mixin就是其它类混合进来，同时带来了类的属性和方法。</p>
+<p><strong>Mixin类</strong></p>
+<p>Mixin 本质上就是多继承实现的。</p>
+<p>Mixin 体现的是一种组合的设计模式。</p>
+<p>在面向对象的设计中，一个复杂的类，往往需要很多功能，而这些功能由来自不同的类提供，这就需要很多的类组合在一起。</p>
+<p>从设计模式的角度来说，多组合，少继承。</p>
+<p>Mixin 类的使用原则</p>
+<ul>
+<li>Mixin类中不应该显式的出现<code>__init__</code>初始化方法</li>
+<li>Mixin 类通常不能独立工作，因为它是准备混入别的类中的部分功能实现</li>
+<li>Mixin 类是类，也可以继承，其祖先类也应是 Mixin 类</li>
+</ul>
+<p>使用时，<strong>Mixin 类通常在继承列表的第一个位置</strong>，例如 <code>class PrintableWord(PrintableMixin, Word): pass</code></p>
+<p>Mixin 类和装饰器，都可以实现对类的增强，这两种方式都可以使用，看个人喜好。</p>
+<p>如果还需要继承就得使用 Mixin 类的方式。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-03T15:30:56.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">09 面向对象-封装</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-package/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-package/"/>
@@ -17191,472 +17669,6 @@ tom<span>.</span>name <span>=</span> <span>'Jerry'</span>
 <li>将数据隐藏起来，给使用者提供操作（方法）。使用者通过操作就可以获取或者修改数据。getter 和 setter</li>
 <li>通过访问控制，暴露适当的数据和操作给用户，该隐藏的隐藏起来，例如保护成员和私有成员。</li>
 </ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-03T15:30:56.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">10 继承多态和Mixin</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-inher-pol/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/python/python-oo-inher-pol/"/>
-    <updated>2021-04-06T03:44:06.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-继承多态和mixin"> 10 继承多态和Mixin</h1>
-<h2 id="继承基本概念"> 继承基本概念</h2>
-<p>面向对象三要素之一，继承 Inheritance</p>
-<p>人类和猫类都继承自动物类。
-个体继承自父母，继承了父母的一部分特征，但也可以有自己的个性。
-在面向对象的世界中，从父类继承，就可以直接拥有父类的属性和方法，这样可减少代码冗余、多复用。子类也可以定义自己的属性和方法。</p>
-<p>看一个不用继承的例子</p>
-<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'Animal shouts'</span><span>)</span>
-
-a <span>=</span> Animal<span>(</span><span>)</span>
-a<span>.</span>shout<span>(</span><span>)</span>
-
-<span>class</span> <span>Cat</span><span>:</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'Cat shouts'</span><span>)</span>
-
-c <span>=</span> Cat<span>(</span><span>)</span>
-c<span>.</span>shout<span>(</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>上面的2个类虽然有关系，但是定义时并没有建立这种关系，而是各自完成定义。
-动物类和猫类都会叫，但是它们的叫法有区别，所以分别定义。</p>
-<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> name
-
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span> <span># 一个通用的叫方法</span>
-        <span>print</span><span>(</span><span>'{} shouts'</span><span>.</span><span>format</span><span>(</span>self<span>.</span>__class__<span>.</span>__name__<span>)</span><span>)</span>
-
-    <span>@property</span>
-    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
-        <span>return</span> self<span>.</span>_name
-
-a <span>=</span> Animal<span>(</span><span>'monster'</span><span>)</span>
-a<span>.</span>shout<span>(</span><span>)</span>
-
-<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
-    <span>pass</span>
-
-cat <span>=</span> Cat<span>(</span><span>'garfield'</span><span>)</span>
-cat<span>.</span>shout<span>(</span><span>)</span>
-<span>print</span><span>(</span>cat<span>.</span>name<span>)</span>
-
-<span>class</span> <span>Dog</span><span>(</span>Animal<span>)</span><span>:</span>
-    <span>pass</span>
-
-dog <span>=</span> Dog<span>(</span><span>'ahuang'</span><span>)</span>
-dog<span>.</span>shout<span>(</span><span>)</span>
-<span>print</span><span>(</span>dog<span>.</span>name<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>上例可以看出，通过继承，猫类、狗类不用写代码，直接继承了父类的属性和方法。</p>
-<p><strong>继承</strong>
-class Cat(Animal) 这种形式就是从父类继承，括号中写上继承的类的列表。
-继承可以让子类从父类获取特征（属性和方法）</p>
-<p><strong>父类</strong>
-Animal就是Cat的父类，也称为基类、超类。</p>
-<p><strong>子类</strong>
-Cat就是Animal的子类，也称为派生类。</p>
-<h2 id="类继承的定义"> 类继承的定义</h2>
-<p>格式如下</p>
-<div><pre><code><span>class</span> 子类名<span>(</span>基类<span>1</span><span>[</span><span>,</span>基类<span>2</span><span>,</span><span>.</span><span>.</span><span>.</span><span>]</span><span>)</span><span>:</span>
-	语句块
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>如果类定义时，没有基类列表，等同于继承自 object 。在 Python3 中，object 类是所有对象的根基类。</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-	<span>pass</span>
-<span># 等价于</span>
-<span>class</span> <span>A</span><span>(</span><span>object</span><span>)</span><span>:</span>
-	<span>pass</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>注意，上例在 Python2 中，两种写法是不同的。</p>
-<p>Python 支持多继承，继承也可以多级。</p>
-<p>查看继承的特殊属性和方法有</p>
-<table>
-<thead>
-<tr>
-<th>特殊属性和方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>_<em>bases</em>_</td>
-<td>类的基类元组</td>
-</tr>
-<tr>
-<td>_<em>base</em>_</td>
-<td>类的基类元组的第一项</td>
-</tr>
-<tr>
-<td>_<em>mro</em>_</td>
-<td>显示方法查找顺序，基类的元组</td>
-</tr>
-<tr>
-<td>mro()方法</td>
-<td>同上，返回列表</td>
-</tr>
-<tr>
-<td>_<em>subclasses</em>_()</td>
-<td>类的子类列表</td>
-</tr>
-</tbody>
-</table>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>pass</span>
-
-<span>print</span><span>(</span>A<span>.</span>__base__<span>)</span>
-<span>print</span><span>(</span>A<span>.</span>__bases__<span>)</span>
-<span>print</span><span>(</span><span>)</span>
-<span>print</span><span>(</span>A<span>.</span>mro<span>(</span><span>)</span><span>)</span>
-<span>print</span><span>(</span>A<span>.</span>__mro__<span>)</span>
-<span>print</span><span>(</span><span>int</span><span>.</span>__subclasses__<span>(</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>bool</span><span>.</span>mro<span>(</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="python-不通版本的类"> Python 不通版本的类</h2>
-<p>Python2.2之前类是没有共同的祖先的，之后，引入object类，它是所有类的共同祖先类 object。
-Python2 中为了兼容，分为古典类（旧式类）和新式类。
-Python3 中全部都是新式类。
-新式类都是继承自 object的，新式类可以使用super。</p>
-<div><pre><code><span># 以下代码在Python2.x中运行</span>
-<span># 古典类（旧式类）</span>
-<span>class</span> <span>A</span><span>:</span> <span>pass</span>
-<span># 新式类</span>
-<span>class</span> <span>B</span><span>(</span><span>object</span><span>)</span><span>:</span> <span>pass</span>
-<span>print</span><span>(</span><span>dir</span><span>(</span>A<span>)</span><span>)</span>
-<span>print</span><span>(</span><span>dir</span><span>(</span>B<span>)</span><span>)</span>
-<span>print</span><span>(</span>A<span>.</span>__bases__<span>)</span>
-<span>print</span><span>(</span>B<span>.</span>__bases__<span>)</span>
-<span># 古典类</span>
-a <span>=</span> A<span>(</span><span>)</span>
-<span>print</span><span>(</span>a<span>.</span>__class__<span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>a<span>)</span><span>)</span> <span># &lt;type 'instance'></span>
-<span># 新式类</span>
-b <span>=</span> B<span>(</span><span>)</span>
-<span>print</span><span>(</span>b<span>.</span>__class__<span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>b<span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><h2 id="继承中的访问控制"> 继承中的访问控制</h2>
-<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
-    __a <span>=</span> <span>10</span>
-    _b <span>=</span> <span>20</span>
-    c <span>=</span> <span>30</span>
-
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        self<span>.</span>__d <span>=</span> <span>40</span>
-        self<span>.</span>_e <span>=</span> <span>50</span>
-        self<span>.</span>f <span>=</span> <span>60</span>
-        self<span>.</span>__a <span>+=</span> <span>1</span>
-
-    <span>def</span> <span>showa</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>__a<span>)</span>
-        <span>print</span><span>(</span>self<span>.</span>__class__<span>.</span>__a<span>)</span>
-
-    <span>def</span> <span>__showb</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>_b<span>)</span>
-        <span>print</span><span>(</span>self<span>.</span>__a<span>)</span>
-        <span>print</span><span>(</span>self<span>.</span>__class__<span>.</span>__a<span>)</span>
-
-<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
-    __a <span>=</span> <span>100</span>
-    _b <span>=</span> <span>200</span>
-
-c <span>=</span> Cat<span>(</span><span>)</span>
-c<span>.</span>showa<span>(</span><span>)</span> <span># 11 10</span>
-c<span>.</span>_Animal__showb<span>(</span><span>)</span> <span># 200, 11, 10</span>
-<span>print</span><span>(</span>c<span>.</span>c<span>)</span> <span># 30</span>
-<span>print</span><span>(</span>c<span>.</span>_Animal__d<span>)</span> <span>#40</span>
-<span>print</span><span>(</span>c<span>.</span>_e<span>,</span> c<span>.</span>f<span>,</span> c<span>.</span>_Animal__a<span>)</span> <span># 50,60,11</span>
-<span>print</span><span>(</span>c<span>.</span>_Animal__a<span>,</span> c<span>.</span>_Cat__a<span>)</span> <span># 11 100</span>
-<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span> <span>#</span>
-<span>print</span><span>(</span>c<span>.</span>__class__<span>.</span>__dict__<span>.</span>keys<span>(</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>从父类继承，自己没有的，就可以到父类中找。</p>
-<p>私有的都是不可以访问的，但是本质上依然是改了名称放在这个属性所在类或实例的__dict__中。</p>
-<p>知道这个新名称就可以直接找到这个隐藏的变量，这是个黑魔法技巧，慎用。</p>
-<p><strong>总结</strong>
-继承时，公有成员，子类和实例都可以随意访问；私有成员被隐藏，子类和实例不可直接访问，但私有变量所在的类内的方法中可以访问这个私有变量。</p>
-<p>Python通过自己一套实现，实现和其它语言一样的面向对象的继承机制。</p>
-<p><strong>实例属性查找顺序</strong></p>
-<p><code>实例的__dict__</code> → <code>类__dict__</code> →如果有继承→ <code>父类 __dict__</code>
-如果搜索这些地方后没有找到就会抛异常，先找到就立即返回了。</p>
-<h2 id="方法的重写、覆盖override"> 方法的重写、覆盖override</h2>
-<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'Animal shouts'</span><span>)</span>
-
-<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
-    <span># 覆盖了父类方法</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'miao'</span><span>)</span>
-
-a <span>=</span> Animal<span>(</span><span>)</span>
-a<span>.</span>shout<span>(</span><span>)</span>
-c <span>=</span> Cat<span>(</span><span>)</span>
-c<span>.</span>shout<span>(</span><span>)</span>
-<span>print</span><span>(</span>a<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>Animal<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>Cat<span>.</span>__dict__<span>)</span>
-<span># Animal shouts</span>
-<span># miao</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>Cat中能否覆盖自己的方法吗？
-Cat中能否对父类方法做个增强，不需要完全重写？</p>
-<div><pre><code><span>class</span> <span>Animal</span><span>:</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'Animal shout'</span><span>)</span>
-        
-<span>class</span> <span>Cat</span><span>(</span>Animal<span>)</span><span>:</span>
-    <span># 覆盖了父类方法</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'miao'</span><span>)</span>
-    <span># 覆盖了自身的方法，显式调用了父类的方法</span>
-    <span>def</span> <span>shout</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>super</span><span>(</span><span>)</span><span>)</span>
-        <span>print</span><span>(</span><span>super</span><span>(</span>Cat<span>,</span> self<span>)</span><span>)</span>
-
-        <span>super</span><span>(</span><span>)</span><span>.</span>shout<span>(</span><span>)</span>
-        <span>super</span><span>(</span>Cat<span>,</span> self<span>)</span><span>.</span>shout<span>(</span><span>)</span> <span># 等价于super()</span>
-        self<span>.</span>__class__<span>.</span>__base__<span>.</span>shout<span>(</span>self<span>)</span> <span># 不推荐</span>
-a <span>=</span> Animal<span>(</span><span>)</span>
-a<span>.</span>shout<span>(</span><span>)</span>
-c <span>=</span> Cat<span>(</span><span>)</span>
-c<span>.</span>shout<span>(</span><span>)</span>
-<span>print</span><span>(</span>a<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>c<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>Animal<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>Cat<span>.</span>__dict__<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>super()可以访问到父类的类属性。
-静态方法和类方法，是特殊的方法，也是类属性，所以访问方式一样。</p>
-<h2 id="继承时使用初始化"> 继承时使用初始化</h2>
-<p>先看下面一段代码，有没有问题</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> a<span>)</span><span>:</span>
-        self<span>.</span>a <span>=</span> a
-
-<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> b<span>,</span> c<span>)</span><span>:</span>
-        self<span>.</span>b <span>=</span> b
-        self<span>.</span>c <span>=</span> c
-    <span>def</span> <span>printv</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>b<span>)</span>
-        <span>print</span><span>(</span>self<span>.</span>a<span>)</span> <span># 出错吗？ 出错，没定义</span>
-
-f <span>=</span> B<span>(</span><span>200</span><span>,</span> <span>300</span><span>)</span>
-<span>print</span><span>(</span>f<span>.</span>__class__<span>.</span>__bases__<span>)</span>
-f<span>.</span>printv<span>(</span><span>)</span>
-<span>print</span><span>(</span>f<span>.</span>__dict__<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>上例代码可知：</p>
-<p>如果类B定义时声明继承自类A，则在类B中<code>__bases__</code>中是可以看到类A。
-但是这和是否调用类A的构造方法是两回事。</p>
-<p>如果B中调用了父类A的构造方法，就可以拥有父类的属性了。如何理解这一句话呢？
-观察B的实例 f 的<code>__dict__</code>中的属性。</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> a<span>,</span> d<span>=</span><span>10</span><span>)</span><span>:</span>
-        self<span>.</span>a <span>=</span> a
-        self<span>.</span>__d <span>=</span> d
-
-<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> b<span>,</span> c<span>)</span><span>:</span>
-        A<span>.</span>__init__<span>(</span>self<span>,</span> b <span>+</span> c<span>,</span> b <span>-</span> c<span>)</span>
-        self<span>.</span>b <span>=</span> b
-        self<span>.</span>c <span>=</span> c
-    <span>def</span> <span>printv</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>b<span>)</span>
-        <span>print</span><span>(</span>self<span>.</span>a<span>)</span> <span># 出错吗？</span>
-
-f <span>=</span> B<span>(</span><span>200</span><span>,</span> <span>300</span><span>)</span>
-<span>print</span><span>(</span>f<span>.</span>__class__<span>.</span>__bases__<span>)</span>
-f<span>.</span>printv<span>(</span><span>)</span>
-<span>print</span><span>(</span>f<span>.</span>__dict__<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><p>作为好的习惯，如果父类定义了<code>__init__</code>方法，你就该在子类的<code>__init__</code>中调用它。
-那么，子类什么时候自动调用父类的<code>__init__</code>方法呢？
-示例1</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
-        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
-<span>print</span><span>(</span><span>'init in A'</span><span>)</span>
-<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
-    <span>pass</span>
-b <span>=</span> B<span>(</span><span>)</span>
-<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>B实例的初始化会自动调用基类A的<code>__init__</code>方法</p>
-<p>示例2</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
-        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
-		<span>print</span><span>(</span><span>'init in A'</span><span>)</span>
-        
-<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        self<span>.</span>b1 <span>=</span> <span>'b1'</span>
-		<span>print</span><span>(</span><span>'init in B'</span><span>)</span>
-        
-b <span>=</span> B<span>(</span><span>)</span>
-<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>B实例一旦定义了初始化<code>__init__</code>方法，就不会自动调用父类的初始化<code>__init__</code>方法，需要手动调用。</p>
-<div><pre><code><span>class</span> <span>A</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        self<span>.</span>a1 <span>=</span> <span>'a1'</span>
-        self<span>.</span>__a2 <span>=</span> <span>'a2'</span>
-        <span>print</span><span>(</span><span>'init in A'</span><span>)</span>
-
-<span>class</span> <span>B</span><span>(</span>A<span>)</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>)</span><span>:</span>
-        <span>#super().__init__()</span>
-        <span>#super(B, self).__init__()</span>
-        self<span>.</span>b1 <span>=</span> <span>'b1'</span>
-        <span>print</span><span>(</span><span>'init in B'</span><span>)</span>
-        A<span>.</span>__init__<span>(</span>self<span>)</span>
-        
-b <span>=</span> B<span>(</span><span>)</span>
-<span>print</span><span>(</span>b<span>.</span>__dict__<span>)</span> <span># 注意__a2</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p><strong>总结</strong></p>
-<ul>
-<li>如果在子类中覆盖了父类的<code>__init__</code>方法，那么在子类的<code>__init__</code>方法中，应该显式调用父类的<code>__init__</code>方法</li>
-<li>Python中并不限制在子类的<code>__init__</code>方法中调用父类的<code>__init__</code>方法的位置，但一般都应该尽早的调用</li>
-<li>推荐使用 <code>super().__init__()</code>或<code>super(B, self).__init__()</code></li>
-</ul>
-<h2 id="单继承"> 单继承</h2>
-<p>上面的例子中，类的继承列表中只有一个类，这种继承称为单一继承。</p>
-<p>OCP 原则：多用“继承”、少修改</p>
-<p>继承的用途：在子类上实现对基类的增强，实现多态</p>
-<h2 id="多态"> 多态</h2>
-<p>在面向对象中，父类、子类通过继承联系在一起，如果可以通过一套方法，就可以实现不同表现，就是多态。多态的前提：继承、覆盖</p>
-<h2 id="多继承"> 多继承</h2>
-<p>一个类继承自多个类就是多继承，它将具有多个类的特征。</p>
-<h3 id="多继承弊端"> 多继承弊端</h3>
-<p>多继承很好的模拟了世界，因为事物很少是单一继承，但是舍弃简单，必然引入复杂性，带来了冲突。</p>
-<p>如同一个孩子继承了来自父母双方的特征。那么到底眼睛像爸爸还是妈妈呢？孩子究竟该像谁多一点呢？</p>
-<p>多继承的实现会导致编译器设计的复杂度增加，所以有些高级编程语言舍弃了类的多继承。</p>
-<p>C++支持多继承；Java舍弃了多继承。</p>
-<p>Java中，一个类可以实现多个接口，一个接口也可以继承多个接口。Java的接口很纯粹，只是方法的声明，继承者必须实现这些方法，就具有了这些能力，就能干什么。</p>
-<p>多继承可能会带来二义性，例如，猫和狗都继承自动物类，现在如果一个类多继承了猫和狗类，猫和狗都有shout方法，子类究竟继承谁的shout呢？</p>
-<p>解决方案
-实现多继承的语言，要解决二义性，深度优先或者广度优先。</p>
-<h3 id="python多继承实现"> Python多继承实现</h3>
-<div><pre><code><span>class</span> <span>className</span><span>(</span>基类<span>1</span>， 基类<span>2</span><span>[</span><span>,</span><span>.</span><span>.</span><span>.</span><span>]</span><span>)</span><span>:</span>
-    类体
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/inher.png" alt="inher"></p>
-<p>左图是多继承（菱形继承），右图是单一继承</p>
-<p>多继承带来路径选择问题，究竟继承哪个父类的特征呢</p>
-<p>Python使用 MRO（method resolution order方法解析顺序）解决基类搜索顺序问题。</p>
-<ul>
-<li>历史原因，MRO有三个搜索算法：
-<ul>
-<li>经典算法，按照定义从左到右，深度优先策略。2.2版本之前
-左图的MRO是MyClass,D,B,A,C,A</li>
-<li>新式类算法，是经典算法的升级，深度优先，重复的只保留最后一个。2.2版本
-左图的MRO是MyClass,D,B,C,A,object</li>
-<li>C3算法，在类被创建出来的时候，就计算出一个MRO有序列表。2.3之后支持，Python3唯一支持的算法
-左图中的MRO是MyClass,D,B,C,A,object的列表
-C3算法解决多继承的二义性</li>
-</ul>
-</li>
-</ul>
-<p>经典算法有很大的问题，如果C中有方法覆盖了A的方法，也不会访问到C的方法，因为先访问A的（深度优先）。</p>
-<p>新式类算法，依然采用了深度优先，解决了重复问题，但是同经典算法一样，没有解决继承的单调性。</p>
-<p>C3算法，解决了继承的单调性，它阻止创建之前版本产生二义性的代码。求得的MRO 本质是为了线性化，且确定了顺序。</p>
-<p>单调性：假设有A、B、C三个类，C的mro是[C, A, B]，那么C的子类的mro中，A、B的顺序一致就是单调的。</p>
-<h3 id="多继承的缺点"> 多继承的缺点</h3>
-<p>当类很多且继承复杂的情况下，继承路径太多，很难说清什么样的继承路径。</p>
-<p>Python语法是允许多继承，但Python代码是解释执行，只有执行到的时候，才发现错误。
-团队协作开发，如果引入多继承，那代码很有可能不可控。</p>
-<p>不管编程语言是否支持多继承，都应当避免多继承。</p>
-<p>Python的面向对象，我们看到的太灵活了，太开放了，所以要团队守规矩。</p>
-<h2 id="mixin"> Mixin</h2>
-<p>在Python的很多类的实现中，都可以看到一个Mixin的名字，这种类是什么呢？</p>
-<p>类有下面的继承关系</p>
-<p>文档Document类是其他所有文档类的抽象基类；
-Word、Pdf类是Document的子类。</p>
-<p>需求：为Document子类提供打印能力</p>
-<p>思路：
-1、在Document中提供print方法
-假设已经有了下面3个类</p>
-<div><pre><code><span>class</span> <span>Document</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
-        self<span>.</span>content <span>=</span> content
-    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span> <span># 抽象方法</span>
-        <span>raise</span> NotImplementedError<span>(</span><span>)</span>
-    
-<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 其他功能略去</span>
-<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 其他功能略去</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>基类提供的方法可以不具体实现，因为它未必适合子类的打印，子类中需要覆盖重写。</p>
-<p>基类中只定义，不实现的方法，称为“抽象方法”。在Python中，如果采用这种方式定义的抽象方法，子类可以不实现，直到子类使用该方法的时候才报错。</p>
-<p>print算是一种能力 —— 打印功能，不是所有的Document的子类都需要的，所有，从这个角度出发，上面的基类Document设计有点问题。</p>
-<p>2、需要打印的子类上增加</p>
-<p>如果在现有子类Word或Pdf上直接增加，虽然可以，却违反了OCP的原则，所以可以继承后增加打印功能。</p>
-<div><pre><code><span>class</span> <span>Document</span><span>:</span> <span># 第三方库，不允许修改</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
-        self<span>.</span>content <span>=</span> content
-<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
-<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
-<span># 单继承</span>
-<span>class</span> <span>PrintableWord</span><span>(</span>Word<span>)</span><span>:</span>
-    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>content<span>)</span>
-
-<span>print</span><span>(</span>PrintableWord<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>PrintableWord<span>.</span>mro<span>(</span><span>)</span><span>)</span>
-pw <span>=</span> PrintableWord<span>(</span><span>'test string'</span><span>)</span>
-pw<span>.</span><span>print</span><span>(</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>看似不错，如果需要还要提供其他能力，如何继承？</p>
-<p>例如，如果该类用于网络，还应具备序列化的能力，在类上就应该实现序列化。</p>
-<p>可序列化还可能分为使用pickle、json、messagepack等。</p>
-<p>这个时候发现，为了</p>
-<p>增加一种能力，就要增加一次继承，类可能太多了，继承的方式不是很好了。</p>
-<p>功能太多，A类需要某几样功能，B类需要另几样功能，它们需要的是多个功能的自由组合，继承实现很繁琐。</p>
-<p>3、Mixin</p>
-<p>先看代码</p>
-<div><pre><code><span>class</span> <span>Document</span><span>:</span> <span># 第三方库，不允许修改</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> content<span>)</span><span>:</span>
-        self<span>.</span>content <span>=</span> content
-<span>class</span> <span>Word</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
-<span>class</span> <span>Pdf</span><span>(</span>Document<span>)</span><span>:</span> <span>pass</span> <span># 第三方库，不允许修改</span>
-<span>class</span> <span>PrintableMixin</span><span>:</span>
-    <span>def</span> <span>print</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>content<span>,</span> <span>'Mixin'</span><span>)</span>
-<span>class</span> <span>PrintableWord</span><span>(</span>PrintableMixin<span>,</span> Word<span>)</span><span>:</span> <span>pass</span>
-
-<span>print</span><span>(</span>PrintableWord<span>.</span>__dict__<span>)</span>
-<span>print</span><span>(</span>PrintableWord<span>.</span>mro<span>(</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>Mixin就是其它类混合进来，同时带来了类的属性和方法。</p>
-<p><strong>Mixin类</strong></p>
-<p>Mixin 本质上就是多继承实现的。</p>
-<p>Mixin 体现的是一种组合的设计模式。</p>
-<p>在面向对象的设计中，一个复杂的类，往往需要很多功能，而这些功能由来自不同的类提供，这就需要很多的类组合在一起。</p>
-<p>从设计模式的角度来说，多组合，少继承。</p>
-<p>Mixin 类的使用原则</p>
-<ul>
-<li>Mixin类中不应该显式的出现<code>__init__</code>初始化方法</li>
-<li>Mixin 类通常不能独立工作，因为它是准备混入别的类中的部分功能实现</li>
-<li>Mixin 类是类，也可以继承，其祖先类也应是 Mixin 类</li>
-</ul>
-<p>使用时，<strong>Mixin 类通常在继承列表的第一个位置</strong>，例如 <code>class PrintableWord(PrintableMixin, Word): pass</code></p>
-<p>Mixin 类和装饰器，都可以实现对类的增强，这两种方式都可以使用，看个人喜好。</p>
-<p>如果还需要继承就得使用 Mixin 类的方式。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -23843,6 +23855,32 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第七章 测试</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
+<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
+<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
+<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
+<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
+</ul>
+<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">8.1. 运算符</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/08_1_operators/"/>
@@ -24195,32 +24233,6 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
 </li>
 </ol>
 </section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第七章 测试</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part2/07_tests/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
-<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
-<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
-<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
-<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
-</ul>
-<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -29204,6 +29216,35 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第三部分 shell进阶</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/"/>
@@ -29245,60 +29286,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
 <li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
 <li><a href="./14_recess_time.html">14. 休息时间</a></li>
 </ul>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第十三章 算术扩展</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/13_arithmetic_expansion/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/13_arithmetic_expansion/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十三章-算术扩展"> 第十三章 算术扩展</h1>
-<p>算术扩展为脚本中的（整数）算术操作提供了强有力的工具。你可以使用反引号、双圆括号或者 <code>let</code> 将字符串转换为数学表达式。</p>
-<h3 id="差异比较"> 差异比较</h3>
-<h4 id="使用-反引号-的算术扩展-通常与-expr-一起使用"> 使用 <a href="http://tldp.org/LDP/abs/html/commandsub.html#BACKQUOTESREF" target="_blank" rel="noopener noreferrer">反引号</a> 的算术扩展（通常与 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 一起使用）</h4>
-<div><pre><code><span>z</span><span>=</span><span><span>`</span><span>expr</span> $z + <span>3</span><span>`</span></span>         <span># 'expr' 命令执行了算术扩展。</span>
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="使用-双圆括号-或-let-的算术扩展。"> 使用 <a href="http://tldp.org/LDP/abs/html/dblparens.html" target="_blank" rel="noopener noreferrer">双圆括号</a> 或 <a href="http://tldp.org/LDP/abs/html/internal.html#LETREF" target="_blank" rel="noopener noreferrer"><code>let</code></a> 的算术扩展。</h4>
-<p>事实上，在算术扩展中，反引号已经被双圆括号 <code>((...))</code> 和 <code>$((...))</code> 以及 <a href="http://tldp.org/LDP/abs/html/internal.html#LETREF" target="_blank" rel="noopener noreferrer"><code>let</code></a> 所取代。</p>
-<div><pre><code><span>z</span><span>=</span><span><span>$((</span>$z<span>+</span><span>3</span><span>))</span></span>
-<span>z</span><span>=</span><span><span>$((</span>z<span>+</span><span>3</span><span>))</span></span>                     <span># 同样正确。</span>
-                               <span># 在双圆括号内，参数引用形式可用可不用。</span>
-                                            
-<span># $((EXPRESSION)) 是算术扩展。  # 不要与命令替换混淆。</span>
-
-
-
-<span># 双圆括号不是只能用作赋值算术结果。</span>
-
-  <span>n</span><span>=</span><span>0</span>
-  <span>echo</span> <span>"n = <span>$n</span>"</span>                <span># n = 0</span>
-
-  <span><span>((</span> n <span>+</span><span>=</span> <span>1</span> <span>))</span></span>                 <span># 自增。</span>
-<span># (( $n += 1 )) 是错误用法！</span>
-  <span>echo</span> <span>"n = <span>$n</span>"</span>                <span># n = 1</span>
-
-
-<span>let</span> <span>z</span><span>=</span>z+3
-<span>let</span> <span>"z += 3"</span>  <span># 引号允许在赋值表达式中使用空格。</span>
-              <span># 'let' 事实上执行的算术运算而非算术扩展。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>以下是包含算术扩展的样例：</p>
-<ol>
-<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/loops1.html#EX25" target="_blank" rel="noopener noreferrer">样例 11-15</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/arrays.html#EX66" target="_blank" rel="noopener noreferrer">样例 27-1</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
-</ol>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -29739,23 +29726,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">18.2文件名替换</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_2_globbing/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_2_globbing/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">18.1 正则表达式简介</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/"/>
@@ -29877,6 +29847,23 @@ EOF</span>
 <span>exit</span> <span>0</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">18.2文件名替换</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_2_globbing/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/18_2_globbing/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
+]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -31942,88 +31929,6 @@ exec 3&gt;&amp;-                              # 现在关闭它.
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第二十二章. 限制模式的Shell</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
-<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
-<ul>
-<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
-</ul>
-<p>被禁用的命令和功能：</p>
-<ul>
-<li>使用 <em>cd</em> 来改变工作目录。</li>
-<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
-<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
-<li>输出重定向。</li>
-<li>调用包含 / 的命令。</li>
-<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
-<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
-<li>在脚本中跳出限制模式。</li>
-</ul>
-<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
-<div><pre><code>#!/bin/bash
-
-#  在脚本开头用&quot;#!/bin/bash -r&quot;
-#+ 可以让整个脚本在限制模式运行。
-
-echo
-
-echo &quot;改变目录。&quot;
-cd /usr/local
-echo &quot;现在是在 `pwd`&quot;
-echo &quot;回到家目录。&quot;
-cd
-echo &quot;现在是在 `pwd`&quot;
-echo
-
-# 到此为止一切都是正常的，非限制模式。
-
-set -r
-# set --restricted 效果相同。
-echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
-
-echo
-echo
-
-echo &quot;在限制模式试图改变目录。&quot;
-cd ..
-echo &quot;依旧在 `pwd`&quot;
-
-echo
-echo
-
-echo &quot;\$SHELL = $SHELL&quot;
-echo &quot;试图在限制模式改变Shell 。&quot;
-SHELL=&quot;/bin/ash&quot;
-echo
-echo &quot;\$SHELL= $SHELL&quot;
-
-echo
-echo
-
-echo &quot;试图在限制模式重定向输出内容。&quot;
-ls -l /usr/bin &gt; bin.files
-ls -l bin.files    # 尝试列出试图创建的文件。
-
-echo
-
-exit 0
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第二十一章 子shell</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/21_subshells/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/21_subshells/"/>
@@ -32247,6 +32152,88 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="notes"> <strong>Notes</strong></h3>
 <p>[^1] 和 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell</p>
 ]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第二十二章. 限制模式的Shell</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/22_Restricted_Shells/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
+<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
+<ul>
+<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
+</ul>
+<p>被禁用的命令和功能：</p>
+<ul>
+<li>使用 <em>cd</em> 来改变工作目录。</li>
+<li>修改 <em><span class='katex-error' title='ParseError: KaTeX parse error: Double subscript at position 8: PATH_, _̲'>PATH_, _</span>SHELL</em>, *<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 13: BASH_ENV* 或 _̲'>BASH_ENV* 或 _</span>ENV_ 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
+<li>读取或修改 <em>$SHELLOPTS</em>，shell环境选项。</li>
+<li>输出重定向。</li>
+<li>调用包含 / 的命令。</li>
+<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
+<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
+<li>在脚本中跳出限制模式。</li>
+</ul>
+<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
+<div><pre><code>#!/bin/bash
+
+#  在脚本开头用&quot;#!/bin/bash -r&quot;
+#+ 可以让整个脚本在限制模式运行。
+
+echo
+
+echo &quot;改变目录。&quot;
+cd /usr/local
+echo &quot;现在是在 `pwd`&quot;
+echo &quot;回到家目录。&quot;
+cd
+echo &quot;现在是在 `pwd`&quot;
+echo
+
+# 到此为止一切都是正常的，非限制模式。
+
+set -r
+# set --restricted 效果相同。
+echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
+
+echo
+echo
+
+echo &quot;在限制模式试图改变目录。&quot;
+cd ..
+echo &quot;依旧在 `pwd`&quot;
+
+echo
+echo
+
+echo &quot;\$SHELL = $SHELL&quot;
+echo &quot;试图在限制模式改变Shell 。&quot;
+SHELL=&quot;/bin/ash&quot;
+echo
+echo &quot;\$SHELL= $SHELL&quot;
+
+echo
+echo
+
+echo &quot;试图在限制模式重定向输出内容。&quot;
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    # 尝试列出试图创建的文件。
+
+echo
+
+exit 0
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -33360,6 +33347,169 @@ exit 0  # 这个脚本可能不会正常退出。
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">24.3 不使用局部变量的递归</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
+<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
+<p>例子24-16. 斐波那契序列</p>
+<div><pre><code>#!/bin/bash
+# fibo.sh : 斐波那契序列 (递归)
+# 作者: M. Cooper
+# License: GPL3
+
+# ----------算法--------------
+# Fibo(0) = 0
+# Fibo(1) = 1
+# else
+#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
+# ---------------------------------
+
+MAXTERM=15       # 要产生的计算次数。
+MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
+
+Fibonacci ()
+{
+    idx=$1   # 不需要是局部变量，为什么？
+    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
+    then
+        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
+    else
+        (( --idx ))  # j-1
+        term1=$( Fibonacci $idx )   #  Fibo(j-1)
+        (( --idx ))  # j-2
+        term2=$( Fibonacci $idx )   #  Fibo(j-2)
+        echo $(( term1 + term2 ))
+    fi
+    #  一个丑陋的实现
+    #  C语言里，一个更加优雅的斐波那契递归实现
+    #+ 是一个简单的只需要7-10代码的算法翻译。
+}
+
+for i in $(seq 0 $MAXTERM)
+do  # 计算 $MAXTERM+1 次.
+    FIBO=$(Fibonacci $i)
+    echo -n &quot;$FIBO &quot;
+done
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
+# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
+<div><pre><code>#! /bin/bash
+#
+# 汉诺塔
+# Bash script
+# Copyright (C) 2000 Amit Singh. All Rights Reserved.
+# http://hanoi.kernelthread.com
+#
+# 在 Bash version 2.05b.0(13)-release下通过测试.
+# 同样在Bash3.x版本下工作正常。
+#
+#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
+#+ 经过了脚本作者的许可。
+#  ABS的作者对脚本进行了轻微的修改和注释。
+#=================================================================#
+#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
+#+  他是19世纪的法国数学家。
+#
+# 有三个直立的柱子竖在地面上。
+# 第一个柱子上有一组盘子套在上面。
+# 这些盘子是平的，中间有孔，
+#+ 可以套在柱子上面。
+# 这些盘子的直径不同，它们从下而上， 
+#+ 按照尺寸递减的顺序摆放。
+# 也就是说，最小的在最上边，最大的在最下面。
+#
+# 现在的任务是要把这组盘子  
+#+ 从一个柱子上全部搬到另一个柱子上 
+# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
+# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
+# 你只能把小的盘子放到大的盘子上。
+#+ 反过来就不行。
+# 切记，绝对不能把大盘子放到小盘子的上面。
+# 如果盘子的数量比较少，那么移不了几次就能完成。
+#+ 但是随着盘子数量的增加，
+#+ 移动次数几乎成倍的增长，
+#+ 而且移动的“策略”也会变得越来越复杂。
+#
+# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
+#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
+#
+#
+#           ...             ...         ...
+#           | |             | |         | |
+#          _|_|_            | |         | |
+#         |_____|           | |         | |
+#        |_______|          | |         | |
+#       |_________|         | |         | |
+#      |___________|        | |         | |
+#     |             |       | |         | |
+# .--------------------------------------------------------------. 
+# |**************************************************************| 
+#            #1              #2          #3
+# #=================================================================#
+
+E_NOPARAM=66  # 没有参数传给脚本。
+E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
+Moves=        # 保存移动次数的全局变量。
+              # 这里修改了原来的脚本。
+
+dohanoi() {   # 递归函数
+    case $1 in
+    0)
+        ;;
+    *)
+        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
+        echo move $2 &quot;--&gt;&quot; $3
+        ((Moves++))          # 这里修改了原来的脚本。
+        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
+        ;;
+    esac 
+}
+
+case $# in
+    1) case $(($1&gt;0)) in     # 至少要有一个盘子
+        1)  # Nested case statement.
+            dohanoi $1 1 3 2
+            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
+            exit 0;
+            ;; 
+        *)    
+            echo &quot;$0: illegal value for number of disks&quot;;
+            exit $E_BADPARAM;
+            ;;
+        esac ;;
+    *)
+        echo &quot;usage: $0 N&quot;
+        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
+        exit $E_NOPARAM;
+        ;;
+    esac
+
+# 练习:
+# ---------
+# 1) 这个位置以下的代码会不会执行？ 
+#    为什么不(容易)
+# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
+#    (比较难 可以参考上面的Dewdney 的引用)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">24 函数</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_functions/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_functions/"/>
@@ -33604,169 +33754,6 @@ exit $?
 #  当然，这并不是可取的。
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">24.3 不使用局部变量的递归</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/24_3_recursion_without_local_variables/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
-<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
-<p>例子24-16. 斐波那契序列</p>
-<div><pre><code>#!/bin/bash
-# fibo.sh : 斐波那契序列 (递归)
-# 作者: M. Cooper
-# License: GPL3
-
-# ----------算法--------------
-# Fibo(0) = 0
-# Fibo(1) = 1
-# else
-#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
-# ---------------------------------
-
-MAXTERM=15       # 要产生的计算次数。
-MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
-
-Fibonacci ()
-{
-    idx=$1   # 不需要是局部变量，为什么？
-    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
-    then
-        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
-    else
-        (( --idx ))  # j-1
-        term1=$( Fibonacci $idx )   #  Fibo(j-1)
-        (( --idx ))  # j-2
-        term2=$( Fibonacci $idx )   #  Fibo(j-2)
-        echo $(( term1 + term2 ))
-    fi
-    #  一个丑陋的实现
-    #  C语言里，一个更加优雅的斐波那契递归实现
-    #+ 是一个简单的只需要7-10代码的算法翻译。
-}
-
-for i in $(seq 0 $MAXTERM)
-do  # 计算 $MAXTERM+1 次.
-    FIBO=$(Fibonacci $i)
-    echo -n &quot;$FIBO &quot;
-done
-# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
-# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
-<div><pre><code>#! /bin/bash
-#
-# 汉诺塔
-# Bash script
-# Copyright (C) 2000 Amit Singh. All Rights Reserved.
-# http://hanoi.kernelthread.com
-#
-# 在 Bash version 2.05b.0(13)-release下通过测试.
-# 同样在Bash3.x版本下工作正常。
-#
-#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
-#+ 经过了脚本作者的许可。
-#  ABS的作者对脚本进行了轻微的修改和注释。
-#=================================================================#
-#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
-#+  他是19世纪的法国数学家。
-#
-# 有三个直立的柱子竖在地面上。
-# 第一个柱子上有一组盘子套在上面。
-# 这些盘子是平的，中间有孔，
-#+ 可以套在柱子上面。
-# 这些盘子的直径不同，它们从下而上， 
-#+ 按照尺寸递减的顺序摆放。
-# 也就是说，最小的在最上边，最大的在最下面。
-#
-# 现在的任务是要把这组盘子  
-#+ 从一个柱子上全部搬到另一个柱子上 
-# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
-# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
-# 你只能把小的盘子放到大的盘子上。
-#+ 反过来就不行。
-# 切记，绝对不能把大盘子放到小盘子的上面。
-# 如果盘子的数量比较少，那么移不了几次就能完成。
-#+ 但是随着盘子数量的增加，
-#+ 移动次数几乎成倍的增长，
-#+ 而且移动的“策略”也会变得越来越复杂。
-#
-# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
-#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
-#
-#
-#           ...             ...         ...
-#           | |             | |         | |
-#          _|_|_            | |         | |
-#         |_____|           | |         | |
-#        |_______|          | |         | |
-#       |_________|         | |         | |
-#      |___________|        | |         | |
-#     |             |       | |         | |
-# .--------------------------------------------------------------. 
-# |**************************************************************| 
-#            #1              #2          #3
-# #=================================================================#
-
-E_NOPARAM=66  # 没有参数传给脚本。
-E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
-Moves=        # 保存移动次数的全局变量。
-              # 这里修改了原来的脚本。
-
-dohanoi() {   # 递归函数
-    case $1 in
-    0)
-        ;;
-    *)
-        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
-        echo move $2 &quot;--&gt;&quot; $3
-        ((Moves++))          # 这里修改了原来的脚本。
-        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
-        ;;
-    esac 
-}
-
-case $# in
-    1) case $(($1&gt;0)) in     # 至少要有一个盘子
-        1)  # Nested case statement.
-            dohanoi $1 1 3 2
-            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
-            exit 0;
-            ;; 
-        *)    
-            echo &quot;$0: illegal value for number of disks&quot;;
-            exit $E_BADPARAM;
-            ;;
-        esac ;;
-    *)
-        echo &quot;usage: $0 N&quot;
-        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
-        exit $E_NOPARAM;
-        ;;
-    esac
-
-# 练习:
-# ---------
-# 1) 这个位置以下的代码会不会执行？ 
-#    为什么不(容易)
-# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
-#    (比较难 可以参考上面的Dewdney 的引用)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -37543,45 +37530,6 @@ test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater t
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">echo命令</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_5_colorizing_scripts/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_5_colorizing_scripts/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="echo命令"> echo命令</h2>
-<ul>
-<li>-e 使转义符生效 如:  解释\t \n含义</li>
-<li>-n 不换行输出</li>
-</ul>
-<h3 id="字颜色-30-37"> 字颜色：30—–37</h3>
-<p>echo -e “\033[30m 黑色字 \033[0m”</p>
-<p>echo -e “\033[31m 红色字 \033[0m”</p>
-<p>echo -e “\033[32m 绿色字 \033[0m”</p>
-<p>echo -e “\033[33m 黄色字 \033[0m”</p>
-<p>echo -e “\033[34m 蓝色字 \033[0m”</p>
-<p>echo -e “\033[35m 紫色字 \033[0m”</p>
-<p>echo -e “\033[36m 天蓝字 \033[0m”</p>
-<p>echo -e “\033[37m 白色字 \033[0m”</p>
-<h3 id="字背景颜色范围-40-47"> 字背景颜色范围：40—–47</h3>
-<p>echo -e “\033[40;37m 黑底白字 \033[0m”</p>
-<p>echo -e “\033[41;37m 红底白字 \033[0m”</p>
-<p>echo -e “\033[42;37m 绿底白字 \033[0m”</p>
-<p>echo -e “\033[43;37m 黄底白字 \033[0m”</p>
-<p>echo -e “\033[44;37m 蓝底白字 \033[0m”</p>
-<p>echo -e “\033[45;37m 紫底白字 \033[0m”</p>
-<p>echo -e “\033[46;37m 天蓝底白字 \033[0m”</p>
-<p>echo -e “\033[47;30m 白底黑字 \033[0m”</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">36.4 递归：可以调用自己的脚本</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_4_recursion_a_script_calling_itself/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_4_recursion_a_script_calling_itself/"/>
@@ -37709,6 +37657,45 @@ exit 0
 #    你也可以将这种技术用到比如mntfloppy，mntcdrom和mntsamba等脚本上来实现更优雅的挂载管理。
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>过多层次的递归调用会导致脚本的栈空间溢出，引起段错误（segfault）。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">echo命令</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_5_colorizing_scripts/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part5/36_5_colorizing_scripts/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="echo命令"> echo命令</h2>
+<ul>
+<li>-e 使转义符生效 如:  解释\t \n含义</li>
+<li>-n 不换行输出</li>
+</ul>
+<h3 id="字颜色-30-37"> 字颜色：30—–37</h3>
+<p>echo -e “\033[30m 黑色字 \033[0m”</p>
+<p>echo -e “\033[31m 红色字 \033[0m”</p>
+<p>echo -e “\033[32m 绿色字 \033[0m”</p>
+<p>echo -e “\033[33m 黄色字 \033[0m”</p>
+<p>echo -e “\033[34m 蓝色字 \033[0m”</p>
+<p>echo -e “\033[35m 紫色字 \033[0m”</p>
+<p>echo -e “\033[36m 天蓝字 \033[0m”</p>
+<p>echo -e “\033[37m 白色字 \033[0m”</p>
+<h3 id="字背景颜色范围-40-47"> 字背景颜色范围：40—–47</h3>
+<p>echo -e “\033[40;37m 黑底白字 \033[0m”</p>
+<p>echo -e “\033[41;37m 红底白字 \033[0m”</p>
+<p>echo -e “\033[42;37m 绿底白字 \033[0m”</p>
+<p>echo -e “\033[43;37m 黄底白字 \033[0m”</p>
+<p>echo -e “\033[44;37m 蓝底白字 \033[0m”</p>
+<p>echo -e “\033[45;37m 紫底白字 \033[0m”</p>
+<p>echo -e “\033[46;37m 天蓝底白字 \033[0m”</p>
+<p>echo -e “\033[47;30m 白底黑字 \033[0m”</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -47376,132 +47363,6 @@ Change: 2018-10-09 12:42:07.982774800 +0800
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">查看文件类型</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/file-type/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/file-type/"/>
-    <updated>2021-04-06T07:38:37.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="查看文件类型"> 查看文件类型</h1>
-<h3 id="ls命令"> ls命令</h3>
-<p>ls命令时linux下最常用的命令。ls命令就是list的缩写，缺省下ls用来打印出当前目录的清单，如果ls指定其他目录，那么就会显示指定目录里的文件及文件夹清单。</p>
-<p>通过ls命令不仅可以查看linux文件夹包含的文件，而且可以查看文件权限（包括目录、文件夹、文件权限），查看目录信息等等。</p>
-<h4 id="常用选项"> 常用选项</h4>
-<div><pre><code>-a：显示所有档案及目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
--l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
--h:–human-readable 以容易理解的格式列出文件大小 (例如 1K 234M 2G);
--s：显示文件和目录的大小，以区块为单位；
--t：用文件和目录的更改时间排序；
--r：以文件名反序排列并输出目录内容列表；
--d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
--R：递归处理，将指定目录下的所有文件及子目录一并处理；
---color[=WHEN]：使用不同的颜色高亮显示不同类型的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="常用范例"> 常用范例</h4>
-<ol>
-<li>列出/opt文件夹下的所有文件和目录的详细资料</li>
-</ol>
-<div><pre><code>ls -lR /opt/
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>/opt/:
-total 124188
--rw-r--r-- 1 root root 127163815 Aug 25 06:10 go1.11.linux-amd64.tar.gz
--rw-r--r-- 1 root root      1003 Sep 11 14:16 setup.sh
-drwxr-xr-x 1 root root       512 Jan 28 22:17 test
-
-/opt/test:
-total 0
--rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol start="2">
-<li>列出当前目录中所有以“t”开头的目录的详细内容，可以使用如下命令：</li>
-</ol>
-<div><pre><code>ls -l t*
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>total 0
--rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ol start="3">
-<li>列出目前工作目录下所有名称是s 开头的档案，越新的排越后面，可以使用如下命令：</li>
-</ol>
-<div><pre><code>ls -ltr s*
-</code></pre>
-<div><span>1</span><br></div></div><p>输出结果为：</p>
-<div><pre><code>-rw-r--r-- 1 root root 1003 Sep 11 14:16 setup.sh
--rw-r--r-- 1 root root    0 Jan 28 22:21 s.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h4 id="颜色"> 颜色</h4>
-<p>蓝色—–目录</p>
-<p>绿色—–可执行文件</p>
-<p>白色—–一般性文件，如文本文件，配置文件等</p>
-<p>红色—–压缩文件或归档文件</p>
-<p>浅蓝色—-链接文件</p>
-<p>红色闪烁—-链接文件存在问题</p>
-<p>黄色—–设备文件</p>
-<p>青黄色—-管道文件</p>
-<h3 id="file命令"> file命令</h3>
-<p>用来探测给定文件的类型。</p>
-<h4 id="补充说明"> 补充说明</h4>
-<p><strong>file命令</strong> 用来探测给定文件的类型。file命令对文件的检查分为文件系统、魔法幻数检查和语言检查3个过程。</p>
-<h4 id="语法"> 语法</h4>
-<div><pre><code>file(选项)(参数)
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="选项"> 选项</h4>
-<div><pre><code>-b：列出辨识结果时，不显示文件名称；
--c：详细显示指令执行过程，便于排错或分析程序执行的情形；
--f&lt;名称文件&gt;：指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
--L：直接显示符号连接所指向的文件类别；
--m&lt;魔法数字文件&gt;：指定魔法数字文件；
--v：显示版本信息；
--z：尝试去解读压缩文件的内容。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="参数"> 参数</h4>
-<p>文件：要确定类型的文件列表，多个文件之间使用空格分开，可以使用shell通配符匹配多个文件。</p>
-<h4 id="实例"> 实例</h4>
-<p>显示文件类型</p>
-<div><pre><code>[root@localhost ~]# file install.log
-install.log: UTF-8 Unicode text
-
-[root@localhost ~]# file -b install.log      &lt;== 不显示文件名称
-UTF-8 Unicode text
-
-[root@localhost ~]# file -i install.log      &lt;== 显示MIME类别。
-install.log: text/plain; charset=utf-8
-
-[root@localhost ~]# file -b -i install.log
-text/plain; charset=utf-8
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>显示符号链接的文件类型</p>
-<div><pre><code>[root@localhost ~]# ls -l /var/mail
-lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
-
-[root@localhost ~]# file /var/mail
-/var/mail: symbolic link to `spool/mail&#39;
-
-[root@localhost ~]# file -L /var/mail
-/var/mail: directory
-
-[root@localhost ~]# file /var/spool/mail
-/var/spool/mail: directory
-
-[root@localhost ~]# file -L /var/spool/mail
-/var/spool/mail: directory
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-06T07:23:25.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">打包、压缩</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/zip/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/zip/"/>
@@ -47686,6 +47547,132 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
 -rw-r--r-- 1 mail users     61 11-30 08:39 log2013.log
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-06T07:23:25.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">查看文件类型</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/file-type/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/file/file-type/"/>
+    <updated>2021-04-06T07:38:37.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="查看文件类型"> 查看文件类型</h1>
+<h3 id="ls命令"> ls命令</h3>
+<p>ls命令时linux下最常用的命令。ls命令就是list的缩写，缺省下ls用来打印出当前目录的清单，如果ls指定其他目录，那么就会显示指定目录里的文件及文件夹清单。</p>
+<p>通过ls命令不仅可以查看linux文件夹包含的文件，而且可以查看文件权限（包括目录、文件夹、文件权限），查看目录信息等等。</p>
+<h4 id="常用选项"> 常用选项</h4>
+<div><pre><code>-a：显示所有档案及目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
+-l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
+-h:–human-readable 以容易理解的格式列出文件大小 (例如 1K 234M 2G);
+-s：显示文件和目录的大小，以区块为单位；
+-t：用文件和目录的更改时间排序；
+-r：以文件名反序排列并输出目录内容列表；
+-d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
+-R：递归处理，将指定目录下的所有文件及子目录一并处理；
+--color[=WHEN]：使用不同的颜色高亮显示不同类型的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="常用范例"> 常用范例</h4>
+<ol>
+<li>列出/opt文件夹下的所有文件和目录的详细资料</li>
+</ol>
+<div><pre><code>ls -lR /opt/
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>/opt/:
+total 124188
+-rw-r--r-- 1 root root 127163815 Aug 25 06:10 go1.11.linux-amd64.tar.gz
+-rw-r--r-- 1 root root      1003 Sep 11 14:16 setup.sh
+drwxr-xr-x 1 root root       512 Jan 28 22:17 test
+
+/opt/test:
+total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol start="2">
+<li>列出当前目录中所有以“t”开头的目录的详细内容，可以使用如下命令：</li>
+</ol>
+<div><pre><code>ls -l t*
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><ol start="3">
+<li>列出目前工作目录下所有名称是s 开头的档案，越新的排越后面，可以使用如下命令：</li>
+</ol>
+<div><pre><code>ls -ltr s*
+</code></pre>
+<div><span>1</span><br></div></div><p>输出结果为：</p>
+<div><pre><code>-rw-r--r-- 1 root root 1003 Sep 11 14:16 setup.sh
+-rw-r--r-- 1 root root    0 Jan 28 22:21 s.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="颜色"> 颜色</h4>
+<p>蓝色—–目录</p>
+<p>绿色—–可执行文件</p>
+<p>白色—–一般性文件，如文本文件，配置文件等</p>
+<p>红色—–压缩文件或归档文件</p>
+<p>浅蓝色—-链接文件</p>
+<p>红色闪烁—-链接文件存在问题</p>
+<p>黄色—–设备文件</p>
+<p>青黄色—-管道文件</p>
+<h3 id="file命令"> file命令</h3>
+<p>用来探测给定文件的类型。</p>
+<h4 id="补充说明"> 补充说明</h4>
+<p><strong>file命令</strong> 用来探测给定文件的类型。file命令对文件的检查分为文件系统、魔法幻数检查和语言检查3个过程。</p>
+<h4 id="语法"> 语法</h4>
+<div><pre><code>file(选项)(参数)
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="选项"> 选项</h4>
+<div><pre><code>-b：列出辨识结果时，不显示文件名称；
+-c：详细显示指令执行过程，便于排错或分析程序执行的情形；
+-f&lt;名称文件&gt;：指定名称文件，其内容有一个或多个文件名称时，让file依序辨识这些文件，格式为每列一个文件名称；
+-L：直接显示符号连接所指向的文件类别；
+-m&lt;魔法数字文件&gt;：指定魔法数字文件；
+-v：显示版本信息；
+-z：尝试去解读压缩文件的内容。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="参数"> 参数</h4>
+<p>文件：要确定类型的文件列表，多个文件之间使用空格分开，可以使用shell通配符匹配多个文件。</p>
+<h4 id="实例"> 实例</h4>
+<p>显示文件类型</p>
+<div><pre><code>[root@localhost ~]# file install.log
+install.log: UTF-8 Unicode text
+
+[root@localhost ~]# file -b install.log      &lt;== 不显示文件名称
+UTF-8 Unicode text
+
+[root@localhost ~]# file -i install.log      &lt;== 显示MIME类别。
+install.log: text/plain; charset=utf-8
+
+[root@localhost ~]# file -b -i install.log
+text/plain; charset=utf-8
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>显示符号链接的文件类型</p>
+<div><pre><code>[root@localhost ~]# ls -l /var/mail
+lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
+
+[root@localhost ~]# file /var/mail
+/var/mail: symbolic link to `spool/mail&#39;
+
+[root@localhost ~]# file -L /var/mail
+/var/mail: directory
+
+[root@localhost ~]# file /var/spool/mail
+/var/spool/mail: directory
+
+[root@localhost ~]# file -L /var/spool/mail
+/var/spool/mail: directory
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -49538,6 +49525,77 @@ rpm -ql xxx //查询xxx安装的文件
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">用户管理</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/user/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/user/"/>
+    <updated>2021-04-06T07:38:37.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-06T07:23:25.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">centos7下时区问题</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/qa/centos-time/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/qa/centos-time/"/>
+    <updated>2021-04-07T06:17:09.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
+<p>centos7时区同样, 在
+CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
+<p>用法很简单：</p>
+<div><pre><code># timedatectl # 查看系统时间方面的各种状态
+      Local time: 四 2014-12-25 10:52:10 CST
+  Universal time: 四 2014-12-25 02:52:10 UTC
+        RTC time: 四 2014-12-25 02:52:10
+        Timezone: Asia/Shanghai (CST, +0800)
+     NTP enabled: yes
+NTP synchronized: yes
+ RTC in local TZ: no
+      DST active: n/a
+# timedatectl list-timezones # 列出所有时区
+# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
+<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-07T06:17:09.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">基本权限 UGO</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/ugo/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/ugo/"/>
@@ -49634,77 +49692,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
       <name>Clay</name>
     </contributor>
     <published>2021-04-06T07:23:25.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">用户管理</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/basic/user/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/basic/user/"/>
-    <updated>2021-04-06T07:38:37.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-06T07:23:25.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">centos7下时区问题</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/linux/qa/centos-time/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/linux/qa/centos-time/"/>
-    <updated>2021-04-07T06:17:09.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
-<p>centos7时区同样, 在
-CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
-<p>用法很简单：</p>
-<div><pre><code># timedatectl # 查看系统时间方面的各种状态
-      Local time: 四 2014-12-25 10:52:10 CST
-  Universal time: 四 2014-12-25 02:52:10 UTC
-        RTC time: 四 2014-12-25 02:52:10
-        Timezone: Asia/Shanghai (CST, +0800)
-     NTP enabled: yes
-NTP synchronized: yes
- RTC in local TZ: no
-      DST active: n/a
-# timedatectl list-timezones # 列出所有时区
-# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
-# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
-<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-07T06:17:09.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -49834,6 +49821,170 @@ mysql&gt;exit(退出)
       <name>Clay</name>
     </contributor>
     <published>2021-04-07T06:17:09.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Elasticsearch基础概念</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
+    <updated>2021-04-06T09:43:34.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="elasticsearch基础概念"> Elasticsearch基础概念</h2>
+<h3 id="elasticsearch关键概念"> Elasticsearch关键概念</h3>
+<ul>
+<li>Document（文档）：用户存储在es中的数据文档，它是以JSON格式定义的特定方式的字段集合。每个文档都属于一个类型，并驻留在一个索引中。每个文档都有一个唯一的标识符，称为UID。</li>
+<li>Index（索引）：包含一堆有相似结构的文档数据，比如可以有一个客户索引，商品分类索引，订单索引，索引有一个名称。一个index包含很多document，一个index就代表了一类类似的或者相同的Document。比如说建立一个商品索引，里面可能就存放了所有的商品数据。</li>
+<li>Type/Mapping（类型/映射）：它是共享同一索引中一组公共字段的文档集合。例如，索引包含社交网络应用程序的数据，然后可以有特定类型的用户简档数据、另一种类型的消息数据和另一种类型的评论数据。</li>
+<li>Node（节点）：它指的是ElasticSearch的单个运行实例，是集群的构成单元。单个物理和虚拟服务器可容纳多个节点，具体取决于其物理资源(如内存、存储和处理能力)的能力。</li>
+<li>Cluster（集群）：它是一个或多个节点组成的集合。集群为整个数据提供跨节点的索引和搜索功能。</li>
+<li>Shard（分片）：单台机器无法存储大量数据，ElasticSearch可以将一个索引中的数据切分为多个Shard，分布在多台服务器上存储。有了Shard就可以横向扩展，存储更多数据，让搜索和分析等操作分布到多台服务器上去执行，提升吞吐量和性能。</li>
+<li>Replicas(副本):服务器随时可能故障或宕机，此时Shard可能就会丢失，因此可以为每个Shard创建多个Replica副本。Replica可以在Shard故障时提供备用服务，保证数据不丢失，多个Replica还可以提升搜索操作的吞吐量和性能。</li>
+</ul>
+<h3 id="document-文档"> Document（文档）</h3>
+<p>document其实就是json object 由字段（Field)组成，常见的类型：</p>
+<ul>
+<li>
+<p>字符串：keyword（不分词）,text(分词)</p>
+</li>
+<li>
+<p>数值型：long,integer,short,byte,double,float,half_float,scaled_float</p>
+</li>
+<li>
+<p>布尔：boolean</p>
+</li>
+<li>
+<p>日期：date</p>
+</li>
+<li>
+<p>二进制：binary</p>
+</li>
+<li>
+<p>范围类型：integer_range,float_range,long_range,double_range,date_range</p>
+</li>
+</ul>
+<p>每一个文档有唯一的ID标识</p>
+<ul>
+<li>自行指定</li>
+<li>es 自动生成</li>
+</ul>
+<p><img src="images/document01.png" alt=""></p>
+<ul>
+<li>元数据，用于标注文档的相关信息
+<ul>
+<li>_index：文档所在的索引名</li>
+<li>_type：文档所在的类型名</li>
+<li>_id：文档唯一id</li>
+<li>_uid：组合id，由_type和_id组成（6.x _type不再起作用，同id一样）</li>
+<li>_source：文档的原始Json数据，可以从这里获取每个字段的内容</li>
+<li>_all：整合所有字段内容到该字段，默认禁用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意：元数据不能删除</p>
+</blockquote>
+<h3 id="index-索引"> Index（索引）</h3>
+<ul>
+<li>索引中存储具有相同结构的文档（Document）
+<ul>
+<li>每个索引都有自己的mapping定义，用于定义字段名和类型</li>
+</ul>
+</li>
+<li>一个集群可以有多个索引，比如：
+<ul>
+<li>nginx日志存储的时候可以按照日期每天生产一个索引来存储
+<ul>
+<li>nginx_log_2019-08-01</li>
+<li>nginx_log_2019-08-02</li>
+<li>nginx_log_2019-08-03</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="mapping"> Mapping</h3>
+<h4 id="作用"> 作用</h4>
+<ul>
+<li>类似数据库中的表结构定义，主要作用如下：
+<ul>
+<li>定义Index下的字段名（Field Name）</li>
+<li>定义字段的类型，比如数值型、字符串型、布尔型等</li>
+<li>定义倒排索引相关的配置，比如是否索引、记录position等</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/mapping01.png" alt=""></p>
+<p><img src="images/mapping02.png" alt=""></p>
+<blockquote>
+<p>Mapping中的字段类型一旦设定后，禁止直接修改，原因如下：</p>
+<p>​	Lucene实现的倒排索引生成后不允许修改</p>
+</blockquote>
+<h4 id="常用参数"> 常用参数</h4>
+<h5 id="dynamic"> Dynamic</h5>
+<ul>
+<li>允许新增字段，通过dynamic参数来控制字段的新增
+<ul>
+<li>true（默认）允许自动新增字段</li>
+<li>false不允许自动新增字段，但是文档可以正常写入，但无法对字段进行查询等操作</li>
+<li>strict文档不能写入，报错</li>
+</ul>
+</li>
+</ul>
+<h5 id="copy-to"> copy_to</h5>
+<ul>
+<li>将该字段的值复制到目标字段，实现类似_all的作用</li>
+<li>不会出现在_source中，只用来搜索</li>
+</ul>
+<h5 id="index"> index</h5>
+<ul>
+<li>控制当前字段是否索引，默认为true，即记录索引，false不记录，即不可搜索</li>
+</ul>
+<h5 id="index-options"> index_options</h5>
+<ul>
+<li>用于控制倒排索引记录的内容，有如下4种配置
+<ul>
+<li>docs：只记录doc id</li>
+<li>freqs：记录doc id和term frequencies</li>
+<li>positions：记录doc id、term frequencies和term position</li>
+<li>offsets：记录doc id、term frequencies、term position和character offsets</li>
+</ul>
+</li>
+<li>text类型默认配置为positions，其他默认为docs</li>
+<li>记录内容越多，占用空间越大</li>
+</ul>
+<h5 id="null-value"> null_value</h5>
+<ul>
+<li>当字段遇到null值时的处理策略，默认为null，即控制，此时es会忽略该值。可以通过设定该值设定字段的默认值</li>
+</ul>
+<h3 id="rest-api"> Rest API</h3>
+<ul>
+<li>
+<p>Elasticsearch集群对外提供Restful API</p>
+<ul>
+<li>REST：REpresentational State Transfer</li>
+<li>URL指定资源，如Index、Document等</li>
+<li>Http Method指明资源操作类型，如GET、POST、PUT、DELETE等</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/rest01.png" alt=""></p>
+<h4 id="创建文档"> 创建文档</h4>
+<p><img src="images/create01.png" alt=""></p>
+<p><img src="images/create02.png" alt=""></p>
+<h4 id="查询文档"> 查询文档</h4>
+<p><img src="images/select01.png" alt=""></p>
+<p><img src="images/select02.png" alt=""></p>
+<h4 id="批量创建"> 批量创建</h4>
+<p><img src="images/create03.png" alt=""></p>
+<h4 id="批量查询"> 批量查询</h4>
+<p><img src="images/select03.png" alt=""></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-06T09:43:34.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -52501,170 +52652,6 @@ networks<span>:</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Elasticsearch基础概念</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
-    <updated>2021-04-06T09:43:34.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="elasticsearch基础概念"> Elasticsearch基础概念</h2>
-<h3 id="elasticsearch关键概念"> Elasticsearch关键概念</h3>
-<ul>
-<li>Document（文档）：用户存储在es中的数据文档，它是以JSON格式定义的特定方式的字段集合。每个文档都属于一个类型，并驻留在一个索引中。每个文档都有一个唯一的标识符，称为UID。</li>
-<li>Index（索引）：包含一堆有相似结构的文档数据，比如可以有一个客户索引，商品分类索引，订单索引，索引有一个名称。一个index包含很多document，一个index就代表了一类类似的或者相同的Document。比如说建立一个商品索引，里面可能就存放了所有的商品数据。</li>
-<li>Type/Mapping（类型/映射）：它是共享同一索引中一组公共字段的文档集合。例如，索引包含社交网络应用程序的数据，然后可以有特定类型的用户简档数据、另一种类型的消息数据和另一种类型的评论数据。</li>
-<li>Node（节点）：它指的是ElasticSearch的单个运行实例，是集群的构成单元。单个物理和虚拟服务器可容纳多个节点，具体取决于其物理资源(如内存、存储和处理能力)的能力。</li>
-<li>Cluster（集群）：它是一个或多个节点组成的集合。集群为整个数据提供跨节点的索引和搜索功能。</li>
-<li>Shard（分片）：单台机器无法存储大量数据，ElasticSearch可以将一个索引中的数据切分为多个Shard，分布在多台服务器上存储。有了Shard就可以横向扩展，存储更多数据，让搜索和分析等操作分布到多台服务器上去执行，提升吞吐量和性能。</li>
-<li>Replicas(副本):服务器随时可能故障或宕机，此时Shard可能就会丢失，因此可以为每个Shard创建多个Replica副本。Replica可以在Shard故障时提供备用服务，保证数据不丢失，多个Replica还可以提升搜索操作的吞吐量和性能。</li>
-</ul>
-<h3 id="document-文档"> Document（文档）</h3>
-<p>document其实就是json object 由字段（Field)组成，常见的类型：</p>
-<ul>
-<li>
-<p>字符串：keyword（不分词）,text(分词)</p>
-</li>
-<li>
-<p>数值型：long,integer,short,byte,double,float,half_float,scaled_float</p>
-</li>
-<li>
-<p>布尔：boolean</p>
-</li>
-<li>
-<p>日期：date</p>
-</li>
-<li>
-<p>二进制：binary</p>
-</li>
-<li>
-<p>范围类型：integer_range,float_range,long_range,double_range,date_range</p>
-</li>
-</ul>
-<p>每一个文档有唯一的ID标识</p>
-<ul>
-<li>自行指定</li>
-<li>es 自动生成</li>
-</ul>
-<p><img src="images/document01.png" alt=""></p>
-<ul>
-<li>元数据，用于标注文档的相关信息
-<ul>
-<li>_index：文档所在的索引名</li>
-<li>_type：文档所在的类型名</li>
-<li>_id：文档唯一id</li>
-<li>_uid：组合id，由_type和_id组成（6.x _type不再起作用，同id一样）</li>
-<li>_source：文档的原始Json数据，可以从这里获取每个字段的内容</li>
-<li>_all：整合所有字段内容到该字段，默认禁用</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注意：元数据不能删除</p>
-</blockquote>
-<h3 id="index-索引"> Index（索引）</h3>
-<ul>
-<li>索引中存储具有相同结构的文档（Document）
-<ul>
-<li>每个索引都有自己的mapping定义，用于定义字段名和类型</li>
-</ul>
-</li>
-<li>一个集群可以有多个索引，比如：
-<ul>
-<li>nginx日志存储的时候可以按照日期每天生产一个索引来存储
-<ul>
-<li>nginx_log_2019-08-01</li>
-<li>nginx_log_2019-08-02</li>
-<li>nginx_log_2019-08-03</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="mapping"> Mapping</h3>
-<h4 id="作用"> 作用</h4>
-<ul>
-<li>类似数据库中的表结构定义，主要作用如下：
-<ul>
-<li>定义Index下的字段名（Field Name）</li>
-<li>定义字段的类型，比如数值型、字符串型、布尔型等</li>
-<li>定义倒排索引相关的配置，比如是否索引、记录position等</li>
-</ul>
-</li>
-</ul>
-<p><img src="images/mapping01.png" alt=""></p>
-<p><img src="images/mapping02.png" alt=""></p>
-<blockquote>
-<p>Mapping中的字段类型一旦设定后，禁止直接修改，原因如下：</p>
-<p>​	Lucene实现的倒排索引生成后不允许修改</p>
-</blockquote>
-<h4 id="常用参数"> 常用参数</h4>
-<h5 id="dynamic"> Dynamic</h5>
-<ul>
-<li>允许新增字段，通过dynamic参数来控制字段的新增
-<ul>
-<li>true（默认）允许自动新增字段</li>
-<li>false不允许自动新增字段，但是文档可以正常写入，但无法对字段进行查询等操作</li>
-<li>strict文档不能写入，报错</li>
-</ul>
-</li>
-</ul>
-<h5 id="copy-to"> copy_to</h5>
-<ul>
-<li>将该字段的值复制到目标字段，实现类似_all的作用</li>
-<li>不会出现在_source中，只用来搜索</li>
-</ul>
-<h5 id="index"> index</h5>
-<ul>
-<li>控制当前字段是否索引，默认为true，即记录索引，false不记录，即不可搜索</li>
-</ul>
-<h5 id="index-options"> index_options</h5>
-<ul>
-<li>用于控制倒排索引记录的内容，有如下4种配置
-<ul>
-<li>docs：只记录doc id</li>
-<li>freqs：记录doc id和term frequencies</li>
-<li>positions：记录doc id、term frequencies和term position</li>
-<li>offsets：记录doc id、term frequencies、term position和character offsets</li>
-</ul>
-</li>
-<li>text类型默认配置为positions，其他默认为docs</li>
-<li>记录内容越多，占用空间越大</li>
-</ul>
-<h5 id="null-value"> null_value</h5>
-<ul>
-<li>当字段遇到null值时的处理策略，默认为null，即控制，此时es会忽略该值。可以通过设定该值设定字段的默认值</li>
-</ul>
-<h3 id="rest-api"> Rest API</h3>
-<ul>
-<li>
-<p>Elasticsearch集群对外提供Restful API</p>
-<ul>
-<li>REST：REpresentational State Transfer</li>
-<li>URL指定资源，如Index、Document等</li>
-<li>Http Method指明资源操作类型，如GET、POST、PUT、DELETE等</li>
-</ul>
-</li>
-</ul>
-<p><img src="images/rest01.png" alt=""></p>
-<h4 id="创建文档"> 创建文档</h4>
-<p><img src="images/create01.png" alt=""></p>
-<p><img src="images/create02.png" alt=""></p>
-<h4 id="查询文档"> 查询文档</h4>
-<p><img src="images/select01.png" alt=""></p>
-<p><img src="images/select02.png" alt=""></p>
-<h4 id="批量创建"> 批量创建</h4>
-<p><img src="images/create03.png" alt=""></p>
-<h4 id="批量查询"> 批量查询</h4>
-<p><img src="images/select03.png" alt=""></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-06T09:43:34.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Kibana的安装和界面快速浏览</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/quick-browse/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/quick-browse/"/>
@@ -52699,6 +52686,93 @@ bin/kibana remove
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
 <p>可以按照偏移量，和主机名进行排序</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-06T09:43:34.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Elasticsearch的安装和简单配置</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/sample-install/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/sample-install/"/>
+    <updated>2021-04-06T10:21:08.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="elasticsearch的安装和简单配置"> Elasticsearch的安装和简单配置</h1>
+<h2 id="安装"> 安装</h2>
+<h3 id="安装java"> 安装JAVA</h3>
+<ul>
+<li>运维Elasticsearch，需要安装并配置JDK，设置$JAVA_HOME</li>
+<li>各个版本对Java的依赖
+<ul>
+<li>Elasticsearch 5 需要Java8以上的版本</li>
+<li>Elasticsearch 从6.5开始支持Java11</li>
+<li>7.0 开始，内置了Java环境</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装elasticsearch"> 安装Elasticsearch</h3>
+<ul>
+<li>下载二进制文件</li>
+</ul>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/elasticsearch</p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741507169.png" alt=""></p>
+<p>安装并运维Elasticsearch</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741543204.png" alt=""></p>
+<h2 id="配置"> 配置</h2>
+<h3 id="elasticsearch的文件目录结构"> Elasticsearch的文件目录结构</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741696333.png" alt=""></p>
+<h3 id="jvm配置"> JVM配置</h3>
+<ul>
+<li>修改JCM - config/jvm.options
+<ul>
+<li>7.3 下载的默认设置是1GB</li>
+</ul>
+</li>
+<li>配置的建议
+<ul>
+<li>Xmx和Xms设置成一样</li>
+<li>Xmx不要超过机器内存的50%</li>
+<li>不要超过30GB</li>
+</ul>
+</li>
+</ul>
+<h2 id="运行"> 运行</h2>
+<h3 id="运行单个实例"> 运行单个实例</h3>
+<div><pre><code>bin/elasticsearch -E node.name<span>=</span>node0 -E node.name<span>=</span>node0 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node0_data
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="运行多个实例"> 运行多个实例</h3>
+<div><pre><code>bin/elasticsearch -E node.name<span>=</span>node1 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node1_data -d
+bin/elasticsearch -E node.name<span>=</span>node2 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node2_data -d
+bin/elasticsearch -E node.name<span>=</span>node2 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node2_data -d
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
+<li>访问 http://localhost:9200 check cluster health state</li>
+<li>通过 http://localhost:9200_cat/nodes?v 查看节点</li>
+</ul>
+<h3 id="安装与查看插件"> 安装与查看插件</h3>
+<div><pre><code>bin/elasticsearch-plugin <span>install</span> analysis-icu
+bin/elasticsearch-plugin list
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><ul>
+<li>Elasticsearch提供插件的机制对系统进行扩展
+<ul>
+<li>Discovery Plugin</li>
+<li>Analysis Plugin</li>
+<li>Security Plugin</li>
+<li>Management Plugin</li>
+<li>Ingest Plugin</li>
+<li>Mapper Plugin</li>
+<li>Backup Plugin</li>
+</ul>
+</li>
+</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -52962,93 +53036,6 @@ bin/kibana remove
 <li>Red - 有主分片未能分配
 <ul>
 <li>例如，当服务器的磁盘容量超过85%时，去创建了一个新的索引</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-06T09:43:34.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Elasticsearch的安装和简单配置</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/sample-install/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/elk/install/sample-install/"/>
-    <updated>2021-04-06T10:21:08.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="elasticsearch的安装和简单配置"> Elasticsearch的安装和简单配置</h1>
-<h2 id="安装"> 安装</h2>
-<h3 id="安装java"> 安装JAVA</h3>
-<ul>
-<li>运维Elasticsearch，需要安装并配置JDK，设置$JAVA_HOME</li>
-<li>各个版本对Java的依赖
-<ul>
-<li>Elasticsearch 5 需要Java8以上的版本</li>
-<li>Elasticsearch 从6.5开始支持Java11</li>
-<li>7.0 开始，内置了Java环境</li>
-</ul>
-</li>
-</ul>
-<h3 id="安装elasticsearch"> 安装Elasticsearch</h3>
-<ul>
-<li>下载二进制文件</li>
-</ul>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/elasticsearch</p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741507169.png" alt=""></p>
-<p>安装并运维Elasticsearch</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741543204.png" alt=""></p>
-<h2 id="配置"> 配置</h2>
-<h3 id="elasticsearch的文件目录结构"> Elasticsearch的文件目录结构</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741696333.png" alt=""></p>
-<h3 id="jvm配置"> JVM配置</h3>
-<ul>
-<li>修改JCM - config/jvm.options
-<ul>
-<li>7.3 下载的默认设置是1GB</li>
-</ul>
-</li>
-<li>配置的建议
-<ul>
-<li>Xmx和Xms设置成一样</li>
-<li>Xmx不要超过机器内存的50%</li>
-<li>不要超过30GB</li>
-</ul>
-</li>
-</ul>
-<h2 id="运行"> 运行</h2>
-<h3 id="运行单个实例"> 运行单个实例</h3>
-<div><pre><code>bin/elasticsearch -E node.name<span>=</span>node0 -E node.name<span>=</span>node0 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node0_data
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="运行多个实例"> 运行多个实例</h3>
-<div><pre><code>bin/elasticsearch -E node.name<span>=</span>node1 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node1_data -d
-bin/elasticsearch -E node.name<span>=</span>node2 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node2_data -d
-bin/elasticsearch -E node.name<span>=</span>node2 -E cluster.name<span>=</span>geektime -E path.data<span>=</span>node2_data -d
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ul>
-<li>访问 http://localhost:9200 check cluster health state</li>
-<li>通过 http://localhost:9200_cat/nodes?v 查看节点</li>
-</ul>
-<h3 id="安装与查看插件"> 安装与查看插件</h3>
-<div><pre><code>bin/elasticsearch-plugin <span>install</span> analysis-icu
-bin/elasticsearch-plugin list
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><ul>
-<li>Elasticsearch提供插件的机制对系统进行扩展
-<ul>
-<li>Discovery Plugin</li>
-<li>Analysis Plugin</li>
-<li>Security Plugin</li>
-<li>Management Plugin</li>
-<li>Ingest Plugin</li>
-<li>Mapper Plugin</li>
-<li>Backup Plugin</li>
 </ul>
 </li>
 </ul>
@@ -54015,6 +54002,60 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">第十三章 算术扩展</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/13_arithmetic_expansion/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/13_arithmetic_expansion/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十三章-算术扩展"> 第十三章 算术扩展</h1>
+<p>算术扩展为脚本中的（整数）算术操作提供了强有力的工具。你可以使用反引号、双圆括号或者 <code>let</code> 将字符串转换为数学表达式。</p>
+<h3 id="差异比较"> 差异比较</h3>
+<h4 id="使用-反引号-的算术扩展-通常与-expr-一起使用"> 使用 <a href="http://tldp.org/LDP/abs/html/commandsub.html#BACKQUOTESREF" target="_blank" rel="noopener noreferrer">反引号</a> 的算术扩展（通常与 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 一起使用）</h4>
+<div><pre><code><span>z</span><span>=</span><span><span>`</span><span>expr</span> $z + <span>3</span><span>`</span></span>         <span># 'expr' 命令执行了算术扩展。</span>
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="使用-双圆括号-或-let-的算术扩展。"> 使用 <a href="http://tldp.org/LDP/abs/html/dblparens.html" target="_blank" rel="noopener noreferrer">双圆括号</a> 或 <a href="http://tldp.org/LDP/abs/html/internal.html#LETREF" target="_blank" rel="noopener noreferrer"><code>let</code></a> 的算术扩展。</h4>
+<p>事实上，在算术扩展中，反引号已经被双圆括号 <code>((...))</code> 和 <code>$((...))</code> 以及 <a href="http://tldp.org/LDP/abs/html/internal.html#LETREF" target="_blank" rel="noopener noreferrer"><code>let</code></a> 所取代。</p>
+<div><pre><code><span>z</span><span>=</span><span><span>$((</span>$z<span>+</span><span>3</span><span>))</span></span>
+<span>z</span><span>=</span><span><span>$((</span>z<span>+</span><span>3</span><span>))</span></span>                     <span># 同样正确。</span>
+                               <span># 在双圆括号内，参数引用形式可用可不用。</span>
+                                            
+<span># $((EXPRESSION)) 是算术扩展。  # 不要与命令替换混淆。</span>
+
+
+
+<span># 双圆括号不是只能用作赋值算术结果。</span>
+
+  <span>n</span><span>=</span><span>0</span>
+  <span>echo</span> <span>"n = <span>$n</span>"</span>                <span># n = 0</span>
+
+  <span><span>((</span> n <span>+</span><span>=</span> <span>1</span> <span>))</span></span>                 <span># 自增。</span>
+<span># (( $n += 1 )) 是错误用法！</span>
+  <span>echo</span> <span>"n = <span>$n</span>"</span>                <span># n = 1</span>
+
+
+<span>let</span> <span>z</span><span>=</span>z+3
+<span>let</span> <span>"z += 3"</span>  <span># 引号允许在赋值表达式中使用空格。</span>
+              <span># 'let' 事实上执行的算术运算而非算术扩展。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>以下是包含算术扩展的样例：</p>
+<ol>
+<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/loops1.html#EX25" target="_blank" rel="noopener noreferrer">样例 11-15</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/arrays.html#EX66" target="_blank" rel="noopener noreferrer">样例 27-1</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
+</ol>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-04-06T04:13:55.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">6 常见问题</title>
     <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/qa/</id>
     <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/qa/"/>
@@ -54047,527 +54088,6 @@ will not be shown, you would have to be root to see it all.)
     </contributor>
     <published>2021-04-06T08:34:59.000Z</published>
     <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">1 zabbix4.4新功能</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/"/>
-    <updated>2021-04-06T08:46:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_1-zabbix4-4新功能"> 1 zabbix4.4新功能</h1>
-<p>探索Zabbix4.4新功能</p>
-<blockquote>
-<p>https://www.zabbix.com/cn/whats_new_4_4</p>
-</blockquote>
-<ul>
-<li>
-<p>新一代的Zabbix Agent</p>
-<ul>
-<li>Go语言编写</li>
-<li>用于监控各种服务和应用的插件框架</li>
-<li>并发检查时确保状态正常(例如，保持持续的DB连接)</li>
-<li>内置时间调度器（scheduler ），支持灵活的时间间隔</li>
-<li>使用批量数据传输的高效的网络使用</li>
-<li>用即将支持的更多平台嵌入式替换Linux上现有的代理</li>
-</ul>
-</li>
-<li>
-<p>活动和告警功能升级：应用Webhooks和可编程逻辑</p>
-<ul>
-<li>该功能简化了与外部系统的双向集成，允许从Zabbix UI一键访问工单系统中的case，在聊天中创建消息等等。可使用内置的JavaScript引擎定义所有处理逻辑，与外部通知和工单系统集成得到了极大的改进。</li>
-</ul>
-</li>
-<li>
-<p>为Zabbix模板设置标准</p>
-<ul>
-<li>
-<p>我们为模板引入了一组标准和定义明确的 <a href="https://www.zabbix.com/documentation/guidelines/templates" target="_blank" rel="noopener noreferrer">准则</a>。 对于所有模板的创建者和维护者以及所有Zabbix用户来说，统一标准非常重要。</p>
-<p>对XML/JSON文件的结构进行了极大的简化，仅使用文本编辑器即可手动编辑模板。大多数现有的模板都经过了改进以适应新的标准。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>官方支持TimescaleDB</p>
-<ul>
-<li>除了MySQL、PostgreSQL、Oracle和DB2之外，我们现在正式宣布官方支持TimescaleDB。 与传统的关系数据库相比，TimescaleDB有诸多有点：近乎线性的性能水平， 支持自动即时删除旧的历史数据，更容易维护等等。</li>
-</ul>
-</li>
-<li>
-<p>监控项和触发器的知识库</p>
-<ul>
-<li>Zabbix 4.4提供了对监控项和触发器的更直观的描述。这些信息为工程师提供了巨大的帮助， 为他们提供了关于收集监控项的意义和目的、问题细节和触发器的解决指令等所有可能的细节。</li>
-</ul>
-</li>
-<li>
-<p>高级可视化功能</p>
-<ul>
-<li>
-<p>仪表板和相关的小工具在许多方面得到了改进，简化了创建和管理的过程， 增加了只需单击鼠标即可修改小工具参数的功能。现在仪表板网格尺寸极佳可支持超宽屏幕和大屏幕墙。</p>
-<p>问题视图小工具增强支持聚合视图，并引入了一个新的小工具来显示图形原型。</p>
-<p>此外，所有小工具现在都可以在无标题模式下显示。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>条形图和聚合</p>
-<ul>
-<li>Zabbix 4.4提供了条形图，graph widget现在支持使用各种聚合函数进行数据聚合。 这两个特性的结合使得长期数据分析和容量规划变得更加容易。</li>
-</ul>
-</li>
-<li>
-<p>官方支持更多新平台</p>
-<ul>
-<li>SUSE Linux Enterprise Server 15</li>
-<li>Debian 10</li>
-<li>Raspbian 10</li>
-<li>Mac OS/X</li>
-<li>RHEL 8</li>
-<li>用于Windows agent的MSI</li>
-</ul>
-<p>请参阅<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener noreferrer">下载</a> 页面中的所有可用平台</p>
-</li>
-<li>
-<p>云端一键部署</p>
-<p>Zabbix容器或镜像已经上线以下国际主流云平台，国内版本即将依次上线：</p>
-<ul>
-<li>
-<p><a href="https://aws.amazon.com/marketplace/pp/B07YLKJTZQ?qid=1570610512988&amp;sr=0-6&amp;ref_=srh_res_product_title" target="_blank" rel="noopener noreferrer">AWS</a></p>
-</li>
-<li>
-<p><a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zabbix.zabbix_vm1?tab=Overview" target="_blank" rel="noopener noreferrer">Azure</a></p>
-</li>
-<li>
-<p>Google Cloud Platform</p>
-</li>
-<li>
-<p><a href="https://marketplace.digitalocean.com/apps/zabbix" target="_blank" rel="noopener noreferrer">Digital Ocean</a></p>
-</li>
-<li>
-<p><a href="https://www.zabbix.com/cn/whats_new_4_4" target="_blank" rel="noopener noreferrer">Docker</a></p>
-</li>
-</ul>
-</li>
-<li>
-<p>安全的自动注册功能</p>
-<ul>
-<li>Zabbix的新版本支持可选的PSK加密，用于自动注册，并为添加的主机提供自动加密设置。 现在您可以将Zabbix设置为仅使用PSK，未加密或两者都允许自动注册网络设备。</li>
-</ul>
-</li>
-<li>
-<p>预处理功能升级：高级JSONPath</p>
-<ul>
-<li>Zabbix现在支持JSONPath的高级排列，允许对JSON数据进行复杂的预处理，包括聚合和搜索。 预处理还可以用于低等级发现，这使得它成为一个非常强大的自动化发现工具。</li>
-</ul>
-</li>
-<li>
-<p>用户宏的描述</p>
-<ul>
-<li>用户宏命令是一个非常好的功能，它简化了Zabbix的配置，使大量的配置变得轻而易举。 对用户宏命令的描述支持将有助于记录每个宏命令的用途，使宏命令的管理更加容易。</li>
-</ul>
-</li>
-<li>
-<p>更高效高级的数据收集</p>
-<ul>
-<li>通过新的JSON格式的返回对象数组检查，WMI、JMX和ODBC相关项的数据收集和发现得到了改进。 我们还为VMWare监控增加了VMWare数据存储，为Linux平台增加了系统服务，为CSV到JSON的转换增加了新的预处理类型。</li>
-</ul>
-</li>
-</ul>
-<p><strong>Zabbix 4.4的更多新功能一览</strong></p>
-<ul>
-<li>
-<p>来自LLD的XML数据的预处理</p>
-</li>
-<li>
-<p>监控依赖项最大值增加到10K</p>
-</li>
-<li>
-<p>JSONPatch预处理中增加了类型自动转换</p>
-</li>
-<li>
-<p>主机名包含在实时导出文件中</p>
-</li>
-<li>
-<p>Windows agent扩展到支持语言无关的性能计数器</p>
-</li>
-<li>
-<p>在预处理错误时忽略值</p>
-</li>
-<li>
-<p>对最新数据进行了扩展，增加了监控项操作数据</p>
-</li>
-<li>
-<p>去除了编辑触发器描述的功能，访问更加简单</p>
-</li>
-<li>
-<p>取消对内置媒体类型Jabber和Eztexting的支持，转而使用webhook或外部脚本</p>
-</li>
-<li>
-<p>更新了默认仪表板</p>
-</li>
-<li>
-<p>自动注册的主机可以指定“连接到dns”或“连接到IP”选项</p>
-</li>
-<li>
-<p>增加了对{EVENT.ID}宏的支持，用于触发器URL的命令</p>
-</li>
-<li>
-<p>“screen”功能取消</p>
-</li>
-<li>
-<p>最新创建的仪表板小工具类型记忆功能，可用于后续的创建</p>
-</li>
-<li>
-<p>每个小工具都可以配置小工具标题的可见性</p>
-</li>
-</ul>
-<p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明</a>.</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-04-06T08:34:59.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">第十二章 命令替换</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十二章-命令替换"> 第十二章 命令替换</h1>
-<p>命令替换重新指定一个<sup></sup>或多个命令的输出。其实就是将命令的输出导到另外一个地方<sup></sup>。</p>
-<p>命令替换的通常形式是（<code>`...`</code>），即用反引号引用命令。</p>
-<div><pre><code><span>script_name</span><span>=</span><span><span>`</span><span>basename</span> $0<span>`</span></span>
-<span>echo</span> <span>"The name of this script is <span>$scirpt_name</span>."</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>命令的输出可以作为另一个命令的参数，也可以赋值给一个变量。甚至在 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer"><code>for</code></a> 循环中可以用输出产生参数表。</p>
-<div><pre><code><span>rm</span> <span><span>`</span><span>cat</span> filename<span>`</span></span>   <span># "filename" 中包含了一系列需要被删除的文件名。</span>
-<span>#</span>
-<span># S.C. 指出这样写可能会导致出现 "arg list too long" 的错误。</span>
-<span># 更好的写法应该是 xargs rm -- &lt; filename</span>
-<span># （ -- 可以在 "filename" 文件名以 "-" 为开头时仍旧正常执行 ）</span>
-
-<span>textfile_listing</span><span>=</span><span><span>`</span><span>ls</span> *.txt<span>`</span></span>
-<span># 变量中包含了当前工作目录下所有的名为 *.txt 的文件。</span>
-<span>echo</span> <span>$textfile_listing</span>
-
-<span>textfile_listing2</span><span>=</span><span><span>$(</span><span>ls</span> *.txt<span>)</span></span>   <span># 命令替换的另一种形式。</span>
-<span>echo</span> <span>$textfile_listing2</span>
-<span># 结果相同。</span>
-
-<span># 这样将一系列文件名赋值给一个单一字符串可能会出现换行。</span>
-<span>#</span>
-<span># 而更加安全的方式是将这一系列文件存入数组。</span>
-<span>#      shopt -s nullglob    # 设置后，如果没有匹配到文件，那么变量会被赋值为空。</span>
-<span>#      textfile_listing=( *.txt )</span>
-<span>#</span>
-<span># 感谢 S.C.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 命令替换本质上是调用了一个 <a href="http://tldp.org/LDP/abs/html/subshells.html#SUBSHELLSREF" target="_blank" rel="noopener noreferrer">子进程</a> 来执行。</p>
-</blockquote>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 命令替换有可能会出现 <a href="http://tldp.org/LDP/abs/html/quotingvar.html#WSPLITREF" target="_blank" rel="noopener noreferrer">字符分割</a> 的情况。</p>
-</blockquote>
-<blockquote>
-<div><pre><code>COMMAND <span><span>`</span><span>echo</span> a b<span>`</span></span>     <span># 2个参数：a和b</span>
-
-COMMAND <span>"<span><span>`</span><span>echo</span> a b<span>`</span></span>"</span>   <span># 1个参数："a b"</span>
-
-COMMAND <span><span>`</span><span>echo</span><span>`</span></span>         <span># 没有参数</span>
-
-COMMAND <span>"<span><span>`</span><span>echo</span><span>`</span></span>"</span>       <span># 一个空参数</span>
-
-
-<span># 感谢 S.C.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div></blockquote>
-<blockquote>
-<p>但即使不存在字符分割的情况，使用命令替换也会出现丢失尾部换行符的情况。</p>
-</blockquote>
-<blockquote>
-<div><pre><code><span># cd "`pwd`"  # 你是不是认为这条语句在任何情况下都不会出现错误？</span>
-<span># 但事实却不是这样的。</span>
-
-<span>mkdir</span> <span>'dir with trailing newline
-'</span>
-
-<span>cd</span> <span>'dir with trailing newline
-'</span>
-
-<span>cd</span> <span>"<span><span>`</span><span>pwd</span><span>`</span></span>"</span>  <span># Bash 会出现如下错误提示：</span>
-<span># bash: cd: /tmp/file with trailing newline: No such file or directory</span>
-
-<span>cd</span> <span>"<span>$PWD</span>"</span>   <span># 这样写是对的。</span>
-
-
-
-
-
-<span>old_tty_setting</span><span>=</span><span><span>$(</span>stty -g<span>)</span></span>   <span># 保存旧的设置。</span>
-<span>echo</span> <span>"Hit a key "</span>
-stty -icanon -echo           <span># 禁用终端的 canonical 模式。</span>
-                             <span># 同时禁用 echo。</span>
-<span>key</span><span>=</span><span><span>$(</span><span>dd</span> <span>bs</span><span>=</span><span>1</span> <span>count</span><span>=</span><span>1</span> <span><span>2</span>></span> /dev/null<span>)</span></span>   <span># 使用 'dd' 获得键值。</span>
-stty <span>"<span>$old_tty_setting</span>"</span>      <span># 恢复旧的设置。</span>
-<span>echo</span> <span>"You hit <span>${<span>#</span>key}</span> key."</span>  <span># ${#variable} 表示 $variable 中的字符个数。</span>
-<span>#</span>
-<span># 除了按下回车键外，其余情况都会输出 "You hit 1 key."</span>
-<span># 按下回车键会输出 "You hit 0 key."</span>
-<span># 因为唯一的换行符在命令替换中被丢失了。</span>
-
-<span># 这段代码摘自 Stéphane Chazelas。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div></blockquote>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 使用 <code>echo</code> 输出未被引用的命令代换的变量时会删掉尾部的换行。这可能会导致非常不好的情况出现。</p>
-</blockquote>
-<blockquote>
-<div><pre><code><span>dir_listing</span><span>=</span><span><span>`</span><span>ls</span> -l<span>`</span></span>
-<span>echo</span> <span>$dir_listing</span>     <span># 未被引用</span>
-
-<span># 你希望会出现按行显示出文件列表。</span>
-
-<span># 但是，你却看到了：</span>
-<span># total 3 -rw-rw-r-- 1 bozo bozo 30 May 13 17:15 1.txt -rw-rw-r-- 1 bozo</span>
-<span># bozo 51 May 15 20:57 t2.sh -rwxr-xr-x 1 bozo bozo 217 Mar 5 21:13 wi.sh</span>
-
-<span># 所有换行都消失了。</span>
-
-
-<span>echo</span> <span>"<span>$dir_listing</span>"</span>   <span># 被引用</span>
-<span># -rw-rw-r--    1 bozo       30 May 13 17:15 1.txt</span>
-<span># -rw-rw-r--    1 bozo       51 May 15 20:57 t2.sh</span>
-<span># -rwxr-xr-x    1 bozo      217 Mar  5 21:13 wi.sh</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div></blockquote>
-<p>你甚至可以使用 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">重定向</a> 或者 <a href="http://tldp.org/LDP/abs/html/basic.html#CATREF" target="_blank" rel="noopener noreferrer"><code>cat</code></a> 命令把一个文件的内容通过命令代换赋值给一个变量。</p>
-<div><pre><code><span>variable1</span><span>=</span><span><span>`</span><span>&lt;</span>file1<span>`</span></span>      <span># 将 "file1" 的内容赋值给 variable1。</span>
-<span>variable2</span><span>=</span><span><span>`</span><span>cat</span> file2<span>`</span></span>   <span># 将 "file2" 的内容赋值给 variable2。</span>
-                        <span># 使用 cat 命令会开一个新进程，因此执行速度会比重定向慢。</span>
-
-<span># 需要注意的是，这些变量中可能包含一些空格或者控制字符。</span>
-
-<span># 无需显示的赋值给一个变量。</span>
-<span>echo</span> <span>"<span><span>`</span> <span>&lt;</span>$0<span>`</span></span>"</span>           <span># 输出脚本自身。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span>#  摘录自系统文件 /etc/rc.d/rc.sysinit</span>
-<span>#+ （Red Hat Linux 发行版）</span>
-
-
-<span>if</span> <span>[</span> -f /fsckoptions <span>]</span><span>;</span> <span>then</span>
-        <span>fsckoptions</span><span>=</span><span><span>`</span><span>cat</span> /fsckoptions<span>`</span></span>
-<span>..</span>.
-<span>fi</span>
-<span>#</span>
-<span>#</span>
-<span>if</span> <span>[</span> -e <span>"/proc/ide/<span>${disk<span>[</span>$device<span>]</span>}</span>/media"</span> <span>]</span> <span>;</span> <span>then</span>
-             <span>hdmedia</span><span>=</span><span><span>`</span><span>cat</span> /proc/ide/$<span>{</span>disk<span>[</span>$device<span>]</span><span>}</span>/media<span>`</span></span>
-<span>..</span>.
-<span>fi</span>
-<span>#</span>
-<span>#</span>
-<span>if</span> <span>[</span> <span>!</span> -n <span>"<span><span>`</span><span>uname</span> -r <span>|</span> <span>grep</span> -- <span>"-"</span><span>`</span></span>"</span> <span>]</span><span>;</span> <span>then</span>
-       <span>ktag</span><span>=</span><span>"<span><span>`</span><span>cat</span> /proc/version<span>`</span></span>"</span>
-<span>..</span>.
-<span>fi</span>
-<span>#</span>
-<span>#</span>
-<span>if</span> <span>[</span> <span>$usb</span> <span>=</span> <span>"1"</span> <span>]</span><span>;</span> <span>then</span>
-    <span>sleep</span> <span>5</span>
-    <span>mouseoutput</span><span>=</span><span><span>`</span><span>cat</span> /proc/bus/usb/devices <span><span>2</span>></span>/dev/null<span>|</span><span>grep</span> -E <span>"^I.*Cls=03.*Prot=02"</span><span>`</span></span>
-    <span>kbdoutput</span><span>=</span><span><span>`</span><span>cat</span> /proc/bus/usb/devices <span><span>2</span>></span>/dev/null<span>|</span><span>grep</span> -E <span>"^I.*Cls=03.*Prot=01"</span><span>`</span></span>
-<span>..</span>.
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 尽量不要将一大段文字赋值给一个变量，除非你有足够的理由。也绝不要将一个二进制文件的内容赋值给一个变量。</p>
-</blockquote>
-<blockquote>
-<p>样例 12-1. 蠢蠢的脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># stupid-script-tricks.sh: 不要在自己的电脑上尝试。</span>
-<span># 摘自 "Stupid Script Tricks" 卷一。</span>
-
-<span>exit</span> <span>99</span>  <span>### 如果你有胆，就注释掉这行。:)</span>
-
-<span>dangerous_variable</span><span>=</span><span><span>`</span><span>cat</span> /boot/vmlinuz<span>`</span></span>   <span># 压缩的 Linux 内核。</span>
-
-<span>echo</span> <span>"string-length of \<span>$dangerous_variable</span> = <span>${<span>#</span>dangerous_variable}</span>"</span>
-<span># $dangerous_variable 的长度为 794151</span>
-<span># （更新版本的内核可能更大。）</span>
-<span># 与 'wc -c /boot/vmlinuz' 的结果不同。</span>
-
-<span># echo "$dangerous_variable"</span>
-<span># 不要作死。否则脚本会挂起。</span>
-
-
-
-<span># 将二进制文件的内容赋值给一个变量没有任何意义。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div></blockquote>
-<blockquote>
-<p>尽管脚本会挂起，但并不会出现缓存溢出的情况。而这正是像 Bash 这样的解释型语言相比起编译型语言能够提供更多保护的一个例子。</p>
-</blockquote>
-<p>命令替换允许将 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer">循环</a> 的输出结果赋值给一个变量。这其中的关键在于循环内部的 <a href="http://tldp.org/LDP/abs/html/internal.html#ECHOREF" target="_blank" rel="noopener noreferrer"><code>echo</code></a> 命令。</p>
-<p>样例 12-2. 将循环的输出结果赋值给变量</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># csubloop.sh: 将循环的输出结果赋值给变量。</span>
-
-<span>variable1</span><span>=</span><span><span>`</span><span>for</span> <span>i</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>do</span>
-  <span>echo</span> -n <span>"<span>$i</span>"</span>                 <span>#  在这里，'echo' 命令非常关键。</span>
-<span>done</span><span>`</span></span>
-
-<span>echo</span> <span>"variable1 = <span>$variable1</span>"</span>  <span># variable1 = 12345</span>
-
-
-<span>i</span><span>=</span><span>0</span>
-<span>variable2</span><span>=</span><span><span>`</span><span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>10</span> <span>]</span>
-<span>do</span>
-  <span>echo</span> -n <span>"<span>$i</span>"</span>                 <span># 很关键的 'echo'。</span>
-  <span>let</span> <span>"i += 1"</span>                 <span># i 自增。</span>
-<span>done</span><span>`</span></span>
-
-<span>echo</span> <span>"variable2 = <span>$variable2</span>"</span>  <span># variable2 = 0123456789</span>
-
-<span># 这个例子表明可以在变量声明时嵌入循环。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><blockquote>
-<p>命令替换能够让 Bash 做更多的事情。而这仅仅需要在书写程序或者脚本时将结果输出到标准输出 <code>stdout</code> 中，然后将这些输出结果赋值给变量即可。</p>
-<div><pre><code><span><span>#</span><span>include</span> <span>&lt;stdio.h></span></span>
-
-<span>/*  "Hello, world." C program  */</span>
-
-<span>int</span> <span>main</span><span>(</span><span>)</span>
-<span>{</span>
-  <span>printf</span><span>(</span> <span>"Hello, world.\n"</span> <span>)</span><span>;</span>
-  <span>return</span> <span>(</span><span>0</span><span>)</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><div><pre><code>bash$ gcc -0 hello hello.c
-</code></pre>
-<div><span>1</span><br></div></div><div><pre><code><span>#!/bin/bash</span>
-<span># hello.sh</span>
-
-<span>greeting</span><span>=</span><span><span>`</span>./hello<span>`</span></span>
-<span>echo</span> <span>$greeting</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code>bash$ sh hello.sh
-Hello, world.
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div></blockquote>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 在命令替换中，你可以使用 <code>$(...)</code> 来替代反引号。</p>
-<div><pre><code><span>output</span><span>=</span><span><span>$(</span><span>sed</span> -n /<span>"<span>$1</span>"</span>/p $file<span>)</span></span>   <span># 摘自 "grp.sh"。</span>
-
-<span># 将文本文件的内容赋值给一个变量。</span>
-<span>File_contents1</span><span>=</span><span><span>$(</span><span>cat</span> $file1<span>)</span></span>
-<span>File_contents2</span><span>=</span><span><span>$(</span><span>&lt;</span>$file2<span>)</span></span>        <span># 这么做也是可以的。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><code>$(...)</code> 和反引号在处理双反斜杠上有所不同。</p>
-<div><pre><code>bash$ echo `echo \\`
-
-
-bash$ echo $(echo \\)
-\
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><code>$(...)</code> 允许嵌套。<sup></sup></p>
-<div><pre><code><span>word_count</span><span>=</span><span><span>$(</span> <span>wc</span> -w <span>$(</span>echo * <span>|</span> <span>awk</span> <span>'{print <span>$8</span>}'</span><span>)</span> <span>)</span></span>
-</code></pre>
-<div><span>1</span><br></div></div><p>样例 12-3. 寻找变位词（anagram）</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># agram2.sh</span>
-<span># 嵌套命令替换的例子。</span>
-
-<span># 其中使用了作者写的工具包 "yawl" 中的 "anagram" 工具。</span>
-<span># http://ibiblio.org/pub/Linux/libs/yawl-0.3.2.tar.gz</span>
-<span># http://bash.deta.in/yawl-0.3.2.tar.gz</span>
-
-<span>E_NOARGS</span><span>=</span><span>86</span>
-<span>E_BADARG</span><span>=</span><span>87</span>
-<span>MINLEN</span><span>=</span><span>7</span>
-
-<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"Usage <span>$0</span> LETTERSET"</span>
-  <span>exit</span> <span>$E_NOARGS</span>         <span># 脚本需要命令行参数。</span>
-<span>elif</span> <span>[</span> <span>${<span>#</span>1}</span> -lt <span>$MINLEN</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"Argument must have at least <span>$MINLEN</span> letters."</span>
-  <span>exit</span> <span>$E_BADARG</span>
-<span>fi</span>
-
-
-
-<span>FILTER</span><span>=</span><span>'.......'</span>         <span># 至少需要7个字符。</span>
-<span>#       1234567</span>
-<span>Anagrams</span><span>=</span><span>(</span> <span><span>$(</span><span>echo</span> <span>$(</span>anagram $1 <span>|</span> <span>grep</span> $FILTER<span>)</span> <span>)</span></span> <span>)</span>
-<span>#          $(     $(        嵌套命令集        ) )</span>
-<span>#        (              赋值给数组                )</span>
-
-<span>echo</span>
-<span>echo</span> <span>"<span>${<span>#</span>Anagrams<span>[</span>*<span>]</span>}</span>  7+ letter anagrams found"</span>
-<span>echo</span>
-<span>echo</span> <span>${Anagrams<span>[</span>0<span>]</span>}</span>      <span># 第一个变位词。</span>
-<span>echo</span> <span>${Anagrams<span>[</span>1<span>]</span>}</span>      <span># 第二个变位词。</span>
-                         <span># 以此类推。</span>
-
-<span># echo "${Anagrams[*]}"  # 将所有变位词在一行里面输出。</span>
-
-<span># 可以配合后面的数组章节来理解上面的代码。</span>
-
-<span># 建议同时查看另一个寻找变位词的脚本 agram.sh。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div></blockquote>
-<p>以下是包含命令替换的样例：</p>
-<ol>
-<li><a href="http://tldp.org/LDP/abs/html/loops1.html#BINGREP" target="_blank" rel="noopener noreferrer">样例 11-8</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/testbranch.html#CASECMD" target="_blank" rel="noopener noreferrer">样例 11-27</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/randomvar.html#SEEDINGRANDOM" target="_blank" rel="noopener noreferrer">样例 9-16</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX57" target="_blank" rel="noopener noreferrer">样例 16-3</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/textproc.html#LOWERCASE" target="_blank" rel="noopener noreferrer">样例 16-22</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/textproc.html#GRP" target="_blank" rel="noopener noreferrer">样例 16-17</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/extmisc.html#EX53" target="_blank" rel="noopener noreferrer">样例 16-54</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/loops1.html#EX24" target="_blank" rel="noopener noreferrer">样例 11-14</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/loops1.html#SYMLINKS" target="_blank" rel="noopener noreferrer">样例 11-11</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/filearchiv.html#STRIPC" target="_blank" rel="noopener noreferrer">样例 16-32</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/redircb.html#REDIR4" target="_blank" rel="noopener noreferrer">样例 20-8</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/procref1.html#PIDID" target="_blank" rel="noopener noreferrer">样例 29-3</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/mathc.html#MONTHLYPMT" target="_blank" rel="noopener noreferrer">样例 16-47</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/mathc.html#BASE" target="_blank" rel="noopener noreferrer">样例 16-48</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/mathc.html#ALTBC" target="_blank" rel="noopener noreferrer">样例 16-49</a></li>
-</ol>
-<hr>
-<section>
-<ol>
-<li id="fn1"><p>在命令替换中可以使用外部系统命令，<a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a> 甚至是 <a href="http://tldp.org/LDP/abs/html/assortedtips.html#RVT" target="_blank" rel="noopener noreferrer">脚本函数</a>。 </p>
-</li>
-<li id="fn2"><p>从技术的角度来讲，命令替换实际上是获得了命令输出到标准输出的结果，然后通过赋值号将结果赋值给一个变量。 </p>
-</li>
-<li id="fn3"><p>事实上，使用反引号进行嵌套也是可行的。但是 John Default 提醒到需要将内部的反引号进行转义。<pre>word_count=` wc -w \`echo * | awk '{print $8}'\` `</pre> </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-04-06T04:13:55.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">8 activemq监控</title>
@@ -62873,23 +62393,515 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-04-06T04:13:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+    <title type="html">1 zabbix4.4新功能</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/monitor/zabbix/"/>
+    <updated>2021-04-06T08:46:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_1-zabbix4-4新功能"> 1 zabbix4.4新功能</h1>
+<p>探索Zabbix4.4新功能</p>
 <blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
+<p>https://www.zabbix.com/cn/whats_new_4_4</p>
 </blockquote>
-<h3 id="本章目录"> 本章目录</h3>
 <ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+<li>
+<p>新一代的Zabbix Agent</p>
+<ul>
+<li>Go语言编写</li>
+<li>用于监控各种服务和应用的插件框架</li>
+<li>并发检查时确保状态正常(例如，保持持续的DB连接)</li>
+<li>内置时间调度器（scheduler ），支持灵活的时间间隔</li>
+<li>使用批量数据传输的高效的网络使用</li>
+<li>用即将支持的更多平台嵌入式替换Linux上现有的代理</li>
 </ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+</li>
+<li>
+<p>活动和告警功能升级：应用Webhooks和可编程逻辑</p>
+<ul>
+<li>该功能简化了与外部系统的双向集成，允许从Zabbix UI一键访问工单系统中的case，在聊天中创建消息等等。可使用内置的JavaScript引擎定义所有处理逻辑，与外部通知和工单系统集成得到了极大的改进。</li>
+</ul>
+</li>
+<li>
+<p>为Zabbix模板设置标准</p>
+<ul>
+<li>
+<p>我们为模板引入了一组标准和定义明确的 <a href="https://www.zabbix.com/documentation/guidelines/templates" target="_blank" rel="noopener noreferrer">准则</a>。 对于所有模板的创建者和维护者以及所有Zabbix用户来说，统一标准非常重要。</p>
+<p>对XML/JSON文件的结构进行了极大的简化，仅使用文本编辑器即可手动编辑模板。大多数现有的模板都经过了改进以适应新的标准。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>官方支持TimescaleDB</p>
+<ul>
+<li>除了MySQL、PostgreSQL、Oracle和DB2之外，我们现在正式宣布官方支持TimescaleDB。 与传统的关系数据库相比，TimescaleDB有诸多有点：近乎线性的性能水平， 支持自动即时删除旧的历史数据，更容易维护等等。</li>
+</ul>
+</li>
+<li>
+<p>监控项和触发器的知识库</p>
+<ul>
+<li>Zabbix 4.4提供了对监控项和触发器的更直观的描述。这些信息为工程师提供了巨大的帮助， 为他们提供了关于收集监控项的意义和目的、问题细节和触发器的解决指令等所有可能的细节。</li>
+</ul>
+</li>
+<li>
+<p>高级可视化功能</p>
+<ul>
+<li>
+<p>仪表板和相关的小工具在许多方面得到了改进，简化了创建和管理的过程， 增加了只需单击鼠标即可修改小工具参数的功能。现在仪表板网格尺寸极佳可支持超宽屏幕和大屏幕墙。</p>
+<p>问题视图小工具增强支持聚合视图，并引入了一个新的小工具来显示图形原型。</p>
+<p>此外，所有小工具现在都可以在无标题模式下显示。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>条形图和聚合</p>
+<ul>
+<li>Zabbix 4.4提供了条形图，graph widget现在支持使用各种聚合函数进行数据聚合。 这两个特性的结合使得长期数据分析和容量规划变得更加容易。</li>
+</ul>
+</li>
+<li>
+<p>官方支持更多新平台</p>
+<ul>
+<li>SUSE Linux Enterprise Server 15</li>
+<li>Debian 10</li>
+<li>Raspbian 10</li>
+<li>Mac OS/X</li>
+<li>RHEL 8</li>
+<li>用于Windows agent的MSI</li>
+</ul>
+<p>请参阅<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener noreferrer">下载</a> 页面中的所有可用平台</p>
+</li>
+<li>
+<p>云端一键部署</p>
+<p>Zabbix容器或镜像已经上线以下国际主流云平台，国内版本即将依次上线：</p>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/marketplace/pp/B07YLKJTZQ?qid=1570610512988&amp;sr=0-6&amp;ref_=srh_res_product_title" target="_blank" rel="noopener noreferrer">AWS</a></p>
+</li>
+<li>
+<p><a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zabbix.zabbix_vm1?tab=Overview" target="_blank" rel="noopener noreferrer">Azure</a></p>
+</li>
+<li>
+<p>Google Cloud Platform</p>
+</li>
+<li>
+<p><a href="https://marketplace.digitalocean.com/apps/zabbix" target="_blank" rel="noopener noreferrer">Digital Ocean</a></p>
+</li>
+<li>
+<p><a href="https://www.zabbix.com/cn/whats_new_4_4" target="_blank" rel="noopener noreferrer">Docker</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>安全的自动注册功能</p>
+<ul>
+<li>Zabbix的新版本支持可选的PSK加密，用于自动注册，并为添加的主机提供自动加密设置。 现在您可以将Zabbix设置为仅使用PSK，未加密或两者都允许自动注册网络设备。</li>
+</ul>
+</li>
+<li>
+<p>预处理功能升级：高级JSONPath</p>
+<ul>
+<li>Zabbix现在支持JSONPath的高级排列，允许对JSON数据进行复杂的预处理，包括聚合和搜索。 预处理还可以用于低等级发现，这使得它成为一个非常强大的自动化发现工具。</li>
+</ul>
+</li>
+<li>
+<p>用户宏的描述</p>
+<ul>
+<li>用户宏命令是一个非常好的功能，它简化了Zabbix的配置，使大量的配置变得轻而易举。 对用户宏命令的描述支持将有助于记录每个宏命令的用途，使宏命令的管理更加容易。</li>
+</ul>
+</li>
+<li>
+<p>更高效高级的数据收集</p>
+<ul>
+<li>通过新的JSON格式的返回对象数组检查，WMI、JMX和ODBC相关项的数据收集和发现得到了改进。 我们还为VMWare监控增加了VMWare数据存储，为Linux平台增加了系统服务，为CSV到JSON的转换增加了新的预处理类型。</li>
+</ul>
+</li>
+</ul>
+<p><strong>Zabbix 4.4的更多新功能一览</strong></p>
+<ul>
+<li>
+<p>来自LLD的XML数据的预处理</p>
+</li>
+<li>
+<p>监控依赖项最大值增加到10K</p>
+</li>
+<li>
+<p>JSONPatch预处理中增加了类型自动转换</p>
+</li>
+<li>
+<p>主机名包含在实时导出文件中</p>
+</li>
+<li>
+<p>Windows agent扩展到支持语言无关的性能计数器</p>
+</li>
+<li>
+<p>在预处理错误时忽略值</p>
+</li>
+<li>
+<p>对最新数据进行了扩展，增加了监控项操作数据</p>
+</li>
+<li>
+<p>去除了编辑触发器描述的功能，访问更加简单</p>
+</li>
+<li>
+<p>取消对内置媒体类型Jabber和Eztexting的支持，转而使用webhook或外部脚本</p>
+</li>
+<li>
+<p>更新了默认仪表板</p>
+</li>
+<li>
+<p>自动注册的主机可以指定“连接到dns”或“连接到IP”选项</p>
+</li>
+<li>
+<p>增加了对{EVENT.ID}宏的支持，用于触发器URL的命令</p>
+</li>
+<li>
+<p>“screen”功能取消</p>
+</li>
+<li>
+<p>最新创建的仪表板小工具类型记忆功能，可用于后续的创建</p>
+</li>
+<li>
+<p>每个小工具都可以配置小工具标题的可见性</p>
+</li>
+</ul>
+<p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明</a>.</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-04-06T08:34:59.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">第十二章 命令替换</title>
+    <id>https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/</id>
+    <link href="https://vuepress-theme-hope-demo.mrhope.site/code/shell/part3/12_command_substitution/"/>
+    <updated>2021-04-06T04:13:55.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十二章-命令替换"> 第十二章 命令替换</h1>
+<p>命令替换重新指定一个<sup></sup>或多个命令的输出。其实就是将命令的输出导到另外一个地方<sup></sup>。</p>
+<p>命令替换的通常形式是（<code>`...`</code>），即用反引号引用命令。</p>
+<div><pre><code><span>script_name</span><span>=</span><span><span>`</span><span>basename</span> $0<span>`</span></span>
+<span>echo</span> <span>"The name of this script is <span>$scirpt_name</span>."</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>命令的输出可以作为另一个命令的参数，也可以赋值给一个变量。甚至在 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer"><code>for</code></a> 循环中可以用输出产生参数表。</p>
+<div><pre><code><span>rm</span> <span><span>`</span><span>cat</span> filename<span>`</span></span>   <span># "filename" 中包含了一系列需要被删除的文件名。</span>
+<span>#</span>
+<span># S.C. 指出这样写可能会导致出现 "arg list too long" 的错误。</span>
+<span># 更好的写法应该是 xargs rm -- &lt; filename</span>
+<span># （ -- 可以在 "filename" 文件名以 "-" 为开头时仍旧正常执行 ）</span>
+
+<span>textfile_listing</span><span>=</span><span><span>`</span><span>ls</span> *.txt<span>`</span></span>
+<span># 变量中包含了当前工作目录下所有的名为 *.txt 的文件。</span>
+<span>echo</span> <span>$textfile_listing</span>
+
+<span>textfile_listing2</span><span>=</span><span><span>$(</span><span>ls</span> *.txt<span>)</span></span>   <span># 命令替换的另一种形式。</span>
+<span>echo</span> <span>$textfile_listing2</span>
+<span># 结果相同。</span>
+
+<span># 这样将一系列文件名赋值给一个单一字符串可能会出现换行。</span>
+<span>#</span>
+<span># 而更加安全的方式是将这一系列文件存入数组。</span>
+<span>#      shopt -s nullglob    # 设置后，如果没有匹配到文件，那么变量会被赋值为空。</span>
+<span>#      textfile_listing=( *.txt )</span>
+<span>#</span>
+<span># 感谢 S.C.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 命令替换本质上是调用了一个 <a href="http://tldp.org/LDP/abs/html/subshells.html#SUBSHELLSREF" target="_blank" rel="noopener noreferrer">子进程</a> 来执行。</p>
+</blockquote>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 命令替换有可能会出现 <a href="http://tldp.org/LDP/abs/html/quotingvar.html#WSPLITREF" target="_blank" rel="noopener noreferrer">字符分割</a> 的情况。</p>
+</blockquote>
+<blockquote>
+<div><pre><code>COMMAND <span><span>`</span><span>echo</span> a b<span>`</span></span>     <span># 2个参数：a和b</span>
+
+COMMAND <span>"<span><span>`</span><span>echo</span> a b<span>`</span></span>"</span>   <span># 1个参数："a b"</span>
+
+COMMAND <span><span>`</span><span>echo</span><span>`</span></span>         <span># 没有参数</span>
+
+COMMAND <span>"<span><span>`</span><span>echo</span><span>`</span></span>"</span>       <span># 一个空参数</span>
+
+
+<span># 感谢 S.C.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div></blockquote>
+<blockquote>
+<p>但即使不存在字符分割的情况，使用命令替换也会出现丢失尾部换行符的情况。</p>
+</blockquote>
+<blockquote>
+<div><pre><code><span># cd "`pwd`"  # 你是不是认为这条语句在任何情况下都不会出现错误？</span>
+<span># 但事实却不是这样的。</span>
+
+<span>mkdir</span> <span>'dir with trailing newline
+'</span>
+
+<span>cd</span> <span>'dir with trailing newline
+'</span>
+
+<span>cd</span> <span>"<span><span>`</span><span>pwd</span><span>`</span></span>"</span>  <span># Bash 会出现如下错误提示：</span>
+<span># bash: cd: /tmp/file with trailing newline: No such file or directory</span>
+
+<span>cd</span> <span>"<span>$PWD</span>"</span>   <span># 这样写是对的。</span>
+
+
+
+
+
+<span>old_tty_setting</span><span>=</span><span><span>$(</span>stty -g<span>)</span></span>   <span># 保存旧的设置。</span>
+<span>echo</span> <span>"Hit a key "</span>
+stty -icanon -echo           <span># 禁用终端的 canonical 模式。</span>
+                             <span># 同时禁用 echo。</span>
+<span>key</span><span>=</span><span><span>$(</span><span>dd</span> <span>bs</span><span>=</span><span>1</span> <span>count</span><span>=</span><span>1</span> <span><span>2</span>></span> /dev/null<span>)</span></span>   <span># 使用 'dd' 获得键值。</span>
+stty <span>"<span>$old_tty_setting</span>"</span>      <span># 恢复旧的设置。</span>
+<span>echo</span> <span>"You hit <span>${<span>#</span>key}</span> key."</span>  <span># ${#variable} 表示 $variable 中的字符个数。</span>
+<span>#</span>
+<span># 除了按下回车键外，其余情况都会输出 "You hit 1 key."</span>
+<span># 按下回车键会输出 "You hit 0 key."</span>
+<span># 因为唯一的换行符在命令替换中被丢失了。</span>
+
+<span># 这段代码摘自 Stéphane Chazelas。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div></blockquote>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 使用 <code>echo</code> 输出未被引用的命令代换的变量时会删掉尾部的换行。这可能会导致非常不好的情况出现。</p>
+</blockquote>
+<blockquote>
+<div><pre><code><span>dir_listing</span><span>=</span><span><span>`</span><span>ls</span> -l<span>`</span></span>
+<span>echo</span> <span>$dir_listing</span>     <span># 未被引用</span>
+
+<span># 你希望会出现按行显示出文件列表。</span>
+
+<span># 但是，你却看到了：</span>
+<span># total 3 -rw-rw-r-- 1 bozo bozo 30 May 13 17:15 1.txt -rw-rw-r-- 1 bozo</span>
+<span># bozo 51 May 15 20:57 t2.sh -rwxr-xr-x 1 bozo bozo 217 Mar 5 21:13 wi.sh</span>
+
+<span># 所有换行都消失了。</span>
+
+
+<span>echo</span> <span>"<span>$dir_listing</span>"</span>   <span># 被引用</span>
+<span># -rw-rw-r--    1 bozo       30 May 13 17:15 1.txt</span>
+<span># -rw-rw-r--    1 bozo       51 May 15 20:57 t2.sh</span>
+<span># -rwxr-xr-x    1 bozo      217 Mar  5 21:13 wi.sh</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div></blockquote>
+<p>你甚至可以使用 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">重定向</a> 或者 <a href="http://tldp.org/LDP/abs/html/basic.html#CATREF" target="_blank" rel="noopener noreferrer"><code>cat</code></a> 命令把一个文件的内容通过命令代换赋值给一个变量。</p>
+<div><pre><code><span>variable1</span><span>=</span><span><span>`</span><span>&lt;</span>file1<span>`</span></span>      <span># 将 "file1" 的内容赋值给 variable1。</span>
+<span>variable2</span><span>=</span><span><span>`</span><span>cat</span> file2<span>`</span></span>   <span># 将 "file2" 的内容赋值给 variable2。</span>
+                        <span># 使用 cat 命令会开一个新进程，因此执行速度会比重定向慢。</span>
+
+<span># 需要注意的是，这些变量中可能包含一些空格或者控制字符。</span>
+
+<span># 无需显示的赋值给一个变量。</span>
+<span>echo</span> <span>"<span><span>`</span> <span>&lt;</span>$0<span>`</span></span>"</span>           <span># 输出脚本自身。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><div><pre><code><span>#  摘录自系统文件 /etc/rc.d/rc.sysinit</span>
+<span>#+ （Red Hat Linux 发行版）</span>
+
+
+<span>if</span> <span>[</span> -f /fsckoptions <span>]</span><span>;</span> <span>then</span>
+        <span>fsckoptions</span><span>=</span><span><span>`</span><span>cat</span> /fsckoptions<span>`</span></span>
+<span>..</span>.
+<span>fi</span>
+<span>#</span>
+<span>#</span>
+<span>if</span> <span>[</span> -e <span>"/proc/ide/<span>${disk<span>[</span>$device<span>]</span>}</span>/media"</span> <span>]</span> <span>;</span> <span>then</span>
+             <span>hdmedia</span><span>=</span><span><span>`</span><span>cat</span> /proc/ide/$<span>{</span>disk<span>[</span>$device<span>]</span><span>}</span>/media<span>`</span></span>
+<span>..</span>.
+<span>fi</span>
+<span>#</span>
+<span>#</span>
+<span>if</span> <span>[</span> <span>!</span> -n <span>"<span><span>`</span><span>uname</span> -r <span>|</span> <span>grep</span> -- <span>"-"</span><span>`</span></span>"</span> <span>]</span><span>;</span> <span>then</span>
+       <span>ktag</span><span>=</span><span>"<span><span>`</span><span>cat</span> /proc/version<span>`</span></span>"</span>
+<span>..</span>.
+<span>fi</span>
+<span>#</span>
+<span>#</span>
+<span>if</span> <span>[</span> <span>$usb</span> <span>=</span> <span>"1"</span> <span>]</span><span>;</span> <span>then</span>
+    <span>sleep</span> <span>5</span>
+    <span>mouseoutput</span><span>=</span><span><span>`</span><span>cat</span> /proc/bus/usb/devices <span><span>2</span>></span>/dev/null<span>|</span><span>grep</span> -E <span>"^I.*Cls=03.*Prot=02"</span><span>`</span></span>
+    <span>kbdoutput</span><span>=</span><span><span>`</span><span>cat</span> /proc/bus/usb/devices <span><span>2</span>></span>/dev/null<span>|</span><span>grep</span> -E <span>"^I.*Cls=03.*Prot=01"</span><span>`</span></span>
+<span>..</span>.
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 尽量不要将一大段文字赋值给一个变量，除非你有足够的理由。也绝不要将一个二进制文件的内容赋值给一个变量。</p>
+</blockquote>
+<blockquote>
+<p>样例 12-1. 蠢蠢的脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># stupid-script-tricks.sh: 不要在自己的电脑上尝试。</span>
+<span># 摘自 "Stupid Script Tricks" 卷一。</span>
+
+<span>exit</span> <span>99</span>  <span>### 如果你有胆，就注释掉这行。:)</span>
+
+<span>dangerous_variable</span><span>=</span><span><span>`</span><span>cat</span> /boot/vmlinuz<span>`</span></span>   <span># 压缩的 Linux 内核。</span>
+
+<span>echo</span> <span>"string-length of \<span>$dangerous_variable</span> = <span>${<span>#</span>dangerous_variable}</span>"</span>
+<span># $dangerous_variable 的长度为 794151</span>
+<span># （更新版本的内核可能更大。）</span>
+<span># 与 'wc -c /boot/vmlinuz' 的结果不同。</span>
+
+<span># echo "$dangerous_variable"</span>
+<span># 不要作死。否则脚本会挂起。</span>
+
+
+
+<span># 将二进制文件的内容赋值给一个变量没有任何意义。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div></blockquote>
+<blockquote>
+<p>尽管脚本会挂起，但并不会出现缓存溢出的情况。而这正是像 Bash 这样的解释型语言相比起编译型语言能够提供更多保护的一个例子。</p>
+</blockquote>
+<p>命令替换允许将 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer">循环</a> 的输出结果赋值给一个变量。这其中的关键在于循环内部的 <a href="http://tldp.org/LDP/abs/html/internal.html#ECHOREF" target="_blank" rel="noopener noreferrer"><code>echo</code></a> 命令。</p>
+<p>样例 12-2. 将循环的输出结果赋值给变量</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># csubloop.sh: 将循环的输出结果赋值给变量。</span>
+
+<span>variable1</span><span>=</span><span><span>`</span><span>for</span> <span>i</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>do</span>
+  <span>echo</span> -n <span>"<span>$i</span>"</span>                 <span>#  在这里，'echo' 命令非常关键。</span>
+<span>done</span><span>`</span></span>
+
+<span>echo</span> <span>"variable1 = <span>$variable1</span>"</span>  <span># variable1 = 12345</span>
+
+
+<span>i</span><span>=</span><span>0</span>
+<span>variable2</span><span>=</span><span><span>`</span><span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>10</span> <span>]</span>
+<span>do</span>
+  <span>echo</span> -n <span>"<span>$i</span>"</span>                 <span># 很关键的 'echo'。</span>
+  <span>let</span> <span>"i += 1"</span>                 <span># i 自增。</span>
+<span>done</span><span>`</span></span>
+
+<span>echo</span> <span>"variable2 = <span>$variable2</span>"</span>  <span># variable2 = 0123456789</span>
+
+<span># 这个例子表明可以在变量声明时嵌入循环。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><blockquote>
+<p>命令替换能够让 Bash 做更多的事情。而这仅仅需要在书写程序或者脚本时将结果输出到标准输出 <code>stdout</code> 中，然后将这些输出结果赋值给变量即可。</p>
+<div><pre><code><span><span>#</span><span>include</span> <span>&lt;stdio.h></span></span>
+
+<span>/*  "Hello, world." C program  */</span>
+
+<span>int</span> <span>main</span><span>(</span><span>)</span>
+<span>{</span>
+  <span>printf</span><span>(</span> <span>"Hello, world.\n"</span> <span>)</span><span>;</span>
+  <span>return</span> <span>(</span><span>0</span><span>)</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><div><pre><code>bash$ gcc -0 hello hello.c
+</code></pre>
+<div><span>1</span><br></div></div><div><pre><code><span>#!/bin/bash</span>
+<span># hello.sh</span>
+
+<span>greeting</span><span>=</span><span><span>`</span>./hello<span>`</span></span>
+<span>echo</span> <span>$greeting</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code>bash$ sh hello.sh
+Hello, world.
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div></blockquote>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 在命令替换中，你可以使用 <code>$(...)</code> 来替代反引号。</p>
+<div><pre><code><span>output</span><span>=</span><span><span>$(</span><span>sed</span> -n /<span>"<span>$1</span>"</span>/p $file<span>)</span></span>   <span># 摘自 "grp.sh"。</span>
+
+<span># 将文本文件的内容赋值给一个变量。</span>
+<span>File_contents1</span><span>=</span><span><span>$(</span><span>cat</span> $file1<span>)</span></span>
+<span>File_contents2</span><span>=</span><span><span>$(</span><span>&lt;</span>$file2<span>)</span></span>        <span># 这么做也是可以的。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><code>$(...)</code> 和反引号在处理双反斜杠上有所不同。</p>
+<div><pre><code>bash$ echo `echo \\`
+
+
+bash$ echo $(echo \\)
+\
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><code>$(...)</code> 允许嵌套。<sup></sup></p>
+<div><pre><code><span>word_count</span><span>=</span><span><span>$(</span> <span>wc</span> -w <span>$(</span>echo * <span>|</span> <span>awk</span> <span>'{print <span>$8</span>}'</span><span>)</span> <span>)</span></span>
+</code></pre>
+<div><span>1</span><br></div></div><p>样例 12-3. 寻找变位词（anagram）</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># agram2.sh</span>
+<span># 嵌套命令替换的例子。</span>
+
+<span># 其中使用了作者写的工具包 "yawl" 中的 "anagram" 工具。</span>
+<span># http://ibiblio.org/pub/Linux/libs/yawl-0.3.2.tar.gz</span>
+<span># http://bash.deta.in/yawl-0.3.2.tar.gz</span>
+
+<span>E_NOARGS</span><span>=</span><span>86</span>
+<span>E_BADARG</span><span>=</span><span>87</span>
+<span>MINLEN</span><span>=</span><span>7</span>
+
+<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"Usage <span>$0</span> LETTERSET"</span>
+  <span>exit</span> <span>$E_NOARGS</span>         <span># 脚本需要命令行参数。</span>
+<span>elif</span> <span>[</span> <span>${<span>#</span>1}</span> -lt <span>$MINLEN</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"Argument must have at least <span>$MINLEN</span> letters."</span>
+  <span>exit</span> <span>$E_BADARG</span>
+<span>fi</span>
+
+
+
+<span>FILTER</span><span>=</span><span>'.......'</span>         <span># 至少需要7个字符。</span>
+<span>#       1234567</span>
+<span>Anagrams</span><span>=</span><span>(</span> <span><span>$(</span><span>echo</span> <span>$(</span>anagram $1 <span>|</span> <span>grep</span> $FILTER<span>)</span> <span>)</span></span> <span>)</span>
+<span>#          $(     $(        嵌套命令集        ) )</span>
+<span>#        (              赋值给数组                )</span>
+
+<span>echo</span>
+<span>echo</span> <span>"<span>${<span>#</span>Anagrams<span>[</span>*<span>]</span>}</span>  7+ letter anagrams found"</span>
+<span>echo</span>
+<span>echo</span> <span>${Anagrams<span>[</span>0<span>]</span>}</span>      <span># 第一个变位词。</span>
+<span>echo</span> <span>${Anagrams<span>[</span>1<span>]</span>}</span>      <span># 第二个变位词。</span>
+                         <span># 以此类推。</span>
+
+<span># echo "${Anagrams[*]}"  # 将所有变位词在一行里面输出。</span>
+
+<span># 可以配合后面的数组章节来理解上面的代码。</span>
+
+<span># 建议同时查看另一个寻找变位词的脚本 agram.sh。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div></blockquote>
+<p>以下是包含命令替换的样例：</p>
+<ol>
+<li><a href="http://tldp.org/LDP/abs/html/loops1.html#BINGREP" target="_blank" rel="noopener noreferrer">样例 11-8</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/testbranch.html#CASECMD" target="_blank" rel="noopener noreferrer">样例 11-27</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/randomvar.html#SEEDINGRANDOM" target="_blank" rel="noopener noreferrer">样例 9-16</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX57" target="_blank" rel="noopener noreferrer">样例 16-3</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/textproc.html#LOWERCASE" target="_blank" rel="noopener noreferrer">样例 16-22</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/textproc.html#GRP" target="_blank" rel="noopener noreferrer">样例 16-17</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/extmisc.html#EX53" target="_blank" rel="noopener noreferrer">样例 16-54</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/loops1.html#EX24" target="_blank" rel="noopener noreferrer">样例 11-14</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/loops1.html#SYMLINKS" target="_blank" rel="noopener noreferrer">样例 11-11</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/filearchiv.html#STRIPC" target="_blank" rel="noopener noreferrer">样例 16-32</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/redircb.html#REDIR4" target="_blank" rel="noopener noreferrer">样例 20-8</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/procref1.html#PIDID" target="_blank" rel="noopener noreferrer">样例 29-3</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/mathc.html#MONTHLYPMT" target="_blank" rel="noopener noreferrer">样例 16-47</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/mathc.html#BASE" target="_blank" rel="noopener noreferrer">样例 16-48</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/mathc.html#ALTBC" target="_blank" rel="noopener noreferrer">样例 16-49</a></li>
+</ol>
+<hr>
+<section>
+<ol>
+<li id="fn1"><p>在命令替换中可以使用外部系统命令，<a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a> 甚至是 <a href="http://tldp.org/LDP/abs/html/assortedtips.html#RVT" target="_blank" rel="noopener noreferrer">脚本函数</a>。 </p>
+</li>
+<li id="fn2"><p>从技术的角度来讲，命令替换实际上是获得了命令输出到标准输出的结果，然后通过赋值号将结果赋值给一个变量。 </p>
+</li>
+<li id="fn3"><p>事实上，使用反引号进行嵌套也是可行的。但是 John Default 提醒到需要将内部的反引号进行转义。<pre>word_count=` wc -w \`echo * | awk '{print $8}'\` `</pre> </p>
+</li>
+</ol>
+</section>
 ]]></content>
     <author>
       <name>LinuxStory</name>
