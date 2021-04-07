@@ -1,3 +1,9 @@
+---
+category: Linux
+tags:
+  - 常见问题
+---
+
 # 证书相关问题
 
 ## curl https报错: curl: (35) SSL connect error
