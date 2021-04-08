@@ -22,11 +22,6 @@ project:
     desc: 项目详细描述
     link: 你的项目链接
 
-  - type: link
-    name: 链接名称
-    desc: 链接详细描述
-    link: 链接地址
-
   - type: book
     name: 高级Bash脚本编程指南
     link: /code/shell/
