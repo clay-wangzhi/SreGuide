@@ -28,14 +28,24 @@ project:
     link: 链接地址
 
   - type: book
-    name: 书籍名称
-    desc: 书籍详细描述
-    link: 你的书籍链接
+    name: 高级Bash脚本编程指南
+    link: /code/shell/
 
   - type: article
-    name: 文章名称
-    desc: 文章详细描述
-    link: 你的文章链接
+    name: Python 学习笔记
+    link: /code/python/
+
+  - type: article
+    name: Nginx 学习笔记
+    link: /web/nginx/
+
+  - type: article
+    name: Ansible 学习笔记
+    link: /automate/ansible/
+
+  - type: article
+    name: ELK 学习笔记
+    link: /monitor/elk/
 
 footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号: 备案号下来了写自己的备案号</a> | <a href="/about/site/">关于网站</a>'
 ---
