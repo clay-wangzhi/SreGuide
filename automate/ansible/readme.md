@@ -4,191 +4,359 @@ category: 自动化工具
 tags:
   - Ansible
 ---
+# Ansible 学习笔记
 
-# 1 初识Ansible
+Hello Ansible~
 
-## 1 Ansible简介
+## Summary
 
-Ansible官方文档： https://docs.ansible.com/
+* [1 初识Ansible](Ansible/1 初识Ansible.md)
+* [2 Ansible Inventory 配置详解](Ansible/2 Ansible Inventory配置详解.md)
+* [3 Ansible Ad-hoc 命令集](Ansible/3 Ansible Ad-hoc命令集.md)
+* [3.1 Ansible lineinfile 模块详解](Ansible/3_1_Ansible lineinfile模块详解.md)
+* [4 Ansible Playbook](Ansible/4 Ansible Playbook.md)
+    * [4.1 Playbook的结构及handler用法](Ansible/4_1_ Playbook的结构及handler用法.md)
+    * [4.2 Playbook循环语句](Ansible/4_2_Playbook循环语句.md)
+    * [4.3 Playbook条件语句](Ansible/4_3_Playbook条件语句.md)
+    * [4.4 Playbook高级用法](Ansible/4_4_Playbook高级用法.md)
+    * [4.5 Playbook之tags](Ansible/4_5_Playbook之tags.md)
+    * [4.6 巧用Roles](Ansible/4_6_巧用Roles.md)
+    * [4.7 文件管理模块及Jinja2过滤器](Ansible/4_7_文件管理模块及Jinja2过滤器.md)
+    * [4.8 yaml 语法](Ansible/4_8_yaml语法.md)
+* [5 Ansible变量](Ansible/5 Ansible变量.md)
+    * [5.1 自定义变量](Ansible/5_1_自定义变量.md)
+    * [5.2 Fact变量](Ansible/5_2_Fact变量.md)
+    * [5.3 魔法变量](Ansible/5_3_魔法变量.md)
+    * [5.4 使用lookup生成变量](Ansible/5_4_使用lookup生成变量.md)
+    * [5.5 使用vault配置加密](Ansible/5_5_使用vault配置加密.md)
+* [6 Ansible使用优化](Ansible/6 Ansible使用优化.md)
 
-Ansible 是一个 IT 自动化工具。它能配置系统、部署软件、编排更复杂的 IT 任务，如连续部署或零停机时间滚动更新。
 
-Ansible 用 python 编写，尽管市面上已经有很多可供选择的配置管理解决方案（例如 Salt，Puppet，Chef等），但它们各有优劣，而Ansible的特点在于它的简洁。让 Ansible 在主流的配置管理系统中与众不同的一点便是，它并不需要你在想要配置的每个节点上安装自己的组件。同时提供的一个优点在于，如果需要的话，你可以在不止一个地方控制你的整个基础架构。
+## 核心知识点概览
 
-### 1.1 Ansible特性
+### 目前生产中ansible 的使用场景
 
-- Agentless：不需要再被管理节点上安装客户端，只要有sshd即可
-- 幂等性：多次操作或多次执行不影响结果。
-- Serverless：在服务端不需要启动任何服务，只需要执行命令就行
-- Modules in any language：基于模块工作，可以使用任意语言开发ansible模块
-- YAML, not code：使用yaml语言定制playbook
-- SSH by default：默认使用ssh控制各节点
-- Strong multi-tier solution：可实现多级控制
+* [系统初始化](https://github.com/clay-wangzhi/ansible-role-sysinit)
 
-> 幂等性详细解释：比如算术运算时数值加0是幂等的，无论加多少次结果都不会改变，而数值加1是非幂等的，每次加1结果都会改变。再比如执行systemctl stop xxx命令来停止服务,当发现要停止的目标服务已经处于停止状态，它什么也不会做，所以多次停止的结果仍然是停止，不会改变结果，它是幂等的，而systemctl restart xxx是非幂等的。Ansible的很多 模块在执行时都会先判断目标节点是否要执行任务,所以，可以放心大胆地让Ansible去执行任务,重复执行某个任务绝大多数时候不会产生任何副作用。
+* [安装配置zabbix](https://wiki.clay-wangzhi.com/10-zabbix/10.2-zabbix-jie-zhu-ansible-an-zhuang)
+* [安装配置elk]()
+* [安装配置tomcat](https://github.com/clay-wangzhi/ansible-role-tomcat)
+* [安装配置mysql](https://github.com/clay-wangzhi/ansible-role-mysql)
+* [安装配置jenkins](https://github.com/clay-wangzhi/ansible-role-jenkins)
+* [安装配置zookeeper集群](https://github.com/clay-wangzhi/ansible-role-zookeeper)
+* [项目升级发布]()
+* [安装配置二进制的kubernetes集群](https://github.com/easzlab/kubeasz)
 
-### 1.2 Ansible的基本组件
+### Ansible 有哪些特性
 
-![ansible1](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ansible1-1585014469983.png)
+* Agentless，无客户端
+* Serverless，在服务端无需启动任何服务，只需执行命令即可
+* 默认使用ssh控制各节点
+* 基于模块工作，可以使用任何语言编写模块
+* 使用yaml语言定制playbook
+* 幂等性，多次操作或多次执行不影响结果
 
-- 核心：ansible
-- 核心模块（Core Modules）：这些都是ansible自带的模块
-- 扩展模块（Custom Modules）：如果核心模块不足以完成某种功能，可以添加扩展模块
-- 插件（Plugins）：完成模块功能的补充
-- 剧本（Playbooks）：把需要完成的多个任务定义在剧本中
-- 连接插件（Connectior Plugins）：ansible基于连接插件连接到各个主机上，虽然ansible是使用ssh连接到各个主机的，但是它还支持其他的连接方法，所以需要有连接插件
-- 主机群（Host Inventory）：ansible在管理多台主机时，可以选择只对其中的一部分执行某些操作
+### Ansible 配置文件解析优先级，由高到低依次为
 
-### 1.3 Ansible工作机制
+1. ANSIBLE_CONFIG 环境变量指定的配置文件
+2. 当前目录下的的ansible.cfg
+3. 家目录下的ansible.cfg
+4. /etc/ansible/ansible.cfg
 
-Ansible 在管理节点将 Ansible 模块通过 SSH 协议（或者 Kerberos、LDAP）推送到被管理端执行，执行完之后自动删除，可以使用版本控制系统（git/svn）来管理自定义模块及playbooks。
+### Ansible inventory 知识点
 
-![ansible2](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ansible2-1585014469997.png)
+* inventory 主机清单，包含静态inventory和动态inventory
+* 要使用多个inventory的功能，需将inventory指定为文件目录（默认为/etc/ansible/hosts文件）
+* inventory指定目录时，目录下文件最好不要带有后缀名
+* Ansible 默认预定义了两个主机组：`all`分组（所有主机）和`ungrouped`分组（不在分组内的主机）
+* inventory可以配置单独的变量文件（host_vars和group_vars）
+* hosts指令，匹配主机，匹配多个用''单引号括起来，用逗号分隔，通配符（*，&, !）,正则匹配，以'~'开头
+* ansible-inventory命令
+  * 树状形式展开主机列表`ansible-inventory all --graph`
+  * 同时带上变量`ansible-inventory all --graph --vars`
+* 通过`--limit`或`-l`明确指定主机或组
+* 临时添加节点`add_host`，临时设置主机组`group_by`
 
-## 2 Ansible安装
+### Ansible-hoc（点对点模式）知识点
 
-### 2.1 yum 安装（推荐）
+* `ansible-doc -l`查看有哪些模块，`ansible-doc -s moudle `查看某个模块的参数，`ansible-doc module`查看该模块更详细的信息
 
-```bash
-# 配置epel源
-cat > /etc/yum.repos.d/epel.repo <<'EOF'
-[epel]
-name=epel repo
-baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch
-enabled=1
-gpgcheck=0
-EOF
-# 安装
-yum -y install ansible
-```
+* 命令格式`ansible 主机或组 -m 模块名 -a '模块参数'  ansible参数`
 
-> 'EOF'，EOF用单引号括起来，可使配置文件中变量`$basearch`不被转义
+* 4个命令执行模块的区别：
 
-### 2.2 源码安装（推荐）
+  - command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ "<", ">", "|", "&" 
+  - shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号
+  - raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，raw模块在远程主机上直接启动/bin/sh来执行命令
+  - script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
 
-```sh
-# 解决依赖关系：
-yum install -y python36 python36-devel python36-setuptools gcc libffi-devel openssl-devel
+* 常用模块
 
-# 配置pip 下载源
-mkdir ~/.pip
-cat > ~/.pip/pip.conf << 'EOF'
-[global] 
-index-url = https://pypi.tuna.tsinghua.edu.cn/simple
-[install]
-trusted-host = https://pypi.tuna.tsinghua.edu.cn
-EOF
+  * command
+  * shell
+  * script
+  * ping
+  * file
+  * copy
+  * service
+  * lineinfile
+  * cron
+  * debug
+  * template
 
- 
-# 下载ansible：
-wget https://github.com/ansible/ansible/archive/v2.9.17.tar.gz
+* debug 模块
 
-#解压安装
+  用于输出调试一些数据，模块包含如下选项：
 
-tar xf v2.9.17.tar.gz
-cd ansible-2.9.17/
-python3 setup.py build
-python3 setup.py install # install 过程安装module失败时，使用pip3手动安装
-mkdir /etc/ansible
-cp -r examples/* /etc/ansible
-```
+  * msg：可以输出字符串，可以输出变量的值，变量调用需加"{{}}"
+  * var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称
 
-### 2.3  pip 安装
+  > 注意格式，=号左右没有空格
 
-Ansible每个版本释放出来之后，都首先提交到Pypi,所以任何操作系统，都可以使用pip工具来安装最新版的Ansible。
+* lineinfile 模块
 
-```bash
-pip3 install ansible
-```
+  lineinfile模块用于在源文件中插入、删除、替换行，和sed命令的功能类似，也支持正则表达式匹配和替换。
 
-但要注意，使用各系统的包管理I具(如yum)安装Ansible时自动会提供-些配置文件，如/etc/ansible/ansible. cfg。而使用pip安装的Ansible默认不提供配置文件。
+  * path 指定文件
+  * line  行内容
+  * regexp 正则匹配
+  * insertbefore，insertafter 匹配的行前后插入
+  * state 状态
+  * validate 校验文件格式是否正确
+  * regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行
 
-## 3 Ansible 参数补全功能
+### Ansible playbook 知识点
 
-从Ansible 2.9版本开始，它支持命令的选项补全功能，它依赖于python的argcomplete插件
+* playbook、play和task的关系
 
-安装argcomplete:
+  * playbook中可以定义一个或多个play
+  * 每个play中可以定义一个或多个task
 
-```
-yum -y install python-argcomplete
-pip3 install argcomplete
-```
+* 可以定义两类特殊的task：pre_tasks和post_tasks
 
-安装完成后，激活插件
+  * pre_tasks表示执行执行普通任务之前执行的任务列表
+  * post_tasks表示普通任务执行完之后执行的任务列表
 
-```
-activate-global-python-argcomplete 
-```
+* playbook主要有以下四部分构成
 
-重新进去终端，即可使用tab参数补全功能
+  * Target：用于定义将要执行playbook的远程主机组及远程主机组上的用户，还包括定义通过什么样的方式连接远程主机
+  * Variable：定义playbook运行时需要使用的变量
+  * Task：定义将要在远程主机上执行的任务列表
+  * Handler：定义task执行完成以后需要调用的任务
 
-## 4 Ansible配置文件管理
+* 常用命令
 
-### 4.1 配置文件优先级
+  * 校验playbook语法 `ansible-playbook --syntax-check xxx.yml`
+  * 测试运行playbook `ansible-playbook -C xxx.yml  `
 
-ansible的配置文件名为ansible.cfg，它一般会存在于四个地方：
+* 循环语句
 
-- ANSIBLE_CONFIG：首先，Ansible命令会检查该环境变量，及这个环境变量将指向的配置文件
-- ./ansible.cfg：当前工作目录，即当前执行ansible指令的目录，如果ANSIBEL_CONFIG环境变量未定义，则优先使用该配置文件
-- ~/.ansible.cfg：当前用户家目录下的一个隐藏文件，如果当前工作目录下不存在ansible.cfg配置文件，则会查找用户家目录下的该隐藏文件
-- /etc/ansible/ansible.cfg：默认配置文件，如果上面两个路径下的ansible.cfg都不存在，则使用该文件
+  * loop关键字，等价于`with_list`循环列表
 
-> 需要说明的是，配置文件中所有的配置项都可以通过环境变量的方式来定义，而环境变量定义的配置项具有最高优先级，会覆盖掉所有配置文件中的配置项
+* 条件语句
 
-### 4.2 配置文件详解
+  * when关键字，block关键字，rescue关键字，always关键字
+  * fail模块，filed_when，ignore_errors，change_when，assert断言模块
+  * any_errors_fatal，max_fail_percentage
 
-Ansible 配置文件采用ini风格进行配置，每一项配置都使用`key=value`的方式进行配置
+* 高级用法
 
-#### 4.2.1 配置文件分段说明
+  * 本地执行 `connection: local`
+  * 任务委托 `delegate_to`
+  * 任务暂停 `wait_for`
+  * 滚动执行 `serial`
+  * 执行一次 `run_once`
+  * 设置环境变量 `environment`
+  * 交互式提示 `vars_prompt`
 
-ansible.cfg的配置默认分为十段：
+* tag
 
-- [defaults]：通用配置项
-- [inventory]：与主机清单相关的配置项
-- [privilege_escalation]：特权升级相关的配置项
-- [paramiko_connection]：使用paramiko连接的相关配置项，Paramiko在RHEL6以及更早的版本中默认使用的ssh连接方式
-- [ssh_connection]：使用OpenSSH连接的相关配置项，OpenSSH是Ansible在RHEL6之后默认使用的ssh连接方式
-- [persistent_connection]：持久连接的配置项
-- [accelerate]：加速模式配置项
-- [selinux]：selinux相关的配置项
-- [colors]：ansible命令输出的颜色相关的配置项
-- [diff]：定义是否在运行时打印diff（变更前与变更后的差异）
+  * 打tag `tags:`
+  * 指定tag执行 `--tags "xxx,xxx"`
+  * 排除指定的tag执行 `--skip-tags "xxx,xxx"`
+  * 查看所有tag `--list-tags`
 
-#### 4.2.2 配置参数说明
+* roles目录结构
 
-```
-[default]
-inventory      = /etc/ansible/hosts
-remote_user    = root
-ask_pass       = false
-log_path       = /var/log/ansible.log
+  ```
+  $ ansible-galaxy init first_role
+  $ tree first_role/
+  first_role/            \\ 角色名称
+  ├── defaults           \\ 为当前角色设定默认变量时使用此目录，应当包含一个main.yml文件；
+  │   └── main.yml        
+  ├── files              \\ 存放有copy或script等模块调用的文件
+  ├── handlers           \\ 此目录应当包含一个main.yml文件，用于定义各角色用到的各handler
+  │   └── main.yml
+  ├── meta               \\ 应当包含一个main.yml，用于定义角色的特殊设定及其依赖关系；1.3及以后版本支持
+  │   └── main.yml
+  ├── README.md
+  ├── tasks              \\ 至少包含一个名为main.yml的文件，定义了此角色的任务列表
+  │   └── main.yml
+  ├── templates          \\ template模块会自动在此目录中寻找Jinja2模板文件
+  ├── tests
+  │   ├── inventory
+  │   └── test.yml
+  └── vars              \\ 应当包含一个main.yml，用于定义此角色用到的变量
+      └── main.yml
+  ```
 
-[privilege_escalation]
-become=True
-become_method=sudo
-become_user=root
-become_ask_pass=False
+* playbook 调用格式 `ansible-playbook -i /etc/ansible/xxx.yml  /etc/ansbile/playbooks/xx.yml  --limit "xxx" -e "key=xxx"`
 
-[ssh_connection]
-ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s 
-host_key_checking = False 
-```
+* roles 的任务执行顺序
 
-配置项说明：
+  1. 首先执行meta下的main.yml文件内容     可以设置该role和其它role之前的关联关系。 dependencies
+  2. gather_facts任务
+  3. pre_tasks指令中的任务
+  4. pre_tasks中触发的所有handler
+  5. roles指令加载的Role,执行tasks下的main.yml文件内容
+  6. tasks指令中的任务
+  7. roles和tasks中触发的所有handler, 使用了notify后，会调用 handlers 目录下的main.yml文件
+  8. post_tasks指令中的任务
+  9. post_tasks中触发的所有handler
 
-- inventory：定义默认使用的主机清单
-- remote_user： ansible在操作远程主机时，使用远程主机上的哪个用户身份，默认是root
-- ask_pass：ansible在操作远程主机时，获取远程主机上的用户身份，是否交互提示密码验证，默认为true。如果使用密钥认证的话，建议将其设置为false
-- log_path：默认ansible 执行的时候，并不会输出日志到文件，打开该配置项，所有的命令执行后，都会将日志输出到`/var/log/ansible.log`文件。
-- become：如果ansible在操作远程主机时，使用的是远程主机上的普通用户，该普通用户是否允许提权
-- become_method：如果允许提权，使用何种提权方式，默认是sudo
-- become_user：提权到哪个用户身份，默认是root
-- become_ask_pass：提权时，是否交互提示密码验证，默认为False
-- ssh_args：ansible通过ssh连接远程被管理机，这里用于定义一些ssh连接时的参数，如-C启用压缩传输，ControlPersist用于提升性能。
-- host_key_checking：通过ssh首次连接远程主机时，由于在本机的`~/.ssh/known_hosts`文件中并有`fingerprint key`串，ssh第一次连接的时候一般会提示输入yes/no进行确认将key字符串加入到`~/.ssh/known_hosts`文件中。将此项设置为False将跳过该确认过程。
+* playbook 静态加载和动态加载
 
-> 参考链接：
->
-> https://www.cnblogs.com/breezey/p/8810263.html
->
-> https://blog.51cto.com/cloumn/blog/1540
+  * roles、include、import_xxx同属一类，它们都是静态加载，都在playbook解析阶段加载文件
+  * include_xxx属于另一类，是动态加载，遇到指令的时候临时去加载文件
+  * 要对包含的任务列表进行循环操作，则只能使用`include_tasks`关键字，不能使用`import_tasks`关键字，`import_tasks`并不支持循环操作
+  * 使用include_tasks时，这个指令自身占用一个任务，使用import_tasks的时候，这个指令自身没有任务，它所在的任务会在解析playbook的时候被其加载的子任务覆盖
+  * 无法使用--list-tags列出include_xxx中的tags，无法使用--list-tasks列出include_xxx中的任务，因为它们都是临时动态加载的
+
+* jinja2
+
+### Ansible 变量 知识点
+
+* 变量作用域
+
+  * 全局作用域：Ansible配置文件、环境变量、命令行选项-e,--extra-vars设置的变量都是全局变量
+  * Play作用域：整个Play中都有效的变量，vars_files、vars_prompt、play级别的vars以及Role的变量，它们都是play级别的变量
+  * 主机变量：绑定在各主机上的变量，各种方式定义的inventory变量、Facts信息变量(这个就划分在这吧)、set_fact、register、include_vars都是主机变量
+  * 任务变量：只在当前任务中生效的变量，task级别的vars定义的变量属于任务变量
+  * block变量：只在当前block内生效，block级别的vars定义的变量属于block变量
+  * 预定义特殊变：这些变量由Ansible自身内部维护，有些是全局变量，有些是play变量，有些是主机变量，所以不方便对它们分类
+
+* 主机变量
+
+  * 内置主机变量`ansible_host`、`ansible_port`、`ansible_user	`、`ansible_password`、`ansible_connection`等
+
+  * 自定义主机变量，在主机清单中
+
+    * in INI `hosts1 http_port=80`，
+
+    * in YAML 
+
+      ```
+      host1:
+        http_port: 80
+      ```
+
+  * 自定义组变量，在主机清单中
+
+    * in INI 
+
+      ```
+      [atlanta]
+      host1
+      host2
+      
+      [atlanta:vars]
+      ntp_server=ntp.aliyun.com
+      ```
+
+    * in YAML
+
+      ```
+      atlanta:
+        hosts:
+          host1:
+          host2:
+        vars:
+          ntp_server: ntp.aliyun.com
+      ```
+
+  * 通过`host_vars`和`group_vars`目录定义变量，需要说明的是，如果主机组定义的变量与主机冲突，主机变量优先级最高
+
+* play 变量
+
+  * 通过vars关键字定义
+  * 通过vars_files关键字引入变量文件
+
+* 注册变量 `register`
+
+* Facts 变量
+
+* 内置变量/魔法变量
+
+  * hostvars 所有和主机相关的变量
+  * inventory_hostname 当前正在运行task的主机的主机名
+  * group_names 组名
+  * groups 主机组列表
+  * ansible_play_batch（play_hosts/ansible_play_hosts）当前play所涉及的所有主机列表，但连接失败或执行任务失败的节点不会留在此变量中
+  * inventory_dir 主机清单所在目录
+  * inventory_file 主机清单文件
+
+* lookup 生产变量
+
+  * 语法 `lookup('<plugin_name>', 'plugin_argument')`
+  * 从命令执行结果读取(pipe插件)
+  * 从磁盘文件读取(file/fileglob插件)
+
+### Ansible 使用优化
+
+* 加大forks的值
+
+* 开启ssh长连接为5天 ，要求ssh为5.6版本，查看版本ssh -v
+
+  ```
+  # cat /etc/ansible/ansible.cfg
+  ssh_args = -C -o ControlMaster=auto -o ControlPersist=5d 
+  ```
+
+* Shell层次上的优化：将任务分开执行
+
+以下优化，根据实际情况进行修改
+
+* 修改执行策略，改为free 
+
+* 开启pipeling，在不使用sudo的情况下开启pipeling，减少ansible没有传输时的连接数
+
+  ```
+  修改ansible.cfg中pipelining=False改为True
+  ```
+
+* 修改facts收集行为，`gather_facts: no` ，或者添加缓存，注意添加缓存后有坑，比如创建带有时间的文件夹
+
+* 使Ansible异步执行任务，async和poll指令
+
+* 第三方策略插件：Mitogen for Ansible
+
+### Ansible 常见问题
+
+* server端未安装 sshpass
+* 将host_key_checking设为False，关闭密码检查
+
+### YAML 文件知识点
+
+* YAML的基本语法规则如下：
+
+  (1).使用缩进表示层级关系
+
+  (2).缩进时不允许使用Tab键，只允许使用空格
+
+  (3).缩进的空格数目不重要，只要相同层级的元素左对齐即可
+
+  (4).yaml文件以"---"作为文档的开始，以表明这是一个yaml文件
+
+  (5).# 表示注释，从这个字符一直到行尾，都会被解析器忽略
+
+  (6).字符串不用加引号，但在可能产生歧义时，需加引号(单双引号皆可)，比如引用变量时
+
+  (7).布尔值非常灵活，不分区大小写的true/false、yes/no、on/off、y/n、0和1都允许
+
+* YAML支持三种数据结构：
+
+  (1).对象：key/value格式，也称为哈希结构、字典结构或关联数组
+
+  (2).数组：也称为列表
+
+  (3).标量(scalars)：单个值
