@@ -208,6 +208,7 @@ module.exports = config({
       ],
       "/automate/ansible/": [
         "",
+        "first",
         "inventory",
         {
           title: "3 Ansible Ad-hoc命令集",
