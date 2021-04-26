@@ -29,10 +29,10 @@ module.exports = config({
   themeConfig: {
     baseLang: 'zh-CN',
     logo: "/lufei.jpg",
-    hostname: "https://vuepress-theme-hope-demo.mrhope.site",
+    hostname: "https://clay-wangzhi.com",
 
     author: "Clay",
-    repo: "https://github.com/vuepress-theme-hope/vuepress-theme-hope",
+    repo: "https://github.com/clay-wangzhi/wiki",
 
     pageInfo: [
       'time',
