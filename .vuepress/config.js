@@ -39,6 +39,7 @@ module.exports = config({
 
     author: "Clay",
     repo: "https://github.com/clay-wangzhi/wiki",
+	docsBranch: "master",
 
     pageInfo: [
       'time',
