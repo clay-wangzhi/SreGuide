@@ -5,6 +5,12 @@ module.exports = config({
   description: "当你发现自己的才华撑不起野心时，就请安静下来学习吧！",
 
   dest: "./dist",
+  locales: {
+    "/": {
+      // 设置需要的语言
+      lang: "zh-CN",
+    },
+  },
 
   head: [
     [
