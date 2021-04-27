@@ -7,6 +7,12 @@ tags:
 
 # jenkins的安装配置
 
+> 经实验：ansible 2.7.10版本可以安装 jenkins 2.210版本
+>
+> 安装更高版本，请一并升级ansible，低版本ansible在安装插件时会报如下错误：
+>
+> > {"attempts": 5, "changed": false, "details": "HTTP Error 403: Forbidden", "item": "ansible", "msg": "Cannot install plugin."}
+
 ## ansible安装jenkins
 
 ```shell
