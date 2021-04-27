@@ -112,7 +112,7 @@ tags:
 3. 创建并启动jenkins
 
    ```sh
-   docker run -u root --rm -d --mount type=bind,source=/opt/jenkins-data,target=/var/jenkins_home --network=host --name jenkins jenkinsci/blueocean:1.24.6
+   docker run -u root --rm -d -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai --mount type=bind,source=/opt/jenkins-data,target=/var/jenkins_home --network=host --name jenkins jenkinsci/blueocean:1.24.6
    ```
 
 4. 剩下的步骤按着提示完成就行，安装配置nginx的原因如下：
