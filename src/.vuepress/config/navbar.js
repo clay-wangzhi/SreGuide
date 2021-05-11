@@ -5,6 +5,7 @@ module.exports = {
     { text: "博客主页", link: "/", icon: "home" },
     {
       text: "编程语言",
+      icon: "code",
       items: [
         { text: "Shell", icon: "shell", link: "/code/shell/" },
       ],
