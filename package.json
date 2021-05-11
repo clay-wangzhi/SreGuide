@@ -1,16 +1,15 @@
 {
   "name": "vuepress-theme-hope-project",
   "version": "1.0.0",
-  "description": "A project of vuepress-theme-hope",
+  "description": "个人博客",
   "license": "MIT",
   "scripts": {
-    "build": "vuepress build",
-    "dev:clean-dev": "vuepress dev --no-cache",
-    "docs:dev": "vuepress dev docs",
-    "docs:eject-theme": "vuepress eject-hope docs"
+    "serve": "vuepress dev src",
+    "cleanServe": "vuepress dev src --no-cache",
+    "build": "vuepress build src"
   },
   "devDependencies": {
-    "vuepress": "^1.8.2",
-    "vuepress-theme-hope": "^1.13.4"
+    "vuepress": "1.8.2",
+    "vuepress-theme-hope": "1.16.0"
   }
 }
