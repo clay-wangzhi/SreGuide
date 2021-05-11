@@ -9,7 +9,7 @@ module.exports = {
       items: [
         { text: "Shell", icon: "shell", link: "/code/shell/" },
         { text: "Python", icon: "python", link: "/code/python/" },
-        { text: "Golang", icon: "golang", link: "/code/golang/" },
+        { text: "Golang", icon: "go", link: "/code/golang/" },
       ]
     },
     {
