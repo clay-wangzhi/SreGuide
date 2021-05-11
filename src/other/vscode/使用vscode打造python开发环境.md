@@ -96,7 +96,7 @@ vscode安装了上面这个插件后，能干什么？
 
 第二步：解释launch.json配置文件中configurations列表的作用
 
-> program这个键，用来指定项目运行时的入口文件的，其中${file}表示当前文件，${workspaceFolder}表示项目根目录，对于django项目来说，入口文件应该是项目根目录下的manage.py文件，所以可以配置为"program": "${workspaceFolder}\\manage.py"。
+> program这个键，用来指定项目运行时的入口文件的，其中\${file}表示当前文件，\${workspaceFolder}表示项目根目录，对于django项目来说，入口文件应该是项目根目录下的manage.py文件，所以可以配置为"program": "\${workspaceFolder}\\manage.py"。
 >
 > args这个键，用来指定项目运行时，跟在入口文件后面的参数，对于django项目来说，运行参数应该是：runserver 0.0.0.0:8080 --noreload --nothreading ，所以可以配置为：
 >
