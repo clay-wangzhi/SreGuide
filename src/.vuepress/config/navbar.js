@@ -4,10 +4,15 @@ module.exports = {
   zh: navbarConfig([
     { text: "博客主页", link: "/", icon: "home" },
     {
-      text: "推荐教程",
-      icon: "software",
+      text: "编程语言",
       items: [
         { text: "Shell", icon: "shell", link: "/code/shell/" },
+      ],
+      items: [
+        { text: "Python", icon: "python", link: "/code/python/" },
+      ],
+      items: [
+        { text: "Golang", icon: "golang", link: "/code/golang/" },
       ],
     },
     {
