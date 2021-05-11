@@ -399,6 +399,12 @@ passage_end_tag:
 
 保存重新生成即可。
 
+## 遇到的问题
+
+`LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character`
+
+产生的原因：而在 Markdown 语法中，**两个 \$ 符号是数学符号和公式**的使用。要想使用单个 \$，要加个转义字符 `\`。
+
 ## 参考
 
 > [技术小白搭建hexo+github博客](https://zhuanlan.zhihu.com/p/32957389)
