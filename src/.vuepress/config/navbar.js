@@ -44,7 +44,7 @@ module.exports = {
     },
     {
       text: "数据库",
-      icon: "shujuke",
+      icon: "shujuku",
       items: [
         { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
         { text: "Redis", icon: "redis", link: "/db/redis/" },
