@@ -16,15 +16,18 @@ module.exports = {
       ],
     },
     {
+      text: "云原生",
+      items: [
+        { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
+      ],
+      items: [
+        { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
+      ],
+    },
+    {
       text: "学习笔记",
       icon: "code",
-      items: [
-        {
-          text: "编程语言",
-          items: [
-            { text: "Python", icon: "python", link: "/code/python/" },
-          ],
-        },
+      items: [,
         {
           text: "web中间件",
           items: [
