@@ -1,0 +1,16 @@
+module.exports = [
+  "",
+  "list-com",
+  "des-select",
+  "view-func",
+  "stro",
+  "user-contr",
+  "back",
+  "ab-copy",
+  "owner-kee",
+  "read-write",
+  "jiagou",
+  "lock",
+  "qa",
+  "bin-log",
+]
