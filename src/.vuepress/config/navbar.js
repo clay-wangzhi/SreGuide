@@ -33,41 +33,28 @@ module.exports = {
       ],      
     },
     {
-      text: "学习笔记",
-      icon: "code",
+      text: "自动化工具",
       items: [
-        {
-          text: "web中间件",
-          items: [
-            { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
-          ],
-        },
-        {
-          text: "自动化工具",
-          items: [
-            { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
-          ],
-        },
-        {
-          text: "监控工具",
-          items: [
-            { text: "Zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
-            { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
-          ],
-        },
-        {
-          text: "数据库",
-          items: [
-            { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
-            { text: "Redis", icon: "redis", link: "/db/redis/" },
-          ],
-        },
-        {
-          text: "Linux",
-          items: [
-            { text: "Linux", icon: "linux", link: "/linux/basic/" },
-          ],
-        },
+        { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
+      ],
+    },
+    {
+      text: "web中间件",
+      items: [
+        { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
+      ],
+    },
+    {
+      text: "数据库",
+      items: [
+        { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
+        { text: "Redis", icon: "redis", link: "/db/redis/" },
+      ],
+    },
+    {
+      text: "Linux",
+      items: [
+        { text: "Linux", icon: "linux", link: "/linux/basic/" },
       ],
     },
   ]),
