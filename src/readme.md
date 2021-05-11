@@ -17,6 +17,11 @@ project:
     desc: 通过实际的DevOps实践，学习和理解Docker技术
     link: https://vuepress.mirror.docker-practice.com/
 
+  - type: link
+    name: Go语言圣经（中文版）
+    desc: 个人强烈推荐的Go语言书籍
+    link: http://books.studygolang.com/gopl-zh/
+
   - type: project
     name: 项目名称
     desc: 项目详细描述
