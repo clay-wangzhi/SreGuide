@@ -1,4 +1,6 @@
 const { config } = require("vuepress-theme-hope");
+const navBarConfig = require("./config/navbar");
+// const sideBarConfig = require("./config/sideBar");
 
 module.exports = config({
   title: "IT外卖小哥",
@@ -15,18 +17,6 @@ module.exports = config({
   head: [
     [
       "script",
-      { src: "https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" },
-    ],
-    [
-      "script",
-      {
-        src:
-          "https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js",
-      },
-    ],
-    ["script", { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js" }],
-    [
-      "script",
       { src: "https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js" },
     ],
   ],
@@ -39,7 +29,7 @@ module.exports = config({
 
     author: "Clay",
     repo: "https://github.com/clay-wangzhi/wiki",
-	docsBranch: "master",
+	  docsBranch: "master",
 
     pageInfo: [
       'time',
@@ -51,62 +41,8 @@ module.exports = config({
       'tag',
     ],
 
-
-
-    nav: [
-      { text: "博客主页", link: "/", icon: "home" },
-      {
-        text: "推荐教程",
-        icon: "software",
-        items: [
-          { text: "Shell", icon: "shell", link: "/code/shell/" },
-        ],
-      },
-      {
-        text: "学习笔记",
-        icon: "code",
-        items: [
-          {
-            text: "编程语言",
-            items: [
-              { text: "Python", icon: "python", link: "/code/python/" },
-            ],
-          },
-          {
-            text: "web中间件",
-            items: [
-              { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
-            ],
-          },
-          {
-            text: "自动化工具",
-            items: [
-              { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
-            ],
-          },
-          {
-            text: "监控工具",
-            items: [
-              { text: "Zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
-              { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
-            ],
-          },
-          {
-            text: "数据库",
-            items: [
-              { text: "MySQL", icon: "mysql", link: "/db/mysql/" },
-              { text: "Redis", icon: "redis", link: "/db/redis/" },
-            ],
-          },
-          {
-            text: "Linux",
-            items: [
-              { text: "Linux", icon: "linux", link: "/linux/basic/" },
-            ],
-          },
-        ],
-      },
-    ],
+    nav: navBarConfig.zh,
+    // sidebar: sideBarConfig.zh,
     sidebar: {
       "/code/shell/": [
         "",
