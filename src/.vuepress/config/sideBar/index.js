@@ -1,7 +1,7 @@
 module.exports = {
   zh: {
     "/code/shell/": require("./code/shell"),
-    "code/python/": require("./code/python"),
+    "/code/python/": require("./code/python"),
     "/automate/ansible/": require("./automate/ansible"),
     "/web/nginx/": require("./web/nginx"),
     "/monitor/zabbix/": require("./monitor/zabbix"),
