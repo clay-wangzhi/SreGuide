@@ -26,9 +26,16 @@ module.exports = {
       ],
     },
     {
+      text: "监控工具",
+      items: [
+        { text: "Zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
+        { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
+      ],      
+    },
+    {
       text: "学习笔记",
       icon: "code",
-      items: [,
+      items: [
         {
           text: "web中间件",
           items: [
