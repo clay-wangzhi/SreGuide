@@ -8,20 +8,14 @@ module.exports = {
       icon: "code",
       items: [
         { text: "Shell", icon: "shell", link: "/code/shell/" },
-      ],
-      items: [
         { text: "Python", icon: "python", link: "/code/python/" },
-      ],
-      items: [
         { text: "Golang", icon: "golang", link: "/code/golang/" },
-      ],
+      ]
     },
     {
       text: "云原生",
       items: [
         { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
-      ],
-      items: [
         { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
       ],
     },
