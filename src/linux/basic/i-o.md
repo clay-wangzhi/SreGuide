@@ -6,7 +6,6 @@ category: Linux
 ## 标准输入、标准输出、标准错误
 
 ### 输出重定向
-![](images/biaozhun.png)
 输出重定向（覆盖）
 ```
 date > a.txt
@@ -42,5 +41,4 @@ cat > a.txt <<EOF
 > 22
 > EOF
 ```
-
 
