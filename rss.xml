@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Wed, 12 May 2021 08:48:36 GMT</pubDate>
-    <lastBuildDate>Wed, 12 May 2021 08:48:36 GMT</lastBuildDate>
+    <pubDate>Wed, 12 May 2021 09:00:12 GMT</pubDate>
+    <lastBuildDate>Wed, 12 May 2021 09:00:12 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -29373,6 +29373,26 @@ awk 指令默认是使用 “EREs&quot;</p>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>18 正则表达式</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">18 正则表达式</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
+<blockquote>
+<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
+<em>--Stowe Boyd</em></p>
+</blockquote>
+<p>目录</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
+</ul>
+<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>19 嵌入文档</title>
       <link>https://clay-wangzhi.com/code/shell/part5/19_here_documents/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/19_here_documents/</guid>
@@ -30148,26 +30168,6 @@ Line 7.
 Line 8.
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>18 正则表达式</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">18 正则表达式</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
-<blockquote>
-<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
-<em>--Stowe Boyd</em></p>
-</blockquote>
-<p>目录</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
-</ul>
-<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>20.2 重定向代码块</title>
@@ -31268,6 +31268,274 @@ x=x &lt; &lt;(:)
 ]]></content:encoded>
     </item>
     <item>
+      <title>24.2 局部变量</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">24.2 局部变量</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
+<p>怎样使一个变量变成“局部”变量？</p>
+<p>局部变量
+如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
+<p>例子 24-12. 局部变量的可见范围</p>
+<div><pre><code>#!/bin/bash
+# ex62.sh: 函数内部的局部变量与全局变量。
+
+func () {
+    local loc_var=23       # 声明为局部变量。
+    echo                   # 使用&#39;local&#39;内建命令
+    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
+    global_var=999         # 没有声明为局部变量。
+    # 默认为全局变量。
+
+    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
+}
+
+func
+
+# 现在，来看看局部变量“loc_var”在函数外部是否可见。
+
+echo
+echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
+                                    # $loc_var outside function =
+                                    # 不行, $loc_var 不是全局可见的.
+echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
+                                    # $在函数外部global_var = 999
+                                    # $global_var 是全局可见的.
+echo
+
+exit 0
+#  与C语言相比，在函数内声明的Bash变量
+#+ 除非它被明确声明为local时，它才是局部的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
+<div><pre><code>#!/bin/bash
+
+func ()
+{
+    global_var=37    #  变量只在函数体内可见
+                     #+ 在函数被调用之前。
+}                    #  函数结束
+
+echo &quot;global_var = $global_var&quot;  # global_var =
+                                 #  函数 &quot;func&quot; 还没被调用，
+                                 #+ 所以$global_var 在这里还不是可见的.
+func
+echo &quot;global_var = $global_var&quot;  # global_var = 37
+                                 # 已经在函数调用的时候设置。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
+<div><pre><code>#!/bin/bash
+
+echo &quot;==OUTSIDE Function (global)==&quot;
+t=$(exit 1)
+echo $?     # 1
+            # 如预期一样.
+
+echo
+function0 ()
+{
+    echo &quot;==INSIDE Function==&quot;
+    echo &quot;Global&quot;
+    t0=$(exit 1)
+    echo $?      # 1
+                 # 如预期一样.
+
+    echo
+    echo &quot;Local declared &amp; assigned in same command.&quot;
+    local t1=$(exit 1)
+    echo $?      # 0
+                 # 意料之外!
+#  显然，变量赋值发生在Apparently, 
+#+ 局部声明之前。
+#+ 返回值是为了latter.
+
+    echo
+    echo &quot;Local declared, then assigned (separate commands).&quot;
+    local t2
+    t2=$(exit 1)
+    echo $?
+}
+
+function0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
+<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
+<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
+<p>例子 24-13. 一个简单的递归函数表示</p>
+<div><pre><code>#!/bin/bash
+# recursion-demo.sh
+# 递归演示.
+
+RECURSIONS=9   # 递归的次数.
+r_count=0      # 必须是全局变量，为什么？
+
+recurse ()
+{
+    var=&quot;$1&quot;
+
+    while [ &quot;$var&quot; -ge 0 ]
+    do
+        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
+        (( var-- )); (( r_count++ ))
+        recurse &quot;$var&quot;  #  函数调用自身(递归)
+    done              #+ 直到遇到什么样的终止条件？
+}
+
+recurse $RECURSIONS
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
+<div><pre><code>#!/bin/bash
+# recursion-def.sh
+# 另外一个描述递归的比较生动的脚本。
+
+RECURSIONS=10
+r_count=0
+sp=&quot; &quot;
+
+define_recursion ()
+{
+    ((r_count++))
+    sp=&quot;$sp&quot;&quot; &quot;
+    echo -n &quot;$sp&quot;
+    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
+
+    while [ $r_count -le $RECURSIONS ]
+    do
+        define_recursion
+    done
+}
+
+echo
+echo &quot;Recursion: &quot;
+define_recursion
+echo
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
+<p>例子24-15. 使用局部变量进行递归</p>
+<div><pre><code>#!/bin/bash
+
+# 阶乘
+# ---------
+
+# Bash允许递归么？
+# 恩，允许，但是...
+# 他太慢了，所以恐怕你难以忍受。
+
+MAX_ARG=5
+E_WRONG_ARGS=85
+E_RANGE_ERR=86
+
+
+if [ -z &quot;$1&quot; ]
+then
+    echo &quot;Usage: `basename $0` number&quot;
+    exit $E_WRONG_ARGS
+fi
+
+if [ &quot;$1&quot; -gt $MAX_ARG ]
+then
+    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
+    #  现在让我们来了解一些实际情况。
+    #  如果你想计算比这个更大的范围的阶乘，
+    #+ 应该用真正的编程语言来重写它。
+    exit $E_RANGE_ERR
+fi
+
+fact () 
+{
+    local number=$1
+    #  变量&quot;number&quot; 必须被定义为局部变量，
+    #+ 否则不能正常工作。
+    if [ &quot;$number&quot; -eq 0 ]
+    then
+        factorial=1    # 0的阶乘为1.
+    else
+        let &quot;decrnum = number - 1&quot;
+        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
+        let &quot;factorial = $number * $?&quot;
+    fi
+    return $factorial
+}
+
+fact $1
+echo &quot;Factorial of $1 is $?.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
+<h2 id="注释"> 注释</h2>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
+<div><pre><code>#!/bin/bash
+
+function1 ()
+{
+  local func1var=20
+
+  echo &quot;Within function1, \$func1var = $func1var.&quot;
+
+  function2
+}
+
+function2 ()
+{
+  echo &quot;Within function2, \$func1var = $func1var.&quot;
+}
+
+function1
+
+exit 0
+
+
+# 脚本的输出:
+
+# Within function1, $func1var = 20.
+# Within function2, $func1var = 20.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
+<blockquote>
+<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
+The ABS Guide的作者认为这个行为一个bug.</p>
+</blockquote>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
+<div><pre><code>#!/bin/bash
+
+#  提醒: 运行这个脚本可能会让你的系统卡死。
+#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
+
+recursive_function ()		   
+{
+echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
+(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
+#  只要第一个参数小于第二个参数，
+#+ 让第一个参数加1，然后递归。
+}
+
+recursive_function 1 50000  # 递归 50,000层!
+#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
+
+#  即使是C语言，递归调用这么多层也会发生段错误，
+#+ 通过分配栈耗尽所有的内存。
+
+
+echo &quot;This will probably not print.&quot;
+exit 0  # 这个脚本可能不会正常退出。
+
+#  感谢, Stéphane Chazelas.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
+    </item>
+    <item>
       <title>24.1 复杂函数和函数复杂性</title>
       <link>https://clay-wangzhi.com/code/shell/part5/24_1_complex_functions_and_function_complexities/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/24_1_complex_functions_and_function_complexities/</guid>
@@ -31830,274 +32098,6 @@ Function ()  # 不行.
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>24.2 局部变量</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">24.2 局部变量</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
-<p>怎样使一个变量变成“局部”变量？</p>
-<p>局部变量
-如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
-<p>例子 24-12. 局部变量的可见范围</p>
-<div><pre><code>#!/bin/bash
-# ex62.sh: 函数内部的局部变量与全局变量。
-
-func () {
-    local loc_var=23       # 声明为局部变量。
-    echo                   # 使用&#39;local&#39;内建命令
-    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
-    global_var=999         # 没有声明为局部变量。
-    # 默认为全局变量。
-
-    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
-}
-
-func
-
-# 现在，来看看局部变量“loc_var”在函数外部是否可见。
-
-echo
-echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
-                                    # $loc_var outside function =
-                                    # 不行, $loc_var 不是全局可见的.
-echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
-                                    # $在函数外部global_var = 999
-                                    # $global_var 是全局可见的.
-echo
-
-exit 0
-#  与C语言相比，在函数内声明的Bash变量
-#+ 除非它被明确声明为local时，它才是局部的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
-<div><pre><code>#!/bin/bash
-
-func ()
-{
-    global_var=37    #  变量只在函数体内可见
-                     #+ 在函数被调用之前。
-}                    #  函数结束
-
-echo &quot;global_var = $global_var&quot;  # global_var =
-                                 #  函数 &quot;func&quot; 还没被调用，
-                                 #+ 所以$global_var 在这里还不是可见的.
-func
-echo &quot;global_var = $global_var&quot;  # global_var = 37
-                                 # 已经在函数调用的时候设置。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
-<div><pre><code>#!/bin/bash
-
-echo &quot;==OUTSIDE Function (global)==&quot;
-t=$(exit 1)
-echo $?     # 1
-            # 如预期一样.
-
-echo
-function0 ()
-{
-    echo &quot;==INSIDE Function==&quot;
-    echo &quot;Global&quot;
-    t0=$(exit 1)
-    echo $?      # 1
-                 # 如预期一样.
-
-    echo
-    echo &quot;Local declared &amp; assigned in same command.&quot;
-    local t1=$(exit 1)
-    echo $?      # 0
-                 # 意料之外!
-#  显然，变量赋值发生在Apparently, 
-#+ 局部声明之前。
-#+ 返回值是为了latter.
-
-    echo
-    echo &quot;Local declared, then assigned (separate commands).&quot;
-    local t2
-    t2=$(exit 1)
-    echo $?
-}
-
-function0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
-<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
-<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
-<p>例子 24-13. 一个简单的递归函数表示</p>
-<div><pre><code>#!/bin/bash
-# recursion-demo.sh
-# 递归演示.
-
-RECURSIONS=9   # 递归的次数.
-r_count=0      # 必须是全局变量，为什么？
-
-recurse ()
-{
-    var=&quot;$1&quot;
-
-    while [ &quot;$var&quot; -ge 0 ]
-    do
-        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
-        (( var-- )); (( r_count++ ))
-        recurse &quot;$var&quot;  #  函数调用自身(递归)
-    done              #+ 直到遇到什么样的终止条件？
-}
-
-recurse $RECURSIONS
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
-<div><pre><code>#!/bin/bash
-# recursion-def.sh
-# 另外一个描述递归的比较生动的脚本。
-
-RECURSIONS=10
-r_count=0
-sp=&quot; &quot;
-
-define_recursion ()
-{
-    ((r_count++))
-    sp=&quot;$sp&quot;&quot; &quot;
-    echo -n &quot;$sp&quot;
-    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
-
-    while [ $r_count -le $RECURSIONS ]
-    do
-        define_recursion
-    done
-}
-
-echo
-echo &quot;Recursion: &quot;
-define_recursion
-echo
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
-<p>例子24-15. 使用局部变量进行递归</p>
-<div><pre><code>#!/bin/bash
-
-# 阶乘
-# ---------
-
-# Bash允许递归么？
-# 恩，允许，但是...
-# 他太慢了，所以恐怕你难以忍受。
-
-MAX_ARG=5
-E_WRONG_ARGS=85
-E_RANGE_ERR=86
-
-
-if [ -z &quot;$1&quot; ]
-then
-    echo &quot;Usage: `basename $0` number&quot;
-    exit $E_WRONG_ARGS
-fi
-
-if [ &quot;$1&quot; -gt $MAX_ARG ]
-then
-    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
-    #  现在让我们来了解一些实际情况。
-    #  如果你想计算比这个更大的范围的阶乘，
-    #+ 应该用真正的编程语言来重写它。
-    exit $E_RANGE_ERR
-fi
-
-fact () 
-{
-    local number=$1
-    #  变量&quot;number&quot; 必须被定义为局部变量，
-    #+ 否则不能正常工作。
-    if [ &quot;$number&quot; -eq 0 ]
-    then
-        factorial=1    # 0的阶乘为1.
-    else
-        let &quot;decrnum = number - 1&quot;
-        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
-        let &quot;factorial = $number * $?&quot;
-    fi
-    return $factorial
-}
-
-fact $1
-echo &quot;Factorial of $1 is $?.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
-<h2 id="注释"> 注释</h2>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
-<div><pre><code>#!/bin/bash
-
-function1 ()
-{
-  local func1var=20
-
-  echo &quot;Within function1, \$func1var = $func1var.&quot;
-
-  function2
-}
-
-function2 ()
-{
-  echo &quot;Within function2, \$func1var = $func1var.&quot;
-}
-
-function1
-
-exit 0
-
-
-# 脚本的输出:
-
-# Within function1, $func1var = 20.
-# Within function2, $func1var = 20.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
-<blockquote>
-<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
-The ABS Guide的作者认为这个行为一个bug.</p>
-</blockquote>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
-<div><pre><code>#!/bin/bash
-
-#  提醒: 运行这个脚本可能会让你的系统卡死。
-#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
-
-recursive_function ()		   
-{
-echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
-(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
-#  只要第一个参数小于第二个参数，
-#+ 让第一个参数加1，然后递归。
-}
-
-recursive_function 1 50000  # 递归 50,000层!
-#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
-
-#  即使是C语言，递归调用这么多层也会发生段错误，
-#+ 通过分配栈耗尽所有的内存。
-
-
-echo &quot;This will probably not print.&quot;
-exit 0  # 这个脚本可能不会正常退出。
-
-#  感谢, Stéphane Chazelas.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
-    </item>
-    <item>
       <title>24.3 不使用局部变量的递归</title>
       <link>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</guid>
@@ -32618,13 +32618,13 @@ drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
 ]]></content:encoded>
     </item>
     <item>
-      <title>第二十六章. 列表结构</title>
+      <title>26. 列表结构</title>
       <link>https://clay-wangzhi.com/code/shell/part5/26_List_Constructs/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/26_List_Constructs/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第二十六章. 列表结构</source>
+      <source url="https://clay-wangzhi.com/rss.xml">26. 列表结构</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第二十六章-列表结构"> 第二十六章. 列表结构</h1>
+      <content:encoded><![CDATA[<h1 id="_26-列表结构"> 26. 列表结构</h1>
 <p><em>and 列表</em> 和 <em>or 列表</em> 结构提供了连续执行若干命令的方法，可以有效地替换复杂的嵌套 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if/then</a> ，甚至 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer">case</a> 语句。</p>
 <h3 id="链接多个命令"> 链接多个命令</h3>
 <p><strong>and 列表</strong></p>
@@ -48217,6 +48217,35 @@ PRD/PROD production 产品/正式/生产</p>
 <div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>centos7下时区问题</title>
+      <link>https://clay-wangzhi.com/linux/qa/centos-time/</link>
+      <guid>https://clay-wangzhi.com/linux/qa/centos-time/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">centos7下时区问题</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
+<p>centos7时区同样, 在
+CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
+<p>用法很简单：</p>
+<div><pre><code># timedatectl # 查看系统时间方面的各种状态
+      Local time: 四 2014-12-25 10:52:10 CST
+  Universal time: 四 2014-12-25 02:52:10 UTC
+        RTC time: 四 2014-12-25 02:52:10
+        Timezone: Asia/Shanghai (CST, +0800)
+     NTP enabled: yes
+NTP synchronized: yes
+ RTC in local TZ: no
+      DST active: n/a
+# timedatectl list-timezones # 列出所有时区
+# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
+<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>证书相关问题</title>
       <link>https://clay-wangzhi.com/linux/qa/curl-https/</link>
       <guid>https://clay-wangzhi.com/linux/qa/curl-https/</guid>
@@ -48250,35 +48279,6 @@ make install
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210407141053673.png" alt="image-20210407141053673" /></p>
 <p>解决办法：联系证书供应商更新证书</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>centos7下时区问题</title>
-      <link>https://clay-wangzhi.com/linux/qa/centos-time/</link>
-      <guid>https://clay-wangzhi.com/linux/qa/centos-time/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">centos7下时区问题</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
-<p>centos7时区同样, 在
-CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
-<p>用法很简单：</p>
-<div><pre><code># timedatectl # 查看系统时间方面的各种状态
-      Local time: 四 2014-12-25 10:52:10 CST
-  Universal time: 四 2014-12-25 02:52:10 UTC
-        RTC time: 四 2014-12-25 02:52:10
-        Timezone: Asia/Shanghai (CST, +0800)
-     NTP enabled: yes
-NTP synchronized: yes
- RTC in local TZ: no
-      DST active: n/a
-# timedatectl list-timezones # 列出所有时区
-# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
-# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
-<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>Linux，du、df统计的硬盘使用情况不一致问题</title>
@@ -51943,6 +51943,28 @@ bin/elasticsearch-plugin list
 ]]></content:encoded>
     </item>
     <item>
+      <title>第十一章 循环与分支</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第十一章 循环与分支</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Elasticsearch 简介及其发展历史</title>
       <link>https://clay-wangzhi.com/monitor/elk/summarize/develop/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/summarize/develop/</guid>
@@ -53117,28 +53139,6 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
 ]]></content:encoded>
     </item>
     <item>
-      <title>第十一章 循环与分支</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第十一章 循环与分支</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>3 zabbix添加报警媒介</title>
       <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</link>
       <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</guid>
@@ -53199,35 +53199,6 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
 <p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" type="image/png"/>
-    </item>
-    <item>
-      <title>5 Redis监控模块</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">5 Redis监控模块</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" type="image/png"/>
     </item>
     <item>
       <title>4 MySQL监控模块</title>
@@ -53369,6 +53340,35 @@ fi
 </ol>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形1.png" type="image/png"/>
+    </item>
+    <item>
+      <title>5 Redis监控模块</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">5 Redis监控模块</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" type="image/png"/>
     </item>
     <item>
       <title>9 zookeeper集群监控</title>
@@ -54535,22 +54535,6 @@ message：可以不用写
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
-      <title>高可用开源方案 Keepalived VS Heartbeat对比</title>
-      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</link>
-      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">高可用开源方案 Keepalived VS Heartbeat对比</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h1>
-<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
-<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
-<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
-<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
-<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
-<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
-<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Redis-集群</title>
       <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/</link>
       <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/</guid>
@@ -54979,6 +54963,22 @@ nodes (check with CLUSTER NODES) or contains some key in database 0.
 <p><img src="/images/redis17.png" alt="avator" /></p>
 ]]></content:encoded>
       <enclosure url="https://clay-wangzhi.com/images/redis1.png" type="image/png"/>
+    </item>
+    <item>
+      <title>高可用开源方案 Keepalived VS Heartbeat对比</title>
+      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</link>
+      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">高可用开源方案 Keepalived VS Heartbeat对比</source>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h1>
+<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
+<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
+<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
+<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
+<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
+<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
+<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
+]]></content:encoded>
     </item>
     <item>
       <title>docker搭建redis集群</title>
@@ -56633,168 +56633,6 @@ root     pts/0    10.2.0.68        18:01    0.00s  0.01s  0.00s w
 ]]></content:encoded>
     </item>
     <item>
-      <title>每天一个linux命令（46）-iostat</title>
-      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</link>
-      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">每天一个linux命令（46）-iostat</source>
-      <pubDate>Fri, 27 Jul 2018 19:17:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>iostat(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-c：仅显示CPU使用情况；
--d：仅显示设备利用率；
--k：显示状态以千字节每秒为单位，而不使用块每秒；
--m：显示状态以兆字节每秒为单位；
--p：仅显示块设备和所有被使用的其他分区的状态；
--t：显示每个报告产生时的时间；
--V：显示版号并退出；
--x：显示扩展状态。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="参数"> 参数</h2>
-<ul>
-<li>
-<p>间隔时间：每次报告的间隔时间（秒）；</p>
-</li>
-<li>
-<p>次数：显示报告的次数。</p>
-</li>
-</ul>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）显示所有设备负载情况</p>
-<div><pre><code># iostat 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729274   43157304
-xvdb             30.95         7.62       686.84   57636578 5194927160
-dm-0             85.98         7.62       686.84   57635962 5194927160
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
-<p>cpu属性值说明：</p>
-<p>%user：CPU处在用户模式下的时间百分比。</p>
-<p>%nice：CPU处在带NICE值的用户模式下的时间百分比。</p>
-<p>%system：CPU处在系统模式下的时间百分比。</p>
-<p>%iowait：CPU等待输入输出完成时间的百分比。</p>
-<p>%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。</p>
-<p>%idle：CPU空闲时间百分比。</p>
-<p>备注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。</p>
-<p>2）定时显示所有信息</p>
-<div><pre><code>iostat 2 3
-</code></pre>
-<div><span>1</span><br></div></div><p>说明：</p>
-<p>每隔 2秒刷新显示，且显示3次</p>
-<p>3）显示指定磁盘信息</p>
-<div><pre><code># iostat -d xvda
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729290   43160264
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>4）显示tty和cpu信息</p>
-<div><pre><code># iostat -t
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-04/04/2018 02:25:52 PM
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729290   43160960
-xvdb             30.95         7.62       686.87   57637978 5195407104
-dm-0             85.99         7.62       686.87   57637362 5195407104
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>5）以m为单位显示所有信息</p>
-<div><pre><code># iostat -m
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn
-xvda              0.38         0.00         0.00        356      21075
-xvdb             30.95         0.00         0.34      28143    2536858
-dm-0             85.99         0.00         0.34      28143    2536858
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>6）查看TPS和吞吐量信息</p>
-<div><pre><code># iostat -d -k 1 1 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
-xvda              0.38         0.05         2.85     364653   21581388
-xvdb             30.95         3.81       343.44   28819121 2597806052
-dm-0             85.99         3.81       343.44   28818813 2597806052
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
-<p>tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。</p>
-<p>kB_read/s：每秒从设备（drive expressed）读取的数据量；</p>
-<p>kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；</p>
-<p>kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；</p>
-<p>这些单位都为Kilobytes。</p>
-<p>7）查看设备使用率（%util）、响应时间（await）</p>
-<div><pre><code># iostat -d -x -k 1 1 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
-xvda              0.00     0.33    0.00    0.38     0.05     2.85    15.16     0.00    3.11    1.94    3.12   1.06   0.04
-xvdb              0.00    55.03    0.13   30.83     3.81   343.45    22.44     0.33   10.74    3.87   10.76   0.12   0.37
-dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0.33    3.89    3.88    3.89   0.04   0.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
-<p>rrqm/s：  每秒进行 merge 的读操作数目.即 delta(rmerge)/s</p>
-<p>wrqm/s： 每秒进行 merge 的写操作数目.即 delta(wmerge)/s</p>
-<p>r/s：  每秒完成的读 I/O 设备次数.即 delta(rio)/s</p>
-<p>w/s：  每秒完成的写 I/O 设备次数.即 delta(wio)/s</p>
-<p>rsec/s：  每秒读扇区数.即 delta(rsect)/s</p>
-<p>wsec/s： 每秒写扇区数.即 delta(wsect)/s</p>
-<p>rkB/s：  每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节.(需要计算)</p>
-<p>wkB/s：  每秒写K字节数.是 wsect/s 的一半.(需要计算)</p>
-<p>avgrq-sz：平均每次设备I/O操作的数据大小 (扇区).delta(rsect+wsect)/delta(rio+wio)</p>
-<p>avgqu-sz：平均I/O队列长度.即 delta(aveq)/s/1000 (因为aveq的单位为毫秒).</p>
-<p>await：  平均每次设备I/O操作的等待时间 (毫秒).即 delta(ruse+wuse)/delta(rio+wio)</p>
-<p>svctm： 平均每次设备I/O操作的服务时间 (毫秒).即 delta(use)/delta(rio+wio)</p>
-<p>%util： 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的，即 delta(use)/s/1000 (因为use的单位为毫秒)</p>
-<p>如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。</p>
-<p>idle小于70% IO压力就较大了，一般读取速度有较多的wait。</p>
-<p>同时可以结合vmstat 查看查看b参数(等待资源的进程数)和wa参数(IO等待所占用的CPU时间的百分比，高过30%时IO压力高)。</p>
-<p>另外 await 的参数也要多和 svctm 来参考。差的过高就一定有 IO 的问题。</p>
-<p>avgqu-sz 也是个做 IO 调优时需要注意的地方，这个就是直接每次操作的数据的大小，如果次数多，但数据拿的小的话，其实 IO 也会很小。如果数据拿的大，才IO 的数据会高。也可以通过 avgqu-sz × ( r/s or w/s ) = rsec/s or wsec/s。也就是讲，读定速度是这个来决定的。</p>
-<p>svctm 一般要小于 await (因为同时等待的请求的等待时间被重复计算了)，svctm 的大小一般和磁盘性能有关，CPU/内存的负荷也会对其有影响，请求过多也会间接导致 svctm 的增加。await 的大小一般取决于服务时间(svctm) 以及 I/O 队列的长度和 I/O 请求的发出模式。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明 I/O 队列太长，应用得到的响应时间变慢，如果响应时间超过了用户可以容许的范围，这时可以考虑更换更快的磁盘，调整内核 elevator 算法，优化应用，或者升级 CPU。</p>
-<p>队列长度(avgqu-sz)也可作为衡量系统 I/O 负荷的指标，但由于 avgqu-sz 是按照单位时间的平均值，所以不能反映瞬间的 I/O 洪水。</p>
-<p>​       形象的比喻：
-​       r/s+w/s 类似于交款人的总数
-​      平均队列长度(avgqu-sz)类似于单位时间里平均排队人的个数
-​      平均服务时间(svctm)类似于收银员的收款速度
-​      平均等待时间(await)类似于平均每人的等待时间
-​      平均I/O数据(avgrq-sz)类似于平均每人所买的东西多少
-​       I/O 操作率 (%util)类似于收款台前有人排队的时间比例
-​       设备IO操作:总IO(io)/s = r/s(读) +w/s(写) =1.46 + 25.28=26.74
-​      平均每次设备I/O操作只需要0.36毫秒完成,现在却需要10.57毫秒完成，因为发出的	请求太多(每秒26.74个)，假如请求时同时发出的，可以这样计算平均等待时间:
-​      平均等待时间=单个I/O服务器时间*(1+2+...+请求总数-1)/请求总数
-​       每秒发出的I/0请求很多,但是平均队列就4,表示这些请求比较均匀,大部分处理还是比较及时。</p>
-<p>8）查看cpu状态</p>
-<div><pre><code># iostat -c 1 3
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           2.29    0.13    0.38    0.00    0.13   97.07
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           4.32    0.00    0.51    0.13    0.00   95.04
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/28/2837345.html</p>
-<p>http://man.linuxde.net/iostat</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>每天一个linux命令（45）-vmstat</title>
       <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8845%EF%BC%89-vmstat/</link>
       <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8845%EF%BC%89-vmstat/</guid>
@@ -57121,6 +56959,168 @@ kmem_cache                  137    137   2688      1
 <p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/25/2833108.html</p>
 <p>http://man.linuxde.net/vmstat</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>每天一个linux命令（46）-iostat</title>
+      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</link>
+      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">每天一个linux命令（46）-iostat</source>
+      <pubDate>Fri, 27 Jul 2018 19:17:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>iostat(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-c：仅显示CPU使用情况；
+-d：仅显示设备利用率；
+-k：显示状态以千字节每秒为单位，而不使用块每秒；
+-m：显示状态以兆字节每秒为单位；
+-p：仅显示块设备和所有被使用的其他分区的状态；
+-t：显示每个报告产生时的时间；
+-V：显示版号并退出；
+-x：显示扩展状态。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="参数"> 参数</h2>
+<ul>
+<li>
+<p>间隔时间：每次报告的间隔时间（秒）；</p>
+</li>
+<li>
+<p>次数：显示报告的次数。</p>
+</li>
+</ul>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）显示所有设备负载情况</p>
+<div><pre><code># iostat 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729274   43157304
+xvdb             30.95         7.62       686.84   57636578 5194927160
+dm-0             85.98         7.62       686.84   57635962 5194927160
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
+<p>cpu属性值说明：</p>
+<p>%user：CPU处在用户模式下的时间百分比。</p>
+<p>%nice：CPU处在带NICE值的用户模式下的时间百分比。</p>
+<p>%system：CPU处在系统模式下的时间百分比。</p>
+<p>%iowait：CPU等待输入输出完成时间的百分比。</p>
+<p>%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。</p>
+<p>%idle：CPU空闲时间百分比。</p>
+<p>备注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。</p>
+<p>2）定时显示所有信息</p>
+<div><pre><code>iostat 2 3
+</code></pre>
+<div><span>1</span><br></div></div><p>说明：</p>
+<p>每隔 2秒刷新显示，且显示3次</p>
+<p>3）显示指定磁盘信息</p>
+<div><pre><code># iostat -d xvda
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729290   43160264
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>4）显示tty和cpu信息</p>
+<div><pre><code># iostat -t
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+04/04/2018 02:25:52 PM
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729290   43160960
+xvdb             30.95         7.62       686.87   57637978 5195407104
+dm-0             85.99         7.62       686.87   57637362 5195407104
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>5）以m为单位显示所有信息</p>
+<div><pre><code># iostat -m
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn
+xvda              0.38         0.00         0.00        356      21075
+xvdb             30.95         0.00         0.34      28143    2536858
+dm-0             85.99         0.00         0.34      28143    2536858
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>6）查看TPS和吞吐量信息</p>
+<div><pre><code># iostat -d -k 1 1 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+xvda              0.38         0.05         2.85     364653   21581388
+xvdb             30.95         3.81       343.44   28819121 2597806052
+dm-0             85.99         3.81       343.44   28818813 2597806052
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
+<p>tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。</p>
+<p>kB_read/s：每秒从设备（drive expressed）读取的数据量；</p>
+<p>kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；</p>
+<p>kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；</p>
+<p>这些单位都为Kilobytes。</p>
+<p>7）查看设备使用率（%util）、响应时间（await）</p>
+<div><pre><code># iostat -d -x -k 1 1 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+xvda              0.00     0.33    0.00    0.38     0.05     2.85    15.16     0.00    3.11    1.94    3.12   1.06   0.04
+xvdb              0.00    55.03    0.13   30.83     3.81   343.45    22.44     0.33   10.74    3.87   10.76   0.12   0.37
+dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0.33    3.89    3.88    3.89   0.04   0.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
+<p>rrqm/s：  每秒进行 merge 的读操作数目.即 delta(rmerge)/s</p>
+<p>wrqm/s： 每秒进行 merge 的写操作数目.即 delta(wmerge)/s</p>
+<p>r/s：  每秒完成的读 I/O 设备次数.即 delta(rio)/s</p>
+<p>w/s：  每秒完成的写 I/O 设备次数.即 delta(wio)/s</p>
+<p>rsec/s：  每秒读扇区数.即 delta(rsect)/s</p>
+<p>wsec/s： 每秒写扇区数.即 delta(wsect)/s</p>
+<p>rkB/s：  每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节.(需要计算)</p>
+<p>wkB/s：  每秒写K字节数.是 wsect/s 的一半.(需要计算)</p>
+<p>avgrq-sz：平均每次设备I/O操作的数据大小 (扇区).delta(rsect+wsect)/delta(rio+wio)</p>
+<p>avgqu-sz：平均I/O队列长度.即 delta(aveq)/s/1000 (因为aveq的单位为毫秒).</p>
+<p>await：  平均每次设备I/O操作的等待时间 (毫秒).即 delta(ruse+wuse)/delta(rio+wio)</p>
+<p>svctm： 平均每次设备I/O操作的服务时间 (毫秒).即 delta(use)/delta(rio+wio)</p>
+<p>%util： 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的，即 delta(use)/s/1000 (因为use的单位为毫秒)</p>
+<p>如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。</p>
+<p>idle小于70% IO压力就较大了，一般读取速度有较多的wait。</p>
+<p>同时可以结合vmstat 查看查看b参数(等待资源的进程数)和wa参数(IO等待所占用的CPU时间的百分比，高过30%时IO压力高)。</p>
+<p>另外 await 的参数也要多和 svctm 来参考。差的过高就一定有 IO 的问题。</p>
+<p>avgqu-sz 也是个做 IO 调优时需要注意的地方，这个就是直接每次操作的数据的大小，如果次数多，但数据拿的小的话，其实 IO 也会很小。如果数据拿的大，才IO 的数据会高。也可以通过 avgqu-sz × ( r/s or w/s ) = rsec/s or wsec/s。也就是讲，读定速度是这个来决定的。</p>
+<p>svctm 一般要小于 await (因为同时等待的请求的等待时间被重复计算了)，svctm 的大小一般和磁盘性能有关，CPU/内存的负荷也会对其有影响，请求过多也会间接导致 svctm 的增加。await 的大小一般取决于服务时间(svctm) 以及 I/O 队列的长度和 I/O 请求的发出模式。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明 I/O 队列太长，应用得到的响应时间变慢，如果响应时间超过了用户可以容许的范围，这时可以考虑更换更快的磁盘，调整内核 elevator 算法，优化应用，或者升级 CPU。</p>
+<p>队列长度(avgqu-sz)也可作为衡量系统 I/O 负荷的指标，但由于 avgqu-sz 是按照单位时间的平均值，所以不能反映瞬间的 I/O 洪水。</p>
+<p>​       形象的比喻：
+​       r/s+w/s 类似于交款人的总数
+​      平均队列长度(avgqu-sz)类似于单位时间里平均排队人的个数
+​      平均服务时间(svctm)类似于收银员的收款速度
+​      平均等待时间(await)类似于平均每人的等待时间
+​      平均I/O数据(avgrq-sz)类似于平均每人所买的东西多少
+​       I/O 操作率 (%util)类似于收款台前有人排队的时间比例
+​       设备IO操作:总IO(io)/s = r/s(读) +w/s(写) =1.46 + 25.28=26.74
+​      平均每次设备I/O操作只需要0.36毫秒完成,现在却需要10.57毫秒完成，因为发出的	请求太多(每秒26.74个)，假如请求时同时发出的，可以这样计算平均等待时间:
+​      平均等待时间=单个I/O服务器时间*(1+2+...+请求总数-1)/请求总数
+​       每秒发出的I/0请求很多,但是平均队列就4,表示这些请求比较均匀,大部分处理还是比较及时。</p>
+<p>8）查看cpu状态</p>
+<div><pre><code># iostat -c 1 3
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           2.29    0.13    0.38    0.00    0.13   97.07
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           4.32    0.00    0.51    0.13    0.00   95.04
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/28/2837345.html</p>
+<p>http://man.linuxde.net/iostat</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -60022,56 +60022,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200102212417067.png" type="image/png"/>
     </item>
     <item>
-      <title>3.3 nginxSERVER块配置</title>
-      <link>https://clay-wangzhi.com/web/nginx/server/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/server/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3.3 nginxSERVER块配置</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-3-nginxserver块配置"> 3.3 nginxSERVER块配置</h1>
-<h2 id="_1-listen-指令"> 1 Listen 指令</h2>
-<p><strong>Example Configuration</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" alt="" /></p>
-<p><strong>Directives</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093633095.png" alt="" /></p>
-<h2 id="_2-server-name指令"> 2 server_name指令</h2>
-<h3 id="_2-1-规则"> 2.1 规则</h3>
-<ul>
-<li>指令后可以跟多个域名，第一个是主域名</li>
-<li>*泛域名：进支持在最前或最后（<code>server_name *.baiud.com;</code>）</li>
-<li>正则表达式：加<code>~</code>前缀 (<code>server_name www.taohui.tech ~^www\d+\.taohui\.tech$;</code>)</li>
-</ul>
-<p><strong>用正则表达式创建变量：用小括号()</strong></p>
-<p>示例</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>.</span><span>+</span><span>)</span>$<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>root</span> <span>/</span>sites<span>/</span>$<span>2</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>?</span><span>&lt;</span>domain<span>></span><span>.</span><span>+</span><span>)</span>$<span>;</span>
-    locatoin <span>/</span> <span>{</span>
-        <span>root</span> <span>/</span>sites<span>/</span><span>$domain</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p><strong>其他</strong></p>
-<ul>
-<li>.taohui.tech 可以匹配 taohui.tech *.taohui.tech</li>
-<li>_ 匹配所有</li>
-<li>“” 匹配没有传递Host头部</li>
-</ul>
-<h3 id="_2-2-匹配顺序"> 2.2 匹配顺序</h3>
-<p>1）精准匹配</p>
-<p>2）*在前的泛域名</p>
-<p>3）*在后的泛域名</p>
-<p>4）按文件中的顺序匹配正则表达式域名</p>
-<p>5）default server 匹配第1个，listen指定default</p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" type="image/png"/>
-    </item>
-    <item>
       <title>5. 状态码</title>
       <link>https://clay-wangzhi.com/web/nginx/status/</link>
       <guid>https://clay-wangzhi.com/web/nginx/status/</guid>
@@ -60143,16 +60093,54 @@ D -&gt; nginx将处理结果返回给客户端
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/http.png" type="image/png"/>
     </item>
     <item>
-      <title>tomcat注意事项</title>
-      <link>https://clay-wangzhi.com/web/tomcat/danger/</link>
-      <guid>https://clay-wangzhi.com/web/tomcat/danger/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">tomcat注意事项</source>
+      <title>3.3 nginxSERVER块配置</title>
+      <link>https://clay-wangzhi.com/web/nginx/server/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/server/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3.3 nginxSERVER块配置</source>
       <category>web中间件</category>
-      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
-<h2 id="war正确删除姿势"> war正确删除姿势</h2>
-<p>tomcat中war包停止后才可以删除</p>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-3-nginxserver块配置"> 3.3 nginxSERVER块配置</h1>
+<h2 id="_1-listen-指令"> 1 Listen 指令</h2>
+<p><strong>Example Configuration</strong></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" alt="" /></p>
+<p><strong>Directives</strong></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093633095.png" alt="" /></p>
+<h2 id="_2-server-name指令"> 2 server_name指令</h2>
+<h3 id="_2-1-规则"> 2.1 规则</h3>
+<ul>
+<li>指令后可以跟多个域名，第一个是主域名</li>
+<li>*泛域名：进支持在最前或最后（<code>server_name *.baiud.com;</code>）</li>
+<li>正则表达式：加<code>~</code>前缀 (<code>server_name www.taohui.tech ~^www\d+\.taohui\.tech$;</code>)</li>
+</ul>
+<p><strong>用正则表达式创建变量：用小括号()</strong></p>
+<p>示例</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>.</span><span>+</span><span>)</span>$<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>root</span> <span>/</span>sites<span>/</span>$<span>2</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>?</span><span>&lt;</span>domain<span>></span><span>.</span><span>+</span><span>)</span>$<span>;</span>
+    locatoin <span>/</span> <span>{</span>
+        <span>root</span> <span>/</span>sites<span>/</span><span>$domain</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p><strong>其他</strong></p>
+<ul>
+<li>.taohui.tech 可以匹配 taohui.tech *.taohui.tech</li>
+<li>_ 匹配所有</li>
+<li>“” 匹配没有传递Host头部</li>
+</ul>
+<h3 id="_2-2-匹配顺序"> 2.2 匹配顺序</h3>
+<p>1）精准匹配</p>
+<p>2）*在前的泛域名</p>
+<p>3）*在后的泛域名</p>
+<p>4）按文件中的顺序匹配正则表达式域名</p>
+<p>5）default server 匹配第1个，listen指定default</p>
 ]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" type="image/png"/>
     </item>
     <item>
       <title>tomcat假死现象</title>
@@ -60270,6 +60258,18 @@ D -&gt; nginx将处理结果返回给客户端
 <blockquote>
 <p>转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html</p>
 </blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>tomcat注意事项</title>
+      <link>https://clay-wangzhi.com/web/tomcat/danger/</link>
+      <guid>https://clay-wangzhi.com/web/tomcat/danger/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">tomcat注意事项</source>
+      <category>web中间件</category>
+      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
+<h2 id="war正确删除姿势"> war正确删除姿势</h2>
+<p>tomcat中war包停止后才可以删除</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -60564,6 +60564,200 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 <p>https://www.jianshu.com/p/8ad1009f927d</p>
 </blockquote>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>11.3 循环控制</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11.3 循环控制</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
+<blockquote>
+<p>Tournez cent tours, tournez mille tours,</p>
+<p>Tournez souvent et tournez toujours . . .</p>
+<p>——保尔·魏尔伦，《木马》</p>
+</blockquote>
+<p>本节介绍两个会影响循环行为的命令。</p>
+<h3 id="break-continue"> break, continue</h3>
+<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
+<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
+
+<span>echo</span>
+<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
+ <span>then</span>
+   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
+<span>done</span>
+
+<span># 思考：</span>
+<span># 为什么循环不会输出到20？</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
+
+<span>##################################################################</span>
+
+<span># 用 'break' 代替了 'continue'。</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
+ <span>then</span>
+   <span>break</span>  <span># 中止循环。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span>"</span>
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
+<p>样例 11-22. 跳出多层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># break-levels.sh: 跳出循环.</span>
+
+<span># "break N" 跳出 N 层循环。</span>
+
+<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>do</span>
+  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
+
+  <span># ------------------------------------------</span>
+  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
+    
+    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
+    <span>then</span>
+      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
+             <span># （它同时中止了内层和外层循环。）</span>
+    <span>fi</span>
+  <span>done</span>
+  <span># ------------------------------------------</span>
+
+  <span>echo</span>
+<span>done</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
+<p>样例 11-23. <code>continue</code> 影响外层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># "continue N" 命令可以影响其上 N 层循环。</span>
+
+<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
+<span>do</span>
+  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
+  
+  <span># --------------------------------------------------------------------</span>
+  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
+  <span>do</span>
+  
+    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
+    <span>then</span>
+      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
+                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
+    <span>fi</span>
+    
+    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
+  <span>done</span>
+  <span># --------------------------------------------------------------------</span>
+
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span># 思考：</span>
+<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
+<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
+<span># ---------------------------------------------------</span>
+
+<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
+<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
+<span>#+ 务分配给这些不同的设备来完成。</span>
+<span>#  那么我通常会在每台设备上执行下面的代码：</span>
+
+<span>while</span> true:
+<span>do</span>
+  <span>for</span> <span>n</span> <span>in</span> .iso.*
+  <span>do</span>
+    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
+    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
+    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
+    run-isotherm <span>$beta</span>
+    <span>date</span>
+    <span>ls</span> -alF .Iso.<span>$beta</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
+
+<span>while</span> <span>true</span>
+<span>do</span>
+  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
+  <span>do</span>
+    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
+<span>done</span>
+
+<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
+<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
+<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
+<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
+<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
+<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
+<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
       <title>11.4 测试与分支</title>
@@ -60971,200 +61165,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>11.3 循环控制</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11.3 循环控制</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
-<blockquote>
-<p>Tournez cent tours, tournez mille tours,</p>
-<p>Tournez souvent et tournez toujours . . .</p>
-<p>——保尔·魏尔伦，《木马》</p>
-</blockquote>
-<p>本节介绍两个会影响循环行为的命令。</p>
-<h3 id="break-continue"> break, continue</h3>
-<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
-<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
-
-<span>echo</span>
-<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
- <span>then</span>
-   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
-<span>done</span>
-
-<span># 思考：</span>
-<span># 为什么循环不会输出到20？</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
-
-<span>##################################################################</span>
-
-<span># 用 'break' 代替了 'continue'。</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
- <span>then</span>
-   <span>break</span>  <span># 中止循环。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span>"</span>
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
-<p>样例 11-22. 跳出多层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># break-levels.sh: 跳出循环.</span>
-
-<span># "break N" 跳出 N 层循环。</span>
-
-<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>do</span>
-  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
-
-  <span># ------------------------------------------</span>
-  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
-    
-    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
-    <span>then</span>
-      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
-             <span># （它同时中止了内层和外层循环。）</span>
-    <span>fi</span>
-  <span>done</span>
-  <span># ------------------------------------------</span>
-
-  <span>echo</span>
-<span>done</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
-<p>样例 11-23. <code>continue</code> 影响外层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># "continue N" 命令可以影响其上 N 层循环。</span>
-
-<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
-<span>do</span>
-  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
-  
-  <span># --------------------------------------------------------------------</span>
-  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
-  <span>do</span>
-  
-    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
-    <span>then</span>
-      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
-                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
-    <span>fi</span>
-    
-    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
-  <span>done</span>
-  <span># --------------------------------------------------------------------</span>
-
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span># 思考：</span>
-<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
-<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
-<span># ---------------------------------------------------</span>
-
-<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
-<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
-<span>#+ 务分配给这些不同的设备来完成。</span>
-<span>#  那么我通常会在每台设备上执行下面的代码：</span>
-
-<span>while</span> true:
-<span>do</span>
-  <span>for</span> <span>n</span> <span>in</span> .iso.*
-  <span>do</span>
-    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
-    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
-    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
-    run-isotherm <span>$beta</span>
-    <span>date</span>
-    <span>ls</span> -alF .Iso.<span>$beta</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
-
-<span>while</span> <span>true</span>
-<span>do</span>
-  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
-  <span>do</span>
-    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
-<span>done</span>
-
-<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
-<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
-<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
-<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
-<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
-<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
-<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
   </channel>
 </rss>
