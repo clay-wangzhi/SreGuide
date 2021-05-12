@@ -26,12 +26,16 @@ module.exports = {
       items: [
         { text: "Zabbix", icon: "zabbix1", link: "/monitor/zabbix/" },
         { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
+        { text: "Prometheus", icon: "prometheus", link: "/monitor/prometheus/" },
+        { text: "Grafana", icon: "grafana", link: "/monitor/grafana/" },
       ],      
     },
     {
       text: "自动化工具",
       icon: "devops",
       items: [
+        { text: "Gitlab", icon: "gitlab", link: "/automate/gitlab/" },
+        { text: "Jenkins", icon: "jenkins", link: "/automate/jenkins/" },
         { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
       ],
     },
@@ -40,6 +44,7 @@ module.exports = {
       icon: "webkuangjia",
       items: [
         { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
+        { text: "Tomcat", icon: "tomcat", link: "/web/tomcat/" },
       ],
     },
     {
