@@ -6,7 +6,7 @@ title: 博客主页
 heroImage: /Kubernetes.svg
 heroText: IT外卖小哥
 tagline: Keep Learning
-bgImage: /bg.png
+bgImage: /bg.jpg
 project:
   - type: link
     name: linux-command
