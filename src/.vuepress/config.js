@@ -4,7 +4,7 @@ const sideBarConfig = require("./config/sideBar");
 
 module.exports = config({
   title: "IT外卖小哥",
-  description: "当你发现自己的才华撑不起野心时，就请安静下来学习吧！",
+  description: "Keep Learning",
 
   dest: "./dist",
   locales: {
