@@ -24,7 +24,7 @@ module.exports = {
       text: "监控工具",
       icon: "jiankong",
       items: [
-        { text: "Zabbix", icon: "zabbix", link: "/monitor/zabbix/" },
+        { text: "Zabbix", icon: "zabbix1", link: "/monitor/zabbix/" },
         { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
       ],      
     },
