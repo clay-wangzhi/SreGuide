@@ -4,7 +4,7 @@ category: Linux
 tags:
   - Bash
 ---
-# 第二十六章. 列表结构
+# 26. 列表结构
 
 _and 列表_ 和 _or 列表_ 结构提供了连续执行若干命令的方法，可以有效地替换复杂的嵌套 [if/then](http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1) ，甚至 [case](http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1) 语句。
 
