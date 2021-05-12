@@ -6,6 +6,7 @@ title: 博客主页
 heroImage: /Kubernetes.svg
 heroText: IT外卖小哥
 tagline: 当你发现自己的才华撑不起野心时，就请安静下来学习吧！
+bgImage: /Kubernetes.svg
 project:
   - type: link
     name: linux-command
