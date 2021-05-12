@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-12T10:29:42.394Z</updated>
+  <updated>2021-05-12T13:00:24.955Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -94,6 +94,247 @@
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -462,247 +703,6 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -12184,319 +12184,6 @@ it <span>=</span> <span>iter</span><span>(</span>lst<span>)</span> <span># 返�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">14 多进程</title>
-    <id>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</id>
-    <link href="https://clay-wangzhi.com/code/python/python-gil-multiprocessing/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_14-多进程"> 14 多进程</h1>
-<h2 id="gil"> GIL</h2>
-<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
-<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
-<p>CPython中</p>
-<ul>
-<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
-<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
-<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
-</ul>
-<p>新版CPython正在努力优化GIL的问题，但不是移除。
-如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
-<blockquote>
-<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
-由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
-</blockquote>
-<p>保留GIL的原因：
-GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
-而且移除GIL，会降低CPython单线程的执行效率。
-测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
-<div><pre><code><span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
-<span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t1<span>.</span>start<span>(</span><span>)</span>
-t2<span>.</span>start<span>(</span><span>)</span>
-t3<span>.</span>start<span>(</span><span>)</span>
-t4<span>.</span>start<span>(</span><span>)</span>
-t1<span>.</span>join<span>(</span><span>)</span>
-t2<span>.</span>join<span>(</span><span>)</span>
-t3<span>.</span>join<span>(</span><span>)</span>
-t4<span>.</span>join<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
-<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
-程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
-<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
-<h2 id="多进程"> 多进程</h2>
-<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
-多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
-但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
-<h3 id="multiprocessing"> multiprocessing</h3>
-<p><strong>Process类</strong></p>
-<p>Process类遵循了Thread类的API，减少了学习难度。</p>
-<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
-<div><pre><code><span>import</span> multiprocessing
-<span>import</span> datetime
-
-
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    <span>return</span> i<span>,</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-
-    ps <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
-        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
-        ps<span>.</span>append<span>(</span>p<span>)</span>
-        p<span>.</span>start<span>(</span><span>)</span>
-
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        p<span>.</span>join<span>(</span><span>)</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
-<ul>
-<li>使用单线程、多线程跑了4分钟多</li>
-<li>多进程用了1分半</li>
-</ul>
-<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
-<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pid</td>
-<td>进程 id</td>
-</tr>
-<tr>
-<td>exitcode</td>
-<td>进程的退出状态码</td>
-</tr>
-<tr>
-<td>terminate()</td>
-<td>终止指定的进程</td>
-</tr>
-</tbody>
-</table>
-<h3 id="进程间同步"> 进程间同步</h3>
-<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
-不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
-multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
-<p>通信方式不同</p>
-<ol>
-<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
-<li>数据的线程安全性问题
-如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
-</ol>
-<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
-<p>1、CPU密集型
-CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
-高。</p>
-<p>2、IO密集型
-在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
-<p><strong>应用</strong></p>
-<p>请求/应答模型：WEB应用中常见的处理模型</p>
-<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
-worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
-这就是nginx工作模式。</p>
-<h2 id="concurrent-futures包"> concurrent.futures包</h2>
-<p>3.2版本引入的模块。</p>
-<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
-<p>提供了2个池执行器：</p>
-<ul>
-<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
-<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
-</ul>
-<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
-<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ThreadPoolExecutor(max_workers=1)</td>
-<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
-</tr>
-<tr>
-<td>submit(fn, *args, **kwargs)</td>
-<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
-</tr>
-<tr>
-<td>shutdown(wait=True)</td>
-<td>清理池，wait 表示是否等待到任务线程完成</td>
-</tr>
-</tbody>
-</table>
-<p>Future 类</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>done()</td>
-<td>如果调用被成功的取消或者执行完成，返回True</td>
-</tr>
-<tr>
-<td>cancelled()</td>
-<td>如果调用被成功的取消，返回True</td>
-</tr>
-<tr>
-<td>running()</td>
-<td>如果正在运行且不能被取消，返回True</td>
-</tr>
-<tr>
-<td>cancel()</td>
-<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
-</tr>
-<tr>
-<td>result(timeout=None)</td>
-<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-<tr>
-<td>exception(timeout=None)</td>
-<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-</tbody>
-</table>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
-<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-    fs <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-        fs<span>.</span>append<span>(</span>future<span>)</span>
-
-    <span>#wait(fs) # 阻塞</span>
-    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-<span>for</span> f <span>in</span> fs<span>:</span>
-    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-
-<span>print</span><span>(</span>delta<span>)</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
-<p>方法一样。就是使用多进程完成。</p>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
-    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-        fs <span>=</span> <span>[</span><span>]</span>
-        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-            fs<span>.</span>append<span>(</span>future<span>)</span>
-
-        <span>#wait(fs) # 阻塞</span>
-        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-    <span>for</span> f <span>in</span> fs<span>:</span>
-        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
-<p>该库统一了线程池、进程池调用，简化了编程。
-是Python简单的思想哲学的体现。</p>
-<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">03 哈希表和解析式</title>
     <id>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</id>
     <link href="https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/"/>
@@ -13033,6 +12720,319 @@ ret <span>=</span> <span>[</span><span>]</span>
 <span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>'ABC'</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>values<span>(</span><span>)</span><span>,</span> key<span>=</span><span>str</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">14 多进程</title>
+    <id>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</id>
+    <link href="https://clay-wangzhi.com/code/python/python-gil-multiprocessing/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_14-多进程"> 14 多进程</h1>
+<h2 id="gil"> GIL</h2>
+<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
+<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
+<p>CPython中</p>
+<ul>
+<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
+<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
+<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
+</ul>
+<p>新版CPython正在努力优化GIL的问题，但不是移除。
+如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
+<blockquote>
+<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
+由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
+</blockquote>
+<p>保留GIL的原因：
+GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
+而且移除GIL，会降低CPython单线程的执行效率。
+测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
+<div><pre><code><span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
+<span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t1<span>.</span>start<span>(</span><span>)</span>
+t2<span>.</span>start<span>(</span><span>)</span>
+t3<span>.</span>start<span>(</span><span>)</span>
+t4<span>.</span>start<span>(</span><span>)</span>
+t1<span>.</span>join<span>(</span><span>)</span>
+t2<span>.</span>join<span>(</span><span>)</span>
+t3<span>.</span>join<span>(</span><span>)</span>
+t4<span>.</span>join<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
+<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
+程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
+<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
+<h2 id="多进程"> 多进程</h2>
+<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
+多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
+但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
+<h3 id="multiprocessing"> multiprocessing</h3>
+<p><strong>Process类</strong></p>
+<p>Process类遵循了Thread类的API，减少了学习难度。</p>
+<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
+<div><pre><code><span>import</span> multiprocessing
+<span>import</span> datetime
+
+
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    <span>return</span> i<span>,</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+
+    ps <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
+        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
+        ps<span>.</span>append<span>(</span>p<span>)</span>
+        p<span>.</span>start<span>(</span><span>)</span>
+
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        p<span>.</span>join<span>(</span><span>)</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
+<ul>
+<li>使用单线程、多线程跑了4分钟多</li>
+<li>多进程用了1分半</li>
+</ul>
+<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
+<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pid</td>
+<td>进程 id</td>
+</tr>
+<tr>
+<td>exitcode</td>
+<td>进程的退出状态码</td>
+</tr>
+<tr>
+<td>terminate()</td>
+<td>终止指定的进程</td>
+</tr>
+</tbody>
+</table>
+<h3 id="进程间同步"> 进程间同步</h3>
+<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
+不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
+multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
+<p>通信方式不同</p>
+<ol>
+<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
+<li>数据的线程安全性问题
+如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
+</ol>
+<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
+<p>1、CPU密集型
+CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
+高。</p>
+<p>2、IO密集型
+在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
+<p><strong>应用</strong></p>
+<p>请求/应答模型：WEB应用中常见的处理模型</p>
+<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
+worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
+这就是nginx工作模式。</p>
+<h2 id="concurrent-futures包"> concurrent.futures包</h2>
+<p>3.2版本引入的模块。</p>
+<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
+<p>提供了2个池执行器：</p>
+<ul>
+<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
+<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
+</ul>
+<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
+<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThreadPoolExecutor(max_workers=1)</td>
+<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
+</tr>
+<tr>
+<td>submit(fn, *args, **kwargs)</td>
+<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
+</tr>
+<tr>
+<td>shutdown(wait=True)</td>
+<td>清理池，wait 表示是否等待到任务线程完成</td>
+</tr>
+</tbody>
+</table>
+<p>Future 类</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>done()</td>
+<td>如果调用被成功的取消或者执行完成，返回True</td>
+</tr>
+<tr>
+<td>cancelled()</td>
+<td>如果调用被成功的取消，返回True</td>
+</tr>
+<tr>
+<td>running()</td>
+<td>如果正在运行且不能被取消，返回True</td>
+</tr>
+<tr>
+<td>cancel()</td>
+<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
+</tr>
+<tr>
+<td>result(timeout=None)</td>
+<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+<tr>
+<td>exception(timeout=None)</td>
+<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+</tbody>
+</table>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
+<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+    fs <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+        fs<span>.</span>append<span>(</span>future<span>)</span>
+
+    <span>#wait(fs) # 阻塞</span>
+    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+<span>for</span> f <span>in</span> fs<span>:</span>
+    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+
+<span>print</span><span>(</span>delta<span>)</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
+<p>方法一样。就是使用多进程完成。</p>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
+    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+        fs <span>=</span> <span>[</span><span>]</span>
+        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+            fs<span>.</span>append<span>(</span>future<span>)</span>
+
+        <span>#wait(fs) # 阻塞</span>
+        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+    <span>for</span> f <span>in</span> fs<span>:</span>
+        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
+<p>该库统一了线程池、进程池调用，简化了编程。
+是Python简单的思想哲学的体现。</p>
+<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -28417,6 +28417,35 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第十二章 命令替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/12_command_substitution/"/>
@@ -28743,35 +28772,6 @@ bash$ echo $(echo \\)
 </li>
 </ol>
 </section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -30963,6 +30963,97 @@ Line 8.
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">20.3 应用程序</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
+<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
+<p>样例 20-12. 日志记录事件</p>
+<div><pre><code>#!/bin/bash
+# logevents.sh
+# 作者: Stephane Chazelas.
+# 用于 ABS 许可指南.
+
+# 事件记录到文件.
+# 必须 root 身份执行 (可以写入 /var/log).
+
+ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
+E_NOTROOT=67   # 非 root 会报错.
+
+
+if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
+then
+  echo &quot;Must be root to run this script.&quot;
+  exit $E_NOTROOT
+fi  
+
+
+FD_DEBUG1=3
+FD_DEBUG2=4
+FD_DEBUG3=5
+
+# === 取消下面两行注释来激活脚本. ===
+# LOG_EVENTS=1
+# LOG_VARS=1
+
+
+log()  # 时间和日期写入日志文件.
+{
+echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
+#     ^^^^^^^  命令替换
+                           # 见下文.
+}
+
+
+
+case $LOG_LEVEL in
+ 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
+ 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
+ 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
+ *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
+esac
+
+FD_LOGVARS=6
+if [[ $LOG_VARS ]]
+then exec 6&gt;&gt; /var/log/vars.log
+else exec 6&gt; /dev/null                     # 清空输出.
+fi
+
+FD_LOGEVENTS=7
+if [[ $LOG_EVENTS ]]
+then
+  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
+  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
+  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
+  log                                      # 写入时间和日期.
+else exec 7&gt; /dev/null                     # 清空输出.
+fi
+
+echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
+
+ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
+
+echo &quot;Done&quot;                                # 命令2 
+
+echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
+# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
+
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">20.2 重定向代码块</title>
     <id>https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/"/>
@@ -31228,97 +31319,6 @@ EOF
 echo &quot;$nr files totaling $totalSize bytes&quot;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">20.3 应用程序</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
-<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
-<p>样例 20-12. 日志记录事件</p>
-<div><pre><code>#!/bin/bash
-# logevents.sh
-# 作者: Stephane Chazelas.
-# 用于 ABS 许可指南.
-
-# 事件记录到文件.
-# 必须 root 身份执行 (可以写入 /var/log).
-
-ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
-E_NOTROOT=67   # 非 root 会报错.
-
-
-if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
-then
-  echo &quot;Must be root to run this script.&quot;
-  exit $E_NOTROOT
-fi  
-
-
-FD_DEBUG1=3
-FD_DEBUG2=4
-FD_DEBUG3=5
-
-# === 取消下面两行注释来激活脚本. ===
-# LOG_EVENTS=1
-# LOG_VARS=1
-
-
-log()  # 时间和日期写入日志文件.
-{
-echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
-#     ^^^^^^^  命令替换
-                           # 见下文.
-}
-
-
-
-case $LOG_LEVEL in
- 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
- 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
- 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
- *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
-esac
-
-FD_LOGVARS=6
-if [[ $LOG_VARS ]]
-then exec 6&gt;&gt; /var/log/vars.log
-else exec 6&gt; /dev/null                     # 清空输出.
-fi
-
-FD_LOGEVENTS=7
-if [[ $LOG_EVENTS ]]
-then
-  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
-  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
-  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
-  log                                      # 写入时间和日期.
-else exec 7&gt; /dev/null                     # 清空输出.
-fi
-
-echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
-
-ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
-
-echo &quot;Done&quot;                                # 命令2 
-
-echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
-# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
-
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -33363,6 +33363,128 @@ exit $?
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">25. 别名</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/25_aliases/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/25_aliases/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_25-别名"> 25. 别名</h1>
+<p>Bash <code>别名</code> 本质上不外乎是键盘上的快捷键，缩写呢是避免输入很长的命令串的一种手段.举个例子, 在 <a href="http://tldp.org/LDP/abs/html/sample-bashrc.html" target="_blank" rel="noopener noreferrer">~/.bashrc</a> 文件中包含别名 <code>lm=&quot;ls -l | more</code>, 而后每个命令行输入的 lm <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18669" target="_blank" rel="noopener noreferrer">[1]</a> 将会自动被替换成 <code>ls -l | more</code>. 这可以节省大量的命令行输入和避免记住复杂的命令和选项. 设定别名 <code>rm=&quot;rm -i&quot;</code> (交互的删除模式) 防止无意的删除重要文件，也许可以少些悲痛.</p>
+<p>脚本中别名作用十分有限. 如果别名可以有一些 C 预处理器的功能会更好, 例如宏扩展, 但不幸的是 bash 别名中没有扩展参数. <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18676" target="_blank" rel="noopener noreferrer">[2]</a> 另外, 脚本在 &quot;复合结构&quot; 中并不能扩展自身的别名，例如 <a href="http://tldp.org/LDP/abs/html/tests.html#IFTHEN" target="_blank" rel="noopener noreferrer">if/then</a>, 循环和函数. 另一个限制是，别名不能递归扩展. 基本上是我们无论怎么喜欢用别名都不如函数 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">function</a> 来的更有效.</p>
+<p>样例 25-1. 脚本中的别名</p>
+<div><pre><code>#!/bin/bash
+# alias.sh
+
+shopt -s expand_aliases
+# 必须设置此选项, 否则脚本不能别名扩展.
+
+
+# 首先来点好玩的东西.
+alias Jesse_James=&#39;echo &quot;\&quot;Alias Jesse James\&quot; was a 1959 comedy starring Bob Hope.&quot;&#39;
+Jesse_James
+
+echo; echo; echo;
+
+alias ll=&quot;ls -l&quot;
+# 可以任意使用单引号 (&#39;) 或双引号 (&quot;) 把别名括起来.
+
+echo &quot;Trying aliased \&quot;ll\&quot;:&quot;
+ll /usr/X11R6/bin/mk*   #* 别名可以运行.
+
+echo
+
+directory=/usr/X11R6/bin/
+prefix=mk*  # See if wild card causes problems.
+echo &quot;Variables \&quot;directory\&quot; + \&quot;prefix\&quot; = $directory$prefix&quot;
+echo
+
+alias lll=&quot;ls -l $directory$prefix&quot;
+
+echo &quot;Trying aliased \&quot;lll\&quot;:&quot;
+lll         # 所有 /usr/X11R6/bin 文件清单以 mk 开始.
+# 别名可以处理连续的变量 -- 包含 wild card -- o.k.
+
+
+
+
+TRUE=1
+
+echo
+
+if [ TRUE ]
+then
+  alias rr=&quot;ls -l&quot;
+  echo &quot;Trying aliased \&quot;rr\&quot; within if/then statement:&quot;
+  rr /usr/X11R6/bin/mk*   #* 结果报错!
+  # 别名在复合的表达式中并没有生效.
+  echo &quot;However, previously expanded alias still recognized:&quot;
+  ll /usr/X11R6/bin/mk*
+fi  
+
+echo
+
+count=0
+while [ $count -lt 3 ]
+do
+  alias rrr=&quot;ls -l&quot;
+  echo &quot;Trying aliased \&quot;rrr\&quot; within \&quot;while\&quot; loop:&quot;
+  rrr /usr/X11R6/bin/mk*   #* 这里的别名也没生效.
+                           #  alias.sh: 行 57: rrr: 命令未找到
+  let count+=1
+done 
+
+echo; echo
+
+alias xyz=&#39;cat $0&#39;   # 列出了自身.
+                     # 注意强引.
+xyz
+#  这看起来能工作,
+#+ 尽管 bash 文档不介意这么做.
+#
+#  然而, Steve Jacobson 指出,
+#+ &quot;$0&quot; 参数的扩展在上面的别名申明后立刻生效.
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br></div></div><p>取消别名的命令删除之前设置的别名.</p>
+<p>样例 25-2. unalias: 设置和取消一个别名</p>
+<div><pre><code>#!/bin/bash
+# unalias.sh
+
+shopt -s expand_aliases  # 开启别名扩展.
+
+alias llm=&#39;ls -al | more&#39;
+llm
+
+echo
+
+unalias llm              # 取消别名.
+llm
+# &#39;llm&#39; 不再被识别后的报错信息.
+
+exit 0
+bash$ ./unalias.sh
+total 6
+drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
+drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
+-rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
+
+./unalias.sh: llm: 命令未找到
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><h4 id="注意"> 注意</h4>
+<p><a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18669" target="_blank" rel="noopener noreferrer">[1]</a>	... 作为命令行的第一个词. 显然别名只在命令的开始有意义.
+<a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18676" target="_blank" rel="noopener noreferrer">[2]</a>	然而, 别名可用来扩展位置参数.</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">26. 列表结构</title>
     <id>https://clay-wangzhi.com/code/shell/part5/26_List_Constructs/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/26_List_Constructs/"/>
@@ -33529,128 +33651,6 @@ false &amp;&amp; ( true || echo false )     # (什么都不显示)
 #  感谢, S.C.
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">例 A-7</a> 和 <a href="http://tldp.org/LDP/abs/html/fto.html#BROKENLINK" target="_blank" rel="noopener noreferrer">例 7-4</a> 解释了用 <em>and 列表</em> / <em>or 列表</em> 来测试变量。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">25. 别名</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/25_aliases/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/25_aliases/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_25-别名"> 25. 别名</h1>
-<p>Bash <code>别名</code> 本质上不外乎是键盘上的快捷键，缩写呢是避免输入很长的命令串的一种手段.举个例子, 在 <a href="http://tldp.org/LDP/abs/html/sample-bashrc.html" target="_blank" rel="noopener noreferrer">~/.bashrc</a> 文件中包含别名 <code>lm=&quot;ls -l | more</code>, 而后每个命令行输入的 lm <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18669" target="_blank" rel="noopener noreferrer">[1]</a> 将会自动被替换成 <code>ls -l | more</code>. 这可以节省大量的命令行输入和避免记住复杂的命令和选项. 设定别名 <code>rm=&quot;rm -i&quot;</code> (交互的删除模式) 防止无意的删除重要文件，也许可以少些悲痛.</p>
-<p>脚本中别名作用十分有限. 如果别名可以有一些 C 预处理器的功能会更好, 例如宏扩展, 但不幸的是 bash 别名中没有扩展参数. <a href="http://tldp.org/LDP/abs/html/aliases.html#FTN.AEN18676" target="_blank" rel="noopener noreferrer">[2]</a> 另外, 脚本在 &quot;复合结构&quot; 中并不能扩展自身的别名，例如 <a href="http://tldp.org/LDP/abs/html/tests.html#IFTHEN" target="_blank" rel="noopener noreferrer">if/then</a>, 循环和函数. 另一个限制是，别名不能递归扩展. 基本上是我们无论怎么喜欢用别名都不如函数 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">function</a> 来的更有效.</p>
-<p>样例 25-1. 脚本中的别名</p>
-<div><pre><code>#!/bin/bash
-# alias.sh
-
-shopt -s expand_aliases
-# 必须设置此选项, 否则脚本不能别名扩展.
-
-
-# 首先来点好玩的东西.
-alias Jesse_James=&#39;echo &quot;\&quot;Alias Jesse James\&quot; was a 1959 comedy starring Bob Hope.&quot;&#39;
-Jesse_James
-
-echo; echo; echo;
-
-alias ll=&quot;ls -l&quot;
-# 可以任意使用单引号 (&#39;) 或双引号 (&quot;) 把别名括起来.
-
-echo &quot;Trying aliased \&quot;ll\&quot;:&quot;
-ll /usr/X11R6/bin/mk*   #* 别名可以运行.
-
-echo
-
-directory=/usr/X11R6/bin/
-prefix=mk*  # See if wild card causes problems.
-echo &quot;Variables \&quot;directory\&quot; + \&quot;prefix\&quot; = $directory$prefix&quot;
-echo
-
-alias lll=&quot;ls -l $directory$prefix&quot;
-
-echo &quot;Trying aliased \&quot;lll\&quot;:&quot;
-lll         # 所有 /usr/X11R6/bin 文件清单以 mk 开始.
-# 别名可以处理连续的变量 -- 包含 wild card -- o.k.
-
-
-
-
-TRUE=1
-
-echo
-
-if [ TRUE ]
-then
-  alias rr=&quot;ls -l&quot;
-  echo &quot;Trying aliased \&quot;rr\&quot; within if/then statement:&quot;
-  rr /usr/X11R6/bin/mk*   #* 结果报错!
-  # 别名在复合的表达式中并没有生效.
-  echo &quot;However, previously expanded alias still recognized:&quot;
-  ll /usr/X11R6/bin/mk*
-fi  
-
-echo
-
-count=0
-while [ $count -lt 3 ]
-do
-  alias rrr=&quot;ls -l&quot;
-  echo &quot;Trying aliased \&quot;rrr\&quot; within \&quot;while\&quot; loop:&quot;
-  rrr /usr/X11R6/bin/mk*   #* 这里的别名也没生效.
-                           #  alias.sh: 行 57: rrr: 命令未找到
-  let count+=1
-done 
-
-echo; echo
-
-alias xyz=&#39;cat $0&#39;   # 列出了自身.
-                     # 注意强引.
-xyz
-#  这看起来能工作,
-#+ 尽管 bash 文档不介意这么做.
-#
-#  然而, Steve Jacobson 指出,
-#+ &quot;$0&quot; 参数的扩展在上面的别名申明后立刻生效.
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br></div></div><p>取消别名的命令删除之前设置的别名.</p>
-<p>样例 25-2. unalias: 设置和取消一个别名</p>
-<div><pre><code>#!/bin/bash
-# unalias.sh
-
-shopt -s expand_aliases  # 开启别名扩展.
-
-alias llm=&#39;ls -al | more&#39;
-llm
-
-echo
-
-unalias llm              # 取消别名.
-llm
-# &#39;llm&#39; 不再被识别后的报错信息.
-
-exit 0
-bash$ ./unalias.sh
-total 6
-drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
-drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
--rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
-
-./unalias.sh: llm: 命令未找到
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><h4 id="注意"> 注意</h4>
-<p><a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18669" target="_blank" rel="noopener noreferrer">[1]</a>	... 作为命令行的第一个词. 显然别名只在命令的开始有意义.
-<a href="http://tldp.org/LDP/abs/html/aliases.html#AEN18676" target="_blank" rel="noopener noreferrer">[2]</a>	然而, 别名可用来扩展位置参数.</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -40266,6 +40266,39 @@ set global expire_logs_days = 7;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">11 MySQL逻辑架构</title>
+    <id>https://clay-wangzhi.com/db/mysql/jiagou/</id>
+    <link href="https://clay-wangzhi.com/db/mysql/jiagou/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
+<h2 id="mysql架构"> mysql架构</h2>
+<p>mysql架构分为三层：</p>
+<ol>
+<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
+<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
+<li>存储引擎层：存储和提取数据以及事务处理</li>
+</ol>
+<p><img src="./images/1.png" alt="" /></p>
+<h3 id="服务层"> 服务层</h3>
+<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
+<h3 id="核心层"> 核心层</h3>
+<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
+<h3 id="存储引擎层"> 存储引擎层</h3>
+<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
+<h2 id="总图"> 总图</h2>
+<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="MySQL"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">3 数据库设计与查询语句</title>
     <id>https://clay-wangzhi.com/db/mysql/des-select/</id>
     <link href="https://clay-wangzhi.com/db/mysql/des-select/"/>
@@ -41279,39 +41312,6 @@ Empty set (0.02 sec)
 <p>选择一个表的数据插入到另外的表中。</p>
 <h3 id="_9-2-on-duplicate-key-update"> 9.2 on duplicate key update</h3>
 <p>在插入数据的时候，如果插入的数据不满足主键约束或唯一约束则执行更新操作。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="MySQL"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">11 MySQL逻辑架构</title>
-    <id>https://clay-wangzhi.com/db/mysql/jiagou/</id>
-    <link href="https://clay-wangzhi.com/db/mysql/jiagou/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
-<h2 id="mysql架构"> mysql架构</h2>
-<p>mysql架构分为三层：</p>
-<ol>
-<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
-<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
-<li>存储引擎层：存储和提取数据以及事务处理</li>
-</ol>
-<p><img src="./images/1.png" alt="" /></p>
-<h3 id="服务层"> 服务层</h3>
-<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
-<h3 id="核心层"> 核心层</h3>
-<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
-<h3 id="存储引擎层"> 存储引擎层</h3>
-<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
-<h2 id="总图"> 总图</h2>
-<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -50110,61 +50110,6 @@ mysql&gt;exit(退出)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">filebeat的安装注意</title>
-    <id>https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
-<div><pre><code># filebeat输出到kafka中时，需要指定topic
-output.kafka:
-  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
-  topic: &#39;credit&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>1.注意yaml文件的格式需要对齐</p>
-<p>2.注意注释掉默认的#output.elasticsearch:</p>
-</blockquote>
-<p>filebeat.yml配置文件</p>
-<p>改动地方</p>
-<div><pre><code>filebeat.inputs:
-
-# Each - is an input. Most options can be set at the input level, so
-# you can use different inputs for various configurations.
-# Below are the input specific configurations.
-
-- type: log
-
-  # Change to true to enable this input configuration.
-  enabled: true
-
-  # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-    - /var/log/aa.txt
-
-# setup.kibana:
-#output.elasticsearch:
-  # Array of hosts to connect to.
-  # hosts: [&quot;localhost:9200&quot;]
-
-  # Optional protocol and basic auth credentials.
-  #protocol: &quot;https&quot;
-  #username: &quot;elastic&quot;
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
-<p>setup.kibana注释掉</p>
-<p>output.elasticsearch:下面所有东西注释掉</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Centos7.6下Elasticseatch7.2集群搭建步骤</title>
     <id>https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"/>
@@ -50893,6 +50838,61 @@ curl -XPOST http://localhost:9200/index/_create/4 -H &#39;Content-Type:applicati
 <p>elasticsearch-head：<a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener noreferrer">https://github.com/mobz/elasticsearch-head</a></p>
 <p>cerebro: <a href="https://github.com/lmenezes/cerebro" target="_blank" rel="noopener noreferrer">https://github.com/lmenezes/cerebro</a></p>
 </blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">filebeat的安装注意</title>
+    <id>https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
+<div><pre><code># filebeat输出到kafka中时，需要指定topic
+output.kafka:
+  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
+  topic: &#39;credit&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>1.注意yaml文件的格式需要对齐</p>
+<p>2.注意注释掉默认的#output.elasticsearch:</p>
+</blockquote>
+<p>filebeat.yml配置文件</p>
+<p>改动地方</p>
+<div><pre><code>filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/aa.txt
+
+# setup.kibana:
+#output.elasticsearch:
+  # Array of hosts to connect to.
+  # hosts: [&quot;localhost:9200&quot;]
+
+  # Optional protocol and basic auth credentials.
+  #protocol: &quot;https&quot;
+  #username: &quot;elastic&quot;
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
+<p>setup.kibana注释掉</p>
+<p>output.elasticsearch:下面所有东西注释掉</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -53362,6 +53362,24 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">ELK</title>
+    <id>https://clay-wangzhi.com/monitor/elk/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="elk"> ELK</h1>
+<p>hello elk~</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Search API概览</title>
     <id>https://clay-wangzhi.com/monitor/elk/primer/search-api/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/primer/search-api/"/>
@@ -53404,24 +53422,6 @@ bin/elasticsearch-plugin list
 </li>
 </ul>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098803331.png" alt="" /></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">ELK</title>
-    <id>https://clay-wangzhi.com/monitor/elk/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="elk"> ELK</h1>
-<p>hello elk~</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -53776,6 +53776,40 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">6 常见问题</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/qa/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/qa/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">聊透监控体系</title>
     <id>https://clay-wangzhi.com/monitor/monitor-system/</id>
     <link href="https://clay-wangzhi.com/monitor/monitor-system/"/>
@@ -53982,40 +54016,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <p>来源：本文转自公众号”51CTO技术栈“，经平台授权转载。</p>
 <p>参考其他链接：https://blog.csdn.net/javaforwork/article/details/101093901</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">6 常见问题</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/qa/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/qa/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -54581,74 +54581,6 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3 zabbix添加报警媒介</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-media/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
-<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">7 用zabbix api批量添加web监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/"/>
@@ -54841,6 +54773,74 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">3 zabbix添加报警媒介</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-media/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
+<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">4 MySQL监控模块</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/"/>
@@ -55012,6 +55012,85 @@ fi
 <div><pre><code>systemctl restart zabbix-agent.service
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">9 zookeeper集群监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_9-zookeeper集群监控"> 9 zookeeper集群监控</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h1 id="zabbix-zookeper-template"> Zabbix-Zookeper-Template</h1>
+<h2 id="system-requirements"> System requirements</h2>
+<ul>
+<li><a href="http://www.zabbix.com/downloads/" target="_blank" rel="noopener noreferrer">zabbix</a> &gt;= 3.4 (preprocessing used by this template)</li>
+<li><a href="https://zookeeper.apache.org/releases.html" target="_blank" rel="noopener noreferrer">zookeeper</a> &gt;= 3.4 (mntr stats)</li>
+<li>netcat</li>
+<li>zookeeper监控模板，被监控主机，记得添加nc命令</li>
+</ul>
+<h2 id="features"> Features</h2>
+<ul>
+<li>
+<p>ruok check</p>
+</li>
+<li>
+<p>mntr stats :</p>
+<ul>
+<li>zk_num_alive_connections</li>
+<li>zk_approximate_data_size</li>
+<li>zk_ephemerals_count</li>
+<li>zk_min_latency</li>
+<li>zk_avg_latency</li>
+<li>zk_max_latency</li>
+<li>zk_max_file_descriptor_count</li>
+<li>zk_open_file_descriptor_count</li>
+<li>zk_outstanding_requests</li>
+<li>zk_packets_received</li>
+<li>zk_packets_sent</li>
+<li>zk_server_state</li>
+<li>zk_version</li>
+<li>zk_znode_count</li>
+</ul>
+</li>
+<li>
+<p>graphs</p>
+</li>
+<li>
+<p>screen</p>
+</li>
+</ul>
+<h2 id="zabbix-macros"> Zabbix Macros</h2>
+<ul>
+<li>{$ZOO_IP} : IP of the Zookeeper Instance (default : 127.0.0.1)</li>
+<li>{$ZOO_PORT} : Port of the Zookeeper Instance (default : 2181)</li>
+</ul>
+<h2 id="zabbix-configuration"> Zabbix Configuration</h2>
+<ol>
+<li>
+<p>Copy <code>UserParameter_Zookeeper.conf</code> to <code>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
+</li>
+<li>
+<p>Restart your Zabbix Agent</p>
+</li>
+<li>
+<p>Import XML template file (<code>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
+</li>
+<li>
+<p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
+</li>
+</ol>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -55274,78 +55353,18 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">9 zookeeper集群监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/"/>
+    <title type="html">显示当前正在编辑的文件名</title>
+    <id>https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <link href="https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_9-zookeeper集群监控"> 9 zookeeper集群监控</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h1 id="zabbix-zookeper-template"> Zabbix-Zookeper-Template</h1>
-<h2 id="system-requirements"> System requirements</h2>
-<ul>
-<li><a href="http://www.zabbix.com/downloads/" target="_blank" rel="noopener noreferrer">zabbix</a> &gt;= 3.4 (preprocessing used by this template)</li>
-<li><a href="https://zookeeper.apache.org/releases.html" target="_blank" rel="noopener noreferrer">zookeeper</a> &gt;= 3.4 (mntr stats)</li>
-<li>netcat</li>
-<li>zookeeper监控模板，被监控主机，记得添加nc命令</li>
-</ul>
-<h2 id="features"> Features</h2>
-<ul>
-<li>
-<p>ruok check</p>
-</li>
-<li>
-<p>mntr stats :</p>
-<ul>
-<li>zk_num_alive_connections</li>
-<li>zk_approximate_data_size</li>
-<li>zk_ephemerals_count</li>
-<li>zk_min_latency</li>
-<li>zk_avg_latency</li>
-<li>zk_max_latency</li>
-<li>zk_max_file_descriptor_count</li>
-<li>zk_open_file_descriptor_count</li>
-<li>zk_outstanding_requests</li>
-<li>zk_packets_received</li>
-<li>zk_packets_sent</li>
-<li>zk_server_state</li>
-<li>zk_version</li>
-<li>zk_znode_count</li>
-</ul>
-</li>
-<li>
-<p>graphs</p>
-</li>
-<li>
-<p>screen</p>
-</li>
-</ul>
-<h2 id="zabbix-macros"> Zabbix Macros</h2>
-<ul>
-<li>{$ZOO_IP} : IP of the Zookeeper Instance (default : 127.0.0.1)</li>
-<li>{$ZOO_PORT} : Port of the Zookeeper Instance (default : 2181)</li>
-</ul>
-<h2 id="zabbix-configuration"> Zabbix Configuration</h2>
-<ol>
-<li>
-<p>Copy <code>UserParameter_Zookeeper.conf</code> to <code>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
-</li>
-<li>
-<p>Restart your Zabbix Agent</p>
-</li>
-<li>
-<p>Import XML template file (<code>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
-</li>
-<li>
-<p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
-</li>
-</ol>
+    <content type="html"><![CDATA[<h2 id="显示当前正在编辑的文件名"> 显示当前正在编辑的文件名</h2>
+<p>正常模式下 :f 或CTRL+G</p>
+<h2 id="vim粘贴"> vim粘贴</h2>
+<p>要粘贴时：set paste</p>
 ]]></content>
     <author>
       <name>Clay</name>
     </author>
-    <category term="监控"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -55387,25 +55406,6 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
 <p>示例如下。</p>
 <p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
 <p>15.点击【Update Object】</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">显示当前正在编辑的文件名</title>
-    <id>https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
-    <link href="https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="显示当前正在编辑的文件名"> 显示当前正在编辑的文件名</h2>
-<p>正常模式下 :f 或CTRL+G</p>
-<h2 id="vim粘贴"> vim粘贴</h2>
-<p>要粘贴时：set paste</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -55681,6 +55681,36 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">查看哪些表被锁住了</title>
+    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
+    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
+<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
+<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
+<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
+<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
+<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">PrometheusAlert</title>
     <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/promethues-alerts/</id>
     <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/promethues-alerts/"/>
@@ -55728,36 +55758,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 {{ end }}
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">查看哪些表被锁住了</title>
-    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
-    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
-<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
-<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
-<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
-<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
-<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -56263,29 +56263,6 @@ message：可以不用写
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">高可用开源方案 Keepalived VS Heartbeat对比</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h1>
-<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
-<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
-<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
-<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
-<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
-<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
-<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Redis-集群</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-1/"/>
@@ -56719,6 +56696,29 @@ nodes (check with CLUSTER NODES) or contains some key in database 0.
       <name>Clay</name>
     </contributor>
     <published>2017-09-16T21:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">高可用开源方案 Keepalived VS Heartbeat对比</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/12.1%20keepalived%E5%92%8Cheartbeat%E5%AF%B9%E6%AF%94/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="高可用开源方案-keepalived-vs-heartbeat对比"> 高可用开源方案 Keepalived VS Heartbeat对比</h1>
+<p>最近因为项目需要，简单的试用了两款高可用开源方案：Keepalived和Heartbeat。两者都很流行，但差异还是很大的，现将试用过程中的感受以及相关知识点简单总结一下，供大家选择方案的时候参考。</p>
+<p>1）<strong>Keepalived使用更简单</strong>：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；</p>
+<p>2）<strong>Heartbeat功能更强大</strong>：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；</p>
+<p>3）<strong>协议不同</strong>：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；</p>
+<p>4）<strong>使用方式基本类似</strong>：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
+<p>使用建议：<strong>优先使用Keepalived</strong>，当Keepalived不够用的时候才选择Heartbeat</p>
+<p>转载链接：https://blog.csdn.net/educast/article/details/50377575</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -57814,139 +57814,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（33）-du</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>du [选项][文件]</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-a或-all 显示目录中个别文件的大小。
--b或-bytes 显示目录或文件大小时，以byte为单位。
--c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
--k或--kilobytes 以KB(1024bytes)为单位输出。
--m或--megabytes 以MB为单位输出。
--s或--summarize 仅显示总计，只列出最后加总的值。
--h或--human-readable 以K，M，G为单位，提高信息的可读性。
--x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
--L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
--S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
--X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
---exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
--D或--dereference-args 显示指定符号链接的源文件大小。
--H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
--l或--count-links 重复计算硬件链接的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）显示目录或者文件所占空间</p>
-<div><pre><code># du
-608     ./test6
-308     ./test4
-4       ./scf/lib
-4       ./scf/service/deploy/product
-4       ./scf/service/deploy/info
-12      ./scf/service/deploy
-16      ./scf/service
-4       ./scf/doc
-4       ./scf/bin
-32      ./scf
-8       ./test3
-1288    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
-<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
-<p>2）显示指定文件所占空间</p>
-<div><pre><code># du log2012.log 
-300     log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
-<div><pre><code># du scf
-4       scf/lib
-4       scf/service/deploy/product
-4       scf/service/deploy/info
-12      scf/service/deploy
-16      scf/service
-4       scf/doc
-4       scf/bin
-32      scf
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
-<div><pre><code># du log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
-<div><pre><code># du -s
-1288    .
-# du -s scf
-32      scf
-# cd ..
-# du -s test
-1288    test
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
-<div><pre><code># du -h test
-608K    test/test6
-308K    test/test4
-4.0K    test/scf/lib
-4.0K    test/scf/service/deploy/product
-4.0K    test/scf/service/deploy/info
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
-<div><pre><code># du -ah test
-4.0K    test/log31.tar.gz
-4.0K    test/test13.tar.gz
-0       test/linklog.log
-0       test/test6/log2014.log
-300K    test/test6/linklog.log
-0       test/test6/log2015.log
-4.0K    test/test6/log2013.log
-300K    test/test6/log2012.log
-0       test/test6/log2017.log
-0       test/test6/log2016.log
-608K    test/test6
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
-<div><pre><code># du -c log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-8       总计
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
-<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
-<p>9）按照空间大小排序</p>
-<div><pre><code># du|sort -nr|more
-1288    .
-608     ./test6
-308     ./test4
-32      ./scf
-16      ./scf/service
-12      ./scf/service/deploy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
-<div><pre><code># du -h  --max-depth=1
-608K    ./test6
-308K    ./test4
-32K     ./scf
-8.0K    ./test3
-1.3M    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
-<p>http://man.linuxde.net/du</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:03:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（35）-diff</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/"/>
@@ -58244,6 +58111,139 @@ patching file log2013.log
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:05:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（33）-du</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>du [选项][文件]</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-a或-all 显示目录中个别文件的大小。
+-b或-bytes 显示目录或文件大小时，以byte为单位。
+-c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes 以KB(1024bytes)为单位输出。
+-m或--megabytes 以MB为单位输出。
+-s或--summarize 仅显示总计，只列出最后加总的值。
+-h或--human-readable 以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
+-S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
+-X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
+--exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
+-D或--dereference-args 显示指定符号链接的源文件大小。
+-H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
+-l或--count-links 重复计算硬件链接的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）显示目录或者文件所占空间</p>
+<div><pre><code># du
+608     ./test6
+308     ./test4
+4       ./scf/lib
+4       ./scf/service/deploy/product
+4       ./scf/service/deploy/info
+12      ./scf/service/deploy
+16      ./scf/service
+4       ./scf/doc
+4       ./scf/bin
+32      ./scf
+8       ./test3
+1288    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>2）显示指定文件所占空间</p>
+<div><pre><code># du log2012.log 
+300     log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
+<div><pre><code># du scf
+4       scf/lib
+4       scf/service/deploy/product
+4       scf/service/deploy/info
+12      scf/service/deploy
+16      scf/service
+4       scf/doc
+4       scf/bin
+32      scf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
+<div><pre><code># du log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
+<div><pre><code># du -s
+1288    .
+# du -s scf
+32      scf
+# cd ..
+# du -s test
+1288    test
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
+<div><pre><code># du -h test
+608K    test/test6
+308K    test/test4
+4.0K    test/scf/lib
+4.0K    test/scf/service/deploy/product
+4.0K    test/scf/service/deploy/info
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
+<div><pre><code># du -ah test
+4.0K    test/log31.tar.gz
+4.0K    test/test13.tar.gz
+0       test/linklog.log
+0       test/test6/log2014.log
+300K    test/test6/linklog.log
+0       test/test6/log2015.log
+4.0K    test/test6/log2013.log
+300K    test/test6/log2012.log
+0       test/test6/log2017.log
+0       test/test6/log2016.log
+608K    test/test6
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
+<div><pre><code># du -c log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+8       总计
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
+<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
+<p>9）按照空间大小排序</p>
+<div><pre><code># du|sort -nr|more
+1288    .
+608     ./test6
+308     ./test4
+32      ./scf
+16      ./scf/service
+12      ./scf/service/deploy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
+<div><pre><code># du -h  --max-depth=1
+608K    ./test6
+308K    ./test4
+32K     ./scf
+8.0K    ./test3
+1.3M    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
+<p>http://man.linuxde.net/du</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:03:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -60771,6 +60771,421 @@ Reading: 6 Writing: 179 Waiting: 106
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">3.5 nginx常用模块</title>
+    <id>https://clay-wangzhi.com/web/nginx/module/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/module/"/>
+    <updated>2021-05-11T06:41:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-5-nginx常用模块"> 3.5 nginx常用模块</h1>
+<h2 id="_1-module-ngx-http-gzip-module"> 1 Module ngx_http_gzip_module</h2>
+<p>该<code>ngx_http_gzip_module</code>模块是一个使用“gzip”方法压缩响应的过滤器。这通常有助于将传输数据的大小减少一半甚至更多。</p>
+<blockquote>
+<p>使用SSL / TLS协议时，压缩的响应可能会受到 <a href="https://en.wikipedia.org/wiki/BREACH" target="_blank" rel="noopener noreferrer">BREACH</a>攻击。</p>
+</blockquote>
+<p>在实际的应用中我们发现压缩的比率往往在 3 到 10 倍，也就是本来 50k 大小的页面，采用压缩后实际传输的内容大小只有 5 至 15k 大小，这可以大大节省服务器的网络带宽，同时如果应用程序的响应足够快时，网站的速度瓶颈就转到了网络的传输速度上，因此内容压缩后就可以大大的提升页面的浏览速度。</p>
+<h3 id="_1-1-example-configuration"> 1.1 Example Configuration</h3>
+<div><pre><code>gzip on;
+gzip_buffers 4 8k;
+gzip_comp_level 6;
+gzip_disable &quot;MSIE [1-6]\.&quot;;
+gzip_http_version 1.1;
+gzip_min_length 1000;
+gzip_proxied any;
+gzip_vary on;
+gzip_types text/plain text/css application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json image/jpeg image/gif image/png image/jpg;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="_1-2-directives"> 1.2 Directives</h3>
+<p><strong>gzip</strong></p>
+<div><pre><code>Syntax:	gzip on | off;
+Default: gzip off;
+Context:	http, server, location, if in location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>启用或禁用gzipping响应。</p>
+<p><strong>gzip_buffers</strong></p>
+<div><pre><code>Syntax:	gzip_buffers number size;
+Default: gzip_buffers 32 4k|16 8k;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置用于压缩响应的缓冲区<code>*number*</code>和<code>*size*</code>。默认情况下，缓冲区大小等于一个内存页面。这是4K或8K，具体取决于平台。</p>
+<p><strong>gzip_comp_level</strong></p>
+<div><pre><code>Syntax:	gzip_comp_level level;
+Default: gzip_comp_level 1;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置<code>level</code>响应的gzip压缩。可接受的值范围为1到9。</p>
+<p>推荐6压缩级别(级别越高,压的越小,越浪费CPU计算资源)</p>
+<p><strong>gzip_disable</strong></p>
+<div><pre><code>Syntax:	gzip_disable regex ...;
+Default: —
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>对具有与任何指定正则表达式匹配的“User-Agent”标头字段的请求禁用gzipping响应。</p>
+<p>特殊掩码“ <code>msie6</code>”（0.7.12）对应于正则表达式“ <code>MSIE [4-6]\.</code>”，但效果更快。</p>
+<p><strong>gzip_http_version</strong></p>
+<div><pre><code>Syntax:	gzip_http_version 1.0 | 1.1;
+Default: gzip_http_version 1.1;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置压缩响应所需的最低HTTP请求版本。</p>
+<p>99.99%的浏览器基本上都支持gzip解压了，所以可以不用设这个值,保持系统默认即可。</p>
+<p><strong>gzip_min_length</strong></p>
+<div><pre><code>Syntax:	gzip_min_length length;
+Default: gzip_min_length 20;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置将被gzip压缩的响应的最小长度。长度仅由“Content-Length”响应头字段确定。</p>
+<p><strong>gzip_proxied</strong></p>
+<div><pre><code>Syntax:	gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any ...;
+Default: gzip_proxied off;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>根据请求和响应启用或禁用对代理请求的响应的gzipping。请求被代理的事实由“Via”请求头字段的存在确定。该指令接受多个参数：</p>
+<ul>
+<li><code>off</code>：禁用所有代理请求的压缩，忽略其他参数;</li>
+<li><code>expired</code>：如果响应头包含“Expires”字段，其值为禁用缓存，则启用压缩;</li>
+<li><code>no-cache</code>：如果响应头包含带有“ <code>no-cache</code>”参数的“Cache-Control”字段，则启用压缩;</li>
+<li><code>no-store</code>：如果响应头包含带有“ <code>no-store</code>”参数的“Cache-Control”字段，则启用压缩;</li>
+<li><code>private</code>：如果响应头包含带有“ <code>private</code>”参数的“Cache-Control”字段，则启用压缩;</li>
+<li><code>no_last_modified</code>：如果响应头不包含“Last-Modified”字段，则启用压缩;</li>
+<li><code>no_etag</code>：如果响应头不包含“ETag”字段，则启用压缩;</li>
+<li><code>auth</code>：如果请求标头包含“授权”字段，则启用压缩;</li>
+<li><code>any</code>：为所有代理请求启用压缩。</li>
+</ul>
+<p><strong>gzip_types</strong></p>
+<div><pre><code>Syntax:	gzip_types mime-type ...;
+Default:	gzip_types text/html;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>除了“ <code>text/html</code>” 之外，还允许对指定的MIME类型进行gzipping响应。特殊值“ <code>*</code>”匹配任何MIME类型。</p>
+<blockquote>
+<p>图片类型的文件压缩比例很小，可以不忽略不计，所以图片不建议压缩</p>
+</blockquote>
+<p><strong>gzip_vary</strong></p>
+<div><pre><code>Syntax:	gzip_vary on | off;
+Default:	gzip_vary off;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>如果指令<a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip" target="_blank" rel="noopener noreferrer">gzip</a>， <a href="http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static" target="_blank" rel="noopener noreferrer">gzip_static</a>或<a href="http://nginx.org/en/docs/http/ngx_http_gunzip_module.html#gunzip" target="_blank" rel="noopener noreferrer">gunzip</a> 处于活动状态， 则启用或禁用插入“Vary：Accept-Encoding”响应头字段 。</p>
+<h3 id="_1-3-常见问题"> 1.3 常见问题</h3>
+<p><strong>调用接口时，返回json乱码的问题</strong></p>
+<p>原因：</p>
+<p>gzip是nginx的压缩格式。（gzip是浏览器可接受的压缩格式） 但是我们调用接口并没有通过浏览器。所以没有办法对返回的结果进行解压。</p>
+<p>解决办法：</p>
+<ul>
+<li>在响应的<code>location</code>中关闭gzip</li>
+<li>或者让后端改代码，增加判断，然后用gzip流的方式进行解压读取</li>
+</ul>
+<h2 id="_2-module-ngx-http-log-module"> 2 Module ngx_http_log_module</h2>
+<h3 id="_2-1-example-configuration"> 2.1 Example Configuration</h3>
+<div><pre><code><span>log_format</span> compression <span>'$remote_addr - $remote_user [$time_local] '</span>
+                       <span>'"$request" $status $bytes_sent '</span>
+                       <span>'"$http_referer" "$http_user_agent" "$gzip_ratio"'</span><span>;</span>
+
+<span>access_log</span> <span>/</span>spool<span>/</span>logs<span>/</span>nginx<span>-</span>access<span>.</span>log compression buffer<span>=</span><span>32</span>k<span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="_2-2-access-log指令"> 2.2 access_log指令</h3>
+<div><pre><code>Syntax:	access_log path [format [buffer=size] [gzip[=level]] [flush=time] [if=condition]];
+		access_log off;
+Default:	access_log logs/access.log combined;
+Context:	http, server, location, if in location, limit_except
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-3-log-format指令"> 2.3 log_format指令</h3>
+<div><pre><code>Syntax:	log_format name [escape=default|json|none] string ...;
+Default:	log_format combined &quot;...&quot;;
+Context:	http
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_3-rewrite模块"> 3 Rewrite模块</h2>
+<h3 id="_3-1-return指令"> 3.1 return指令</h3>
+<div><pre><code>Syntax:	return code [text];
+		return code URL;
+		return URL;
+Default:	—
+Context:	server, location, if
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><strong>返回状态码</strong></p>
+<ul>
+<li>nginx自定义
+<ul>
+<li>444：关闭连接</li>
+</ul>
+</li>
+<li>HTTP1.0标准
+<ul>
+<li>301：http1.0永久重定向</li>
+<li>302：临时重定向，禁止被缓存</li>
+</ul>
+</li>
+<li>HTTP1.1标准
+<ul>
+<li>303：临时重定向，允许改变方法，禁止被缓存</li>
+<li>307：临时重定向，不允许改变方式，禁止被缓存</li>
+<li>308：永久重定向，不允许改变方法</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例</strong></p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>server_name</span> wiki<span>.</span>clay<span>-</span>wangzhi<span>.</span>com<span>;</span>
+    <span>listen</span> <span>8080</span><span>;</span>
+    
+    <span>root</span> html<span>/</span><span>;</span>
+    <span>error_page</span> <span>404</span><span>/</span><span>403.</span>html<span>;</span>
+    <span>return</span> <span>403</span><span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>return</span> <span>404</span> <span>"find nothing!"</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p><strong>return指令与errror_page</strong></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195040345.png" alt="" /></p>
+<h3 id="_3-2-rewrite指令"> 3.2 rewrite指令</h3>
+<div><pre><code>Syntax:	rewrite regex replacement [flag];
+Default:	—
+Context:	server, location, if
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>功能</strong></p>
+<ul>
+<li>
+<p>将regex指定的url替换成replacement这个新的url</p>
+<p>可以使用正则表达式及变量提取</p>
+</li>
+<li>
+<p>当replacement以http://或者https://或者$schema开头，则直接返回302重定向</p>
+</li>
+<li>
+<p>替换后的url根据flag指定的方式进行处理</p>
+<p>如果在同一级配置块中存在多个rewrite规则，那么会自下而下逐个检查；被某条件规则替换完成后，会重新一轮的替换检查，因此，隐含有循环机制；[flag]所表示的标志位用于控制此循环机制；</p>
+<ul>
+<li>
+<p>last：</p>
+<ul>
+<li>浏览器地址栏URL地址不变</li>
+<li>用replacement这个URI进行新的location匹配，重写完成后停止对当前URI在当前location中后续的其它重写操作，而后对新的URI启动新一轮重写检查；提前重启新一轮循环；</li>
+</ul>
+</li>
+<li>
+<p>beak：</p>
+<ul>
+<li>浏览器地址栏URL地址不变</li>
+<li>break指令停止当前脚本指令的执行，等价于独立的break指令,重写完成后停止对当前URI在当前location中后续的其它重写操作，而后直接跳转至重写规则配置块之后的其它配置；结束循环；</li>
+</ul>
+</li>
+<li>
+<p>redirect：</p>
+<ul>
+<li>浏览器地址会显示跳转后的URL地址</li>
+<li>返回302临时重定向，</li>
+</ul>
+</li>
+<li>
+<p>permanent：</p>
+<ul>
+<li>浏览器地址会显示跳转后的URL地址</li>
+<li>返回301永久重定向</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>功能一句话概括为：使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。</p>
+</blockquote>
+<p><strong>示例1</strong></p>
+<div><pre><code>        <span>root</span> html<span>/</span><span>;</span>
+        <span>location</span> <span>/</span>first <span>{</span>
+            <span>rewrite</span> <span>/</span><span>first</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>/</span>second$<span>1</span> last<span>;</span>
+            <span>return</span> <span>200</span> <span>'first!'</span><span>;</span>
+        <span>}</span>
+
+        <span>location</span> <span>/</span>second <span>{</span>
+            <span>rewrite</span> <span>/</span><span>second</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>/</span>third$<span>1</span> <span>break</span><span>;</span>
+            <span>return</span> <span>200</span> <span>'second!'</span><span>;</span>
+        <span>}</span>
+
+        <span>location</span> <span>/</span>third <span>{</span>
+            <span>return</span> <span>200</span> <span>'third!'</span><span>;</span>
+        <span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>访问/first/1.txt的结果为：<code>html/third/1.txt</code>的内容</p>
+<p>访问/second/1.txt的结果为：<code>html/third/1.txt</code>的内容</p>
+<p>访问/third/1.txt的结果为：<code>third</code>的内容</p>
+<p><strong>示例</strong>2</p>
+<div><pre><code><span># http://www.test.com/test/abc/1.html ⇒ http://www.test.com/ccc/bbb/2.html</span>
+<span>location</span> <span>/</span>test <span>{</span>
+    <span>rewrite</span> <span>.</span><span>*</span> <span>/</span>ccc<span>/</span>bbb<span>/</span><span>2.</span>html permanent<span>;</span>
+<span>}</span>
+
+<span># http://www.test.com/2015/ccc/bbb/2.html ==> http://www.test.com/2014/ccc/bbb/2.html</span>
+<span>location</span> <span>/</span><span>2015</span> <span>{</span>
+    <span>rewrite</span> <span>^</span><span>/</span><span>2015</span><span>/</span><span>(</span><span>.</span><span>*</span><span>)</span>$ <span>/</span><span>2014</span><span>/</span>$<span>1</span> permanent<span>;</span>
+<span>}</span>
+
+<span># http://www.test.com/2015/ccc/bbb/2.html  ==> http://jd.com/index.php</span>
+<span>location</span> <span>/</span><span>2015</span> <span>{</span>
+    <span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> test<span>.</span>com<span>)</span> <span>{</span>
+        <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>jd<span>.</span>com<span>/</span><span>index</span><span>.</span>php permanent<span>;</span>
+    <span>}</span>
+<span>}</span>
+
+<span># http://www.test.com/kkk/1.html ==> http://jd.com/kkk/1.html</span>
+<span>location</span> <span>/</span> <span>{</span>
+    <span>root</span> html<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+    <span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> test<span>.</span>com<span>)</span> <span>{</span>
+        <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>jd<span>.</span>com<span>/</span><span>$request_uri</span> permanent<span>;</span>
+    <span>}</span>
+<span>}</span>
+
+<span># 有时候在访问一个二级子目录时会出现目录后的/无法补齐，如：</span>
+<span>#  elinks --dump www.test.com/www  无法访问</span>
+<span>#  elinks --dump www.test.com/www/可以访问 </span>
+<span>if</span> <span>(</span><span>-</span>d <span>$request_filename</span><span>)</span> <span>{</span>
+    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span><span>(</span><span>[</span><span>^</span><span>/</span><span>]</span><span>)</span>$ <span>http</span><span>:</span><span>/</span><span>/</span><span>$host</span>$<span>1</span>$<span>2</span><span>/</span> permanent<span>;</span>
+<span>}</span>
+<span># ^/(.*)([^/])$表示以/符号开始并紧跟着任何字符，同时不是以/为结束的字符串，在我的url中，(.*)表示的ww，([^/])表示的w</span>
+
+<span># http://www.test.com/login/robin.html     ==>  http://www.test.com/reg/login.php?user=robin</span>
+<span>location</span> <span>/</span>login <span>{</span>
+    <span>rewrite</span> <span>^</span><span>/</span>login<span>/</span><span>(</span><span>.</span><span>*</span><span>)</span>\<span>.</span>html$ <span>/</span>reg<span>/</span>login<span>.</span>php<span>?</span><span>user</span><span>=</span>$<span>1</span> permanent<span>;</span>
+<span>}</span>
+
+<span># http://www.test.com/uplook/10-10-10.html  ==>  http://www.test.com/uplook/10/10/10.html </span>
+<span>location</span> <span>/</span>uplook <span>{</span>
+    <span>rewrite</span> <span>^</span><span>/</span>uplook<span>/</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span><span>-</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span><span>-</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span>\<span>.</span>html$ <span>/</span>uplook<span>/</span>$<span>1</span><span>/</span>$<span>2</span><span>/</span>$<span>3.</span>html permanent<span>;</span>
+<span>}</span>
+
+<span># set 指令是用于定义一个变量，并且赋值。应用于server,location,if环境。</span>
+<span># http://robin.test.com ==> http://www.test.com/robin</span>
+<span># http://zorro.test.com ==> http://www.test.com/zorro</span>
+<span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> <span>"^www.test.com$"</span><span>)</span> <span>{</span>
+    <span>break</span><span>;</span>
+<span>}</span>
+<span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> <span>"^(.*)\.test\.com$"</span><span>)</span> <span>{</span>
+    <span>set</span> <span>$user</span> $<span>1</span><span>;</span>
+    <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test<span>.</span>com<span>/</span><span>$user</span> permanent<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br></div></div><blockquote>
+<p>last 一般写在server和if中，而break一般使用在location中</p>
+</blockquote>
+<h3 id="_3-3-if指令"> 3.3 if指令</h3>
+<div><pre><code>Syntax:	if (condition) { ... }
+Default:	—
+Context:	server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>规则：条件condition为真，则执行大括号内的指令；遵循值指令的继承规则</p>
+<p><strong>if指令的条件表达式</strong></p>
+<ul>
+<li>检查变量为空或者值是否为0，直接使用
+<ul>
+<li>当表达式只是一个变量时，如果值为空或任何以 0 开头的字符串都会当做 false</li>
+</ul>
+</li>
+<li>将变量与字符串做匹配，使用=或者!=</li>
+<li>将变量与正则表达式做匹配
+<ul>
+<li>大小写敏感，<sub>或者!</sub></li>
+<li>大小写不敏感，<sub>*或者!</sub>*</li>
+</ul>
+</li>
+<li>检查文件是否存在，使用-f或者!-f</li>
+<li>检查目录是否存在，使用-d或者!-d</li>
+<li>检查文件、目录、软连接是否存在，使用-e或者!-e</li>
+<li>检查是否为可执行文件，使用-x或者!-x</li>
+</ul>
+<p><strong>示例</strong></p>
+<div><pre><code><span>if</span> <span>(</span><span>$http_user_agent</span> <span>~</span> MSIE<span>)</span> <span>{</span>
+    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span>$ <span>/</span>msie<span>/</span>$<span>1</span> <span>break</span><span>;</span>
+<span>}</span>
+<span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"id=([^;]+)(?:;|$)"</span><span>)</span> <span>{</span>
+    <span>set</span> <span>$id</span> $<span>1</span><span>;</span>
+<span>}</span>
+<span>if</span> <span>(</span><span>$repuest_method</span> <span>=</span> POST<span>)</span> <span>{</span>
+    <span>return</span> <span>405</span><span>;</span>
+<span>}</span>
+<span>if</span> <span>(</span><span>$slow</span><span>)</span> <span>{</span>
+    <span>limit_rate</span> <span>10</span>k<span>;</span>
+<span>}</span>
+<span>if</span> <span>(</span><span>$invalid_referer</span><span>)</span> <span>{</span>
+    <span>return</span> <span>403</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h3 id="_3-4-rewrite-log指令"> 3.4 rewrite_log指令</h3>
+<div><pre><code>Syntax: rewrite_log on | off;
+Default:    rewrite_log off;
+Context:    http, server, location, if
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_4-realip模块"> 4 realip模块</h2>
+<ul>
+<li>默认不会编译进Nginx，通过<code>--with-http_reaip_module</code>启用功能</li>
+<li>功能：修改客户端地址</li>
+<li>指令：set_real_ip_from、real_ip_header、real_ip_recursive</li>
+<li>变量：reaip_remote_addr、reaip_remote_port</li>
+</ul>
+<h3 id="_4-1-directives"> 4.1 Directives</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317100631841.png" alt="" /></p>
+<h2 id="_5-limit-conn模块"> 5 limit_conn模块</h2>
+<p>生效阶段：NGX_HTTP_PREACCESS_PHASE阶段</p>
+<p>生效范围：全部worker进程（基于共享内存），进入preaccess阶段前不生效，限制的有效性取决于key的设计：依赖postread阶段的realip模块取到真实ip</p>
+<h3 id="_5-1-指令"> 5.1 指令</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202747188.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202819297.png" alt="" /></p>
+<h2 id="_6-limit-req模块"> 6 limit_req模块</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104235892.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104251827.png" alt="" /></p>
+<h3 id="_6-1-指令"> 6.1 指令</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104336149.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104534992.png" alt="" /></p>
+<p>限制发生时向客户端返回的错误码</p>
+<div><pre><code>Syntax:	limit_req_status code;
+Default:	limit_req_status 503;
+Context:	http, server, location
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><blockquote>
+<p>limit_req 与 limit_conn 配置同时生效时， limit_req有效</p>
+</blockquote>
+<h3 id="_6-2-example"> 6.2 Example</h3>
+<div><pre><code><span>http</span> <span>{</span>
+    <span>geo</span> <span>$limit</span> <span>{</span>
+        default <span>1</span><span>;</span>
+        <span>10.0</span><span>.0</span><span>.0</span><span>/</span><span>8</span> <span>0</span><span>;</span>
+        <span>192.168</span><span>.0</span><span>.0</span><span>/</span><span>64</span> <span>0</span><span>;</span>
+    <span>}</span>
+    
+    <span>map</span> <span>$limit</span> <span>$limit_key</span> <span>{</span>
+        <span>0</span> <span>""</span><span>;</span>
+        <span>1</span> <span>$binary_remote_addr</span><span>;</span>
+    <span>}</span>
+    
+    <span>limit_req_zone</span> <span>$limit_key</span> zone<span>=</span>req_zone<span>:</span><span>10</span>m rate<span>=</span><span>5</span>r<span>/</span>s<span>;</span>
+    
+    <span>server</span> <span>{</span>
+        <span>location</span> <span>/</span> <span>{</span>
+            <span>limit_req</span> zone<span>=</span>req_zone burst<span>=</span><span>10</span> nodelay<span>;</span>
+        <span>}</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>这个例子同时使用了geo和map指令。geo块将给在白名单中的IP地址对应的$limit变量分配一个值0，给其它不在白名单中的分配一个值1。然后我们使用一个映射将这些值转为key，如下：</p>
+<p>如果<code>$limit</code>变量的值是0，<code>$limit_key</code>变量将被赋值为空字符串</p>
+<p>如果<code>$limit</code>变量的值是1，<code>$limit_key</code>变量将被赋值为客户端二进制形式的IP地址</p>
+<p>两个指令配合使用，白名单内IP地址的$limit_key变量被赋值为空字符串，不在白名单内的被赋值为客户端的IP地址。当limit_req_zone后的第一个参数是空字符串时，不会应用“流量限制”，所以白名单内的IP地址(10.0.0.0/8和192.168.0.0/24 网段内)不会被限制。其它所有IP地址都会被限制到每秒5个请求。</p>
+<p>limit_req指令将限制应用到**/**的location块，允许在配置的限制上最多超过10个数据包的突发，并且不会延迟转发。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://www.jianshu.com/p/bbb51f727d46</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">6. nginx的常见问题</title>
     <id>https://clay-wangzhi.com/web/nginx/qa/</id>
     <link href="https://clay-wangzhi.com/web/nginx/qa/"/>
@@ -61676,421 +62091,6 @@ D -&gt; nginx将处理结果返回给客户端
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.5 nginx常用模块</title>
-    <id>https://clay-wangzhi.com/web/nginx/module/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/module/"/>
-    <updated>2021-05-11T06:41:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-5-nginx常用模块"> 3.5 nginx常用模块</h1>
-<h2 id="_1-module-ngx-http-gzip-module"> 1 Module ngx_http_gzip_module</h2>
-<p>该<code>ngx_http_gzip_module</code>模块是一个使用“gzip”方法压缩响应的过滤器。这通常有助于将传输数据的大小减少一半甚至更多。</p>
-<blockquote>
-<p>使用SSL / TLS协议时，压缩的响应可能会受到 <a href="https://en.wikipedia.org/wiki/BREACH" target="_blank" rel="noopener noreferrer">BREACH</a>攻击。</p>
-</blockquote>
-<p>在实际的应用中我们发现压缩的比率往往在 3 到 10 倍，也就是本来 50k 大小的页面，采用压缩后实际传输的内容大小只有 5 至 15k 大小，这可以大大节省服务器的网络带宽，同时如果应用程序的响应足够快时，网站的速度瓶颈就转到了网络的传输速度上，因此内容压缩后就可以大大的提升页面的浏览速度。</p>
-<h3 id="_1-1-example-configuration"> 1.1 Example Configuration</h3>
-<div><pre><code>gzip on;
-gzip_buffers 4 8k;
-gzip_comp_level 6;
-gzip_disable &quot;MSIE [1-6]\.&quot;;
-gzip_http_version 1.1;
-gzip_min_length 1000;
-gzip_proxied any;
-gzip_vary on;
-gzip_types text/plain text/css application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json image/jpeg image/gif image/png image/jpg;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="_1-2-directives"> 1.2 Directives</h3>
-<p><strong>gzip</strong></p>
-<div><pre><code>Syntax:	gzip on | off;
-Default: gzip off;
-Context:	http, server, location, if in location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>启用或禁用gzipping响应。</p>
-<p><strong>gzip_buffers</strong></p>
-<div><pre><code>Syntax:	gzip_buffers number size;
-Default: gzip_buffers 32 4k|16 8k;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置用于压缩响应的缓冲区<code>*number*</code>和<code>*size*</code>。默认情况下，缓冲区大小等于一个内存页面。这是4K或8K，具体取决于平台。</p>
-<p><strong>gzip_comp_level</strong></p>
-<div><pre><code>Syntax:	gzip_comp_level level;
-Default: gzip_comp_level 1;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置<code>level</code>响应的gzip压缩。可接受的值范围为1到9。</p>
-<p>推荐6压缩级别(级别越高,压的越小,越浪费CPU计算资源)</p>
-<p><strong>gzip_disable</strong></p>
-<div><pre><code>Syntax:	gzip_disable regex ...;
-Default: —
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>对具有与任何指定正则表达式匹配的“User-Agent”标头字段的请求禁用gzipping响应。</p>
-<p>特殊掩码“ <code>msie6</code>”（0.7.12）对应于正则表达式“ <code>MSIE [4-6]\.</code>”，但效果更快。</p>
-<p><strong>gzip_http_version</strong></p>
-<div><pre><code>Syntax:	gzip_http_version 1.0 | 1.1;
-Default: gzip_http_version 1.1;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置压缩响应所需的最低HTTP请求版本。</p>
-<p>99.99%的浏览器基本上都支持gzip解压了，所以可以不用设这个值,保持系统默认即可。</p>
-<p><strong>gzip_min_length</strong></p>
-<div><pre><code>Syntax:	gzip_min_length length;
-Default: gzip_min_length 20;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>设置将被gzip压缩的响应的最小长度。长度仅由“Content-Length”响应头字段确定。</p>
-<p><strong>gzip_proxied</strong></p>
-<div><pre><code>Syntax:	gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any ...;
-Default: gzip_proxied off;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>根据请求和响应启用或禁用对代理请求的响应的gzipping。请求被代理的事实由“Via”请求头字段的存在确定。该指令接受多个参数：</p>
-<ul>
-<li><code>off</code>：禁用所有代理请求的压缩，忽略其他参数;</li>
-<li><code>expired</code>：如果响应头包含“Expires”字段，其值为禁用缓存，则启用压缩;</li>
-<li><code>no-cache</code>：如果响应头包含带有“ <code>no-cache</code>”参数的“Cache-Control”字段，则启用压缩;</li>
-<li><code>no-store</code>：如果响应头包含带有“ <code>no-store</code>”参数的“Cache-Control”字段，则启用压缩;</li>
-<li><code>private</code>：如果响应头包含带有“ <code>private</code>”参数的“Cache-Control”字段，则启用压缩;</li>
-<li><code>no_last_modified</code>：如果响应头不包含“Last-Modified”字段，则启用压缩;</li>
-<li><code>no_etag</code>：如果响应头不包含“ETag”字段，则启用压缩;</li>
-<li><code>auth</code>：如果请求标头包含“授权”字段，则启用压缩;</li>
-<li><code>any</code>：为所有代理请求启用压缩。</li>
-</ul>
-<p><strong>gzip_types</strong></p>
-<div><pre><code>Syntax:	gzip_types mime-type ...;
-Default:	gzip_types text/html;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>除了“ <code>text/html</code>” 之外，还允许对指定的MIME类型进行gzipping响应。特殊值“ <code>*</code>”匹配任何MIME类型。</p>
-<blockquote>
-<p>图片类型的文件压缩比例很小，可以不忽略不计，所以图片不建议压缩</p>
-</blockquote>
-<p><strong>gzip_vary</strong></p>
-<div><pre><code>Syntax:	gzip_vary on | off;
-Default:	gzip_vary off;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>如果指令<a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip" target="_blank" rel="noopener noreferrer">gzip</a>， <a href="http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static" target="_blank" rel="noopener noreferrer">gzip_static</a>或<a href="http://nginx.org/en/docs/http/ngx_http_gunzip_module.html#gunzip" target="_blank" rel="noopener noreferrer">gunzip</a> 处于活动状态， 则启用或禁用插入“Vary：Accept-Encoding”响应头字段 。</p>
-<h3 id="_1-3-常见问题"> 1.3 常见问题</h3>
-<p><strong>调用接口时，返回json乱码的问题</strong></p>
-<p>原因：</p>
-<p>gzip是nginx的压缩格式。（gzip是浏览器可接受的压缩格式） 但是我们调用接口并没有通过浏览器。所以没有办法对返回的结果进行解压。</p>
-<p>解决办法：</p>
-<ul>
-<li>在响应的<code>location</code>中关闭gzip</li>
-<li>或者让后端改代码，增加判断，然后用gzip流的方式进行解压读取</li>
-</ul>
-<h2 id="_2-module-ngx-http-log-module"> 2 Module ngx_http_log_module</h2>
-<h3 id="_2-1-example-configuration"> 2.1 Example Configuration</h3>
-<div><pre><code><span>log_format</span> compression <span>'$remote_addr - $remote_user [$time_local] '</span>
-                       <span>'"$request" $status $bytes_sent '</span>
-                       <span>'"$http_referer" "$http_user_agent" "$gzip_ratio"'</span><span>;</span>
-
-<span>access_log</span> <span>/</span>spool<span>/</span>logs<span>/</span>nginx<span>-</span>access<span>.</span>log compression buffer<span>=</span><span>32</span>k<span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="_2-2-access-log指令"> 2.2 access_log指令</h3>
-<div><pre><code>Syntax:	access_log path [format [buffer=size] [gzip[=level]] [flush=time] [if=condition]];
-		access_log off;
-Default:	access_log logs/access.log combined;
-Context:	http, server, location, if in location, limit_except
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="_2-3-log-format指令"> 2.3 log_format指令</h3>
-<div><pre><code>Syntax:	log_format name [escape=default|json|none] string ...;
-Default:	log_format combined &quot;...&quot;;
-Context:	http
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_3-rewrite模块"> 3 Rewrite模块</h2>
-<h3 id="_3-1-return指令"> 3.1 return指令</h3>
-<div><pre><code>Syntax:	return code [text];
-		return code URL;
-		return URL;
-Default:	—
-Context:	server, location, if
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p><strong>返回状态码</strong></p>
-<ul>
-<li>nginx自定义
-<ul>
-<li>444：关闭连接</li>
-</ul>
-</li>
-<li>HTTP1.0标准
-<ul>
-<li>301：http1.0永久重定向</li>
-<li>302：临时重定向，禁止被缓存</li>
-</ul>
-</li>
-<li>HTTP1.1标准
-<ul>
-<li>303：临时重定向，允许改变方法，禁止被缓存</li>
-<li>307：临时重定向，不允许改变方式，禁止被缓存</li>
-<li>308：永久重定向，不允许改变方法</li>
-</ul>
-</li>
-</ul>
-<p><strong>示例</strong></p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>server_name</span> wiki<span>.</span>clay<span>-</span>wangzhi<span>.</span>com<span>;</span>
-    <span>listen</span> <span>8080</span><span>;</span>
-    
-    <span>root</span> html<span>/</span><span>;</span>
-    <span>error_page</span> <span>404</span><span>/</span><span>403.</span>html<span>;</span>
-    <span>return</span> <span>403</span><span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>return</span> <span>404</span> <span>"find nothing!"</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p><strong>return指令与errror_page</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195040345.png" alt="" /></p>
-<h3 id="_3-2-rewrite指令"> 3.2 rewrite指令</h3>
-<div><pre><code>Syntax:	rewrite regex replacement [flag];
-Default:	—
-Context:	server, location, if
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><strong>功能</strong></p>
-<ul>
-<li>
-<p>将regex指定的url替换成replacement这个新的url</p>
-<p>可以使用正则表达式及变量提取</p>
-</li>
-<li>
-<p>当replacement以http://或者https://或者$schema开头，则直接返回302重定向</p>
-</li>
-<li>
-<p>替换后的url根据flag指定的方式进行处理</p>
-<p>如果在同一级配置块中存在多个rewrite规则，那么会自下而下逐个检查；被某条件规则替换完成后，会重新一轮的替换检查，因此，隐含有循环机制；[flag]所表示的标志位用于控制此循环机制；</p>
-<ul>
-<li>
-<p>last：</p>
-<ul>
-<li>浏览器地址栏URL地址不变</li>
-<li>用replacement这个URI进行新的location匹配，重写完成后停止对当前URI在当前location中后续的其它重写操作，而后对新的URI启动新一轮重写检查；提前重启新一轮循环；</li>
-</ul>
-</li>
-<li>
-<p>beak：</p>
-<ul>
-<li>浏览器地址栏URL地址不变</li>
-<li>break指令停止当前脚本指令的执行，等价于独立的break指令,重写完成后停止对当前URI在当前location中后续的其它重写操作，而后直接跳转至重写规则配置块之后的其它配置；结束循环；</li>
-</ul>
-</li>
-<li>
-<p>redirect：</p>
-<ul>
-<li>浏览器地址会显示跳转后的URL地址</li>
-<li>返回302临时重定向，</li>
-</ul>
-</li>
-<li>
-<p>permanent：</p>
-<ul>
-<li>浏览器地址会显示跳转后的URL地址</li>
-<li>返回301永久重定向</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>功能一句话概括为：使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。</p>
-</blockquote>
-<p><strong>示例1</strong></p>
-<div><pre><code>        <span>root</span> html<span>/</span><span>;</span>
-        <span>location</span> <span>/</span>first <span>{</span>
-            <span>rewrite</span> <span>/</span><span>first</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>/</span>second$<span>1</span> last<span>;</span>
-            <span>return</span> <span>200</span> <span>'first!'</span><span>;</span>
-        <span>}</span>
-
-        <span>location</span> <span>/</span>second <span>{</span>
-            <span>rewrite</span> <span>/</span><span>second</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>/</span>third$<span>1</span> <span>break</span><span>;</span>
-            <span>return</span> <span>200</span> <span>'second!'</span><span>;</span>
-        <span>}</span>
-
-        <span>location</span> <span>/</span>third <span>{</span>
-            <span>return</span> <span>200</span> <span>'third!'</span><span>;</span>
-        <span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>访问/first/1.txt的结果为：<code>html/third/1.txt</code>的内容</p>
-<p>访问/second/1.txt的结果为：<code>html/third/1.txt</code>的内容</p>
-<p>访问/third/1.txt的结果为：<code>third</code>的内容</p>
-<p><strong>示例</strong>2</p>
-<div><pre><code><span># http://www.test.com/test/abc/1.html ⇒ http://www.test.com/ccc/bbb/2.html</span>
-<span>location</span> <span>/</span>test <span>{</span>
-    <span>rewrite</span> <span>.</span><span>*</span> <span>/</span>ccc<span>/</span>bbb<span>/</span><span>2.</span>html permanent<span>;</span>
-<span>}</span>
-
-<span># http://www.test.com/2015/ccc/bbb/2.html ==> http://www.test.com/2014/ccc/bbb/2.html</span>
-<span>location</span> <span>/</span><span>2015</span> <span>{</span>
-    <span>rewrite</span> <span>^</span><span>/</span><span>2015</span><span>/</span><span>(</span><span>.</span><span>*</span><span>)</span>$ <span>/</span><span>2014</span><span>/</span>$<span>1</span> permanent<span>;</span>
-<span>}</span>
-
-<span># http://www.test.com/2015/ccc/bbb/2.html  ==> http://jd.com/index.php</span>
-<span>location</span> <span>/</span><span>2015</span> <span>{</span>
-    <span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> test<span>.</span>com<span>)</span> <span>{</span>
-        <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>jd<span>.</span>com<span>/</span><span>index</span><span>.</span>php permanent<span>;</span>
-    <span>}</span>
-<span>}</span>
-
-<span># http://www.test.com/kkk/1.html ==> http://jd.com/kkk/1.html</span>
-<span>location</span> <span>/</span> <span>{</span>
-    <span>root</span> html<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-    <span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> test<span>.</span>com<span>)</span> <span>{</span>
-        <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>jd<span>.</span>com<span>/</span><span>$request_uri</span> permanent<span>;</span>
-    <span>}</span>
-<span>}</span>
-
-<span># 有时候在访问一个二级子目录时会出现目录后的/无法补齐，如：</span>
-<span>#  elinks --dump www.test.com/www  无法访问</span>
-<span>#  elinks --dump www.test.com/www/可以访问 </span>
-<span>if</span> <span>(</span><span>-</span>d <span>$request_filename</span><span>)</span> <span>{</span>
-    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span><span>(</span><span>[</span><span>^</span><span>/</span><span>]</span><span>)</span>$ <span>http</span><span>:</span><span>/</span><span>/</span><span>$host</span>$<span>1</span>$<span>2</span><span>/</span> permanent<span>;</span>
-<span>}</span>
-<span># ^/(.*)([^/])$表示以/符号开始并紧跟着任何字符，同时不是以/为结束的字符串，在我的url中，(.*)表示的ww，([^/])表示的w</span>
-
-<span># http://www.test.com/login/robin.html     ==>  http://www.test.com/reg/login.php?user=robin</span>
-<span>location</span> <span>/</span>login <span>{</span>
-    <span>rewrite</span> <span>^</span><span>/</span>login<span>/</span><span>(</span><span>.</span><span>*</span><span>)</span>\<span>.</span>html$ <span>/</span>reg<span>/</span>login<span>.</span>php<span>?</span><span>user</span><span>=</span>$<span>1</span> permanent<span>;</span>
-<span>}</span>
-
-<span># http://www.test.com/uplook/10-10-10.html  ==>  http://www.test.com/uplook/10/10/10.html </span>
-<span>location</span> <span>/</span>uplook <span>{</span>
-    <span>rewrite</span> <span>^</span><span>/</span>uplook<span>/</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span><span>-</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span><span>-</span><span>(</span><span>[</span><span>0</span><span>-</span><span>9</span><span>]</span><span>+</span><span>)</span>\<span>.</span>html$ <span>/</span>uplook<span>/</span>$<span>1</span><span>/</span>$<span>2</span><span>/</span>$<span>3.</span>html permanent<span>;</span>
-<span>}</span>
-
-<span># set 指令是用于定义一个变量，并且赋值。应用于server,location,if环境。</span>
-<span># http://robin.test.com ==> http://www.test.com/robin</span>
-<span># http://zorro.test.com ==> http://www.test.com/zorro</span>
-<span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> <span>"^www.test.com$"</span><span>)</span> <span>{</span>
-    <span>break</span><span>;</span>
-<span>}</span>
-<span>if</span> <span>(</span><span>$host</span> <span>~</span><span>*</span> <span>"^(.*)\.test\.com$"</span><span>)</span> <span>{</span>
-    <span>set</span> <span>$user</span> $<span>1</span><span>;</span>
-    <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test<span>.</span>com<span>/</span><span>$user</span> permanent<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br></div></div><blockquote>
-<p>last 一般写在server和if中，而break一般使用在location中</p>
-</blockquote>
-<h3 id="_3-3-if指令"> 3.3 if指令</h3>
-<div><pre><code>Syntax:	if (condition) { ... }
-Default:	—
-Context:	server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>规则：条件condition为真，则执行大括号内的指令；遵循值指令的继承规则</p>
-<p><strong>if指令的条件表达式</strong></p>
-<ul>
-<li>检查变量为空或者值是否为0，直接使用
-<ul>
-<li>当表达式只是一个变量时，如果值为空或任何以 0 开头的字符串都会当做 false</li>
-</ul>
-</li>
-<li>将变量与字符串做匹配，使用=或者!=</li>
-<li>将变量与正则表达式做匹配
-<ul>
-<li>大小写敏感，<sub>或者!</sub></li>
-<li>大小写不敏感，<sub>*或者!</sub>*</li>
-</ul>
-</li>
-<li>检查文件是否存在，使用-f或者!-f</li>
-<li>检查目录是否存在，使用-d或者!-d</li>
-<li>检查文件、目录、软连接是否存在，使用-e或者!-e</li>
-<li>检查是否为可执行文件，使用-x或者!-x</li>
-</ul>
-<p><strong>示例</strong></p>
-<div><pre><code><span>if</span> <span>(</span><span>$http_user_agent</span> <span>~</span> MSIE<span>)</span> <span>{</span>
-    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span>$ <span>/</span>msie<span>/</span>$<span>1</span> <span>break</span><span>;</span>
-<span>}</span>
-<span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"id=([^;]+)(?:;|$)"</span><span>)</span> <span>{</span>
-    <span>set</span> <span>$id</span> $<span>1</span><span>;</span>
-<span>}</span>
-<span>if</span> <span>(</span><span>$repuest_method</span> <span>=</span> POST<span>)</span> <span>{</span>
-    <span>return</span> <span>405</span><span>;</span>
-<span>}</span>
-<span>if</span> <span>(</span><span>$slow</span><span>)</span> <span>{</span>
-    <span>limit_rate</span> <span>10</span>k<span>;</span>
-<span>}</span>
-<span>if</span> <span>(</span><span>$invalid_referer</span><span>)</span> <span>{</span>
-    <span>return</span> <span>403</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h3 id="_3-4-rewrite-log指令"> 3.4 rewrite_log指令</h3>
-<div><pre><code>Syntax: rewrite_log on | off;
-Default:    rewrite_log off;
-Context:    http, server, location, if
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="_4-realip模块"> 4 realip模块</h2>
-<ul>
-<li>默认不会编译进Nginx，通过<code>--with-http_reaip_module</code>启用功能</li>
-<li>功能：修改客户端地址</li>
-<li>指令：set_real_ip_from、real_ip_header、real_ip_recursive</li>
-<li>变量：reaip_remote_addr、reaip_remote_port</li>
-</ul>
-<h3 id="_4-1-directives"> 4.1 Directives</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317100631841.png" alt="" /></p>
-<h2 id="_5-limit-conn模块"> 5 limit_conn模块</h2>
-<p>生效阶段：NGX_HTTP_PREACCESS_PHASE阶段</p>
-<p>生效范围：全部worker进程（基于共享内存），进入preaccess阶段前不生效，限制的有效性取决于key的设计：依赖postread阶段的realip模块取到真实ip</p>
-<h3 id="_5-1-指令"> 5.1 指令</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202747188.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200321202819297.png" alt="" /></p>
-<h2 id="_6-limit-req模块"> 6 limit_req模块</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104235892.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104251827.png" alt="" /></p>
-<h3 id="_6-1-指令"> 6.1 指令</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104336149.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323104534992.png" alt="" /></p>
-<p>限制发生时向客户端返回的错误码</p>
-<div><pre><code>Syntax:	limit_req_status code;
-Default:	limit_req_status 503;
-Context:	http, server, location
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><blockquote>
-<p>limit_req 与 limit_conn 配置同时生效时， limit_req有效</p>
-</blockquote>
-<h3 id="_6-2-example"> 6.2 Example</h3>
-<div><pre><code><span>http</span> <span>{</span>
-    <span>geo</span> <span>$limit</span> <span>{</span>
-        default <span>1</span><span>;</span>
-        <span>10.0</span><span>.0</span><span>.0</span><span>/</span><span>8</span> <span>0</span><span>;</span>
-        <span>192.168</span><span>.0</span><span>.0</span><span>/</span><span>64</span> <span>0</span><span>;</span>
-    <span>}</span>
-    
-    <span>map</span> <span>$limit</span> <span>$limit_key</span> <span>{</span>
-        <span>0</span> <span>""</span><span>;</span>
-        <span>1</span> <span>$binary_remote_addr</span><span>;</span>
-    <span>}</span>
-    
-    <span>limit_req_zone</span> <span>$limit_key</span> zone<span>=</span>req_zone<span>:</span><span>10</span>m rate<span>=</span><span>5</span>r<span>/</span>s<span>;</span>
-    
-    <span>server</span> <span>{</span>
-        <span>location</span> <span>/</span> <span>{</span>
-            <span>limit_req</span> zone<span>=</span>req_zone burst<span>=</span><span>10</span> nodelay<span>;</span>
-        <span>}</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>这个例子同时使用了geo和map指令。geo块将给在白名单中的IP地址对应的$limit变量分配一个值0，给其它不在白名单中的分配一个值1。然后我们使用一个映射将这些值转为key，如下：</p>
-<p>如果<code>$limit</code>变量的值是0，<code>$limit_key</code>变量将被赋值为空字符串</p>
-<p>如果<code>$limit</code>变量的值是1，<code>$limit_key</code>变量将被赋值为客户端二进制形式的IP地址</p>
-<p>两个指令配合使用，白名单内IP地址的$limit_key变量被赋值为空字符串，不在白名单内的被赋值为客户端的IP地址。当limit_req_zone后的第一个参数是空字符串时，不会应用“流量限制”，所以白名单内的IP地址(10.0.0.0/8和192.168.0.0/24 网段内)不会被限制。其它所有IP地址都会被限制到每秒5个请求。</p>
-<p>limit_req指令将限制应用到**/**的location块，允许在配置的限制上最多超过10个数据包的突发，并且不会延迟转发。</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://www.jianshu.com/p/bbb51f727d46</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">tomcat假死现象</title>
     <id>https://clay-wangzhi.com/web/tomcat/dead/</id>
     <link href="https://clay-wangzhi.com/web/tomcat/dead/"/>
@@ -62530,6 +62530,101 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Elastic Stack 家族成员及其应用场景</title>
+    <id>https://clay-wangzhi.com/monitor/elk/summarize/scene/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/summarize/scene/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
+<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
+<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
+<ul>
+<li>
+<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
+</li>
+<li>
+<p>发展</p>
+<ul>
+<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
+<li>2013年被Elasticsearch收购</li>
+</ul>
+</li>
+<li>
+<p>特性</p>
+<ul>
+<li>实时解析和转换数据
+<ul>
+<li>从IP地址破译出地理坐标</li>
+<li>将PII数据匿名化，完全排除敏感字段</li>
+</ul>
+</li>
+<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
+<li>可靠性安全
+<ul>
+<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
+<li>数据传输加密</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
+<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
+<ul>
+<li>Kibana名字的含义：Kiwifruit + Banana</li>
+<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
+<li>基于logstash的工具，2013年加入Elastic公司</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
+<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
+<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
+<ul>
+<li>6.3之前的版本，X-pack以插件方式安装</li>
+<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
+<ul>
+<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
+</ul>
+</li>
+<li>OSS，Basic，黄金级，白金级</li>
+</ul>
+<h2 id="elk应用场景"> ELK应用场景</h2>
+<ul>
+<li>网站搜索/垂直搜索/代码搜索</li>
+<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
+</ul>
+<h3 id="日志的重要性"> 日志的重要性</h3>
+<ul>
+<li>为什么重要
+<ul>
+<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
+<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
+</ul>
+</li>
+<li>挑战
+<ul>
+<li>关注点很多，任何一个点都有可能引起问题</li>
+<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
+<li>很多运维人员是消防员，哪里有问题去哪里</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
+<h3 id="日志管理流程"> 日志管理流程</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">11.4 测试与分支</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/"/>
@@ -62941,100 +63036,5 @@ choice_of beans rice carrorts radishes rutabaga spinach
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">Elastic Stack 家族成员及其应用场景</title>
-    <id>https://clay-wangzhi.com/monitor/elk/summarize/scene/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/summarize/scene/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
-<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
-<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
-<ul>
-<li>
-<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
-</li>
-<li>
-<p>发展</p>
-<ul>
-<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
-<li>2013年被Elasticsearch收购</li>
-</ul>
-</li>
-<li>
-<p>特性</p>
-<ul>
-<li>实时解析和转换数据
-<ul>
-<li>从IP地址破译出地理坐标</li>
-<li>将PII数据匿名化，完全排除敏感字段</li>
-</ul>
-</li>
-<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
-<li>可靠性安全
-<ul>
-<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
-<li>数据传输加密</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
-<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
-<ul>
-<li>Kibana名字的含义：Kiwifruit + Banana</li>
-<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
-<li>基于logstash的工具，2013年加入Elastic公司</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
-<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
-<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
-<ul>
-<li>6.3之前的版本，X-pack以插件方式安装</li>
-<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
-<ul>
-<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
-</ul>
-</li>
-<li>OSS，Basic，黄金级，白金级</li>
-</ul>
-<h2 id="elk应用场景"> ELK应用场景</h2>
-<ul>
-<li>网站搜索/垂直搜索/代码搜索</li>
-<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
-</ul>
-<h3 id="日志的重要性"> 日志的重要性</h3>
-<ul>
-<li>为什么重要
-<ul>
-<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
-<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
-</ul>
-</li>
-<li>挑战
-<ul>
-<li>关注点很多，任何一个点都有可能引起问题</li>
-<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
-<li>很多运维人员是消防员，哪里有问题去哪里</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
-<h3 id="日志管理流程"> 日志管理流程</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
   </entry>
 </feed>
