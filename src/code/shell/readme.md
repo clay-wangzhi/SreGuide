@@ -1,5 +1,5 @@
 ---
-author: LinuxStory
+author: LinuxStory & Clay
 category: Linux
 tags:
   - Bash
@@ -16,6 +16,8 @@ tags:
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/)
 
 《高级Bash脚本编程指南》Revision 10中文版
+
+![](advanced-bash.png)
 
 ## 原著及早期翻译作品
 
