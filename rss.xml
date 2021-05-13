@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 13 May 2021 07:05:52 GMT</pubDate>
-    <lastBuildDate>Thu, 13 May 2021 07:05:52 GMT</lastBuildDate>
+    <pubDate>Thu, 13 May 2021 08:56:27 GMT</pubDate>
+    <lastBuildDate>Thu, 13 May 2021 08:56:27 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -77,6 +77,240 @@
 <li>
 <p>[grafana问题](27 监控体系/grafana问题.md)</p>
 </li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>4.4 Playbook高级用法</title>
+      <link>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</link>
+      <guid>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4.4 Playbook高级用法</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
 </ul>
 ]]></content:encoded>
     </item>
@@ -448,240 +682,6 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>4.4 Playbook高级用法</title>
-      <link>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</link>
-      <guid>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4.4 Playbook高级用法</source>
-      <category>自动化工具</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -27722,6 +27722,28 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
 ]]></content:encoded>
     </item>
     <item>
+      <title>第十一章 循环与分支</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第十一章 循环与分支</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>第十二章 命令替换</title>
       <link>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</guid>
@@ -29981,195 +30003,6 @@ EOF
 ]]></content:encoded>
     </item>
     <item>
-      <title>20.1 使用 exec</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">20.1 使用 exec</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
-<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
-<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
-<div><pre><code>#!/bin/bash
-# 使用 &#39;exec&#39; 重定向 标准输入 .
-
-
-exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
-                   # .
-
-exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
-
-read a1            # 读取文件 &quot;data-file&quot; 首行.
-read a2            # 读取文件 &quot;data-file&quot; 第二行
-
-echo
-echo &quot;Following lines read from file.&quot;
-echo &quot;-------------------------------&quot;
-echo $a1
-echo $a2
-
-echo; echo; echo
-
-exec 0&lt;&amp;6 6&lt;&amp;-
-#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
-#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
-#
-# &lt;&amp;6 6&lt;&amp;-    also works.
-
-echo -n &quot;Enter data  &quot;
-read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
-echo &quot;Input read from stdin.&quot;
-echo &quot;----------------------&quot;
-echo &quot;b1 = $b1&quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
-<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
-<p>样例 20-2. 使用 exec 重定向标准输出</p>
-<div><pre><code>#!/bin/bash
-# reassign-stdout.sh
-
-LOGFILE=logfile.txt
-
-exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
-                    # 保存标准输出.
-
-exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
-
-# ----------------------------------------------------------- #
-# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
-
-echo -n &quot;Logfile: &quot;
-date
-echo &quot;-------------------------------------&quot;
-echo
-
-echo &quot;Output of \&quot;ls -al\&quot; command&quot;
-echo
-ls -al
-echo; echo
-echo &quot;Output of \&quot;df\&quot; command&quot;
-echo
-df
-
-# ----------------------------------------------------------- #
-
-exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
-
-echo
-echo &quot;== stdout now restored to default == &quot;
-echo
-ls -al
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
-<div><pre><code>#!/bin/bash
-# upperconv.sh
-# 转化指定的输入文件成大写.
-
-E_FILE_ACCESS=70
-E_WRONG_ARGS=71
-
-if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
-then
-  echo &quot;Can&#39;t read from input file!&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_FILE_ACCESS
-fi                   #  同样的错误退出
-                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
-
-if [ -z &quot;$2&quot; ]
-then
-  echo &quot;Need to specify output file.&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_WRONG_ARGS
-fi
-
-
-exec 4&lt;&amp;0
-exec &lt; $1            # 将从输入文件读取.
-
-exec 7&gt;&amp;1
-exec &gt; $2            # 将写入输出文件.
-                     # 假定输出文件可写 (增加检测?).
-
-# -----------------------------------------------
-    cat - | tr a-z A-Z   # 转化大写.
-#   ^^^^^                # 读取标准输入.
-#           ^^^^^^^^^^   # 写到标准输出.
-# 然而标准输入和标准输出都会被重定向.
-# 注意 &#39;cat&#39; 可能会被遗漏.
-# -----------------------------------------------
-
-exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
-exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
-
-# 恢复后, 下面这行会预期从标准输出打印.
-echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
-<p>样例 20-4. 规避子 shell</p>
-<div><pre><code>#!/bin/bash
-# avoid-subshell.sh
-# Matthew Walker 的建议.
-
-Lines=0
-
-echo
-
-cat myfile.txt | while read line;
-                 do {
-                   echo $line
-                   (( Lines++ ));  #  递增变量的值趋近外层循环
-                                   #  使用子 shell 会有问题.
-                 }
-                 done
-
-echo &quot;Number of lines read = $Lines&quot;     # 0
-                                         # 报错!
-
-echo &quot;------------------------&quot;
-
-
-exec 3&lt;&gt; myfile.txt
-while read line &lt;&amp;3
-do {
-  echo &quot;$line&quot;
-  (( Lines++ ));                   #  递增变量的值趋近外层循环.
-                                   #  没有子 shell，就不会有问题.
-}
-done
-exec 3&gt;&amp;-
-
-echo &quot;Number of lines read = $Lines&quot;     # 8
-
-echo
-
-exit 0
-
-# 下面的行并不在脚本里.
-
-$ cat myfile.txt
-
-Line 1.
-Line 2.
-Line 3.
-Line 4.
-Line 5.
-Line 6.
-Line 7.
-Line 8.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>20.2 重定向代码块</title>
       <link>https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/</guid>
@@ -30439,6 +30272,195 @@ echo &quot;$nr files totaling $totalSize bytes&quot;
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>20.1 使用 exec</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">20.1 使用 exec</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
+<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
+<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
+<div><pre><code>#!/bin/bash
+# 使用 &#39;exec&#39; 重定向 标准输入 .
+
+
+exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
+                   # .
+
+exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
+
+read a1            # 读取文件 &quot;data-file&quot; 首行.
+read a2            # 读取文件 &quot;data-file&quot; 第二行
+
+echo
+echo &quot;Following lines read from file.&quot;
+echo &quot;-------------------------------&quot;
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0&lt;&amp;6 6&lt;&amp;-
+#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
+#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
+#
+# &lt;&amp;6 6&lt;&amp;-    also works.
+
+echo -n &quot;Enter data  &quot;
+read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
+echo &quot;Input read from stdin.&quot;
+echo &quot;----------------------&quot;
+echo &quot;b1 = $b1&quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
+<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
+<p>样例 20-2. 使用 exec 重定向标准输出</p>
+<div><pre><code>#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
+                    # 保存标准输出.
+
+exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
+
+# ----------------------------------------------------------- #
+# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
+
+echo -n &quot;Logfile: &quot;
+date
+echo &quot;-------------------------------------&quot;
+echo
+
+echo &quot;Output of \&quot;ls -al\&quot; command&quot;
+echo
+ls -al
+echo; echo
+echo &quot;Output of \&quot;df\&quot; command&quot;
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
+
+echo
+echo &quot;== stdout now restored to default == &quot;
+echo
+ls -al
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
+<div><pre><code>#!/bin/bash
+# upperconv.sh
+# 转化指定的输入文件成大写.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
+then
+  echo &quot;Can&#39;t read from input file!&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_FILE_ACCESS
+fi                   #  同样的错误退出
+                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
+
+if [ -z &quot;$2&quot; ]
+then
+  echo &quot;Need to specify output file.&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4&lt;&amp;0
+exec &lt; $1            # 将从输入文件读取.
+
+exec 7&gt;&amp;1
+exec &gt; $2            # 将写入输出文件.
+                     # 假定输出文件可写 (增加检测?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # 转化大写.
+#   ^^^^^                # 读取标准输入.
+#           ^^^^^^^^^^   # 写到标准输出.
+# 然而标准输入和标准输出都会被重定向.
+# 注意 &#39;cat&#39; 可能会被遗漏.
+# -----------------------------------------------
+
+exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
+exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
+
+# 恢复后, 下面这行会预期从标准输出打印.
+echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
+<p>样例 20-4. 规避子 shell</p>
+<div><pre><code>#!/bin/bash
+# avoid-subshell.sh
+# Matthew Walker 的建议.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  递增变量的值趋近外层循环
+                                   #  使用子 shell 会有问题.
+                 }
+                 done
+
+echo &quot;Number of lines read = $Lines&quot;     # 0
+                                         # 报错!
+
+echo &quot;------------------------&quot;
+
+
+exec 3&lt;&gt; myfile.txt
+while read line &lt;&amp;3
+do {
+  echo &quot;$line&quot;
+  (( Lines++ ));                   #  递增变量的值趋近外层循环.
+                                   #  没有子 shell，就不会有问题.
+}
+done
+exec 3&gt;&amp;-
+
+echo &quot;Number of lines read = $Lines&quot;     # 8
+
+echo
+
+exit 0
+
+# 下面的行并不在脚本里.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>20.3 应用程序</title>
       <link>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</guid>
@@ -30564,7 +30586,7 @@ exit 0
       # --------------------------------------------------------------------
 
    1&gt;filename
-      # 以覆盖的方式将 标准错误 重定向到文件 &quot;filename.&quot;
+      # 以覆盖的方式将 标准输出 重定向到文件 &quot;filename.&quot;
    1&gt;&gt;filename
       # 以追加的方式将 标准输出 重定向到文件 &quot;filename.&quot;
    2&gt;filename
@@ -34485,200 +34507,6 @@ lsof &quot;$lsof_args&quot; | grep $connection_type | grep -v &quot;$no_match&qu
 ]]></content:encoded>
     </item>
     <item>
-      <title>33 选项</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/33_options/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/33_options/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">33 选项</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
-<p>选项用来更改shell和脚本的行为.</p>
-<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
-<div><pre><code>#!/bin/bash
-
-set -o verbose
-# # 打印出所有执行前的命令.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
-
-set -v
-# 与上边的例子具有相同的效果.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
-<div><pre><code>#!/bin/bash
-set -o verbose
-# 激活命令回显.
-command
-...
-command
-
-set +o verbose
-# 禁用命令回显.
-command
-# 没有命令回显了.
-
-set -v
-# 激活命令回显.
-command
-...
-command
-
-set +v
-# 禁用命令回显.
-command
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
-<div><pre><code>#!/bin/bash -x
-#
-# 下边是脚本的主要内容.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
-<p><strong>bash - v script - name</strong></p>
-<p><strong>bash - o verbose script - name</strong></p>
-<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
-<p>表格 33-1. Bash选项</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">缩写</th>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">-B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
-</tr>
-<tr>
-<td style="text-align:left">+B</td>
-<td style="text-align:left">brace expansion</td>
-<td style="text-align:left">关闭大括号展开</td>
-</tr>
-<tr>
-<td style="text-align:left">-C</td>
-<td style="text-align:left">noclobber</td>
-<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
-</tr>
-<tr>
-<td style="text-align:left">-D</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-a</td>
-<td style="text-align:left">all export</td>
-<td style="text-align:left">export(导出)所有定义过的变量</td>
-</tr>
-<tr>
-<td style="text-align:left">-b</td>
-<td style="text-align:left">notify</td>
-<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
-</tr>
-<tr>
-<td style="text-align:left">-c ...</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">从...中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">checkjobs</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
-</tr>
-<tr>
-<td style="text-align:left">-e</td>
-<td style="text-align:left">errexit</td>
-<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
-</tr>
-<tr>
-<td style="text-align:left">-f</td>
-<td style="text-align:left">noglob</td>
-<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
-</tr>
-<tr>
-<td style="text-align:left">globstar</td>
-<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
-<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
-</tr>
-<tr>
-<td style="text-align:left">-i</td>
-<td style="text-align:left">interactive</td>
-<td style="text-align:left">让脚本以交互模式运行</td>
-</tr>
-<tr>
-<td style="text-align:left">-n</td>
-<td style="text-align:left">noexec</td>
-<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
-</tr>
-<tr>
-<td style="text-align:left">-o Option-Name</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">调用Option-Name选项</td>
-</tr>
-<tr>
-<td style="text-align:left">-o posix</td>
-<td style="text-align:left">POSIX</td>
-<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
-</tr>
-<tr>
-<td style="text-align:left">-o pipefail</td>
-<td style="text-align:left">pipe failure</td>
-<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
-</tr>
-<tr>
-<td style="text-align:left">-p</td>
-<td style="text-align:left">privileged</td>
-<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
-</tr>
-<tr>
-<td style="text-align:left">-r</td>
-<td style="text-align:left">restricted</td>
-<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
-</tr>
-<tr>
-<td style="text-align:left">-s</td>
-<td style="text-align:left">stdin</td>
-<td style="text-align:left">从stdin 中读取命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-t</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">执行完第一个命令之后, 就退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-u</td>
-<td style="text-align:left">nounset</td>
-<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
-</tr>
-<tr>
-<td style="text-align:left">-v</td>
-<td style="text-align:left">verbose</td>
-<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
-</tr>
-<tr>
-<td style="text-align:left">-x</td>
-<td style="text-align:left">xtrace</td>
-<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
-</tr>
-<tr>
-<td style="text-align:left">-</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
-</tr>
-<tr>
-<td style="text-align:left">--</td>
-<td style="text-align:left">(none)</td>
-<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
       <title>32 调试</title>
       <link>https://clay-wangzhi.com/code/shell/part5/32_Debugging/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/32_Debugging/</guid>
@@ -35232,6 +35060,200 @@ command
 trap 2     # Reenables Control-C
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>33 选项</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/33_options/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/33_options/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">33 选项</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_33-选项"> 33 选项</h1>
+<p>选项用来更改shell和脚本的行为.</p>
+<p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set</a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
+<div><pre><code>#!/bin/bash
+
+set -o verbose
+# # 打印出所有执行前的命令.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code>#!/bin/bash
+
+set -v
+# 与上边的例子具有相同的效果.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
+<div><pre><code>#!/bin/bash
+set -o verbose
+# 激活命令回显.
+command
+...
+command
+
+set +o verbose
+# 禁用命令回显.
+command
+# 没有命令回显了.
+
+set -v
+# 激活命令回显.
+command
+...
+command
+
+set +v
+# 禁用命令回显.
+command
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
+<div><pre><code>#!/bin/bash -x
+#
+# 下边是脚本的主要内容.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
+<p><strong>bash - v script - name</strong></p>
+<p><strong>bash - o verbose script - name</strong></p>
+<p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
+<p>表格 33-1. Bash选项</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">开启<a href="">大括号展开</a>(默认 setting = on)</td>
+</tr>
+<tr>
+<td style="text-align:left">+B</td>
+<td style="text-align:left">brace expansion</td>
+<td style="text-align:left">关闭大括号展开</td>
+</tr>
+<tr>
+<td style="text-align:left">-C</td>
+<td style="text-align:left">noclobber</td>
+<td style="text-align:left">防止重定向时覆盖文件(可能会被&gt;|覆盖)</td>
+</tr>
+<tr>
+<td style="text-align:left">-D</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">列出用双引号引用起来的, 以$为前缀的字符串, 但是不执行脚本中的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-a</td>
+<td style="text-align:left">all export</td>
+<td style="text-align:left">export(导出)所有定义过的变量</td>
+</tr>
+<tr>
+<td style="text-align:left">-b</td>
+<td style="text-align:left">notify</td>
+<td style="text-align:left">当后台运行的作业终止时, 给出通知(脚本中并不常见)</td>
+</tr>
+<tr>
+<td style="text-align:left">-c ...</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">从...中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">checkjobs</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">通知有活跃shell<a href="http://tldp.org/LDP/abs/html/x9644.html#JOBSREF" target="_blank" rel="noopener noreferrer">任务</a>的用户退出。<a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">Bash 4</a>版本中引入，仍然处于&quot;实验&quot;阶段. 用法:shopt -s checkjobs .(注意：可能会hang！</td>
+</tr>
+<tr>
+<td style="text-align:left">-e</td>
+<td style="text-align:left">errexit</td>
+<td style="text-align:left">当脚本发生第一个错误时, 就退出脚本, 换种说法就是, 当一个命令返回非零值时, 就退出脚本(除了<a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until</a>或<a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while loops</a>, <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">if-tests</a>, <a href="http://tldp.org/LDP/abs/html/list-cons.html#LCONS1" target="_blank" rel="noopener noreferrer">list constructs</a>)</td>
+</tr>
+<tr>
+<td style="text-align:left">-f</td>
+<td style="text-align:left">noglob</td>
+<td style="text-align:left">禁用文件名扩展(就是禁用globbing)</td>
+</tr>
+<tr>
+<td style="text-align:left">globstar</td>
+<td style="text-align:left"><a href="http://tldp.org/LDP/abs/html/bashver4.html#GLOBSTARREF" target="_blank" rel="noopener noreferrer">globbing star-match</a></td>
+<td style="text-align:left">打开<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">globbling</a>操作符(Bash <a href="http://tldp.org/LDP/abs/html/bashver4.html#BASH4REF" target="_blank" rel="noopener noreferrer">4+</a>). 使用方法：shopt -s globstar</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">interactive</td>
+<td style="text-align:left">让脚本以交互模式运行</td>
+</tr>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">noexec</td>
+<td style="text-align:left">从脚本中读取命令, 但是不执行它们(做语法检查)</td>
+</tr>
+<tr>
+<td style="text-align:left">-o Option-Name</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">调用Option-Name选项</td>
+</tr>
+<tr>
+<td style="text-align:left">-o posix</td>
+<td style="text-align:left">POSIX</td>
+<td style="text-align:left">修改Bash或被调用脚本的行为, 使其符合<a href="http://tldp.org/LDP/abs/html/sha-bang.html#POSIX2REF" target="_blank" rel="noopener noreferrer">POSIX</a>标准.</td>
+</tr>
+<tr>
+<td style="text-align:left">-o pipefail</td>
+<td style="text-align:left">pipe failure</td>
+<td style="text-align:left">创建一个管道去返回最后一条命令的<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态码</a>，这个返回值是一个非0的返回值</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">privileged</td>
+<td style="text-align:left">以&quot;suid&quot;身份来运行脚本(小心!)</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">restricted</td>
+<td style="text-align:left">以受限模式来运行脚本(参考 <a href="http://tldp.org/LDP/abs/html/restricted-sh.html" target="_blank" rel="noopener noreferrer">22</a>).</td>
+</tr>
+<tr>
+<td style="text-align:left">-s</td>
+<td style="text-align:left">stdin</td>
+<td style="text-align:left">从stdin 中读取命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">执行完第一个命令之后, 就退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-u</td>
+<td style="text-align:left">nounset</td>
+<td style="text-align:left">如果尝试使用了未定义的变量, 就会输出一个错误消息, 然后强制退出</td>
+</tr>
+<tr>
+<td style="text-align:left">-v</td>
+<td style="text-align:left">verbose</td>
+<td style="text-align:left">在执行每个命令之前, 把每个命令打印到stdout上</td>
+</tr>
+<tr>
+<td style="text-align:left">-x</td>
+<td style="text-align:left">xtrace</td>
+<td style="text-align:left">与-v选项类似, 但是会打印完整命令</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">选项结束标志. 后面的参数为<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>.</td>
+</tr>
+<tr>
+<td style="text-align:left">--</td>
+<td style="text-align:left">(none)</td>
+<td style="text-align:left">unset(释放)位置参数. 如果指定了参数列表(-- arg1 arg2), 那么位置 参数将会依次设置到参数列表中.</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
       <title>第34章 陷阱</title>
@@ -42125,6 +42147,107 @@ skip-grant-tables
 ]]></content:encoded>
     </item>
     <item>
+      <title>hash类型</title>
+      <link>https://clay-wangzhi.com/db/redis/operate/hash/</link>
+      <guid>https://clay-wangzhi.com/db/redis/operate/hash/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">hash类型</source>
+      <category>Redis</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="hash类型"> hash类型</h1>
+<p>hash⽤于存储对象
+对象的结构为属性、值
+值的类型为string</p>
+<h2 id="增加、修改"> 增加、修改</h2>
+<ul>
+<li>设置单个属性</li>
+</ul>
+<div><pre><code>hset key field value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个属性</li>
+</ul>
+<div><pre><code>hmset key field1 value1 field2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取指定键所有的属性</li>
+</ul>
+<div><pre><code>hkeys key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取⼀个属性的值</li>
+</ul>
+<div><pre><code>hget key field
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取多个属性的值</li>
+</ul>
+<div><pre><code>hmget key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取所有属性的值</li>
+</ul>
+<div><pre><code>hvals key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取一个hash有多少个属性</li>
+</ul>
+<div><pre><code>hlen key
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<ul>
+<li>删除整个hash键及值，使⽤del命令</li>
+<li>删除属性，属性对应的值会被⼀起删除</li>
+</ul>
+<div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>键命令</title>
+      <link>https://clay-wangzhi.com/db/redis/operate/key/</link>
+      <guid>https://clay-wangzhi.com/db/redis/operate/key/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">键命令</source>
+      <category>Redis</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>4 视图、事务、索引、函数</title>
       <link>https://clay-wangzhi.com/db/mysql/view-func/</link>
       <guid>https://clay-wangzhi.com/db/mysql/view-func/</guid>
@@ -43074,107 +43197,6 @@ func main(){
 </code></pre>
 <div><span>1</span><br></div></div><p>4、	显示每个地区的男生和女生和总人数</p>
 <div><pre><code>select stuaddress,count(stusex) 总人数, sum(stusex=&#39;男&#39;) 男,sum(stusex=&#39;女&#39;) 女 from stuinfo group by stuaddress
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>hash类型</title>
-      <link>https://clay-wangzhi.com/db/redis/operate/hash/</link>
-      <guid>https://clay-wangzhi.com/db/redis/operate/hash/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">hash类型</source>
-      <category>Redis</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="hash类型"> hash类型</h1>
-<p>hash⽤于存储对象
-对象的结构为属性、值
-值的类型为string</p>
-<h2 id="增加、修改"> 增加、修改</h2>
-<ul>
-<li>设置单个属性</li>
-</ul>
-<div><pre><code>hset key field value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个属性</li>
-</ul>
-<div><pre><code>hmset key field1 value1 field2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取指定键所有的属性</li>
-</ul>
-<div><pre><code>hkeys key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取⼀个属性的值</li>
-</ul>
-<div><pre><code>hget key field
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取多个属性的值</li>
-</ul>
-<div><pre><code>hmget key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取所有属性的值</li>
-</ul>
-<div><pre><code>hvals key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取一个hash有多少个属性</li>
-</ul>
-<div><pre><code>hlen key
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<ul>
-<li>删除整个hash键及值，使⽤del命令</li>
-<li>删除属性，属性对应的值会被⼀起删除</li>
-</ul>
-<div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>键命令</title>
-      <link>https://clay-wangzhi.com/db/redis/operate/key/</link>
-      <guid>https://clay-wangzhi.com/db/redis/operate/key/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">键命令</source>
-      <category>Redis</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -52080,95 +52102,6 @@ bin/elasticsearch-plugin list
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739412739.png" type="image/png"/>
     </item>
     <item>
-      <title>Elastic Stack 家族成员及其应用场景</title>
-      <link>https://clay-wangzhi.com/monitor/elk/summarize/scene/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/summarize/scene/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Elastic Stack 家族成员及其应用场景</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
-<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
-<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
-<ul>
-<li>
-<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
-</li>
-<li>
-<p>发展</p>
-<ul>
-<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
-<li>2013年被Elasticsearch收购</li>
-</ul>
-</li>
-<li>
-<p>特性</p>
-<ul>
-<li>实时解析和转换数据
-<ul>
-<li>从IP地址破译出地理坐标</li>
-<li>将PII数据匿名化，完全排除敏感字段</li>
-</ul>
-</li>
-<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
-<li>可靠性安全
-<ul>
-<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
-<li>数据传输加密</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
-<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
-<ul>
-<li>Kibana名字的含义：Kiwifruit + Banana</li>
-<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
-<li>基于logstash的工具，2013年加入Elastic公司</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
-<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
-<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
-<ul>
-<li>6.3之前的版本，X-pack以插件方式安装</li>
-<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
-<ul>
-<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
-</ul>
-</li>
-<li>OSS，Basic，黄金级，白金级</li>
-</ul>
-<h2 id="elk应用场景"> ELK应用场景</h2>
-<ul>
-<li>网站搜索/垂直搜索/代码搜索</li>
-<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
-</ul>
-<h3 id="日志的重要性"> 日志的重要性</h3>
-<ul>
-<li>为什么重要
-<ul>
-<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
-<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
-</ul>
-</li>
-<li>挑战
-<ul>
-<li>关注点很多，任何一个点都有可能引起问题</li>
-<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
-<li>很多运维人员是消防员，哪里有问题去哪里</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
-<h3 id="日志管理流程"> 日志管理流程</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" type="image/png"/>
-    </item>
-    <item>
       <title>11.4 测试与分支</title>
       <link>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</guid>
@@ -52576,33 +52509,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
-      <title>6 常见问题</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>聊透监控体系</title>
       <link>https://clay-wangzhi.com/monitor/monitor-system/</link>
       <guid>https://clay-wangzhi.com/monitor/monitor-system/</guid>
@@ -52815,6 +52721,50 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" type="image/webp"/>
     </item>
     <item>
+      <title>6 常见问题</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>10 Todolist</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/todolist/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/todolist/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">10 Todolist</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
+<p>待整理链接有：</p>
+<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
+<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
+<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
+<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
+<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
+<p>zabbix 告警分组和添加远端命令</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>1 zabbix4.4新功能</title>
       <link>https://clay-wangzhi.com/monitor/zabbix/</link>
       <guid>https://clay-wangzhi.com/monitor/zabbix/</guid>
@@ -52988,23 +52938,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 </li>
 </ul>
 <p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明</a>.</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>10 Todolist</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/todolist/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/todolist/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">10 Todolist</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
-<p>待整理链接有：</p>
-<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
-<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
-<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
-<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
-<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
-<p>zabbix 告警分组和添加远端命令</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -58085,6 +58018,15 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
+      <title>博客主页</title>
+      <link>https://clay-wangzhi.com/</link>
+      <guid>https://clay-wangzhi.com/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">博客主页</source>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>3. nginx配置文件详解</title>
       <link>https://clay-wangzhi.com/web/nginx/config/</link>
       <guid>https://clay-wangzhi.com/web/nginx/config/</guid>
@@ -58505,15 +58447,6 @@ $document_uri ： 与$uri相同。
 <p>http://nginx.org/en/docs/http/ngx_http_core_module.html#variables</p>
 <p>http://nginx.org/en/docs/</p>
 </blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>博客主页</title>
-      <link>https://clay-wangzhi.com/</link>
-      <guid>https://clay-wangzhi.com/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">博客主页</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
 ]]></content:encoded>
     </item>
     <item>
@@ -61146,26 +61079,93 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>第十一章 循环与分支</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第十一章 循环与分支</source>
-      <category>Linux</category>
+      <title>Elastic Stack 家族成员及其应用场景</title>
+      <link>https://clay-wangzhi.com/monitor/elk/summarize/scene/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/summarize/scene/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Elastic Stack 家族成员及其应用场景</source>
+      <category>监控</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
+      <content:encoded><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
+<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
+<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
 <ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+<li>
+<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
+</li>
+<li>
+<p>发展</p>
+<ul>
+<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
+<li>2013年被Elasticsearch收购</li>
 </ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+</li>
+<li>
+<p>特性</p>
+<ul>
+<li>实时解析和转换数据
+<ul>
+<li>从IP地址破译出地理坐标</li>
+<li>将PII数据匿名化，完全排除敏感字段</li>
+</ul>
+</li>
+<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
+<li>可靠性安全
+<ul>
+<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
+<li>数据传输加密</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
+<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
+<ul>
+<li>Kibana名字的含义：Kiwifruit + Banana</li>
+<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
+<li>基于logstash的工具，2013年加入Elastic公司</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
+<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
+<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
+<ul>
+<li>6.3之前的版本，X-pack以插件方式安装</li>
+<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
+<ul>
+<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
+</ul>
+</li>
+<li>OSS，Basic，黄金级，白金级</li>
+</ul>
+<h2 id="elk应用场景"> ELK应用场景</h2>
+<ul>
+<li>网站搜索/垂直搜索/代码搜索</li>
+<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
+</ul>
+<h3 id="日志的重要性"> 日志的重要性</h3>
+<ul>
+<li>为什么重要
+<ul>
+<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
+<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
+</ul>
+</li>
+<li>挑战
+<ul>
+<li>关注点很多，任何一个点都有可能引起问题</li>
+<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
+<li>很多运维人员是消防员，哪里有问题去哪里</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
+<h3 id="日志管理流程"> 日志管理流程</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
 ]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" type="image/png"/>
     </item>
   </channel>
 </rss>
