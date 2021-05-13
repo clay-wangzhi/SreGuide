@@ -434,7 +434,7 @@ bash$ echo $?
 {% hint style="warning" %}
 
 在Bash 3.0 以下版本的登录shell中，变量 `$PIPESTATUS` 可能会包含一个不正确的 0 值。
- 
+
 ```bash
 tcsh% bash
 
@@ -522,7 +522,7 @@ bash$ echo ${PIPESTATUS[@]}
 其可以作为调试的辅助手段，把一些诊断信息显示在 `$PS4` 中可能会有帮助。
 
 ```bash
-P4='$(read time junk < /proc/$$/schedstat; echo "@@@ $time @@@ " )'
+PS4='$(read time junk < /proc/$$/schedstat; echo "@@@ $time @@@ " )'
 # 根据 Erik Brandsberg 提供的建议。
 set -x
 # 可以在后面写各种命令...
