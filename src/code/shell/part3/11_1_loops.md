@@ -10,7 +10,7 @@ tags:
 
 ### for 循环
 
-### `for arg in [list]`
+`for arg in [list]`
 
 这是 shell 中最基本的循环结构，它与C语言形式的循环有着明显的不同。
 
@@ -22,7 +22,6 @@ done
 ```
 
 > ![note](http://tldp.org/LDP/abs/images/note.gif) 在循环的过程中，`arg` 会从 `list` 中连续获得每一个变量的值。
->
 ```bash
 for arg in "$var1" "$var2" "$var3" ... "$varN"
 # 第一次循环中，arg = $var1
@@ -567,7 +566,6 @@ exit $?   # efax 同时也会将诊断信息传递给标准输出。
 ```
 
 > ![note](http://tldp.org/LDP/abs/images/note.gif) [关键字](http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF) `do` 和 `done` 圈定了 for 循环代码块的范围。但是在一些特殊的情况下，也可以被 [大括号](http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF) 取代。
-> 
 ```bash
 for((n=1; n<=10; n++))
 # 没有 do！
@@ -760,7 +758,6 @@ done
 ```
 
 > 和 [if 测试](http://tldp.org/LDP/abs/html/testconstructs.html#IFGREPREF) 结构一样，`while` 循环也可以省略括号。
->
 ```bash
 while condition
 do
