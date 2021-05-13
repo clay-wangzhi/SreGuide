@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-13T08:56:27.223Z</updated>
+  <updated>2021-05-13T09:49:02.279Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -97,247 +97,6 @@
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -706,6 +465,247 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -30770,6 +30770,202 @@ EOF
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">20.1 使用 exec</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
+<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
+<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
+<div><pre><code>#!/bin/bash
+# 使用 &#39;exec&#39; 重定向 标准输入 .
+
+
+exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
+                   # .
+
+exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
+
+read a1            # 读取文件 &quot;data-file&quot; 首行.
+read a2            # 读取文件 &quot;data-file&quot; 第二行
+
+echo
+echo &quot;Following lines read from file.&quot;
+echo &quot;-------------------------------&quot;
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0&lt;&amp;6 6&lt;&amp;-
+#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
+#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
+#
+# &lt;&amp;6 6&lt;&amp;-    also works.
+
+echo -n &quot;Enter data  &quot;
+read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
+echo &quot;Input read from stdin.&quot;
+echo &quot;----------------------&quot;
+echo &quot;b1 = $b1&quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
+<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
+<p>样例 20-2. 使用 exec 重定向标准输出</p>
+<div><pre><code>#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
+                    # 保存标准输出.
+
+exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
+
+# ----------------------------------------------------------- #
+# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
+
+echo -n &quot;Logfile: &quot;
+date
+echo &quot;-------------------------------------&quot;
+echo
+
+echo &quot;Output of \&quot;ls -al\&quot; command&quot;
+echo
+ls -al
+echo; echo
+echo &quot;Output of \&quot;df\&quot; command&quot;
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
+
+echo
+echo &quot;== stdout now restored to default == &quot;
+echo
+ls -al
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
+<div><pre><code>#!/bin/bash
+# upperconv.sh
+# 转化指定的输入文件成大写.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
+then
+  echo &quot;Can&#39;t read from input file!&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_FILE_ACCESS
+fi                   #  同样的错误退出
+                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
+
+if [ -z &quot;$2&quot; ]
+then
+  echo &quot;Need to specify output file.&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4&lt;&amp;0
+exec &lt; $1            # 将从输入文件读取.
+
+exec 7&gt;&amp;1
+exec &gt; $2            # 将写入输出文件.
+                     # 假定输出文件可写 (增加检测?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # 转化大写.
+#   ^^^^^                # 读取标准输入.
+#           ^^^^^^^^^^   # 写到标准输出.
+# 然而标准输入和标准输出都会被重定向.
+# 注意 &#39;cat&#39; 可能会被遗漏.
+# -----------------------------------------------
+
+exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
+exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
+
+# 恢复后, 下面这行会预期从标准输出打印.
+echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
+<p>样例 20-4. 规避子 shell</p>
+<div><pre><code>#!/bin/bash
+# avoid-subshell.sh
+# Matthew Walker 的建议.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  递增变量的值趋近外层循环
+                                   #  使用子 shell 会有问题.
+                 }
+                 done
+
+echo &quot;Number of lines read = $Lines&quot;     # 0
+                                         # 报错!
+
+echo &quot;------------------------&quot;
+
+
+exec 3&lt;&gt; myfile.txt
+while read line &lt;&amp;3
+do {
+  echo &quot;$line&quot;
+  (( Lines++ ));                   #  递增变量的值趋近外层循环.
+                                   #  没有子 shell，就不会有问题.
+}
+done
+exec 3&gt;&amp;-
+
+echo &quot;Number of lines read = $Lines&quot;     # 8
+
+echo
+
+exit 0
+
+# 下面的行并不在脚本里.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">20.2 重定向代码块</title>
     <id>https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/"/>
@@ -31035,202 +31231,6 @@ EOF
 echo &quot;$nr files totaling $totalSize bytes&quot;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">20.1 使用 exec</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
-<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
-<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
-<div><pre><code>#!/bin/bash
-# 使用 &#39;exec&#39; 重定向 标准输入 .
-
-
-exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
-                   # .
-
-exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
-
-read a1            # 读取文件 &quot;data-file&quot; 首行.
-read a2            # 读取文件 &quot;data-file&quot; 第二行
-
-echo
-echo &quot;Following lines read from file.&quot;
-echo &quot;-------------------------------&quot;
-echo $a1
-echo $a2
-
-echo; echo; echo
-
-exec 0&lt;&amp;6 6&lt;&amp;-
-#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
-#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
-#
-# &lt;&amp;6 6&lt;&amp;-    also works.
-
-echo -n &quot;Enter data  &quot;
-read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
-echo &quot;Input read from stdin.&quot;
-echo &quot;----------------------&quot;
-echo &quot;b1 = $b1&quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
-<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
-<p>样例 20-2. 使用 exec 重定向标准输出</p>
-<div><pre><code>#!/bin/bash
-# reassign-stdout.sh
-
-LOGFILE=logfile.txt
-
-exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
-                    # 保存标准输出.
-
-exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
-
-# ----------------------------------------------------------- #
-# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
-
-echo -n &quot;Logfile: &quot;
-date
-echo &quot;-------------------------------------&quot;
-echo
-
-echo &quot;Output of \&quot;ls -al\&quot; command&quot;
-echo
-ls -al
-echo; echo
-echo &quot;Output of \&quot;df\&quot; command&quot;
-echo
-df
-
-# ----------------------------------------------------------- #
-
-exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
-
-echo
-echo &quot;== stdout now restored to default == &quot;
-echo
-ls -al
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
-<div><pre><code>#!/bin/bash
-# upperconv.sh
-# 转化指定的输入文件成大写.
-
-E_FILE_ACCESS=70
-E_WRONG_ARGS=71
-
-if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
-then
-  echo &quot;Can&#39;t read from input file!&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_FILE_ACCESS
-fi                   #  同样的错误退出
-                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
-
-if [ -z &quot;$2&quot; ]
-then
-  echo &quot;Need to specify output file.&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_WRONG_ARGS
-fi
-
-
-exec 4&lt;&amp;0
-exec &lt; $1            # 将从输入文件读取.
-
-exec 7&gt;&amp;1
-exec &gt; $2            # 将写入输出文件.
-                     # 假定输出文件可写 (增加检测?).
-
-# -----------------------------------------------
-    cat - | tr a-z A-Z   # 转化大写.
-#   ^^^^^                # 读取标准输入.
-#           ^^^^^^^^^^   # 写到标准输出.
-# 然而标准输入和标准输出都会被重定向.
-# 注意 &#39;cat&#39; 可能会被遗漏.
-# -----------------------------------------------
-
-exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
-exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
-
-# 恢复后, 下面这行会预期从标准输出打印.
-echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
-<p>样例 20-4. 规避子 shell</p>
-<div><pre><code>#!/bin/bash
-# avoid-subshell.sh
-# Matthew Walker 的建议.
-
-Lines=0
-
-echo
-
-cat myfile.txt | while read line;
-                 do {
-                   echo $line
-                   (( Lines++ ));  #  递增变量的值趋近外层循环
-                                   #  使用子 shell 会有问题.
-                 }
-                 done
-
-echo &quot;Number of lines read = $Lines&quot;     # 0
-                                         # 报错!
-
-echo &quot;------------------------&quot;
-
-
-exec 3&lt;&gt; myfile.txt
-while read line &lt;&amp;3
-do {
-  echo &quot;$line&quot;
-  (( Lines++ ));                   #  递增变量的值趋近外层循环.
-                                   #  没有子 shell，就不会有问题.
-}
-done
-exec 3&gt;&amp;-
-
-echo &quot;Number of lines read = $Lines&quot;     # 8
-
-echo
-
-exit 0
-
-# 下面的行并不在脚本里.
-
-$ cat myfile.txt
-
-Line 1.
-Line 2.
-Line 3.
-Line 4.
-Line 5.
-Line 6.
-Line 7.
-Line 8.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -42223,154 +42223,6 @@ mysql&gt; select * from stumarks;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">12 MySQL锁等待</title>
-    <id>https://clay-wangzhi.com/db/mysql/lock/</id>
-    <link href="https://clay-wangzhi.com/db/mysql/lock/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_12-mysql锁等待"> 12 MySQL锁等待</h1>
-<h2 id="_1-锁等待模拟"> 1 锁等待模拟</h2>
-<p>创建数据库</p>
-<div><pre><code>create database clay_test default charset utf8 collate utf8_general_ci;
-use clay_test
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>创建表</p>
-<div><pre><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
-</code></pre>
-<div><span>1</span><br></div></div><p>插入数据</p>
-<div><pre><code>insert into t1 values(1, &#39;clay&#39;);
-</code></pre>
-<div><span>1</span><br></div></div><p>取消自动提交</p>
-<p>则当执行语句commit或者rollback执行提交事务或者回滚</p>
-<div><pre><code>set autocommit=0;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; show variables like &#39;autocommit&#39;;
-+---------------+-------+
-| Variable_name | Value |
-+---------------+-------+
-| autocommit    | OFF   |
-+---------------+-------+
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>更新第一条插入的数据</p>
-<div><pre><code>update t1 set name=&#39;hello&#39; where id=1;
-</code></pre>
-<div><span>1</span><br></div></div><p>新开一个终端，也更新第一条数据</p>
-<div><pre><code>update t1 set name=&#39;world&#39; where id=1;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-监控锁状态"> 2 监控锁状态</h2>
-<h3 id="_2-1-查看有无锁等待"> 2.1 查看有无锁等待</h3>
-<div><pre><code>mysql&gt; show status like &#39;%innodb_row_lock%&#39;;
-+-------------------------------+---------+
-| Variable_name                 | Value   |
-+-------------------------------+---------+
-| Innodb_row_lock_current_waits | 1       |
-| Innodb_row_lock_time          | 2270662 |
-| Innodb_row_lock_time_avg      | 44522   |
-| Innodb_row_lock_time_max      | 51599   |
-| Innodb_row_lock_waits         | 51      |
-+-------------------------------+---------+
-5 rows in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
-<li>Innodb_row_lock_current_waits 表示当前所等待的数量</li>
-<li>Innodb_row_lock_waits 表示历史发生锁等待的数量</li>
-</ul>
-<p>查看哪个表的打开数量大于0</p>
-<div><pre><code>show open tables where in_use&gt;0;
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了"> 2.2 查看哪个事务在等待（被阻塞了）</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_state=&#39;lock wait&#39; \G;
-*************************** 1. row ***************************
-                    trx_id: 2502
-                 trx_state: LOCK WAIT
-               trx_started: 2020-02-15 17:19:37
-     trx_requested_lock_id: 2502:9:3:2
-          trx_wait_started: 2020-02-15 17:19:37
-                trx_weight: 2
-       trx_mysql_thread_id: 38
-                 trx_query: update t1 set name=&#39;world&#39; where id=1
-       trx_operation_state: starting index read
-         trx_tables_in_use: 1
-         trx_tables_locked: 1
-          trx_lock_structs: 2
-     trx_lock_memory_bytes: 360
-           trx_rows_locked: 1
-         trx_rows_modified: 0
-   trx_concurrency_tickets: 0
-       trx_isolation_level: REPEATABLE READ
-         trx_unique_checks: 1
-    trx_foreign_key_checks: 1
-trx_last_foreign_key_error: NULL
- trx_adaptive_hash_latched: 0
- trx_adaptive_hash_timeout: 10000
-          trx_is_read_only: 0
-trx_autocommit_non_locking: 0
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h3 id="_2-3-查看索源"> 2.3 查看索源</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_lock_waits;
-+-------------------+-------------------+-----------------+------------------+
-| requesting_trx_id | requested_lock_id | blocking_trx_id | blocking_lock_id |
-+-------------------+-------------------+-----------------+------------------+
-| 2502              | 2500:9:3:2        | 2491            | 2491:9:3:2       |
-+-------------------+-------------------+-----------------+------------------+
-1 row in set (0.00 sec)
-
-select * from information_schema.innodb_locks;
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-| lock_id    | lock_trx_id | lock_mode | lock_type | lock_table       | lock_index      | lock_space | lock_page | lock_rec | lock_data      |
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-| 2500:9:3:2 | 2502        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
-| 2491:9:3:2 | 2491        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
-+------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
-2 rows in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_2-4-找到锁源的sql语句"> 2.4 找到锁源的SQL语句</h3>
-<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_id=&#39;2491&#39; \G;
-*************************** 1. row ***************************
-                    trx_id: 2491
-                 trx_state: RUNNING
-               trx_started: 2020-02-15 17:01:28
-     trx_requested_lock_id: NULL
-          trx_wait_started: NULL
-                trx_weight: 5
-       trx_mysql_thread_id: 37
-                 trx_query: update t1 set name=&#39;hello&#39; where id=1;
-       trx_operation_state: NULL
-         trx_tables_in_use: 0
-         trx_tables_locked: 0
-          trx_lock_structs: 2
-     trx_lock_memory_bytes: 360
-           trx_rows_locked: 2
-         trx_rows_modified: 3
-   trx_concurrency_tickets: 0
-       trx_isolation_level: REPEATABLE READ
-         trx_unique_checks: 1
-    trx_foreign_key_checks: 1
-trx_last_foreign_key_error: NULL
- trx_adaptive_hash_latched: 0
- trx_adaptive_hash_timeout: 10000
-          trx_is_read_only: 0
-trx_autocommit_non_locking: 0
-1 row in set (0.00 sec)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="_3-杀掉进程"> 3 杀掉进程</h2>
-<p>线程ID（trx_mysql_thread_id）</p>
-<div><pre><code>mysql&gt; kill 37;
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="MySQL"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">9 主主和keepalived</title>
     <id>https://clay-wangzhi.com/db/mysql/owner-kee/</id>
     <link href="https://clay-wangzhi.com/db/mysql/owner-kee/"/>
@@ -42676,6 +42528,154 @@ EOF</span>
 Install_MySQL
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br><span>132</span><br><span>133</span><br><span>134</span><br><span>135</span><br><span>136</span><br><span>137</span><br><span>138</span><br><span>139</span><br><span>140</span><br><span>141</span><br><span>142</span><br><span>143</span><br><span>144</span><br><span>145</span><br><span>146</span><br><span>147</span><br><span>148</span><br><span>149</span><br><span>150</span><br><span>151</span><br><span>152</span><br><span>153</span><br><span>154</span><br><span>155</span><br><span>156</span><br><span>157</span><br><span>158</span><br><span>159</span><br><span>160</span><br><span>161</span><br><span>162</span><br><span>163</span><br><span>164</span><br><span>165</span><br><span>166</span><br><span>167</span><br><span>168</span><br><span>169</span><br><span>170</span><br><span>171</span><br><span>172</span><br><span>173</span><br><span>174</span><br><span>175</span><br><span>176</span><br><span>177</span><br><span>178</span><br><span>179</span><br><span>180</span><br><span>181</span><br><span>182</span><br><span>183</span><br><span>184</span><br><span>185</span><br><span>186</span><br><span>187</span><br><span>188</span><br><span>189</span><br><span>190</span><br><span>191</span><br><span>192</span><br><span>193</span><br><span>194</span><br><span>195</span><br><span>196</span><br><span>197</span><br><span>198</span><br><span>199</span><br><span>200</span><br><span>201</span><br><span>202</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="MySQL"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">12 MySQL锁等待</title>
+    <id>https://clay-wangzhi.com/db/mysql/lock/</id>
+    <link href="https://clay-wangzhi.com/db/mysql/lock/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_12-mysql锁等待"> 12 MySQL锁等待</h1>
+<h2 id="_1-锁等待模拟"> 1 锁等待模拟</h2>
+<p>创建数据库</p>
+<div><pre><code>create database clay_test default charset utf8 collate utf8_general_ci;
+use clay_test
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>创建表</p>
+<div><pre><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
+</code></pre>
+<div><span>1</span><br></div></div><p>插入数据</p>
+<div><pre><code>insert into t1 values(1, &#39;clay&#39;);
+</code></pre>
+<div><span>1</span><br></div></div><p>取消自动提交</p>
+<p>则当执行语句commit或者rollback执行提交事务或者回滚</p>
+<div><pre><code>set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &#39;autocommit&#39;;
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | OFF   |
++---------------+-------+
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>更新第一条插入的数据</p>
+<div><pre><code>update t1 set name=&#39;hello&#39; where id=1;
+</code></pre>
+<div><span>1</span><br></div></div><p>新开一个终端，也更新第一条数据</p>
+<div><pre><code>update t1 set name=&#39;world&#39; where id=1;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-监控锁状态"> 2 监控锁状态</h2>
+<h3 id="_2-1-查看有无锁等待"> 2.1 查看有无锁等待</h3>
+<div><pre><code>mysql&gt; show status like &#39;%innodb_row_lock%&#39;;
++-------------------------------+---------+
+| Variable_name                 | Value   |
++-------------------------------+---------+
+| Innodb_row_lock_current_waits | 1       |
+| Innodb_row_lock_time          | 2270662 |
+| Innodb_row_lock_time_avg      | 44522   |
+| Innodb_row_lock_time_max      | 51599   |
+| Innodb_row_lock_waits         | 51      |
++-------------------------------+---------+
+5 rows in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><ul>
+<li>Innodb_row_lock_current_waits 表示当前所等待的数量</li>
+<li>Innodb_row_lock_waits 表示历史发生锁等待的数量</li>
+</ul>
+<p>查看哪个表的打开数量大于0</p>
+<div><pre><code>show open tables where in_use&gt;0;
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了"> 2.2 查看哪个事务在等待（被阻塞了）</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_state=&#39;lock wait&#39; \G;
+*************************** 1. row ***************************
+                    trx_id: 2502
+                 trx_state: LOCK WAIT
+               trx_started: 2020-02-15 17:19:37
+     trx_requested_lock_id: 2502:9:3:2
+          trx_wait_started: 2020-02-15 17:19:37
+                trx_weight: 2
+       trx_mysql_thread_id: 38
+                 trx_query: update t1 set name=&#39;world&#39; where id=1
+       trx_operation_state: starting index read
+         trx_tables_in_use: 1
+         trx_tables_locked: 1
+          trx_lock_structs: 2
+     trx_lock_memory_bytes: 360
+           trx_rows_locked: 1
+         trx_rows_modified: 0
+   trx_concurrency_tickets: 0
+       trx_isolation_level: REPEATABLE READ
+         trx_unique_checks: 1
+    trx_foreign_key_checks: 1
+trx_last_foreign_key_error: NULL
+ trx_adaptive_hash_latched: 0
+ trx_adaptive_hash_timeout: 10000
+          trx_is_read_only: 0
+trx_autocommit_non_locking: 0
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h3 id="_2-3-查看索源"> 2.3 查看索源</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_lock_waits;
++-------------------+-------------------+-----------------+------------------+
+| requesting_trx_id | requested_lock_id | blocking_trx_id | blocking_lock_id |
++-------------------+-------------------+-----------------+------------------+
+| 2502              | 2500:9:3:2        | 2491            | 2491:9:3:2       |
++-------------------+-------------------+-----------------+------------------+
+1 row in set (0.00 sec)
+
+select * from information_schema.innodb_locks;
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+| lock_id    | lock_trx_id | lock_mode | lock_type | lock_table       | lock_index      | lock_space | lock_page | lock_rec | lock_data      |
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+| 2500:9:3:2 | 2502        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
+| 2491:9:3:2 | 2491        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
++------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
+2 rows in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_2-4-找到锁源的sql语句"> 2.4 找到锁源的SQL语句</h3>
+<div><pre><code>mysql&gt; select * from information_schema.innodb_trx where trx_id=&#39;2491&#39; \G;
+*************************** 1. row ***************************
+                    trx_id: 2491
+                 trx_state: RUNNING
+               trx_started: 2020-02-15 17:01:28
+     trx_requested_lock_id: NULL
+          trx_wait_started: NULL
+                trx_weight: 5
+       trx_mysql_thread_id: 37
+                 trx_query: update t1 set name=&#39;hello&#39; where id=1;
+       trx_operation_state: NULL
+         trx_tables_in_use: 0
+         trx_tables_locked: 0
+          trx_lock_structs: 2
+     trx_lock_memory_bytes: 360
+           trx_rows_locked: 2
+         trx_rows_modified: 3
+   trx_concurrency_tickets: 0
+       trx_isolation_level: REPEATABLE READ
+         trx_unique_checks: 1
+    trx_foreign_key_checks: 1
+trx_last_foreign_key_error: NULL
+ trx_adaptive_hash_latched: 0
+ trx_adaptive_hash_timeout: 10000
+          trx_is_read_only: 0
+trx_autocommit_non_locking: 0
+1 row in set (0.00 sec)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="_3-杀掉进程"> 3 杀掉进程</h2>
+<p>线程ID（trx_mysql_thread_id）</p>
+<div><pre><code>mysql&gt; kill 37;
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -43214,121 +43214,6 @@ skip-grant-tables
       <name>Clay</name>
     </author>
     <category term="MySQL"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">hash类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
-<p>hash⽤于存储对象
-对象的结构为属性、值
-值的类型为string</p>
-<h2 id="增加、修改"> 增加、修改</h2>
-<ul>
-<li>设置单个属性</li>
-</ul>
-<div><pre><code>hset key field value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个属性</li>
-</ul>
-<div><pre><code>hmset key field1 value1 field2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取指定键所有的属性</li>
-</ul>
-<div><pre><code>hkeys key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取⼀个属性的值</li>
-</ul>
-<div><pre><code>hget key field
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取多个属性的值</li>
-</ul>
-<div><pre><code>hmget key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取所有属性的值</li>
-</ul>
-<div><pre><code>hvals key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取一个hash有多少个属性</li>
-</ul>
-<div><pre><code>hlen key
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<ul>
-<li>删除整个hash键及值，使⽤del命令</li>
-<li>删除属性，属性对应的值会被⼀起删除</li>
-</ul>
-<div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">键命令</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -44289,6 +44174,121 @@ func main(){
       <name>Clay</name>
     </author>
     <category term="MySQL"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">hash类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
+<p>hash⽤于存储对象
+对象的结构为属性、值
+值的类型为string</p>
+<h2 id="增加、修改"> 增加、修改</h2>
+<ul>
+<li>设置单个属性</li>
+</ul>
+<div><pre><code>hset key field value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个属性</li>
+</ul>
+<div><pre><code>hmset key field1 value1 field2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取指定键所有的属性</li>
+</ul>
+<div><pre><code>hkeys key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取⼀个属性的值</li>
+</ul>
+<div><pre><code>hget key field
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取多个属性的值</li>
+</ul>
+<div><pre><code>hmget key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取所有属性的值</li>
+</ul>
+<div><pre><code>hvals key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取一个hash有多少个属性</li>
+</ul>
+<div><pre><code>hlen key
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<ul>
+<li>删除整个hash键及值，使⽤del命令</li>
+<li>删除属性，属性对应的值会被⼀起删除</li>
+</ul>
+<div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">键命令</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -48770,6 +48770,59 @@ X：采用旧式的Linux i386登陆格式显示程序状况。
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">软件包管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/rpm/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/rpm/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="软件包管理"> 软件包管理</h1>
+<h2 id="yum管理rpm包"> yum管理RPM包</h2>
+<p>清空缓存及其它文件</p>
+<div><pre><code>yum clean all
+</code></pre>
+<div><span>1</span><br></div></div><p>建立缓存数据库</p>
+<div><pre><code>yum makecache
+</code></pre>
+<div><span>1</span><br></div></div><p>查询可用的仓库</p>
+<div><pre><code>yum repolist
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>yum list mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>yum -y update
+</code></pre>
+<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
+<div><pre><code>yum provides */httpd
+</code></pre>
+<div><span>1</span><br></div></div><p>卸载</p>
+<div><pre><code>yum -y remove mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
+<p>安装</p>
+<div><pre><code>rpm -ivh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>rpm -Uvh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>rpm -q xxx //查询指定包是否安装
+rpm -ql xxx //查询xxx安装的文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
+<div><pre><code>rpm -e xxx
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">linux简介</title>
     <id>https://clay-wangzhi.com/linux/basic/</id>
     <link href="https://clay-wangzhi.com/linux/basic/"/>
@@ -49062,59 +49115,6 @@ Ctrl+Y 粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本，粘贴或者恢复上次�
 <p>Red Hat Certified Engineer 认证工程师</p>
 <p>Red Hat Certified System Adminstrator 认证系统管理员</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">软件包管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/rpm/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/rpm/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="软件包管理"> 软件包管理</h1>
-<h2 id="yum管理rpm包"> yum管理RPM包</h2>
-<p>清空缓存及其它文件</p>
-<div><pre><code>yum clean all
-</code></pre>
-<div><span>1</span><br></div></div><p>建立缓存数据库</p>
-<div><pre><code>yum makecache
-</code></pre>
-<div><span>1</span><br></div></div><p>查询可用的仓库</p>
-<div><pre><code>yum repolist
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>yum list mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>yum -y update
-</code></pre>
-<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
-<div><pre><code>yum provides */httpd
-</code></pre>
-<div><span>1</span><br></div></div><p>卸载</p>
-<div><pre><code>yum -y remove mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
-<p>安装</p>
-<div><pre><code>rpm -ivh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>rpm -Uvh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>rpm -q xxx //查询指定包是否安装
-rpm -ql xxx //查询xxx安装的文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
-<div><pre><code>rpm -e xxx
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -50114,6 +50114,61 @@ mysql&gt;exit(退出)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">filebeat的安装注意</title>
+    <id>https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
+<div><pre><code># filebeat输出到kafka中时，需要指定topic
+output.kafka:
+  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
+  topic: &#39;credit&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>1.注意yaml文件的格式需要对齐</p>
+<p>2.注意注释掉默认的#output.elasticsearch:</p>
+</blockquote>
+<p>filebeat.yml配置文件</p>
+<p>改动地方</p>
+<div><pre><code>filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/aa.txt
+
+# setup.kibana:
+#output.elasticsearch:
+  # Array of hosts to connect to.
+  # hosts: [&quot;localhost:9200&quot;]
+
+  # Optional protocol and basic auth credentials.
+  #protocol: &quot;https&quot;
+  #username: &quot;elastic&quot;
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
+<p>setup.kibana注释掉</p>
+<p>output.elasticsearch:下面所有东西注释掉</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Centos7.6下Elasticseatch7.2集群搭建步骤</title>
     <id>https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"/>
@@ -50842,61 +50897,6 @@ curl -XPOST http://localhost:9200/index/_create/4 -H &#39;Content-Type:applicati
 <p>elasticsearch-head：<a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener noreferrer">https://github.com/mobz/elasticsearch-head</a></p>
 <p>cerebro: <a href="https://github.com/lmenezes/cerebro" target="_blank" rel="noopener noreferrer">https://github.com/lmenezes/cerebro</a></p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">filebeat的安装注意</title>
-    <id>https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="filebeat的安装注意"> filebeat的安装注意</h2>
-<div><pre><code># filebeat输出到kafka中时，需要指定topic
-output.kafka:
-  hosts: [&quot;192.168.165.44:9092&quot;,&quot;192.168.165.45:9092&quot;,&quot;192.168.165.48:9092&quot;]
-  topic: &#39;credit&#39;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>1.注意yaml文件的格式需要对齐</p>
-<p>2.注意注释掉默认的#output.elasticsearch:</p>
-</blockquote>
-<p>filebeat.yml配置文件</p>
-<p>改动地方</p>
-<div><pre><code>filebeat.inputs:
-
-# Each - is an input. Most options can be set at the input level, so
-# you can use different inputs for various configurations.
-# Below are the input specific configurations.
-
-- type: log
-
-  # Change to true to enable this input configuration.
-  enabled: true
-
-  # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-    - /var/log/aa.txt
-
-# setup.kibana:
-#output.elasticsearch:
-  # Array of hosts to connect to.
-  # hosts: [&quot;localhost:9200&quot;]
-
-  # Optional protocol and basic auth credentials.
-  #protocol: &quot;https&quot;
-  #username: &quot;elastic&quot;
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>enabled 改为true</p>
-<p>setup.kibana注释掉</p>
-<p>output.elasticsearch:下面所有东西注释掉</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -54245,30 +54245,6 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">10 Todolist</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/todolist/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/todolist/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
-<p>待整理链接有：</p>
-<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
-<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
-<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
-<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
-<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
-<p>zabbix 告警分组和添加远端命令</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">1 zabbix4.4新功能</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/"/>
@@ -54440,6 +54416,30 @@ will not be shown, you would have to be root to see it all.)
 </li>
 </ul>
 <p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明</a>.</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">10 Todolist</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/todolist/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/todolist/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
+<p>待整理链接有：</p>
+<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
+<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
+<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
+<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
+<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
+<p>zabbix 告警分组和添加远端命令</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -55240,6 +55240,51 @@ fi
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">phpldapadmin操作指导</title>
+    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
+    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
+<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
+<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
+<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
+<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
+<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
+<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
+<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
+<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
+<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
+<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
+<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
+<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
+<p>示例：</p>
+<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
+<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
+<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
+<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
+<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
+<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
+<p>示例如下。</p>
+<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
+<p>15.点击【Update Object】</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">9 zookeeper集群监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/"/>
@@ -55570,51 +55615,6 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">phpldapadmin操作指导</title>
-    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
-    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
-<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
-<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
-<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
-<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
-<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
-<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
-<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
-<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
-<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
-<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
-<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
-<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
-<p>示例：</p>
-<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
-<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
-<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
-<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
-<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
-<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
-<p>示例如下。</p>
-<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
-<p>15.点击【Update Object】</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">显示当前正在编辑的文件名</title>
     <id>https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
     <link href="https://clay-wangzhi.com/other/21%20vim/vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
@@ -55823,36 +55823,6 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">查看哪些表被锁住了</title>
-    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
-    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
-<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
-<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
-<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
-<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
-<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Nginx升级加固SSL/TLS协议信息泄露漏洞(CVE-2016-2183)和HTTP服务器的缺省banner漏洞</title>
     <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</id>
     <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/"/>
@@ -55918,6 +55888,36 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>然后重新编译，热升级nginx</p>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">查看哪些表被锁住了</title>
+    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
+    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
+<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
+<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
+<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
+<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
+<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
