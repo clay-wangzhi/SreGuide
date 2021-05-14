@@ -9,9 +9,9 @@ tags:
 * 在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。
 
 被禁用的命令和功能：
-* 使用 _cd_ 来改变工作目录。
-* 修改 _$PATH_, _$SHELL_, *$BASH_ENV* 或 _$ENV_ 等[环境变量](http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF)
-* 读取或修改 _$SHELLOPTS_，shell环境选项。
+* 使用 cd 来改变工作目录。
+* 修改 $PATH, $SHELL, $BASH_ENV 或 $ENV 等[环境变量](http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF)
+* 读取或修改 $SHELLOPTS，shell环境选项。
 * 输出重定向。
 * 调用包含 / 的命令。
 * 调用 [exec](http://tldp.org/LDP/abs/html/internal.html#EXECREF) 来替代shell进程。
