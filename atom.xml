@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-14T02:32:34.783Z</updated>
+  <updated>2021-05-14T02:42:46.998Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -97,6 +97,247 @@
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -465,247 +706,6 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -6918,124 +6918,6 @@ nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">pipeline配置java项目</title>
-    <id>https://clay-wangzhi.com/automate/jenkins/pipeline-java/</id>
-    <link href="https://clay-wangzhi.com/automate/jenkins/pipeline-java/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="pipeline配置java项目"> pipeline配置java项目</h1>
-<div><pre><code>pipeline <span>{</span>
-    agent <span>{</span> label <span>'slave'</span> <span>}</span>
-    options <span>{</span>
-        <span>timestamps</span><span>(</span><span>)</span>
-        <span>disableConcurrentBuilds</span><span>(</span><span>)</span>
-        <span>buildDiscarder</span><span>(</span>
-            <span>logRotator</span><span>(</span>
-                numToKeepStr<span>:</span> <span>'20'</span><span>,</span>
-                daysToKeepStr<span>:</span> <span>'30'</span><span>,</span>
-            <span>)</span>
-        <span>)</span>
-    <span>}</span>
-    parameters <span>{</span>
-        <span>choice</span><span>(</span>
-           name<span>:</span> <span>"DEPLOY_FLAG"</span><span>,</span>
-           choices<span>:</span> <span>[</span><span>'deploy'</span><span>,</span> <span>'rollback'</span><span>]</span><span>,</span>
-           description<span>:</span> <span>"发布/回滚"</span>
-        <span>)</span>
-    <span>}</span>
-    <span>/*=======================================常修改变量-start=======================================*/</span>
-    environment <span>{</span>
-        gitUrl <span>=</span> <span>"git地址"</span>
-        branchName <span>=</span> <span>"分支名称"</span>
-        gitlabCredentialsId <span>=</span> <span>"认证凭证"</span>
-        projectRunDir <span>=</span> <span>"项目运行目录"</span>
-        jobName <span>=</span> <span>"<span><span>$</span><span>{</span>env<span>.</span>JOB_NAME<span>}</span></span>"</span>
-        serviceName <span>=</span> <span>"服务名称"</span>
-        serviceType <span>=</span> <span>"jar"</span>
-        runHosts <span>=</span> <span>"192.168.167.xx,192.168.167.xx"</span>
-        rollbackVersion <span>=</span> <span>""</span>
-    <span>}</span>
-    stages <span>{</span>
-        <span>stage</span><span>(</span><span>'Deploy'</span><span>)</span><span>{</span>
-            when <span>{</span>
-                expression <span>{</span> <span>return</span> params<span>.</span>DEPLOY_FLAG <span>==</span> <span>'deploy'</span> <span>}</span>
-            <span>}</span>
-            stages <span>{</span>
-                <span>stage</span><span>(</span><span>'Pre Env'</span><span>)</span> <span>{</span>
-                    steps <span>{</span>
-                        echo <span>"======================================项目名称 = <span><span>$</span><span>{</span>env<span>.</span>JOB_NAME<span>}</span></span>"</span>
-                        echo <span>"======================================项目 URL = <span><span>$</span><span>{</span>gitUrl<span>}</span></span>"</span>
-                        echo <span>"======================================项目分支 = <span><span>$</span><span>{</span>branchName<span>}</span></span>"</span>
-                        echo <span>"======================================当前编译版本号 = <span><span>$</span><span>{</span>env<span>.</span>BUILD_NUMBER<span>}</span></span>"</span>
-                    <span>}</span>
-                <span>}</span>
-                <span>stage</span><span>(</span><span>'Git Clone'</span><span>)</span> <span>{</span>
-                    steps <span>{</span>
-                        git branch<span>:</span> <span>"<span><span>$</span><span>{</span>branchName<span>}</span></span>"</span><span>,</span>
-                        credentialsId<span>:</span> <span>"<span><span>$</span><span>{</span>gitlabCredentialsId<span>}</span></span>"</span><span>,</span>
-                        url<span>:</span> <span>"<span><span>$</span><span>{</span>gitUrl<span>}</span></span>"</span>
-                    <span>}</span>
-                <span>}</span>
-                <span>stage</span><span>(</span><span>'Mvn Build'</span><span>)</span> <span>{</span>
-                    steps <span>{</span>
-                        <span>withMaven</span><span>(</span>jdk<span>:</span> <span>'jdk1.8'</span><span>,</span> maven<span>:</span> <span>'maven'</span><span>)</span> <span>{</span>
-                            sh <span>"mvn clean package -Dmaven.test.skip=true -U -f <span><span>$</span><span>{</span>serviceName<span>}</span></span>/pom.xml"</span>
-                        <span>}</span>
-                    <span>}</span>
-                <span>}</span>
-                <span>stage</span><span>(</span><span>'Ansible Deploy'</span><span>)</span> <span>{</span>
-                    steps<span>{</span>
-                        script <span>{</span>
-                            sleep <span>5</span>
-                            <span>ansiColor</span><span>(</span><span>'xterm'</span><span>)</span> <span>{</span>
-                                ansiblePlaybook colorized<span>:</span> <span>true</span><span>,</span> extras<span>:</span> <span>'-e "directory=${projectRunDir}" -e "job=${jobName}" -e "service=${serviceName}" -e "type=${serviceType}"'</span><span>,</span> installation<span>:</span> <span>'ansible'</span><span>,</span> inventory<span>:</span> <span>'/etc/ansible/hosts.yml'</span><span>,</span> limit<span>:</span> <span>"<span><span>$</span><span>{</span>runHosts<span>}</span></span>"</span><span>,</span> playbook<span>:</span> <span>'/etc/ansible/playbook/deploy-jenkins.yml'</span>                            
-                            <span>}</span>
-                        <span>}</span>
-                    <span>}</span>
-                <span>}</span>
-            <span>}</span>   
-        <span>}</span>
-        <span>stage</span><span>(</span><span>'Rollback'</span><span>)</span> <span>{</span>
-            when <span>{</span>
-                expression <span>{</span> <span>return</span> params<span>.</span>DEPLOY_FLAG <span>==</span> <span>'rollback'</span> <span>}</span>
-            <span>}</span>
-            steps<span>{</span>
-                script <span>{</span>
-                    rollbackVersion <span>=</span> <span>input</span><span>(</span>
-                        message<span>:</span> <span>"请填写要回滚的版本"</span><span>,</span>
-                        parameters<span>:</span> <span>[</span>
-                            <span>string</span><span>(</span>name<span>:</span><span>'last_number'</span><span>)</span>
-                        <span>]</span>
-                    <span>)</span>
-                    sh <span>"""
-                        echo "正在回滚至就近第<span><span>$</span><span>{</span>rollbackVersion<span>}</span></span>个版本"
-                        ansible <span><span>$</span><span>{</span>runHosts<span>}</span></span> -m shell -a "sh <span><span>$</span><span>{</span>projectRunDir<span>}</span></span>/rollback.sh <span><span>$</span><span>{</span>rollbackVersion<span>}</span></span> <span><span>$</span><span>{</span>serviceName<span>}</span></span>"
-                    """</span>
-                <span>}</span>
-            <span>}</span>
-        <span>}</span>
-    <span>}</span>
-    post <span>{</span>
-        always <span>{</span>
-            <span>deleteDir</span><span>(</span><span>)</span>
-        <span>}</span>
-        success <span>{</span>
-            echo <span>'This task is successful!'</span>
-        <span>}</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">使用Jenkins Pipeline自动化构建发布</title>
     <id>https://clay-wangzhi.com/automate/jenkins/pipeline/</id>
     <link href="https://clay-wangzhi.com/automate/jenkins/pipeline/"/>
@@ -7685,6 +7567,124 @@ https://www.jianshu.com/p/f1167e8850cd</p>
       <name>Clay</name>
     </contributor>
     <published>2020-01-16T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">pipeline配置java项目</title>
+    <id>https://clay-wangzhi.com/automate/jenkins/pipeline-java/</id>
+    <link href="https://clay-wangzhi.com/automate/jenkins/pipeline-java/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="pipeline配置java项目"> pipeline配置java项目</h1>
+<div><pre><code>pipeline <span>{</span>
+    agent <span>{</span> label <span>'slave'</span> <span>}</span>
+    options <span>{</span>
+        <span>timestamps</span><span>(</span><span>)</span>
+        <span>disableConcurrentBuilds</span><span>(</span><span>)</span>
+        <span>buildDiscarder</span><span>(</span>
+            <span>logRotator</span><span>(</span>
+                numToKeepStr<span>:</span> <span>'20'</span><span>,</span>
+                daysToKeepStr<span>:</span> <span>'30'</span><span>,</span>
+            <span>)</span>
+        <span>)</span>
+    <span>}</span>
+    parameters <span>{</span>
+        <span>choice</span><span>(</span>
+           name<span>:</span> <span>"DEPLOY_FLAG"</span><span>,</span>
+           choices<span>:</span> <span>[</span><span>'deploy'</span><span>,</span> <span>'rollback'</span><span>]</span><span>,</span>
+           description<span>:</span> <span>"发布/回滚"</span>
+        <span>)</span>
+    <span>}</span>
+    <span>/*=======================================常修改变量-start=======================================*/</span>
+    environment <span>{</span>
+        gitUrl <span>=</span> <span>"git地址"</span>
+        branchName <span>=</span> <span>"分支名称"</span>
+        gitlabCredentialsId <span>=</span> <span>"认证凭证"</span>
+        projectRunDir <span>=</span> <span>"项目运行目录"</span>
+        jobName <span>=</span> <span>"<span><span>$</span><span>{</span>env<span>.</span>JOB_NAME<span>}</span></span>"</span>
+        serviceName <span>=</span> <span>"服务名称"</span>
+        serviceType <span>=</span> <span>"jar"</span>
+        runHosts <span>=</span> <span>"192.168.167.xx,192.168.167.xx"</span>
+        rollbackVersion <span>=</span> <span>""</span>
+    <span>}</span>
+    stages <span>{</span>
+        <span>stage</span><span>(</span><span>'Deploy'</span><span>)</span><span>{</span>
+            when <span>{</span>
+                expression <span>{</span> <span>return</span> params<span>.</span>DEPLOY_FLAG <span>==</span> <span>'deploy'</span> <span>}</span>
+            <span>}</span>
+            stages <span>{</span>
+                <span>stage</span><span>(</span><span>'Pre Env'</span><span>)</span> <span>{</span>
+                    steps <span>{</span>
+                        echo <span>"======================================项目名称 = <span><span>$</span><span>{</span>env<span>.</span>JOB_NAME<span>}</span></span>"</span>
+                        echo <span>"======================================项目 URL = <span><span>$</span><span>{</span>gitUrl<span>}</span></span>"</span>
+                        echo <span>"======================================项目分支 = <span><span>$</span><span>{</span>branchName<span>}</span></span>"</span>
+                        echo <span>"======================================当前编译版本号 = <span><span>$</span><span>{</span>env<span>.</span>BUILD_NUMBER<span>}</span></span>"</span>
+                    <span>}</span>
+                <span>}</span>
+                <span>stage</span><span>(</span><span>'Git Clone'</span><span>)</span> <span>{</span>
+                    steps <span>{</span>
+                        git branch<span>:</span> <span>"<span><span>$</span><span>{</span>branchName<span>}</span></span>"</span><span>,</span>
+                        credentialsId<span>:</span> <span>"<span><span>$</span><span>{</span>gitlabCredentialsId<span>}</span></span>"</span><span>,</span>
+                        url<span>:</span> <span>"<span><span>$</span><span>{</span>gitUrl<span>}</span></span>"</span>
+                    <span>}</span>
+                <span>}</span>
+                <span>stage</span><span>(</span><span>'Mvn Build'</span><span>)</span> <span>{</span>
+                    steps <span>{</span>
+                        <span>withMaven</span><span>(</span>jdk<span>:</span> <span>'jdk1.8'</span><span>,</span> maven<span>:</span> <span>'maven'</span><span>)</span> <span>{</span>
+                            sh <span>"mvn clean package -Dmaven.test.skip=true -U -f <span><span>$</span><span>{</span>serviceName<span>}</span></span>/pom.xml"</span>
+                        <span>}</span>
+                    <span>}</span>
+                <span>}</span>
+                <span>stage</span><span>(</span><span>'Ansible Deploy'</span><span>)</span> <span>{</span>
+                    steps<span>{</span>
+                        script <span>{</span>
+                            sleep <span>5</span>
+                            <span>ansiColor</span><span>(</span><span>'xterm'</span><span>)</span> <span>{</span>
+                                ansiblePlaybook colorized<span>:</span> <span>true</span><span>,</span> extras<span>:</span> <span>'-e "directory=${projectRunDir}" -e "job=${jobName}" -e "service=${serviceName}" -e "type=${serviceType}"'</span><span>,</span> installation<span>:</span> <span>'ansible'</span><span>,</span> inventory<span>:</span> <span>'/etc/ansible/hosts.yml'</span><span>,</span> limit<span>:</span> <span>"<span><span>$</span><span>{</span>runHosts<span>}</span></span>"</span><span>,</span> playbook<span>:</span> <span>'/etc/ansible/playbook/deploy-jenkins.yml'</span>                            
+                            <span>}</span>
+                        <span>}</span>
+                    <span>}</span>
+                <span>}</span>
+            <span>}</span>   
+        <span>}</span>
+        <span>stage</span><span>(</span><span>'Rollback'</span><span>)</span> <span>{</span>
+            when <span>{</span>
+                expression <span>{</span> <span>return</span> params<span>.</span>DEPLOY_FLAG <span>==</span> <span>'rollback'</span> <span>}</span>
+            <span>}</span>
+            steps<span>{</span>
+                script <span>{</span>
+                    rollbackVersion <span>=</span> <span>input</span><span>(</span>
+                        message<span>:</span> <span>"请填写要回滚的版本"</span><span>,</span>
+                        parameters<span>:</span> <span>[</span>
+                            <span>string</span><span>(</span>name<span>:</span><span>'last_number'</span><span>)</span>
+                        <span>]</span>
+                    <span>)</span>
+                    sh <span>"""
+                        echo "正在回滚至就近第<span><span>$</span><span>{</span>rollbackVersion<span>}</span></span>个版本"
+                        ansible <span><span>$</span><span>{</span>runHosts<span>}</span></span> -m shell -a "sh <span><span>$</span><span>{</span>projectRunDir<span>}</span></span>/rollback.sh <span><span>$</span><span>{</span>rollbackVersion<span>}</span></span> <span><span>$</span><span>{</span>serviceName<span>}</span></span>"
+                    """</span>
+                <span>}</span>
+            <span>}</span>
+        <span>}</span>
+    <span>}</span>
+    post <span>{</span>
+        always <span>{</span>
+            <span>deleteDir</span><span>(</span><span>)</span>
+        <span>}</span>
+        success <span>{</span>
+            echo <span>'This task is successful!'</span>
+        <span>}</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -20130,6 +20130,27 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">2.2 牛刀小试</title>
+    <id>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
+<ol>
+<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
+<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
+</ol>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">2.1 调用一个脚本</title>
     <id>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</id>
     <link href="https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/"/>
@@ -20143,27 +20164,6 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
 <p><code>chmod u+rx scriptname</code>（仅给予脚本所有者读取/执行的权限）</p>
 <p>当脚本的权限被设置好后，你就可以直接使用<code>./scriptname</code>[^3]进行调用测试了。如果脚本文件以sha-bang开头，那么它将自动调用指定的命令解释器运行脚本。</p>
 <p>完成调试与测试后，你可能会将脚本文件移至<code>/usr/local/bin</code>（使用root权限）中，使脚本可以被所有用户调用。这时你可以直接在命令行中输入<code>scriptname [ENTER]</code>执行脚本。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">2.2 牛刀小试</title>
-    <id>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
-<ol>
-<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
-<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
-</ol>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -28758,35 +28758,6 @@ bash$ echo $(echo \\)
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第十三章 算术扩展</title>
     <id>https://clay-wangzhi.com/code/shell/part3/13_arithmetic_expansion/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/13_arithmetic_expansion/"/>
@@ -28829,6 +28800,59 @@ bash$ echo $(echo \\)
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第三部分 shell进阶</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+</li>
+<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+</li>
+<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+</li>
+<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
+<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
+<li><a href="./14_recess_time.html">14. 休息时间</a></li>
+</ul>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -29269,59 +29293,6 @@ bash$ echo $(echo \\)
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第三部分 shell进阶</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-</li>
-<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-</li>
-<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-</li>
-<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
-<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
-<li><a href="./14_recess_time.html">14. 休息时间</a></li>
-</ul>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">18.1 正则表达式简介</title>
     <id>https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/"/>
@@ -29458,6 +29429,35 @@ EOF</span>
     <link href="https://clay-wangzhi.com/code/shell/part5/18_2_globbing/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
     <content type="html"><![CDATA[<h1 id="_18-2文件名替换"> 18.2文件名替换</h1>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -30148,33 +30148,6 @@ awk 指令默认是使用 “EREs&quot;</p>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">18 正则表达式</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
-<blockquote>
-<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
-<em>--Stowe Boyd</em></p>
-</blockquote>
-<p>目录</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
-</ul>
-<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">19 嵌入文档</title>
     <id>https://clay-wangzhi.com/code/shell/part5/19_here_documents/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/19_here_documents/"/>
@@ -30758,6 +30731,33 @@ EOF
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>为嵌入文档设置这些任务有些复杂, 可以考虑使用 <code>expect</code>, 一种专门用来和程序进行交互的脚本语言。</p>
 <p><strong>Notes:</strong>
   除此之外, Dennis Benzinger 指出,  <a href="http://tldp.org/LDP/abs/html/here-docs.html#LIMITSTRDASH" target="_blank" rel="noopener noreferrer">使用 &lt;&lt;- 抑制 tab.</a></p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">18 正则表达式</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/18_regular_expressions/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_18-正则表达式"> 18 正则表达式</h1>
+<blockquote>
+<p><em>...the intellectual activity associated with software development is largely one of gaining insight.</em>
+<em>--Stowe Boyd</em></p>
+</blockquote>
+<p>目录</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/x17129.html" target="_blank" rel="noopener noreferrer">18.1 正则表达式简介</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">18.2 文件名替换</a></li>
+</ul>
+<p>为了充分利用shell脚本，您需要熟练掌握正则表达式。有一些在脚本中常用的特定的命令和工具，例如grep、expr、sed和awk，这些命令会解释和使用正则表达式。版本三的bash实现了它独特的正则匹配符：=~。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -31533,7 +31533,7 @@ exec 3&gt;&amp;-                              # 现在关闭它.
     <title type="html">第二十一章 子shell</title>
     <id>https://clay-wangzhi.com/code/shell/part5/21_subshells/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/21_subshells/"/>
-    <updated>2021-05-14T02:31:48.000Z</updated>
+    <updated>2021-05-14T02:42:00.000Z</updated>
     <content type="html"><![CDATA[<h1 id="第二十一章-子shell"> 第二十一章 子shell</h1>
 <p>运行一个shell脚本会启动一个新的进程，即<em>子shell</em>。</p>
 <p><strong>定义</strong>： 一个<em>子shell</em>是由一个shell（或<em>shell脚本</em>）触发的<a href="http://tldp.org/LDP/abs/html/othertypesv.html#CHILDREF2" target="_blank" rel="noopener noreferrer">子进程</a>。</p>
@@ -31573,7 +31573,7 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 
 注释: “<span>UID</span> <span>..</span>.”这一列可以通过“grep”命令筛去，但是由于说明的目的而显示在这里。
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>一般来说，脚本的一个<a href="http://tldp.org/LDP/abs/html/external.html#EXTERNALREF" target="_blank" rel="noopener noreferrer">外部命令</a>会使得子进程产生<a href="http://tldp.org/LDP/abs/html/internal.html#FORKREF" target="_blank" rel="noopener noreferrer">分叉</a>，[^1] 但是一个Bash内建命令不会如此。</p>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>一般来说，脚本的一个<a href="http://tldp.org/LDP/abs/html/external.html#EXTERNALREF" target="_blank" rel="noopener noreferrer">外部命令</a>会使得子进程产生<a href="http://tldp.org/LDP/abs/html/internal.html#FORKREF" target="_blank" rel="noopener noreferrer">分叉</a>，<sup></sup> 但是一个Bash内建命令不会如此。</p>
 <p><strong>在圆括号内的命令列</strong></p>
 <p>(命令1; 命令1; 命令3; ...)</p>
 <div><pre><code>放在圆括号内的一列命令作为子shell运行。
@@ -31751,7 +31751,13 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 <span>echo</span> <span>"<span>$var1</span>"</span>   <span># 76</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="notes"> <strong>Notes</strong></h3>
-<p>[^1] 和 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell</p>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>和 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell </p>
+</li>
+</ol>
+</section>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -32095,6 +32101,280 @@ x=x &lt; &lt;(:)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
 这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
 ]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">24.2 局部变量</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
+<p>怎样使一个变量变成“局部”变量？</p>
+<p>局部变量
+如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
+<p>例子 24-12. 局部变量的可见范围</p>
+<div><pre><code>#!/bin/bash
+# ex62.sh: 函数内部的局部变量与全局变量。
+
+func () {
+    local loc_var=23       # 声明为局部变量。
+    echo                   # 使用&#39;local&#39;内建命令
+    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
+    global_var=999         # 没有声明为局部变量。
+    # 默认为全局变量。
+
+    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
+}
+
+func
+
+# 现在，来看看局部变量“loc_var”在函数外部是否可见。
+
+echo
+echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
+                                    # $loc_var outside function =
+                                    # 不行, $loc_var 不是全局可见的.
+echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
+                                    # $在函数外部global_var = 999
+                                    # $global_var 是全局可见的.
+echo
+
+exit 0
+#  与C语言相比，在函数内声明的Bash变量
+#+ 除非它被明确声明为local时，它才是局部的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
+<div><pre><code>#!/bin/bash
+
+func ()
+{
+    global_var=37    #  变量只在函数体内可见
+                     #+ 在函数被调用之前。
+}                    #  函数结束
+
+echo &quot;global_var = $global_var&quot;  # global_var =
+                                 #  函数 &quot;func&quot; 还没被调用，
+                                 #+ 所以$global_var 在这里还不是可见的.
+func
+echo &quot;global_var = $global_var&quot;  # global_var = 37
+                                 # 已经在函数调用的时候设置。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
+<div><pre><code>#!/bin/bash
+
+echo &quot;==OUTSIDE Function (global)==&quot;
+t=$(exit 1)
+echo $?     # 1
+            # 如预期一样.
+
+echo
+function0 ()
+{
+    echo &quot;==INSIDE Function==&quot;
+    echo &quot;Global&quot;
+    t0=$(exit 1)
+    echo $?      # 1
+                 # 如预期一样.
+
+    echo
+    echo &quot;Local declared &amp; assigned in same command.&quot;
+    local t1=$(exit 1)
+    echo $?      # 0
+                 # 意料之外!
+#  显然，变量赋值发生在Apparently, 
+#+ 局部声明之前。
+#+ 返回值是为了latter.
+
+    echo
+    echo &quot;Local declared, then assigned (separate commands).&quot;
+    local t2
+    t2=$(exit 1)
+    echo $?
+}
+
+function0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
+<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
+<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
+<p>例子 24-13. 一个简单的递归函数表示</p>
+<div><pre><code>#!/bin/bash
+# recursion-demo.sh
+# 递归演示.
+
+RECURSIONS=9   # 递归的次数.
+r_count=0      # 必须是全局变量，为什么？
+
+recurse ()
+{
+    var=&quot;$1&quot;
+
+    while [ &quot;$var&quot; -ge 0 ]
+    do
+        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
+        (( var-- )); (( r_count++ ))
+        recurse &quot;$var&quot;  #  函数调用自身(递归)
+    done              #+ 直到遇到什么样的终止条件？
+}
+
+recurse $RECURSIONS
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
+<div><pre><code>#!/bin/bash
+# recursion-def.sh
+# 另外一个描述递归的比较生动的脚本。
+
+RECURSIONS=10
+r_count=0
+sp=&quot; &quot;
+
+define_recursion ()
+{
+    ((r_count++))
+    sp=&quot;$sp&quot;&quot; &quot;
+    echo -n &quot;$sp&quot;
+    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
+
+    while [ $r_count -le $RECURSIONS ]
+    do
+        define_recursion
+    done
+}
+
+echo
+echo &quot;Recursion: &quot;
+define_recursion
+echo
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
+<p>例子24-15. 使用局部变量进行递归</p>
+<div><pre><code>#!/bin/bash
+
+# 阶乘
+# ---------
+
+# Bash允许递归么？
+# 恩，允许，但是...
+# 他太慢了，所以恐怕你难以忍受。
+
+MAX_ARG=5
+E_WRONG_ARGS=85
+E_RANGE_ERR=86
+
+
+if [ -z &quot;$1&quot; ]
+then
+    echo &quot;Usage: `basename $0` number&quot;
+    exit $E_WRONG_ARGS
+fi
+
+if [ &quot;$1&quot; -gt $MAX_ARG ]
+then
+    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
+    #  现在让我们来了解一些实际情况。
+    #  如果你想计算比这个更大的范围的阶乘，
+    #+ 应该用真正的编程语言来重写它。
+    exit $E_RANGE_ERR
+fi
+
+fact () 
+{
+    local number=$1
+    #  变量&quot;number&quot; 必须被定义为局部变量，
+    #+ 否则不能正常工作。
+    if [ &quot;$number&quot; -eq 0 ]
+    then
+        factorial=1    # 0的阶乘为1.
+    else
+        let &quot;decrnum = number - 1&quot;
+        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
+        let &quot;factorial = $number * $?&quot;
+    fi
+    return $factorial
+}
+
+fact $1
+echo &quot;Factorial of $1 is $?.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
+<h2 id="注释"> 注释</h2>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
+<div><pre><code>#!/bin/bash
+
+function1 ()
+{
+  local func1var=20
+
+  echo &quot;Within function1, \$func1var = $func1var.&quot;
+
+  function2
+}
+
+function2 ()
+{
+  echo &quot;Within function2, \$func1var = $func1var.&quot;
+}
+
+function1
+
+exit 0
+
+
+# 脚本的输出:
+
+# Within function1, $func1var = 20.
+# Within function2, $func1var = 20.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
+<blockquote>
+<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
+The ABS Guide的作者认为这个行为一个bug.</p>
+</blockquote>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
+<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
+<div><pre><code>#!/bin/bash
+
+#  提醒: 运行这个脚本可能会让你的系统卡死。
+#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
+
+recursive_function ()		   
+{
+echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
+(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
+#  只要第一个参数小于第二个参数，
+#+ 让第一个参数加1，然后递归。
+}
+
+recursive_function 1 50000  # 递归 50,000层!
+#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
+
+#  即使是C语言，递归调用这么多层也会发生段错误，
+#+ 通过分配栈耗尽所有的内存。
+
+
+echo &quot;This will probably not print.&quot;
+exit 0  # 这个脚本可能不会正常退出。
+
+#  感谢, Stéphane Chazelas.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -32663,280 +32943,6 @@ Function ()  # 不行.
 <h3 id="echo"> echo</h3>
 <p>shell中函数返回值，个人觉得可以用<code>echo</code></p>
 ]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">24.2 局部变量</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_24-2-局部变量"> 24.2 局部变量</h1>
-<p>怎样使一个变量变成“局部”变量？</p>
-<p>局部变量
-如果变量用local来声明，那么它就只能够在该变量被声明的<a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">代码块</a>中可见。 这个代码块就是局部<a href="http://tldp.org/LDP/abs/html/subshells.html#SCOPEREF" target="_blank" rel="noopener noreferrer">范围</a>。 在一个函数中，一个局部变量只有在函数代码中才有意义.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18568" target="_blank" rel="noopener noreferrer">[1]</a></p>
-<p>例子 24-12. 局部变量的可见范围</p>
-<div><pre><code>#!/bin/bash
-# ex62.sh: 函数内部的局部变量与全局变量。
-
-func () {
-    local loc_var=23       # 声明为局部变量。
-    echo                   # 使用&#39;local&#39;内建命令
-    echo &quot;\&quot;loc_var\&quot; in function = $loc_var&quot;
-    global_var=999         # 没有声明为局部变量。
-    # 默认为全局变量。
-
-    echo &quot;\&quot;global_var\&quot; in function = $global_var&quot;
-}
-
-func
-
-# 现在，来看看局部变量“loc_var”在函数外部是否可见。
-
-echo
-echo &quot;\&quot;loc_var\&quot; outside function = $loc_var&quot;
-                                    # $loc_var outside function =
-                                    # 不行, $loc_var 不是全局可见的.
-echo &quot;\&quot;global_var\&quot; outside function = $global_var&quot;
-                                    # $在函数外部global_var = 999
-                                    # $global_var 是全局可见的.
-echo
-
-exit 0
-#  与C语言相比，在函数内声明的Bash变量
-#+ 除非它被明确声明为local时，它才是局部的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 在函数被调用之前，所有在函数中声明的变量，在函数外部都是不可见的，当然也包括那些被明确声明为local的变量。</p>
-<div><pre><code>#!/bin/bash
-
-func ()
-{
-    global_var=37    #  变量只在函数体内可见
-                     #+ 在函数被调用之前。
-}                    #  函数结束
-
-echo &quot;global_var = $global_var&quot;  # global_var =
-                                 #  函数 &quot;func&quot; 还没被调用，
-                                 #+ 所以$global_var 在这里还不是可见的.
-func
-echo &quot;global_var = $global_var&quot;  # global_var = 37
-                                 # 已经在函数调用的时候设置。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 正如Evgeniy Ivanov指出的那样，当在一条命令中定义和给一个局部变量赋值时，显然操作的顺序首先是给变量赋值，之后限定变量的局部范围。这可以通过<a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">返回值</a>来反应。</p>
-<div><pre><code>#!/bin/bash
-
-echo &quot;==OUTSIDE Function (global)==&quot;
-t=$(exit 1)
-echo $?     # 1
-            # 如预期一样.
-
-echo
-function0 ()
-{
-    echo &quot;==INSIDE Function==&quot;
-    echo &quot;Global&quot;
-    t0=$(exit 1)
-    echo $?      # 1
-                 # 如预期一样.
-
-    echo
-    echo &quot;Local declared &amp; assigned in same command.&quot;
-    local t1=$(exit 1)
-    echo $?      # 0
-                 # 意料之外!
-#  显然，变量赋值发生在Apparently, 
-#+ 局部声明之前。
-#+ 返回值是为了latter.
-
-    echo
-    echo &quot;Local declared, then assigned (separate commands).&quot;
-    local t2
-    t2=$(exit 1)
-    echo $?
-}
-
-function0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h2 id="_24-2-1-局部变量和递归"> 24.2.1 局部变量和递归</h2>
-<p>递归是一个有趣并且有时候非常有用的自己调用自己的形式。 <a href="http://tldp.org/LDP/abs/html/biblio.html#MAYERREF" target="_blank" rel="noopener noreferrer">Herbert Mayer</a> 是这样定义递归的，“。。。表示一个算法通过使用一个简单的相同算法版本。。。”</p>
-<p>想象一下，一个定义是从自身考虑的，<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 一个表达包含了自身的表达， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 一条蛇吞下自己的尾巴， <a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 或者 。。。 一个函数调用自身。<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18617" target="_blank" rel="noopener noreferrer">[5]</a></p>
-<p>例子 24-13. 一个简单的递归函数表示</p>
-<div><pre><code>#!/bin/bash
-# recursion-demo.sh
-# 递归演示.
-
-RECURSIONS=9   # 递归的次数.
-r_count=0      # 必须是全局变量，为什么？
-
-recurse ()
-{
-    var=&quot;$1&quot;
-
-    while [ &quot;$var&quot; -ge 0 ]
-    do
-        echo &quot;Recursion count = &quot;$r_count&quot;  +-+  \$var = &quot;$var&quot;&quot;
-        (( var-- )); (( r_count++ ))
-        recurse &quot;$var&quot;  #  函数调用自身(递归)
-    done              #+ 直到遇到什么样的终止条件？
-}
-
-recurse $RECURSIONS
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>例子 24-14. 另一个简单的例子</p>
-<div><pre><code>#!/bin/bash
-# recursion-def.sh
-# 另外一个描述递归的比较生动的脚本。
-
-RECURSIONS=10
-r_count=0
-sp=&quot; &quot;
-
-define_recursion ()
-{
-    ((r_count++))
-    sp=&quot;$sp&quot;&quot; &quot;
-    echo -n &quot;$sp&quot;
-    echo &quot;\&quot;The act of recurring ... \&quot;&quot;        # Per 1913 Webster&#39;s dictionary.
-
-    while [ $r_count -le $RECURSIONS ]
-    do
-        define_recursion
-    done
-}
-
-echo
-echo &quot;Recursion: &quot;
-define_recursion
-echo
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>局部变量是一个写递归代码有效的工具，但是这种方法一般会包含大量的计算负载，显然在shell脚本中并不推荐递归.<a href="http://tldp.org/LDP/abs/html/localvar.html#FTN.AEN18632" target="_blank" rel="noopener noreferrer">[6]</a></p>
-<p>例子24-15. 使用局部变量进行递归</p>
-<div><pre><code>#!/bin/bash
-
-# 阶乘
-# ---------
-
-# Bash允许递归么？
-# 恩，允许，但是...
-# 他太慢了，所以恐怕你难以忍受。
-
-MAX_ARG=5
-E_WRONG_ARGS=85
-E_RANGE_ERR=86
-
-
-if [ -z &quot;$1&quot; ]
-then
-    echo &quot;Usage: `basename $0` number&quot;
-    exit $E_WRONG_ARGS
-fi
-
-if [ &quot;$1&quot; -gt $MAX_ARG ]
-then
-    echo &quot;Out of range ($MAX_ARG is maximum).&quot;
-    #  现在让我们来了解一些实际情况。
-    #  如果你想计算比这个更大的范围的阶乘，
-    #+ 应该用真正的编程语言来重写它。
-    exit $E_RANGE_ERR
-fi
-
-fact () 
-{
-    local number=$1
-    #  变量&quot;number&quot; 必须被定义为局部变量，
-    #+ 否则不能正常工作。
-    if [ &quot;$number&quot; -eq 0 ]
-    then
-        factorial=1    # 0的阶乘为1.
-    else
-        let &quot;decrnum = number - 1&quot;
-        fact $decrnum  # 递归的函数调用 (就是函数调用自己).
-        let &quot;factorial = $number * $?&quot;
-    fi
-    return $factorial
-}
-
-fact $1
-echo &quot;Factorial of $1 is $?.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>也可以参考<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">例子 A-15</a>，一个包含递归例子的脚本。我们意识到递归同时也意味着巨大的资源消耗和缓慢的运行速度，因此它并不适合在脚本中使用。</p>
-<h2 id="注释"> 注释</h2>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18568" target="_blank" rel="noopener noreferrer">[1]</a> 然而，如Thomas Braunberger 指出的那样，一个函数里定义的局部变量对于调用它的父函数也是可见的。</p>
-<div><pre><code>#!/bin/bash
-
-function1 ()
-{
-  local func1var=20
-
-  echo &quot;Within function1, \$func1var = $func1var.&quot;
-
-  function2
-}
-
-function2 ()
-{
-  echo &quot;Within function2, \$func1var = $func1var.&quot;
-}
-
-function1
-
-exit 0
-
-
-# 脚本的输出:
-
-# Within function1, $func1var = 20.
-# Within function2, $func1var = 20.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在Bash手册里是这样描述的：</p>
-<blockquote>
-<p>&quot;局部变量只能在函数内部使用; 它让变量名的可见范围限制在了函数内部以及它的孩子里&quot; [emphasis added]
-The ABS Guide的作者认为这个行为一个bug.</p>
-</blockquote>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18607" target="_blank" rel="noopener noreferrer">[2]</a> 被熟知为冗余。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18610" target="_blank" rel="noopener noreferrer">[3]</a> 被熟知为同义反复。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18614" target="_blank" rel="noopener noreferrer">[4]</a> 被熟知为暗喻。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18617" target="_blank" rel="noopener noreferrer">[5]</a> 被熟知为递归函数。</p>
-<p><a href="http://tldp.org/LDP/abs/html/localvar.html#AEN18632" target="_blank" rel="noopener noreferrer">[6]</a> 太多的递归层次可能会引发一个脚本的段错误。</p>
-<div><pre><code>#!/bin/bash
-
-#  提醒: 运行这个脚本可能会让你的系统卡死。
-#  如果你够好运的话，在耗尽可用内存之前，它会发生一个段错误。
-
-recursive_function ()		   
-{
-echo &quot;$1&quot;     # 让函数做一些事情，加快发生段错误。
-(( $1 &lt; $2 )) &amp;&amp; recursive_function $(( $1 + 1 )) $2;
-#  只要第一个参数小于第二个参数，
-#+ 让第一个参数加1，然后递归。
-}
-
-recursive_function 1 50000  # 递归 50,000层!
-#  很可能发生段错误(依赖于栈的大小，通过ulimit -m可以设置栈的大小)
-
-#  即使是C语言，递归调用这么多层也会发生段错误，
-#+ 通过分配栈耗尽所有的内存。
-
-
-echo &quot;This will probably not print.&quot;
-exit 0  # 这个脚本可能不会正常退出。
-
-#  感谢, Stéphane Chazelas.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -36703,6 +36709,87 @@ bash$
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">36.1 交互和非交互shell以及脚本</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
+    <updated>2021-05-11T06:41:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
+<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
+<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
+<div><pre><code>#!/bin/bash
+MY_PROMPT=&#39;$ &#39;
+while :
+    do
+        echo -n &quot;$MY_PROMPT&quot;
+        read line
+        eval &quot;$line&quot;
+    done
+
+exit 0
+
+# 这个脚本以及以上解释是由Stéphane Chazelas提供的
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
+<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
+<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
+<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
+<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
+### if [ -v PS1 ]   # Bash 4.2+ ...
+then
+    # 非交互模式
+    ...
+else
+    # 交互模式
+    ...
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
+<div><pre><code>case $- in
+    *i*)    # 交互shell
+    ;;
+    *)      # 非交互shell
+    ;;
+# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
+<div><pre><code># 关于终端的测试！
+
+fd=0   # stdin 标准输入
+
+# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
+if [ -t &quot;$fd&quot; ]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+
+# 但是John指出：
+#     if [ -t 0 ] 仅在你本地登录时有效，
+#     如果通过ssh远程调用就会失效，
+#     所以还要加上对socket的判断。
+
+if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
+<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">36.2 shell wrappers</title>
     <id>https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/"/>
@@ -37039,87 +37126,6 @@ test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater t
 # 向S.C.致谢
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">36.1 交互和非交互shell以及脚本</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
-    <updated>2021-05-11T06:41:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
-<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
-<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
-<div><pre><code>#!/bin/bash
-MY_PROMPT=&#39;$ &#39;
-while :
-    do
-        echo -n &quot;$MY_PROMPT&quot;
-        read line
-        eval &quot;$line&quot;
-    done
-
-exit 0
-
-# 这个脚本以及以上解释是由Stéphane Chazelas提供的
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
-<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
-<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
-<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
-<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
-### if [ -v PS1 ]   # Bash 4.2+ ...
-then
-    # 非交互模式
-    ...
-else
-    # 交互模式
-    ...
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
-<div><pre><code>case $- in
-    *i*)    # 交互shell
-    ;;
-    *)      # 非交互shell
-    ;;
-# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
-<div><pre><code># 关于终端的测试！
-
-fd=0   # stdin 标准输入
-
-# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
-if [ -t &quot;$fd&quot; ]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-
-# 但是John指出：
-#     if [ -t 0 ] 仅在你本地登录时有效，
-#     如果通过ssh远程调用就会失效，
-#     所以还要加上对socket的判断。
-
-if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
-<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
-]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -49225,6 +49231,42 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">用户管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/user/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">编程语言的分类</title>
     <id>https://clay-wangzhi.com/linux/gainian/code-type/</id>
     <link href="https://clay-wangzhi.com/linux/gainian/code-type/"/>
@@ -49281,42 +49323,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
     <author>
       <name>Clay</name>
     </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">用户管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/user/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -49677,6 +49683,44 @@ mysql&gt;exit(退出)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">linux下如何增加swap交换分区</title>
+    <id>https://clay-wangzhi.com/linux/qa/swap/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/swap/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux下如何增加swap交换分区"> linux下如何增加swap交换分区</h1>
+<p>swap即交换分区，类似于<a href="http://www.ttlsa.com/windows/" target="_blank" rel="noopener noreferrer">windows</a>虚拟内存功能，就是在硬盘上分配出一块空间作为虚拟内存来使用.</p>
+<p>通常swap都是在装系统硬盘分区时设定，这里只是探讨一下系统已经安装好后，扩展swap分区的方法.下面我们来将下如何在安装好的<a href="http://www.ttlsa.com/linux/" target="_blank" rel="noopener noreferrer">linux</a>下增加swap交换分区.</p>
+<p>可以有两种方法来增加swap分区，一种是将新的分区来作为swap，另一种是在磁盘中创建一个大的文件来作swap.</p>
+<h2 id="新分区扩展swap"> 新分区扩展swap</h2>
+<p>假如有一个新的分区/dev/sda3,我们用它来作swap.</p>
+<div><pre><code># swapon -s                --查看当前swap情况
+# mkswap /dev/sda3
+# swapon /dev/sda3
+# swapon -s
+# vi /etc/fstab
+/dev/sda3   swap   swap  defaults  0  0    --添加开机自动挂载
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="大文件扩展swap"> 大文件扩展swap</h2>
+<div><pre><code># cd /var
+# dd if=/dev/zero of=file bs=1M count=1000       --生成1G的大文件
+# mkswap file
+# swapon file
+# swapon -s
+# vi /etc/fstab
+/var/file   swap   swap   defaults  0   0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Elasticsearch基础概念</title>
     <id>https://clay-wangzhi.com/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/bak/9.1%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
@@ -49834,44 +49878,6 @@ mysql&gt;exit(退出)
     <author>
       <name>Clay</name>
     </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">linux下如何增加swap交换分区</title>
-    <id>https://clay-wangzhi.com/linux/qa/swap/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/swap/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux下如何增加swap交换分区"> linux下如何增加swap交换分区</h1>
-<p>swap即交换分区，类似于<a href="http://www.ttlsa.com/windows/" target="_blank" rel="noopener noreferrer">windows</a>虚拟内存功能，就是在硬盘上分配出一块空间作为虚拟内存来使用.</p>
-<p>通常swap都是在装系统硬盘分区时设定，这里只是探讨一下系统已经安装好后，扩展swap分区的方法.下面我们来将下如何在安装好的<a href="http://www.ttlsa.com/linux/" target="_blank" rel="noopener noreferrer">linux</a>下增加swap交换分区.</p>
-<p>可以有两种方法来增加swap分区，一种是将新的分区来作为swap，另一种是在磁盘中创建一个大的文件来作swap.</p>
-<h2 id="新分区扩展swap"> 新分区扩展swap</h2>
-<p>假如有一个新的分区/dev/sda3,我们用它来作swap.</p>
-<div><pre><code># swapon -s                --查看当前swap情况
-# mkswap /dev/sda3
-# swapon /dev/sda3
-# swapon -s
-# vi /etc/fstab
-/dev/sda3   swap   swap  defaults  0  0    --添加开机自动挂载
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="大文件扩展swap"> 大文件扩展swap</h2>
-<div><pre><code># cd /var
-# dd if=/dev/zero of=file bs=1M count=1000       --生成1G的大文件
-# mkswap file
-# swapon file
-# swapon -s
-# vi /etc/fstab
-/var/file   swap   swap   defaults  0   0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -53438,101 +53444,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Elastic Stack 家族成员及其应用场景</title>
-    <id>https://clay-wangzhi.com/monitor/elk/summarize/scene/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/summarize/scene/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
-<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
-<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
-<ul>
-<li>
-<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
-</li>
-<li>
-<p>发展</p>
-<ul>
-<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
-<li>2013年被Elasticsearch收购</li>
-</ul>
-</li>
-<li>
-<p>特性</p>
-<ul>
-<li>实时解析和转换数据
-<ul>
-<li>从IP地址破译出地理坐标</li>
-<li>将PII数据匿名化，完全排除敏感字段</li>
-</ul>
-</li>
-<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
-<li>可靠性安全
-<ul>
-<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
-<li>数据传输加密</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
-<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
-<ul>
-<li>Kibana名字的含义：Kiwifruit + Banana</li>
-<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
-<li>基于logstash的工具，2013年加入Elastic公司</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
-<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
-<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
-<ul>
-<li>6.3之前的版本，X-pack以插件方式安装</li>
-<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
-<ul>
-<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
-</ul>
-</li>
-<li>OSS，Basic，黄金级，白金级</li>
-</ul>
-<h2 id="elk应用场景"> ELK应用场景</h2>
-<ul>
-<li>网站搜索/垂直搜索/代码搜索</li>
-<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
-</ul>
-<h3 id="日志的重要性"> 日志的重要性</h3>
-<ul>
-<li>为什么重要
-<ul>
-<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
-<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
-</ul>
-</li>
-<li>挑战
-<ul>
-<li>关注点很多，任何一个点都有可能引起问题</li>
-<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
-<li>很多运维人员是消防员，哪里有问题去哪里</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
-<h3 id="日志管理流程"> 日志管理流程</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Elasticsearch 简介及其发展历史</title>
     <id>https://clay-wangzhi.com/monitor/elk/summarize/develop/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/summarize/develop/"/>
@@ -54134,6 +54045,206 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">11.3 循环控制</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
+<blockquote>
+<p>Tournez cent tours, tournez mille tours,</p>
+<p>Tournez souvent et tournez toujours . . .</p>
+<p>——保尔·魏尔伦，《木马》</p>
+</blockquote>
+<p>本节介绍两个会影响循环行为的命令。</p>
+<h3 id="break-continue"> break, continue</h3>
+<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
+<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
+
+<span>echo</span>
+<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
+ <span>then</span>
+   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
+<span>done</span>
+
+<span># 思考：</span>
+<span># 为什么循环不会输出到20？</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
+
+<span>##################################################################</span>
+
+<span># 用 'break' 代替了 'continue'。</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
+ <span>then</span>
+   <span>break</span>  <span># 中止循环。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span>"</span>
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
+<p>样例 11-22. 跳出多层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># break-levels.sh: 跳出循环.</span>
+
+<span># "break N" 跳出 N 层循环。</span>
+
+<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>do</span>
+  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
+
+  <span># ------------------------------------------</span>
+  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
+    
+    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
+    <span>then</span>
+      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
+             <span># （它同时中止了内层和外层循环。）</span>
+    <span>fi</span>
+  <span>done</span>
+  <span># ------------------------------------------</span>
+
+  <span>echo</span>
+<span>done</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
+<p>样例 11-23. <code>continue</code> 影响外层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># "continue N" 命令可以影响其上 N 层循环。</span>
+
+<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
+<span>do</span>
+  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
+  
+  <span># --------------------------------------------------------------------</span>
+  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
+  <span>do</span>
+  
+    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
+    <span>then</span>
+      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
+                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
+    <span>fi</span>
+    
+    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
+  <span>done</span>
+  <span># --------------------------------------------------------------------</span>
+
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span># 思考：</span>
+<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
+<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
+<span># ---------------------------------------------------</span>
+
+<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
+<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
+<span>#+ 务分配给这些不同的设备来完成。</span>
+<span>#  那么我通常会在每台设备上执行下面的代码：</span>
+
+<span>while</span> true:
+<span>do</span>
+  <span>for</span> <span>n</span> <span>in</span> .iso.*
+  <span>do</span>
+    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
+    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
+    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
+    run-isotherm <span>$beta</span>
+    <span>date</span>
+    <span>ls</span> -alF .Iso.<span>$beta</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
+
+<span>while</span> <span>true</span>
+<span>do</span>
+  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
+  <span>do</span>
+    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
+<span>done</span>
+
+<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
+<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
+<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
+<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
+<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
+<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
+<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">8 activemq监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
@@ -54171,6 +54282,198 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
 <p>在被监控主机上增加宏设置
 加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">7 用zabbix api批量添加web监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_7-用zabbix-api批量添加web监控"> 7 用zabbix api批量添加web监控</h1>
+<p>python脚本如下：</p>
+<p><code>vim zabbix_agent.py</code></p>
+<div><pre><code><span># ~*~ coding:utf-8 ~*~</span>
+<span>from</span> zabbix_api <span>import</span> ZabbixAPI
+<span>import</span> sys
+<span>import</span> json
+
+ZABBIX_SREVER <span>=</span> <span>"http://192.168.162.122"</span>
+USERNAME <span>=</span> <span>"Admin"</span>
+PASSWORD <span>=</span> <span>"zabbix"</span>
+<span>#HOSTNAME = "sh_ylf_15"</span>
+<span>#HOSTNAME = "h5_web_monitor"</span>
+HOSTNAME <span>=</span> sys<span>.</span>argv<span>[</span><span>4</span><span>]</span>
+urlname <span>=</span> sys<span>.</span>argv<span>[</span><span>1</span><span>]</span>
+url <span>=</span> sys<span>.</span>argv<span>[</span><span>2</span><span>]</span>
+delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</span>
+
+
+<span># 登录</span>
+<span>def</span> <span>login</span><span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span><span>:</span>
+    zapi <span>=</span> ZabbixAPI<span>(</span>ZABBIX_SREVER<span>)</span>
+    zapi<span>.</span>login<span>(</span>USERNAME<span>,</span> PASSWORD<span>)</span>
+    <span>return</span> zapi
+
+
+<span># 获取主机id</span>
+<span>def</span> <span>gethostid</span><span>(</span>auth<span>,</span> HOSTNAME<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'host.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"host"</span><span>:</span> HOSTNAME<span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+
+    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
+        <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>'hostid'</span><span>]</span>
+    <span>else</span><span>:</span>
+        <span>print</span><span>(</span><span>"找不到该主机"</span><span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 获取应用级id</span>
+<span>def</span> <span>getapplicationid</span><span>(</span>auth<span>,</span> hostid<span>)</span><span>:</span>
+    <span># try:</span>
+    <span>#     json_obj = ZabbixAPI.json_obj(auth, 'application.create', params={"name": "Web监测","hostid": hostid})</span>
+    <span>#     ZabbixAPI.do_request(auth, json_obj)</span>
+    <span># except Exception as e:</span>
+    <span>#     print(e)</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'application.get'</span><span>,</span> params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>for</span> num <span>in</span> <span>range</span><span>(</span><span>0</span><span>,</span> <span>len</span><span>(</span>request<span>[</span><span>'result'</span><span>]</span><span>)</span><span>)</span><span>:</span>
+        <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'name'</span><span>]</span> <span>==</span> <span>'Web'</span><span>:</span>
+            <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'applicationid'</span><span>]</span>
+
+
+<span># 增加web监控</span>
+<span>def</span> <span>create_web_scenario</span><span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> urlname<span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
+        <span>print</span><span>(</span><span>'该web监控已经添加过了'</span><span>)</span>
+    <span>else</span><span>:</span>
+        <span>try</span><span>:</span>
+            json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.create'</span><span>,</span>
+                                          params<span>=</span><span>{</span><span>"name"</span><span>:</span> urlname<span>,</span> <span>"hostid"</span><span>:</span> hostid<span>,</span> <span>"applicationid"</span><span>:</span> applicationid<span>,</span>
+                                                  <span>"delay"</span><span>:</span> delay<span>,</span> <span>"retries"</span><span>:</span> <span>'1'</span><span>,</span> <span>"steps"</span><span>:</span> <span>[</span>
+                                                  <span>{</span><span>'name'</span><span>:</span> urlname<span>,</span> <span>'url'</span><span>:</span> url<span>,</span> <span>'timeout'</span><span>:</span> <span>'10'</span><span>,</span> <span>'status_codes'</span><span>:</span> <span>'200'</span><span>,</span>
+                                                   <span>'no'</span><span>:</span> <span>'1'</span><span>}</span><span>]</span><span>}</span><span>)</span>
+            ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+        <span>except</span> Exception <span>as</span> e<span>:</span>
+            <span>print</span><span>(</span>e<span>)</span>
+            sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 增加触发器</span>
+<span>def</span> <span>create_trigger</span><span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span><span>:</span>
+    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.fail[{1}].avg(#3)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>">=1"</span>
+    <span>try</span><span>:</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问失败"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
+                                              <span>"priority"</span><span>:</span> <span>5</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.rspcode[{1},{1}].last(0)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>"&lt;>200"</span>
+    <span>try</span><span>:</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问异常"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
+                                              <span>"priority"</span><span>:</span> <span>4</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 获取监控项id</span>
+<span>def</span> <span>getitem</span><span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'item.get'</span><span>,</span>
+                                  params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>,</span> <span>"webitems"</span><span>:</span> <span>"1"</span><span>,</span>
+                                          <span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> <span>"Response code for step \"$2\" of scenario \"$1\"."</span><span>,</span>
+                                                     <span>"key_"</span><span>:</span> <span>"web.test.rspcode[{0},{1}]"</span><span>.</span><span>format</span><span>(</span>urlname<span>,</span> urlname<span>)</span><span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>return</span> request<span>[</span><span>"result"</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>"itemid"</span><span>]</span>
+
+
+<span># 增加图形</span>
+<span>def</span> <span>create_graph</span><span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span><span>:</span>
+    <span>try</span><span>:</span>
+        itemid <span>=</span> getitem<span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'graph.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"name"</span><span>:</span> <span>"h5_{0}状态显示"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"width"</span><span>:</span> <span>900</span><span>,</span> <span>"height"</span><span>:</span> <span>200</span><span>,</span>
+                                              <span>"gitems"</span><span>:</span> <span>[</span><span>{</span><span>"itemid"</span><span>:</span> itemid<span>,</span> <span>"color"</span><span>:</span> <span>"008800"</span><span>}</span><span>]</span><span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span>def</span> <span>main</span><span>(</span><span>)</span><span>:</span>
+    auth <span>=</span> login<span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span>
+    hostid <span>=</span> gethostid<span>(</span>auth<span>,</span> HOSTNAME<span>)</span>
+    applicationid <span>=</span> getapplicationid<span>(</span>auth<span>,</span> hostid<span>)</span>
+
+    create_web_scenario<span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span>
+    create_trigger<span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span>
+    create_graph<span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span>
+
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    main<span>(</span><span>)</span>
+
+<span># json_obj = ZabbixAPI.json_obj(auth, 'httptest.get', params={"applicationids": applicationid})</span>
+<span># request = ZabbixAPI.do_request(auth, json_obj)</span>
+<span># print(json.dumps(request, ensure_ascii=False, indent=4))</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br></div></div><p>编写shell，调用python，打日志</p>
+<p><code>vim web_monitor.sh</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>export</span> <span><span>LANG</span></span><span>=</span><span>"en_US.UTF-8"</span>
+
+<span>arr_hostname</span><span>=</span><span>(</span><span>"192.168.165.115"</span> <span>"192.168.9.13"</span><span>)</span>
+<span>len</span><span>=</span><span>${<span>#</span>arr_hostname<span>[</span>@<span>]</span>}</span>
+<span>dir</span><span>=</span><span><span>$(</span><span>cd</span> <span>$(</span>dirname $0<span>)</span> <span>&amp;&amp;</span> <span>pwd</span><span>)</span></span>
+<span>tdir</span><span>=</span><span>"<span>$dir</span>/tmp"</span>
+
+<span>dt</span><span>=</span><span><span>`</span><span>date</span> <span>"+%F %T"</span><span>`</span></span>
+
+<span>[</span> -f <span>$tdir</span>/code_error.txt <span>]</span> <span>&amp;&amp;</span> <span>true</span> <span>></span><span>$tdir</span>/code_error.txt
+
+<span>## i: 项目信息   j: url   k:时间间隔</span>
+<span>while</span> <span>read</span> i j k o<span>;</span><span>do</span>
+    <span>if</span> <span>[</span><span>[</span> <span>!</span> x<span>"<span>$o</span>"</span> <span>==</span> x<span>""</span> <span>&amp;&amp;</span> <span>$o</span> -le <span><span>$((</span>$len<span>-</span><span>1</span><span>))</span></span> <span>]</span><span>]</span><span>;</span><span>then</span>
+        <span>curl</span> -s -I <span>"<span>$j</span>"</span> <span>></span> <span>$tdir</span>/curl.txt
+        <span>code</span><span>=</span><span><span>`</span><span>grep</span> <span>'HTTP/1.1'</span> $tdir/curl.txt<span>|</span><span>awk</span> <span>'{print <span>$2</span>}'</span><span>`</span></span>
+        <span>#echo "$i $j $code" </span>
+
+        <span>if</span> <span>[</span> <span>$code</span> -eq <span>200</span> -o <span>$code</span> -eq <span>301</span> -o <span>$code</span> -eq <span>302</span> -o <span>$code</span> -eq <span>405</span> <span>]</span><span>;</span><span>then</span>
+            python <span>$dir</span>/zabbix_agent.py <span>$i</span> <span>$j</span> <span>$k</span> <span>${arr_hostname<span>[</span>$o<span>]</span>}</span>
+            <span>[</span> <span>$?</span> -eq <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create ok"</span> <span>>></span> <span>$tdir</span>/info <span>||</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create fail"</span> <span>>></span><span>$tdir</span>/info
+        <span>else</span>
+            <span>echo</span> <span>"<span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> <span>$code</span>"</span> <span>>></span><span>$tdir</span>/code_error.txt
+            <span>echo</span> <span>"<span>$i</span> <span>$code</span>"</span>
+        <span>fi</span>
+    <span>else</span>
+        <span>echo</span> <span>"hostname参数传递错误"</span>
+        <span>fi</span>
+<span>done</span> <span>&lt;</span><span>$dir</span>/list
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p><code>list</code>文件内容格式如下：</p>
+<div><pre><code>csp-web-syndata http://192.168.100.15:8085/csp-web-syndata/shop/synShopInfo/111 3m 0
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>参考链接：https://cloud.tencent.com/developer/article/1157571</p>
+<p>https://www.zabbix.com/documentation/current/manual/api</p>
+<p>https://segmentfault.com/a/1190000014241994</p>
+</blockquote>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -54468,198 +54771,6 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">7 用zabbix api批量添加web监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_7-用zabbix-api批量添加web监控"> 7 用zabbix api批量添加web监控</h1>
-<p>python脚本如下：</p>
-<p><code>vim zabbix_agent.py</code></p>
-<div><pre><code><span># ~*~ coding:utf-8 ~*~</span>
-<span>from</span> zabbix_api <span>import</span> ZabbixAPI
-<span>import</span> sys
-<span>import</span> json
-
-ZABBIX_SREVER <span>=</span> <span>"http://192.168.162.122"</span>
-USERNAME <span>=</span> <span>"Admin"</span>
-PASSWORD <span>=</span> <span>"zabbix"</span>
-<span>#HOSTNAME = "sh_ylf_15"</span>
-<span>#HOSTNAME = "h5_web_monitor"</span>
-HOSTNAME <span>=</span> sys<span>.</span>argv<span>[</span><span>4</span><span>]</span>
-urlname <span>=</span> sys<span>.</span>argv<span>[</span><span>1</span><span>]</span>
-url <span>=</span> sys<span>.</span>argv<span>[</span><span>2</span><span>]</span>
-delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</span>
-
-
-<span># 登录</span>
-<span>def</span> <span>login</span><span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span><span>:</span>
-    zapi <span>=</span> ZabbixAPI<span>(</span>ZABBIX_SREVER<span>)</span>
-    zapi<span>.</span>login<span>(</span>USERNAME<span>,</span> PASSWORD<span>)</span>
-    <span>return</span> zapi
-
-
-<span># 获取主机id</span>
-<span>def</span> <span>gethostid</span><span>(</span>auth<span>,</span> HOSTNAME<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'host.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"host"</span><span>:</span> HOSTNAME<span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-
-    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
-        <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>'hostid'</span><span>]</span>
-    <span>else</span><span>:</span>
-        <span>print</span><span>(</span><span>"找不到该主机"</span><span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 获取应用级id</span>
-<span>def</span> <span>getapplicationid</span><span>(</span>auth<span>,</span> hostid<span>)</span><span>:</span>
-    <span># try:</span>
-    <span>#     json_obj = ZabbixAPI.json_obj(auth, 'application.create', params={"name": "Web监测","hostid": hostid})</span>
-    <span>#     ZabbixAPI.do_request(auth, json_obj)</span>
-    <span># except Exception as e:</span>
-    <span>#     print(e)</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'application.get'</span><span>,</span> params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>for</span> num <span>in</span> <span>range</span><span>(</span><span>0</span><span>,</span> <span>len</span><span>(</span>request<span>[</span><span>'result'</span><span>]</span><span>)</span><span>)</span><span>:</span>
-        <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'name'</span><span>]</span> <span>==</span> <span>'Web'</span><span>:</span>
-            <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'applicationid'</span><span>]</span>
-
-
-<span># 增加web监控</span>
-<span>def</span> <span>create_web_scenario</span><span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> urlname<span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
-        <span>print</span><span>(</span><span>'该web监控已经添加过了'</span><span>)</span>
-    <span>else</span><span>:</span>
-        <span>try</span><span>:</span>
-            json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.create'</span><span>,</span>
-                                          params<span>=</span><span>{</span><span>"name"</span><span>:</span> urlname<span>,</span> <span>"hostid"</span><span>:</span> hostid<span>,</span> <span>"applicationid"</span><span>:</span> applicationid<span>,</span>
-                                                  <span>"delay"</span><span>:</span> delay<span>,</span> <span>"retries"</span><span>:</span> <span>'1'</span><span>,</span> <span>"steps"</span><span>:</span> <span>[</span>
-                                                  <span>{</span><span>'name'</span><span>:</span> urlname<span>,</span> <span>'url'</span><span>:</span> url<span>,</span> <span>'timeout'</span><span>:</span> <span>'10'</span><span>,</span> <span>'status_codes'</span><span>:</span> <span>'200'</span><span>,</span>
-                                                   <span>'no'</span><span>:</span> <span>'1'</span><span>}</span><span>]</span><span>}</span><span>)</span>
-            ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-        <span>except</span> Exception <span>as</span> e<span>:</span>
-            <span>print</span><span>(</span>e<span>)</span>
-            sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 增加触发器</span>
-<span>def</span> <span>create_trigger</span><span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span><span>:</span>
-    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.fail[{1}].avg(#3)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>">=1"</span>
-    <span>try</span><span>:</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问失败"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
-                                              <span>"priority"</span><span>:</span> <span>5</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.rspcode[{1},{1}].last(0)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>"&lt;>200"</span>
-    <span>try</span><span>:</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问异常"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
-                                              <span>"priority"</span><span>:</span> <span>4</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 获取监控项id</span>
-<span>def</span> <span>getitem</span><span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'item.get'</span><span>,</span>
-                                  params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>,</span> <span>"webitems"</span><span>:</span> <span>"1"</span><span>,</span>
-                                          <span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> <span>"Response code for step \"$2\" of scenario \"$1\"."</span><span>,</span>
-                                                     <span>"key_"</span><span>:</span> <span>"web.test.rspcode[{0},{1}]"</span><span>.</span><span>format</span><span>(</span>urlname<span>,</span> urlname<span>)</span><span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>return</span> request<span>[</span><span>"result"</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>"itemid"</span><span>]</span>
-
-
-<span># 增加图形</span>
-<span>def</span> <span>create_graph</span><span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span><span>:</span>
-    <span>try</span><span>:</span>
-        itemid <span>=</span> getitem<span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'graph.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"name"</span><span>:</span> <span>"h5_{0}状态显示"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"width"</span><span>:</span> <span>900</span><span>,</span> <span>"height"</span><span>:</span> <span>200</span><span>,</span>
-                                              <span>"gitems"</span><span>:</span> <span>[</span><span>{</span><span>"itemid"</span><span>:</span> itemid<span>,</span> <span>"color"</span><span>:</span> <span>"008800"</span><span>}</span><span>]</span><span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span>def</span> <span>main</span><span>(</span><span>)</span><span>:</span>
-    auth <span>=</span> login<span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span>
-    hostid <span>=</span> gethostid<span>(</span>auth<span>,</span> HOSTNAME<span>)</span>
-    applicationid <span>=</span> getapplicationid<span>(</span>auth<span>,</span> hostid<span>)</span>
-
-    create_web_scenario<span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span>
-    create_trigger<span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span>
-    create_graph<span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span>
-
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    main<span>(</span><span>)</span>
-
-<span># json_obj = ZabbixAPI.json_obj(auth, 'httptest.get', params={"applicationids": applicationid})</span>
-<span># request = ZabbixAPI.do_request(auth, json_obj)</span>
-<span># print(json.dumps(request, ensure_ascii=False, indent=4))</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br></div></div><p>编写shell，调用python，打日志</p>
-<p><code>vim web_monitor.sh</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>export</span> <span><span>LANG</span></span><span>=</span><span>"en_US.UTF-8"</span>
-
-<span>arr_hostname</span><span>=</span><span>(</span><span>"192.168.165.115"</span> <span>"192.168.9.13"</span><span>)</span>
-<span>len</span><span>=</span><span>${<span>#</span>arr_hostname<span>[</span>@<span>]</span>}</span>
-<span>dir</span><span>=</span><span><span>$(</span><span>cd</span> <span>$(</span>dirname $0<span>)</span> <span>&amp;&amp;</span> <span>pwd</span><span>)</span></span>
-<span>tdir</span><span>=</span><span>"<span>$dir</span>/tmp"</span>
-
-<span>dt</span><span>=</span><span><span>`</span><span>date</span> <span>"+%F %T"</span><span>`</span></span>
-
-<span>[</span> -f <span>$tdir</span>/code_error.txt <span>]</span> <span>&amp;&amp;</span> <span>true</span> <span>></span><span>$tdir</span>/code_error.txt
-
-<span>## i: 项目信息   j: url   k:时间间隔</span>
-<span>while</span> <span>read</span> i j k o<span>;</span><span>do</span>
-    <span>if</span> <span>[</span><span>[</span> <span>!</span> x<span>"<span>$o</span>"</span> <span>==</span> x<span>""</span> <span>&amp;&amp;</span> <span>$o</span> -le <span><span>$((</span>$len<span>-</span><span>1</span><span>))</span></span> <span>]</span><span>]</span><span>;</span><span>then</span>
-        <span>curl</span> -s -I <span>"<span>$j</span>"</span> <span>></span> <span>$tdir</span>/curl.txt
-        <span>code</span><span>=</span><span><span>`</span><span>grep</span> <span>'HTTP/1.1'</span> $tdir/curl.txt<span>|</span><span>awk</span> <span>'{print <span>$2</span>}'</span><span>`</span></span>
-        <span>#echo "$i $j $code" </span>
-
-        <span>if</span> <span>[</span> <span>$code</span> -eq <span>200</span> -o <span>$code</span> -eq <span>301</span> -o <span>$code</span> -eq <span>302</span> -o <span>$code</span> -eq <span>405</span> <span>]</span><span>;</span><span>then</span>
-            python <span>$dir</span>/zabbix_agent.py <span>$i</span> <span>$j</span> <span>$k</span> <span>${arr_hostname<span>[</span>$o<span>]</span>}</span>
-            <span>[</span> <span>$?</span> -eq <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create ok"</span> <span>>></span> <span>$tdir</span>/info <span>||</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create fail"</span> <span>>></span><span>$tdir</span>/info
-        <span>else</span>
-            <span>echo</span> <span>"<span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> <span>$code</span>"</span> <span>>></span><span>$tdir</span>/code_error.txt
-            <span>echo</span> <span>"<span>$i</span> <span>$code</span>"</span>
-        <span>fi</span>
-    <span>else</span>
-        <span>echo</span> <span>"hostname参数传递错误"</span>
-        <span>fi</span>
-<span>done</span> <span>&lt;</span><span>$dir</span>/list
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p><code>list</code>文件内容格式如下：</p>
-<div><pre><code>csp-web-syndata http://192.168.100.15:8085/csp-web-syndata/shop/synShopInfo/111 3m 0
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>参考链接：https://cloud.tencent.com/developer/article/1157571</p>
-<p>https://www.zabbix.com/documentation/current/manual/api</p>
-<p>https://segmentfault.com/a/1190000014241994</p>
-</blockquote>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -62429,6 +62540,101 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Elastic Stack 家族成员及其应用场景</title>
+    <id>https://clay-wangzhi.com/monitor/elk/summarize/scene/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/summarize/scene/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
+<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
+<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
+<ul>
+<li>
+<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
+</li>
+<li>
+<p>发展</p>
+<ul>
+<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
+<li>2013年被Elasticsearch收购</li>
+</ul>
+</li>
+<li>
+<p>特性</p>
+<ul>
+<li>实时解析和转换数据
+<ul>
+<li>从IP地址破译出地理坐标</li>
+<li>将PII数据匿名化，完全排除敏感字段</li>
+</ul>
+</li>
+<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
+<li>可靠性安全
+<ul>
+<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
+<li>数据传输加密</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
+<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
+<ul>
+<li>Kibana名字的含义：Kiwifruit + Banana</li>
+<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
+<li>基于logstash的工具，2013年加入Elastic公司</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
+<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
+<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
+<ul>
+<li>6.3之前的版本，X-pack以插件方式安装</li>
+<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
+<ul>
+<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
+</ul>
+</li>
+<li>OSS，Basic，黄金级，白金级</li>
+</ul>
+<h2 id="elk应用场景"> ELK应用场景</h2>
+<ul>
+<li>网站搜索/垂直搜索/代码搜索</li>
+<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
+</ul>
+<h3 id="日志的重要性"> 日志的重要性</h3>
+<ul>
+<li>为什么重要
+<ul>
+<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
+<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
+</ul>
+</li>
+<li>挑战
+<ul>
+<li>关注点很多，任何一个点都有可能引起问题</li>
+<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
+<li>很多运维人员是消防员，哪里有问题去哪里</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
+<h3 id="日志管理流程"> 日志管理流程</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">11.4 测试与分支</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/"/>
@@ -62827,206 +63033,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
 <section>
 <ol>
 <li id="footnote1"><p>在写匹配行的时候，可以在左边加上左括号 (，使整个结构看起来更加优雅。<pre>case $( arch ) in   # $( arch ) 返回设备架构。<br>  ( i386 ) echo &quot;80386-based machine&quot;;;<br># ^      ^<br>  ( i486 ) echo &quot;80486-based machine&quot;;;<br>  ( i586 ) echo &quot;Pentium-based machine&quot;;;<br>  ( i686 ) echo &quot;Pentium2+-based machine&quot;;;<br>  (    * ) echo &quot;Other type of machine&quot;;;<br>esac</pre> </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">11.3 循环控制</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
-<blockquote>
-<p>Tournez cent tours, tournez mille tours,</p>
-<p>Tournez souvent et tournez toujours . . .</p>
-<p>——保尔·魏尔伦，《木马》</p>
-</blockquote>
-<p>本节介绍两个会影响循环行为的命令。</p>
-<h3 id="break-continue"> break, continue</h3>
-<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
-<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
-
-<span>echo</span>
-<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
- <span>then</span>
-   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
-<span>done</span>
-
-<span># 思考：</span>
-<span># 为什么循环不会输出到20？</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
-
-<span>##################################################################</span>
-
-<span># 用 'break' 代替了 'continue'。</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
- <span>then</span>
-   <span>break</span>  <span># 中止循环。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span>"</span>
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
-<p>样例 11-22. 跳出多层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># break-levels.sh: 跳出循环.</span>
-
-<span># "break N" 跳出 N 层循环。</span>
-
-<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>do</span>
-  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
-
-  <span># ------------------------------------------</span>
-  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
-    
-    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
-    <span>then</span>
-      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
-             <span># （它同时中止了内层和外层循环。）</span>
-    <span>fi</span>
-  <span>done</span>
-  <span># ------------------------------------------</span>
-
-  <span>echo</span>
-<span>done</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
-<p>样例 11-23. <code>continue</code> 影响外层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># "continue N" 命令可以影响其上 N 层循环。</span>
-
-<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
-<span>do</span>
-  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
-  
-  <span># --------------------------------------------------------------------</span>
-  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
-  <span>do</span>
-  
-    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
-    <span>then</span>
-      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
-                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
-    <span>fi</span>
-    
-    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
-  <span>done</span>
-  <span># --------------------------------------------------------------------</span>
-
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span># 思考：</span>
-<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
-<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
-<span># ---------------------------------------------------</span>
-
-<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
-<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
-<span>#+ 务分配给这些不同的设备来完成。</span>
-<span>#  那么我通常会在每台设备上执行下面的代码：</span>
-
-<span>while</span> true:
-<span>do</span>
-  <span>for</span> <span>n</span> <span>in</span> .iso.*
-  <span>do</span>
-    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
-    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
-    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
-    run-isotherm <span>$beta</span>
-    <span>date</span>
-    <span>ls</span> -alF .Iso.<span>$beta</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
-
-<span>while</span> <span>true</span>
-<span>do</span>
-  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
-  <span>do</span>
-    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
-<span>done</span>
-
-<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
-<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
-<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
-<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
-<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
-<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
-<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
 </li>
 </ol>
 </section>
