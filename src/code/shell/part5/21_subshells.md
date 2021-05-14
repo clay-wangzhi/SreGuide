@@ -260,4 +260,4 @@ echo "$var1"   # 76
 
 ### **Notes**
 
-[^1] 和 [exec](http://tldp.org/LDP/abs/html/internal.html#EXECREF) 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell
+[^1]: 和 [exec](http://tldp.org/LDP/abs/html/internal.html#EXECREF) 命令一起触发的外部命令（通常）不会分叉一个子进程 / 子shell
