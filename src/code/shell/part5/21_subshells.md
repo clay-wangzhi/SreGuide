@@ -12,7 +12,7 @@ tags:
 
 一个子shell是命令处理器（-- 在终端或者*xtrem*窗口给出提示符的*shell*）的一个独立的例子。正如你的命令在命令行提示符处被理解执行一样，一个脚本[批处理](http://tldp.org/LDP/abs/html/timedate.html#BATCHPROCREF)一组命令。每一个shell脚本运行实际上是[父](http://tldp.org/LDP/abs/html/internal.html#FORKREF)shell的一个支线进程（*子进程*）。
 
-一个shell脚本可以自己启动多个子进程。这些子进程使得脚本进行并行处理，实际上是多个支线任务同事进行。
+一个shell脚本可以自己启动多个子进程。这些子进程使得脚本进行并行处理，实际上是多个支线任务同时进行。
 
 ```bash
 #!/bin/bash
