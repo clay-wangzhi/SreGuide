@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-14T02:56:10.732Z</updated>
+  <updated>2021-05-14T03:06:58.220Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -6169,6 +6169,187 @@ ansible-playbook create_user.yml --vault-password-file=vault-pass
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">4.8 yaml语法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/yaml/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/yaml/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-8-yaml语法"> 4.8 yaml语法</h1>
+<h2 id="playbook的语法-yaml"> playbook的语法：YAML</h2>
+<p>ansible的playbook采用yaml语法，它以非常简洁的方式实现了json格式的事件描述。</p>
+<p>yaml之于json就像markdown之于html一样，极度简化了json的书写。</p>
+<p>YAML文件后缀通常为.yaml或.yml。</p>
+<p>YAML在不少工具里都使用，学习它是&quot;一次学习、终生受益&quot;的，所以很有必要把yaml的语法格式做个梳理，系统性地去学一学。</p>
+<p><strong>YAML的基本语法规则如下：</strong></p>
+<p>(1).使用缩进表示层级关系</p>
+<p>(2).缩进时不允许使用Tab键，只允许使用空格</p>
+<p>(3).缩进的空格数目不重要，只要相同层级的元素左对齐即可</p>
+<p>(4).yaml文件以&quot;---&quot;作为文档的开始，以表明这是一个yaml文件</p>
+<blockquote>
+<p>即使没有使用<code>---</code>开头，也不会有什么影响</p>
+</blockquote>
+<p>(5).# 表示注释，从这个字符一直到行尾，都会被解析器忽略</p>
+<p>(6).字符串不用加引号，但在可能产生歧义时，需加引号(单双引号皆可)，比如引用变量时</p>
+<p>(7).布尔值非常灵活，不分区大小写的true/false、yes/no、on/off、y/n、0和1都允许</p>
+<p><strong>YAML支持三种数据结构：</strong></p>
+<p>(1).对象：key/value格式，也称为哈希结构、字典结构或关联数组</p>
+<p>(2).数组：也称为列表</p>
+<p>(3).标量(scalars)：单个值</p>
+<p>可以去找一些在线YAML转换JSON网站，比如 <a href="http://yaml-online-parser.appspot.com/" target="_blank" rel="noopener noreferrer">http://yaml-online-parser.appspot.com</a> 通过在线转换可以验证或查看自己所写的YAML是否出错以及哪里出错。</p>
+<h3 id="对象"> 对象</h3>
+<p>一组键值对，使用冒号隔开key和value。注意，冒号后必须至少一个空格。</p>
+<div><pre><code>name: clay
+</code></pre>
+<div><span>1</span><br></div></div><p>等价于json：</p>
+<div><pre><code>{
+	&quot;name&quot;: &quot;clay&quot;
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="数组"> 数组</h3>
+<div><pre><code>---
+- Shell
+- Perl
+- Python
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>等价于json：</p>
+<div><pre><code>[&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
+</code></pre>
+<div><span>1</span><br></div></div><p>也可以使用行内数组(内联语法)的写法：</p>
+<div><pre><code>---
+[&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>再例如：</p>
+<div><pre><code>---
+- lang1: Shell
+- lang2: Perl
+- lang3: Python
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>等价于json：</p>
+<div><pre><code>[
+    {&quot;lang1&quot;: &quot;Shell&quot;},
+    {&quot;lang2&quot;: &quot;Perl&quot;},
+    {&quot;lang3&quot;: &quot;Python&quot;}
+]
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>将对象和数组混合：</p>
+<div><pre><code>---
+languages:
+  - Shell
+  - Perl
+  - Python
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>等价于json：</p>
+<div><pre><code>{
+	&quot;languages&quot;: [&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="字典"> 字典</h3>
+<div><pre><code>---
+person1:
+  name: clay
+  age: 18
+  gender: male
+
+person2:
+  name: wangchi
+  age: 19
+  gender: female
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>等价于json：</p>
+<div><pre><code>{
+  &quot;person2&quot;: {
+    &quot;gender&quot;: &quot;female&quot;,
+    &quot;age&quot;: 19,
+    &quot;name&quot;: &quot;clay&quot;
+  },
+  &quot;person1&quot;: {
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;age&quot;: 18,
+    &quot;name&quot;: &quot;wangchi&quot;
+  }
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>也可以使用行内对象的写法：</p>
+<div><pre><code>---
+person1: {name: clay, age: 18, gender: male}
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="复合结构"> 复合结构</h3>
+<div><pre><code>---
+- person1:
+  name: clay
+  age: 18
+  langs:
+    - Perl
+    - Ruby
+    - Shell
+
+- person2:
+  name: xiaofanggao
+  age: 19
+  langs:
+    - Python
+    - Javascript
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>等价于json：</p>
+<div><pre><code>[
+    {
+        &quot;langs&quot;: [
+        &quot;Perl&quot;,
+        &quot;Ruby&quot;,
+        &quot;Shell&quot;
+        ],
+        &quot;person1&quot;: null,
+        &quot;age&quot;: 18,
+        &quot;name&quot;: &quot;clay&quot;
+    },
+    {
+        &quot;person2&quot;: null,
+        &quot;age&quot;: 19,
+        &quot;langs&quot;: [
+        &quot;Python&quot;,
+        &quot;Javascript&quot;
+        ],
+        &quot;name&quot;: &quot;xiaofanggao&quot;
+    }
+]
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><h3 id="字符串续行"> 字符串续行</h3>
+<p>字符串可以写成多行，从第二行开始，必须至少有一个单空格缩进。换行符会被转为空格。</p>
+<div><pre><code>str: hello
+  world
+  hello world
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>等价于json：</p>
+<div><pre><code>{
+  &quot;str&quot;: &quot;hello world hello world&quot;
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以使用 &gt; 换行，它类似于上面的多层缩进写法。此外，还可以使用|在换行时保留换行符。</p>
+<div><pre><code>that: &gt;
+  Foo
+  Bar
+this: |
+  Foo
+  Bar
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>等价于json：</p>
+<div><pre><code>{&#39;that&#39;: &#39;Foo Bar&#39;, &#39;this&#39;: &#39;Foo\nBar\n&#39;}
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>参考链接：</p>
+<p>https://blog.51cto.com/cloumn/blog/1543</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">gitlab备份迁移升级&amp;集成openldap</title>
     <id>https://clay-wangzhi.com/automate/gitlab/</id>
     <link href="https://clay-wangzhi.com/automate/gitlab/"/>
@@ -6367,187 +6548,6 @@ gitlab-ctl restart
       <name>Clay</name>
     </contributor>
     <published>2019-12-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.8 yaml语法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/yaml/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/yaml/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-8-yaml语法"> 4.8 yaml语法</h1>
-<h2 id="playbook的语法-yaml"> playbook的语法：YAML</h2>
-<p>ansible的playbook采用yaml语法，它以非常简洁的方式实现了json格式的事件描述。</p>
-<p>yaml之于json就像markdown之于html一样，极度简化了json的书写。</p>
-<p>YAML文件后缀通常为.yaml或.yml。</p>
-<p>YAML在不少工具里都使用，学习它是&quot;一次学习、终生受益&quot;的，所以很有必要把yaml的语法格式做个梳理，系统性地去学一学。</p>
-<p><strong>YAML的基本语法规则如下：</strong></p>
-<p>(1).使用缩进表示层级关系</p>
-<p>(2).缩进时不允许使用Tab键，只允许使用空格</p>
-<p>(3).缩进的空格数目不重要，只要相同层级的元素左对齐即可</p>
-<p>(4).yaml文件以&quot;---&quot;作为文档的开始，以表明这是一个yaml文件</p>
-<blockquote>
-<p>即使没有使用<code>---</code>开头，也不会有什么影响</p>
-</blockquote>
-<p>(5).# 表示注释，从这个字符一直到行尾，都会被解析器忽略</p>
-<p>(6).字符串不用加引号，但在可能产生歧义时，需加引号(单双引号皆可)，比如引用变量时</p>
-<p>(7).布尔值非常灵活，不分区大小写的true/false、yes/no、on/off、y/n、0和1都允许</p>
-<p><strong>YAML支持三种数据结构：</strong></p>
-<p>(1).对象：key/value格式，也称为哈希结构、字典结构或关联数组</p>
-<p>(2).数组：也称为列表</p>
-<p>(3).标量(scalars)：单个值</p>
-<p>可以去找一些在线YAML转换JSON网站，比如 <a href="http://yaml-online-parser.appspot.com/" target="_blank" rel="noopener noreferrer">http://yaml-online-parser.appspot.com</a> 通过在线转换可以验证或查看自己所写的YAML是否出错以及哪里出错。</p>
-<h3 id="对象"> 对象</h3>
-<p>一组键值对，使用冒号隔开key和value。注意，冒号后必须至少一个空格。</p>
-<div><pre><code>name: clay
-</code></pre>
-<div><span>1</span><br></div></div><p>等价于json：</p>
-<div><pre><code>{
-	&quot;name&quot;: &quot;clay&quot;
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="数组"> 数组</h3>
-<div><pre><code>---
-- Shell
-- Perl
-- Python
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>等价于json：</p>
-<div><pre><code>[&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
-</code></pre>
-<div><span>1</span><br></div></div><p>也可以使用行内数组(内联语法)的写法：</p>
-<div><pre><code>---
-[&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>再例如：</p>
-<div><pre><code>---
-- lang1: Shell
-- lang2: Perl
-- lang3: Python
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>等价于json：</p>
-<div><pre><code>[
-    {&quot;lang1&quot;: &quot;Shell&quot;},
-    {&quot;lang2&quot;: &quot;Perl&quot;},
-    {&quot;lang3&quot;: &quot;Python&quot;}
-]
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>将对象和数组混合：</p>
-<div><pre><code>---
-languages:
-  - Shell
-  - Perl
-  - Python
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>等价于json：</p>
-<div><pre><code>{
-	&quot;languages&quot;: [&quot;Shell&quot;,&quot;Perl&quot;,&quot;Python&quot;]
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="字典"> 字典</h3>
-<div><pre><code>---
-person1:
-  name: clay
-  age: 18
-  gender: male
-
-person2:
-  name: wangchi
-  age: 19
-  gender: female
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>等价于json：</p>
-<div><pre><code>{
-  &quot;person2&quot;: {
-    &quot;gender&quot;: &quot;female&quot;,
-    &quot;age&quot;: 19,
-    &quot;name&quot;: &quot;clay&quot;
-  },
-  &quot;person1&quot;: {
-    &quot;gender&quot;: &quot;male&quot;,
-    &quot;age&quot;: 18,
-    &quot;name&quot;: &quot;wangchi&quot;
-  }
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>也可以使用行内对象的写法：</p>
-<div><pre><code>---
-person1: {name: clay, age: 18, gender: male}
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="复合结构"> 复合结构</h3>
-<div><pre><code>---
-- person1:
-  name: clay
-  age: 18
-  langs:
-    - Perl
-    - Ruby
-    - Shell
-
-- person2:
-  name: xiaofanggao
-  age: 19
-  langs:
-    - Python
-    - Javascript
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>等价于json：</p>
-<div><pre><code>[
-    {
-        &quot;langs&quot;: [
-        &quot;Perl&quot;,
-        &quot;Ruby&quot;,
-        &quot;Shell&quot;
-        ],
-        &quot;person1&quot;: null,
-        &quot;age&quot;: 18,
-        &quot;name&quot;: &quot;clay&quot;
-    },
-    {
-        &quot;person2&quot;: null,
-        &quot;age&quot;: 19,
-        &quot;langs&quot;: [
-        &quot;Python&quot;,
-        &quot;Javascript&quot;
-        ],
-        &quot;name&quot;: &quot;xiaofanggao&quot;
-    }
-]
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><h3 id="字符串续行"> 字符串续行</h3>
-<p>字符串可以写成多行，从第二行开始，必须至少有一个单空格缩进。换行符会被转为空格。</p>
-<div><pre><code>str: hello
-  world
-  hello world
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>等价于json：</p>
-<div><pre><code>{
-  &quot;str&quot;: &quot;hello world hello world&quot;
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>也可以使用 &gt; 换行，它类似于上面的多层缩进写法。此外，还可以使用|在换行时保留换行符。</p>
-<div><pre><code>that: &gt;
-  Foo
-  Bar
-this: |
-  Foo
-  Bar
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>等价于json：</p>
-<div><pre><code>{&#39;that&#39;: &#39;Foo Bar&#39;, &#39;this&#39;: &#39;Foo\nBar\n&#39;}
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>参考链接：</p>
-<p>https://blog.51cto.com/cloumn/blog/1543</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -11328,6 +11328,371 @@ os<span>.</span>rename<span>(</span><span>'test3'</span><span>,</span><span>'/tm
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">08 异常处理</title>
+    <id>https://clay-wangzhi.com/code/python/python-exception/</id>
+    <link href="https://clay-wangzhi.com/code/python/python-exception/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_08-异常处理"> 08 异常处理</h1>
+<p><strong>错误 Error</strong></p>
+<p>逻辑错误：算法写错了，例如加法写成了减法</p>
+<p>笔误：例如变量名写错了，语法错误</p>
+<p>函数或类使用错误，其实这也属于逻辑错误</p>
+<p>总之，错误是可以避免的</p>
+<p><strong>异常 Exception</strong></p>
+<p>本意就是意外情况</p>
+<p>这有个前提，没有出现上面说的错误，也就是说程序写的没有问题，但是在某些情况下，会出现一些意外，导致程序无法正常的执行下去。</p>
+<p>例如open函数操作一个文件，文件不存在，或者创建一个文件时已经存在了，或者访问一个网络文件，突然断网了，这就是异常，是个意外的情况。</p>
+<p>异常不可能避免</p>
+<p>**错误和异常</p>
+<p>在高级编程语言中，一般都有错误和异常的概念，异常是可以捕获，并被处理的，但是错误是不能被捕获的。
+举例
+对比异常和错误</p>
+<div><pre><code><span>with</span> <span>open</span><span>(</span><span>'testabc'</span><span>)</span> <span>as</span> f<span>:</span>
+    <span>pass</span>
+<span># 异常</span>
+Traceback <span>(</span>most recent call last<span>)</span><span>:</span>
+  File <span>"C:/Users/user/PycharmProjects/pr1/test1.py"</span><span>,</span> line <span>1</span><span>,</span> <span>in</span> <span>&lt;</span>module<span>></span>
+    <span>with</span> <span>open</span><span>(</span><span>'testabc'</span><span>)</span> <span>as</span> f<span>:</span>
+FileNotFoundError<span>:</span> <span>[</span>Errno <span>2</span><span>]</span> No such <span>file</span> <span>or</span> directory<span>:</span> <span>'testabc'</span>
+        
+<span>def</span> <span>0A</span><span>(</span><span>)</span><span>:</span>
+    <span>pass</span>
+
+<span># 错误</span>
+  File <span>"test1.py"</span><span>,</span> line <span>1</span>
+    <span>def</span> <span>0A</span><span>(</span><span>)</span><span>:</span>
+        <span>^</span>
+SyntaxError<span>:</span> invalid syntax
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>一个健壮的程序</p>
+<ul>
+<li>尽可能的避免错误</li>
+<li>尽可能的捕获、处理各种异常</li>
+</ul>
+<h2 id="产生异常"> 产生异常</h2>
+<p>产生：</p>
+<ul>
+<li>raise 语句显式的抛出异常</li>
+<li>Python解释器自己检测到异常并引发它</li>
+</ul>
+<div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
+    <span>print</span><span>(</span><span>'before'</span><span>)</span>
+    <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
+    <span>print</span><span>(</span><span>'after'</span><span>)</span>
+
+foo<span>(</span><span>)</span>
+
+<span>def</span> <span>bar</span><span>(</span><span>)</span><span>:</span>
+    <span>print</span><span>(</span><span>'before'</span><span>)</span>
+    <span>raise</span> Exception<span>(</span><span>'my exception'</span><span>)</span> <span># raise主动抛出异常</span>
+    <span>print</span><span>(</span><span>'after'</span><span>)</span>
+bar<span>(</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>程序会在异常抛出的地方中断执行，如果不捕获，就会提前结束程序（其实是终止当前线程的执行）</p>
+<h2 id="异常的捕获"> 异常的捕获</h2>
+<div><pre><code><span>try</span><span>:</span>
+	待捕获异常的代码块
+<span>except</span> <span>[</span>异常类型<span>]</span><span>:</span>
+	异常的处理代码块
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
+    <span>try</span><span>:</span>
+        <span>print</span><span>(</span><span>'before'</span><span>)</span>
+        <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
+        <span>print</span><span>(</span><span>'after'</span><span>)</span>
+    <span>except</span><span>:</span>
+        <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
+    <span>print</span><span>(</span><span>'finished'</span><span>)</span>
+
+foo<span>(</span><span>)</span>
+<span>print</span><span>(</span><span>'==== end ===='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>上例执行到 <code>c = 1/0</code> 时产生异常并抛出，由于使用了 try...except 语句块则捕捉到了这个异常，异常生成位置之后语句将不再执行，转而执行对应的 except 部分的语句，最后执行 try...except 语句块之外的语句。</p>
+<p><strong>捕获指定类型的异常</strong></p>
+<div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
+    <span>try</span><span>:</span>
+        <span>print</span><span>(</span><span>'before'</span><span>)</span>
+        <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
+        <span>print</span><span>(</span><span>'after'</span><span>)</span>
+    <span>except</span> ArithmeticError<span>:</span>
+        <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
+    <span>print</span><span>(</span><span>'finished'</span><span>)</span>
+
+foo<span>(</span><span>)</span>
+<span>print</span><span>(</span><span>'==== end ===='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="异常类及继承层次"> 异常类及继承层次</h2>
+<div><pre><code><span># Python异常的继承</span>
+BaseException
+    <span>+</span><span>-</span><span>-</span> SystemExit
+    <span>+</span><span>-</span><span>-</span> KeyboardInterrupt
+    <span>+</span><span>-</span><span>-</span> GeneratorExit
+    <span>+</span><span>-</span><span>-</span> Exception
+    <span>+</span><span>-</span><span>-</span> RuntimeError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> RecursionError
+    <span>+</span><span>-</span><span>-</span> MemoryError
+    <span>+</span><span>-</span><span>-</span> NameError
+    <span>+</span><span>-</span><span>-</span> StopIteration
+    <span>+</span><span>-</span><span>-</span> StopAsyncIteration
+    <span>+</span><span>-</span><span>-</span> ArithmeticError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> FloatingPointError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> OverflowError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> ZeroDivisionError
+    <span>+</span><span>-</span><span>-</span> LookupError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> IndexError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> KeyError
+    <span>+</span><span>-</span><span>-</span> SyntaxError
+    <span>+</span><span>-</span><span>-</span> OSError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> BlockingIOError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> ChildProcessError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionError
+    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> BrokenPipeError
+    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionAbortedError
+    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionRefusedError
+    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionResetError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> FileExistsError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> FileNotFoundError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> InterruptedError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> IsADirectoryError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> NotADirectoryError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> PermissionError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> ProcessLookupError
+    <span>|</span> <span>+</span><span>-</span><span>-</span> TimeoutError
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><h2 id="baseexception-及子类"> BaseException 及子类</h2>
+<h3 id="baseexception"> BaseException</h3>
+<p>所有内建异常类的基类是BaseException</p>
+<h3 id="systemexit"> SystemExit</h3>
+<p>sys.exit()函数引发的异常，异常不捕获处理，就直接交给Python解释器，解释器退出。</p>
+<div><pre><code><span>import</span> sys
+<span>print</span><span>(</span><span>'before'</span><span>)</span>
+sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+<span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
+<span>print</span><span>(</span><span>'after'</span><span>)</span> <span># 是否执行？ 不执行</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code><span># 捕获这个异常</span>
+<span>import</span> sys
+<span>try</span><span>:</span>
+    <span>print</span><span>(</span><span>'before'</span><span>)</span>
+    sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+    <span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
+    <span>print</span><span>(</span><span>'after'</span><span>)</span> 
+<span>except</span> SystemExit<span>:</span> <span># 换成Exception能否捕获 ,能</span>
+    <span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
+<span>print</span><span>(</span><span>'outer'</span><span>)</span>  <span># 是否执行？ 执行</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>如果except语句捕获了该异常，则继续向后面执行，如果没有捕获住该异常SystemExit，解释器直接退出程序。</p>
+<p>注意捕获前后程序退出状态码的变化。（捕获后状态码变为0）</p>
+<h3 id="keyboardinterrupt"> KeyboardInterrupt</h3>
+<p>对应的捕获用户中断行为Ctrl + C</p>
+<div><pre><code><span>import</span> time
+<span>try</span><span>:</span>
+    <span>while</span> <span>True</span><span>:</span>
+        time<span>.</span>sleep<span>(</span><span>1</span><span>)</span>
+        <span>print</span><span>(</span><span>'running'</span><span>)</span>
+<span>except</span> KeyboardInterrupt<span>:</span>
+    <span>print</span><span>(</span><span>"Ctrl + c"</span><span>)</span>
+<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="exception及子类"> Exception及子类</h2>
+<p>Exception是所有内建的、非系统退出的异常的基类，自定义异常类应该继承自它</p>
+<p><strong>SyntaxError 语法错误</strong></p>
+<p>Python将这种错误也归到异常类下面的Exception下的子类，但是这种错误是不可捕获的</p>
+<div><pre><code><span>def</span> <span>a</span><span>(</span><span>)</span><span>:</span>
+    <span>try</span><span>:</span>
+        <span>0a</span> <span>=</span> <span>5</span>
+    <span>except</span><span>:</span>
+        <span>pass</span>
+a<span>(</span><span>)</span>
+  File <span>"test1.py"</span><span>,</span> line <span>3</span>
+    <span>0a</span> <span>=</span> <span>5</span>
+     <span>^</span>
+SyntaxError<span>:</span> invalid syntax
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p><strong>ArithmeticError</strong></p>
+<p>所有算术计算引发的异常，其子类有除零异常等</p>
+<p><strong>LookupError</strong></p>
+<p>使用映射的键或序列的索引无效时引发的异常的基类：IndexError, KeyError</p>
+<p><strong>自定义异常类</strong></p>
+<p>从 Exception 继承的类</p>
+<div><pre><code><span>class</span> <span>MyException</span><span>(</span>Exception<span>)</span><span>:</span>
+    <span>pass</span>
+
+<span>try</span><span>:</span>
+    <span>raise</span> MyException<span>(</span><span>)</span>
+<span>except</span> MyException<span>:</span> <span># 捕获自定义异常</span>
+    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h2 id="多种捕获"> 多种捕获</h2>
+<p>except 可以指定捕获的类型，捕获多种异常</p>
+<div><pre><code><span>import</span> sys
+<span>class</span> <span>MyException</span><span>(</span>Exception<span>)</span><span>:</span>
+    <span>pass</span>
+
+<span>try</span><span>:</span>
+    a <span>=</span> <span>1</span><span>/</span><span>0</span>
+    <span>raise</span> MyException<span>(</span><span>)</span>
+    <span>open</span><span>(</span><span>'t'</span><span>)</span>
+    sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+<span>except</span> ZeroDivisionError<span>:</span>
+    <span>print</span><span>(</span><span>'zero'</span><span>)</span>
+<span>except</span> ArithmeticError<span>:</span>
+    <span>print</span><span>(</span><span>'arith'</span><span>)</span>
+<span>except</span> MyException<span>:</span> <span># 捕获自定义异常</span>
+    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
+<span>except</span> Exception<span>:</span>
+    <span>print</span><span>(</span><span>'exception'</span><span>)</span>
+<span>except</span><span>:</span> <span># 写在最后，缺省捕获</span>
+    <span>print</span><span>(</span><span>'error'</span><span>)</span>
+<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>捕获规则</p>
+<ul>
+<li>捕获是从上到下依次比较，如果匹配，则执行匹配的except语句块</li>
+<li>如果被一个except语句捕获，其他except语句就不会再次捕获了</li>
+<li>如果没有任何一个except语句捕获到这个异常，则该异常向外抛出</li>
+<li><code>except:</code> 称为缺省捕获，缺省捕获必须是最后一个捕获语句</li>
+</ul>
+<p>捕获的原则</p>
+<ul>
+<li>从小到大，从具体到宽泛</li>
+</ul>
+<h2 id="as-子句"> as 子句</h2>
+<p>先看一个例子</p>
+<div><pre><code><span># raise 能抛出什么样的异常？</span>
+<span>class</span> <span>A</span><span>:</span> <span>pass</span>
+<span>try</span><span>:</span>
+    <span># 1/0</span>
+    <span>raise</span> <span>1</span>
+    <span># raise "abc"</span>
+    <span># raise A</span>
+    <span># raise A()</span>
+    <span># raise {}</span>
+<span>except</span><span>:</span>  <span># 写在最后，缺省捕获</span>
+    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
+
+<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>raise 真的什么类型都能抛出吗？</p>
+<p>被抛出的异常，应该是异常类的实例，如何获得这个对象呢？使用 as 子句</p>
+<div><pre><code><span># raise 能抛出什么样的异常？</span>
+<span>class</span> <span>A</span><span>:</span> <span>pass</span>
+<span>try</span><span>:</span>
+    <span># 1/0</span>
+    <span># raise 1</span>
+    <span>raise</span> <span>"abc"</span>
+    <span># raise A</span>
+    <span># raise A()</span>
+    <span># raise {}</span>
+<span>except</span> Exception <span>as</span> e<span>:</span>  <span># 写在最后，缺省捕获</span>
+    <span>print</span><span>(</span><span>type</span><span>(</span>e<span>)</span><span>,</span> e<span>)</span>  <span># 抛出TypeError类型异常实例</span>
+
+<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>raise语句</p>
+<ul>
+<li>
+<p>raise后要求应该是BaseException类的子类或实例，如果是类，将被无参实例化。自定义应该是Exception子类</p>
+</li>
+<li>
+<p>raise后什么都没有，表示抛出最近一个被激活的异常，如果没有被激活的异常，则抛类型异常。</p>
+<p>这种方式较少用，它用在except中</p>
+</li>
+</ul>
+<h2 id="finally子句"> finally子句</h2>
+<p>finally 最终，即最后一定要执行的，try...finally 语句块中，不管是否发生了异常，都要执行finally的部分</p>
+<div><pre><code><span>try</span><span>:</span>
+    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
+<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
+    <span>print</span><span>(</span><span>'{} {} {}'</span><span>.</span><span>format</span><span>(</span>e<span>.</span>__class__<span>,</span> e<span>.</span>errno<span>,</span> e<span>.</span>strerror<span>)</span><span>)</span>
+<span>finally</span><span>:</span>
+    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
+	f<span>.</span>close<span>(</span><span>)</span> <span>#</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>注意上例中的f的作用域，解决的办法是在外部定义 f</p>
+<p>finally 中一般放置资源的清理、释放工作的语句</p>
+<div><pre><code>f <span>=</span> <span>None</span>
+<span>try</span><span>:</span>
+    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
+<span>except</span> Exception <span>as</span> e<span>:</span>
+    <span>print</span><span>(</span><span>'{}'</span><span>.</span><span>format</span><span>(</span>e<span>)</span><span>)</span>
+<span>finally</span><span>:</span>
+    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
+    <span>if</span> f<span>:</span>
+        f<span>.</span>close<span>(</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>也可以在 finally 中再次捕捉异常</p>
+<div><pre><code><span>try</span><span>:</span>
+    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
+<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
+    <span>print</span><span>(</span><span>'{} {} {}'</span><span>.</span><span>format</span><span>(</span>e<span>.</span>__class__<span>,</span> e<span>.</span>errno<span>,</span> e<span>.</span>strerror<span>)</span><span>)</span>
+<span>finally</span><span>:</span>
+    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
+    <span>try</span><span>:</span>
+	    f<span>.</span>close<span>(</span><span>)</span> <span>#</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>语句嵌套和捕获</p>
+<ul>
+<li>异常语句内部可以嵌入到try块、except块、finally块中</li>
+<li>异常在内部产生后，如果没有捕获到，就会继续向外部抛出</li>
+<li>如果外部也没能捕获，将继续再向外部抛出，直至异常代码所在线程，导致线程崩溃</li>
+<li>finally中有return、break语句，则异常就不会继续向外抛出</li>
+</ul>
+<div><pre><code><span>try</span><span>:</span>
+    <span>try</span><span>:</span>
+        <span>1</span><span>/</span><span>0</span>
+    <span>except</span> KeyError <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span><span>1</span><span>,</span> e<span>)</span>
+    <span>finally</span><span>:</span>
+        <span>print</span><span>(</span><span>2</span><span>,</span> <span>'inner fin'</span><span>)</span>
+<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
+    <span>print</span><span>(</span><span>3</span><span>,</span> e<span>)</span>
+<span>finally</span><span>:</span>
+    <span>print</span><span>(</span><span>4</span><span>,</span> <span>'outer fin'</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="else-子句"> else 子句</h2>
+<div><pre><code><span>try</span><span>:</span>
+    ret <span>=</span> <span>1</span> <span>*</span> <span>0</span>
+<span>except</span> ArithmeticError <span>as</span> e<span>:</span>
+    <span>print</span><span>(</span>e<span>)</span>
+<span>else</span><span>:</span>
+    <span>print</span><span>(</span><span>'OK'</span><span>)</span>
+<span>finally</span><span>:</span>
+    <span>print</span><span>(</span><span>'fin'</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>else 子句，<strong>没有任何异常发生</strong>，则执行</p>
+<h2 id="总结"> 总结</h2>
+<div><pre><code><span>try</span><span>:</span>
+    <span>&lt;</span>语句<span>></span> <span>#运行别的代码</span>
+<span>except</span> <span>&lt;</span>异常类<span>></span>：
+    <span>&lt;</span>语句<span>></span> <span># 捕获某种类型的异常</span>
+<span>except</span> <span>&lt;</span>异常类<span>></span> <span>as</span> <span>&lt;</span>变量名<span>></span><span>:</span>
+    <span>&lt;</span>语句<span>></span> <span># 捕获某种类型的异常并获得对象</span>
+<span>else</span><span>:</span>
+    <span>&lt;</span>语句<span>></span> <span>#如果没有异常发生</span>
+<span>finally</span><span>:</span>
+    <span>&lt;</span>语句<span>></span> <span>#退出try时总会执行</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol>
+<li>如果try中语句执行时发生异常，搜索except子句，并执行第一个匹配该异常的except子句</li>
+<li>如果try中语句执行时发生异常，却没有匹配的except子句，异常将被递交到外层的try，如果外层不处理这个异常，异常将继续向外层传递。如果都不处理该异常，则会传递到最外层，如果还没有处理，就终止异常所在的线程</li>
+<li>如果在try执行时没有发生异常，如有else子句，可执行else子句中的语句</li>
+<li>无论try中是否发生异常，finally子句最终都会执行</li>
+</ol>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">04 函数</title>
     <id>https://clay-wangzhi.com/code/python/python-function/</id>
     <link href="https://clay-wangzhi.com/code/python/python-function/"/>
@@ -11811,371 +12176,6 @@ it <span>=</span> <span>iter</span><span>(</span>lst<span>)</span> <span># 返�
     <span>print</span><span>(</span>x<span>)</span> <span># 9 7 5 3 1</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">08 异常处理</title>
-    <id>https://clay-wangzhi.com/code/python/python-exception/</id>
-    <link href="https://clay-wangzhi.com/code/python/python-exception/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_08-异常处理"> 08 异常处理</h1>
-<p><strong>错误 Error</strong></p>
-<p>逻辑错误：算法写错了，例如加法写成了减法</p>
-<p>笔误：例如变量名写错了，语法错误</p>
-<p>函数或类使用错误，其实这也属于逻辑错误</p>
-<p>总之，错误是可以避免的</p>
-<p><strong>异常 Exception</strong></p>
-<p>本意就是意外情况</p>
-<p>这有个前提，没有出现上面说的错误，也就是说程序写的没有问题，但是在某些情况下，会出现一些意外，导致程序无法正常的执行下去。</p>
-<p>例如open函数操作一个文件，文件不存在，或者创建一个文件时已经存在了，或者访问一个网络文件，突然断网了，这就是异常，是个意外的情况。</p>
-<p>异常不可能避免</p>
-<p>**错误和异常</p>
-<p>在高级编程语言中，一般都有错误和异常的概念，异常是可以捕获，并被处理的，但是错误是不能被捕获的。
-举例
-对比异常和错误</p>
-<div><pre><code><span>with</span> <span>open</span><span>(</span><span>'testabc'</span><span>)</span> <span>as</span> f<span>:</span>
-    <span>pass</span>
-<span># 异常</span>
-Traceback <span>(</span>most recent call last<span>)</span><span>:</span>
-  File <span>"C:/Users/user/PycharmProjects/pr1/test1.py"</span><span>,</span> line <span>1</span><span>,</span> <span>in</span> <span>&lt;</span>module<span>></span>
-    <span>with</span> <span>open</span><span>(</span><span>'testabc'</span><span>)</span> <span>as</span> f<span>:</span>
-FileNotFoundError<span>:</span> <span>[</span>Errno <span>2</span><span>]</span> No such <span>file</span> <span>or</span> directory<span>:</span> <span>'testabc'</span>
-        
-<span>def</span> <span>0A</span><span>(</span><span>)</span><span>:</span>
-    <span>pass</span>
-
-<span># 错误</span>
-  File <span>"test1.py"</span><span>,</span> line <span>1</span>
-    <span>def</span> <span>0A</span><span>(</span><span>)</span><span>:</span>
-        <span>^</span>
-SyntaxError<span>:</span> invalid syntax
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>一个健壮的程序</p>
-<ul>
-<li>尽可能的避免错误</li>
-<li>尽可能的捕获、处理各种异常</li>
-</ul>
-<h2 id="产生异常"> 产生异常</h2>
-<p>产生：</p>
-<ul>
-<li>raise 语句显式的抛出异常</li>
-<li>Python解释器自己检测到异常并引发它</li>
-</ul>
-<div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
-    <span>print</span><span>(</span><span>'before'</span><span>)</span>
-    <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
-    <span>print</span><span>(</span><span>'after'</span><span>)</span>
-
-foo<span>(</span><span>)</span>
-
-<span>def</span> <span>bar</span><span>(</span><span>)</span><span>:</span>
-    <span>print</span><span>(</span><span>'before'</span><span>)</span>
-    <span>raise</span> Exception<span>(</span><span>'my exception'</span><span>)</span> <span># raise主动抛出异常</span>
-    <span>print</span><span>(</span><span>'after'</span><span>)</span>
-bar<span>(</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>程序会在异常抛出的地方中断执行，如果不捕获，就会提前结束程序（其实是终止当前线程的执行）</p>
-<h2 id="异常的捕获"> 异常的捕获</h2>
-<div><pre><code><span>try</span><span>:</span>
-	待捕获异常的代码块
-<span>except</span> <span>[</span>异常类型<span>]</span><span>:</span>
-	异常的处理代码块
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
-    <span>try</span><span>:</span>
-        <span>print</span><span>(</span><span>'before'</span><span>)</span>
-        <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
-        <span>print</span><span>(</span><span>'after'</span><span>)</span>
-    <span>except</span><span>:</span>
-        <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
-    <span>print</span><span>(</span><span>'finished'</span><span>)</span>
-
-foo<span>(</span><span>)</span>
-<span>print</span><span>(</span><span>'==== end ===='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>上例执行到 <code>c = 1/0</code> 时产生异常并抛出，由于使用了 try...except 语句块则捕捉到了这个异常，异常生成位置之后语句将不再执行，转而执行对应的 except 部分的语句，最后执行 try...except 语句块之外的语句。</p>
-<p><strong>捕获指定类型的异常</strong></p>
-<div><pre><code><span>def</span> <span>foo</span><span>(</span><span>)</span><span>:</span>
-    <span>try</span><span>:</span>
-        <span>print</span><span>(</span><span>'before'</span><span>)</span>
-        <span>print</span><span>(</span><span>1</span><span>/</span><span>0</span><span>)</span> <span># 除零异常</span>
-        <span>print</span><span>(</span><span>'after'</span><span>)</span>
-    <span>except</span> ArithmeticError<span>:</span>
-        <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
-    <span>print</span><span>(</span><span>'finished'</span><span>)</span>
-
-foo<span>(</span><span>)</span>
-<span>print</span><span>(</span><span>'==== end ===='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="异常类及继承层次"> 异常类及继承层次</h2>
-<div><pre><code><span># Python异常的继承</span>
-BaseException
-    <span>+</span><span>-</span><span>-</span> SystemExit
-    <span>+</span><span>-</span><span>-</span> KeyboardInterrupt
-    <span>+</span><span>-</span><span>-</span> GeneratorExit
-    <span>+</span><span>-</span><span>-</span> Exception
-    <span>+</span><span>-</span><span>-</span> RuntimeError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> RecursionError
-    <span>+</span><span>-</span><span>-</span> MemoryError
-    <span>+</span><span>-</span><span>-</span> NameError
-    <span>+</span><span>-</span><span>-</span> StopIteration
-    <span>+</span><span>-</span><span>-</span> StopAsyncIteration
-    <span>+</span><span>-</span><span>-</span> ArithmeticError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> FloatingPointError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> OverflowError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> ZeroDivisionError
-    <span>+</span><span>-</span><span>-</span> LookupError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> IndexError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> KeyError
-    <span>+</span><span>-</span><span>-</span> SyntaxError
-    <span>+</span><span>-</span><span>-</span> OSError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> BlockingIOError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> ChildProcessError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionError
-    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> BrokenPipeError
-    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionAbortedError
-    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionRefusedError
-    <span>|</span> <span>|</span> <span>+</span><span>-</span><span>-</span> ConnectionResetError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> FileExistsError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> FileNotFoundError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> InterruptedError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> IsADirectoryError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> NotADirectoryError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> PermissionError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> ProcessLookupError
-    <span>|</span> <span>+</span><span>-</span><span>-</span> TimeoutError
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><h2 id="baseexception-及子类"> BaseException 及子类</h2>
-<h3 id="baseexception"> BaseException</h3>
-<p>所有内建异常类的基类是BaseException</p>
-<h3 id="systemexit"> SystemExit</h3>
-<p>sys.exit()函数引发的异常，异常不捕获处理，就直接交给Python解释器，解释器退出。</p>
-<div><pre><code><span>import</span> sys
-<span>print</span><span>(</span><span>'before'</span><span>)</span>
-sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-<span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
-<span>print</span><span>(</span><span>'after'</span><span>)</span> <span># 是否执行？ 不执行</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code><span># 捕获这个异常</span>
-<span>import</span> sys
-<span>try</span><span>:</span>
-    <span>print</span><span>(</span><span>'before'</span><span>)</span>
-    sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-    <span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
-    <span>print</span><span>(</span><span>'after'</span><span>)</span> 
-<span>except</span> SystemExit<span>:</span> <span># 换成Exception能否捕获 ,能</span>
-    <span>print</span><span>(</span><span>'SysExit'</span><span>)</span>
-<span>print</span><span>(</span><span>'outer'</span><span>)</span>  <span># 是否执行？ 执行</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>如果except语句捕获了该异常，则继续向后面执行，如果没有捕获住该异常SystemExit，解释器直接退出程序。</p>
-<p>注意捕获前后程序退出状态码的变化。（捕获后状态码变为0）</p>
-<h3 id="keyboardinterrupt"> KeyboardInterrupt</h3>
-<p>对应的捕获用户中断行为Ctrl + C</p>
-<div><pre><code><span>import</span> time
-<span>try</span><span>:</span>
-    <span>while</span> <span>True</span><span>:</span>
-        time<span>.</span>sleep<span>(</span><span>1</span><span>)</span>
-        <span>print</span><span>(</span><span>'running'</span><span>)</span>
-<span>except</span> KeyboardInterrupt<span>:</span>
-    <span>print</span><span>(</span><span>"Ctrl + c"</span><span>)</span>
-<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="exception及子类"> Exception及子类</h2>
-<p>Exception是所有内建的、非系统退出的异常的基类，自定义异常类应该继承自它</p>
-<p><strong>SyntaxError 语法错误</strong></p>
-<p>Python将这种错误也归到异常类下面的Exception下的子类，但是这种错误是不可捕获的</p>
-<div><pre><code><span>def</span> <span>a</span><span>(</span><span>)</span><span>:</span>
-    <span>try</span><span>:</span>
-        <span>0a</span> <span>=</span> <span>5</span>
-    <span>except</span><span>:</span>
-        <span>pass</span>
-a<span>(</span><span>)</span>
-  File <span>"test1.py"</span><span>,</span> line <span>3</span>
-    <span>0a</span> <span>=</span> <span>5</span>
-     <span>^</span>
-SyntaxError<span>:</span> invalid syntax
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p><strong>ArithmeticError</strong></p>
-<p>所有算术计算引发的异常，其子类有除零异常等</p>
-<p><strong>LookupError</strong></p>
-<p>使用映射的键或序列的索引无效时引发的异常的基类：IndexError, KeyError</p>
-<p><strong>自定义异常类</strong></p>
-<p>从 Exception 继承的类</p>
-<div><pre><code><span>class</span> <span>MyException</span><span>(</span>Exception<span>)</span><span>:</span>
-    <span>pass</span>
-
-<span>try</span><span>:</span>
-    <span>raise</span> MyException<span>(</span><span>)</span>
-<span>except</span> MyException<span>:</span> <span># 捕获自定义异常</span>
-    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h2 id="多种捕获"> 多种捕获</h2>
-<p>except 可以指定捕获的类型，捕获多种异常</p>
-<div><pre><code><span>import</span> sys
-<span>class</span> <span>MyException</span><span>(</span>Exception<span>)</span><span>:</span>
-    <span>pass</span>
-
-<span>try</span><span>:</span>
-    a <span>=</span> <span>1</span><span>/</span><span>0</span>
-    <span>raise</span> MyException<span>(</span><span>)</span>
-    <span>open</span><span>(</span><span>'t'</span><span>)</span>
-    sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-<span>except</span> ZeroDivisionError<span>:</span>
-    <span>print</span><span>(</span><span>'zero'</span><span>)</span>
-<span>except</span> ArithmeticError<span>:</span>
-    <span>print</span><span>(</span><span>'arith'</span><span>)</span>
-<span>except</span> MyException<span>:</span> <span># 捕获自定义异常</span>
-    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
-<span>except</span> Exception<span>:</span>
-    <span>print</span><span>(</span><span>'exception'</span><span>)</span>
-<span>except</span><span>:</span> <span># 写在最后，缺省捕获</span>
-    <span>print</span><span>(</span><span>'error'</span><span>)</span>
-<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>捕获规则</p>
-<ul>
-<li>捕获是从上到下依次比较，如果匹配，则执行匹配的except语句块</li>
-<li>如果被一个except语句捕获，其他except语句就不会再次捕获了</li>
-<li>如果没有任何一个except语句捕获到这个异常，则该异常向外抛出</li>
-<li><code>except:</code> 称为缺省捕获，缺省捕获必须是最后一个捕获语句</li>
-</ul>
-<p>捕获的原则</p>
-<ul>
-<li>从小到大，从具体到宽泛</li>
-</ul>
-<h2 id="as-子句"> as 子句</h2>
-<p>先看一个例子</p>
-<div><pre><code><span># raise 能抛出什么样的异常？</span>
-<span>class</span> <span>A</span><span>:</span> <span>pass</span>
-<span>try</span><span>:</span>
-    <span># 1/0</span>
-    <span>raise</span> <span>1</span>
-    <span># raise "abc"</span>
-    <span># raise A</span>
-    <span># raise A()</span>
-    <span># raise {}</span>
-<span>except</span><span>:</span>  <span># 写在最后，缺省捕获</span>
-    <span>print</span><span>(</span><span>'catch u'</span><span>)</span>
-
-<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>raise 真的什么类型都能抛出吗？</p>
-<p>被抛出的异常，应该是异常类的实例，如何获得这个对象呢？使用 as 子句</p>
-<div><pre><code><span># raise 能抛出什么样的异常？</span>
-<span>class</span> <span>A</span><span>:</span> <span>pass</span>
-<span>try</span><span>:</span>
-    <span># 1/0</span>
-    <span># raise 1</span>
-    <span>raise</span> <span>"abc"</span>
-    <span># raise A</span>
-    <span># raise A()</span>
-    <span># raise {}</span>
-<span>except</span> Exception <span>as</span> e<span>:</span>  <span># 写在最后，缺省捕获</span>
-    <span>print</span><span>(</span><span>type</span><span>(</span>e<span>)</span><span>,</span> e<span>)</span>  <span># 抛出TypeError类型异常实例</span>
-
-<span>print</span><span>(</span><span>'====end===='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>raise语句</p>
-<ul>
-<li>
-<p>raise后要求应该是BaseException类的子类或实例，如果是类，将被无参实例化。自定义应该是Exception子类</p>
-</li>
-<li>
-<p>raise后什么都没有，表示抛出最近一个被激活的异常，如果没有被激活的异常，则抛类型异常。</p>
-<p>这种方式较少用，它用在except中</p>
-</li>
-</ul>
-<h2 id="finally子句"> finally子句</h2>
-<p>finally 最终，即最后一定要执行的，try...finally 语句块中，不管是否发生了异常，都要执行finally的部分</p>
-<div><pre><code><span>try</span><span>:</span>
-    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
-<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
-    <span>print</span><span>(</span><span>'{} {} {}'</span><span>.</span><span>format</span><span>(</span>e<span>.</span>__class__<span>,</span> e<span>.</span>errno<span>,</span> e<span>.</span>strerror<span>)</span><span>)</span>
-<span>finally</span><span>:</span>
-    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
-	f<span>.</span>close<span>(</span><span>)</span> <span>#</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>注意上例中的f的作用域，解决的办法是在外部定义 f</p>
-<p>finally 中一般放置资源的清理、释放工作的语句</p>
-<div><pre><code>f <span>=</span> <span>None</span>
-<span>try</span><span>:</span>
-    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
-<span>except</span> Exception <span>as</span> e<span>:</span>
-    <span>print</span><span>(</span><span>'{}'</span><span>.</span><span>format</span><span>(</span>e<span>)</span><span>)</span>
-<span>finally</span><span>:</span>
-    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
-    <span>if</span> f<span>:</span>
-        f<span>.</span>close<span>(</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>也可以在 finally 中再次捕捉异常</p>
-<div><pre><code><span>try</span><span>:</span>
-    f <span>=</span> <span>open</span><span>(</span><span>'test.tt'</span><span>)</span>
-<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
-    <span>print</span><span>(</span><span>'{} {} {}'</span><span>.</span><span>format</span><span>(</span>e<span>.</span>__class__<span>,</span> e<span>.</span>errno<span>,</span> e<span>.</span>strerror<span>)</span><span>)</span>
-<span>finally</span><span>:</span>
-    <span>print</span><span>(</span><span>'清理工作'</span><span>)</span>
-    <span>try</span><span>:</span>
-	    f<span>.</span>close<span>(</span><span>)</span> <span>#</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>语句嵌套和捕获</p>
-<ul>
-<li>异常语句内部可以嵌入到try块、except块、finally块中</li>
-<li>异常在内部产生后，如果没有捕获到，就会继续向外部抛出</li>
-<li>如果外部也没能捕获，将继续再向外部抛出，直至异常代码所在线程，导致线程崩溃</li>
-<li>finally中有return、break语句，则异常就不会继续向外抛出</li>
-</ul>
-<div><pre><code><span>try</span><span>:</span>
-    <span>try</span><span>:</span>
-        <span>1</span><span>/</span><span>0</span>
-    <span>except</span> KeyError <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span><span>1</span><span>,</span> e<span>)</span>
-    <span>finally</span><span>:</span>
-        <span>print</span><span>(</span><span>2</span><span>,</span> <span>'inner fin'</span><span>)</span>
-<span>except</span> FileNotFoundError <span>as</span> e<span>:</span>
-    <span>print</span><span>(</span><span>3</span><span>,</span> e<span>)</span>
-<span>finally</span><span>:</span>
-    <span>print</span><span>(</span><span>4</span><span>,</span> <span>'outer fin'</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h2 id="else-子句"> else 子句</h2>
-<div><pre><code><span>try</span><span>:</span>
-    ret <span>=</span> <span>1</span> <span>*</span> <span>0</span>
-<span>except</span> ArithmeticError <span>as</span> e<span>:</span>
-    <span>print</span><span>(</span>e<span>)</span>
-<span>else</span><span>:</span>
-    <span>print</span><span>(</span><span>'OK'</span><span>)</span>
-<span>finally</span><span>:</span>
-    <span>print</span><span>(</span><span>'fin'</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>else 子句，<strong>没有任何异常发生</strong>，则执行</p>
-<h2 id="总结"> 总结</h2>
-<div><pre><code><span>try</span><span>:</span>
-    <span>&lt;</span>语句<span>></span> <span>#运行别的代码</span>
-<span>except</span> <span>&lt;</span>异常类<span>></span>：
-    <span>&lt;</span>语句<span>></span> <span># 捕获某种类型的异常</span>
-<span>except</span> <span>&lt;</span>异常类<span>></span> <span>as</span> <span>&lt;</span>变量名<span>></span><span>:</span>
-    <span>&lt;</span>语句<span>></span> <span># 捕获某种类型的异常并获得对象</span>
-<span>else</span><span>:</span>
-    <span>&lt;</span>语句<span>></span> <span>#如果没有异常发生</span>
-<span>finally</span><span>:</span>
-    <span>&lt;</span>语句<span>></span> <span>#退出try时总会执行</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ol>
-<li>如果try中语句执行时发生异常，搜索except子句，并执行第一个匹配该异常的except子句</li>
-<li>如果try中语句执行时发生异常，却没有匹配的except子句，异常将被递交到外层的try，如果外层不处理这个异常，异常将继续向外层传递。如果都不处理该异常，则会传递到最外层，如果还没有处理，就终止异常所在的线程</li>
-<li>如果在try执行时没有发生异常，如有else子句，可执行else子句中的语句</li>
-<li>无论try中是否发生异常，finally子句最终都会执行</li>
-</ol>
-]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -21633,89 +21633,6 @@ bash$ echo $variable1
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">4.3 Bash变量是弱类型的</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
-<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
-<p>样例 4-4. 整数还是字符串？</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># int-or-string.sh</span>
-
-<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
-<span>let</span> <span>"a += 1"</span>
-<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
-<span>echo</span>                     <span># 依旧是整数。</span>
-
-
-<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
-                         <span># $b 变成了字符串。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-
-<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
-<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
-
-<span>c</span><span>=</span>BB34
-<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
-<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
-                         <span># $d 变为了一个整数。</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
-<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
-<span>echo</span>
-
-
-<span># 如果是空值会怎样呢？</span>
-<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
-<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
-<span>echo</span>                     <span># 空值变为了一个整数。</span>
-
-<span># 如果时未声明的变量呢？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
-<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
-<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
-<span>#</span>
-<span># 然而……</span>
-<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
-<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
-<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
-<span>#</span>
-<span># 但是，仍旧……</span>
-<span>let</span> <span>"f /= 0"</span>
-<span>#   let: f /= 0: division by 0 (error token is "0")</span>
-<span># 预期之中。</span>
-
-
-<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
-<span># 但是不要做这种事情！</span>
-<span># 因为这可能会导致一些意外的后果。</span>
-
-
-<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
-<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">4.4 特殊的变量类型</title>
     <id>https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/</id>
     <link href="https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/"/>
@@ -21947,6 +21864,89 @@ $ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <sp
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">4.3 Bash变量是弱类型的</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
+<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
+<p>样例 4-4. 整数还是字符串？</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># int-or-string.sh</span>
+
+<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
+<span>let</span> <span>"a += 1"</span>
+<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
+<span>echo</span>                     <span># 依旧是整数。</span>
+
+
+<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
+                         <span># $b 变成了字符串。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+
+<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
+<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
+
+<span>c</span><span>=</span>BB34
+<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
+<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
+                         <span># $d 变为了一个整数。</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
+<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
+<span>echo</span>
+
+
+<span># 如果是空值会怎样呢？</span>
+<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
+<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
+<span>echo</span>                     <span># 空值变为了一个整数。</span>
+
+<span># 如果时未声明的变量呢？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
+<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
+<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
+<span>#</span>
+<span># 然而……</span>
+<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
+<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
+<span>#</span>
+<span># 但是，仍旧……</span>
+<span>let</span> <span>"f /= 0"</span>
+<span>#   let: f /= 0: division by 0 (error token is "0")</span>
+<span># 预期之中。</span>
+
+
+<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
+<span># 但是不要做这种事情！</span>
+<span># 因为这可能会导致一些意外的后果。</span>
+
+
+<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
+<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -27613,23 +27613,43 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <title type="html">11.2 嵌套循环</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -31806,9 +31826,9 @@ exit 0
     <title type="html">第二十三章. 进程替换</title>
     <id>https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
+    <updated>2021-05-14T03:06:07.000Z</updated>
     <content type="html"><![CDATA[<h1 id="第二十三章-进程替换"> 第二十三章. 进程替换</h1>
-<p>用<a href="http://tldp.org/LDP/abs/html/special-chars.html#PIPEREF" target="_blank" rel="noopener noreferrer">管道</a> 将一个命令的 <code>标准输出</code> 输送到另一个命令的 <code>标准输入</code> 是个强大的技术。但是如果你需要用管道输送_多个_命令的 <code>标准输出</code> 怎么办？这时候 <em>进程替换</em> 就派上用场了。</p>
+<p>用<a href="http://tldp.org/LDP/abs/html/special-chars.html#PIPEREF" target="_blank" rel="noopener noreferrer">管道</a> 将一个命令的 <code>标准输出</code> 输送到另一个命令的 <code>标准输入</code> 是个强大的技术。但是如果你需要用管道输送多个命令的 <code>标准输出</code> 怎么办？这时候 <em>进程替换</em> 就派上用场了。</p>
 <p><em>进程替换</em> 把一个（或多个）<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSREF" target="_blank" rel="noopener noreferrer">进程</a> 的输出送到另一个进程的 <code>标准输入</code>。</p>
 <p><strong>样板</strong>
 命令列表要用括号括起来</p>
@@ -44253,62 +44273,6 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">set 类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
-<ul>
-<li>⽆序集合</li>
-<li>元素为string类型</li>
-<li>元素具有唯⼀性，不重复</li>
-<li>说明：对于集合没有修改操作</li>
-</ul>
-<p>增加</p>
-<ul>
-<li>添加元素</li>
-</ul>
-<div><pre><code>sadd key member1 member2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
-</ul>
-<div><pre><code>sadd a3 zhangsan sili wangwu
-</code></pre>
-<div><span>1</span><br></div></div><p>获取</p>
-<ul>
-<li>返回所有的元素</li>
-</ul>
-<div><pre><code>smembers key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例2：获取键'a3'的集合中所有元素</li>
-</ul>
-<div><pre><code>smembers a3
-</code></pre>
-<div><span>1</span><br></div></div><p>删除</p>
-<ul>
-<li>删除指定元素</li>
-</ul>
-<div><pre><code>srem key value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例3：删除键'a3'的集合中元素'wangwu'</li>
-</ul>
-<div><pre><code>srem a3 wangwu
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">list类型</title>
     <id>https://clay-wangzhi.com/db/redis/operate/list/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/list/"/>
@@ -44387,6 +44351,62 @@ func main(){
 <li>例6.3：查看列表'py12'的所有元素</li>
 </ul>
 <div><pre><code>lrange a2 0 -1
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">set 类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
+<ul>
+<li>⽆序集合</li>
+<li>元素为string类型</li>
+<li>元素具有唯⼀性，不重复</li>
+<li>说明：对于集合没有修改操作</li>
+</ul>
+<p>增加</p>
+<ul>
+<li>添加元素</li>
+</ul>
+<div><pre><code>sadd key member1 member2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
+</ul>
+<div><pre><code>sadd a3 zhangsan sili wangwu
+</code></pre>
+<div><span>1</span><br></div></div><p>获取</p>
+<ul>
+<li>返回所有的元素</li>
+</ul>
+<div><pre><code>smembers key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例2：获取键'a3'的集合中所有元素</li>
+</ul>
+<div><pre><code>smembers a3
+</code></pre>
+<div><span>1</span><br></div></div><p>删除</p>
+<ul>
+<li>删除指定元素</li>
+</ul>
+<div><pre><code>srem key value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例3：删除键'a3'的集合中元素'wangwu'</li>
+</ul>
+<div><pre><code>srem a3 wangwu
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
     <author>
@@ -53395,55 +53415,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">11.2 嵌套循环</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">Elasticsearch 简介及其发展历史</title>
     <id>https://clay-wangzhi.com/monitor/elk/summarize/develop/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/summarize/develop/"/>
@@ -53681,40 +53652,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">6 常见问题</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/qa/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/qa/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">聊透监控体系</title>
     <id>https://clay-wangzhi.com/monitor/monitor-system/</id>
     <link href="https://clay-wangzhi.com/monitor/monitor-system/"/>
@@ -53933,6 +53870,40 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">6 常见问题</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/qa/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/qa/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">1 zabbix4.4新功能</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/"/>
@@ -54116,6 +54087,206 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">11.3 循环控制</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
+<blockquote>
+<p>Tournez cent tours, tournez mille tours,</p>
+<p>Tournez souvent et tournez toujours . . .</p>
+<p>——保尔·魏尔伦，《木马》</p>
+</blockquote>
+<p>本节介绍两个会影响循环行为的命令。</p>
+<h3 id="break-continue"> break, continue</h3>
+<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
+<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
+
+<span>echo</span>
+<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
+ <span>then</span>
+   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
+<span>done</span>
+
+<span># 思考：</span>
+<span># 为什么循环不会输出到20？</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
+
+<span>##################################################################</span>
+
+<span># 用 'break' 代替了 'continue'。</span>
+
+<span>a</span><span>=</span><span>0</span>
+
+<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
+<span>do</span>
+ <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
+ 
+ <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
+ <span>then</span>
+   <span>break</span>  <span># 中止循环。</span>
+ <span>fi</span>
+ 
+ <span>echo</span> -n <span>"<span>$a</span>"</span>
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
+<p>样例 11-22. 跳出多层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># break-levels.sh: 跳出循环.</span>
+
+<span># "break N" 跳出 N 层循环。</span>
+
+<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>do</span>
+  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
+
+  <span># ------------------------------------------</span>
+  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
+    
+    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
+    <span>then</span>
+      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
+             <span># （它同时中止了内层和外层循环。）</span>
+    <span>fi</span>
+  <span>done</span>
+  <span># ------------------------------------------</span>
+
+  <span>echo</span>
+<span>done</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
+<p>样例 11-23. <code>continue</code> 影响外层循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># "continue N" 命令可以影响其上 N 层循环。</span>
+
+<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
+<span>do</span>
+  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
+  
+  <span># --------------------------------------------------------------------</span>
+  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
+  <span>do</span>
+  
+    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
+    <span>then</span>
+      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
+                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
+    <span>fi</span>
+    
+    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
+  <span>done</span>
+  <span># --------------------------------------------------------------------</span>
+
+<span>done</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+<span># 思考：</span>
+<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
+<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
+<span># ---------------------------------------------------</span>
+
+<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
+<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
+<span>#+ 务分配给这些不同的设备来完成。</span>
+<span>#  那么我通常会在每台设备上执行下面的代码：</span>
+
+<span>while</span> true:
+<span>do</span>
+  <span>for</span> <span>n</span> <span>in</span> .iso.*
+  <span>do</span>
+    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
+    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
+    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
+    run-isotherm <span>$beta</span>
+    <span>date</span>
+    <span>ls</span> -alF .Iso.<span>$beta</span>
+    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
+
+<span>while</span> <span>true</span>
+<span>do</span>
+  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
+  <span>do</span>
+    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
+    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
+    <span>continue</span> <span>2</span>
+  <span>done</span>
+  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
+<span>done</span>
+
+<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
+<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
+<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
+<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
+<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
+<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
+<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">10 Todolist</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/todolist/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/todolist/"/>
@@ -54128,247 +54299,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
 <p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
 <p>zabbix 告警分组和添加远端命令</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">8 activemq监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
-<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
-<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
-<p>因为是基于JMX进行监控的</p>
-<h2 id="修改配置文件"> 修改配置文件</h2>
-<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
-<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
-<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
-</code></pre>
-<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
-<div><pre><code>&lt;managementContext&gt;
-            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
-&lt;/managementContext&gt; 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
-<p>在脚本最后添加：</p>
-<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
-<blockquote>
-<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
-</blockquote>
-<h2 id="导入模板"> 导入模板</h2>
-<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
-<p>在被监控主机上增加宏设置
-加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">7 用zabbix api批量添加web监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_7-用zabbix-api批量添加web监控"> 7 用zabbix api批量添加web监控</h1>
-<p>python脚本如下：</p>
-<p><code>vim zabbix_agent.py</code></p>
-<div><pre><code><span># ~*~ coding:utf-8 ~*~</span>
-<span>from</span> zabbix_api <span>import</span> ZabbixAPI
-<span>import</span> sys
-<span>import</span> json
-
-ZABBIX_SREVER <span>=</span> <span>"http://192.168.162.122"</span>
-USERNAME <span>=</span> <span>"Admin"</span>
-PASSWORD <span>=</span> <span>"zabbix"</span>
-<span>#HOSTNAME = "sh_ylf_15"</span>
-<span>#HOSTNAME = "h5_web_monitor"</span>
-HOSTNAME <span>=</span> sys<span>.</span>argv<span>[</span><span>4</span><span>]</span>
-urlname <span>=</span> sys<span>.</span>argv<span>[</span><span>1</span><span>]</span>
-url <span>=</span> sys<span>.</span>argv<span>[</span><span>2</span><span>]</span>
-delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</span>
-
-
-<span># 登录</span>
-<span>def</span> <span>login</span><span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span><span>:</span>
-    zapi <span>=</span> ZabbixAPI<span>(</span>ZABBIX_SREVER<span>)</span>
-    zapi<span>.</span>login<span>(</span>USERNAME<span>,</span> PASSWORD<span>)</span>
-    <span>return</span> zapi
-
-
-<span># 获取主机id</span>
-<span>def</span> <span>gethostid</span><span>(</span>auth<span>,</span> HOSTNAME<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'host.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"host"</span><span>:</span> HOSTNAME<span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-
-    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
-        <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>'hostid'</span><span>]</span>
-    <span>else</span><span>:</span>
-        <span>print</span><span>(</span><span>"找不到该主机"</span><span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 获取应用级id</span>
-<span>def</span> <span>getapplicationid</span><span>(</span>auth<span>,</span> hostid<span>)</span><span>:</span>
-    <span># try:</span>
-    <span>#     json_obj = ZabbixAPI.json_obj(auth, 'application.create', params={"name": "Web监测","hostid": hostid})</span>
-    <span>#     ZabbixAPI.do_request(auth, json_obj)</span>
-    <span># except Exception as e:</span>
-    <span>#     print(e)</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'application.get'</span><span>,</span> params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>for</span> num <span>in</span> <span>range</span><span>(</span><span>0</span><span>,</span> <span>len</span><span>(</span>request<span>[</span><span>'result'</span><span>]</span><span>)</span><span>)</span><span>:</span>
-        <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'name'</span><span>]</span> <span>==</span> <span>'Web'</span><span>:</span>
-            <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'applicationid'</span><span>]</span>
-
-
-<span># 增加web监控</span>
-<span>def</span> <span>create_web_scenario</span><span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> urlname<span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
-        <span>print</span><span>(</span><span>'该web监控已经添加过了'</span><span>)</span>
-    <span>else</span><span>:</span>
-        <span>try</span><span>:</span>
-            json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.create'</span><span>,</span>
-                                          params<span>=</span><span>{</span><span>"name"</span><span>:</span> urlname<span>,</span> <span>"hostid"</span><span>:</span> hostid<span>,</span> <span>"applicationid"</span><span>:</span> applicationid<span>,</span>
-                                                  <span>"delay"</span><span>:</span> delay<span>,</span> <span>"retries"</span><span>:</span> <span>'1'</span><span>,</span> <span>"steps"</span><span>:</span> <span>[</span>
-                                                  <span>{</span><span>'name'</span><span>:</span> urlname<span>,</span> <span>'url'</span><span>:</span> url<span>,</span> <span>'timeout'</span><span>:</span> <span>'10'</span><span>,</span> <span>'status_codes'</span><span>:</span> <span>'200'</span><span>,</span>
-                                                   <span>'no'</span><span>:</span> <span>'1'</span><span>}</span><span>]</span><span>}</span><span>)</span>
-            ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-        <span>except</span> Exception <span>as</span> e<span>:</span>
-            <span>print</span><span>(</span>e<span>)</span>
-            sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 增加触发器</span>
-<span>def</span> <span>create_trigger</span><span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span><span>:</span>
-    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.fail[{1}].avg(#3)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>">=1"</span>
-    <span>try</span><span>:</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问失败"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
-                                              <span>"priority"</span><span>:</span> <span>5</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.rspcode[{1},{1}].last(0)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>"&lt;>200"</span>
-    <span>try</span><span>:</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问异常"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
-                                              <span>"priority"</span><span>:</span> <span>4</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span># 获取监控项id</span>
-<span>def</span> <span>getitem</span><span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span><span>:</span>
-    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'item.get'</span><span>,</span>
-                                  params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>,</span> <span>"webitems"</span><span>:</span> <span>"1"</span><span>,</span>
-                                          <span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> <span>"Response code for step \"$2\" of scenario \"$1\"."</span><span>,</span>
-                                                     <span>"key_"</span><span>:</span> <span>"web.test.rspcode[{0},{1}]"</span><span>.</span><span>format</span><span>(</span>urlname<span>,</span> urlname<span>)</span><span>}</span><span>}</span><span>)</span>
-    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>return</span> request<span>[</span><span>"result"</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>"itemid"</span><span>]</span>
-
-
-<span># 增加图形</span>
-<span>def</span> <span>create_graph</span><span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span><span>:</span>
-    <span>try</span><span>:</span>
-        itemid <span>=</span> getitem<span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span>
-        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'graph.create'</span><span>,</span>
-                                      params<span>=</span><span>{</span><span>"name"</span><span>:</span> <span>"h5_{0}状态显示"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"width"</span><span>:</span> <span>900</span><span>,</span> <span>"height"</span><span>:</span> <span>200</span><span>,</span>
-                                              <span>"gitems"</span><span>:</span> <span>[</span><span>{</span><span>"itemid"</span><span>:</span> itemid<span>,</span> <span>"color"</span><span>:</span> <span>"008800"</span><span>}</span><span>]</span><span>}</span><span>)</span>
-        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
-    <span>except</span> Exception <span>as</span> e<span>:</span>
-        <span>print</span><span>(</span>e<span>)</span>
-        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
-
-
-<span>def</span> <span>main</span><span>(</span><span>)</span><span>:</span>
-    auth <span>=</span> login<span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span>
-    hostid <span>=</span> gethostid<span>(</span>auth<span>,</span> HOSTNAME<span>)</span>
-    applicationid <span>=</span> getapplicationid<span>(</span>auth<span>,</span> hostid<span>)</span>
-
-    create_web_scenario<span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span>
-    create_trigger<span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span>
-    create_graph<span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span>
-
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    main<span>(</span><span>)</span>
-
-<span># json_obj = ZabbixAPI.json_obj(auth, 'httptest.get', params={"applicationids": applicationid})</span>
-<span># request = ZabbixAPI.do_request(auth, json_obj)</span>
-<span># print(json.dumps(request, ensure_ascii=False, indent=4))</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br></div></div><p>编写shell，调用python，打日志</p>
-<p><code>vim web_monitor.sh</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>export</span> <span><span>LANG</span></span><span>=</span><span>"en_US.UTF-8"</span>
-
-<span>arr_hostname</span><span>=</span><span>(</span><span>"192.168.165.115"</span> <span>"192.168.9.13"</span><span>)</span>
-<span>len</span><span>=</span><span>${<span>#</span>arr_hostname<span>[</span>@<span>]</span>}</span>
-<span>dir</span><span>=</span><span><span>$(</span><span>cd</span> <span>$(</span>dirname $0<span>)</span> <span>&amp;&amp;</span> <span>pwd</span><span>)</span></span>
-<span>tdir</span><span>=</span><span>"<span>$dir</span>/tmp"</span>
-
-<span>dt</span><span>=</span><span><span>`</span><span>date</span> <span>"+%F %T"</span><span>`</span></span>
-
-<span>[</span> -f <span>$tdir</span>/code_error.txt <span>]</span> <span>&amp;&amp;</span> <span>true</span> <span>></span><span>$tdir</span>/code_error.txt
-
-<span>## i: 项目信息   j: url   k:时间间隔</span>
-<span>while</span> <span>read</span> i j k o<span>;</span><span>do</span>
-    <span>if</span> <span>[</span><span>[</span> <span>!</span> x<span>"<span>$o</span>"</span> <span>==</span> x<span>""</span> <span>&amp;&amp;</span> <span>$o</span> -le <span><span>$((</span>$len<span>-</span><span>1</span><span>))</span></span> <span>]</span><span>]</span><span>;</span><span>then</span>
-        <span>curl</span> -s -I <span>"<span>$j</span>"</span> <span>></span> <span>$tdir</span>/curl.txt
-        <span>code</span><span>=</span><span><span>`</span><span>grep</span> <span>'HTTP/1.1'</span> $tdir/curl.txt<span>|</span><span>awk</span> <span>'{print <span>$2</span>}'</span><span>`</span></span>
-        <span>#echo "$i $j $code" </span>
-
-        <span>if</span> <span>[</span> <span>$code</span> -eq <span>200</span> -o <span>$code</span> -eq <span>301</span> -o <span>$code</span> -eq <span>302</span> -o <span>$code</span> -eq <span>405</span> <span>]</span><span>;</span><span>then</span>
-            python <span>$dir</span>/zabbix_agent.py <span>$i</span> <span>$j</span> <span>$k</span> <span>${arr_hostname<span>[</span>$o<span>]</span>}</span>
-            <span>[</span> <span>$?</span> -eq <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create ok"</span> <span>>></span> <span>$tdir</span>/info <span>||</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create fail"</span> <span>>></span><span>$tdir</span>/info
-        <span>else</span>
-            <span>echo</span> <span>"<span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> <span>$code</span>"</span> <span>>></span><span>$tdir</span>/code_error.txt
-            <span>echo</span> <span>"<span>$i</span> <span>$code</span>"</span>
-        <span>fi</span>
-    <span>else</span>
-        <span>echo</span> <span>"hostname参数传递错误"</span>
-        <span>fi</span>
-<span>done</span> <span>&lt;</span><span>$dir</span>/list
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p><code>list</code>文件内容格式如下：</p>
-<div><pre><code>csp-web-syndata http://192.168.100.15:8085/csp-web-syndata/shop/synShopInfo/111 3m 0
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>参考链接：https://cloud.tencent.com/developer/article/1157571</p>
-<p>https://www.zabbix.com/documentation/current/manual/api</p>
-<p>https://segmentfault.com/a/1190000014241994</p>
-</blockquote>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -54666,6 +54596,247 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">8 activemq监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
+<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
+<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
+<p>因为是基于JMX进行监控的</p>
+<h2 id="修改配置文件"> 修改配置文件</h2>
+<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
+<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
+<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
+</code></pre>
+<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
+<div><pre><code>&lt;managementContext&gt;
+            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
+&lt;/managementContext&gt; 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
+<p>在脚本最后添加：</p>
+<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
+<blockquote>
+<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
+</blockquote>
+<h2 id="导入模板"> 导入模板</h2>
+<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
+<p>在被监控主机上增加宏设置
+加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">7 用zabbix api批量添加web监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-api-web/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_7-用zabbix-api批量添加web监控"> 7 用zabbix api批量添加web监控</h1>
+<p>python脚本如下：</p>
+<p><code>vim zabbix_agent.py</code></p>
+<div><pre><code><span># ~*~ coding:utf-8 ~*~</span>
+<span>from</span> zabbix_api <span>import</span> ZabbixAPI
+<span>import</span> sys
+<span>import</span> json
+
+ZABBIX_SREVER <span>=</span> <span>"http://192.168.162.122"</span>
+USERNAME <span>=</span> <span>"Admin"</span>
+PASSWORD <span>=</span> <span>"zabbix"</span>
+<span>#HOSTNAME = "sh_ylf_15"</span>
+<span>#HOSTNAME = "h5_web_monitor"</span>
+HOSTNAME <span>=</span> sys<span>.</span>argv<span>[</span><span>4</span><span>]</span>
+urlname <span>=</span> sys<span>.</span>argv<span>[</span><span>1</span><span>]</span>
+url <span>=</span> sys<span>.</span>argv<span>[</span><span>2</span><span>]</span>
+delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</span>
+
+
+<span># 登录</span>
+<span>def</span> <span>login</span><span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span><span>:</span>
+    zapi <span>=</span> ZabbixAPI<span>(</span>ZABBIX_SREVER<span>)</span>
+    zapi<span>.</span>login<span>(</span>USERNAME<span>,</span> PASSWORD<span>)</span>
+    <span>return</span> zapi
+
+
+<span># 获取主机id</span>
+<span>def</span> <span>gethostid</span><span>(</span>auth<span>,</span> HOSTNAME<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'host.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"host"</span><span>:</span> HOSTNAME<span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+
+    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
+        <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>'hostid'</span><span>]</span>
+    <span>else</span><span>:</span>
+        <span>print</span><span>(</span><span>"找不到该主机"</span><span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 获取应用级id</span>
+<span>def</span> <span>getapplicationid</span><span>(</span>auth<span>,</span> hostid<span>)</span><span>:</span>
+    <span># try:</span>
+    <span>#     json_obj = ZabbixAPI.json_obj(auth, 'application.create', params={"name": "Web监测","hostid": hostid})</span>
+    <span>#     ZabbixAPI.do_request(auth, json_obj)</span>
+    <span># except Exception as e:</span>
+    <span>#     print(e)</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'application.get'</span><span>,</span> params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>for</span> num <span>in</span> <span>range</span><span>(</span><span>0</span><span>,</span> <span>len</span><span>(</span>request<span>[</span><span>'result'</span><span>]</span><span>)</span><span>)</span><span>:</span>
+        <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'name'</span><span>]</span> <span>==</span> <span>'Web'</span><span>:</span>
+            <span>return</span> request<span>[</span><span>'result'</span><span>]</span><span>[</span>num<span>]</span><span>[</span><span>'applicationid'</span><span>]</span>
+
+
+<span># 增加web监控</span>
+<span>def</span> <span>create_web_scenario</span><span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.get'</span><span>,</span> params<span>=</span><span>{</span><span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> urlname<span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>if</span> request<span>[</span><span>'result'</span><span>]</span><span>:</span>
+        <span>print</span><span>(</span><span>'该web监控已经添加过了'</span><span>)</span>
+    <span>else</span><span>:</span>
+        <span>try</span><span>:</span>
+            json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'httptest.create'</span><span>,</span>
+                                          params<span>=</span><span>{</span><span>"name"</span><span>:</span> urlname<span>,</span> <span>"hostid"</span><span>:</span> hostid<span>,</span> <span>"applicationid"</span><span>:</span> applicationid<span>,</span>
+                                                  <span>"delay"</span><span>:</span> delay<span>,</span> <span>"retries"</span><span>:</span> <span>'1'</span><span>,</span> <span>"steps"</span><span>:</span> <span>[</span>
+                                                  <span>{</span><span>'name'</span><span>:</span> urlname<span>,</span> <span>'url'</span><span>:</span> url<span>,</span> <span>'timeout'</span><span>:</span> <span>'10'</span><span>,</span> <span>'status_codes'</span><span>:</span> <span>'200'</span><span>,</span>
+                                                   <span>'no'</span><span>:</span> <span>'1'</span><span>}</span><span>]</span><span>}</span><span>)</span>
+            ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+        <span>except</span> Exception <span>as</span> e<span>:</span>
+            <span>print</span><span>(</span>e<span>)</span>
+            sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 增加触发器</span>
+<span>def</span> <span>create_trigger</span><span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span><span>:</span>
+    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.fail[{1}].avg(#3)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>">=1"</span>
+    <span>try</span><span>:</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问失败"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
+                                              <span>"priority"</span><span>:</span> <span>5</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+    expression <span>=</span> <span>"{"</span> <span>+</span> <span>"{0}:web.test.rspcode[{1},{1}].last(0)"</span><span>.</span><span>format</span><span>(</span>HOSTNAME<span>,</span> urlname<span>)</span> <span>+</span> <span>"}"</span> <span>+</span> <span>"&lt;>200"</span>
+    <span>try</span><span>:</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'trigger.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"description"</span><span>:</span> <span>"{0}访问异常"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"expression"</span><span>:</span> expression<span>,</span>
+                                              <span>"priority"</span><span>:</span> <span>4</span><span>,</span> <span>"url"</span><span>:</span> url<span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span># 获取监控项id</span>
+<span>def</span> <span>getitem</span><span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span><span>:</span>
+    json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'item.get'</span><span>,</span>
+                                  params<span>=</span><span>{</span><span>"hostids"</span><span>:</span> hostid<span>,</span> <span>"webitems"</span><span>:</span> <span>"1"</span><span>,</span>
+                                          <span>"filter"</span><span>:</span> <span>{</span><span>"name"</span><span>:</span> <span>"Response code for step \"$2\" of scenario \"$1\"."</span><span>,</span>
+                                                     <span>"key_"</span><span>:</span> <span>"web.test.rspcode[{0},{1}]"</span><span>.</span><span>format</span><span>(</span>urlname<span>,</span> urlname<span>)</span><span>}</span><span>}</span><span>)</span>
+    request <span>=</span> ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>return</span> request<span>[</span><span>"result"</span><span>]</span><span>[</span><span>0</span><span>]</span><span>[</span><span>"itemid"</span><span>]</span>
+
+
+<span># 增加图形</span>
+<span>def</span> <span>create_graph</span><span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span><span>:</span>
+    <span>try</span><span>:</span>
+        itemid <span>=</span> getitem<span>(</span>auth<span>,</span> hostid<span>,</span> urlname<span>)</span>
+        json_obj <span>=</span> ZabbixAPI<span>.</span>json_obj<span>(</span>auth<span>,</span> <span>'graph.create'</span><span>,</span>
+                                      params<span>=</span><span>{</span><span>"name"</span><span>:</span> <span>"h5_{0}状态显示"</span><span>.</span><span>format</span><span>(</span>urlname<span>)</span><span>,</span> <span>"width"</span><span>:</span> <span>900</span><span>,</span> <span>"height"</span><span>:</span> <span>200</span><span>,</span>
+                                              <span>"gitems"</span><span>:</span> <span>[</span><span>{</span><span>"itemid"</span><span>:</span> itemid<span>,</span> <span>"color"</span><span>:</span> <span>"008800"</span><span>}</span><span>]</span><span>}</span><span>)</span>
+        ZabbixAPI<span>.</span>do_request<span>(</span>auth<span>,</span> json_obj<span>)</span>
+    <span>except</span> Exception <span>as</span> e<span>:</span>
+        <span>print</span><span>(</span>e<span>)</span>
+        sys<span>.</span>exit<span>(</span><span>1</span><span>)</span>
+
+
+<span>def</span> <span>main</span><span>(</span><span>)</span><span>:</span>
+    auth <span>=</span> login<span>(</span>ZABBIX_SREVER<span>,</span> USERNAME<span>,</span> PASSWORD<span>)</span>
+    hostid <span>=</span> gethostid<span>(</span>auth<span>,</span> HOSTNAME<span>)</span>
+    applicationid <span>=</span> getapplicationid<span>(</span>auth<span>,</span> hostid<span>)</span>
+
+    create_web_scenario<span>(</span>auth<span>,</span> urlname<span>,</span> url<span>,</span> hostid<span>,</span> applicationid<span>,</span> delay<span>)</span>
+    create_trigger<span>(</span>auth<span>,</span> HOSTNAME<span>,</span> urlname<span>,</span> url<span>)</span>
+    create_graph<span>(</span>auth<span>,</span> urlname<span>,</span> hostid<span>)</span>
+
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    main<span>(</span><span>)</span>
+
+<span># json_obj = ZabbixAPI.json_obj(auth, 'httptest.get', params={"applicationids": applicationid})</span>
+<span># request = ZabbixAPI.do_request(auth, json_obj)</span>
+<span># print(json.dumps(request, ensure_ascii=False, indent=4))</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br><span>107</span><br><span>108</span><br><span>109</span><br><span>110</span><br><span>111</span><br><span>112</span><br><span>113</span><br><span>114</span><br><span>115</span><br><span>116</span><br><span>117</span><br><span>118</span><br><span>119</span><br><span>120</span><br><span>121</span><br><span>122</span><br><span>123</span><br><span>124</span><br><span>125</span><br><span>126</span><br><span>127</span><br><span>128</span><br><span>129</span><br><span>130</span><br><span>131</span><br></div></div><p>编写shell，调用python，打日志</p>
+<p><code>vim web_monitor.sh</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>export</span> <span><span>LANG</span></span><span>=</span><span>"en_US.UTF-8"</span>
+
+<span>arr_hostname</span><span>=</span><span>(</span><span>"192.168.165.115"</span> <span>"192.168.9.13"</span><span>)</span>
+<span>len</span><span>=</span><span>${<span>#</span>arr_hostname<span>[</span>@<span>]</span>}</span>
+<span>dir</span><span>=</span><span><span>$(</span><span>cd</span> <span>$(</span>dirname $0<span>)</span> <span>&amp;&amp;</span> <span>pwd</span><span>)</span></span>
+<span>tdir</span><span>=</span><span>"<span>$dir</span>/tmp"</span>
+
+<span>dt</span><span>=</span><span><span>`</span><span>date</span> <span>"+%F %T"</span><span>`</span></span>
+
+<span>[</span> -f <span>$tdir</span>/code_error.txt <span>]</span> <span>&amp;&amp;</span> <span>true</span> <span>></span><span>$tdir</span>/code_error.txt
+
+<span>## i: 项目信息   j: url   k:时间间隔</span>
+<span>while</span> <span>read</span> i j k o<span>;</span><span>do</span>
+    <span>if</span> <span>[</span><span>[</span> <span>!</span> x<span>"<span>$o</span>"</span> <span>==</span> x<span>""</span> <span>&amp;&amp;</span> <span>$o</span> -le <span><span>$((</span>$len<span>-</span><span>1</span><span>))</span></span> <span>]</span><span>]</span><span>;</span><span>then</span>
+        <span>curl</span> -s -I <span>"<span>$j</span>"</span> <span>></span> <span>$tdir</span>/curl.txt
+        <span>code</span><span>=</span><span><span>`</span><span>grep</span> <span>'HTTP/1.1'</span> $tdir/curl.txt<span>|</span><span>awk</span> <span>'{print <span>$2</span>}'</span><span>`</span></span>
+        <span>#echo "$i $j $code" </span>
+
+        <span>if</span> <span>[</span> <span>$code</span> -eq <span>200</span> -o <span>$code</span> -eq <span>301</span> -o <span>$code</span> -eq <span>302</span> -o <span>$code</span> -eq <span>405</span> <span>]</span><span>;</span><span>then</span>
+            python <span>$dir</span>/zabbix_agent.py <span>$i</span> <span>$j</span> <span>$k</span> <span>${arr_hostname<span>[</span>$o<span>]</span>}</span>
+            <span>[</span> <span>$?</span> -eq <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create ok"</span> <span>>></span> <span>$tdir</span>/info <span>||</span> <span>echo</span> <span>"<span>$dt</span> <span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> create fail"</span> <span>>></span><span>$tdir</span>/info
+        <span>else</span>
+            <span>echo</span> <span>"<span>$i</span> <span>$j</span> <span>$k</span> <span>$o</span> <span>$code</span>"</span> <span>>></span><span>$tdir</span>/code_error.txt
+            <span>echo</span> <span>"<span>$i</span> <span>$code</span>"</span>
+        <span>fi</span>
+    <span>else</span>
+        <span>echo</span> <span>"hostname参数传递错误"</span>
+        <span>fi</span>
+<span>done</span> <span>&lt;</span><span>$dir</span>/list
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p><code>list</code>文件内容格式如下：</p>
+<div><pre><code>csp-web-syndata http://192.168.100.15:8085/csp-web-syndata/shop/synShopInfo/111 3m 0
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>参考链接：https://cloud.tencent.com/developer/article/1157571</p>
+<p>https://www.zabbix.com/documentation/current/manual/api</p>
+<p>https://segmentfault.com/a/1190000014241994</p>
+</blockquote>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -56758,6 +56929,340 @@ cluster_enabled:0
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">keepalived详解</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/%E9%9B%86%E7%BE%A4-keepalived/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/%E9%9B%86%E7%BE%A4-keepalived/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>Let’s learn keepalived together！</p>
+
+<h2 id="keepalived介绍"> keepalived介绍</h2>
+<p>keepalived观察其名可知，保持存活，在网络里面就是保持在线了，也就是所谓的高可用或热备，它集群管理中保证集群高可用的一个服务软件，其功能类似于heartbeat，用来防止单点故障(单点故障是指一旦某一点出现故障就会导致整个系统架构的不可用)的发生。说到keepalived就不得不说VRRP协议，可以说这个协议就是keepalived实现的基础，那么首先我们来看看VRRP协议。</p>
+<h2 id="vrrp协议介绍"> VRRP协议介绍</h2>
+<p>学过网络的朋友都知道，网络在设计的时候必须考虑到冗余容灾，包括线路冗余，设备冗余等，防止网络存在单点故障，那在路由器或三层交换机处实现冗余就显得尤为重要。</p>
+<p>在网络里面有个协议就是来做这事的，这个协议就是VRRP协议，Keepalived就是巧用VRRP协议来实现高可用性(HA)的发生。</p>
+<p>VRRP全称Virtual Router Redundancy Protocol，即虚拟路由冗余协议。对于VRRP，需要清楚知道的是：</p>
+<p>1）VRRP是用来实现路由器冗余的协议。
+2）VRRP协议是为了消除在静态缺省路由环境下路由器单点故障引起的网络失效而设计的主备模式的协议，使得发生故障而进行设计设备功能切换时可以不影响内外数据通信，不需要再修改内部网络的网络参数。
+3）VRRP协议需要具有IP备份，优先路由选择，减少不必要的路由器通信等功能。
+4）VRRP协议将两台或多台路由器设备虚拟成一个设备，对外提供虚拟路由器IP（一个或多个）。然而，在路由器组内部，如果实际拥有这个对外IP的路由器如果工作正常的话，就是master，或者是通过算法选举产生的，MASTER实现针对虚拟路由器IP的各种网络功能，如ARP请求，ICMP，以及数据的转发等，其他设备不具有该IP，状态是BACKUP。除了接收MASTER的VRRP状态通告信息外，不执行对外的网络功能，当主级失效时，BACKUP将接管原先MASTER的网络功能。
+5）VRRP协议配置时，需要配置每个路由器的虚拟路由ID(VRID)和优先权值，使用VRID将路由器进行分组，具有相同VRID值的路由器为同一个组，VRID是一个0-255的整整数，；同一个组中的路由器通过使用优先权值来选举MASTER。，优先权大者为MASTER，优先权也是一个0-255的正整数。</p>
+<h2 id="keepalived工作原理"> keepalived工作原理</h2>
+<p>keepalived可提供vrrp以及health-check功能，可以只用它提供双机浮动的vip（vrrp虚拟路由功能），这一样可以简单实现一个双机热备高可用的功能：keepalived是以VRRP虚拟路由冗余协议为基础实现高可用的，可以认为是现实路由高可用的协议，即将N台提供相同功能的路由器组成一个路由器组，这个组里面有一个master和多个backup，master上面有一个对外提供服务的vip（该路由器所在局域网内其他机器的默认路由为该vip），master会发组播，当backup收不到VRRP包时就认为master宕掉了，这时就需要根据VRRP的优先级来选举一个backup当master。这样的话就可以保证路由器的高可用了。</p>
+<p>下图是keepalived的组件图</p>
+<p><img src="/images/keepalived1.png" alt="" /></p>
+<p>keepalived也是模块化设计，不同模块负责不同的功能，它主要有三个模块，分别是core、check和VRRP，其中：</p>
+<p>core模块：为keepalived的核心组件，负责主进程的启动、维护以及全局配置文件的加载和解析；</p>
+<p>check：负责健康检查，包括常见的各种检查方式；</p>
+<p>VRRP模块：是来实现VRRP协议的。</p>
+<p>system call：系统调用</p>
+<p>watch dog：监控check和vrrp进程的看管者，check负责检测子进程的健康状态，当其检测到master上的服务不可用时则通告vrrp将其转移至backup服务器上。</p>
+<p>除此之外，keepalived还有下面两个组件：</p>
+<p>libipfwc:iptables（ipchains）库，配置LVS会用到</p>
+<p>libipvs*：配置LVS会用到</p>
+<p>注意，keepalived和LVS完全是两码事，只不过他们各负其责相互配合而已。</p>
+<p>keepalived正常启动的时候，共启动3个进程：
+一个是父进程，负责监控其子进程；一个是VRRP子进程，另外一个是checkers子进程；
+两个子进程都被系统watchlog看管，两个子进程各自负责复杂自己的事。
+Healthcheck子进程检查各自服务器的健康状况，，例如http,lvs。如果healthchecks进程检查到master上服务不可用了，就会通知本机上的VRRP子进程，让他删除通告，并且去掉虚拟IP，转换为BACKUP状态。</p>
+<h2 id="keepalived作用"> Keepalived作用</h2>
+<p>Keepalived主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现。Keepalived的作用是检测web服务器的状态，如果有一台web服务器死机，或工作出现故障，Keepalived将检测到，并将有故障的web服务器从系统中剔除，当web服务器工作正常后Keepalived自动将web服务器加入到服务器群中，这些工作全部自动完成，不需要人工干涉，需要人工做的只是修复故障的web服务器。</p>
+<p>----------------------------------------------------------------------------------------------------------------------------
+Keepalived和Heartbeat之间的对比
+1）Keepalived使用更简单：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；
+2）Heartbeat功能更强大：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；
+3）协议不同：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；
+Keepalived使用的vrrp协议方式，虚拟路由冗余协议 ；Heartbeat是基于主机或网络的服务的高可用方式；
+Keepalived的目的是模拟路由器的双机；Heartbeat的目的是用户service的双机
+4）使用方式基本类似：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service
+start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
+<p>使用建议：
+优先使用Keepalived，当Keepalived不够用的时候才选择Heartbeat
+lvs的高可用建议用Keepavlived
+业务的高可用用Heartbeat
+--------------------------------------------------------------------------------------------------------------------------</p>
+<h2 id="keepalived的配置文件"> Keepalived的配置文件</h2>
+<p>keepalived只有一个配置文件keepalived.conf，配置文件里面主要包括以下几个配置项，分别是global_defs、static_ipaddress、static_routes、VRRP_script、VRRP_instance和virtual_server。</p>
+<p>总的来说，keepalived主要有三类区域配置，注意不是三种配置文件，是一个配置文件里面三种不同类别的配置区域：
+1）全局配置(Global Configuration)
+2）VRRPD配置
+3）LVS配置</p>
+<p>下面就重点来说说这三类区域的配置：</p>
+<p>1）全局配置
+全局配置又包括两个子配置：
+全局定义(global definition)
+静态路由配置(static ipaddress/routes)</p>
+<p>1--全局定义(global definition)配置范例：</p>
+<div><pre><code>global_defs
+{
+notification_email
+{
+admin@example.com
+}
+notification_email_from admin@example.com
+smtp_server 127.0.0.1
+stmp_connect_timeout 30
+router_id node1
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>全局配置解析
+global_defs全局配置标识，表面这个区域{}是全局配置</p>
+<div><pre><code>notification_email
+{
+admin@example.com
+admin@ywlm.net
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>表示keepalived在发生诸如切换操作时需要发送email通知，以及email发送给哪些邮件地址，邮件地址可以多个，每行一个
+notification_email_from admin@example.com
+表示发送通知邮件时邮件源地址是谁
+smtp_server 127.0.0.1
+表示发送email时使用的smtp服务器地址，这里可以用本地的sendmail来实现
+smtp_connect_timeout 30
+连接smtp连接超时时间
+router_id node1
+机器标识</p>
+<p>2--静态地址和路由配置范例</p>
+<div><pre><code>static_ipaddress
+{
+192.168.1.1/24 brd + dev eth0 scope global
+192.168.1.2/24 brd + dev eth1 scope global
+}
+static_routes
+{
+src $SRC_IP to $DST_IP dev $SRC_DEVICE
+src $SRC_IP to $DST_IP via $GW dev $SRC_DEVICE
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这里实际上和系统里面用命令配置IP地址和路由的曹一样，例如：
+192.168.1.1/24 brd + dev eth0 scope global 相当于: ip addr add 192.168.1.1/24 brd + dev eth0 scope global
+就是给eth0配置IP地址
+路由同理
+一般这个区域不需要配置
+这里实际上就是给服务器配置真实的IP地址和路由的，在复杂的环境下可能需要配置，一般不会用这个来配置，我们可以直接用vi /etc/sysconfig/network-script/ifcfg-eth1来配置，切记这里可不是VIP哦，不要搞混淆了，切记切记！</p>
+<p>2）VRRPD配置
+VRRPD配置包括三个类：
+VRRP同步组(synchroization group)
+VRRP实例(VRRP Instance)
+VRRP脚本</p>
+<p>1--VRRP同步组(synchroization group)配置范例</p>
+<div><pre><code>vrrp_sync_group VG_1 {
+group {
+http
+mysql
+}
+notify_master /path/to/to_master.sh
+notify_backup /path_to/to_backup.sh
+notify_fault “/path/fault.sh VG_1”
+notify /path/to/notify.sh
+smtp_alert
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>其中：
+group {
+http
+mysql
+}
+http和mysql是实例名和下面的实例名一致</p>
+<p>notify_master /path/to/to_master.sh：表示当切换到master状态时，要执行的脚本
+notify_backup /path_to/to_backup.sh：表示当切换到backup状态时，要执行的脚本
+notify_fault “/path/fault.sh VG_1”
+notify /path/to/notify.sh：
+smtp alter表示切换时给global defs中定义的邮件地址发送右键通知</p>
+<p>2--VRRP实例(instance)配置范例</p>
+<div><pre><code>vrrp_instance http {
+state MASTER
+interface eth0
+dont_track_primary
+track_interface {
+eth0
+eth1
+}
+mcast_src_ip &lt;IPADDR&gt;
+garp_master_delay 10
+virtual_router_id 51
+priority 100
+advert_int 1
+authentication {
+auth_type PASS
+autp_pass 1234
+}
+virtual_ipaddress {
+#&lt;IPADDR&gt;/&lt;MASK&gt; brd &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPT&gt; label &lt;LABEL&gt;
+192.168.200.17/24 dev eth1
+192.168.200.18/24 dev eth2 label eth2:1
+}
+virtual_routes {
+# src &lt;IPADDR&gt; [to] &lt;IPADDR&gt;/&lt;MASK&gt; via|gw &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPE&gt; tab
+src 192.168.100.1 to 192.168.109.0/24 via 192.168.200.254 dev eth1
+192.168.110.0/24 via 192.168.200.254 dev eth1
+192.168.111.0/24 dev eth2
+192.168.112.0/24 via 192.168.100.254
+}
+nopreempt
+preemtp_delay 300
+debug
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>state：state指定instance(Initial)的初始状态，就是说在配置好后，这台服务器的初始状态就是这里指定的，但这里指定的不算，还是得要通过竞选通过优先级来确定，里如果这里设置为master，但如若他的优先级不及另外一台，那么这台在发送通告时，会发送自己的优先级，另外一台发现优先级不如自己的高，那么他会就回抢占为master
+interface：实例绑定的网卡，因为在配置虚拟IP的时候必须是在已有的网卡上添加的
+dont track primary：忽略VRRP的interface错误
+track interface：跟踪接口，设置额外的监控，里面任意一块网卡出现问题，都会进入故障(FAULT)状态，例如，用nginx做均衡器的时候，内网必须正常工作，如果内网出问题了，这个均衡器也就无法运作了，所以必须对内外网同时做健康检查
+mcast
+src
+ip：发送多播数据包时的源IP地址，这里注意了，这里实际上就是在那个地址上发送VRRP通告，这个非常重要，一定要选择稳定的网卡端口来发送，这里相当于heartbeat的心跳端口，如果没有设置那么就用默认的绑定的网卡的IP，也就是interface指定的IP地址
+garp master delay：在切换到master状态后，延迟进行免费的ARP(gratuitous ARP)请求
+virtual router id：这里设置VRID，这里非常重要，相同的VRID为一个组，他将决定多播的MAC地址
+priority 100：设置本节点的优先级，优先级高的为master
+advert int：检查间隔，默认为1秒
+virtual</p>
+<p>ipaddress：这里设置的就是VIP，也就是虚拟IP地址，他随着state的变化而增加删除，当state为master的时候就添加，当state为backup的时候删除，这里主要是有优先级来决定的，和state设置的值没有多大关系，这里可以设置多个IP地址
+virtual routes：原理和virtual ipaddress一样，只不过这里是增加和删除路由
+lvs sync daemon interface：lvs syncd绑定的网卡
+authentication：这里设置认证
+auth type：认证方式，可以是PASS或AH两种认证方式
+auth pass：认证密码
+nopreempt：设置不抢占，这里只能设置在state为backup的节点上，而且这个节点的优先级必须别另外的高
+preempt delay：抢占延迟
+debug：debug级别
+notify master：和sync group这里设置的含义一样，可以单独设置，例如不同的实例通知不同的管理人员，http实例发给网站管理员，mysql的就发邮件给DBA</p>
+<p>3--VRRP脚本范例</p>
+<div><pre><code>vrrp_script check_running {
+   script “/usr/local/bin/check_running”
+   interval 10
+   weight 10
+}
+vrrp_instance http {
+   state BACKUP
+   smtp_alert
+   interface eth0
+   virtual_router_id 101
+   priority 90
+   advert_int 3
+   authentication {
+   auth_type PASS
+   auth_pass whatever
+   }
+   virtual_ipaddress {
+   1.1.1.1
+   }
+   track_script {
+   check_running weight 20
+   }
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>首先在vrrp_script区域定义脚本名字和脚本执行的间隔和脚本执行的优先级变更</p>
+<div><pre><code>vrrp_script check_running {
+script “/usr/local/bin/check_running”
+interval 10     #脚本执行间隔
+weight 10      #脚本结果导致的优先级变更：10表示优先级+10；-10则表示优先级-10
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>然后在实例(vrrp_instance)里面引用，有点类似脚本里面的函数引用一样：先定义，后引用函数名</p>
+<div><pre><code>track_script {
+check_running weight 20
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>注意：VRRP脚本(vrrp_script)和VRRP实例(vrrp_instance)属于同一个级别</p>
+<p>3)LVS配置
+如果你没有配置LVS+keepalived，那么无需配置这段区域，如果你用的是nginx来代替LVS，这无需配置这款，这里的LVS配置是专门为keepalived+LVS集成准备的。
+注意了，这里LVS配置并不是指真的安装LVS然后用ipvsadm来配置它，而是用keepalived的配置文件来代替ipvsadm来配置LVS，这样会方便很多，一个配置文件搞定这些，维护方便，配置方便是也！
+这里LVS配置也有两个配置
+一个是虚拟主机组配置
+一个是虚拟主机配置</p>
+<p>1--虚拟主机组配置文件详解
+这个配置是可选的，根据需求来配置吧，这里配置主要是为了让一台realserver上的某个服务可以属于多个Virtual Server，并且只做一次健康检查:
+virtual_server_group <STRING> { # VIP port <IPADDR> <PORT> <IPADDR> <PORT> fwmark <INT> }</p>
+<p>2--虚拟主机配置
+virtual server可以以下面三种的任意一种来配置:
+a）virtual server IP port
+b）virtual server fwmark int
+c）virtual server group string</p>
+<p>下面以第一种比较常用的方式来配详细解说一下：</p>
+<div><pre><code>virtual_server 192.168.1.2 80 {                     #设置一个virtual server: VIP:Vport
+delay_loop 3                                                  # service polling的delay时间，即服务轮询的时间间隔
+ 
+lb_algo rr|wrr|lc|wlc|lblc|sh|dh                        #LVS调度算法
+lb_kind NAT|DR|TUN                                      #LVS集群模式                     
+persistence_timeout 120                                #会话保持时间（秒为单位），即以用户在120秒内被分配到同一个后端realserver
+persistence_granularity &lt;NETMASK&gt;              #LVS会话保持粒度，ipvsadm中的-M参数，默认是0xffffffff，即每个客户端都做会话保持
+protocol TCP                                                  #健康检查用的是TCP还是UDP
+ha_suspend                                                   #suspendhealthchecker’s activity
+virtualhost &lt;string&gt;                                       #HTTP_GET做健康检查时，检查的web服务器的虚拟主机（即host：头）
+ 
+sorry_server &lt;IPADDR&gt; &lt;PORT&gt;                 #备用机，就是当所有后端realserver节点都不可用时，就用这里设置的，也就是临时把所有的请求都发送到这里啦
+ 
+real_server &lt;IPADDR&gt; &lt;PORT&gt;                    #后端真实节点主机的权重等设置，主要，后端有几台这里就要设置几个
+{
+weight 1                                                         #给每台的权重，0表示失效(不知给他转发请求知道他恢复正常)，默认是1
+inhibit_on_failure                                            #表示在节点失败后，把他权重设置成0，而不是冲IPVS中删除
+ 
+notify_up &lt;STRING&gt; | &lt;QUOTED-STRING&gt;  #检查服务器正常(UP)后，要执行的脚本
+notify_down &lt;STRING&gt; | &lt;QUOTED-STRING&gt; #检查服务器失败(down)后，要执行的脚本
+HTTP_GET                                                     #健康检查方式
+{
+url {                                                                #要坚持的URL，可以有多个
+path /                                                             #具体路径
+digest &lt;STRING&gt;                                           
+status_code 200                                            #返回状态码
+}
+connect_port 80                                            #监控检查的端口
+ 
+bindto &lt;IPADD&gt;                                             #健康检查的IP地址
+connect_timeout   3                                       #连接超时时间
+nb_get_retry 3                                               #重连次数
+delay_before_retry 2                                      #重连间隔
+} # END OF HTTP_GET|SSL_GET
+ 
+#下面是常用的健康检查方式，健康检查方式一共有HTTP_GET|SSL_GET|TCP_CHECK|SMTP_CHECK|MISC_CHECK这些
+#TCP方式
+TCP_CHECK {
+connect_port 80
+bindto 192.168.1.1
+connect_timeout 4
+} # TCP_CHECK
+ 
+# SMTP方式，这个可以用来给邮件服务器做集群
+SMTP_CHECK
+host {
+connect_ip &lt;IP ADDRESS&gt;
+connect_port &lt;PORT&gt;                                     #默认检查25端口
+14 KEEPALIVED
+bindto &lt;IP ADDRESS&gt;
+}
+connect_timeout &lt;INTEGER&gt;
+retry &lt;INTEGER&gt;
+delay_before_retry &lt;INTEGER&gt;
+# “smtp HELO
+helo_name &lt;STRING&gt;|&lt;QUOTED-STRING&gt;
+} #SMTP_CHECK
+ 
+#MISC方式，这个可以用来检查很多服务器只需要自己会些脚本即可
+MISC_CHECK
+{
+misc_path &lt;STRING&gt;|&lt;QUOTED-STRING&gt; #外部程序或脚本
+misc_timeout &lt;INT&gt;                                    #脚本或程序执行超时时间
+ 
+misc_dynamic                                               #这个就很好用了，可以非常精确的来调整权重，是后端每天服务器的压力都能均衡调配，这个主要是通过执行的程序或脚本返回的状态代码来动态调整weight值，使权重根据真实的后端压力来适当调整，不过这需要有过硬的脚本功夫才行哦
+#返回0：健康检查没问题，不修改权重
+#返回1：健康检查失败，权重设置为0
+#返回2-255：健康检查没问题，但是权重却要根据返回代码修改为返回码-2，例如如果程序或脚本执行后返回的代码为200，#那么权重这回被修改为 200-2
+}
+} # Realserver
+} # Virtual Server
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div><p>转载地址：</p>
+<p>https://www.cnblogs.com/kevingrace/p/6248941.html</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2017-09-15T21:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">sed命令详解</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/"/>
@@ -57122,340 +57627,6 @@ sed -n &#39;2~2p&#39; test.txt  #偶数行
       <name>Clay</name>
     </contributor>
     <published>2017-09-24T21:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">keepalived详解</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/%E9%9B%86%E7%BE%A4-keepalived/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/%E9%9B%86%E7%BE%A4-keepalived/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>Let’s learn keepalived together！</p>
-
-<h2 id="keepalived介绍"> keepalived介绍</h2>
-<p>keepalived观察其名可知，保持存活，在网络里面就是保持在线了，也就是所谓的高可用或热备，它集群管理中保证集群高可用的一个服务软件，其功能类似于heartbeat，用来防止单点故障(单点故障是指一旦某一点出现故障就会导致整个系统架构的不可用)的发生。说到keepalived就不得不说VRRP协议，可以说这个协议就是keepalived实现的基础，那么首先我们来看看VRRP协议。</p>
-<h2 id="vrrp协议介绍"> VRRP协议介绍</h2>
-<p>学过网络的朋友都知道，网络在设计的时候必须考虑到冗余容灾，包括线路冗余，设备冗余等，防止网络存在单点故障，那在路由器或三层交换机处实现冗余就显得尤为重要。</p>
-<p>在网络里面有个协议就是来做这事的，这个协议就是VRRP协议，Keepalived就是巧用VRRP协议来实现高可用性(HA)的发生。</p>
-<p>VRRP全称Virtual Router Redundancy Protocol，即虚拟路由冗余协议。对于VRRP，需要清楚知道的是：</p>
-<p>1）VRRP是用来实现路由器冗余的协议。
-2）VRRP协议是为了消除在静态缺省路由环境下路由器单点故障引起的网络失效而设计的主备模式的协议，使得发生故障而进行设计设备功能切换时可以不影响内外数据通信，不需要再修改内部网络的网络参数。
-3）VRRP协议需要具有IP备份，优先路由选择，减少不必要的路由器通信等功能。
-4）VRRP协议将两台或多台路由器设备虚拟成一个设备，对外提供虚拟路由器IP（一个或多个）。然而，在路由器组内部，如果实际拥有这个对外IP的路由器如果工作正常的话，就是master，或者是通过算法选举产生的，MASTER实现针对虚拟路由器IP的各种网络功能，如ARP请求，ICMP，以及数据的转发等，其他设备不具有该IP，状态是BACKUP。除了接收MASTER的VRRP状态通告信息外，不执行对外的网络功能，当主级失效时，BACKUP将接管原先MASTER的网络功能。
-5）VRRP协议配置时，需要配置每个路由器的虚拟路由ID(VRID)和优先权值，使用VRID将路由器进行分组，具有相同VRID值的路由器为同一个组，VRID是一个0-255的整整数，；同一个组中的路由器通过使用优先权值来选举MASTER。，优先权大者为MASTER，优先权也是一个0-255的正整数。</p>
-<h2 id="keepalived工作原理"> keepalived工作原理</h2>
-<p>keepalived可提供vrrp以及health-check功能，可以只用它提供双机浮动的vip（vrrp虚拟路由功能），这一样可以简单实现一个双机热备高可用的功能：keepalived是以VRRP虚拟路由冗余协议为基础实现高可用的，可以认为是现实路由高可用的协议，即将N台提供相同功能的路由器组成一个路由器组，这个组里面有一个master和多个backup，master上面有一个对外提供服务的vip（该路由器所在局域网内其他机器的默认路由为该vip），master会发组播，当backup收不到VRRP包时就认为master宕掉了，这时就需要根据VRRP的优先级来选举一个backup当master。这样的话就可以保证路由器的高可用了。</p>
-<p>下图是keepalived的组件图</p>
-<p><img src="/images/keepalived1.png" alt="" /></p>
-<p>keepalived也是模块化设计，不同模块负责不同的功能，它主要有三个模块，分别是core、check和VRRP，其中：</p>
-<p>core模块：为keepalived的核心组件，负责主进程的启动、维护以及全局配置文件的加载和解析；</p>
-<p>check：负责健康检查，包括常见的各种检查方式；</p>
-<p>VRRP模块：是来实现VRRP协议的。</p>
-<p>system call：系统调用</p>
-<p>watch dog：监控check和vrrp进程的看管者，check负责检测子进程的健康状态，当其检测到master上的服务不可用时则通告vrrp将其转移至backup服务器上。</p>
-<p>除此之外，keepalived还有下面两个组件：</p>
-<p>libipfwc:iptables（ipchains）库，配置LVS会用到</p>
-<p>libipvs*：配置LVS会用到</p>
-<p>注意，keepalived和LVS完全是两码事，只不过他们各负其责相互配合而已。</p>
-<p>keepalived正常启动的时候，共启动3个进程：
-一个是父进程，负责监控其子进程；一个是VRRP子进程，另外一个是checkers子进程；
-两个子进程都被系统watchlog看管，两个子进程各自负责复杂自己的事。
-Healthcheck子进程检查各自服务器的健康状况，，例如http,lvs。如果healthchecks进程检查到master上服务不可用了，就会通知本机上的VRRP子进程，让他删除通告，并且去掉虚拟IP，转换为BACKUP状态。</p>
-<h2 id="keepalived作用"> Keepalived作用</h2>
-<p>Keepalived主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现。Keepalived的作用是检测web服务器的状态，如果有一台web服务器死机，或工作出现故障，Keepalived将检测到，并将有故障的web服务器从系统中剔除，当web服务器工作正常后Keepalived自动将web服务器加入到服务器群中，这些工作全部自动完成，不需要人工干涉，需要人工做的只是修复故障的web服务器。</p>
-<p>----------------------------------------------------------------------------------------------------------------------------
-Keepalived和Heartbeat之间的对比
-1）Keepalived使用更简单：从安装、配置、使用、维护等角度上对比，Keepalived都比Heartbeat要简单得多，尤其是Heartbeat2.1.4后拆分成3个子项目，安装、配置、使用都比较复杂，尤其是出问题的时候，都不知道具体是哪个子系统出问题了；而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多；
-2）Heartbeat功能更强大：Heartbeat虽然复杂，但功能更强大，配套工具更全，适合做大型集群管理，而Keepalived主要用于集群倒换，基本没有管理功能；
-3）协议不同：Keepalived使用VRRP协议进行通信和选举，Heartbeat使用心跳进行通信和选举；Heartbeat除了走网络外，还可以通过串口通信，貌似更可靠；
-Keepalived使用的vrrp协议方式，虚拟路由冗余协议 ；Heartbeat是基于主机或网络的服务的高可用方式；
-Keepalived的目的是模拟路由器的双机；Heartbeat的目的是用户service的双机
-4）使用方式基本类似：如果要基于两者设计高可用方案，最终都要根据业务需要写自定义的脚本，Keepalived的脚本没有任何约束，随便怎么写都可以；Heartbeat的脚本有约束，即要支持service
-start/stop/restart这种方式，而且Heartbeart提供了很多默认脚本，简单的绑定ip，启动apache等操作都已经有了；</p>
-<p>使用建议：
-优先使用Keepalived，当Keepalived不够用的时候才选择Heartbeat
-lvs的高可用建议用Keepavlived
-业务的高可用用Heartbeat
---------------------------------------------------------------------------------------------------------------------------</p>
-<h2 id="keepalived的配置文件"> Keepalived的配置文件</h2>
-<p>keepalived只有一个配置文件keepalived.conf，配置文件里面主要包括以下几个配置项，分别是global_defs、static_ipaddress、static_routes、VRRP_script、VRRP_instance和virtual_server。</p>
-<p>总的来说，keepalived主要有三类区域配置，注意不是三种配置文件，是一个配置文件里面三种不同类别的配置区域：
-1）全局配置(Global Configuration)
-2）VRRPD配置
-3）LVS配置</p>
-<p>下面就重点来说说这三类区域的配置：</p>
-<p>1）全局配置
-全局配置又包括两个子配置：
-全局定义(global definition)
-静态路由配置(static ipaddress/routes)</p>
-<p>1--全局定义(global definition)配置范例：</p>
-<div><pre><code>global_defs
-{
-notification_email
-{
-admin@example.com
-}
-notification_email_from admin@example.com
-smtp_server 127.0.0.1
-stmp_connect_timeout 30
-router_id node1
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>全局配置解析
-global_defs全局配置标识，表面这个区域{}是全局配置</p>
-<div><pre><code>notification_email
-{
-admin@example.com
-admin@ywlm.net
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>表示keepalived在发生诸如切换操作时需要发送email通知，以及email发送给哪些邮件地址，邮件地址可以多个，每行一个
-notification_email_from admin@example.com
-表示发送通知邮件时邮件源地址是谁
-smtp_server 127.0.0.1
-表示发送email时使用的smtp服务器地址，这里可以用本地的sendmail来实现
-smtp_connect_timeout 30
-连接smtp连接超时时间
-router_id node1
-机器标识</p>
-<p>2--静态地址和路由配置范例</p>
-<div><pre><code>static_ipaddress
-{
-192.168.1.1/24 brd + dev eth0 scope global
-192.168.1.2/24 brd + dev eth1 scope global
-}
-static_routes
-{
-src $SRC_IP to $DST_IP dev $SRC_DEVICE
-src $SRC_IP to $DST_IP via $GW dev $SRC_DEVICE
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这里实际上和系统里面用命令配置IP地址和路由的曹一样，例如：
-192.168.1.1/24 brd + dev eth0 scope global 相当于: ip addr add 192.168.1.1/24 brd + dev eth0 scope global
-就是给eth0配置IP地址
-路由同理
-一般这个区域不需要配置
-这里实际上就是给服务器配置真实的IP地址和路由的，在复杂的环境下可能需要配置，一般不会用这个来配置，我们可以直接用vi /etc/sysconfig/network-script/ifcfg-eth1来配置，切记这里可不是VIP哦，不要搞混淆了，切记切记！</p>
-<p>2）VRRPD配置
-VRRPD配置包括三个类：
-VRRP同步组(synchroization group)
-VRRP实例(VRRP Instance)
-VRRP脚本</p>
-<p>1--VRRP同步组(synchroization group)配置范例</p>
-<div><pre><code>vrrp_sync_group VG_1 {
-group {
-http
-mysql
-}
-notify_master /path/to/to_master.sh
-notify_backup /path_to/to_backup.sh
-notify_fault “/path/fault.sh VG_1”
-notify /path/to/notify.sh
-smtp_alert
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>其中：
-group {
-http
-mysql
-}
-http和mysql是实例名和下面的实例名一致</p>
-<p>notify_master /path/to/to_master.sh：表示当切换到master状态时，要执行的脚本
-notify_backup /path_to/to_backup.sh：表示当切换到backup状态时，要执行的脚本
-notify_fault “/path/fault.sh VG_1”
-notify /path/to/notify.sh：
-smtp alter表示切换时给global defs中定义的邮件地址发送右键通知</p>
-<p>2--VRRP实例(instance)配置范例</p>
-<div><pre><code>vrrp_instance http {
-state MASTER
-interface eth0
-dont_track_primary
-track_interface {
-eth0
-eth1
-}
-mcast_src_ip &lt;IPADDR&gt;
-garp_master_delay 10
-virtual_router_id 51
-priority 100
-advert_int 1
-authentication {
-auth_type PASS
-autp_pass 1234
-}
-virtual_ipaddress {
-#&lt;IPADDR&gt;/&lt;MASK&gt; brd &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPT&gt; label &lt;LABEL&gt;
-192.168.200.17/24 dev eth1
-192.168.200.18/24 dev eth2 label eth2:1
-}
-virtual_routes {
-# src &lt;IPADDR&gt; [to] &lt;IPADDR&gt;/&lt;MASK&gt; via|gw &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPE&gt; tab
-src 192.168.100.1 to 192.168.109.0/24 via 192.168.200.254 dev eth1
-192.168.110.0/24 via 192.168.200.254 dev eth1
-192.168.111.0/24 dev eth2
-192.168.112.0/24 via 192.168.100.254
-}
-nopreempt
-preemtp_delay 300
-debug
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><p>state：state指定instance(Initial)的初始状态，就是说在配置好后，这台服务器的初始状态就是这里指定的，但这里指定的不算，还是得要通过竞选通过优先级来确定，里如果这里设置为master，但如若他的优先级不及另外一台，那么这台在发送通告时，会发送自己的优先级，另外一台发现优先级不如自己的高，那么他会就回抢占为master
-interface：实例绑定的网卡，因为在配置虚拟IP的时候必须是在已有的网卡上添加的
-dont track primary：忽略VRRP的interface错误
-track interface：跟踪接口，设置额外的监控，里面任意一块网卡出现问题，都会进入故障(FAULT)状态，例如，用nginx做均衡器的时候，内网必须正常工作，如果内网出问题了，这个均衡器也就无法运作了，所以必须对内外网同时做健康检查
-mcast
-src
-ip：发送多播数据包时的源IP地址，这里注意了，这里实际上就是在那个地址上发送VRRP通告，这个非常重要，一定要选择稳定的网卡端口来发送，这里相当于heartbeat的心跳端口，如果没有设置那么就用默认的绑定的网卡的IP，也就是interface指定的IP地址
-garp master delay：在切换到master状态后，延迟进行免费的ARP(gratuitous ARP)请求
-virtual router id：这里设置VRID，这里非常重要，相同的VRID为一个组，他将决定多播的MAC地址
-priority 100：设置本节点的优先级，优先级高的为master
-advert int：检查间隔，默认为1秒
-virtual</p>
-<p>ipaddress：这里设置的就是VIP，也就是虚拟IP地址，他随着state的变化而增加删除，当state为master的时候就添加，当state为backup的时候删除，这里主要是有优先级来决定的，和state设置的值没有多大关系，这里可以设置多个IP地址
-virtual routes：原理和virtual ipaddress一样，只不过这里是增加和删除路由
-lvs sync daemon interface：lvs syncd绑定的网卡
-authentication：这里设置认证
-auth type：认证方式，可以是PASS或AH两种认证方式
-auth pass：认证密码
-nopreempt：设置不抢占，这里只能设置在state为backup的节点上，而且这个节点的优先级必须别另外的高
-preempt delay：抢占延迟
-debug：debug级别
-notify master：和sync group这里设置的含义一样，可以单独设置，例如不同的实例通知不同的管理人员，http实例发给网站管理员，mysql的就发邮件给DBA</p>
-<p>3--VRRP脚本范例</p>
-<div><pre><code>vrrp_script check_running {
-   script “/usr/local/bin/check_running”
-   interval 10
-   weight 10
-}
-vrrp_instance http {
-   state BACKUP
-   smtp_alert
-   interface eth0
-   virtual_router_id 101
-   priority 90
-   advert_int 3
-   authentication {
-   auth_type PASS
-   auth_pass whatever
-   }
-   virtual_ipaddress {
-   1.1.1.1
-   }
-   track_script {
-   check_running weight 20
-   }
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>首先在vrrp_script区域定义脚本名字和脚本执行的间隔和脚本执行的优先级变更</p>
-<div><pre><code>vrrp_script check_running {
-script “/usr/local/bin/check_running”
-interval 10     #脚本执行间隔
-weight 10      #脚本结果导致的优先级变更：10表示优先级+10；-10则表示优先级-10
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>然后在实例(vrrp_instance)里面引用，有点类似脚本里面的函数引用一样：先定义，后引用函数名</p>
-<div><pre><code>track_script {
-check_running weight 20
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>注意：VRRP脚本(vrrp_script)和VRRP实例(vrrp_instance)属于同一个级别</p>
-<p>3)LVS配置
-如果你没有配置LVS+keepalived，那么无需配置这段区域，如果你用的是nginx来代替LVS，这无需配置这款，这里的LVS配置是专门为keepalived+LVS集成准备的。
-注意了，这里LVS配置并不是指真的安装LVS然后用ipvsadm来配置它，而是用keepalived的配置文件来代替ipvsadm来配置LVS，这样会方便很多，一个配置文件搞定这些，维护方便，配置方便是也！
-这里LVS配置也有两个配置
-一个是虚拟主机组配置
-一个是虚拟主机配置</p>
-<p>1--虚拟主机组配置文件详解
-这个配置是可选的，根据需求来配置吧，这里配置主要是为了让一台realserver上的某个服务可以属于多个Virtual Server，并且只做一次健康检查:
-virtual_server_group <STRING> { # VIP port <IPADDR> <PORT> <IPADDR> <PORT> fwmark <INT> }</p>
-<p>2--虚拟主机配置
-virtual server可以以下面三种的任意一种来配置:
-a）virtual server IP port
-b）virtual server fwmark int
-c）virtual server group string</p>
-<p>下面以第一种比较常用的方式来配详细解说一下：</p>
-<div><pre><code>virtual_server 192.168.1.2 80 {                     #设置一个virtual server: VIP:Vport
-delay_loop 3                                                  # service polling的delay时间，即服务轮询的时间间隔
- 
-lb_algo rr|wrr|lc|wlc|lblc|sh|dh                        #LVS调度算法
-lb_kind NAT|DR|TUN                                      #LVS集群模式                     
-persistence_timeout 120                                #会话保持时间（秒为单位），即以用户在120秒内被分配到同一个后端realserver
-persistence_granularity &lt;NETMASK&gt;              #LVS会话保持粒度，ipvsadm中的-M参数，默认是0xffffffff，即每个客户端都做会话保持
-protocol TCP                                                  #健康检查用的是TCP还是UDP
-ha_suspend                                                   #suspendhealthchecker’s activity
-virtualhost &lt;string&gt;                                       #HTTP_GET做健康检查时，检查的web服务器的虚拟主机（即host：头）
- 
-sorry_server &lt;IPADDR&gt; &lt;PORT&gt;                 #备用机，就是当所有后端realserver节点都不可用时，就用这里设置的，也就是临时把所有的请求都发送到这里啦
- 
-real_server &lt;IPADDR&gt; &lt;PORT&gt;                    #后端真实节点主机的权重等设置，主要，后端有几台这里就要设置几个
-{
-weight 1                                                         #给每台的权重，0表示失效(不知给他转发请求知道他恢复正常)，默认是1
-inhibit_on_failure                                            #表示在节点失败后，把他权重设置成0，而不是冲IPVS中删除
- 
-notify_up &lt;STRING&gt; | &lt;QUOTED-STRING&gt;  #检查服务器正常(UP)后，要执行的脚本
-notify_down &lt;STRING&gt; | &lt;QUOTED-STRING&gt; #检查服务器失败(down)后，要执行的脚本
-HTTP_GET                                                     #健康检查方式
-{
-url {                                                                #要坚持的URL，可以有多个
-path /                                                             #具体路径
-digest &lt;STRING&gt;                                           
-status_code 200                                            #返回状态码
-}
-connect_port 80                                            #监控检查的端口
- 
-bindto &lt;IPADD&gt;                                             #健康检查的IP地址
-connect_timeout   3                                       #连接超时时间
-nb_get_retry 3                                               #重连次数
-delay_before_retry 2                                      #重连间隔
-} # END OF HTTP_GET|SSL_GET
- 
-#下面是常用的健康检查方式，健康检查方式一共有HTTP_GET|SSL_GET|TCP_CHECK|SMTP_CHECK|MISC_CHECK这些
-#TCP方式
-TCP_CHECK {
-connect_port 80
-bindto 192.168.1.1
-connect_timeout 4
-} # TCP_CHECK
- 
-# SMTP方式，这个可以用来给邮件服务器做集群
-SMTP_CHECK
-host {
-connect_ip &lt;IP ADDRESS&gt;
-connect_port &lt;PORT&gt;                                     #默认检查25端口
-14 KEEPALIVED
-bindto &lt;IP ADDRESS&gt;
-}
-connect_timeout &lt;INTEGER&gt;
-retry &lt;INTEGER&gt;
-delay_before_retry &lt;INTEGER&gt;
-# “smtp HELO
-helo_name &lt;STRING&gt;|&lt;QUOTED-STRING&gt;
-} #SMTP_CHECK
- 
-#MISC方式，这个可以用来检查很多服务器只需要自己会些脚本即可
-MISC_CHECK
-{
-misc_path &lt;STRING&gt;|&lt;QUOTED-STRING&gt; #外部程序或脚本
-misc_timeout &lt;INT&gt;                                    #脚本或程序执行超时时间
- 
-misc_dynamic                                               #这个就很好用了，可以非常精确的来调整权重，是后端每天服务器的压力都能均衡调配，这个主要是通过执行的程序或脚本返回的状态代码来动态调整weight值，使权重根据真实的后端压力来适当调整，不过这需要有过硬的脚本功夫才行哦
-#返回0：健康检查没问题，不修改权重
-#返回1：健康检查失败，权重设置为0
-#返回2-255：健康检查没问题，但是权重却要根据返回代码修改为返回码-2，例如如果程序或脚本执行后返回的代码为200，#那么权重这回被修改为 200-2
-}
-} # Realserver
-} # Virtual Server
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div><p>转载地址：</p>
-<p>https://www.cnblogs.com/kevingrace/p/6248941.html</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2017-09-15T21:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -62435,206 +62606,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">11.3 循环控制</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-3-循环控制"> 11.3 循环控制</h1>
-<blockquote>
-<p>Tournez cent tours, tournez mille tours,</p>
-<p>Tournez souvent et tournez toujours . . .</p>
-<p>——保尔·魏尔伦，《木马》</p>
-</blockquote>
-<p>本节介绍两个会影响循环行为的命令。</p>
-<h3 id="break-continue"> break, continue</h3>
-<p><code>break</code> 和 <code>continue</code> 命令<sup></sup>的作用和在其他编程语言中的作用一样。<code>break</code> 用来中止（跳出）循环，而 <code>continue</code> 则是略过未执行的循环部分，直接进行下一次循环。</p>
-<p>样例 11-21. 循环中 <code>break</code> 与 <code>continue</code> 的作用</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>LIMIT</span><span>=</span><span>19</span>  <span># 循环上界</span>
-
-<span>echo</span>
-<span>echo</span> <span>"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>$a</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>3</span> <span>]</span> <span>||</span> <span>[</span> <span>"<span>$a</span>"</span> -eq <span>11</span> <span>]</span>  <span># 除了 3 和 11。</span>
- <span>then</span>
-   <span>continue</span>      <span># 略过本次循环的剩余部分。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span> "</span>   <span># 当 a 等于 3 和 11 时，将不会执行这条语句。</span>
-<span>done</span>
-
-<span># 思考：</span>
-<span># 为什么循环不会输出到20？</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span>echo</span> Printing Numbers <span>1</span> through <span>20</span>, but something happens after <span>2</span>.
-
-<span>##################################################################</span>
-
-<span># 用 'break' 代替了 'continue'。</span>
-
-<span>a</span><span>=</span><span>0</span>
-
-<span>while</span> <span>[</span> <span>"<span>$a</span>"</span> -le <span>"<span>$LIMIT</span>"</span> <span>]</span>
-<span>do</span>
- <span>a</span><span>=</span><span><span>$((</span>$a<span>+</span><span>1</span><span>))</span></span>
- 
- <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>2</span> <span>]</span>
- <span>then</span>
-   <span>break</span>  <span># 中止循环。</span>
- <span>fi</span>
- 
- <span>echo</span> -n <span>"<span>$a</span>"</span>
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p><code>break</code> 命令接受一个参数。普通的 <code>break</code> 命令仅仅跳出其所在的那层循环，而 <code>break N</code> 命令则可以跳出其上 N 层的循环。</p>
-<p>样例 11-22. 跳出多层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># break-levels.sh: 跳出循环.</span>
-
-<span># "break N" 跳出 N 层循环。</span>
-
-<span>for</span> <span>outerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>do</span>
-  <span>echo</span> -n <span>"Group <span>$outerloop</span>:   "</span>
-
-  <span># ------------------------------------------</span>
-  <span>for</span> <span>innerloop</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> -n <span>"<span>$innerloop</span> "</span>
-    
-    <span>if</span> <span>[</span> <span>"<span>$innerloop</span>"</span> -eq <span>3</span> <span>]</span>
-    <span>then</span>
-      <span>break</span>  <span># 尝试一下 break 2 看看会发生什么。</span>
-             <span># （它同时中止了内层和外层循环。）</span>
-    <span>fi</span>
-  <span>done</span>
-  <span># ------------------------------------------</span>
-
-  <span>echo</span>
-<span>done</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>与 <code>break</code> 类似，<code>continue</code> 也接受一个参数。普通的 <code>continue</code> 命令仅仅影响其所在的那层循环，而 <code>continue N</code> 命令则可以影响其上 N 层的循环。</p>
-<p>样例 11-23. <code>continue</code> 影响外层循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># "continue N" 命令可以影响其上 N 层循环。</span>
-
-<span>for</span> <span>outer</span> <span>in</span> I II III IV V           <span># 外层循环</span>
-<span>do</span>
-  <span>echo</span><span>;</span> <span>echo</span> -n <span>"Group <span>$outer</span>: "</span>
-  
-  <span># --------------------------------------------------------------------</span>
-  <span>for</span> <span>inner</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> <span>6</span> <span>7</span> <span>8</span> <span>9</span> <span>10</span>  <span># 内层循环</span>
-  <span>do</span>
-  
-    <span>if</span> <span>[</span><span>[</span> <span>"<span>$inner</span>"</span> -eq <span>7</span> <span>&amp;&amp;</span> <span>"<span>$outer</span>"</span> <span>=</span> <span>"III"</span> <span>]</span><span>]</span>
-    <span>then</span>
-      <span>continue</span> <span>2</span>  <span># 影响两层循环，包括“外层循环”。</span>
-                  <span># 将其替换为普通的 "continue"，那么只会影响内层循环。</span>
-    <span>fi</span>
-    
-    <span>echo</span> -n <span>"<span>$inner</span> "</span>  <span># 7 8 9 10 将不会出现在 "Group III."中。</span>
-  <span>done</span>
-  <span># --------------------------------------------------------------------</span>
-
-<span>done</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-<span># 思考：</span>
-<span># 想一个 "continue N" 在脚本中的实际应用情况。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>样例 11-24. 真实环境中的 <code>continue N</code></p>
-<div><pre><code><span># Albert Reiner 举出了一个如何使用 "continue N" 的例子：</span>
-<span># ---------------------------------------------------</span>
-
-<span>#  如果我有许多任务需要运行，并且运行所需要的数据都以文件的形</span>
-<span>#+ 式存在文件夹中。现在有多台设备可以访问这个文件夹，我想将任</span>
-<span>#+ 务分配给这些不同的设备来完成。</span>
-<span>#  那么我通常会在每台设备上执行下面的代码：</span>
-
-<span>while</span> true:
-<span>do</span>
-  <span>for</span> <span>n</span> <span>in</span> .iso.*
-  <span>do</span>
-    <span>[</span> <span>"<span>$n</span>"</span> <span>=</span> <span>".iso.opts"</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>beta</span><span>=</span><span>${n<span>#</span>.iso.}</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>[</span> -r .lock.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>sleep</span> <span>10</span> <span>&amp;&amp;</span> <span>continue</span>
-    lockfile -r0 .lock.<span>$beta</span> <span>||</span> <span>continue</span>
-    <span>echo</span> -n <span>"<span>$beta</span>: "</span> <span><span>`</span><span>date</span><span>`</span></span>
-    run-isotherm <span>$beta</span>
-    <span>date</span>
-    <span>ls</span> -alF .Iso.<span>$beta</span>
-    <span>[</span> -r .Iso.<span>$beta</span> <span>]</span> <span>&amp;&amp;</span> <span>rm</span> -rf .lock.<span>$beta</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 这个脚本中出现的 sleep N 只针对这个脚本，通常的形式是：</span>
-
-<span>while</span> <span>true</span>
-<span>do</span>
-  <span>for</span> <span>job</span> <span>in</span> <span>{</span>pattern<span>}</span>
-  <span>do</span>
-    <span>{</span>job already <span>done</span> or running<span>}</span> <span>&amp;&amp;</span> <span>continue</span>
-    <span>{</span>mark job as running, <span>do</span> job, mark job as done<span>}</span>
-    <span>continue</span> <span>2</span>
-  <span>done</span>
-  <span>break</span>        <span># 或者使用类似 `sleep 600` 这样的语句来防止脚本结束。</span>
-<span>done</span>
-
-<span>#  这样做可以保证脚本只会在没有任务时（包括在运行过程中添加的任务）</span>
-<span>#+ 才会停止。合理使用文件锁保证多台设备可以无重复的并行执行任务（这</span>
-<span>#+ 在我的设备上通常会消耗好几个小时，所以我想避免重复计算）。并且，</span>
-<span>#+ 因为每次总是从头开始搜索文件，因此可以通过文件名决定执行的先后</span>
-<span>#+ 顺序。当然，你可以不使用 'continue 2' 来完成这些，但是你必须</span>
-<span>#+ 添加代码去检测某项任务是否完成（以此判断是否可以执行下一项任务或</span>
-<span>#+ 终止、休眠一段时间再执行下一项任务）。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> <code>continue N</code> 结构不易理解并且可能在一些情况下有歧义，因此不建议使用。</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这两个命令是 <a href="http://tldp.org/LDP/abs/html/internal.html#BUILTINREF" target="_blank" rel="noopener noreferrer">内建命令</a>，而另外的循环命令，如 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer"><code>while</code></a> 和 <a href="http://tldp.org/LDP/abs/html/testbranch.html#CASEESAC1" target="_blank" rel="noopener noreferrer"><code>case</code></a> 则是 <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键词</a>。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">11.4 测试与分支</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/"/>
@@ -63036,6 +63007,35 @@ choice_of beans rice carrorts radishes rutabaga spinach
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
