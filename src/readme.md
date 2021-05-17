@@ -29,7 +29,7 @@ project:
     link: 你的项目链接
 
   - type: book
-    name: 高级Bash脚本编程指南
+    name: 高级 Bash 脚本编程指南
     link: /code/shell/
 
   - type: article
