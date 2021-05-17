@@ -1,5 +1,6 @@
 ---
 sticky: 9
+star: 9
 category: 监控
 ---
 

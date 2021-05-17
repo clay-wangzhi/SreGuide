@@ -1,4 +1,6 @@
 ---
+sticky: 10
+star: 10
 author: LinuxStory & Clay
 category: Linux
 tags:
