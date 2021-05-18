@@ -24,9 +24,9 @@ project:
     link: http://books.studygolang.com/gopl-zh/
 
   - type: project
-    name: 项目名称
-    desc: 项目详细描述
-    link: 你的项目链接
+    name: ansible-collection-devops
+    desc: 含有运维日常部署，应用发布，系统操作等等的 ansible role
+    link: https://github.com/clay-wangzhi/ansible-collection-devops
 
   - type: book
     name: 高级 Bash 脚本编程指南
