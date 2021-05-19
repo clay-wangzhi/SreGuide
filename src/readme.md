@@ -24,7 +24,7 @@ project:
     link: http://books.studygolang.com/gopl-zh/
 
   - type: project
-    name: ansible-collection-devops
+    name: ansible-roles
     desc: 含有运维日常部署，应用发布，系统操作等等的 ansible role
     link: https://github.com/clay-wangzhi/ansible-collection-devops
 
