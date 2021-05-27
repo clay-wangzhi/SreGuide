@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 20 May 2021 03:49:54 GMT</pubDate>
-    <lastBuildDate>Thu, 20 May 2021 03:49:54 GMT</lastBuildDate>
+    <pubDate>Thu, 27 May 2021 07:30:38 GMT</pubDate>
+    <lastBuildDate>Thu, 27 May 2021 07:30:38 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -2599,10 +2599,7 @@ new
     db1.example.com
     jupiter.lab.example.com
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>主机列表一定要用 单引号 ''</p>
-</blockquote>
-<h4 id="_2-2-6-正则表达式匹配"> 2.2.6 正则表达式匹配</h4>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="_2-2-6-正则表达式匹配"> 2.2.6 正则表达式匹配</h4>
 <p>在开头的地方使用”~”，用来表示这是一个正则表达式:</p>
 <div><pre><code><span># ansible '~(s|db).*example\.com' --list-hosts</span>
   hosts <span>(</span><span>8</span><span>)</span>:
@@ -2885,6 +2882,541 @@ mysql
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210309153531453.png" type="image/png"/>
+    </item>
+    <item>
+      <title>Jinja2 简介</title>
+      <link>https://clay-wangzhi.com/automate/ansible/jinja2/</link>
+      <guid>https://clay-wangzhi.com/automate/ansible/jinja2/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Jinja2 简介</source>
+      <pubDate>Thu, 27 May 2021 07:28:01 GMT</pubDate>
+      <content:encoded><![CDATA[<h2 id="jinja2-简介"> Jinja2 简介</h2>
+<h3 id="jinja2-是什么-模板是什么"> Jinja2 是什么？模板是什么？</h3>
+<p>Jinja2 是基于 python 的模板引擎。那么什么是模板？</p>
+<p>所谓模板，是可以在纯文本字符串中嵌入一些特殊语法格式的表达式，然后使用模板引擎去解析整个模板，将其中嵌入的特殊语法部分解析替换成对应的结果字符串。其中，解析并替换模板表达式的过程称为渲染。</p>
+<p>为了让模板引擎只替换模板表达式而不操作普通字符串，所以模板引擎需要能够区分模板表达式和普通字符串，所以模板表达式通常会使用特殊符号包围起来。</p>
+<p>模板更多用在 web 编程中来生成 HTML 页面，但绝不限于 web 编程，它可以用在很多方面，比如 Ansible 就使用 Jinja2 模板引擎来解析 YAML 中的字符串，也用在 template 模块渲染模板文件。</p>
+<p>Jinja2 模板引擎提供了三种特殊符号来包围模板表达式：</p>
+<ul>
+<li>
+<p><code>{{xxx}}</code>：双大括号包围变量或表达式( Ansible 中的变量就是它包围的)</p>
+</li>
+<li>
+<p><code>{#xxx#}</code>：Jinja2 的注释符号</p>
+</li>
+<li>
+<p><code>{%xxx%}</code>：Jinja2 的一些特殊关键字标签，比如 if 语句、for 循环语句等等</p>
+</li>
+</ul>
+<p>Jinja2 的内容较多，但对于学习 Ansible 来说，只需要学习其中和 template 相关的一部分(其它的都和开发有关或 Ansible 中用不上)以及 Ansible 对 Jinja2 的扩展功能即可。</p>
+<ul>
+<li>
+<p><a href="https://jinja.palletsprojects.com/en/2.10.x/templates/" target="_blank" rel="noopener noreferrer">Jinja2 的官方手册</a></p>
+</li>
+<li>
+<p><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html" target="_blank" rel="noopener noreferrer">Ansible Jinja2的官方手册</a></p>
+</li>
+</ul>
+<h3 id="ansible-哪里使用了-jinja2"> Ansible 哪里使用了 Jinja2</h3>
+<p>严格地说，playbook 中所有地方都使用了 Jinja2，包括几乎所有指令的值、template 模板文件、copy 模块的 content 指令的值、lookup 的 template 插件，等等。它们会先经过 Jinja2 渲染，然后再执行相关任务。</p>
+<p>例如，下面的playbook中分别使用了三种Jinja2特殊符号。</p>
+<div><pre><code><span>---</span>
+<span>-</span> <span>hosts</span><span>:</span> localhost
+  <span>gather_facts</span><span>:</span> no
+  <span>tasks</span><span>:</span>
+    <span>-</span> <span>debug</span><span>:</span>
+      <span>msg</span><span>:</span> <span>"hello world, {{inventory_hostname}}"</span>
+    <span>-</span> <span>debug</span><span>:</span>
+      <span>msg</span><span>:</span> <span>"hello world{# comment #}"</span>
+    <span>-</span> <span>debug</span><span>:</span>
+      <span>msg</span><span>:</span> <span>"{% if True %}hello world{% endif %}"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><blockquote>
+<p>⚠️ 注：jinja2原生的布尔值应当是小写的true和false，但也支持首字母大写形式的True和False。</p>
+</blockquote>
+<p>执行结果：</p>
+<div><pre><code>TASK [debug] ************************
+ok: [localhost] =&gt; {
+&quot;msg&quot;: &quot;hello world, localhost&quot;
+}
+
+TASK [debug] ************************
+ok: [localhost] =&gt; {
+&quot;msg&quot;: &quot;hello world&quot;
+}
+
+TASK [debug] ************************
+ok: [localhost] =&gt; {
+&quot;msg&quot;: &quot;hello world&quot;
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>再比如模板文件 a.conf.j2 中使用这三种特殊语法：</p>
+<div><pre><code><span>{</span><span># Comment this line #}</span>
+<span>variable value</span><span>:</span> <span>{</span><span>{</span>inventory_hostname<span>}</span><span>}</span>
+<span>{</span>% if True %<span>}</span>
+<span>in if tag code</span><span>:</span> <span>{</span><span>{</span>inventory_hostname<span>}</span><span>}</span>
+<span>{</span>% endif %<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>对应的模板渲染任务：</p>
+<div><pre><code><span>-</span> <span>template</span><span>:</span>
+    <span>src</span><span>:</span> a.conf.j2
+    <span>dest</span><span>:</span> /tmp/a.conf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>执行后，将在<code>/tmp/a.conf</code>中生成如下内容：</p>
+<div><pre><code>variable value: localhost
+in if tag code: localhost
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>有些指令比较特殊，它们已经使用隐式的<code>{{}}</code>进行了预包围，例如 debug 模块的 var 参数、条件判断 when 指令，所以这时就不要手动使用<code>{{}}</code>再包围指令的值。例如：</p>
+<div><pre><code><span>-</span> <span>debug</span><span>:</span>
+    <span>var</span><span>:</span> inventory_hostname
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="jinja2-访问元素的两种方式"> Jinja2 访问元素的两种方式</h3>
+<p>Jinja2 模板引擎允许使用点.来访问列表或字典元素，比如 <code>mylist=[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</code>列表，在 Jinja2 中既可以使用<code>mylist[1]</code>来访问第二个元素，也可以使用<code>mylist.1</code>来访问它。</p>
+<p>在之前的文章中曾解释过这两种访问方式的区别，这里再重复一遍：</p>
+<ul>
+<li>使用<code>X.Y</code> 时，先搜索 Python 对象的属性名或方法名，搜索不到时再搜索 Jinja2 变量</li>
+<li>使用<code>X[&quot;Y&quot;]</code>时，先搜索Jinja2变量，搜索失败时再搜索Python对象的属性名或方法名</li>
+</ul>
+<p>所以，使用<code>X.Y</code>方式时需要小心一些，使用<code>X[&quot;Y&quot;]</code>更保险。当然，使用哪种方式都无所谓，出错了也知道如何去调整。</p>
+<h3 id="jinja2-条件判断"> Jinja2 条件判断</h3>
+<h4 id="if-语句块"> if 语句块</h4>
+<p>Jinja2 中可以使用if语句进行条件判断。</p>
+<p>其语法为：</p>
+<div><pre><code>{% if CONDITION1 %}
+string_or_expression1
+{% elif CONDITION2 %}
+string_or_expression2
+{% elif CONDITION3 %}
+string_or_expression3
+{% else %}
+string_or_expression4
+{% endif %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>其中 elif 和 else 分支都是可省略的。CONDITION 部分是条件表达式，关于 Jinja2 支持的条件表达式，后面会介绍。</p>
+<p>例如，模板文件<code>a.txt.j2</code>内容如下：</p>
+<div><pre><code>今天星期几：
+{% if whatday == &quot;0&quot; %}
+星期日
+{% elif whatday == &quot;1&quot; %}
+星期一
+{% elif whatday == &quot;2&quot; %}
+星期二
+{% elif whatday == &quot;3&quot; %}
+星期三
+{% elif whatday == &quot;4&quot; %}
+星期四
+{% elif whatday == &quot;5&quot; %}
+星期五
+{% elif whatday == &quot;6&quot; %}
+星期六
+{% else %}
+错误数值
+{% endif %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><p>上面判断变量<code>whatday</code>的值，然后输出对应的星期几。因为<code>whatday</code>变量的值是字符串，所以让它和字符串形式的数值进行等值比较。当然，也可以使用筛选器将字符串转换为数值后进行数值比较：<code>whatday|int == 0</code>。</p>
+<p>playbook 内容如下：</p>
+<div><pre><code>---
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    - name: whatday
+      default: 0
+      prompt: &quot;星期几(0-&gt;星期日,1-&gt;星期一...):&quot;
+      private: no
+  tasks:
+    - template:
+        src: a.txt.j2
+        dest: /tmp/a.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h4 id="行内-if-表达式"> 行内 if 表达式</h4>
+<p>如果if语句的分支比较简单(没有elif逻辑)，那么可以使用行内if表达式。</p>
+<p>其语法格式为：</p>
+<div><pre><code>string_or_expr1 if CONDITION else string_or_expr2
+</code></pre>
+<div><span>1</span><br></div></div><p>因为行内if是表达式而不是语句块，所以不使用{%%}符号，而使用{{}}。</p>
+<p>例如：</p>
+<div><pre><code>- debug:
+    msg: &quot;{{&#39;周末&#39; if whatday|int &gt; 5 else &#39;工作日&#39;}}&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="for-循环"> for 循环</h3>
+<h4 id="for迭代列表"> for迭代列表</h4>
+<p>for循环的语法：</p>
+<div><pre><code>{% for i in LIST %}
+string_or_expression
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还支持直接条件判断筛选要参与迭代的元素：</p>
+<div><pre><code>{% for i in LIST if CONDITION %}
+string_or_expression
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>此外，Jinja2 的 for 语句还允许使用 else 分支，如果 for 所迭代的列表 LIST 是空列表(或没有元素可迭代)，则会执行 else 分支。</p>
+<div><pre><code>{% for i in LIST %}
+string_or_expression
+{% else %}
+string_or_expression
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>例如，在模板文件<code>a.txt.j2</code>中有如下内容：</p>
+<div><pre><code><span>{</span>% for file in files %<span>}</span>
+&lt;<span>{</span><span>{</span>file<span>}</span><span>}</span><span>></span>
+<span>{</span>% else %<span>}</span>
+no file in files
+<span>{</span>% endfor %<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>playbook 文件内容如下：</p>
+<div><pre><code><span>---</span>
+<span>-</span> <span>hosts</span><span>:</span> localhost
+  <span>gather_facts</span><span>:</span> no
+  <span>vars</span><span>:</span>
+    <span>files</span><span>:</span>
+      <span>-</span> /tmp/a1
+      <span>-</span> /tmp/a2
+      <span>-</span> /tmp/a3
+  <span>tasks</span><span>:</span>
+    <span>-</span> <span>template</span><span>:</span>
+        <span>src</span><span>:</span> a.txt.j2
+        <span>dest</span><span>:</span> /tmp/a.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>执行 playbook 之后，将生成包含如下内容的<code>/tmp/a.txt</code>文件：</p>
+<div><pre><code>&lt;/tmp/a1&gt;
+&lt;/tmp/a2&gt;
+&lt;/tmp/a3&gt;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>如果将 playbook 中的 files 变量设置为空列表，则会执行 else 分支，所以生成的<code>/tmp/a.txt</code>的内容为：</p>
+<div><pre><code>no file in files
+</code></pre>
+<div><span>1</span><br></div></div><p>如果files变量未定义或变量类型不是list，则默认会报错。针对未定义变量，可采用如下策略提供默认空列表：</p>
+<div><pre><code>{% for file in (files|default([])) %}
+&lt;{{file}}&gt;
+{% else %}
+no file in files
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>如果不想迭代文件列表中的<code>/tmp/a3</code>，则可以加上条件判断：</p>
+<div><pre><code>{% for file in (files|default([])) if file != &quot;/tmp/a3&quot; %}
+&lt;{{file}}&gt;
+{% else %}
+no file in files
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>Jinja2 的 for 循环没有提供 break 和 continue 的功能，所以只能通过<code>{% for...if...%}</code>来间接实现类似功能。</p>
+<h4 id="for迭代字典"> for迭代字典</h4>
+<p>默认情况下，Jinja2 的 for 语句只能迭代列表。</p>
+<p>如果要迭代字典结构，需要先使用字典的 items() 方法进行转换。如果没有学过 python，我下面做个简单解释：</p>
+<div><pre><code>p:
+  name: junmajinlong
+  age: 18
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>如果使用<code>p.items()</code>，将计算得到如下结果：</p>
+<div><pre><code>[(&#39;name&#39;, &#39;junmajinlong&#39;), (&#39;age&#39;, 18)]
+</code></pre>
+<div><span>1</span><br></div></div><p>然后 for 语句中使用两个迭代变量分别保存各列表元素中的子元素即可。下面设置了两个迭代变量 key 和 value：</p>
+<div><pre><code>{% for key,value in p.items() %}
+</code></pre>
+<div><span>1</span><br></div></div><p>那么第一轮迭代时，key 变量保存的是 name 字符串，value 变量保存的是 junmajinlong 字符串，那么第二轮迭代时，key 变量保存的是 age 字符串，value 变量保存的是 18 数值。</p>
+<p>如果 for 迭代时不想要 key 或不想要 value，则使用_来丢弃对应的值。也可以使用<code>keys()</code>方法和<code>values()</code>方法分别获取字典的key组成的列表、字典的value组成的列表。例如：</p>
+<div><pre><code>{% for key,_ in p.items() %}
+{% for _,values in p.items() %}
+{% for key in p.keys() %}
+{% for value in p.values() %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>将上面的解释整理成下面的示例。playbook 内容如下：</p>
+<div><pre><code>- hosts: localhost
+  gather_facts: no
+  vars:
+    p1:
+      name: &quot;junmajinlong&quot;
+      age: 18
+  tasks:
+    - template:
+        src: a.txt.j2
+        dest: /tmp/a.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>模板文件<code>a.txt.j2</code>内容如下：</p>
+<div><pre><code>{% for key,value in p1.items() %}
+key: {{key}}, value: {{value}}
+{% endfor %}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>执行结果：</p>
+<div><pre><code>key: name, value: junmajinlong
+key: age, value: 18
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="for的特殊控制变量"> for的特殊控制变量</h4>
+<p>在for循环内部，可以使用一些特殊变量，如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210527143348798.png" alt="image-20210527143348798" /></p>
+<p>详解 ，略</p>
+<h3 id="macro"> Macro</h3>
+<p>后续补充</p>
+<h3 id="block"> block</h3>
+<p>后续补充</p>
+<h3 id="变量赋值和作用域"> 变量赋值和作用域</h3>
+<p>后续补充</p>
+<h3 id="jinja2的空白处理"> Jinja2的空白处理</h3>
+<p>后续补充</p>
+<h2 id="jinja2-基础补充"> jinja2 基础补充</h2>
+<h3 id="基本运算符"> 基本运算符</h3>
+<ul>
+<li>
+<p>算术类操作符：</p>
+<div><pre><code>+
+-
+*
+/
+//
+%
+**
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明几点：</p>
+<div><pre><code>+操作符也可用于字符串串联、列表相加，例如&quot;a&quot;+&quot;b&quot;得到&quot;ab&quot;，[1,2]+[3,4]得到[1,2,3,4]
+/是浮点数除法，例如3/2得到1.5
+//是截断式整除法，例如20/7得到2
+*也可用于重复字符串，例如&quot;-&quot; * 10得到10个连续的短横线
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div></li>
+<li>
+<p>比较类操作符：</p>
+<div><pre><code>&gt;
+&lt;
+&gt;=
+&lt;=
+==
+!=
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>需要说明一点：比较操作不仅仅只能比较数值，也能比较其它对象，比如字符串。</p>
+<p>例如&quot;hey&quot; &gt; &quot;hello&quot; 返回True。</p>
+</li>
+<li>
+<p>逻辑运算符：</p>
+<div><pre><code>not
+and
+or
+(expr)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div></li>
+<li>
+<p>其它操作符：</p>
+<div><pre><code>in：成员测试，测试是否在容器内
+is：做is测试，参见后文
+|：筛选器，参见后文
+~：字符串串联
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>需要说明几点：</p>
+<div><pre><code>in操作符可测试多种容器，常见的包括：列表测试3 in [1,2,3]、字符串测试&quot;h&quot; in &quot;hey&quot;和字典测试&quot;name&quot; in {&quot;name&quot;:&quot;junma&quot;,&quot;age&quot;:28}都返回True
+is可以做很多测试，比如测试是否是数值，是否是字符串等等，具体内容后面会完整介绍
++可以做字符串串联，~也可以做字符串串联，例如&quot;ab&quot; ~ &quot;cd&quot;得到&quot;abcd&quot;
+not操作符和is、in结合时，可以放在两个位置。例如not (&quot;h&quot; in &quot;hey&quot;)、&quot;h&quot; not in &quot;hey&quot;都可以，not (3 is number())和3 is not number()都可以
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div></li>
+</ul>
+<h3 id="jinja2-内置的-is-测试函数"> Jinja2 内置的 is 测试函数</h3>
+<p>jinja2 的 is 操作符可以做很多测试操作，比如测试是否是数值，是否是字符串等等。下表列出了所有 Jinja2 内置的测试函数。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210527144740868.png" alt="image-20210527144740868" /></p>
+<p>详解；略</p>
+<h3 id="ansible-扩展的测试函数"> Ansible 扩展的测试函数</h3>
+<p>模板引擎是多功能的，可以用在很多方面，所以 Jinja2 自身置的大多数功能都是通用功能。使用 Jinja2 的工具可能会对 Jinja2 进行功能扩展，比如 Flask扩 展了一些功能，Ansible 也对 Jinja2 扩展了一些功能。</p>
+<p>Ansible 扩展的测试函数官方手册：https://docs.ansible.com/ansible/latest/user_guide/playbooks_tests.html 。</p>
+<h4 id="测试字符串"> 测试字符串</h4>
+<p>Ansible 提供了三个正则测试函数：</p>
+<ul>
+<li>match()</li>
+<li>search()</li>
+<li>regex()</li>
+</ul>
+<p>它们都返回布尔值，匹配成功时返回true。</p>
+<p>其中，match()要求从字符串的首字符开始匹配成功。</p>
+<p>例如：</p>
+<div><pre><code>&quot;hello123world&quot; is match(&quot;\d+&quot;) -&gt; False
+&quot;hello123world&quot; is match(&quot;.*\d+&quot;) -&gt; True
+&quot;hello123world&quot; is search(&quot;\d+&quot;) -&gt; True
+&quot;hello123world&quot; is regex(&quot;\d+&quot;) -&gt; True
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="版本号大小比较"> 版本号大小比较</h4>
+<p>Ansible作为配置服务、程序的配置管理工具，经常需要比较版本号的大小是否符合要求。Ansible 提供了一个<code>version</code>测试函数可以用来测试版本号是否大于、小于、等于、不等于给定的版本号。</p>
+<p>语法：</p>
+<div><pre><code>version(&#39;VERSION&#39;,CMP)
+</code></pre>
+<div><span>1</span><br></div></div><p>其中 CMP 可以是如下几种：</p>
+<div><pre><code>&lt;, lt, &lt;=, le, &gt;, gt, &gt;=, ge, ==, =, eq, !=, &lt;&gt;, ne
+</code></pre>
+<div><span>1</span><br></div></div><p>例如：</p>
+<div><pre><code>{{ ansible_facts[&quot;distribution_version&quot;] is version(&quot;7.5&quot;,&quot;&lt;=&quot;) }}
+</code></pre>
+<div><span>1</span><br></div></div><p>判断操作系统版本号是否小于等于7.5。</p>
+<h4 id="子集、父集测试"> 子集、父集测试</h4>
+<ul>
+<li><code>A is subset(B)</code>测试 A 是否是 B 的子集</li>
+<li><code>A is superset(B)</code>测试 A 是否是 B 的父集</li>
+</ul>
+<p>例如：</p>
+<div><pre><code>- debug:
+    msg: &#39;{{[1,2,3] is subset([1,2,3,4])}}&#39;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="成员测试"> 成员测试</h4>
+<p>Jinja2 自己有一个 in 操作符可以做成员测试，Ansible 另外还实现了一个 contains 测试函数，主要目的是为了结合 select、reject、selectattr 和 rejectattr 筛选器。</p>
+<p>详解；略</p>
+<h4 id="测试文件"> 测试文件</h4>
+<p>Ansible 提供了测试文件的相关函数：</p>
+<ul>
+<li>is exists：是否存在</li>
+<li>is directory：是否是目录</li>
+<li>is file：是否是普通文件</li>
+<li>is link：是否是软链接</li>
+<li>is abs：是否是绝对路径</li>
+<li>is same_file(F)：是否和F是硬链接关系</li>
+<li>is mount：是否是挂载点</li>
+</ul>
+<div><pre><code>- debug:
+    msg: &quot;path is a directory&quot;
+  when: mypath is directory
+
+# 如果mypath是绝对路径，即is测试返回true，
+# 则筛选器返回absolute，否则返回relative
+- debug:
+    msg: &quot;path is {{ (mypath is abs)|ternary(&#39;absolute&#39;,&#39;relative&#39;)}}&quot;
+
+- debug:
+    msg: &quot;path is the same file as path2&quot;
+  when: mypath is same_file(path2)
+
+- debug:
+    msg: &quot;path is a mount&quot;
+  when: mypath is mount
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h4 id="测试任务的执行状态"> 测试任务的执行状态</h4>
+<p>每个任务的执行结果都有4种状态：成功、失败、changed、跳过。</p>
+<p>Ansible 提供了相关的测试函数：</p>
+<ul>
+<li>succeeded、success</li>
+<li>failed、failure</li>
+<li>changed、change</li>
+<li>skipped、skip</li>
+</ul>
+<div><pre><code><span>-</span> <span>shell</span><span>:</span> /usr/bin/foo
+  <span>register</span><span>:</span> result
+  <span>ignore_errors</span><span>:</span> <span>True</span>
+
+<span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"it failed"</span>
+    <span>when</span><span>:</span> result is failed
+
+<span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"it changed"</span>
+  <span>when</span><span>:</span> result is changed
+
+<span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"it succeeded in Ansible >= 2.1"</span>
+  <span>when</span><span>:</span> result is succeeded
+
+<span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"it succeeded"</span>
+  <span>when</span><span>:</span> result is success
+
+<span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"it was skipped"</span>
+  <span>when</span><span>:</span> result is skipped
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="jinja2-内置-filter"> Jinja2 内置 Filter</h3>
+<p>通常，模板语言都会带有筛选器，JinJa2 也不例外，每个筛选器函数都是一个功能，作用就类似于函数，而且它也可以接参数。</p>
+<p>Jinja2 的筛选器使用方式非常简单，直接使用一根竖线<code>|</code>，在模板解析时，Jinja2 会将竖线左边的返回值或计算结果当作隐式参数传递给竖线右边的筛选器函数。另外，筛选器是一个表达式，所以写在<code>{{}}</code>内部。</p>
+<p>例如，Jinja2 有一个内置 lower() 筛选器函数，可以将字符串全部转化成小写字母。</p>
+<div><pre><code><span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>"{{'HELLO WORLD'|lower()}}"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>JinJa2 内置了50多个筛选器函数，Ansible 自身也扩展了一些方便的筛选器函数，所以数量非常多。如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210527150327795.png" alt="image-20210527150327795" /></p>
+<p>详解；略</p>
+<h3 id="ansible-扩展的-filter"> Ansible 扩展的 Filter</h3>
+<h4 id="类型转换类筛选器"> 类型转换类筛选器</h4>
+<div><pre><code>{{&quot;123&quot;|int}}
+{{&quot;123&quot;|float}}
+{{123|string}}
+{{range(1,6)|list}}
+{{123|bool}}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>注意，没有dict筛选器转换成字典类型。</p>
+<h4 id="获取当前时间点"> 获取当前时间点</h4>
+<p>Ansible 提供的 now() 可以获取当前时间点。</p>
+<p>可以指定输出的格式化字符串，支持的格式化字符串参考python官方手册：https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior 。</p>
+<p>详解；略</p>
+<h4 id="yaml、json-格式化"> YAML、JSON 格式化</h4>
+<p>Ansible 提供了几个和 YAML、JSON 格式化相关的 Filter：</p>
+<div><pre><code>to_yaml
+to_json
+to_nice_yaml
+to_nice_json
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>它们都可使用 indent 参数指定缩进的层次。</p>
+<p><code>to_yaml</code>和<code>to_json</code>适用于调试，<code>to_nice_yaml</code>和<code>to_nice_json</code>适用于用户查看。</p>
+<p>例如：</p>
+<div><pre><code><span>-</span> <span>debug</span><span>:</span>
+    <span>msg</span><span>:</span> <span>'{{f1|to_nice_json(indent=2)}}'</span>
+  <span>vars</span><span>:</span>
+    <span>f1</span><span>:</span>
+      <span>father</span><span>:</span> <span>"Bob"</span>
+      <span>mother</span><span>:</span> <span>"Alice"</span>
+      <span>Children</span><span>:</span>
+        <span>-</span> Judy
+        <span>-</span> Tedy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="参数忽略"> 参数忽略</h4>
+<p>Ansible 提供了一个特殊变量 omit ，可以用来忽略模块的参数效果。</p>
+<p>官方手册给了一个非常有代表性的示例，如下：</p>
+<div><pre><code><span>-</span> <span>name</span><span>:</span> touch files with an optional mode
+  <span>file</span><span>:</span>
+    <span>dest</span><span>:</span> <span>"{{ item.path }}"</span>
+    <span>state</span><span>:</span> touch
+    <span>mode</span><span>:</span> <span>"{{ item.mode | default(omit) }}"</span>
+  <span>loop</span><span>:</span>
+    <span>-</span> <span>path</span><span>:</span> /tmp/foo
+    <span>-</span> <span>path</span><span>:</span> /tmp/bar
+    <span>-</span> <span>path</span><span>:</span> /tmp/baz
+  <span>mode</span><span>:</span> <span>"0444"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>当所迭代的元素中不存在 mode 项，则使用默认值，默认值设置为特殊变量 omit，使得 file 模块的 mode 参数被忽略，相当于未书写该参数。只有给定了 mode 项时，mode 参数才生效。</p>
+<h4 id="列表元素连接"> 列表元素连接</h4>
+<p><code>join</code>可以将列表各个元素根据指定的连接符连接起来：</p>
+<div><pre><code>{{ [1,2,3] | join(&quot;-&quot;) }}
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="json-query"> json_query</h4>
+<p>可查询 Json 格式的数据，json_query 在 Ansible 中非常实用，是必学 Filter 之一。</p>
+<p>Ansible 的 json_query 基于 jmespath，所以需要先安装 jmespath：</p>
+<div><pre><code>pip3 install jmespath
+</code></pre>
+<div><span>1</span><br></div></div><p>详解；后续补充</p>
+<h4 id="文件名处理"> 文件名处理</h4>
+<ul>
+<li>basename：获取字符串中的文件名部分</li>
+<li>dirname：获取字符串中目录名部分</li>
+<li>expanduser：扩展家目录，即将~替换为家目录</li>
+<li>realpath：获取软链接的原始路径</li>
+<li>splitext：扩展名分离</li>
+</ul>
+<h4 id="后续补充"> 后续补充</h4>
+<ul>
+<li>列表压平</li>
+<li>并集、交集、差集</li>
+<li>dict 和 list 转换</li>
+<li>zip 和 zip_longest</li>
+<li>子元素 subelements</li>
+<li>random 生成随机数</li>
+<li>shuffle 打乱顺序</li>
+<li>ip地址筛选</li>
+<li>正则表达式筛选器</li>
+<li>URL处理筛选器</li>
+<li>extract 提取元素</li>
+<li>dict 合并</li>
+<li>hash 值计算</li>
+<li>base64 编解码筛选器</li>
+<li>日期时间类处理</li>
+<li>human_to_bytes和human_readable</li>
+</ul>
+<blockquote>
+<p>转载自：</p>
+<p>https://blog.51cto.com/cloumn/blog/1592</p>
+<p>https://blog.51cto.com/cloumn/blog/1593</p>
+</blockquote>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210527143348798.png" type="image/png"/>
     </item>
     <item>
       <title>3.1 Ansible lineinfile模块详解</title>
@@ -4941,7 +5473,7 @@ ctnr.a32-168-1.prod.yiz | FAILED! =&gt; {
 <li><a href="./advanced-playbook.html">4.4 Playbook高级用法</a></li>
 <li><a href="./playbook-tags.html">4.5 Playbook之tags</a></li>
 <li><a href="./roles.html">4.6 巧用Roles</a></li>
-<li><a href="./.html">4.7 文件管理模块及Jinja2过滤器</a></li>
+<li><a href="./jinja2.html">4.7 Jinja2 模板</a></li>
 <li><a href="./yaml.html">4.8 yaml 语法</a></li>
 </ul>
 </li>
@@ -4958,234 +5490,8 @@ ctnr.a32-168-1.prod.yiz | FAILED! =&gt; {
 <li><a href="./qa.html">7 常见问题</a></li>
 </ul>
 <h2 id="核心知识点概览"> 核心知识点概览</h2>
-<h3 id="目前生产中ansible-的使用场景"> 目前生产中ansible 的使用场景</h3>
-<ul>
-<li>
-<p><a href="https://github.com/clay-wangzhi/ansible-role-sysinit" target="_blank" rel="noopener noreferrer">系统初始化</a></p>
-</li>
-<li>
-<p><a href="https://wiki.clay-wangzhi.com/10-zabbix/10.2-zabbix-jie-zhu-ansible-an-zhuang" target="_blank" rel="noopener noreferrer">安装配置zabbix</a></p>
-</li>
-<li>
-<p><a href="">安装配置elk</a></p>
-</li>
-<li>
-<p><a href="https://github.com/clay-wangzhi/ansible-role-tomcat" target="_blank" rel="noopener noreferrer">安装配置tomcat</a></p>
-</li>
-<li>
-<p><a href="https://github.com/clay-wangzhi/ansible-role-mysql" target="_blank" rel="noopener noreferrer">安装配置mysql</a></p>
-</li>
-<li>
-<p><a href="https://github.com/clay-wangzhi/ansible-role-jenkins" target="_blank" rel="noopener noreferrer">安装配置jenkins</a></p>
-</li>
-<li>
-<p><a href="https://github.com/clay-wangzhi/ansible-role-zookeeper" target="_blank" rel="noopener noreferrer">安装配置zookeeper集群</a></p>
-</li>
-<li>
-<p><a href="">项目升级发布</a></p>
-</li>
-<li>
-<p><a href="https://github.com/easzlab/kubeasz" target="_blank" rel="noopener noreferrer">安装配置二进制的kubernetes集群</a></p>
-</li>
-</ul>
-<h3 id="ansible-有哪些特性"> Ansible 有哪些特性</h3>
-<ul>
-<li>Agentless，无客户端</li>
-<li>Serverless，在服务端无需启动任何服务，只需执行命令即可</li>
-<li>默认使用ssh控制各节点</li>
-<li>基于模块工作，可以使用任何语言编写模块</li>
-<li>使用yaml语言定制playbook</li>
-<li>幂等性，多次操作或多次执行不影响结果</li>
-</ul>
-<h3 id="ansible-配置文件解析优先级-由高到低依次为"> Ansible 配置文件解析优先级，由高到低依次为</h3>
-<ol>
-<li>ANSIBLE_CONFIG 环境变量指定的配置文件</li>
-<li>当前目录下的的ansible.cfg</li>
-<li>家目录下的ansible.cfg</li>
-<li>/etc/ansible/ansible.cfg</li>
-</ol>
-<h3 id="ansible-inventory-知识点"> Ansible inventory 知识点</h3>
-<ul>
-<li>inventory 主机清单，包含静态inventory和动态inventory</li>
-<li>要使用多个inventory的功能，需将inventory指定为文件目录（默认为/etc/ansible/hosts文件）</li>
-<li>inventory指定目录时，目录下文件最好不要带有后缀名</li>
-<li>Ansible 默认预定义了两个主机组：<code>all</code>分组（所有主机）和<code>ungrouped</code>分组（不在分组内的主机）</li>
-<li>inventory可以配置单独的变量文件（host_vars和group_vars）</li>
-<li>hosts指令，匹配主机，匹配多个用''单引号括起来，用逗号分隔，通配符（*，&amp;, !）,正则匹配，以'~'开头</li>
-<li>ansible-inventory命令
-<ul>
-<li>树状形式展开主机列表<code>ansible-inventory all --graph</code></li>
-<li>同时带上变量<code>ansible-inventory all --graph --vars</code></li>
-</ul>
-</li>
-<li>通过<code>--limit</code>或<code>-l</code>明确指定主机或组</li>
-<li>临时添加节点<code>add_host</code>，临时设置主机组<code>group_by</code></li>
-</ul>
-<h3 id="ansible-hoc-点对点模式-知识点"> Ansible-hoc（点对点模式）知识点</h3>
-<ul>
-<li>
-<p><code>ansible-doc -l</code>查看有哪些模块，<code>ansible-doc -s moudle</code>查看某个模块的参数，<code>ansible-doc module</code>查看该模块更详细的信息</p>
-</li>
-<li>
-<p>命令格式<code>ansible 主机或组 -m 模块名 -a '模块参数' ansible参数</code></p>
-</li>
-<li>
-<p>4个命令执行模块的区别：</p>
-<ul>
-<li>command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;|&quot;, &quot;&amp;&quot;</li>
-<li>shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号</li>
-<li>raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，raw模块在远程主机上直接启动/bin/sh来执行命令</li>
-<li>script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行</li>
-</ul>
-</li>
-<li>
-<p>常用模块</p>
-<ul>
-<li>command</li>
-<li>shell</li>
-<li>script</li>
-<li>ping</li>
-<li>file</li>
-<li>copy</li>
-<li>service</li>
-<li>lineinfile</li>
-<li>cron</li>
-<li>debug</li>
-<li>template</li>
-</ul>
-</li>
-<li>
-<p>debug 模块</p>
-<p>用于输出调试一些数据，模块包含如下选项：</p>
-<ul>
-<li>msg：可以输出字符串，可以输出变量的值，变量调用需加&quot;{{}}&quot;</li>
-<li>var：只能输出变量的值，变量调用无需加任何东西，只需数据变量名称</li>
-</ul>
-<blockquote>
-<p>注意格式，=号左右没有空格</p>
-</blockquote>
-</li>
-<li>
-<p>lineinfile 模块</p>
-<p>lineinfile模块用于在源文件中插入、删除、替换行，和sed命令的功能类似，也支持正则表达式匹配和替换。</p>
-<ul>
-<li>path 指定文件</li>
-<li>line  行内容</li>
-<li>regexp 正则匹配</li>
-<li>insertbefore，insertafter 匹配的行前后插入</li>
-<li>state 状态</li>
-<li>validate 校验文件格式是否正确</li>
-<li>regexp和insertXXX结合，regexp参数则充当幂等性判断参数：只有regepx匹配失败时，insertXXX才会插入行</li>
-</ul>
-</li>
-</ul>
 <h3 id="ansible-playbook-知识点"> Ansible playbook 知识点</h3>
 <ul>
-<li>
-<p>playbook、play和task的关系</p>
-<ul>
-<li>playbook中可以定义一个或多个play</li>
-<li>每个play中可以定义一个或多个task</li>
-</ul>
-</li>
-<li>
-<p>可以定义两类特殊的task：pre_tasks和post_tasks</p>
-<ul>
-<li>pre_tasks表示执行执行普通任务之前执行的任务列表</li>
-<li>post_tasks表示普通任务执行完之后执行的任务列表</li>
-</ul>
-</li>
-<li>
-<p>playbook主要有以下四部分构成</p>
-<ul>
-<li>Target：用于定义将要执行playbook的远程主机组及远程主机组上的用户，还包括定义通过什么样的方式连接远程主机</li>
-<li>Variable：定义playbook运行时需要使用的变量</li>
-<li>Task：定义将要在远程主机上执行的任务列表</li>
-<li>Handler：定义task执行完成以后需要调用的任务</li>
-</ul>
-</li>
-<li>
-<p>常用命令</p>
-<ul>
-<li>校验playbook语法 <code>ansible-playbook --syntax-check xxx.yml</code></li>
-<li>测试运行playbook <code>ansible-playbook -C xxx.yml</code></li>
-</ul>
-</li>
-<li>
-<p>循环语句</p>
-<ul>
-<li>loop关键字，等价于<code>with_list</code>循环列表</li>
-</ul>
-</li>
-<li>
-<p>条件语句</p>
-<ul>
-<li>when关键字，block关键字，rescue关键字，always关键字</li>
-<li>fail模块，filed_when，ignore_errors，change_when，assert断言模块</li>
-<li>any_errors_fatal，max_fail_percentage</li>
-</ul>
-</li>
-<li>
-<p>高级用法</p>
-<ul>
-<li>本地执行 <code>connection: local</code></li>
-<li>任务委托 <code>delegate_to</code></li>
-<li>任务暂停 <code>wait_for</code></li>
-<li>滚动执行 <code>serial</code></li>
-<li>执行一次 <code>run_once</code></li>
-<li>设置环境变量 <code>environment</code></li>
-<li>交互式提示 <code>vars_prompt</code></li>
-</ul>
-</li>
-<li>
-<p>tag</p>
-<ul>
-<li>打tag <code>tags:</code></li>
-<li>指定tag执行 <code>--tags &quot;xxx,xxx&quot;</code></li>
-<li>排除指定的tag执行 <code>--skip-tags &quot;xxx,xxx&quot;</code></li>
-<li>查看所有tag <code>--list-tags</code></li>
-</ul>
-</li>
-<li>
-<p>roles目录结构</p>
-<div><pre><code>$ ansible-galaxy init first_role
-$ tree first_role/
-first_role/            \\ 角色名称
-├── defaults           \\ 为当前角色设定默认变量时使用此目录，应当包含一个main.yml文件；
-│   └── main.yml        
-├── files              \\ 存放有copy或script等模块调用的文件
-├── handlers           \\ 此目录应当包含一个main.yml文件，用于定义各角色用到的各handler
-│   └── main.yml
-├── meta               \\ 应当包含一个main.yml，用于定义角色的特殊设定及其依赖关系；1.3及以后版本支持
-│   └── main.yml
-├── README.md
-├── tasks              \\ 至少包含一个名为main.yml的文件，定义了此角色的任务列表
-│   └── main.yml
-├── templates          \\ template模块会自动在此目录中寻找Jinja2模板文件
-├── tests
-│   ├── inventory
-│   └── test.yml
-└── vars              \\ 应当包含一个main.yml，用于定义此角色用到的变量
-    └── main.yml
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div></li>
-<li>
-<p>playbook 调用格式 <code>ansible-playbook -i /etc/ansible/xxx.yml /etc/ansbile/playbooks/xx.yml --limit &quot;xxx&quot; -e &quot;key=xxx&quot;</code></p>
-</li>
-<li>
-<p>roles 的任务执行顺序</p>
-<ol>
-<li>首先执行meta下的main.yml文件内容     可以设置该role和其它role之前的关联关系。 dependencies</li>
-<li>gather_facts任务</li>
-<li>pre_tasks指令中的任务</li>
-<li>pre_tasks中触发的所有handler</li>
-<li>roles指令加载的Role,执行tasks下的main.yml文件内容</li>
-<li>tasks指令中的任务</li>
-<li>roles和tasks中触发的所有handler, 使用了notify后，会调用 handlers 目录下的main.yml文件</li>
-<li>post_tasks指令中的任务</li>
-<li>post_tasks中触发的所有handler</li>
-</ol>
-</li>
 <li>
 <p>playbook 静态加载和动态加载</p>
 <ul>
@@ -23078,6 +23384,25 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>第七章 测试</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/07_tests/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/07_tests/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第七章 测试</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
+<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
+<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
+<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
+<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
+</ul>
+<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>7.5 牛刀小试</title>
       <link>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
@@ -23101,25 +23426,6 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
 <span>fi</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>第七章 测试</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/07_tests/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/07_tests/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第七章 测试</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
-<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
-<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
-<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
-<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
-</ul>
-<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -27681,48 +27987,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
-      <title>11.2 嵌套循环</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11.2 嵌套循环</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第十一章 循环与分支</title>
       <link>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</guid>
@@ -28124,6 +28388,413 @@ bash$ echo $(echo \\)
 ]]></content:encoded>
     </item>
     <item>
+      <title>11.4 测试与分支</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11.4 测试与分支</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-4-测试与分支"> 11.4 测试与分支</h1>
+<p><code>case</code> 和 <code>select</code> 结构并不属于循环结构，因为它们并没有反复执行代码块。但是和循环结构相似的是，它们会根据代码块顶部或尾部的条件控制程序流。</p>
+<p>下面介绍两种在代码块中控制程序流的方法：</p>
+<h3 id="case-in-esac"> <code>case (in)</code> / <code>esac</code></h3>
+<p>在 shell 脚本中，<code>case</code> 模拟了 C/C++ 语言中的 <code>switch</code>，可以根据条件跳转到其中一个分支。其相当于简写版的 <code>if/then/else</code> 语句。很适合用来创建菜单选项哟！</p>
+<div><pre><code><span>case</span> <span>"<span>$variable</span>"</span> <span>in</span>
+  <span>"<span>$condition1</span>"</span> <span>)</span>
+    command<span>..</span>.
+  <span>;</span><span>;</span>
+  <span>"<span>$condition2</span>"</span> <span>)</span>
+    command<span>..</span>.
+  <span>;</span><span>;</span>
+<span>esac</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /></p>
+<ul>
+<li>
+<p>对变量进行引用不是必须的，因为在这里不会进行字符分割。</p>
+</li>
+<li>
+<p>条件测试语句必须以右括号 ) 结束。<sup></sup></p>
+</li>
+<li>
+<p>每一段代码块都必须以双分号 ;; 结束。</p>
+</li>
+<li>
+<p>如果测试条件为真，其对应的代码块将被执行，而后整个 <code>case</code> 代码段结束执行。</p>
+</li>
+<li>
+<p><code>case</code> 代码段必须以 <code>esac</code> 结束（倒着拼写case）。</p>
+</li>
+</ul>
+</blockquote>
+<p>样例 11-25. 如何使用 <code>case</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># 测试字符的种类。</span>
+
+<span>echo</span><span>;</span> <span>echo</span> <span>"Hit a key, then hit return."</span>
+<span>read</span> Keypress
+
+<span>case</span> <span>"<span>$Keypress</span>"</span> <span>in</span>
+  <span>[</span><span>[</span>:lower:<span>]</span><span>]</span>   <span>)</span> <span>echo</span> <span>"Lowercase letter"</span><span>;</span><span>;</span>
+  <span>[</span><span>[</span>:upper:<span>]</span><span>]</span>   <span>)</span> <span>echo</span> <span>"Uppercase letter"</span><span>;</span><span>;</span>
+  <span>[</span><span>0</span>-9<span>]</span>         <span>)</span> <span>echo</span> <span>"Digit"</span><span>;</span><span>;</span>
+  *             <span>)</span> <span>echo</span> <span>"Punctuation, whitespace, or other"</span><span>;</span><span>;</span>
+<span>esac</span>      <span>#  字符范围可以用[方括号]表示，也可以用 POSIX 形式的[[双方括号]]表示。</span>
+
+<span># 在这个例子的第一个版本中，用来测试是小写还是大写字符使用的是 [a-z] 和 [A-Z]。</span>
+<span># 这在一些特定的语言环境和 Linux 发行版中不起效。</span>
+<span># POSIX 形式具有更好的兼容性。</span>
+<span># 感谢 Frank Wang 指出这一点。</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 这个脚本接受一个单字符然后结束。</span>
+<span># 修改脚本，使得其可以循环接受输入，并且检测键入的每一个字符，直到键入 "X" 为止。</span>
+<span># 提示：将所有东西包在 "while" 中。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>样例 11-26. 使用 <code>case</code> 创建菜单</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span># 简易的通讯录数据库</span>
+
+<span>clear</span> <span># 清屏。</span>
+
+<span>echo</span> <span>"          Contact List"</span>
+<span>echo</span> <span>"          ------- ----"</span>
+<span>echo</span> <span>"Choose one of the following persons:"</span> 
+<span>echo</span>
+<span>echo</span> <span>"[E]vans, Roland"</span>
+<span>echo</span> <span>"[J]ones, Mildred"</span>
+<span>echo</span> <span>"[S]mith, Julie"</span>
+<span>echo</span> <span>"[Z]ane, Morris"</span>
+<span>echo</span>
+
+<span>read</span> person
+
+<span>case</span> <span>"<span>$person</span>"</span> <span>in</span>
+<span># 注意变量是被引用的。</span>
+
+  <span>"E"</span> <span>|</span> <span>"e"</span> <span>)</span>
+  <span># 同时接受大小写的输入。</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Roland Evans"</span>
+  <span>echo</span> <span>"4321 Flash Dr."</span>
+  <span>echo</span> <span>"Hardscrabble, CO 80753"</span>
+  <span>echo</span> <span>"(303) 734-9874"</span>
+  <span>echo</span> <span>"(303) 734-9892 fax"</span>
+  <span>echo</span> <span>"revans@zzy.net"</span>
+  <span>echo</span> <span>"Business partner &amp; old friend"</span>
+  <span>;</span><span>;</span>
+  <span># 注意用双分号结束这一个选项。</span>
+
+  <span>"J"</span> <span>|</span> <span>"j"</span> <span>)</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Mildred Jones"</span>
+  <span>echo</span> <span>"249 E. 7th St., Apt. 19"</span>
+  <span>echo</span> <span>"New York, NY 10009"</span>
+  <span>echo</span> <span>"(212) 533-2814"</span>
+  <span>echo</span> <span>"(212) 533-9972 fax"</span>
+  <span>echo</span> <span>"milliej@loisaida.com"</span>
+  <span>echo</span> <span>"Ex-girlfriend"</span>
+  <span>echo</span> <span>"Birthday: Feb. 11"</span>
+  <span>;</span><span>;</span>
+  
+  <span># Smith 和 Zane 的信息稍后添加。</span>
+
+  *         <span>)</span>
+  <span># 缺省设置。</span>
+  <span># 空输入（直接键入回车）也是执行这一部分。</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Not yet in database."</span>
+  <span>;</span><span>;</span>
+  
+<span>esac</span>
+
+<span>echo</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 修改脚本，使得其可以循环接受多次输入而不是只显示一个地址后终止脚本。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div><p>你可以用 <code>case</code> 来检测命令行参数。</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+  <span>""</span><span>)</span> <span>echo</span> <span>"Usage: <span>${0<span>##</span>*<span>/</span>}</span> &lt;filename>"</span><span>;</span> <span>exit</span> <span>$E_PARAM</span><span>;</span><span>;</span>
+                      <span># 没有命令行参数，或者第一个参数为空。</span>
+                      <span># 注意 ${0##*/} 是参数替换 ${var##pattern} 的一种形式。</span>
+                      <span># 最后的结果是 $0.</span>
+  
+  -*<span>)</span> <span>FILENAME</span><span>=</span>./<span>$1</span><span>;</span><span>;</span> <span>#  如果传入的参数以短横线开头，那么将其替换为 ./$1</span>
+                      <span>#+ 以避免后续的命令将其解释为一个选项。</span>
+  
+  * <span>)</span> <span>FILENAME</span><span>=</span><span>$1</span><span>;</span><span>;</span>   <span># 否则赋值为 $1。</span>
+<span>esac</span>                  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>下面是一个更加直观的处理命令行参数的例子：</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>while</span> <span>[</span> <span>$#</span> -gt <span>0</span> <span>]</span><span>;</span> <span>do</span>    <span># 遍历完所有参数</span>
+  <span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+    -d<span>|</span>--debug<span>)</span>
+              <span># 检测是否是 "-d" 或者 "--debug"。</span>
+              <span>DEBUG</span><span>=</span><span>1</span>
+              <span>;</span><span>;</span>
+    -c<span>|</span>--conf<span>)</span>
+              <span>CONFFILE</span><span>=</span><span>"<span>$2</span>"</span>
+              <span>shift</span>
+              <span>if</span> <span>[</span> <span>!</span> -f <span>$CONFFILE</span> <span>]</span><span>;</span> <span>then</span>
+                <span>echo</span> <span>"Error: Supplied file doesn't exist!"</span>
+                <span>exit</span> <span>$E_CONFFILE</span>     <span># 找不到文件。</span>
+              <span>fi</span>
+              <span>;</span><span>;</span>
+  <span>esac</span>
+  <span>shift</span>       <span># 检测下一个参数</span>
+<span>done</span>
+
+<span># 摘自 Stefano Falsetto 的 "Log2Rot" 脚本中 "rottlog" 包的一部分。</span>
+<span># 已授权使用。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>样例 11-27. 使用命令替换生成 <code>case</code> 变量</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># case-cmd.sh: 使用命令替换生成 "case" 变量。</span>
+
+<span>case</span> <span><span>$(</span> arch <span>)</span></span> <span>in</span>   <span># $( arch ) 返回设备架构。</span>
+                    <span># 等价于 'uname -m"。</span>
+  i386 <span>)</span> <span>echo</span> <span>"80386-based machine"</span><span>;</span><span>;</span>
+  i486 <span>)</span> <span>echo</span> <span>"80486-based machine"</span><span>;</span><span>;</span>
+  i586 <span>)</span> <span>echo</span> <span>"Pentium-based machine"</span><span>;</span><span>;</span>
+  i686 <span>)</span> <span>echo</span> <span>"Pentium2+-based machine"</span><span>;</span><span>;</span>
+  *    <span>)</span> <span>echo</span> <span>"Other type of machine"</span><span>;</span><span>;</span>
+<span>esac</span>
+
+<span>exit</span> <span>0</span>  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p><code>case</code> 还可以用来做字符串模式匹配。</p>
+<p>样例 11-28. 简单的字符串匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># match-string.sh: 使用 'case' 结构进行简单的字符串匹配。</span>
+
+<span>match_string</span> <span>(</span><span>)</span>
+<span>{</span> <span># 字符串精确匹配。</span>
+  <span>MATCH</span><span>=</span><span>0</span>
+  <span>E_NOMATCH</span><span>=</span><span>90</span>
+  <span>PARAMS</span><span>=</span><span>2</span>     <span># 需要2个参数。</span>
+  <span>E_BAD_PARAMS</span><span>=</span><span>91</span>
+  
+  <span>[</span> <span>$#</span> -eq <span>$PARAMS</span> <span>]</span> <span>||</span> <span>return</span> <span>$E_BAD_PARAMS</span>
+  
+  <span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+    <span>"<span>$2</span>"</span><span>)</span> <span>return</span> <span>$MATCH</span><span>;</span><span>;</span>
+    *   <span>)</span> <span>return</span> <span>$E_NOMATCH</span><span>;</span><span>;</span>
+  <span>esac</span>
+  
+<span>}</span>
+
+
+<span>a</span><span>=</span>one
+<span>b</span><span>=</span>two
+<span>c</span><span>=</span>three
+<span>d</span><span>=</span>two
+
+match_string <span>$a</span>     <span># 参数个数不够</span>
+<span>echo</span> <span>$?</span>             <span># 91</span>
+
+match_string <span>$a</span> <span>$b</span>  <span># 匹配不到</span>
+<span>echo</span> <span>$?</span>             <span># 90</span>
+
+match_string <span>$a</span> <span>$d</span>  <span># 匹配成功</span>
+<span>echo</span> <span>$?</span>             <span># 0</span>
+
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p>样例 11-29. 检查输入</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># isaplpha.sh: 使用 "case" 结构检查输入。</span>
+
+<span>SUCCESS</span><span>=</span><span>0</span>
+<span>FAILURE</span><span>=</span><span>1</span>   <span>#  以前是FAILURE=-1,</span>
+            <span>#+ 但现在 Bash 不允许返回负值。</span>
+
+isalpha <span>(</span><span>)</span>  <span># 测试字符串的第一个字符是否是字母。</span>
+<span>{</span>
+<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>                <span># 检测是否传入参数。</span>
+<span>then</span>
+  <span>return</span> <span>$FAILURE</span>
+<span>fi</span>
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+  <span>[</span>a-zA-Z<span>]</span>*<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>  <span># 是否以字母形式开始？</span>
+  *        <span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
+<span>esac</span>
+<span>}</span>             <span># 可以与 C 语言中的函数 "isalpha ()" 作比较。</span>
+
+
+isalpha2 <span>(</span><span>)</span>   <span># 测试整个字符串是否都是字母。</span>
+<span>{</span>
+  <span>[</span> <span>$#</span> -eq <span>1</span> <span>]</span> <span>||</span> <span>return</span> <span>$FAILURE</span>
+  
+  <span>case</span> <span>$1</span> <span>in</span>
+  *<span>[</span><span>!</span>a-zA-Z<span>]</span>*<span>|</span><span>""</span><span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
+               *<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>
+  <span>esac</span>
+<span>}</span>
+
+isdigit <span>(</span><span>)</span>    <span># 测试整个字符串是否都是数字。</span>
+<span>{</span>             <span># 换句话说，也就是测试是否是一个整型变量。</span>
+  <span>[</span> <span>$#</span> -eq <span>1</span> <span>]</span> <span>||</span> <span>return</span> <span>$FAILURE</span>
+  
+  <span>case</span> <span>$1</span> <span>in</span>
+    *<span>[</span><span>!</span><span>0</span>-9<span>]</span>*<span>|</span><span>""</span><span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
+              *<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>
+  <span>esac</span>
+<span>}</span>
+
+
+
+check_var <span>(</span><span>)</span>  <span># 包装后的 isalpha ()。</span>
+<span>{</span>
+<span>if</span> isalpha <span>"<span>$@</span>"</span>
+<span>then</span>
+  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> begins with an alpha character."</span>
+  <span>if</span> isalpha2 <span>"<span>$@</span>"</span>
+  <span>then</span>        <span># 其实没必要检查第一个字符是不是字母。</span>
+    <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains only alpha characters."</span>
+  <span>else</span>
+    <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains at least one non-alpha character."</span>
+  <span>fi</span>
+<span>else</span>
+  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> begins with a non-alpha character."</span>
+              <span># 如果没有传入参数同样同样返回“存在非字母”。</span>
+<span>fi</span>
+  
+<span>echo</span>
+  
+<span>}</span>
+
+digit_check <span>(</span><span>)</span>  <span># 包装后的 isdigit ()。</span>
+<span>{</span>
+<span>if</span> isdigit <span>"<span>$@</span>"</span>
+<span>then</span>
+  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains only digits [0 - 9]."</span>
+<span>else</span>
+  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> has at least one non-digit character."</span>
+<span>fi</span>
+  
+<span>echo</span>
+  
+<span>}</span>
+
+
+<span>a</span><span>=</span>23skidoo
+<span>b</span><span>=</span>H3llo
+<span>c</span><span>=</span>-What?
+<span>d</span><span>=</span>What?
+<span>e</span><span>=</span><span><span>$(</span><span>echo</span> $b<span>)</span></span>   <span># 命令替换。</span>
+<span>f</span><span>=</span>AbcDef
+<span>g</span><span>=</span><span>27234</span>
+<span>h</span><span>=</span>27a34
+<span>i</span><span>=</span><span>27.34</span>
+
+check_var <span>$a</span>
+check_var <span>$b</span>
+check_var <span>$c</span>
+check_var <span>$d</span>
+check_var <span>$e</span>
+check_var <span>$f</span>
+check_var     <span># 如果不传入参数会发送什么？</span>
+<span>#</span>
+digit_check <span>$g</span>
+digit_check <span>$h</span>
+digit_check <span>$i</span>
+
+
+<span>exit</span> <span>0</span>        <span># S.C. 改进了本脚本。</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 写一个函数 'isfloat ()' 来检测输入值是否是浮点数。</span>
+<span># 提示：可以参考函数 'isdigit ()'，在其中加入检测合法的小数点即可。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br></div></div><h3 id="select"> <code>select</code></h3>
+<p><code>select</code> 结构是学习自 Korn Shell。其同样可以用来构建菜单。</p>
+<div><pre><code><span>select</span> variable <span>[</span>in list<span>]</span>
+<span>do</span>
+ command<span>..</span>.
+ <span>break</span>
+<span>done</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>而效果则是终端会提示用户输入列表中的一个选项。注意，<code>select</code> 默认使用提示字串3（Prompt String 3，<code>$PS3</code>, 即#?），但同样可以被修改。</p>
+<p>样例 11-30. 使用 <code>select</code> 创建菜单</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span><span>PS3</span></span><span>=</span><span>'Choose your favorite vegetable: '</span> <span># 设置提示字串。</span>
+                                       <span># 否则默认为 #?。</span>
+
+<span>echo</span>
+
+<span>select</span> <span>vegetable</span> <span>in</span> <span>"beans"</span> <span>"carrots"</span> <span>"potatoes"</span> <span>"onions"</span> <span>"rutabagas"</span>
+<span>do</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Your favorite veggie is <span>$vegetable</span>."</span>
+  <span>echo</span> <span>"Yuck!"</span>
+  <span>echo</span>
+  <span>break</span>  <span># 如果没有 'break' 会发生什么？</span>
+<span>done</span>
+
+<span>exit</span>
+
+<span># 练习:</span>
+<span># -----</span>
+<span># 修改脚本，使得其可以接受其他输入而不是 "select" 语句中所指定的。</span>
+<span># 例如，如果用户输入 "peas,"，那么脚本会通知用户 "Sorry. That is not on the menu."</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>如果 <em>in list</em> 被省略，那么 <code>select</code> 将会使用传入脚本的命令行参数（<code>$@</code>）或者传入函数的参数作为 <em>list</em>。</p>
+<p>可以与 <code>for variable [in list]</code> 中 <em>in list</em> 被省略的情况做比较。</p>
+<p>样例 11-31. 在函数中使用 <code>select</code> 创建菜单</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span><span>PS3</span></span><span>=</span><span>'Choose your favorite vegetable: '</span>
+
+<span>echo</span>
+
+<span>choice_of</span><span>(</span><span>)</span>
+<span>{</span>
+<span>select</span> vegetable
+<span># [in list] 被省略，因此 'select' 将会使用传入函数的参数作为 list。</span>
+<span>do</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Your favorite veggie is <span>$vegetable</span>."</span>
+  <span>echo</span> <span>"Yuck!"</span>
+  <span>echo</span>
+  <span>break</span>
+<span>done</span>
+<span>}</span>
+
+choice_of beans rice carrorts radishes rutabaga spinach
+<span>#         $1    $2   $3      $4       $5       $6</span>
+<span>#         传入了函数 choice_of()</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>还可以参照 <a href="http://tldp.org/LDP/abs/html/bashver2.html#RESISTOR" target="_blank" rel="noopener noreferrer">样例37-3</a>。</p>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>在写匹配行的时候，可以在左边加上左括号 (，使整个结构看起来更加优雅。<pre>case $( arch ) in   # $( arch ) 返回设备架构。<br>  ( i386 ) echo &quot;80386-based machine&quot;;;<br># ^      ^<br>  ( i486 ) echo &quot;80486-based machine&quot;;;<br>  ( i586 ) echo &quot;Pentium-based machine&quot;;;<br>  ( i686 ) echo &quot;Pentium2+-based machine&quot;;;<br>  (    * ) echo &quot;Other type of machine&quot;;;<br>esac</pre> </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
       <title>第三部分 shell进阶</title>
       <link>https://clay-wangzhi.com/code/shell/part3/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/</guid>
@@ -28168,6 +28839,130 @@ bash$ echo $(echo \\)
 <li><a href="./14_recess_time.html">14. 休息时间</a></li>
 </ul>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>18.1 正则表达式简介</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">18.1 正则表达式简介</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_18-1-正则表达式简介"> 18.1 正则表达式简介</h1>
+<p>正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning<a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a>。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。</p>
+<p>一个正则表达式包含下面的一个或多个选项：</p>
+<ul>
+<li>一组字符串。这是仅仅表示字面意思的字符串。最简单形式的正则表达式仅仅包含一组字符串。</li>
+<li>一个锚字符。锚节点指定了正则表达式在一行文本中的匹配位置。例如，^和$就是锚字符。</li>
+<li>修饰符。修饰符扩展或者限定（修改）了正则表达式在文本中的匹配范围。修饰符包括星号、方括号和反斜线。</li>
+</ul>
+<p>正则表达式的主要用在文本搜索和字符串操作。一个正则表达式匹配单个字符或者一组字符 -- 一系列的字符或者字符串的一部分。</p>
+<ul>
+<li>
+<p>星号 * 匹配前面的子表达式任意次，包括0次</p>
+<p>&quot;1133*&quot;匹配&quot;11&quot;加一个或多个&quot;3&quot;：113，1133，1133333，及以后</p>
+</li>
+<li>
+<p>点号 . 匹配任意字符，除了新的一行<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a></p>
+<p>&quot;13.&quot;匹配&quot;13&quot;加至少一个字符（包括空格）：1133，11333，但不是13（缺少额外的字符）<br>
+参见例子<a href="http://tldp.org/LDP/abs/html/textproc.html#CWSOLVER" target="_blank" rel="noopener noreferrer">16-18</a>，展示单字符匹配</p>
+</li>
+<li>
+<p>脱字符 ^ 匹配行的起始位置，但有时候会根据上下文环境匹配其相反的意义（译者注：例如[^a]匹配任意一个非a的字符）</p>
+</li>
+<li>
+<p>美元符 $ 匹配行的结束位置</p>
+<p>&quot;XXX$&quot;匹配行尾处的&quot;XXX&quot;<br>
+&quot;^$&quot;匹配空行</p>
+</li>
+<li>
+<p>方括号 [...] 匹配所包含的任意一个字符</p>
+<p>&quot;[xyz]&quot;匹配x、y或z中的任意一个字符<br>
+&quot;[c-n]&quot;匹配c到n之间的任意一个字符<br>
+&quot;[B-Pk-y]&quot;匹配B到P和k到y之间任意一个字符<br>
+&quot;[a-z0-9]&quot;匹配任意一个小写字符和任意一个数字<br>
+&quot;[<sup>b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;</sup>&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
+组合一连串的用方括号括起来的字符能匹配非常多的词组模式。&quot;[Yy][Ee][Ss]&quot;匹配yes、Yes、YES、yEs等等。&quot;[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]&quot;匹配任何一个社会保险号</p>
+</li>
+<li>
+<p>反斜线 \ 转义一个特殊字符，意味着这个字符被解释为字面意义（因此不再包含特殊意思）</p>
+<p>&quot;$&quot;表示回它的字面意义&quot;$&quot;，而不是它原本在正则表达式中代表行尾的意义。同样，&quot;\&quot;表示字面意义&quot;&quot;</p>
+</li>
+<li>
+<p>转义后的尖括号 &lt;..&gt; 代表词组的边界</p>
+<p>尖括号必须进行转义，否则它们就代表其字面意义<br>
+&quot;&lt;the&gt;&quot;匹配词组&quot;the&quot;，而不是词组&quot;them,&quot; &quot;there,&quot; &quot;other,&quot;等等</p>
+</li>
+</ul>
+<div><pre><code>bash$ <span>cat</span> textfile
+This is line <span>1</span>, of <span>which</span> there is only one instance.
+ This is the only instance of line <span>2</span>.
+ This is line <span>3</span>, another line.
+ This is line <span>4</span>.
+
+
+bash$ <span>grep</span> <span>'the'</span> textfile
+This is line <span>1</span>, of <span>which</span> there is only one instance.
+ This is the only instance of line <span>2</span>.
+ This is line <span>3</span>, another line.
+
+
+bash$ <span>grep</span> <span>'\&lt;the\>'</span> textfile
+This is the only instance of line <span>2</span>.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
+<div><pre><code>测试文件: tstfile                          <span># No match.</span>
+                                            <span># No match.</span>
+运行 <span>grep</span> <span>"1133*"</span>  tstfile                  <span># Match.</span>
+                                            <span># No match.</span>
+                                            <span># No match.</span>
+This line contains the number <span>113</span>.          <span># Match.</span>
+This line contains the number <span>13</span>.           <span># No match.</span>
+This line contains the number <span>133</span>.          <span># No match.</span>
+This line contains the number <span>1133</span>.         <span># Match.</span>
+This line contains the number <span>113312</span>.       <span># Match.</span>
+This line contains the number <span>1112</span>.         <span># No match.</span>
+This line contains the number <span>113312312</span>.    <span># Match.</span>
+This line contains no numbers at all.       <span># No match.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><div><pre><code>bash$ <span>grep</span> <span>"1133*"</span> tstfile
+Run   <span>grep</span> <span>"1133*"</span>  on this file.           <span># Match.</span>
+ This line contains the number <span>113</span>.          <span># Match.</span>
+ This line contains the number <span>1133</span>.         <span># Match.</span>
+ This line contains the number <span>113312</span>.       <span># Match.</span>
+ This line contains the number <span>113312312</span>.    <span># Match.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>注解</p>
+<p><a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a> 元意义指的是一个词组或者表达式在更高层次的抽象上的意义。例如，正则表达式的字面意思就是所有人接受其用法的普通表达式。元意义则完全不同，正如在本章最终讨论的那样。
+<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a>
+Since sed, awk, and grep process single lines, there will usually not be a newline to match. In those cases where there is a newline in a multiple line expression, the dot will match the newline.</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>sed</span> -e <span>'N;s/.*/[&amp;]/'</span> <span>&lt;&lt;</span> <span>EOF<span>   <span># Here Document</span></span>
+line1
+line2
+EOF</span>
+<span># OUTPUT:</span>
+<span># [line1</span>
+<span># line2]</span>
+
+
+
+<span>echo</span>
+
+<span>awk</span> <span>'{ <span>$0</span>=<span>$1</span> "<span title="\n">\n</span>" <span>$2</span>; if (/line.1/) {print}}'</span> <span>&lt;&lt;</span> <span>EOF
+line 1
+line 2
+EOF</span>
+<span># OUTPUT:</span>
+<span># line</span>
+<span># 1</span>
+
+
+<span># Thanks, S.C.</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>第四部分 命令</title>
@@ -28589,130 +29384,6 @@ bash$ echo $(echo \\)
 </li>
 </ul>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>18.1 正则表达式简介</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/18_1_a_brief_introduction_to_regular_expressions/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">18.1 正则表达式简介</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_18-1-正则表达式简介"> 18.1 正则表达式简介</h1>
-<p>正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning<a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a>。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。</p>
-<p>一个正则表达式包含下面的一个或多个选项：</p>
-<ul>
-<li>一组字符串。这是仅仅表示字面意思的字符串。最简单形式的正则表达式仅仅包含一组字符串。</li>
-<li>一个锚字符。锚节点指定了正则表达式在一行文本中的匹配位置。例如，^和$就是锚字符。</li>
-<li>修饰符。修饰符扩展或者限定（修改）了正则表达式在文本中的匹配范围。修饰符包括星号、方括号和反斜线。</li>
-</ul>
-<p>正则表达式的主要用在文本搜索和字符串操作。一个正则表达式匹配单个字符或者一组字符 -- 一系列的字符或者字符串的一部分。</p>
-<ul>
-<li>
-<p>星号 * 匹配前面的子表达式任意次，包括0次</p>
-<p>&quot;1133*&quot;匹配&quot;11&quot;加一个或多个&quot;3&quot;：113，1133，1133333，及以后</p>
-</li>
-<li>
-<p>点号 . 匹配任意字符，除了新的一行<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a></p>
-<p>&quot;13.&quot;匹配&quot;13&quot;加至少一个字符（包括空格）：1133，11333，但不是13（缺少额外的字符）<br>
-参见例子<a href="http://tldp.org/LDP/abs/html/textproc.html#CWSOLVER" target="_blank" rel="noopener noreferrer">16-18</a>，展示单字符匹配</p>
-</li>
-<li>
-<p>脱字符 ^ 匹配行的起始位置，但有时候会根据上下文环境匹配其相反的意义（译者注：例如[^a]匹配任意一个非a的字符）</p>
-</li>
-<li>
-<p>美元符 $ 匹配行的结束位置</p>
-<p>&quot;XXX$&quot;匹配行尾处的&quot;XXX&quot;<br>
-&quot;^$&quot;匹配空行</p>
-</li>
-<li>
-<p>方括号 [...] 匹配所包含的任意一个字符</p>
-<p>&quot;[xyz]&quot;匹配x、y或z中的任意一个字符<br>
-&quot;[c-n]&quot;匹配c到n之间的任意一个字符<br>
-&quot;[B-Pk-y]&quot;匹配B到P和k到y之间任意一个字符<br>
-&quot;[a-z0-9]&quot;匹配任意一个小写字符和任意一个数字<br>
-&quot;[<sup>b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;</sup>&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
-组合一连串的用方括号括起来的字符能匹配非常多的词组模式。&quot;[Yy][Ee][Ss]&quot;匹配yes、Yes、YES、yEs等等。&quot;[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]&quot;匹配任何一个社会保险号</p>
-</li>
-<li>
-<p>反斜线 \ 转义一个特殊字符，意味着这个字符被解释为字面意义（因此不再包含特殊意思）</p>
-<p>&quot;$&quot;表示回它的字面意义&quot;$&quot;，而不是它原本在正则表达式中代表行尾的意义。同样，&quot;\&quot;表示字面意义&quot;&quot;</p>
-</li>
-<li>
-<p>转义后的尖括号 &lt;..&gt; 代表词组的边界</p>
-<p>尖括号必须进行转义，否则它们就代表其字面意义<br>
-&quot;&lt;the&gt;&quot;匹配词组&quot;the&quot;，而不是词组&quot;them,&quot; &quot;there,&quot; &quot;other,&quot;等等</p>
-</li>
-</ul>
-<div><pre><code>bash$ <span>cat</span> textfile
-This is line <span>1</span>, of <span>which</span> there is only one instance.
- This is the only instance of line <span>2</span>.
- This is line <span>3</span>, another line.
- This is line <span>4</span>.
-
-
-bash$ <span>grep</span> <span>'the'</span> textfile
-This is line <span>1</span>, of <span>which</span> there is only one instance.
- This is the only instance of line <span>2</span>.
- This is line <span>3</span>, another line.
-
-
-bash$ <span>grep</span> <span>'\&lt;the\>'</span> textfile
-This is the only instance of line <span>2</span>.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
-<div><pre><code>测试文件: tstfile                          <span># No match.</span>
-                                            <span># No match.</span>
-运行 <span>grep</span> <span>"1133*"</span>  tstfile                  <span># Match.</span>
-                                            <span># No match.</span>
-                                            <span># No match.</span>
-This line contains the number <span>113</span>.          <span># Match.</span>
-This line contains the number <span>13</span>.           <span># No match.</span>
-This line contains the number <span>133</span>.          <span># No match.</span>
-This line contains the number <span>1133</span>.         <span># Match.</span>
-This line contains the number <span>113312</span>.       <span># Match.</span>
-This line contains the number <span>1112</span>.         <span># No match.</span>
-This line contains the number <span>113312312</span>.    <span># Match.</span>
-This line contains no numbers at all.       <span># No match.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><div><pre><code>bash$ <span>grep</span> <span>"1133*"</span> tstfile
-Run   <span>grep</span> <span>"1133*"</span>  on this file.           <span># Match.</span>
- This line contains the number <span>113</span>.          <span># Match.</span>
- This line contains the number <span>1133</span>.         <span># Match.</span>
- This line contains the number <span>113312</span>.       <span># Match.</span>
- This line contains the number <span>113312312</span>.    <span># Match.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>注解</p>
-<p><a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]</a> 元意义指的是一个词组或者表达式在更高层次的抽象上的意义。例如，正则表达式的字面意思就是所有人接受其用法的普通表达式。元意义则完全不同，正如在本章最终讨论的那样。
-<a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]</a>
-Since sed, awk, and grep process single lines, there will usually not be a newline to match. In those cases where there is a newline in a multiple line expression, the dot will match the newline.</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>sed</span> -e <span>'N;s/.*/[&amp;]/'</span> <span>&lt;&lt;</span> <span>EOF<span>   <span># Here Document</span></span>
-line1
-line2
-EOF</span>
-<span># OUTPUT:</span>
-<span># [line1</span>
-<span># line2]</span>
-
-
-
-<span>echo</span>
-
-<span>awk</span> <span>'{ <span>$0</span>=<span>$1</span> "<span title="\n">\n</span>" <span>$2</span>; if (/line.1/) {print}}'</span> <span>&lt;&lt;</span> <span>EOF
-line 1
-line 2
-EOF</span>
-<span># OUTPUT:</span>
-<span># line</span>
-<span># 1</span>
-
-
-<span># Thanks, S.C.</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>18.2文件名替换</title>
@@ -34380,6 +35051,140 @@ exit 0
       <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
     </item>
     <item>
+      <title>30 网络编程</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/30_network_programming/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/30_network_programming/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">30 网络编程</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_30-网络编程"> 30 网络编程</h1>
+<blockquote>The Net's a cross between an elephant and a white elephant sale: it never forgets, and it's always crap.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--Nemo</blockquote>
+<p>Linux系统拥有一系列的工具，用于访问、操作和调解网络连接。我们能够把其中的一部分工具整合到脚本中 -- 这些脚本能扩展我们对网络的认知，有用的脚本还能方便网络管理。</p>
+<p>以下是一个简单的CGI脚本，阐述如何连接到远程服务器。</p>
+<p>例子 30-1. 打印服务器环境</p>
+<div><pre><code>#!/bin/bash
+# test-cgi.sh
+# by Michael Zick
+# Used with permission
+
+# 您应该根据您的情况修改相应的Bash路径
+# （在ISP的服务器中，Bash一般不会放在正常的位置）
+# 其他位置： /usr/bin 或者 /usr/local/bin
+# 甚至应该在sha-bang中不用任何路径运行它
+
+# 取消通配符
+set -f
+
+# Http Header（译者注：此头信息是告诉浏览器服务器返回的内容格式）
+echo Content-type: text/plain
+echo
+
+echo CGI/1.0 test script report:
+echo
+
+echo environment settings:
+set
+echo
+
+echo whereis bash?
+whereis bash
+echo
+
+
+echo who are we?
+echo ${BASH_VERSINFO[*]}
+echo
+
+echo argc is $#. argv is &quot;$*&quot;.
+echo
+
+# CGI/1.0 预期的环境变量。
+
+echo SERVER_SOFTWARE = $SERVER_SOFTWARE
+echo SERVER_NAME = $SERVER_NAME
+echo GATEWAY_INTERFACE = $GATEWAY_INTERFACE
+echo SERVER_PROTOCOL = $SERVER_PROTOCOL
+echo SERVER_PORT = $SERVER_PORT
+echo REQUEST_METHOD = $REQUEST_METHOD
+echo HTTP_ACCEPT = &quot;$HTTP_ACCEPT&quot;
+echo PATH_INFO = &quot;$PATH_INFO&quot;
+echo PATH_TRANSLATED = &quot;$PATH_TRANSLATED&quot;
+echo SCRIPT_NAME = &quot;$SCRIPT_NAME&quot;
+echo QUERY_STRING = &quot;$QUERY_STRING&quot;
+echo REMOTE_HOST = $REMOTE_HOST
+echo REMOTE_ADDR = $REMOTE_ADDR
+echo REMOTE_USER = $REMOTE_USER
+echo AUTH_TYPE = $AUTH_TYPE
+echo CONTENT_TYPE = $CONTENT_TYPE
+echo CONTENT_LENGTH = $CONTENT_LENGTH
+
+exit 0
+
+# 在这里，文档给出一些简短的指令。
+:&lt;&lt;-&#39;_test_CGI_&#39;
+
+1) 将此文档放到http://domain.name/cgi-bin的目录。
+2) 然后，访问http://domain.name/cgi-bin/test-cgi.sh.
+
+_test_CGI_
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br></div></div><p>出于安全的考虑，确认连接计算机的IP地址是有用的。
+例子 30-2. IP地址</p>
+<div><pre><code>#!/bin/bash
+# ip-addresses.sh
+# 列出您的计算机所连接的IP地址。
+
+#  受Greg Bledsoe的ddos.sh脚本所启发，
+#  Linux Journal，2011年3月9号。
+#    URL:
+#  http://www.linuxjournal.com/content/back-dead-simple-bash-complex-ddos
+#  Greg licensed his script under the GPL2,
+#+ and as a derivative, this script is likewise GPL2.
+
+connection_type=TCP      # 也可以使用UDP
+field=2           # Which field of the output we&#39;re interested in.
+no_match=LISTEN   # 过滤出包含此字符串的记录，为什么？
+lsof_args=-ni     # -i 列出互联网相关的文件。
+                  # -n 使用数值IP地址。
+		  # 如果不使用-n选项，会发生什么情况？试试看。
+router=&quot;[0-9][0-9][0-9][0-9][0-9]-&gt;&quot;
+#       删除路由信息。
+
+lsof &quot;$lsof_args&quot; | grep $connection_type | grep -v &quot;$no_match&quot; |
+      awk &#39;{print $9}&#39; | cut -d : -f $field | sort | uniq |
+      sed s/&quot;^$router&quot;//
+
+#  Bledsoe的脚本将过滤出的IP地址结果赋给一个变量（类似上面的19行到22行）。
+#  他检查连接到一个IP地址的多个连接，
+#  使用：
+#
+#    iptables -I INPUT -s $ip -p tcp -j REJECT --reject-with tcp-reset
+#
+#  ... 在每一次的60秒延迟循环中，拒绝来自DDOS攻击的数据包。
+
+
+#  练习：
+#  --------
+#  使用&#39;iptable&#39;命令扩展这个脚本
+#+ 来拒绝一些来自垃圾邮件发送者的IP域名的连接请求。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><hr>
+<p>更多网络编程的例子：</p>
+<ul>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NPREF" target="_blank" rel="noopener noreferrer">Getting the time from nist.gov</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NW001" target="_blank" rel="noopener noreferrer">Downloading a URL</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/system.html#IPSCRIPT0" target="_blank" rel="noopener noreferrer">A GRE tunnel</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/communications.html#PING0" target="_blank" rel="noopener noreferrer">Checking if an Internet server is up</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/communications.html#ISSPAMMER" target="_blank" rel="noopener noreferrer">例子 16-41</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">例子 A-28</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#WHX" target="_blank" rel="noopener noreferrer">例子 A-29</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/devref1.html#DEVTCP" target="_blank" rel="noopener noreferrer">例子 29-1</a></li>
+</ul>
+<p>更多资料请看<a href="http://tldp.org/LDP/abs/html/system.html" target="_blank" rel="noopener noreferrer">《System and Administrative Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/system.html#NETWORKSYS1" target="_blank" rel="noopener noreferrer">“网络命令”</a>，以及<a href="http://tldp.org/LDP/abs/html/external.html" target="_blank" rel="noopener noreferrer">《External Filters, Programs and Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/communications.html" target="_blank" rel="noopener noreferrer">“通信命令”</a>。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>32 调试</title>
       <link>https://clay-wangzhi.com/code/shell/part5/32_Debugging/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/32_Debugging/</guid>
@@ -34933,140 +35738,6 @@ command
 trap 2     # Reenables Control-C
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>30 网络编程</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/30_network_programming/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/30_network_programming/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">30 网络编程</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_30-网络编程"> 30 网络编程</h1>
-<blockquote>The Net's a cross between an elephant and a white elephant sale: it never forgets, and it's always crap.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--Nemo</blockquote>
-<p>Linux系统拥有一系列的工具，用于访问、操作和调解网络连接。我们能够把其中的一部分工具整合到脚本中 -- 这些脚本能扩展我们对网络的认知，有用的脚本还能方便网络管理。</p>
-<p>以下是一个简单的CGI脚本，阐述如何连接到远程服务器。</p>
-<p>例子 30-1. 打印服务器环境</p>
-<div><pre><code>#!/bin/bash
-# test-cgi.sh
-# by Michael Zick
-# Used with permission
-
-# 您应该根据您的情况修改相应的Bash路径
-# （在ISP的服务器中，Bash一般不会放在正常的位置）
-# 其他位置： /usr/bin 或者 /usr/local/bin
-# 甚至应该在sha-bang中不用任何路径运行它
-
-# 取消通配符
-set -f
-
-# Http Header（译者注：此头信息是告诉浏览器服务器返回的内容格式）
-echo Content-type: text/plain
-echo
-
-echo CGI/1.0 test script report:
-echo
-
-echo environment settings:
-set
-echo
-
-echo whereis bash?
-whereis bash
-echo
-
-
-echo who are we?
-echo ${BASH_VERSINFO[*]}
-echo
-
-echo argc is $#. argv is &quot;$*&quot;.
-echo
-
-# CGI/1.0 预期的环境变量。
-
-echo SERVER_SOFTWARE = $SERVER_SOFTWARE
-echo SERVER_NAME = $SERVER_NAME
-echo GATEWAY_INTERFACE = $GATEWAY_INTERFACE
-echo SERVER_PROTOCOL = $SERVER_PROTOCOL
-echo SERVER_PORT = $SERVER_PORT
-echo REQUEST_METHOD = $REQUEST_METHOD
-echo HTTP_ACCEPT = &quot;$HTTP_ACCEPT&quot;
-echo PATH_INFO = &quot;$PATH_INFO&quot;
-echo PATH_TRANSLATED = &quot;$PATH_TRANSLATED&quot;
-echo SCRIPT_NAME = &quot;$SCRIPT_NAME&quot;
-echo QUERY_STRING = &quot;$QUERY_STRING&quot;
-echo REMOTE_HOST = $REMOTE_HOST
-echo REMOTE_ADDR = $REMOTE_ADDR
-echo REMOTE_USER = $REMOTE_USER
-echo AUTH_TYPE = $AUTH_TYPE
-echo CONTENT_TYPE = $CONTENT_TYPE
-echo CONTENT_LENGTH = $CONTENT_LENGTH
-
-exit 0
-
-# 在这里，文档给出一些简短的指令。
-:&lt;&lt;-&#39;_test_CGI_&#39;
-
-1) 将此文档放到http://domain.name/cgi-bin的目录。
-2) 然后，访问http://domain.name/cgi-bin/test-cgi.sh.
-
-_test_CGI_
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br></div></div><p>出于安全的考虑，确认连接计算机的IP地址是有用的。
-例子 30-2. IP地址</p>
-<div><pre><code>#!/bin/bash
-# ip-addresses.sh
-# 列出您的计算机所连接的IP地址。
-
-#  受Greg Bledsoe的ddos.sh脚本所启发，
-#  Linux Journal，2011年3月9号。
-#    URL:
-#  http://www.linuxjournal.com/content/back-dead-simple-bash-complex-ddos
-#  Greg licensed his script under the GPL2,
-#+ and as a derivative, this script is likewise GPL2.
-
-connection_type=TCP      # 也可以使用UDP
-field=2           # Which field of the output we&#39;re interested in.
-no_match=LISTEN   # 过滤出包含此字符串的记录，为什么？
-lsof_args=-ni     # -i 列出互联网相关的文件。
-                  # -n 使用数值IP地址。
-		  # 如果不使用-n选项，会发生什么情况？试试看。
-router=&quot;[0-9][0-9][0-9][0-9][0-9]-&gt;&quot;
-#       删除路由信息。
-
-lsof &quot;$lsof_args&quot; | grep $connection_type | grep -v &quot;$no_match&quot; |
-      awk &#39;{print $9}&#39; | cut -d : -f $field | sort | uniq |
-      sed s/&quot;^$router&quot;//
-
-#  Bledsoe的脚本将过滤出的IP地址结果赋给一个变量（类似上面的19行到22行）。
-#  他检查连接到一个IP地址的多个连接，
-#  使用：
-#
-#    iptables -I INPUT -s $ip -p tcp -j REJECT --reject-with tcp-reset
-#
-#  ... 在每一次的60秒延迟循环中，拒绝来自DDOS攻击的数据包。
-
-
-#  练习：
-#  --------
-#  使用&#39;iptable&#39;命令扩展这个脚本
-#+ 来拒绝一些来自垃圾邮件发送者的IP域名的连接请求。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><hr>
-<p>更多网络编程的例子：</p>
-<ul>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NPREF" target="_blank" rel="noopener noreferrer">Getting the time from nist.gov</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#NW001" target="_blank" rel="noopener noreferrer">Downloading a URL</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/system.html#IPSCRIPT0" target="_blank" rel="noopener noreferrer">A GRE tunnel</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/communications.html#PING0" target="_blank" rel="noopener noreferrer">Checking if an Internet server is up</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/communications.html#ISSPAMMER" target="_blank" rel="noopener noreferrer">例子 16-41</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#ISSPAMMER2" target="_blank" rel="noopener noreferrer">例子 A-28</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#WHX" target="_blank" rel="noopener noreferrer">例子 A-29</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/devref1.html#DEVTCP" target="_blank" rel="noopener noreferrer">例子 29-1</a></li>
-</ul>
-<p>更多资料请看<a href="http://tldp.org/LDP/abs/html/system.html" target="_blank" rel="noopener noreferrer">《System and Administrative Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/system.html#NETWORKSYS1" target="_blank" rel="noopener noreferrer">“网络命令”</a>，以及<a href="http://tldp.org/LDP/abs/html/external.html" target="_blank" rel="noopener noreferrer">《External Filters, Programs and Commands》</a>的章节<a href="http://tldp.org/LDP/abs/html/communications.html" target="_blank" rel="noopener noreferrer">“通信命令”</a>。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>33 选项</title>
@@ -36198,6 +36869,37 @@ exit
 ]]></content:encoded>
     </item>
     <item>
+      <title>36.3 测试和比较的其他方法</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/36_3_tests_and_comparisons_alternatives/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/36_3_tests_and_comparisons_alternatives/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">36.3 测试和比较的其他方法</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_36-3-测试和比较的其他方法"> 36.3 测试和比较的其他方法</h1>
+<p>对于判断（test命令）来说，[[ ]]比[ ]更加合适。同样的，算数运算符（译注：-eq之类的）比(( ))更有优势。</p>
+<div><pre><code>a=8
+
+# 下面所有这些比较的结果都应该是相等的
+test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot;         # &quot;and list&quot;
+/bin/test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
+[ &quot;$a&quot; -lt 16 ] &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
+[[ $a -lt 16 ]] &amp;&amp; echo &quot;yes, $a &lt; 16&quot;          # 为表达式添加
+(( a &lt; 16 )) &amp;&amp; echo &quot;yes, $a &lt; 16&quot;             # [[ ]]和(( ))并不是必须的
+
+city=&quot;New York&quot;
+# 下面这些结果也是相等的
+test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
+                                  # ASCII字符比较
+/bin/test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
+[ &quot;$city&quot; \&lt; Paris ] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
+[[ $city &lt; Paris ]] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
+                                  # 并不需要为$city变量加引号。
+
+# 向S.C.致谢
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>36.4 递归：可以调用自己的脚本</title>
       <link>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</guid>
@@ -36328,37 +37030,6 @@ exit 0
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>过多层次的递归调用会导致脚本的栈空间溢出，引起段错误（segfault）。</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>36.3 测试和比较的其他方法</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/36_3_tests_and_comparisons_alternatives/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/36_3_tests_and_comparisons_alternatives/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">36.3 测试和比较的其他方法</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_36-3-测试和比较的其他方法"> 36.3 测试和比较的其他方法</h1>
-<p>对于判断（test命令）来说，[[ ]]比[ ]更加合适。同样的，算数运算符（译注：-eq之类的）比(( ))更有优势。</p>
-<div><pre><code>a=8
-
-# 下面所有这些比较的结果都应该是相等的
-test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot;         # &quot;and list&quot;
-/bin/test &quot;$a&quot; -lt 16 &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
-[ &quot;$a&quot; -lt 16 ] &amp;&amp; echo &quot;yes, $a &lt; 16&quot; 
-[[ $a -lt 16 ]] &amp;&amp; echo &quot;yes, $a &lt; 16&quot;          # 为表达式添加
-(( a &lt; 16 )) &amp;&amp; echo &quot;yes, $a &lt; 16&quot;             # [[ ]]和(( ))并不是必须的
-
-city=&quot;New York&quot;
-# 下面这些结果也是相等的
-test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
-                                  # ASCII字符比较
-/bin/test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
-[ &quot;$city&quot; \&lt; Paris ] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot; 
-[[ $city &lt; Paris ]] &amp;&amp; echo &quot;Yes, Paris is greater than $city&quot;
-                                  # 并不需要为$city变量加引号。
-
-# 向S.C.致谢
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>echo命令</title>
@@ -50064,6 +50735,113 @@ ansible-playbook /etc/ansible/playbooks/filebeat.yml
 <div><span>1</span><br><span>2</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>在Docker容器中运行Elasticsearch，Kibana和Cerebro</title>
+      <link>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">在Docker容器中运行Elasticsearch，Kibana和Cerebro</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="在docker容器中运行elasticsearch-kibana和cerebro"> 在Docker容器中运行Elasticsearch，Kibana和Cerebro</h1>
+<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
+<ul>
+<li>Elastic官方提供Docker Image</li>
+<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
+<li>2018年12月加入CNCF，提供helm</li>
+<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
+</ul>
+<h2 id="编写dockerfile"> 编写dockerfile</h2>
+<p>vim docker-compose.yaml</p>
+<div><pre><code>version<span>:</span> <span>'2.2'</span>
+services<span>:</span>
+  cerebro<span>:</span>
+    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
+    container_name<span>:</span> cerebro
+    ports<span>:</span>
+      <span>-</span> <span>"9000:9000"</span>
+    command<span>:</span>
+      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  kibana<span>:</span>
+    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
+    container_name<span>:</span> kibana7
+    environment<span>:</span>
+      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
+      <span>-</span> XPACK_GRAPH_ENABLED=true
+      <span>-</span> TIMELION_ENABLED=true
+      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
+    ports<span>:</span>
+      <span>-</span> <span>"5601:5601"</span>
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_01
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_01
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
+    ports<span>:</span>
+      <span>-</span> 9200<span>:</span>9200
+    networks<span>:</span>
+      <span>-</span> es7net
+  elasticsearch2<span>:</span>
+    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
+    container_name<span>:</span> es7_02
+    environment<span>:</span>
+      <span>-</span> cluster.name=geektime
+      <span>-</span> node.name=es7_02
+      <span>-</span> bootstrap.memory_lock=true
+      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
+      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
+    ulimits<span>:</span>
+      memlock<span>:</span>
+        soft<span>:</span> <span>-</span>1
+        hard<span>:</span> <span>-</span>1
+    volumes<span>:</span>
+      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
+    networks<span>:</span>
+      <span>-</span> es7net
+
+
+volumes<span>:</span>
+  es7data1<span>:</span>
+    driver<span>:</span> local
+  es7data2<span>:</span>
+    driver<span>:</span> local
+
+networks<span>:</span>
+  es7net<span>:</span>
+    driver<span>:</span> bridge
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
+<ul>
+<li>启动</li>
+</ul>
+<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
+<div><pre><code>docker-compose up 
+</code></pre>
+<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
+<ul>
+<li>关闭</li>
+</ul>
+<div><pre><code>docker-compose down
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
+<p>可以用来监控es集群的状态，非常好用，推荐</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>容器部署ELK7.10</title>
       <link>https://clay-wangzhi.com/monitor/elk/install/docker-com-elk/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/install/docker-com-elk/</guid>
@@ -51033,113 +51811,6 @@ $ crontab -e
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640.png" type="image/png"/>
     </item>
     <item>
-      <title>在Docker容器中运行Elasticsearch，Kibana和Cerebro</title>
-      <link>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">在Docker容器中运行Elasticsearch，Kibana和Cerebro</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="在docker容器中运行elasticsearch-kibana和cerebro"> 在Docker容器中运行Elasticsearch，Kibana和Cerebro</h1>
-<h2 id="elastic-stack-与docker-容器"> Elastic Stack 与Docker 容器</h2>
-<ul>
-<li>Elastic官方提供Docker Image</li>
-<li>如果安装定制的插件，可以写Dockerfile，将官方Image设为Base Image</li>
-<li>2018年12月加入CNCF，提供helm</li>
-<li>2019年5月，7.1版本发布，同时发布ECK，免费提供Elastic Operator on Kubernetes</li>
-</ul>
-<h2 id="编写dockerfile"> 编写dockerfile</h2>
-<p>vim docker-compose.yaml</p>
-<div><pre><code>version<span>:</span> <span>'2.2'</span>
-services<span>:</span>
-  cerebro<span>:</span>
-    image<span>:</span> lmenezes/cerebro<span>:</span>0.8.3
-    container_name<span>:</span> cerebro
-    ports<span>:</span>
-      <span>-</span> <span>"9000:9000"</span>
-    command<span>:</span>
-      <span>-</span> <span>-</span>Dhosts.0.host=http<span>:</span>//elasticsearch<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  kibana<span>:</span>
-    image<span>:</span> docker.elastic.co/kibana/kibana<span>:</span>7.1.0
-    container_name<span>:</span> kibana7
-    environment<span>:</span>
-      <span>-</span> I18N_LOCALE=zh<span>-</span>CN
-      <span>-</span> XPACK_GRAPH_ENABLED=true
-      <span>-</span> TIMELION_ENABLED=true
-      <span>-</span> XPACK_MONITORING_COLLECTION_ENABLED=<span>"true"</span>
-    ports<span>:</span>
-      <span>-</span> <span>"5601:5601"</span>
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_01
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_01
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data1<span>:</span>/usr/share/elasticsearch/data
-    ports<span>:</span>
-      <span>-</span> 9200<span>:</span>9200
-    networks<span>:</span>
-      <span>-</span> es7net
-  elasticsearch2<span>:</span>
-    image<span>:</span> docker.elastic.co/elasticsearch/elasticsearch<span>:</span>7.1.0
-    container_name<span>:</span> es7_02
-    environment<span>:</span>
-      <span>-</span> cluster.name=geektime
-      <span>-</span> node.name=es7_02
-      <span>-</span> bootstrap.memory_lock=true
-      <span>-</span> <span>"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
-      <span>-</span> discovery.seed_hosts=es7_01<span>,</span>es7_02
-      <span>-</span> cluster.initial_master_nodes=es7_01<span>,</span>es7_02
-    ulimits<span>:</span>
-      memlock<span>:</span>
-        soft<span>:</span> <span>-</span>1
-        hard<span>:</span> <span>-</span>1
-    volumes<span>:</span>
-      <span>-</span> es7data2<span>:</span>/usr/share/elasticsearch/data
-    networks<span>:</span>
-      <span>-</span> es7net
-
-
-volumes<span>:</span>
-  es7data1<span>:</span>
-    driver<span>:</span> local
-  es7data2<span>:</span>
-    driver<span>:</span> local
-
-networks<span>:</span>
-  es7net<span>:</span>
-    driver<span>:</span> bridge
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br></div></div><h2 id="启动-关闭"> 启动/关闭</h2>
-<ul>
-<li>启动</li>
-</ul>
-<p><code>cd</code>到<code>docker-compose.yaml</code>所在目录，然后启动</p>
-<div><pre><code>docker-compose up 
-</code></pre>
-<div><span>1</span><br></div></div><p>分别访问服务器的9200,9000,5601端口</p>
-<ul>
-<li>关闭</li>
-</ul>
-<div><pre><code>docker-compose down
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>Cerebro简介</strong></p>
-<p>可以用来监控es集群的状态，非常好用，推荐</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Kibana的安装和界面快速浏览</title>
       <link>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</guid>
@@ -51973,140 +52644,93 @@ bin/elasticsearch-plugin list
 ]]></content:encoded>
     </item>
     <item>
-      <title>Elasticsearch 简介及其发展历史</title>
-      <link>https://clay-wangzhi.com/monitor/elk/summarize/develop/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/summarize/develop/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Elasticsearch 简介及其发展历史</source>
+      <title>Elastic Stack 家族成员及其应用场景</title>
+      <link>https://clay-wangzhi.com/monitor/elk/summarize/scene/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/summarize/scene/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Elastic Stack 家族成员及其应用场景</source>
       <category>监控</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="elasticsearch-简介及其发展历史"> Elasticsearch 简介及其发展历史</h1>
-<h2 id="从开源到上市"> 从开源到上市</h2>
-<ul>
-<li>2018年10月纽交所上市，Elastic Inc -开源软件/上市公司</li>
-<li>当前市值超过50亿美金，开盘当天涨幅达94%</li>
-<li>Elasticsearch软件下载量，超3.5亿次</li>
-<li>10万+的社区成员</li>
-<li>7200+订阅用户，分布在100+国家</li>
-<li>云服务平台的接入- Elastic，Amazon，阿里巴巴，腾讯</li>
-</ul>
-<h2 id="elasticsearch的诞生"> Elasticsearch的诞生</h2>
-<ul>
-<li>2004年Shay Banon基于Lucene开发了Compass</li>
-<li>2010年Shay Banon重写了Compass，取名Elasticsearch</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739412739.png" alt="" /></p>
-<h3 id="lucene简介"> Lucene简介</h3>
-<ul>
-<li>基于Java语言开发的搜索引擎库类</li>
-<li>创建于1999年，2005年成为Apache顶级开源项目</li>
-<li>Lucene具有高性能、易扩张的优点</li>
-<li>Lucene的局限性：
-<ul>
-<li>只能基于Java语言开发</li>
-<li>类库的接口学习曲线陡峭</li>
-<li>原生并不支持水平扩展</li>
-</ul>
-</li>
-</ul>
-<h3 id="elasticsearch的特性"> Elasticsearch的特性</h3>
+      <content:encoded><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
+<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
+<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
 <ul>
 <li>
-<p>近实时（Near Real Time）</p>
+<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
 </li>
 <li>
-<p>分布式存储/搜索/分析引擎</p>
+<p>发展</p>
+<ul>
+<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
+<li>2013年被Elasticsearch收购</li>
+</ul>
 </li>
 <li>
-<p>支持多中方式集成接入</p>
+<p>特性</p>
 <ul>
-<li>多种编程语言的类库</li>
-<li>RESTful API</li>
-<li>JDBC &amp; ODBC</li>
+<li>实时解析和转换数据
+<ul>
+<li>从IP地址破译出地理坐标</li>
+<li>将PII数据匿名化，完全排除敏感字段</li>
+</ul>
+</li>
+<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
+<li>可靠性安全
+<ul>
+<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
+<li>数据传输加密</li>
 </ul>
 </li>
 </ul>
-<h3 id="elasticsearch的分布式架构"> Elasticsearch的分布式架构</h3>
-<ul>
-<li>集群规模可以从单个扩展到数百个节点</li>
-<li>高可用 &amp; 水平扩展
-<ul>
-<li>服务和数据的两个纬度</li>
-</ul>
-</li>
-<li>支持不同的节点类型
-<ul>
-<li>支持 Hot &amp; Warm架构</li>
-</ul>
 </li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567737803003.png" alt="" /></p>
-<h3 id="elasticsearch版本与升级"> Elasticsearch版本与升级</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
+<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
 <ul>
-<li>0.4：2010年2月第一次发布</li>
-<li>1.0：2014年1月</li>
-<li>2.0：2015年10月</li>
-<li>5.0：2016年10月</li>
-<li>6.0：2017年10月</li>
-<li>7.0：2019年4月</li>
+<li>Kibana名字的含义：Kiwifruit + Banana</li>
+<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
+<li>基于logstash的工具，2013年加入Elastic公司</li>
 </ul>
-<h4 id="新特性5-x"> 新特性5.X</h4>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
+<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
+<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
 <ul>
-<li>Lucene6.x，性能提升，默认打分机制从TF-IDF改为BM25</li>
-<li>支持Ingest节点/Painless Scripting/Compltion suggested支持/原生的Java REST客户端</li>
-<li>Type标记成deprecad，支持了Keyword的类型</li>
-<li>性能优化
+<li>6.3之前的版本，X-pack以插件方式安装</li>
+<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
 <ul>
-<li>内部引擎移除了避免同一文档并发更新的竞争锁，带来15%~20%的性能提升</li>
-<li>Instant aggregation，支持分片上聚合的缓存</li>
-<li>新增了Profile API</li>
+<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
 </ul>
 </li>
+<li>OSS，Basic，黄金级，白金级</li>
 </ul>
-<h4 id="新特性6-x"> 新特性6.X</h4>
+<h2 id="elk应用场景"> ELK应用场景</h2>
 <ul>
-<li>Lucene 7.X</li>
-<li>新功能
-<ul>
-<li>跨集群复制（CCR）</li>
-<li>索引生命周期管理</li>
-<li>SQL的支持</li>
+<li>网站搜索/垂直搜索/代码搜索</li>
+<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
 </ul>
-</li>
-<li>更友好的升级及数据迁移
+<h3 id="日志的重要性"> 日志的重要性</h3>
 <ul>
-<li>在主要版本之间的迁移更为简化，体验升级</li>
-<li>全新的基于操作的数据复制框架，可加快数据恢复</li>
+<li>为什么重要
+<ul>
+<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
+<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
 </ul>
 </li>
-<li>性能优化
+<li>挑战
 <ul>
-<li>有效存储稀疏字段的新方法，降低了存储成本</li>
-<li>在索引时进行排序，可加快排序的查询性能</li>
+<li>关注点很多，任何一个点都有可能引起问题</li>
+<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
+<li>很多运维人员是消防员，哪里有问题去哪里</li>
 </ul>
 </li>
 </ul>
-<h4 id="新特性7-x"> 新特性7.X</h4>
-<ul>
-<li>Lucene 8.0</li>
-<li>重大改进 - 正式废除单个索引下多Type的支持</li>
-<li>7.1 开始，Security功能免费使用</li>
-<li>ECK - Elasticsearch Operator on Kubernetes</li>
-<li>新功能
-<ul>
-<li>New Cluster coordination</li>
-<li>Feature - Complete High Level REST Client</li>
-<li>Script Score Query</li>
-</ul>
-</li>
-<li>性能优化
-<ul>
-<li>默认的Primary Shard数从5改为1，避免Over Sharding</li>
-<li>性能优化，更快的Top K</li>
-</ul>
-</li>
-</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
+<h3 id="日志管理流程"> 日志管理流程</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
 ]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739412739.png" type="image/png"/>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" type="image/png"/>
     </item>
     <item>
       <title>聊透监控体系</title>
@@ -53261,6 +53885,48 @@ fi
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形1.png" type="image/png"/>
     </item>
     <item>
+      <title>11.2 嵌套循环</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11.2 嵌套循环</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>5 Redis监控模块</title>
       <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</link>
       <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</guid>
@@ -53288,78 +53954,6 @@ fi
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" type="image/png"/>
-    </item>
-    <item>
-      <title>9 zookeeper集群监控</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">9 zookeeper集群监控</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_9-zookeeper集群监控"> 9 zookeeper集群监控</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h1 id="zabbix-zookeper-template"> Zabbix-Zookeper-Template</h1>
-<h2 id="system-requirements"> System requirements</h2>
-<ul>
-<li><a href="http://www.zabbix.com/downloads/" target="_blank" rel="noopener noreferrer">zabbix</a> &gt;= 3.4 (preprocessing used by this template)</li>
-<li><a href="https://zookeeper.apache.org/releases.html" target="_blank" rel="noopener noreferrer">zookeeper</a> &gt;= 3.4 (mntr stats)</li>
-<li>netcat</li>
-<li>zookeeper监控模板，被监控主机，记得添加nc命令</li>
-</ul>
-<h2 id="features"> Features</h2>
-<ul>
-<li>
-<p>ruok check</p>
-</li>
-<li>
-<p>mntr stats :</p>
-<ul>
-<li>zk_num_alive_connections</li>
-<li>zk_approximate_data_size</li>
-<li>zk_ephemerals_count</li>
-<li>zk_min_latency</li>
-<li>zk_avg_latency</li>
-<li>zk_max_latency</li>
-<li>zk_max_file_descriptor_count</li>
-<li>zk_open_file_descriptor_count</li>
-<li>zk_outstanding_requests</li>
-<li>zk_packets_received</li>
-<li>zk_packets_sent</li>
-<li>zk_server_state</li>
-<li>zk_version</li>
-<li>zk_znode_count</li>
-</ul>
-</li>
-<li>
-<p>graphs</p>
-</li>
-<li>
-<p>screen</p>
-</li>
-</ul>
-<h2 id="zabbix-macros"> Zabbix Macros</h2>
-<ul>
-<li>{$ZOO_IP} : IP of the Zookeeper Instance (default : 127.0.0.1)</li>
-<li>{$ZOO_PORT} : Port of the Zookeeper Instance (default : 2181)</li>
-</ul>
-<h2 id="zabbix-configuration"> Zabbix Configuration</h2>
-<ol>
-<li>
-<p>Copy <code>UserParameter_Zookeeper.conf</code> to <code>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
-</li>
-<li>
-<p>Restart your Zabbix Agent</p>
-</li>
-<li>
-<p>Import XML template file (<code>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
-</li>
-<li>
-<p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
-</li>
-</ol>
-]]></content:encoded>
     </item>
     <item>
       <title>Centos7 搭建openldap</title>
@@ -53603,6 +54197,78 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
 <p>openldap系列文章：</p>
 <p>https://www.ilanni.com/?tag=openldap</p>
 </blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>9 zookeeper集群监控</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">9 zookeeper集群监控</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_9-zookeeper集群监控"> 9 zookeeper集群监控</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h1 id="zabbix-zookeper-template"> Zabbix-Zookeper-Template</h1>
+<h2 id="system-requirements"> System requirements</h2>
+<ul>
+<li><a href="http://www.zabbix.com/downloads/" target="_blank" rel="noopener noreferrer">zabbix</a> &gt;= 3.4 (preprocessing used by this template)</li>
+<li><a href="https://zookeeper.apache.org/releases.html" target="_blank" rel="noopener noreferrer">zookeeper</a> &gt;= 3.4 (mntr stats)</li>
+<li>netcat</li>
+<li>zookeeper监控模板，被监控主机，记得添加nc命令</li>
+</ul>
+<h2 id="features"> Features</h2>
+<ul>
+<li>
+<p>ruok check</p>
+</li>
+<li>
+<p>mntr stats :</p>
+<ul>
+<li>zk_num_alive_connections</li>
+<li>zk_approximate_data_size</li>
+<li>zk_ephemerals_count</li>
+<li>zk_min_latency</li>
+<li>zk_avg_latency</li>
+<li>zk_max_latency</li>
+<li>zk_max_file_descriptor_count</li>
+<li>zk_open_file_descriptor_count</li>
+<li>zk_outstanding_requests</li>
+<li>zk_packets_received</li>
+<li>zk_packets_sent</li>
+<li>zk_server_state</li>
+<li>zk_version</li>
+<li>zk_znode_count</li>
+</ul>
+</li>
+<li>
+<p>graphs</p>
+</li>
+<li>
+<p>screen</p>
+</li>
+</ul>
+<h2 id="zabbix-macros"> Zabbix Macros</h2>
+<ul>
+<li>{$ZOO_IP} : IP of the Zookeeper Instance (default : 127.0.0.1)</li>
+<li>{$ZOO_PORT} : Port of the Zookeeper Instance (default : 2181)</li>
+</ul>
+<h2 id="zabbix-configuration"> Zabbix Configuration</h2>
+<ol>
+<li>
+<p>Copy <code>UserParameter_Zookeeper.conf</code> to <code>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
+</li>
+<li>
+<p>Restart your Zabbix Agent</p>
+</li>
+<li>
+<p>Import XML template file (<code>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
+</li>
+<li>
+<p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
+</li>
+</ol>
 ]]></content:encoded>
     </item>
     <item>
@@ -59422,6 +60088,56 @@ ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
 ]]></content:encoded>
     </item>
     <item>
+      <title>3.3 nginxSERVER块配置</title>
+      <link>https://clay-wangzhi.com/web/nginx/server/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/server/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3.3 nginxSERVER块配置</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-3-nginxserver块配置"> 3.3 nginxSERVER块配置</h1>
+<h2 id="_1-listen-指令"> 1 Listen 指令</h2>
+<p><strong>Example Configuration</strong></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" alt="" /></p>
+<p><strong>Directives</strong></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093633095.png" alt="" /></p>
+<h2 id="_2-server-name指令"> 2 server_name指令</h2>
+<h3 id="_2-1-规则"> 2.1 规则</h3>
+<ul>
+<li>指令后可以跟多个域名，第一个是主域名</li>
+<li>*泛域名：进支持在最前或最后（<code>server_name *.baiud.com;</code>）</li>
+<li>正则表达式：加<code>~</code>前缀 (<code>server_name www.taohui.tech ~^www\d+\.taohui\.tech$;</code>)</li>
+</ul>
+<p><strong>用正则表达式创建变量：用小括号()</strong></p>
+<p>示例</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>.</span><span>+</span><span>)</span>$<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>root</span> <span>/</span>sites<span>/</span>$<span>2</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>?</span><span>&lt;</span>domain<span>></span><span>.</span><span>+</span><span>)</span>$<span>;</span>
+    locatoin <span>/</span> <span>{</span>
+        <span>root</span> <span>/</span>sites<span>/</span><span>$domain</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p><strong>其他</strong></p>
+<ul>
+<li>.taohui.tech 可以匹配 taohui.tech *.taohui.tech</li>
+<li>_ 匹配所有</li>
+<li>“” 匹配没有传递Host头部</li>
+</ul>
+<h3 id="_2-2-匹配顺序"> 2.2 匹配顺序</h3>
+<p>1）精准匹配</p>
+<p>2）*在前的泛域名</p>
+<p>3）*在后的泛域名</p>
+<p>4）按文件中的顺序匹配正则表达式域名</p>
+<p>5）default server 匹配第1个，listen指定default</p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" type="image/png"/>
+    </item>
+    <item>
       <title>1. 初识Nginx</title>
       <link>https://clay-wangzhi.com/web/nginx/</link>
       <guid>https://clay-wangzhi.com/web/nginx/</guid>
@@ -59941,56 +60657,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200102212417067.png" type="image/png"/>
     </item>
     <item>
-      <title>3.3 nginxSERVER块配置</title>
-      <link>https://clay-wangzhi.com/web/nginx/server/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/server/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3.3 nginxSERVER块配置</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-3-nginxserver块配置"> 3.3 nginxSERVER块配置</h1>
-<h2 id="_1-listen-指令"> 1 Listen 指令</h2>
-<p><strong>Example Configuration</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" alt="" /></p>
-<p><strong>Directives</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093633095.png" alt="" /></p>
-<h2 id="_2-server-name指令"> 2 server_name指令</h2>
-<h3 id="_2-1-规则"> 2.1 规则</h3>
-<ul>
-<li>指令后可以跟多个域名，第一个是主域名</li>
-<li>*泛域名：进支持在最前或最后（<code>server_name *.baiud.com;</code>）</li>
-<li>正则表达式：加<code>~</code>前缀 (<code>server_name www.taohui.tech ~^www\d+\.taohui\.tech$;</code>)</li>
-</ul>
-<p><strong>用正则表达式创建变量：用小括号()</strong></p>
-<p>示例</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>.</span><span>+</span><span>)</span>$<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>root</span> <span>/</span>sites<span>/</span>$<span>2</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>server_name</span> <span>~</span><span>^</span><span>(</span>www\<span>.</span><span>)</span><span>?</span><span>(</span><span>?</span><span>&lt;</span>domain<span>></span><span>.</span><span>+</span><span>)</span>$<span>;</span>
-    locatoin <span>/</span> <span>{</span>
-        <span>root</span> <span>/</span>sites<span>/</span><span>$domain</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p><strong>其他</strong></p>
-<ul>
-<li>.taohui.tech 可以匹配 taohui.tech *.taohui.tech</li>
-<li>_ 匹配所有</li>
-<li>“” 匹配没有传递Host头部</li>
-</ul>
-<h3 id="_2-2-匹配顺序"> 2.2 匹配顺序</h3>
-<p>1）精准匹配</p>
-<p>2）*在前的泛域名</p>
-<p>3）*在后的泛域名</p>
-<p>4）按文件中的顺序匹配正则表达式域名</p>
-<p>5）default server 匹配第1个，listen指定default</p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093603705.png" type="image/png"/>
-    </item>
-    <item>
       <title>5. 状态码</title>
       <link>https://clay-wangzhi.com/web/nginx/status/</link>
       <guid>https://clay-wangzhi.com/web/nginx/status/</guid>
@@ -60485,500 +61151,140 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>Elastic Stack 家族成员及其应用场景</title>
-      <link>https://clay-wangzhi.com/monitor/elk/summarize/scene/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/summarize/scene/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Elastic Stack 家族成员及其应用场景</source>
+      <title>Elasticsearch 简介及其发展历史</title>
+      <link>https://clay-wangzhi.com/monitor/elk/summarize/develop/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/summarize/develop/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Elasticsearch 简介及其发展历史</source>
       <category>监控</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="elastic-stack-家族成员及其应用场景"> Elastic Stack 家族成员及其应用场景</h1>
-<h2 id="elastic-stack-生态圈"> Elastic Stack 生态圈</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" alt="" /></p>
-<h3 id="logstash-数据处理管道"> Logstash： 数据处理管道</h3>
+      <content:encoded><![CDATA[<h1 id="elasticsearch-简介及其发展历史"> Elasticsearch 简介及其发展历史</h1>
+<h2 id="从开源到上市"> 从开源到上市</h2>
+<ul>
+<li>2018年10月纽交所上市，Elastic Inc -开源软件/上市公司</li>
+<li>当前市值超过50亿美金，开盘当天涨幅达94%</li>
+<li>Elasticsearch软件下载量，超3.5亿次</li>
+<li>10万+的社区成员</li>
+<li>7200+订阅用户，分布在100+国家</li>
+<li>云服务平台的接入- Elastic，Amazon，阿里巴巴，腾讯</li>
+</ul>
+<h2 id="elasticsearch的诞生"> Elasticsearch的诞生</h2>
+<ul>
+<li>2004年Shay Banon基于Lucene开发了Compass</li>
+<li>2010年Shay Banon重写了Compass，取名Elasticsearch</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739412739.png" alt="" /></p>
+<h3 id="lucene简介"> Lucene简介</h3>
+<ul>
+<li>基于Java语言开发的搜索引擎库类</li>
+<li>创建于1999年，2005年成为Apache顶级开源项目</li>
+<li>Lucene具有高性能、易扩张的优点</li>
+<li>Lucene的局限性：
+<ul>
+<li>只能基于Java语言开发</li>
+<li>类库的接口学习曲线陡峭</li>
+<li>原生并不支持水平扩展</li>
+</ul>
+</li>
+</ul>
+<h3 id="elasticsearch的特性"> Elasticsearch的特性</h3>
 <ul>
 <li>
-<p>开源的服务端数据处理管道，支持从不同来源采集数据，转换数据，并将数据发送到不通的存储库中</p>
+<p>近实时（Near Real Time）</p>
 </li>
 <li>
-<p>发展</p>
-<ul>
-<li>Logstash诞生于2009年，最初用来做日志的采集与处理</li>
-<li>2013年被Elasticsearch收购</li>
-</ul>
+<p>分布式存储/搜索/分析引擎</p>
 </li>
 <li>
-<p>特性</p>
+<p>支持多中方式集成接入</p>
 <ul>
-<li>实时解析和转换数据
-<ul>
-<li>从IP地址破译出地理坐标</li>
-<li>将PII数据匿名化，完全排除敏感字段</li>
-</ul>
-</li>
-<li>可扩展 - 200多个插件（日志/数据库/Acsigh/Netflow）</li>
-<li>可靠性安全
-<ul>
-<li>logstash会通过持久化队列来保证至少将运行中的事件送达一次</li>
-<li>数据传输加密</li>
+<li>多种编程语言的类库</li>
+<li>RESTful API</li>
+<li>JDBC &amp; ODBC</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739654345.png" alt="" /></p>
-<h3 id="kibana-可视化分析利器"> Kibana：可视化分析利器</h3>
+<h3 id="elasticsearch的分布式架构"> Elasticsearch的分布式架构</h3>
 <ul>
-<li>Kibana名字的含义：Kiwifruit + Banana</li>
-<li>数据可视化工具，帮助用户解开对数据的任何疑问</li>
-<li>基于logstash的工具，2013年加入Elastic公司</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739969747.png" alt="" /></p>
-<h3 id="beats-轻量级的数据采集器"> Beats：轻量级的数据采集器</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740031729.png" alt="" /></p>
-<h3 id="x-pack-商业化套件"> X-pack：商业化套件</h3>
+<li>集群规模可以从单个扩展到数百个节点</li>
+<li>高可用 &amp; 水平扩展
 <ul>
-<li>6.3之前的版本，X-pack以插件方式安装</li>
-<li>X-pack开源之后，ElasticSearch &amp; Kibana支持OSS版和Basic两种版本
-<ul>
-<li>部分X-pack功能支持免费使用，6.8和7.1开始，Security功能免费</li>
+<li>服务和数据的两个纬度</li>
 </ul>
 </li>
-<li>OSS，Basic，黄金级，白金级</li>
-</ul>
-<h2 id="elk应用场景"> ELK应用场景</h2>
+<li>支持不同的节点类型
 <ul>
-<li>网站搜索/垂直搜索/代码搜索</li>
-<li>日志管理与分析/安全指标监控/应用性能监控/WEB支取舆情分</li>
-</ul>
-<h3 id="日志的重要性"> 日志的重要性</h3>
-<ul>
-<li>为什么重要
-<ul>
-<li>运维：医生给病人看病，日志就是病人对自己的陈述</li>
-<li>恶意攻击，恶意注册，刷单，恶意密码猜测</li>
-</ul>
-</li>
-<li>挑战
-<ul>
-<li>关注点很多，任何一个点都有可能引起问题</li>
-<li>日志分散在很多机器，出了问题时，才发现日志被删了</li>
-<li>很多运维人员是消防员，哪里有问题去哪里</li>
+<li>支持 Hot &amp; Warm架构</li>
 </ul>
 </li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740850711.png" alt="" /></p>
-<h3 id="日志管理流程"> 日志管理流程</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740876961.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567740904642.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567737803003.png" alt="" /></p>
+<h3 id="elasticsearch版本与升级"> Elasticsearch版本与升级</h3>
+<ul>
+<li>0.4：2010年2月第一次发布</li>
+<li>1.0：2014年1月</li>
+<li>2.0：2015年10月</li>
+<li>5.0：2016年10月</li>
+<li>6.0：2017年10月</li>
+<li>7.0：2019年4月</li>
+</ul>
+<h4 id="新特性5-x"> 新特性5.X</h4>
+<ul>
+<li>Lucene6.x，性能提升，默认打分机制从TF-IDF改为BM25</li>
+<li>支持Ingest节点/Painless Scripting/Compltion suggested支持/原生的Java REST客户端</li>
+<li>Type标记成deprecad，支持了Keyword的类型</li>
+<li>性能优化
+<ul>
+<li>内部引擎移除了避免同一文档并发更新的竞争锁，带来15%~20%的性能提升</li>
+<li>Instant aggregation，支持分片上聚合的缓存</li>
+<li>新增了Profile API</li>
+</ul>
+</li>
+</ul>
+<h4 id="新特性6-x"> 新特性6.X</h4>
+<ul>
+<li>Lucene 7.X</li>
+<li>新功能
+<ul>
+<li>跨集群复制（CCR）</li>
+<li>索引生命周期管理</li>
+<li>SQL的支持</li>
+</ul>
+</li>
+<li>更友好的升级及数据迁移
+<ul>
+<li>在主要版本之间的迁移更为简化，体验升级</li>
+<li>全新的基于操作的数据复制框架，可加快数据恢复</li>
+</ul>
+</li>
+<li>性能优化
+<ul>
+<li>有效存储稀疏字段的新方法，降低了存储成本</li>
+<li>在索引时进行排序，可加快排序的查询性能</li>
+</ul>
+</li>
+</ul>
+<h4 id="新特性7-x"> 新特性7.X</h4>
+<ul>
+<li>Lucene 8.0</li>
+<li>重大改进 - 正式废除单个索引下多Type的支持</li>
+<li>7.1 开始，Security功能免费使用</li>
+<li>ECK - Elasticsearch Operator on Kubernetes</li>
+<li>新功能
+<ul>
+<li>New Cluster coordination</li>
+<li>Feature - Complete High Level REST Client</li>
+<li>Script Score Query</li>
+</ul>
+</li>
+<li>性能优化
+<ul>
+<li>默认的Primary Shard数从5改为1，避免Over Sharding</li>
+<li>性能优化，更快的Top K</li>
+</ul>
+</li>
+</ul>
 ]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739481410.png" type="image/png"/>
-    </item>
-    <item>
-      <title>11.4 测试与分支</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_4_testing_and_branching/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11.4 测试与分支</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-4-测试与分支"> 11.4 测试与分支</h1>
-<p><code>case</code> 和 <code>select</code> 结构并不属于循环结构，因为它们并没有反复执行代码块。但是和循环结构相似的是，它们会根据代码块顶部或尾部的条件控制程序流。</p>
-<p>下面介绍两种在代码块中控制程序流的方法：</p>
-<h3 id="case-in-esac"> <code>case (in)</code> / <code>esac</code></h3>
-<p>在 shell 脚本中，<code>case</code> 模拟了 C/C++ 语言中的 <code>switch</code>，可以根据条件跳转到其中一个分支。其相当于简写版的 <code>if/then/else</code> 语句。很适合用来创建菜单选项哟！</p>
-<div><pre><code><span>case</span> <span>"<span>$variable</span>"</span> <span>in</span>
-  <span>"<span>$condition1</span>"</span> <span>)</span>
-    command<span>..</span>.
-  <span>;</span><span>;</span>
-  <span>"<span>$condition2</span>"</span> <span>)</span>
-    command<span>..</span>.
-  <span>;</span><span>;</span>
-<span>esac</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /></p>
-<ul>
-<li>
-<p>对变量进行引用不是必须的，因为在这里不会进行字符分割。</p>
-</li>
-<li>
-<p>条件测试语句必须以右括号 ) 结束。<sup></sup></p>
-</li>
-<li>
-<p>每一段代码块都必须以双分号 ;; 结束。</p>
-</li>
-<li>
-<p>如果测试条件为真，其对应的代码块将被执行，而后整个 <code>case</code> 代码段结束执行。</p>
-</li>
-<li>
-<p><code>case</code> 代码段必须以 <code>esac</code> 结束（倒着拼写case）。</p>
-</li>
-</ul>
-</blockquote>
-<p>样例 11-25. 如何使用 <code>case</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># 测试字符的种类。</span>
-
-<span>echo</span><span>;</span> <span>echo</span> <span>"Hit a key, then hit return."</span>
-<span>read</span> Keypress
-
-<span>case</span> <span>"<span>$Keypress</span>"</span> <span>in</span>
-  <span>[</span><span>[</span>:lower:<span>]</span><span>]</span>   <span>)</span> <span>echo</span> <span>"Lowercase letter"</span><span>;</span><span>;</span>
-  <span>[</span><span>[</span>:upper:<span>]</span><span>]</span>   <span>)</span> <span>echo</span> <span>"Uppercase letter"</span><span>;</span><span>;</span>
-  <span>[</span><span>0</span>-9<span>]</span>         <span>)</span> <span>echo</span> <span>"Digit"</span><span>;</span><span>;</span>
-  *             <span>)</span> <span>echo</span> <span>"Punctuation, whitespace, or other"</span><span>;</span><span>;</span>
-<span>esac</span>      <span>#  字符范围可以用[方括号]表示，也可以用 POSIX 形式的[[双方括号]]表示。</span>
-
-<span># 在这个例子的第一个版本中，用来测试是小写还是大写字符使用的是 [a-z] 和 [A-Z]。</span>
-<span># 这在一些特定的语言环境和 Linux 发行版中不起效。</span>
-<span># POSIX 形式具有更好的兼容性。</span>
-<span># 感谢 Frank Wang 指出这一点。</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 这个脚本接受一个单字符然后结束。</span>
-<span># 修改脚本，使得其可以循环接受输入，并且检测键入的每一个字符，直到键入 "X" 为止。</span>
-<span># 提示：将所有东西包在 "while" 中。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>样例 11-26. 使用 <code>case</code> 创建菜单</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span># 简易的通讯录数据库</span>
-
-<span>clear</span> <span># 清屏。</span>
-
-<span>echo</span> <span>"          Contact List"</span>
-<span>echo</span> <span>"          ------- ----"</span>
-<span>echo</span> <span>"Choose one of the following persons:"</span> 
-<span>echo</span>
-<span>echo</span> <span>"[E]vans, Roland"</span>
-<span>echo</span> <span>"[J]ones, Mildred"</span>
-<span>echo</span> <span>"[S]mith, Julie"</span>
-<span>echo</span> <span>"[Z]ane, Morris"</span>
-<span>echo</span>
-
-<span>read</span> person
-
-<span>case</span> <span>"<span>$person</span>"</span> <span>in</span>
-<span># 注意变量是被引用的。</span>
-
-  <span>"E"</span> <span>|</span> <span>"e"</span> <span>)</span>
-  <span># 同时接受大小写的输入。</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Roland Evans"</span>
-  <span>echo</span> <span>"4321 Flash Dr."</span>
-  <span>echo</span> <span>"Hardscrabble, CO 80753"</span>
-  <span>echo</span> <span>"(303) 734-9874"</span>
-  <span>echo</span> <span>"(303) 734-9892 fax"</span>
-  <span>echo</span> <span>"revans@zzy.net"</span>
-  <span>echo</span> <span>"Business partner &amp; old friend"</span>
-  <span>;</span><span>;</span>
-  <span># 注意用双分号结束这一个选项。</span>
-
-  <span>"J"</span> <span>|</span> <span>"j"</span> <span>)</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Mildred Jones"</span>
-  <span>echo</span> <span>"249 E. 7th St., Apt. 19"</span>
-  <span>echo</span> <span>"New York, NY 10009"</span>
-  <span>echo</span> <span>"(212) 533-2814"</span>
-  <span>echo</span> <span>"(212) 533-9972 fax"</span>
-  <span>echo</span> <span>"milliej@loisaida.com"</span>
-  <span>echo</span> <span>"Ex-girlfriend"</span>
-  <span>echo</span> <span>"Birthday: Feb. 11"</span>
-  <span>;</span><span>;</span>
-  
-  <span># Smith 和 Zane 的信息稍后添加。</span>
-
-  *         <span>)</span>
-  <span># 缺省设置。</span>
-  <span># 空输入（直接键入回车）也是执行这一部分。</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Not yet in database."</span>
-  <span>;</span><span>;</span>
-  
-<span>esac</span>
-
-<span>echo</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 修改脚本，使得其可以循环接受多次输入而不是只显示一个地址后终止脚本。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div><p>你可以用 <code>case</code> 来检测命令行参数。</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-  <span>""</span><span>)</span> <span>echo</span> <span>"Usage: <span>${0<span>##</span>*<span>/</span>}</span> &lt;filename>"</span><span>;</span> <span>exit</span> <span>$E_PARAM</span><span>;</span><span>;</span>
-                      <span># 没有命令行参数，或者第一个参数为空。</span>
-                      <span># 注意 ${0##*/} 是参数替换 ${var##pattern} 的一种形式。</span>
-                      <span># 最后的结果是 $0.</span>
-  
-  -*<span>)</span> <span>FILENAME</span><span>=</span>./<span>$1</span><span>;</span><span>;</span> <span>#  如果传入的参数以短横线开头，那么将其替换为 ./$1</span>
-                      <span>#+ 以避免后续的命令将其解释为一个选项。</span>
-  
-  * <span>)</span> <span>FILENAME</span><span>=</span><span>$1</span><span>;</span><span>;</span>   <span># 否则赋值为 $1。</span>
-<span>esac</span>                  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>下面是一个更加直观的处理命令行参数的例子：</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>while</span> <span>[</span> <span>$#</span> -gt <span>0</span> <span>]</span><span>;</span> <span>do</span>    <span># 遍历完所有参数</span>
-  <span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-    -d<span>|</span>--debug<span>)</span>
-              <span># 检测是否是 "-d" 或者 "--debug"。</span>
-              <span>DEBUG</span><span>=</span><span>1</span>
-              <span>;</span><span>;</span>
-    -c<span>|</span>--conf<span>)</span>
-              <span>CONFFILE</span><span>=</span><span>"<span>$2</span>"</span>
-              <span>shift</span>
-              <span>if</span> <span>[</span> <span>!</span> -f <span>$CONFFILE</span> <span>]</span><span>;</span> <span>then</span>
-                <span>echo</span> <span>"Error: Supplied file doesn't exist!"</span>
-                <span>exit</span> <span>$E_CONFFILE</span>     <span># 找不到文件。</span>
-              <span>fi</span>
-              <span>;</span><span>;</span>
-  <span>esac</span>
-  <span>shift</span>       <span># 检测下一个参数</span>
-<span>done</span>
-
-<span># 摘自 Stefano Falsetto 的 "Log2Rot" 脚本中 "rottlog" 包的一部分。</span>
-<span># 已授权使用。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>样例 11-27. 使用命令替换生成 <code>case</code> 变量</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># case-cmd.sh: 使用命令替换生成 "case" 变量。</span>
-
-<span>case</span> <span><span>$(</span> arch <span>)</span></span> <span>in</span>   <span># $( arch ) 返回设备架构。</span>
-                    <span># 等价于 'uname -m"。</span>
-  i386 <span>)</span> <span>echo</span> <span>"80386-based machine"</span><span>;</span><span>;</span>
-  i486 <span>)</span> <span>echo</span> <span>"80486-based machine"</span><span>;</span><span>;</span>
-  i586 <span>)</span> <span>echo</span> <span>"Pentium-based machine"</span><span>;</span><span>;</span>
-  i686 <span>)</span> <span>echo</span> <span>"Pentium2+-based machine"</span><span>;</span><span>;</span>
-  *    <span>)</span> <span>echo</span> <span>"Other type of machine"</span><span>;</span><span>;</span>
-<span>esac</span>
-
-<span>exit</span> <span>0</span>  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p><code>case</code> 还可以用来做字符串模式匹配。</p>
-<p>样例 11-28. 简单的字符串匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># match-string.sh: 使用 'case' 结构进行简单的字符串匹配。</span>
-
-<span>match_string</span> <span>(</span><span>)</span>
-<span>{</span> <span># 字符串精确匹配。</span>
-  <span>MATCH</span><span>=</span><span>0</span>
-  <span>E_NOMATCH</span><span>=</span><span>90</span>
-  <span>PARAMS</span><span>=</span><span>2</span>     <span># 需要2个参数。</span>
-  <span>E_BAD_PARAMS</span><span>=</span><span>91</span>
-  
-  <span>[</span> <span>$#</span> -eq <span>$PARAMS</span> <span>]</span> <span>||</span> <span>return</span> <span>$E_BAD_PARAMS</span>
-  
-  <span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-    <span>"<span>$2</span>"</span><span>)</span> <span>return</span> <span>$MATCH</span><span>;</span><span>;</span>
-    *   <span>)</span> <span>return</span> <span>$E_NOMATCH</span><span>;</span><span>;</span>
-  <span>esac</span>
-  
-<span>}</span>
-
-
-<span>a</span><span>=</span>one
-<span>b</span><span>=</span>two
-<span>c</span><span>=</span>three
-<span>d</span><span>=</span>two
-
-match_string <span>$a</span>     <span># 参数个数不够</span>
-<span>echo</span> <span>$?</span>             <span># 91</span>
-
-match_string <span>$a</span> <span>$b</span>  <span># 匹配不到</span>
-<span>echo</span> <span>$?</span>             <span># 90</span>
-
-match_string <span>$a</span> <span>$d</span>  <span># 匹配成功</span>
-<span>echo</span> <span>$?</span>             <span># 0</span>
-
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div><p>样例 11-29. 检查输入</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># isaplpha.sh: 使用 "case" 结构检查输入。</span>
-
-<span>SUCCESS</span><span>=</span><span>0</span>
-<span>FAILURE</span><span>=</span><span>1</span>   <span>#  以前是FAILURE=-1,</span>
-            <span>#+ 但现在 Bash 不允许返回负值。</span>
-
-isalpha <span>(</span><span>)</span>  <span># 测试字符串的第一个字符是否是字母。</span>
-<span>{</span>
-<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>                <span># 检测是否传入参数。</span>
-<span>then</span>
-  <span>return</span> <span>$FAILURE</span>
-<span>fi</span>
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-  <span>[</span>a-zA-Z<span>]</span>*<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>  <span># 是否以字母形式开始？</span>
-  *        <span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
-<span>esac</span>
-<span>}</span>             <span># 可以与 C 语言中的函数 "isalpha ()" 作比较。</span>
-
-
-isalpha2 <span>(</span><span>)</span>   <span># 测试整个字符串是否都是字母。</span>
-<span>{</span>
-  <span>[</span> <span>$#</span> -eq <span>1</span> <span>]</span> <span>||</span> <span>return</span> <span>$FAILURE</span>
-  
-  <span>case</span> <span>$1</span> <span>in</span>
-  *<span>[</span><span>!</span>a-zA-Z<span>]</span>*<span>|</span><span>""</span><span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
-               *<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>
-  <span>esac</span>
-<span>}</span>
-
-isdigit <span>(</span><span>)</span>    <span># 测试整个字符串是否都是数字。</span>
-<span>{</span>             <span># 换句话说，也就是测试是否是一个整型变量。</span>
-  <span>[</span> <span>$#</span> -eq <span>1</span> <span>]</span> <span>||</span> <span>return</span> <span>$FAILURE</span>
-  
-  <span>case</span> <span>$1</span> <span>in</span>
-    *<span>[</span><span>!</span><span>0</span>-9<span>]</span>*<span>|</span><span>""</span><span>)</span> <span>return</span> <span>$FAILURE</span><span>;</span><span>;</span>
-              *<span>)</span> <span>return</span> <span>$SUCCESS</span><span>;</span><span>;</span>
-  <span>esac</span>
-<span>}</span>
-
-
-
-check_var <span>(</span><span>)</span>  <span># 包装后的 isalpha ()。</span>
-<span>{</span>
-<span>if</span> isalpha <span>"<span>$@</span>"</span>
-<span>then</span>
-  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> begins with an alpha character."</span>
-  <span>if</span> isalpha2 <span>"<span>$@</span>"</span>
-  <span>then</span>        <span># 其实没必要检查第一个字符是不是字母。</span>
-    <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains only alpha characters."</span>
-  <span>else</span>
-    <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains at least one non-alpha character."</span>
-  <span>fi</span>
-<span>else</span>
-  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> begins with a non-alpha character."</span>
-              <span># 如果没有传入参数同样同样返回“存在非字母”。</span>
-<span>fi</span>
-  
-<span>echo</span>
-  
-<span>}</span>
-
-digit_check <span>(</span><span>)</span>  <span># 包装后的 isdigit ()。</span>
-<span>{</span>
-<span>if</span> isdigit <span>"<span>$@</span>"</span>
-<span>then</span>
-  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> contains only digits [0 - 9]."</span>
-<span>else</span>
-  <span>echo</span> <span>"<span title="\&quot;">\"</span><span>$*</span><span title="\&quot;">\"</span> has at least one non-digit character."</span>
-<span>fi</span>
-  
-<span>echo</span>
-  
-<span>}</span>
-
-
-<span>a</span><span>=</span>23skidoo
-<span>b</span><span>=</span>H3llo
-<span>c</span><span>=</span>-What?
-<span>d</span><span>=</span>What?
-<span>e</span><span>=</span><span><span>$(</span><span>echo</span> $b<span>)</span></span>   <span># 命令替换。</span>
-<span>f</span><span>=</span>AbcDef
-<span>g</span><span>=</span><span>27234</span>
-<span>h</span><span>=</span>27a34
-<span>i</span><span>=</span><span>27.34</span>
-
-check_var <span>$a</span>
-check_var <span>$b</span>
-check_var <span>$c</span>
-check_var <span>$d</span>
-check_var <span>$e</span>
-check_var <span>$f</span>
-check_var     <span># 如果不传入参数会发送什么？</span>
-<span>#</span>
-digit_check <span>$g</span>
-digit_check <span>$h</span>
-digit_check <span>$i</span>
-
-
-<span>exit</span> <span>0</span>        <span># S.C. 改进了本脚本。</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 写一个函数 'isfloat ()' 来检测输入值是否是浮点数。</span>
-<span># 提示：可以参考函数 'isdigit ()'，在其中加入检测合法的小数点即可。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br><span>98</span><br><span>99</span><br><span>100</span><br><span>101</span><br><span>102</span><br><span>103</span><br><span>104</span><br><span>105</span><br><span>106</span><br></div></div><h3 id="select"> <code>select</code></h3>
-<p><code>select</code> 结构是学习自 Korn Shell。其同样可以用来构建菜单。</p>
-<div><pre><code><span>select</span> variable <span>[</span>in list<span>]</span>
-<span>do</span>
- command<span>..</span>.
- <span>break</span>
-<span>done</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>而效果则是终端会提示用户输入列表中的一个选项。注意，<code>select</code> 默认使用提示字串3（Prompt String 3，<code>$PS3</code>, 即#?），但同样可以被修改。</p>
-<p>样例 11-30. 使用 <code>select</code> 创建菜单</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span><span>PS3</span></span><span>=</span><span>'Choose your favorite vegetable: '</span> <span># 设置提示字串。</span>
-                                       <span># 否则默认为 #?。</span>
-
-<span>echo</span>
-
-<span>select</span> <span>vegetable</span> <span>in</span> <span>"beans"</span> <span>"carrots"</span> <span>"potatoes"</span> <span>"onions"</span> <span>"rutabagas"</span>
-<span>do</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Your favorite veggie is <span>$vegetable</span>."</span>
-  <span>echo</span> <span>"Yuck!"</span>
-  <span>echo</span>
-  <span>break</span>  <span># 如果没有 'break' 会发生什么？</span>
-<span>done</span>
-
-<span>exit</span>
-
-<span># 练习:</span>
-<span># -----</span>
-<span># 修改脚本，使得其可以接受其他输入而不是 "select" 语句中所指定的。</span>
-<span># 例如，如果用户输入 "peas,"，那么脚本会通知用户 "Sorry. That is not on the menu."</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>如果 <em>in list</em> 被省略，那么 <code>select</code> 将会使用传入脚本的命令行参数（<code>$@</code>）或者传入函数的参数作为 <em>list</em>。</p>
-<p>可以与 <code>for variable [in list]</code> 中 <em>in list</em> 被省略的情况做比较。</p>
-<p>样例 11-31. 在函数中使用 <code>select</code> 创建菜单</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span><span>PS3</span></span><span>=</span><span>'Choose your favorite vegetable: '</span>
-
-<span>echo</span>
-
-<span>choice_of</span><span>(</span><span>)</span>
-<span>{</span>
-<span>select</span> vegetable
-<span># [in list] 被省略，因此 'select' 将会使用传入函数的参数作为 list。</span>
-<span>do</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Your favorite veggie is <span>$vegetable</span>."</span>
-  <span>echo</span> <span>"Yuck!"</span>
-  <span>echo</span>
-  <span>break</span>
-<span>done</span>
-<span>}</span>
-
-choice_of beans rice carrorts radishes rutabaga spinach
-<span>#         $1    $2   $3      $4       $5       $6</span>
-<span>#         传入了函数 choice_of()</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>还可以参照 <a href="http://tldp.org/LDP/abs/html/bashver2.html#RESISTOR" target="_blank" rel="noopener noreferrer">样例37-3</a>。</p>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>在写匹配行的时候，可以在左边加上左括号 (，使整个结构看起来更加优雅。<pre>case $( arch ) in   # $( arch ) 返回设备架构。<br>  ( i386 ) echo &quot;80386-based machine&quot;;;<br># ^      ^<br>  ( i486 ) echo &quot;80486-based machine&quot;;;<br>  ( i586 ) echo &quot;Pentium-based machine&quot;;;<br>  ( i686 ) echo &quot;Pentium2+-based machine&quot;;;<br>  (    * ) echo &quot;Other type of machine&quot;;;<br>esac</pre> </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567739412739.png" type="image/png"/>
     </item>
     <item>
       <title>11.3 循环控制</title>
