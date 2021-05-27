@@ -1,6 +1,6 @@
 ---
-sticky: 10
-star: 10
+sticky: 60
+star: 60
 author: LinuxStory & Clay
 category: Linux
 tags:
