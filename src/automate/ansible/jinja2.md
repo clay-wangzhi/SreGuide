@@ -1,3 +1,12 @@
+---
+time: 2020-03-20
+category: 自动化工具
+tags:
+  - Ansible
+---
+
+# 4.7 Jinja2 模板
+
 ## Jinja2 简介
 
 ### Jinja2 是什么？模板是什么？
