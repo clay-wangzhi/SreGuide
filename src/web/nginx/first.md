@@ -5,8 +5,6 @@ tags:
   - Nginx
 ---
 
-> nginx的大部分笔记 整理自 陶辉的 Nginx 核心知识 100 讲
-
 # 1. 初识Nginx
 
 ## 1 Nginx的三个主要应用场景

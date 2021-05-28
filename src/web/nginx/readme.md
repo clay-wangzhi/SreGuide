@@ -7,9 +7,9 @@ tags:
   - Nginx
 ---
 
-> nginx的大部分笔记 整理自 陶辉的 Nginx 核心知识 100 讲
-
 # Nginx 学习笔记
+
+> nginx的大部分笔记 整理自 陶辉的 Nginx 核心知识 100 讲
 
 Hello Nginx~
 
