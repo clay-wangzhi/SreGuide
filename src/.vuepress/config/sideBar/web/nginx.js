@@ -1,5 +1,6 @@
 module.exports = [
   "",
+  "first",
   "framework",
   {
     title: "3. nginx配置文件详解",
