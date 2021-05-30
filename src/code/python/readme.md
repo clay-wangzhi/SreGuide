@@ -19,6 +19,14 @@ category: Python
 
 [Python - 100天从新手到大师 | 骆昊](https://github.com/jackfrued/Python-100-Days) :star:
 
+[Python 入门指南](http://www.pythondoc.com/pythontutorial3/index.html)
+
+[Python Cookbook | 飞污熊](https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html)
+
+[Django教程 | 刘江](https://www.liujiangblog.com/course/django/) :star:
+
+
+
 ## Summary
 
 * [01 Python基础语法](python-basic-grammar.md)
