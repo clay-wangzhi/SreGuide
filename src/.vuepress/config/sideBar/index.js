@@ -4,6 +4,7 @@ module.exports = {
     "/basic/network/": require("./basic/network"),
     "/code/shell/": require("./code/shell"),
     "/code/python/": require("./code/python"),
+    "/cloudnative/docker/": require("./cloudnative/docker/"),
     "/automate/ansible/": require("./automate/ansible"),
     "/web/nginx/": require("./web/nginx"),
     "/monitor/zabbix/": require("./monitor/zabbix"),
