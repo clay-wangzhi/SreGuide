@@ -1,11 +1,25 @@
 ---
 category: Python
 ---
-# Python 学习笔记
+# 前言
 
-Hello Python~
+## 常用官网
 
-# Summary
+[www.python.org](https://www.python.org/) :star:
+
+[django](https://docs.djangoproject.com/zh-hans/) :star:
+
+
+
+## Python 教程
+
+[Python 运维自动化 | 马哥教育](https://clay-wangzhi.com/code/python/) :star: | 我的python笔记中大多整理自此教程 ​
+
+[Python 教程 | 廖雪峰](https://www.liaoxuefeng.com/wiki/1016959663602400) :star:
+
+[Python - 100天从新手到大师 | 骆昊](https://github.com/jackfrued/Python-100-Days) :star:
+
+## Summary
 
 * [01 Python基础语法](python-basic-grammar.md)
 * [02 线性数据结构](python-linear-data-structure.md)
