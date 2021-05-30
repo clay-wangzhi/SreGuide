@@ -1,5 +1,7 @@
 module.exports = {
   zh: {
+    "/basic/system/": require("./basic/system"),
+    "/basic/network/": require("./basic/network"),
     "/code/shell/": require("./code/shell"),
     "/code/python/": require("./code/python"),
     "/automate/ansible/": require("./automate/ansible"),
