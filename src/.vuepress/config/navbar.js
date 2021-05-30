@@ -3,6 +3,13 @@ const { navbarConfig } = require("vuepress-theme-hope");
 module.exports = {
   zh: navbarConfig([
     { text: "博客主页", link: "/", icon: "home" },
+    {text: "基础知识",
+      icon: "jichu",
+      items: [
+        { text: "操作系统", icon:"caozuoxitong", link: "/basic/system/" },
+        { text: "计算机网络", icon:"wangluo", link: "/basic/network/" },
+      ]
+    },
     {
       text: "编程语言",
       icon: "code",
