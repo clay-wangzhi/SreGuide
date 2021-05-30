@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-30T10:03:15.219Z</updated>
+  <updated>2021-05-30T10:06:33.938Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -26845,466 +26845,6 @@ echo | awk '</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">10.1 字符串处理</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
-<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
-<h3 id="字符串长度"> 字符串长度</h3>
-<h4 id="string"> <code>${#string}</code></h4>
-<h4 id="expr-length-string"> <code>expr length $string</code></h4>
-<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
-<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># paragraph-space.sh</span>
-<span># 版本 2.1，发布日期 2012年7月29日</span>
-
-<span># 在无空行的文本文件的段落之间插入空行。</span>
-<span># 像这样使用: $0 &lt;FILENAME</span>
-
-<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
-<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
-<span>#+ 结尾部分有练习！</span>
-
-<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
-<span>do</span>
-  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
-  
-  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
-<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
-<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
-<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
-    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
-  <span>fi</span>             <span>#+ 增加一行空行。</span>
-<span>done</span>
-
-<span>exit</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
-<span>#+    尝试解决这个问题。</span>
-<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
-<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
-<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个正则表达式。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |------|</span>
-<span>#       12345678</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
-<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
-<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456 ...</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
-                                             <span># C 的位置。</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
-<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
-<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
-<h4 id="string-position"> <code>${string:position}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
-<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
-<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       0123456789.....</span>
-<span>#       索引位置从0开始。</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
-
-<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
-                                             <span># 三个字符的子字符串。</span>
-                                             
-                                             
-
-<span># 从右至左进行截取可行么？</span>
-
-<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
-<span># ${parameter:-default} 将会得到整个字符串。</span>
-<span># 但是……</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
-<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
-<span># 现在可以了。</span>
-<span># 括号或者增加空格都可以"转义"位置参数。</span>
-
-<span># 感谢 Dan Jacobson 指出这些。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
-<p>样例 10-2. 产生一个8个字符的随机字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rand-string.sh</span>
-<span># 产生一个8个字符的随机字符串。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
-<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
-<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
-<span>fi</span>
-
-<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
-<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
-
-<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
-<span>#                      ^^^^^^   ^^^^^^</span>
-<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
-
-<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
-<span>#                  ^^^^ ^^^^</span>
-<span># 允许传入参数</span>
-
-<span>echo</span> <span>"<span>$randstring</span>"</span>
-
-<span>exit</span> <span>$?</span>
-
-<span># bozo$ ./rand-string.sh my-password</span>
-<span># 1bdd88c4</span>
-
-<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
-<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
-<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
-
-<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456789......</span>
-<span>#       索引位置从1开始。</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       =======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
-<span># 上面所有的形式都给出了相同的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                ======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
-<h4 id="string-substring"> <code>${string#substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
-<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |----|          最长</span>
-<span>#       |----------|    最短</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
-<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
-<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
-
-
-
-<span># 你可以使用变量代替 substring。</span>
-
-<span>X</span><span>=</span><span>'a*C'</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
-                        <span># 同上。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
-<p>例如：</p>
-<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
-<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
-
-<span>SUFF</span><span>=</span>TXT
-<span>suff</span><span>=</span>txt
-
-<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
-<span>do</span>
-  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
-  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
-  <span>#+ 其他一切都保持不变。</span>
-<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
-
-<span># 感谢 Rory Winston。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                    ||     最短</span>
-<span>#        |------------|     最长</span>
-
-<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
-<p>样例 10-3. 改变图像文件的格式及文件名</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>#  cvt.sh:</span>
-<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
-
-<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
-<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
-<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
-
-<span>OPERATION</span><span>=</span>macptopbm
-<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
-<span>then</span>
-  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
-<span>else</span>
-  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
-<span>fi</span>
-
-<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
-<span>#+ ".mac" 的文件后缀名。</span>
-
-<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
-<span>do</span>
-  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
-                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
-                            <span>#  所有字符，包括其本身)。</span>
-  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
-                            <span># 将转换结果重定向到新的文件。</span>
-  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
-  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
-<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
-
-
-
-<span># *** 还可以使用另外一种方法。 *** #</span>
-
-<span>#!/bin/bash</span>
-<span># 将图像批处理转换成不同的格式。</span>
-<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
-
-<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
-<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
-
-<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
-<span>do</span>
-  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
-  <span># echo $p2</span>
-  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
-<span>done</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
-
-<span># 使用 "mplayer" 媒体播放器程序：</span>
-<span>#      http://www.mplayerhq.hu/homepage</span>
-<span># 使用 "ogg" 库与 "oggenc"：</span>
-<span>#      http://www.xiph.org/</span>
-<span>#</span>
-<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
-<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
-
-
-<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
-<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
-<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
-E_NOARGS=85
-
-if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
-then
-  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
-  exit <span>$E_NOAGRS</span>
-fi
-
-
-######################################################
-mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
-oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
-######################################################
-
-rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
-                   # 如果你仍需保留原文件，注释掉上面这一行即可。
-                   
-exit <span>$?</span>
-
-#  注意：
-#  -----
-#  在网站上，点击一个 *.ram 的流媒体音频文件
-#+ 通常只会下载到 *.ra 音频文件的 URL。
-#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
-
-
-#  练习：
-#  -----
-#  这个脚本仅仅转换 *.ra 文件。
-#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
-#
-#  如果你非常有热情，你可以扩展这个脚本使其
-#+ 可以自动下载并且转换流媒体音频文件。
-#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
-<span>#+ 然后转换它。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
-<p>样例 10-5. 模拟 <code>getopt</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># getopt-simple.sh</span>
-<span># 作者: Chris Morgan</span>
-<span># 允许在高级脚本编程指南中使用。</span>
-
-
-<span>getopt_simple</span><span>(</span><span>)</span>
-<span>{</span>
-    <span>echo</span> <span>"getopt_simple()"</span>
-    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
-    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
-    <span>do</span>
-      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
-      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
-      <span>then</span>
-          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
-          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
-          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
-          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
-          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
-      <span>fi</span>
-      <span>shift</span>
-    <span>done</span>
-<span>}</span>
-
-<span># 将所有参数传递给 getopt_simple()。</span>
-getopt_simple <span>$*</span>
-
-<span>echo</span> <span>"test is '<span>$test</span>'"</span>
-<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
-
-<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
-
----
-
-<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
-
-Parameters are <span>'/test=value1 /test2=value2'</span>
-Processing parameter of: <span>'/test=value1'</span>
-Parameter: <span>'test'</span>, value: <span>'value1'</span>
-Processing parameter of: <span>'/test2=value2'</span>
-Parameter: <span>'test2'</span>, value: <span>'value2'</span>
-<span>test</span> is <span>'value1'</span>
-test2 is <span>'value2'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
-<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
-<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
-<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
-<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
-                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
-                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span>  ---------------
-<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
-<span>echo</span>  ---------------
-                              <span># 字符串本身并不会被修改！</span>
-                              
-<span># 匹配以及替换的字符串可以是参数么？</span>
-<span>match</span><span>=</span>abc
-<span>repl</span><span>=</span>000
-<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
-<span>#              ^      ^         ^^^</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
-<span># Yes!          ^      ^        ^^^         ^^^</span>
-
-<span>echo</span>
-
-<span># 如果没有给定 $replacement 字符串会怎样？</span>
-<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
-<span># 仅仅是将其删除而已。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
-                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
-                                  
-<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
-                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
-<section>
-<ol>
-<li id="footnote1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
-</li>
-<li id="footnote2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第十章 变量处理</title>
     <id>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/"/>
@@ -43559,6 +43099,121 @@ skip-grant-tables
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">hash类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
+<p>hash⽤于存储对象
+对象的结构为属性、值
+值的类型为string</p>
+<h2 id="增加、修改"> 增加、修改</h2>
+<ul>
+<li>设置单个属性</li>
+</ul>
+<div><pre><code>hset key field value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个属性</li>
+</ul>
+<div><pre><code>hmset key field1 value1 field2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取指定键所有的属性</li>
+</ul>
+<div><pre><code>hkeys key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取⼀个属性的值</li>
+</ul>
+<div><pre><code>hget key field
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取多个属性的值</li>
+</ul>
+<div><pre><code>hmget key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取所有属性的值</li>
+</ul>
+<div><pre><code>hvals key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取一个hash有多少个属性</li>
+</ul>
+<div><pre><code>hlen key
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<ul>
+<li>删除整个hash键及值，使⽤del命令</li>
+<li>删除属性，属性对应的值会被⼀起删除</li>
+</ul>
+<div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">键命令</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
+<ul>
+<li>查找键
+参数⽀持正则表达式</li>
+</ul>
+<div><pre><code>keys pattern
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>判断键是否存在，
+如果存在返回1，不存在返回0</li>
+</ul>
+<div><pre><code>exists key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看键对应的value的类型</li>
+</ul>
+<div><pre><code>type key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>删除键</li>
+</ul>
+<div><pre><code>del key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置过期时间</li>
+</ul>
+<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
+<div><pre><code>expire key seconds
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>查看有效时间</li>
+</ul>
+<p>以秒为单位</p>
+<div><pre><code>ttl key
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">4 视图、事务、索引、函数</title>
     <id>https://clay-wangzhi.com/db/mysql/view-func/</id>
     <link href="https://clay-wangzhi.com/db/mysql/view-func/"/>
@@ -44519,177 +44174,6 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">hash类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
-<p>hash⽤于存储对象
-对象的结构为属性、值
-值的类型为string</p>
-<h2 id="增加、修改"> 增加、修改</h2>
-<ul>
-<li>设置单个属性</li>
-</ul>
-<div><pre><code>hset key field value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个属性</li>
-</ul>
-<div><pre><code>hmset key field1 value1 field2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取指定键所有的属性</li>
-</ul>
-<div><pre><code>hkeys key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取⼀个属性的值</li>
-</ul>
-<div><pre><code>hget key field
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取多个属性的值</li>
-</ul>
-<div><pre><code>hmget key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取所有属性的值</li>
-</ul>
-<div><pre><code>hvals key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取一个hash有多少个属性</li>
-</ul>
-<div><pre><code>hlen key
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<ul>
-<li>删除整个hash键及值，使⽤del命令</li>
-<li>删除属性，属性对应的值会被⼀起删除</li>
-</ul>
-<div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">键命令</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="键命令"> 键命令</h1>
-<ul>
-<li>查找键
-参数⽀持正则表达式</li>
-</ul>
-<div><pre><code>keys pattern
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>判断键是否存在，
-如果存在返回1，不存在返回0</li>
-</ul>
-<div><pre><code>exists key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看键对应的value的类型</li>
-</ul>
-<div><pre><code>type key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>删除键</li>
-</ul>
-<div><pre><code>del key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置过期时间</li>
-</ul>
-<p>以秒为单位，如果没有指定过期时间则⼀直存在，直到使⽤DEL移除</p>
-<div><pre><code>expire key seconds
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>查看有效时间</li>
-</ul>
-<p>以秒为单位</p>
-<div><pre><code>ttl key
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">set 类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
-<ul>
-<li>⽆序集合</li>
-<li>元素为string类型</li>
-<li>元素具有唯⼀性，不重复</li>
-<li>说明：对于集合没有修改操作</li>
-</ul>
-<p>增加</p>
-<ul>
-<li>添加元素</li>
-</ul>
-<div><pre><code>sadd key member1 member2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
-</ul>
-<div><pre><code>sadd a3 zhangsan sili wangwu
-</code></pre>
-<div><span>1</span><br></div></div><p>获取</p>
-<ul>
-<li>返回所有的元素</li>
-</ul>
-<div><pre><code>smembers key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例2：获取键'a3'的集合中所有元素</li>
-</ul>
-<div><pre><code>smembers a3
-</code></pre>
-<div><span>1</span><br></div></div><p>删除</p>
-<ul>
-<li>删除指定元素</li>
-</ul>
-<div><pre><code>srem key value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例3：删除键'a3'的集合中元素'wangwu'</li>
-</ul>
-<div><pre><code>srem a3 wangwu
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">list类型</title>
     <id>https://clay-wangzhi.com/db/redis/operate/list/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/list/"/>
@@ -44768,6 +44252,62 @@ func main(){
 <li>例6.3：查看列表'py12'的所有元素</li>
 </ul>
 <div><pre><code>lrange a2 0 -1
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">set 类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
+<ul>
+<li>⽆序集合</li>
+<li>元素为string类型</li>
+<li>元素具有唯⼀性，不重复</li>
+<li>说明：对于集合没有修改操作</li>
+</ul>
+<p>增加</p>
+<ul>
+<li>添加元素</li>
+</ul>
+<div><pre><code>sadd key member1 member2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
+</ul>
+<div><pre><code>sadd a3 zhangsan sili wangwu
+</code></pre>
+<div><span>1</span><br></div></div><p>获取</p>
+<ul>
+<li>返回所有的元素</li>
+</ul>
+<div><pre><code>smembers key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例2：获取键'a3'的集合中所有元素</li>
+</ul>
+<div><pre><code>smembers a3
+</code></pre>
+<div><span>1</span><br></div></div><p>删除</p>
+<ul>
+<li>删除指定元素</li>
+</ul>
+<div><pre><code>srem key value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例3：删除键'a3'的集合中元素'wangwu'</li>
+</ul>
+<div><pre><code>srem a3 wangwu
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
     <author>
@@ -49572,42 +49112,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">用户管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/user/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">编程语言的分类</title>
     <id>https://clay-wangzhi.com/linux/gainian/code-type/</id>
     <link href="https://clay-wangzhi.com/linux/gainian/code-type/"/>
@@ -49664,6 +49168,42 @@ useradd aa -G wheel
     <author>
       <name>Clay</name>
     </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">用户管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/user/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -49893,42 +49433,6 @@ PRD/PROD production 产品/正式/生产</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">centos7下时区问题</title>
-    <id>https://clay-wangzhi.com/linux/qa/centos-time/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/centos-time/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
-<p>centos7时区同样, 在
-CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
-<p>用法很简单：</p>
-<div><pre><code># timedatectl # 查看系统时间方面的各种状态
-      Local time: 四 2014-12-25 10:52:10 CST
-  Universal time: 四 2014-12-25 02:52:10 UTC
-        RTC time: 四 2014-12-25 02:52:10
-        Timezone: Asia/Shanghai (CST, +0800)
-     NTP enabled: yes
-NTP synchronized: yes
- RTC in local TZ: no
-      DST active: n/a
-# timedatectl list-timezones # 列出所有时区
-# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
-# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
-<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">证书相关问题</title>
     <id>https://clay-wangzhi.com/linux/qa/curl-https/</id>
     <link href="https://clay-wangzhi.com/linux/qa/curl-https/"/>
@@ -49985,6 +49489,42 @@ make install
 <h2 id="未统计到的文件"> 未统计到的文件</h2>
 <p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">centos7下时区问题</title>
+    <id>https://clay-wangzhi.com/linux/qa/centos-time/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/centos-time/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="centos7下时区问题"> centos7下时区问题</h2>
+<p>centos7时区同样, 在
+CentOS 7 中, 引入了一个叫 <strong>timedatectl</strong> 的设置设置程序。</p>
+<p>用法很简单：</p>
+<div><pre><code># timedatectl # 查看系统时间方面的各种状态
+      Local time: 四 2014-12-25 10:52:10 CST
+  Universal time: 四 2014-12-25 02:52:10 UTC
+        RTC time: 四 2014-12-25 02:52:10
+        Timezone: Asia/Shanghai (CST, +0800)
+     NTP enabled: yes
+NTP synchronized: yes
+ RTC in local TZ: no
+      DST active: n/a
+# timedatectl list-timezones # 列出所有时区
+# timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+# timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>其实不考虑各个发行版的差异化, 从更底层出发的话, 修改时间时区比想象中要简单:</p>
+<div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -53289,520 +52829,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">10.2 参数替换</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
-<p>参数替换用来处理或扩展变量。</p>
-<h3 id="parameter"> <code>${parameter}</code></h3>
-<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
-<p>可以用于连接变量与字符串。</p>
-<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
-<span>echo</span> <span>"<span>$your_id</span>"</span>
-<span># </span>
-<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
-<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
-<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
-<p>在没有设置变量的情况下使用缺省值。</p>
-<div><pre><code><span>var1</span><span>=</span><span>1</span>
-<span>var2</span><span>=</span><span>2</span>
-<span># 没有设置 var3。</span>
-
-<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
-<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
-<span>#           ^          注意前面的 $ 前缀。</span>
-
-
-
-<span>echo</span> <span>${username-`whoami`}</span>
-<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
-</blockquote>
-<div><pre><code><span>#!/bin/bash</span>
-<span># param-sub.sh</span>
-
-<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
-
-<span>username0</span><span>=</span>
-<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
-<span># 将不会输出 `whoami` 的结果。</span>
-
-<span>echo</span>
-
-<span>echo</span> username1 has not been declared.
-<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
-<span># 将会输出 `whoami` 的结果。</span>
-
-<span>username2</span><span>=</span>
-<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
-<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
-<span>#                            ^</span>
-<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
-<span># 与上面的 username0 比较。</span>
-
-
-<span># </span>
-
-<span># 再来一次：</span>
-
-<span>variable</span><span>=</span>
-<span># 变量已被声明，但其值为空。</span>
-
-<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
-<span>#               ^</span>
-
-unser variable
-
-<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
-<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
-<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
-<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
-<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
-<span># 代码块开始</span>
-<span># ...</span>
-<span># ...</span>
-<span># ...</span>
-<span># 代码块结束</span>
-
-
-
-<span># 摘自样例 "hanoi2.bash"：</span>
-<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
-<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
-<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
-<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
-<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
-<p>在没有设置变量的情况下，将其设置为缺省值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
-<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
-<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
-<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
-<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
-<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param1+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param2</span><span>=</span>
-<span>a</span><span>=</span><span>${param2+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>param3</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param3+xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-
-<span>echo</span>
-<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
-<span>echo</span>
-
-<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-
-<span>param5</span><span>=</span>
-<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
-<span># 不同于 a=${param5+xyz}</span>
-
-<span>param6</span><span>=</span><span>123</span>
-<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
-<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
-<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
-<p>样例 10-7. 如何使用变量替换和错误信息</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span># 检查系统环境变量。</span>
-<span># 这是一种良好的预防性维护措施。</span>
-<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
-
-<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
-  <span>echo</span>
-  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
-  <span>echo</span> <span>"You are <span>$USER</span>."</span>
-  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
-  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
-  <span>echo</span>
-  <span>echo</span> <span>"If you are reading this message,"</span>
-  <span>echo</span> <span>"critcial environmental variables have been set."</span>
-  <span>echo</span>
-  <span>echo</span>
-  
-<span># ------------------------------------------------------</span>
-
-<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
-
-<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
-<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
-<span>:</span> <span>${ThisVariable?}</span>
-<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
-
-<span>echo</span><span>;</span> <span>echo</span>
-
-
-<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
-
-<span># 你可以指定错误消息。</span>
-<span># : ${variablename?"ERROR MESSAGE"}</span>
-
-
-<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
-<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
-<span>#</span>
-<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
-
-<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
-
-
-
-<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
-
-<span>HERE</span><span>=</span><span>0</span>
-<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
-
-<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># usage-message.sh</span>
-
-<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
-<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
-<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
-
-<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
-<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
-
-<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
-
-<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
-<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
-<span># 如果没有，那么 "$?" 的结果是1。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
-<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
-<h4 id="var"> <code>${#var}</code></h4>
-<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> 以下情况例外：</p>
-<ul>
-<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
-<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
-</ul>
-</blockquote>
-<p>样例 10-9. 变量长度</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># length.sh</span>
-
-<span>E_NO_ARGS</span><span>=</span><span>65</span>
-
-<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
-<span>then</span>
-  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
-  <span>exit</span> <span>$E_NO_ARGS</span>
-<span>fi</span>
-
-<span>var01</span><span>=</span>abcdEFGH28ij
-<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
-<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
-<span># 现在我们尝试加入空格。</span>
-<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
-<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
-<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
-
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
-<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
-<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
-<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
-<span># 删除传入的参数中的前缀0。</span>
-
-strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
-<span>{</span>                     <span>#+ 前缀0。</span>
-  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
-<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
-<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
-<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
-  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
-  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
-  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
-  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
-                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
-<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
-<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
-<span>echo</span>
-<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
-<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
-<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
-<span>echo</span>
-<span>filename</span><span>=</span>test.data
-<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
-                            <span># 文件扩展名。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
-<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
-<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
-<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
-<p>样例 10-10. 参数替换中的模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># patt-matching.sh</span>
-
-<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
-
-<span>var1</span><span>=</span>abcd12345abc6789
-<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
-
-<span>echo</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
-<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
-                              <span># （另一种形式）</span>
-<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
-<span>echo</span>
-
-<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
-<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
-<span>#             ^                                           |-|</span>
-<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
-<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
-<span>#             ^                                           |----------|</span>
-
-<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
-
-<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
-<span>echo</span>
-<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
-<span>echo</span> <span>"--------------"</span>
-<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
-<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
-<span>#             ^                                                    |----|</span>
-<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
-<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
-<span>#             ^                                           |-------------|</span>
-
-<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
-<span>#      % 与 %% 是从右侧开始。</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rfe.sh: 更改文件扩展名。</span>
-<span>#</span>
-<span>#         rfe old_extension new_extension</span>
-<span>#</span>
-<span># 如：</span>
-<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
-<span>#         rfe gif jpg</span>
-
-
-<span>E_BADARGS</span><span>=</span><span>65</span>
-
-<span>case</span> <span>$#</span> <span>in</span>
-  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
-  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
-  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
-  <span>;</span><span>;</span>
-<span>esac</span>
-
-
-<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
-<span># 遍历以第一个参数作为后缀名的文件列表。</span>
-<span>do</span>
-  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
-  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
-<p>下面这些结构采用自 ksh。</p>
-<h4 id="var-pos"> <code>${var:pos}</code></h4>
-<p>扩展为从偏移量 pos 处截取的变量 var。</p>
-<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
-<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
-<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
-<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
-<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
-<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
-<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
-<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
-<p>样例 10-12. 使用模式匹配解析任意字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>var1</span><span>=</span>abcd-1234-defg
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
-
-<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
-<span>#  t=${var1#*-} 效果相同，</span>
-<span>#+ 因为 # 只匹配最短的字符串，</span>
-<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
-<span># （感谢 Stephane Chazelas 指出这一点。）</span>
-
-<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
-<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
-
-
-<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
-<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span># -------------------------------------------</span>
-<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
-<span># -------------------------------------------</span>
-<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
-<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
-<span># 在这里与 t=`basename $path_name` 效果相同。</span>
-<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
-<span>#+ 但有时仍旧也会出现问题。</span>
-<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
-<span>#+ 但是上面这种表达式却可以。</span>
-<span># （感谢 S.C.）</span>
-
-<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
-<span># 同 t=`dirname $path_name` 效果相同。</span>
-<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
-<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
-<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
-<span>#+ 事情会变的非常复杂。</span>
-<span># （感谢 S.C.）</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
-<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
-
-<span>echo</span>
-
-<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
-<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
-<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
-<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
-<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
-<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
-<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># var-match.sh:</span>
-<span># 演示在字符串首部或尾部进行模式替换。</span>
-
-<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
-<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
-<span>echo</span>
-
-<span># 在字符串首部进行匹配</span>
-<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span># |-|</span>
-<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
-                        <span># |----|</span>
-                        
-<span># 在字符串尾部进行匹配</span>
-<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
-                        <span>#              |-|</span>
-<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
-                        <span>#               |----|</span>
-                        
-<span>echo</span>
-
-<span>#  --------------------------------------------</span>
-<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
-<span>#+ 否则将不会发生替换。</span>
-<span>#  --------------------------------------------</span>
-<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
-<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
-<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
-                        <span># 没有替换。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
-<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
-<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
-<span># 在 Bash 2.04 版本中加入了这个特性。</span>
-
-<span>xyz23</span><span>=</span>whatever
-<span>xyz23</span><span>=</span>
-
-<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
-<span># ^ ^   ^           + 开头变量名。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
-<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
-
-<span>echo</span> <span>"---"</span>
-
-<span>abc23</span><span>=</span>something_else
-<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
-<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
-<span>echo</span> <span>$c</span>            <span>#  something_else</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
-<section>
-<ol>
-<li id="footnote1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">文档的基本操作CRUP与批量操作</title>
     <id>https://clay-wangzhi.com/monitor/elk/primer/crup/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/primer/crup/"/>
@@ -53878,6 +52904,178 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018796705.png" alt="" /></p>
 <h2 id="常见的错误返回"> 常见的错误返回</h2>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018899854.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">倒排索引入门</title>
+    <id>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/primer/inverted-index/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
+<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">通过分析器进行分词</title>
+    <id>https://clay-wangzhi.com/monitor/elk/primer/participle/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/primer/participle/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="通过分析器进行分词"> 通过分析器进行分词</h1>
+<h2 id="analysis"> Analysis</h2>
+<h3 id="analysis与analyzer"> Analysis与Analyzer</h3>
+<ul>
+<li>Analysis - 文本分析是把全文本转换一系列单词（term/token）的过程，也叫分词</li>
+<li>Analysis是通过Analyzer来实现的
+<ul>
+<li>可使用Elasticsearch内置的分析器/或者按需定制化分析器</li>
+</ul>
+</li>
+<li>除了在数据写入时转换词条，匹配Query语句时候也需要用相同的分析器对查询语句进行分析</li>
+</ul>
+<h3 id="analyzer的组成"> Analyzer的组成</h3>
+<ul>
+<li>分词器是专门处理分词的组件，Analyzer由三部分组成
+<ul>
+<li>Character Filters（针对原始文本处理，例如去除html）/ Tokenizer（按照规则切分为单词）/ Token Filter（将切分的单词进行加工，小写，删除stopwords，增加同义词）</li>
+</ul>
+</li>
+</ul>
+<p>举例</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568094953293.png" alt="" /></p>
+<h2 id="elasticsearch的内置分词器"> Elasticsearch的内置分词器</h2>
+<ul>
+<li>Standard Analyzer - 默认分词器，按词切分，小写处理</li>
+<li>Simple Analyzer - 按照非字母切分（符号被过滤），小写处理</li>
+<li>Stop Analyzer - 小写处理，停用词过滤（the ，a，is）</li>
+<li>Whitespace Analyzer - 按照空格切分，不转小写</li>
+<li>Keyword Analyzer - 不分词，直接将输入当做输出</li>
+<li>Patter Analyzer - 正则表达式，默认\W+（非字符分隔）</li>
+<li>Language - 提供了30多种常见语言的分词器</li>
+<li>Customer Analyzer  - 自定义分词器</li>
+</ul>
+<h3 id="使用-analyzer-api"> 使用_analyzer API</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568095742575.png" alt="" /></p>
+<h2 id="中文分词"> 中文分词</h2>
+<h3 id="分文分词的难点"> 分文分词的难点</h3>
+<ul>
+<li>中文句子，切分成一个一个词（不是一个个字）</li>
+<li>英文中，单词有自然的空格作为分隔</li>
+<li>一句中文，在不同的上下文，有不同的理解
+<ul>
+<li>这个苹果，不大好吃 / 这个苹果，不大，好吃！</li>
+</ul>
+</li>
+</ul>
+<h3 id="icu-analyzer"> ICU Analyzer</h3>
+<ul>
+<li>需要安装plugin
+<ul>
+<li>Elasticsearch-plugin install analysis-icu</li>
+</ul>
+</li>
+<li>提供了Unicode的支持，更好的支持亚洲语言</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568096106355.png" alt="" /></p>
+<p>举例</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568096123515.png" alt="" /></p>
+<h3 id="常用的中文分词器"> 常用的中文分词器</h3>
+<ul>
+<li>IK
+<ul>
+<li>支持自定义词库，支持热更新分词字典</li>
+<li>https://github.com/medcl/elasticsearch-analysis-ik</li>
+</ul>
+</li>
+<li>THUlAC
+<ul>
+<li>THU Lexucal Analyzer for Chinese，清华大学自然语言处理和社会人文计算实验室的一套中文分词器</li>
+<li>https://github.com/microbun/elasticsearch-thulac-plugin</li>
+</ul>
+</li>
+</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -56771,11 +55969,12 @@ git config --global user.email &quot;xxxxxxx@qq.com&quot;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">写作前</title>
-    <id>https://clay-wangzhi.com/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%86%99%E4%BD%9C/IT%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="写作前"> 写作前</h2>
+    <title type="html">IT 博客写作工作</title>
+    <id>https://clay-wangzhi.com/other/writing/</id>
+    <link href="https://clay-wangzhi.com/other/writing/"/>
+    <updated>2021-05-30T10:05:37.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="it-博客写作工作"> IT 博客写作工作</h1>
+<h2 id="写作前"> 写作前</h2>
 <h3 id="trello"> trello</h3>
 <p>官网地址:https://trello.com/</p>
 <p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
@@ -56870,7 +56069,7 @@ message：可以不用写
     <contributor>
       <name>Clay</name>
     </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
+    <published>2021-05-30T10:05:37.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -63175,6 +62374,980 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">10.1 字符串处理</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
+<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
+<h3 id="字符串长度"> 字符串长度</h3>
+<h4 id="string"> <code>${#string}</code></h4>
+<h4 id="expr-length-string"> <code>expr length $string</code></h4>
+<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
+<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># paragraph-space.sh</span>
+<span># 版本 2.1，发布日期 2012年7月29日</span>
+
+<span># 在无空行的文本文件的段落之间插入空行。</span>
+<span># 像这样使用: $0 &lt;FILENAME</span>
+
+<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
+<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
+<span>#+ 结尾部分有练习！</span>
+
+<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
+<span>do</span>
+  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
+  
+  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
+<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
+<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
+<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
+    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
+  <span>fi</span>             <span>#+ 增加一行空行。</span>
+<span>done</span>
+
+<span>exit</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
+<span>#+    尝试解决这个问题。</span>
+<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
+<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
+<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个正则表达式。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |------|</span>
+<span>#       12345678</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
+<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
+<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456 ...</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
+                                             <span># C 的位置。</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
+<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
+<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
+<h4 id="string-position"> <code>${string:position}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
+<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
+<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       0123456789.....</span>
+<span>#       索引位置从0开始。</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
+
+<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
+                                             <span># 三个字符的子字符串。</span>
+                                             
+                                             
+
+<span># 从右至左进行截取可行么？</span>
+
+<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
+<span># ${parameter:-default} 将会得到整个字符串。</span>
+<span># 但是……</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
+<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
+<span># 现在可以了。</span>
+<span># 括号或者增加空格都可以"转义"位置参数。</span>
+
+<span># 感谢 Dan Jacobson 指出这些。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
+<p>样例 10-2. 产生一个8个字符的随机字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rand-string.sh</span>
+<span># 产生一个8个字符的随机字符串。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
+<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
+<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
+<span>fi</span>
+
+<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
+<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
+
+<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
+<span>#                      ^^^^^^   ^^^^^^</span>
+<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
+
+<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
+<span>#                  ^^^^ ^^^^</span>
+<span># 允许传入参数</span>
+
+<span>echo</span> <span>"<span>$randstring</span>"</span>
+
+<span>exit</span> <span>$?</span>
+
+<span># bozo$ ./rand-string.sh my-password</span>
+<span># 1bdd88c4</span>
+
+<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
+<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
+<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
+
+<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456789......</span>
+<span>#       索引位置从1开始。</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       =======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
+<span># 上面所有的形式都给出了相同的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                ======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
+<h4 id="string-substring"> <code>${string#substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
+<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |----|          最长</span>
+<span>#       |----------|    最短</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
+<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
+<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
+
+
+
+<span># 你可以使用变量代替 substring。</span>
+
+<span>X</span><span>=</span><span>'a*C'</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
+                        <span># 同上。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
+<p>例如：</p>
+<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
+<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
+
+<span>SUFF</span><span>=</span>TXT
+<span>suff</span><span>=</span>txt
+
+<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
+<span>do</span>
+  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
+  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
+  <span>#+ 其他一切都保持不变。</span>
+<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
+
+<span># 感谢 Rory Winston。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                    ||     最短</span>
+<span>#        |------------|     最长</span>
+
+<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
+<p>样例 10-3. 改变图像文件的格式及文件名</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>#  cvt.sh:</span>
+<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
+
+<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
+<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
+<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
+
+<span>OPERATION</span><span>=</span>macptopbm
+<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
+<span>then</span>
+  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
+<span>else</span>
+  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
+<span>fi</span>
+
+<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
+<span>#+ ".mac" 的文件后缀名。</span>
+
+<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
+<span>do</span>
+  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
+                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
+                            <span>#  所有字符，包括其本身)。</span>
+  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
+                            <span># 将转换结果重定向到新的文件。</span>
+  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
+  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
+<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
+
+
+
+<span># *** 还可以使用另外一种方法。 *** #</span>
+
+<span>#!/bin/bash</span>
+<span># 将图像批处理转换成不同的格式。</span>
+<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
+
+<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
+<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
+
+<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
+<span>do</span>
+  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
+  <span># echo $p2</span>
+  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
+<span>done</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
+
+<span># 使用 "mplayer" 媒体播放器程序：</span>
+<span>#      http://www.mplayerhq.hu/homepage</span>
+<span># 使用 "ogg" 库与 "oggenc"：</span>
+<span>#      http://www.xiph.org/</span>
+<span>#</span>
+<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
+<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
+
+
+<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
+<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
+<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
+E_NOARGS=85
+
+if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
+then
+  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
+  exit <span>$E_NOAGRS</span>
+fi
+
+
+######################################################
+mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
+oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
+######################################################
+
+rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
+                   # 如果你仍需保留原文件，注释掉上面这一行即可。
+                   
+exit <span>$?</span>
+
+#  注意：
+#  -----
+#  在网站上，点击一个 *.ram 的流媒体音频文件
+#+ 通常只会下载到 *.ra 音频文件的 URL。
+#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
+
+
+#  练习：
+#  -----
+#  这个脚本仅仅转换 *.ra 文件。
+#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
+#
+#  如果你非常有热情，你可以扩展这个脚本使其
+#+ 可以自动下载并且转换流媒体音频文件。
+#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
+<span>#+ 然后转换它。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
+<p>样例 10-5. 模拟 <code>getopt</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># getopt-simple.sh</span>
+<span># 作者: Chris Morgan</span>
+<span># 允许在高级脚本编程指南中使用。</span>
+
+
+<span>getopt_simple</span><span>(</span><span>)</span>
+<span>{</span>
+    <span>echo</span> <span>"getopt_simple()"</span>
+    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
+    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
+    <span>do</span>
+      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
+      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
+      <span>then</span>
+          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
+          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
+          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
+          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
+          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
+      <span>fi</span>
+      <span>shift</span>
+    <span>done</span>
+<span>}</span>
+
+<span># 将所有参数传递给 getopt_simple()。</span>
+getopt_simple <span>$*</span>
+
+<span>echo</span> <span>"test is '<span>$test</span>'"</span>
+<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
+
+<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
+
+---
+
+<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
+
+Parameters are <span>'/test=value1 /test2=value2'</span>
+Processing parameter of: <span>'/test=value1'</span>
+Parameter: <span>'test'</span>, value: <span>'value1'</span>
+Processing parameter of: <span>'/test2=value2'</span>
+Parameter: <span>'test2'</span>, value: <span>'value2'</span>
+<span>test</span> is <span>'value1'</span>
+test2 is <span>'value2'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
+<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
+<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
+<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
+<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
+                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
+                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span>  ---------------
+<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
+<span>echo</span>  ---------------
+                              <span># 字符串本身并不会被修改！</span>
+                              
+<span># 匹配以及替换的字符串可以是参数么？</span>
+<span>match</span><span>=</span>abc
+<span>repl</span><span>=</span>000
+<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
+<span>#              ^      ^         ^^^</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
+<span># Yes!          ^      ^        ^^^         ^^^</span>
+
+<span>echo</span>
+
+<span># 如果没有给定 $replacement 字符串会怎样？</span>
+<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
+<span># 仅仅是将其删除而已。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
+                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
+                                  
+<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
+                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
+<section>
+<ol>
+<li id="footnote1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
+</li>
+<li id="footnote2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">10.2 参数替换</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-2-参数替换"> 10.2 参数替换</h1>
+<p>参数替换用来处理或扩展变量。</p>
+<h3 id="parameter"> <code>${parameter}</code></h3>
+<p>等同于 <code>$parameter</code>，是变量 parameter 的值。在一些特定的环境下，只允许使用不易混淆的 <code>${parameter}</code> 形式。</p>
+<p>可以用于连接变量与字符串。</p>
+<div><pre><code><span>your_id</span><span>=</span><span>${<span>USER</span>}</span>-on-<span>${<span>HOSTNAME</span>}</span>
+<span>echo</span> <span>"<span>$your_id</span>"</span>
+<span># </span>
+<span>echo</span> <span>"Old \<span>$PATH</span> = <span>$PATH</span>"</span>
+<span><span>PATH</span></span><span>=</span><span>${<span>PATH</span>}</span>:/opt/bin  <span># 在脚本执行过程中临时在 $PATH 中加入 /opt/bin。</span>
+<span>echo</span> <span>"New \<span>$PATH</span> = <span>$PATH</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="parameter-default-parameter-default"> <code>${parameter-default}, ${parameter:-default}</code></h3>
+<p>在没有设置变量的情况下使用缺省值。</p>
+<div><pre><code><span>var1</span><span>=</span><span>1</span>
+<span>var2</span><span>=</span><span>2</span>
+<span># 没有设置 var3。</span>
+
+<span>echo</span> <span>${var1-$var2}</span>   <span># 1</span>
+<span>echo</span> <span>${var3-$var2}</span>   <span># 2</span>
+<span>#           ^          注意前面的 $ 前缀。</span>
+
+
+
+<span>echo</span> <span>${username-`whoami`}</span>
+<span># 如果变量 $username 没有被设置，输出 `whoami` 的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> <code>${parameter-default}</code> 与 <code>${parameter:-default}</code> 的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时。</p>
+</blockquote>
+<div><pre><code><span>#!/bin/bash</span>
+<span># param-sub.sh</span>
+
+<span># 无论变量的值是否为空，其是否已被声明决定了缺省设置的触发。</span>
+
+<span>username0</span><span>=</span>
+<span>echo</span> <span>"username0 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username0 = <span>${username0-`whoami`}</span>"</span>
+<span># 将不会输出 `whoami` 的结果。</span>
+
+<span>echo</span>
+
+<span>echo</span> username1 has not been declared.
+<span>echo</span> <span>"username1 = <span>${username1-`whoami`}</span>"</span>
+<span># 将会输出 `whoami` 的结果。</span>
+
+<span>username2</span><span>=</span>
+<span>echo</span> <span>"username2 has been declared, but is set to null."</span>
+<span>echo</span> <span>"username2 = <span>${username2<span>:-</span>`whoami`}</span>"</span>
+<span>#                            ^</span>
+<span># 因为这里是 :- 而不是 -，所以将会输出 `whoami` 的结果。</span>
+<span># 与上面的 username0 比较。</span>
+
+
+<span># </span>
+
+<span># 再来一次：</span>
+
+<span>variable</span><span>=</span>
+<span># 变量已被声明，但其值为空。</span>
+
+<span>echo</span> <span>"<span>${varibale-0}</span>"</span>    <span># 没有输出。</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>1}</span>"</span>   <span># 1</span>
+<span>#               ^</span>
+
+unser variable
+
+<span>echo</span> <span>"<span>${variable-2}</span>"</span>    <span># 2</span>
+<span>echo</span> <span>"<span>${variable<span>:-</span>3}</span>"</span>   <span># 3</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br></div></div><p>当传入的命令行参数的数量不足时，可以使用这种缺省参数结构。</p>
+<div><pre><code><span>DEFAULT_FILENAME</span><span>=</span>generic.data
+<span>filename</span><span>=</span><span>${1<span>:-</span>$DEFAULT_FILENAME}</span>
+<span># 如果没有其他特殊情况，下面的代码块将会操作文件 "generic.data"。</span>
+<span># 代码块开始</span>
+<span># ...</span>
+<span># ...</span>
+<span># ...</span>
+<span># 代码块结束</span>
+
+
+
+<span># 摘自样例 "hanoi2.bash"：</span>
+<span>DISKS</span><span>=</span><span>${1<span>:-</span>E_NOPARAM}</span>   <span># 必须指定碟子的个数。</span>
+<span>#  将 $DISKS 设置为传入的第一个命令行参数，</span>
+<span>#+ 如果没有传入第一个参数，则设置为 $E_NOPARAM。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>可以查看 <a href="http://tldp.org/LDP/abs/html/special-chars.html#EX58" target="_blank" rel="noopener noreferrer">样例 3-4</a>，<a href="http://tldp.org/LDP/abs/html/zeros.html#EX73" target="_blank" rel="noopener noreferrer">样例 31-2</a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6</a>。</p>
+<p>可以同 <a href="http://tldp.org/LDP/abs/html/list-cons.html#ANDDEFAULT" target="_blank" rel="noopener noreferrer">使用与链设置缺省命令行参数</a> 做比较。</p>
+<h3 id="parameter-default-parameter-default-2"> <code>${parameter=default}, ${parameter:=default}</code></h3>
+<p>在没有设置变量的情况下，将其设置为缺省值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。<sup></sup></p>
+<div><pre><code><span>echo</span> <span>${var=abc}</span>   <span># abc</span>
+<span>echo</span> <span>${vat=xyz}</span>   <span># abc</span>
+<span># $var 已经在第一条语句中被赋值为 abc，因此第二条语句将不会改变它的值。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="parameter-alt-value-parameter-alt-value"> <code>${parameter+alt_value}, ${parameter:+alt_value}</code></h3>
+<p>如果变量已被设置，使用 alt_value，否则使用空值。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况就是当变量 parameter 已经被声明但值为空时，看下面的例子。</p>
+<div><pre><code><span>echo</span> <span>"###### \<span>${parameter+alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param1+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param2</span><span>=</span>
+<span>a</span><span>=</span><span>${param2+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>param3</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param3+xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+
+<span>echo</span>
+<span>echo</span> <span>"###### \<span>${parameter<span>:+</span>alt_value}</span> ########"</span>
+<span>echo</span>
+
+<span>a</span><span>=</span><span>${param4<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+
+<span>param5</span><span>=</span>
+<span>a</span><span>=</span><span>${param5<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a =</span>
+<span># 不同于 a=${param5+xyz}</span>
+
+<span>param6</span><span>=</span><span>123</span>
+<span>a</span><span>=</span><span>${param6<span>:+</span>xyz}</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span># a = xyz</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><h3 id="parameter-err-msg-parameter-err-msg"> <code>${parameter?err_msg}, ${parameter:?err_msg}</code></h3>
+<p>如果变量已被设置，那么使用原值，否则输出 err_msg 并且终止脚本，返回 <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">错误码</a> 1。</p>
+<p>两种形式的作用几乎相同，唯一不同的情况与上面类似，就是当变量 parameter 已经被声明但值为空时。</p>
+<p>样例 10-7. 如何使用变量替换和错误信息</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span># 检查系统环境变量。</span>
+<span># 这是一种良好的预防性维护措施。</span>
+<span># 如果控制台用户的名称 $USER 没有被设置，那么主机将不能够识别用户。</span>
+
+<span>:</span> <span>${<span>HOSTNAME</span>?}</span> <span>${<span>USER</span>?}</span> <span>${<span>HOME</span>?}</span> <span>${MAIL?}</span>
+  <span>echo</span>
+  <span>echo</span> <span>"Name of the machine is <span>$HOSTNAME</span>."</span>
+  <span>echo</span> <span>"You are <span>$USER</span>."</span>
+  <span>echo</span> <span>"Your home directory is <span>$HOME</span>."</span>
+  <span>echo</span> <span>"Your mail INBOX is located in <span>$MAIL</span>."</span>
+  <span>echo</span>
+  <span>echo</span> <span>"If you are reading this message,"</span>
+  <span>echo</span> <span>"critcial environmental variables have been set."</span>
+  <span>echo</span>
+  <span>echo</span>
+  
+<span># ------------------------------------------------------</span>
+
+<span># ${variablename?} 结构统一可以检查脚本中的变量是否被设置。</span>
+
+<span>ThisVariable</span><span>=</span>Value-of-ThisVariable
+<span># 顺带一提，这个字符串的值可以被设置成名称中不可以使用的禁用字符。</span>
+<span>:</span> <span>${ThisVariable?}</span>
+<span>echo</span> <span>"Value of ThisVariable is <span>$ThisVariable</span>."</span>
+
+<span>echo</span><span>;</span> <span>echo</span>
+
+
+<span>:</span> <span>${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span># 因为 ZZXy23AB 没有被设置，所以脚本会终止同时显示错误消息。</span>
+
+<span># 你可以指定错误消息。</span>
+<span># : ${variablename?"ERROR MESSAGE"}</span>
+
+
+<span># 与这些结果相同:  dummy_variable=${ZZXy23AB?}</span>
+<span>#                 dummy_variable=${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span>#</span>
+<span>#                 echo ${ZZXy23AB?} >/dev/null</span>
+
+<span># 将上面这些检查变量是否被设置的方法同 "set -u" 作比较。</span>
+
+
+
+<span>echo</span> <span>"You will not see this message, because script already terminated."</span>
+
+<span>HERE</span><span>=</span><span>0</span>
+<span>exit</span> <span>$HERE</span>   <span># 将不会从这里退出。</span>
+
+<span>#  事实上，这个脚本将会返回退出码（echo $?）1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>样例 10-8. 参数替换与 &quot;usage&quot; 消息</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># usage-message.sh</span>
+
+<span>:</span> <span>${1?"Usage<span>:</span> $0 ARGUMENT"}</span>
+<span># 如果命令行参数缺失，脚本将会在这里结束，并且返回下面的错误信息。</span>
+<span>#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
+
+<span>echo</span> <span>"These two lines echo only if command-line parameter given."</span>
+<span>echo</span> <span>"command-line parameter = <span title="\&quot;">\"</span><span>$1</span><span title="\&quot;">\"</span>"</span>
+
+<span>exit</span> <span>0</span>  <span># 仅当命令行参数存在是才会从这里退出。</span>
+
+<span># 在传入和未传入命令行参数的情况下查看退出状态。</span>
+<span># 如果传入了命令行参数，那么 "$?" 的结果是0。</span>
+<span># 如果没有，那么 "$?" 的结果是1。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>参数替换用来处理或扩展变量。下面的表达式是对 <code>expr</code> 处理字符串的操作的补足（查看样例 16-9）。这些特殊的表达式通常养来解析文件的路径名。</p>
+<h3 id="变量长度-删除子串"> 变量长度 / 删除子串</h3>
+<h4 id="var"> <code>${#var}</code></h4>
+<p>字符串的长度（<code>$var</code> 中字符的个数）。对任意 <a href="http://tldp.org/LDP/abs/html/arrays.html#ARRAYREF" target="_blank" rel="noopener noreferrer">数组</a> array，<code>${#array}</code> 返回数组中第一个元素的长度。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> 以下情况例外：</p>
+<ul>
+<li><code>${#*}</code> 和 <code>${#@}</code> 返回位置参数的个数。</li>
+<li>任意数组 array，<code>${#array[*]}</code> 和 <code>${#array[@]}</code> 返回数组中元素的个数。</li>
+</ul>
+</blockquote>
+<p>样例 10-9. 变量长度</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># length.sh</span>
+
+<span>E_NO_ARGS</span><span>=</span><span>65</span>
+
+<span>if</span> <span>[</span> <span>$#</span> -eq <span>0</span> <span>]</span>  <span># 脚本必须传入参数。</span>
+<span>then</span>
+  <span>echo</span> <span>"Please invoke this script with one or more command-line arguments."</span>
+  <span>exit</span> <span>$E_NO_ARGS</span>
+<span>fi</span>
+
+<span>var01</span><span>=</span>abcdEFGH28ij
+<span>echo</span> <span>"var01 = <span>${var01}</span>"</span>
+<span>echo</span> <span>"Length of var01 = <span>${<span>#</span>var01}</span>"</span>
+<span># 现在我们尝试加入空格。</span>
+<span>var02</span><span>=</span><span>"abcd EFGH28ij"</span>
+<span>echo</span> <span>"var02 = <span>${var02}</span>"</span>
+<span>echo</span> <span>"Length of var02 = <span>${<span>#</span>var02}</span>"</span>
+
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>@}</span>"</span>
+<span>echo</span> <span>"Number of command-line arguments passed to script = <span>${<span>#</span>*}</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h4 id="var-pattern-var-pattern"> <code>${var#Pattern}, ${var##Pattern}</code></h4>
+<p><code>${var#Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var##Pattern}</code> 删除 <code>$var</code> 前缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>摘自 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#DAYSBETWEEN" target="_blank" rel="noopener noreferrer">样例 A-7</a> 的例子：</p>
+<div><pre><code><span># 函数摘自样例 "day-between.sh"。</span>
+<span># 删除传入的参数中的前缀0。</span>
+
+strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中可能存在的</span>
+<span>{</span>                     <span>#+ 前缀0。</span>
+  <span>return</span><span>=</span><span>${1<span>#</span>0}</span>       <span>#  "1" 代表 "$1"，即传入的参数。</span>
+<span>}</span>                     <span>#  从 "$1" 中删除 "0"。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>下面是由 Manfred Schwarb 提供的上述函数的改进版本：</p>
+<div><pre><code>strip_leading_zero2 <span>(</span><span>)</span> <span># 删除前缀0，</span>
+<span>{</span>                      <span># 否则 Bash 会将其解释为8进制数。</span>
+  <span>shopt</span> -s extglob     <span># 启用扩展通配特性。</span>
+  <span>local</span> <span>val</span><span>=</span><span>${1<span>##</span>+(0)}</span> <span># 使用本地变量，匹配前缀中所有的0。</span>
+  <span>shopt</span> -u extglob     <span># 禁用扩展通配特性。</span>
+  <span>_strip_leading_zero2</span><span>=</span><span>${var<span>:-</span>0}</span>
+                       <span># 如果输入的为0，那么返回 0 而不是 ""。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>另外一个样例：</p>
+<div><pre><code><span>echo</span> <span><span>`</span><span>basename</span> <span>$PWD</span><span>`</span></span>        <span># 当前工作目录的目录名。</span>
+<span>echo</span> <span>"<span>${<span>PWD</span><span>##</span>*<span>/</span>}</span>"</span>           <span># 当前工作目录的目录名。</span>
+<span>echo</span>
+<span>echo</span> <span><span>`</span><span>basename</span> $0<span>`</span></span>          <span># 脚本名。</span>
+<span>echo</span> <span>$0</span>                     <span># 脚本名。</span>
+<span>echo</span> <span>"<span>${0<span>##</span>*<span>/</span>}</span>"</span>             <span># 脚本名。</span>
+<span>echo</span>
+<span>filename</span><span>=</span>test.data
+<span>echo</span> <span>"<span>${filename<span>##</span>*.}</span>"</span>      <span># data</span>
+                            <span># 文件扩展名。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h4 id="var-pattern-var-pattern-2"> <code>${var%Pattern}, ${var%%Pattern}</code></h4>
+<p><code>${var%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最短长度的 <code>$Pattern</code>。</p>
+<p><code>${var%%Pattern}</code> 删除 <code>$var</code> 后缀部分匹配到的最长长度的 <code>$Pattern</code>。</p>
+<p>在 Bash 的 <a href="http://tldp.org/LDP/abs/html/bashver2.html#BASH2REF" target="_blank" rel="noopener noreferrer">第二个版本</a> 中增加了一些额外的选择。</p>
+<p>样例 10-10. 参数替换中的模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># patt-matching.sh</span>
+
+<span># 使用 # ## % %% 参数替换操作符进行模式匹配</span>
+
+<span>var1</span><span>=</span>abcd12345abc6789
+<span>pattern1</span><span>=</span>a*c  <span># 通配符 * 可以匹配 a 与 c 之间的任意字符</span>
+
+<span>echo</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>           <span># abcd12345abc6789</span>
+<span>echo</span> <span>"var1 = <span>${var1}</span>"</span>         <span># abcd12345abc6789</span>
+                              <span># （另一种形式）</span>
+<span>echo</span> <span>"Number of characters in <span>${var1}</span> = <span>${<span>#</span>var1}</span>"</span>
+<span>echo</span>
+
+<span>echo</span> <span>"pattern1 = <span>$pattern1</span>"</span>   <span># a*c  (匹配 'a' 与 'c' 之间的一切)</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>#</span>$pattern1}</span>  ='</span> <span>"<span>${var1<span>#</span>$pattern1}</span>"</span>    <span>#         d12345abc6789</span>
+<span># 匹配到首部最短的3个字符                                   abcd12345abc6789</span>
+<span>#             ^                                           |-|</span>
+<span>echo</span> <span>'<span>${var1<span>##</span>$pattern1}</span> ='</span> <span>"<span>${var1<span>##</span>$pattern1}</span>"</span>   <span>#                  6789</span>
+<span># 匹配到首部最长的12个字符                                  abcd12345abc6789</span>
+<span>#             ^                                           |----------|</span>
+
+<span>echo</span><span>;</span> <span>echo</span><span>;</span> <span>echo</span>
+
+<span>pattern2</span><span>=</span>b*9            <span># 匹配 'b' 与 '9' 之间的任意字符</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>     <span># 仍旧是 abcd12345abc6789</span>
+<span>echo</span>
+<span>echo</span> <span>"pattern2 = <span>$pattern2</span>"</span>
+<span>echo</span> <span>"--------------"</span>
+<span>echo</span> <span>'<span>${var1<span>%</span>pattern2}</span>  ='</span> <span>"<span>${var1<span>%</span>$pattern2}</span>"</span>     <span>#     abcd12345a</span>
+<span># 匹配到尾部最短的6个字符                                  abcd12345abc6789</span>
+<span>#             ^                                                    |----|</span>
+<span>echo</span> <span>'<span>${var1<span>%%</span>pattern2}</span> ='</span> <span>"<span>${var1<span>%%</span>$pattern2}</span>"</span>    <span>#     a</span>
+<span># 匹配到尾部最长的12个字符                                 abcd12345abc6789</span>
+<span>#             ^                                           |-------------|</span>
+
+<span># 牢记 # 与 ## 是从字符串左侧开始，</span>
+<span>#      % 与 %% 是从右侧开始。</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>样例 10-11. 更改文件扩展名：</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rfe.sh: 更改文件扩展名。</span>
+<span>#</span>
+<span>#         rfe old_extension new_extension</span>
+<span>#</span>
+<span># 如：</span>
+<span># 将当前目录下所有 *.gif 文件重命名为 *.jpg，</span>
+<span>#         rfe gif jpg</span>
+
+
+<span>E_BADARGS</span><span>=</span><span>65</span>
+
+<span>case</span> <span>$#</span> <span>in</span>
+  <span>0</span><span>|</span><span>1</span><span>)</span>             <span># 竖线 | 在这里表示逻辑或关系。</span>
+  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> old_file_suffix new_file_suffix"</span>
+  <span>exit</span> <span>$E_BADARGS</span>  <span># 如果只有0个或1个参数，那么退出脚本。</span>
+  <span>;</span><span>;</span>
+<span>esac</span>
+
+
+<span>for</span> <span>filename</span> <span>in</span> *.<span>$1</span>
+<span># 遍历以第一个参数作为后缀名的文件列表。</span>
+<span>do</span>
+  <span>mv</span> <span>$filename</span> <span>${filename<span>%</span>$1}</span><span>$2</span>
+  <span># 删除文件后缀名，增加第二个参数作为后缀名。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h3 id="变量扩展-替换子串"> 变量扩展 / 替换子串</h3>
+<p>下面这些结构采用自 ksh。</p>
+<h4 id="var-pos"> <code>${var:pos}</code></h4>
+<p>扩展为从偏移量 pos 处截取的变量 var。</p>
+<h4 id="var-pos-len"> <code>${var:pos:len}</code></h4>
+<p>扩展为从偏移量 pos 处截取变量 var 最大长度为 len 的字符串。</p>
+<h4 id="var-pattern-replacement"> <code>${var/Pattern/Replacement}</code></h4>
+<p>替换 var 中第一个匹配到的 Pattern 为 Replacement。</p>
+<p>如果 Replacement 被省略，那么匹配到的第一个 Pattern 将被替换为空，即删除。</p>
+<h4 id="var-pattern-replacement-2"> <code>${var//Pattern/Replacement}</code></h4>
+<p>全局替换。替换 var 中所有匹配到的 Pattern 为 Replacement。</p>
+<p>跟上面一样，如果 Replacement 被省略，那么匹配到的所有 Pattern 将被替换为空，即删除。</p>
+<p>样例 10-12. 使用模式匹配解析任意字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>var1</span><span>=</span>abcd-1234-defg
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>
+
+<span>t</span><span>=</span><span>${var1<span>#</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything, up to and including first - stripped out) = <span>$t</span>"</span>
+<span>#  t=${var1#*-} 效果相同，</span>
+<span>#+ 因为 # 只匹配最短的字符串，</span>
+<span>#+ 并且 * 可以任意匹配，其中也包括空字符串。</span>
+<span># （感谢 Stephane Chazelas 指出这一点。）</span>
+
+<span>t</span><span>=</span><span>${var<span>##</span>*-*}</span>
+<span>echo</span> <span>"If var1 contains a <span title="\&quot;">\"</span>-<span title="\&quot;">\"</span>, returns empty string...   var1 = <span>$t</span>"</span>
+
+
+<span>t</span><span>=</span><span>${var1<span>%</span>*-*}</span>
+<span>echo</span> <span>"var1 (with everything from the last - on stripped out) = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span># -------------------------------------------</span>
+<span>path_name</span><span>=</span>/home/bozo/ideas/thoughts/for.today
+<span># -------------------------------------------</span>
+<span>echo</span> <span>"path_name = <span>$path_name</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>##</span><span>/</span>*<span>/</span>}</span>
+<span>echo</span> <span>"path_name, stripped of prefixes = <span>$t</span>"</span>
+<span># 在这里与 t=`basename $path_name` 效果相同。</span>
+<span>#  t=${path_name%/}; t=${t##*/}  是更加通用的方法，</span>
+<span>#+ 但有时仍旧也会出现问题。</span>
+<span>#  如果 $path_name 以换行结束，那么 `basename $path_name` 将会失效，</span>
+<span>#+ 但是上面这种表达式却可以。</span>
+<span># （感谢 S.C.）</span>
+
+<span>t</span><span>=</span><span>${path_name<span>%</span><span>/</span>*.*}</span>
+<span># 同 t=`dirname $path_name` 效果相同。</span>
+<span>echo</span> <span>"path_name, stripped of suffixes = <span>$t</span>"</span>
+<span># 在一些情况下会失效，比如 "../", "/foo////", # "foo/", "/"。</span>
+<span>#  在删除后缀时，尤其是当文件名没有后缀，目录名却有后缀时，</span>
+<span>#+ 事情会变的非常复杂。</span>
+<span># （感谢 S.C.）</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>:</span>11}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>:</span>11<span>:</span>5}</span>
+<span>echo</span> <span>"<span>$path_name</span>, with first 11 chars stripped off, length 5 = <span>$t</span>"</span>
+
+<span>echo</span>
+
+<span>t</span><span>=</span><span>${path_name<span>/</span>bozo<span>/</span>clown}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>bozo<span title="\&quot;">\"</span> replaced by <span title="\&quot;">\"</span>clown<span title="\&quot;">\"</span> = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span>today<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with <span title="\&quot;">\"</span>today<span title="\&quot;">\"</span> deleted = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>O}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's capitalized = <span>$t</span>"</span>
+<span>t</span><span>=</span><span>${path_name<span>/</span><span>/</span>o<span>/</span>}</span>
+<span>echo</span> <span>"<span>$path_name</span> with all o's deleted = <span>$t</span>"</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><h4 id="var-pattern-replacement-3"> <code>${var/#Pattern/Replacement}</code></h4>
+<p>替换 var 前缀部分匹配到的 Pattern 为 Replacement。</p>
+<h4 id="var-pattern-replacement-4"> <code>${var/%Pattern/Replacement}</code></h4>
+<p>替换 var 后缀部分匹配到的 Pattern 为 Replacement。</p>
+<p>样例 10-13. 在字符串首部或尾部进行模式匹配</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># var-match.sh:</span>
+<span># 演示在字符串首部或尾部进行模式替换。</span>
+
+<span>v0</span><span>=</span>abc1234zip1234abc    <span># 初始值。</span>
+<span>echo</span> <span>"v0 = <span>$v0</span>"</span>         <span># abc1234zip1234abc</span>
+<span>echo</span>
+
+<span># 在字符串首部进行匹配</span>
+<span>v1</span><span>=</span><span>${v0<span>/</span><span>#</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span># |-|</span>
+<span>echo</span> <span>"v1 = <span>$v1</span>"</span>         <span># ABCDEF1234zip1234abc</span>
+                        <span># |----|</span>
+                        
+<span># 在字符串尾部进行匹配</span>
+<span>v2</span><span>=</span><span>${v0<span>/</span><span>%</span>abc<span>/</span>ABCDEF}</span>    <span># abc1234zip123abc</span>
+                        <span>#              |-|</span>
+<span>echo</span> <span>"v2 = <span>$v2</span>"</span>         <span># abc1234zip1234ABCDEF</span>
+                        <span>#               |----|</span>
+                        
+<span>echo</span>
+
+<span>#  --------------------------------------------</span>
+<span>#  必须在字符串的最开始或者最末尾的地方进行匹配，</span>
+<span>#+ 否则将不会发生替换。</span>
+<span>#  --------------------------------------------</span>
+<span>v3</span><span>=</span><span>${v0<span>/</span><span>#</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最开始的地方。</span>
+<span>echo</span> <span>"v3 = <span>$v3</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+<span>v4</span><span>=</span><span>${v0<span>/</span><span>%</span>123<span>/</span>000}</span>       <span># 虽然匹配到了，但是不在最末尾的地方。</span>
+<span>echo</span> <span>"v4 = <span>$v4</span>"</span>         <span># abc1234zip1234abc</span>
+                        <span># 没有替换。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><h4 id="varprefix-varprefix"> <code>${!varprefix*}, ${!varprefix@}</code></h4>
+<p>匹配先前声明过所有以 varprefix 作为变量名前缀的变量。</p>
+<div><pre><code><span># 这是带 * 或 @ 的间接引用的一种变换形式。</span>
+<span># 在 Bash 2.04 版本中加入了这个特性。</span>
+
+<span>xyz23</span><span>=</span>whatever
+<span>xyz23</span><span>=</span>
+
+<span>a</span><span>=</span><span>${<span>!</span>xyz*}</span>         <span>#  扩展为声明变量中以 "xyz"</span>
+<span># ^ ^   ^           + 开头变量名。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+<span>a</span><span>=</span><span>${<span>!</span>xyz@}</span>         <span>#  同上。</span>
+<span>echo</span> <span>"a = <span>$a</span>"</span>      <span>#  a = xyz23 xyz24</span>
+
+<span>echo</span> <span>"---"</span>
+
+<span>abc23</span><span>=</span>something_else
+<span>b</span><span>=</span><span>${<span>!</span>abc*}</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>      <span>#  b = abc23</span>
+<span>c</span><span>=</span><span>${<span>!</span>b}</span>            <span>#  这是我们熟悉的间接引用的形式。</span>
+<span>echo</span> <span>$c</span>            <span>#  something_else</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><hr>
+<section>
+<ol>
+<li id="footnote1"><p>如果在非交互的脚本中，<code>$parameter</code> 为空，那么程序将会终止，并且返回 <a href="http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF" target="_blank" rel="noopener noreferrer">错误码 127</a>（意为“找不到命令”）。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">10.1.2 参考资料</title>
     <id>https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/"/>
@@ -63201,177 +63374,5 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">倒排索引入门</title>
-    <id>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/primer/inverted-index/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
-<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">通过分析器进行分词</title>
-    <id>https://clay-wangzhi.com/monitor/elk/primer/participle/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/primer/participle/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="通过分析器进行分词"> 通过分析器进行分词</h1>
-<h2 id="analysis"> Analysis</h2>
-<h3 id="analysis与analyzer"> Analysis与Analyzer</h3>
-<ul>
-<li>Analysis - 文本分析是把全文本转换一系列单词（term/token）的过程，也叫分词</li>
-<li>Analysis是通过Analyzer来实现的
-<ul>
-<li>可使用Elasticsearch内置的分析器/或者按需定制化分析器</li>
-</ul>
-</li>
-<li>除了在数据写入时转换词条，匹配Query语句时候也需要用相同的分析器对查询语句进行分析</li>
-</ul>
-<h3 id="analyzer的组成"> Analyzer的组成</h3>
-<ul>
-<li>分词器是专门处理分词的组件，Analyzer由三部分组成
-<ul>
-<li>Character Filters（针对原始文本处理，例如去除html）/ Tokenizer（按照规则切分为单词）/ Token Filter（将切分的单词进行加工，小写，删除stopwords，增加同义词）</li>
-</ul>
-</li>
-</ul>
-<p>举例</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568094953293.png" alt="" /></p>
-<h2 id="elasticsearch的内置分词器"> Elasticsearch的内置分词器</h2>
-<ul>
-<li>Standard Analyzer - 默认分词器，按词切分，小写处理</li>
-<li>Simple Analyzer - 按照非字母切分（符号被过滤），小写处理</li>
-<li>Stop Analyzer - 小写处理，停用词过滤（the ，a，is）</li>
-<li>Whitespace Analyzer - 按照空格切分，不转小写</li>
-<li>Keyword Analyzer - 不分词，直接将输入当做输出</li>
-<li>Patter Analyzer - 正则表达式，默认\W+（非字符分隔）</li>
-<li>Language - 提供了30多种常见语言的分词器</li>
-<li>Customer Analyzer  - 自定义分词器</li>
-</ul>
-<h3 id="使用-analyzer-api"> 使用_analyzer API</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568095742575.png" alt="" /></p>
-<h2 id="中文分词"> 中文分词</h2>
-<h3 id="分文分词的难点"> 分文分词的难点</h3>
-<ul>
-<li>中文句子，切分成一个一个词（不是一个个字）</li>
-<li>英文中，单词有自然的空格作为分隔</li>
-<li>一句中文，在不同的上下文，有不同的理解
-<ul>
-<li>这个苹果，不大好吃 / 这个苹果，不大，好吃！</li>
-</ul>
-</li>
-</ul>
-<h3 id="icu-analyzer"> ICU Analyzer</h3>
-<ul>
-<li>需要安装plugin
-<ul>
-<li>Elasticsearch-plugin install analysis-icu</li>
-</ul>
-</li>
-<li>提供了Unicode的支持，更好的支持亚洲语言</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568096106355.png" alt="" /></p>
-<p>举例</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568096123515.png" alt="" /></p>
-<h3 id="常用的中文分词器"> 常用的中文分词器</h3>
-<ul>
-<li>IK
-<ul>
-<li>支持自定义词库，支持热更新分词字典</li>
-<li>https://github.com/medcl/elasticsearch-analysis-ik</li>
-</ul>
-</li>
-<li>THUlAC
-<ul>
-<li>THU Lexucal Analyzer for Chinese，清华大学自然语言处理和社会人文计算实验室的一套中文分词器</li>
-<li>https://github.com/microbun/elasticsearch-thulac-plugin</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
   </entry>
 </feed>
