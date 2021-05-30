@@ -1,7 +1,29 @@
 ---
 category: Linux
 ---
-# linux简介
+# 前言
+
+## 文章教程
+
+[三十分钟学会AWK | 程序猿成长计划](https://github.com/mylxsw/growing-up/blob/master/doc/%E4%B8%89%E5%8D%81%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9AAWK.md) :star:
+
+[三十分钟学会SED | 程序猿成长计划](https://github.com/mylxsw/growing-up/blob/master/doc/%E4%B8%89%E5%8D%81%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9ASED.md) :star:
+
+
+
+## 开源镜像站
+
+[阿里巴巴开源镜像站](https://developer.aliyun.com/mirror) :star:
+
+[清华大学开源软件镜像站](https://mirrors.tuna.tsinghua.edu.cn/) :star:
+
+[网易开源镜像站](http://mirrors.163.com/) :star:
+
+[腾讯软件源](https://mirrors.cloud.tencent.com/)  :star:
+
+
+
+## linux简介
 
 GNU/Linux 的历史
 
