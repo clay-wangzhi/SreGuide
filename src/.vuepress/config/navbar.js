@@ -17,6 +17,7 @@ module.exports = {
         { text: "Shell", icon: "shell", link: "/code/shell/" },
         { text: "Python", icon: "python", link: "/code/python/" },
         { text: "Golang", icon: "golang", link: "/code/golang/" },
+        { text: "前端开发", icon: "vue", link: "/code/frontend/" },
       ]
     },
     {

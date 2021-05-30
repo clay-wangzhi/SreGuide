@@ -5,6 +5,7 @@ module.exports = {
     "/code/shell/": require("./code/shell"),
     "/code/python/": require("./code/python"),
     "/code/golang/": require("./code/golang"),
+    "/code/frontend/": require("./code/frontend"),
     "/cloudnative/docker/": require("./cloudnative/docker"),
     "/automate/ansible/": require("./automate/ansible"),
     "/web/nginx/": require("./web/nginx"),
