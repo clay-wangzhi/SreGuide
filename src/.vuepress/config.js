@@ -48,6 +48,7 @@ module.exports = config({
       intro: "/intro/",
       sidebarDisplay: "mobile",
       links: {
+        Wechat: "https://clay-wangzhi.com/wechat.jpg",
         Email: "mailto:clay_wangzhi@163.com",
       },
     },
