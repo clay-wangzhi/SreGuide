@@ -2,7 +2,7 @@
 category: Golang
 ---
 
-# 前言
+# Golang 学习笔记
 
 ## 常用官网
 

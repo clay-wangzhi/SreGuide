@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 前言
+# Python 学习笔记
 
 ## 常用官网
 
