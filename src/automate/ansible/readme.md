@@ -6,11 +6,29 @@ category: 自动化工具
 tags:
   - Ansible
 ---
-# Ansible 学习笔记
+# 前言
+
+## 常用官网
+
+[Ansible Doc](https://docs.ansible.com/)
+
+[Ansible Galaxy](https://galaxy.ansible.com/)
+
+
+
+## 推荐教程
+
+[ansible | breezey | csdn](https://www.cnblogs.com/breezey/tag/ansible/) :star: 
+
+[一步到位玩透 Ansible | 骏马金龙 | 51cto](https://blog.51cto.com/cloumn/detail/83) :star:
+
+> 以下笔记大多数整理自以上两篇教程
 
 Hello Ansible~
 
-![](ansible-core-know.png)
+![](ansible-com-know.png)
+
+[详细的核心知识点 复习思维导图](https://clay-wangzhi.com/ansible-core-know.png)
 
 ## Summary
 
