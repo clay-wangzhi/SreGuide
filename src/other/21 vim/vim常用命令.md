@@ -5,3 +5,4 @@
 ## vim粘贴
 
 要粘贴时：set paste
+
