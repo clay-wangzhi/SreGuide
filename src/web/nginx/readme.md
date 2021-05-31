@@ -9,11 +9,17 @@ tags:
 
 # Nginx 学习笔记
 
-> nginx的大部分笔记 整理自 陶辉的 Nginx 核心知识 100 讲
+## 推荐教程
+
+[nginx核心知识150讲 | 陶辉 | 极客时间](https://github.com/russelltao/geektime-nginx) :star:
+
+> 以下笔记大部分出自以上教程
 
 Hello Nginx~
 
-![](nginx-core-know.png)
+![](nginx-com-know.png)
+
+[详细的核心知识点 复习思维导图](https://clay-wangzhi.com/nginx-core-know.png)
 
 ## Summary
 
