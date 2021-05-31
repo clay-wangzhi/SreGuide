@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-05-31T13:29:29.862Z</updated>
+  <updated>2021-05-31T13:37:34.526Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -64,6 +64,247 @@
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -432,247 +673,6 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -12437,319 +12437,6 @@ it <span>=</span> <span>iter</span><span>(</span>lst<span>)</span> <span># 返�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">14 多进程</title>
-    <id>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</id>
-    <link href="https://clay-wangzhi.com/code/python/python-gil-multiprocessing/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_14-多进程"> 14 多进程</h1>
-<h2 id="gil"> GIL</h2>
-<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
-<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
-<p>CPython中</p>
-<ul>
-<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
-<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
-<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
-</ul>
-<p>新版CPython正在努力优化GIL的问题，但不是移除。
-如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
-<blockquote>
-<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
-由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
-</blockquote>
-<p>保留GIL的原因：
-GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
-而且移除GIL，会降低CPython单线程的执行效率。
-测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
-<div><pre><code><span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
-<span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t1<span>.</span>start<span>(</span><span>)</span>
-t2<span>.</span>start<span>(</span><span>)</span>
-t3<span>.</span>start<span>(</span><span>)</span>
-t4<span>.</span>start<span>(</span><span>)</span>
-t1<span>.</span>join<span>(</span><span>)</span>
-t2<span>.</span>join<span>(</span><span>)</span>
-t3<span>.</span>join<span>(</span><span>)</span>
-t4<span>.</span>join<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
-<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
-程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
-<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
-<h2 id="多进程"> 多进程</h2>
-<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
-多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
-但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
-<h3 id="multiprocessing"> multiprocessing</h3>
-<p><strong>Process类</strong></p>
-<p>Process类遵循了Thread类的API，减少了学习难度。</p>
-<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
-<div><pre><code><span>import</span> multiprocessing
-<span>import</span> datetime
-
-
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    <span>return</span> i<span>,</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-
-    ps <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
-        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
-        ps<span>.</span>append<span>(</span>p<span>)</span>
-        p<span>.</span>start<span>(</span><span>)</span>
-
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        p<span>.</span>join<span>(</span><span>)</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
-<ul>
-<li>使用单线程、多线程跑了4分钟多</li>
-<li>多进程用了1分半</li>
-</ul>
-<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
-<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pid</td>
-<td>进程 id</td>
-</tr>
-<tr>
-<td>exitcode</td>
-<td>进程的退出状态码</td>
-</tr>
-<tr>
-<td>terminate()</td>
-<td>终止指定的进程</td>
-</tr>
-</tbody>
-</table>
-<h3 id="进程间同步"> 进程间同步</h3>
-<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
-不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
-multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
-<p>通信方式不同</p>
-<ol>
-<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
-<li>数据的线程安全性问题
-如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
-</ol>
-<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
-<p>1、CPU密集型
-CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
-高。</p>
-<p>2、IO密集型
-在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
-<p><strong>应用</strong></p>
-<p>请求/应答模型：WEB应用中常见的处理模型</p>
-<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
-worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
-这就是nginx工作模式。</p>
-<h2 id="concurrent-futures包"> concurrent.futures包</h2>
-<p>3.2版本引入的模块。</p>
-<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
-<p>提供了2个池执行器：</p>
-<ul>
-<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
-<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
-</ul>
-<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
-<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ThreadPoolExecutor(max_workers=1)</td>
-<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
-</tr>
-<tr>
-<td>submit(fn, *args, **kwargs)</td>
-<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
-</tr>
-<tr>
-<td>shutdown(wait=True)</td>
-<td>清理池，wait 表示是否等待到任务线程完成</td>
-</tr>
-</tbody>
-</table>
-<p>Future 类</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>done()</td>
-<td>如果调用被成功的取消或者执行完成，返回True</td>
-</tr>
-<tr>
-<td>cancelled()</td>
-<td>如果调用被成功的取消，返回True</td>
-</tr>
-<tr>
-<td>running()</td>
-<td>如果正在运行且不能被取消，返回True</td>
-</tr>
-<tr>
-<td>cancel()</td>
-<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
-</tr>
-<tr>
-<td>result(timeout=None)</td>
-<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-<tr>
-<td>exception(timeout=None)</td>
-<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-</tbody>
-</table>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
-<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-    fs <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-        fs<span>.</span>append<span>(</span>future<span>)</span>
-
-    <span>#wait(fs) # 阻塞</span>
-    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-<span>for</span> f <span>in</span> fs<span>:</span>
-    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-
-<span>print</span><span>(</span>delta<span>)</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
-<p>方法一样。就是使用多进程完成。</p>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
-    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-        fs <span>=</span> <span>[</span><span>]</span>
-        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-            fs<span>.</span>append<span>(</span>future<span>)</span>
-
-        <span>#wait(fs) # 阻塞</span>
-        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-    <span>for</span> f <span>in</span> fs<span>:</span>
-        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
-<p>该库统一了线程池、进程池调用，简化了编程。
-是Python简单的思想哲学的体现。</p>
-<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">03 哈希表和解析式</title>
     <id>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</id>
     <link href="https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/"/>
@@ -13286,6 +12973,319 @@ ret <span>=</span> <span>[</span><span>]</span>
 <span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>'ABC'</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>values<span>(</span><span>)</span><span>,</span> key<span>=</span><span>str</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">14 多进程</title>
+    <id>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</id>
+    <link href="https://clay-wangzhi.com/code/python/python-gil-multiprocessing/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_14-多进程"> 14 多进程</h1>
+<h2 id="gil"> GIL</h2>
+<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
+<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
+<p>CPython中</p>
+<ul>
+<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
+<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
+<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
+</ul>
+<p>新版CPython正在努力优化GIL的问题，但不是移除。
+如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
+<blockquote>
+<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
+由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
+</blockquote>
+<p>保留GIL的原因：
+GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
+而且移除GIL，会降低CPython单线程的执行效率。
+测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
+<div><pre><code><span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
+<span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t1<span>.</span>start<span>(</span><span>)</span>
+t2<span>.</span>start<span>(</span><span>)</span>
+t3<span>.</span>start<span>(</span><span>)</span>
+t4<span>.</span>start<span>(</span><span>)</span>
+t1<span>.</span>join<span>(</span><span>)</span>
+t2<span>.</span>join<span>(</span><span>)</span>
+t3<span>.</span>join<span>(</span><span>)</span>
+t4<span>.</span>join<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
+<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
+程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
+<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
+<h2 id="多进程"> 多进程</h2>
+<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
+多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
+但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
+<h3 id="multiprocessing"> multiprocessing</h3>
+<p><strong>Process类</strong></p>
+<p>Process类遵循了Thread类的API，减少了学习难度。</p>
+<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
+<div><pre><code><span>import</span> multiprocessing
+<span>import</span> datetime
+
+
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    <span>return</span> i<span>,</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+
+    ps <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
+        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
+        ps<span>.</span>append<span>(</span>p<span>)</span>
+        p<span>.</span>start<span>(</span><span>)</span>
+
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        p<span>.</span>join<span>(</span><span>)</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
+<ul>
+<li>使用单线程、多线程跑了4分钟多</li>
+<li>多进程用了1分半</li>
+</ul>
+<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
+<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pid</td>
+<td>进程 id</td>
+</tr>
+<tr>
+<td>exitcode</td>
+<td>进程的退出状态码</td>
+</tr>
+<tr>
+<td>terminate()</td>
+<td>终止指定的进程</td>
+</tr>
+</tbody>
+</table>
+<h3 id="进程间同步"> 进程间同步</h3>
+<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
+不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
+multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
+<p>通信方式不同</p>
+<ol>
+<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
+<li>数据的线程安全性问题
+如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
+</ol>
+<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
+<p>1、CPU密集型
+CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
+高。</p>
+<p>2、IO密集型
+在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
+<p><strong>应用</strong></p>
+<p>请求/应答模型：WEB应用中常见的处理模型</p>
+<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
+worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
+这就是nginx工作模式。</p>
+<h2 id="concurrent-futures包"> concurrent.futures包</h2>
+<p>3.2版本引入的模块。</p>
+<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
+<p>提供了2个池执行器：</p>
+<ul>
+<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
+<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
+</ul>
+<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
+<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThreadPoolExecutor(max_workers=1)</td>
+<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
+</tr>
+<tr>
+<td>submit(fn, *args, **kwargs)</td>
+<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
+</tr>
+<tr>
+<td>shutdown(wait=True)</td>
+<td>清理池，wait 表示是否等待到任务线程完成</td>
+</tr>
+</tbody>
+</table>
+<p>Future 类</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>done()</td>
+<td>如果调用被成功的取消或者执行完成，返回True</td>
+</tr>
+<tr>
+<td>cancelled()</td>
+<td>如果调用被成功的取消，返回True</td>
+</tr>
+<tr>
+<td>running()</td>
+<td>如果正在运行且不能被取消，返回True</td>
+</tr>
+<tr>
+<td>cancel()</td>
+<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
+</tr>
+<tr>
+<td>result(timeout=None)</td>
+<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+<tr>
+<td>exception(timeout=None)</td>
+<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+</tbody>
+</table>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
+<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+    fs <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+        fs<span>.</span>append<span>(</span>future<span>)</span>
+
+    <span>#wait(fs) # 阻塞</span>
+    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+<span>for</span> f <span>in</span> fs<span>:</span>
+    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+
+<span>print</span><span>(</span>delta<span>)</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
+<p>方法一样。就是使用多进程完成。</p>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
+    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+        fs <span>=</span> <span>[</span><span>]</span>
+        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+            fs<span>.</span>append<span>(</span>future<span>)</span>
+
+        <span>#wait(fs) # 阻塞</span>
+        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+    <span>for</span> f <span>in</span> fs<span>:</span>
+        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
+<p>该库统一了线程池、进程池调用，简化了编程。
+是Python简单的思想哲学的体现。</p>
+<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -26792,6 +26792,466 @@ random_numbers
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">10.1 字符串处理</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
+<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
+<h3 id="字符串长度"> 字符串长度</h3>
+<h4 id="string"> <code>${#string}</code></h4>
+<h4 id="expr-length-string"> <code>expr length $string</code></h4>
+<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
+<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># paragraph-space.sh</span>
+<span># 版本 2.1，发布日期 2012年7月29日</span>
+
+<span># 在无空行的文本文件的段落之间插入空行。</span>
+<span># 像这样使用: $0 &lt;FILENAME</span>
+
+<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
+<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
+<span>#+ 结尾部分有练习！</span>
+
+<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
+<span>do</span>
+  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
+  
+  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
+<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
+<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
+<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
+    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
+  <span>fi</span>             <span>#+ 增加一行空行。</span>
+<span>done</span>
+
+<span>exit</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
+<span>#+    尝试解决这个问题。</span>
+<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
+<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
+<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
+<p>其中，<code>$substring</code> 是一个正则表达式。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |------|</span>
+<span>#       12345678</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
+<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
+<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456 ...</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
+                                             <span># C 的位置。</span>
+<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
+<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
+<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
+<h4 id="string-position"> <code>${string:position}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
+<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
+<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       0123456789.....</span>
+<span>#       索引位置从0开始。</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
+
+<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
+                                             <span># 三个字符的子字符串。</span>
+                                             
+                                             
+
+<span># 从右至左进行截取可行么？</span>
+
+<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
+<span># ${parameter:-default} 将会得到整个字符串。</span>
+<span># 但是……</span>
+
+<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
+<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
+<span># 现在可以了。</span>
+<span># 括号或者增加空格都可以"转义"位置参数。</span>
+
+<span># 感谢 Dan Jacobson 指出这些。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
+<p>样例 10-2. 产生一个8个字符的随机字符串</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># rand-string.sh</span>
+<span># 产生一个8个字符的随机字符串。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
+<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
+<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
+  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
+<span>fi</span>
+
+<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
+<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
+
+<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
+<span>#                      ^^^^^^   ^^^^^^</span>
+<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
+
+<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
+<span>#                  ^^^^ ^^^^</span>
+<span># 允许传入参数</span>
+
+<span>echo</span> <span>"<span>$randstring</span>"</span>
+
+<span>exit</span> <span>$?</span>
+
+<span># bozo$ ./rand-string.sh my-password</span>
+<span># 1bdd88c4</span>
+
+<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
+<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
+<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
+
+<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       123456789......</span>
+<span>#       索引位置从1开始。</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
+<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
+<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
+<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       =======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
+<span># 上面所有的形式都给出了相同的结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
+<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                ======</span>
+
+<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
+<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
+<h4 id="string-substring"> <code>${string#substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
+<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
+<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#       |----|          最长</span>
+<span>#       |----------|    最短</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
+<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
+<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
+
+
+
+<span># 你可以使用变量代替 substring。</span>
+
+<span>X</span><span>=</span><span>'a*C'</span>
+
+<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
+                        <span># 同上。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
+<p>例如：</p>
+<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
+<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
+
+<span>SUFF</span><span>=</span>TXT
+<span>suff</span><span>=</span>txt
+
+<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
+<span>do</span>
+  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
+  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
+  <span>#+ 其他一切都保持不变。</span>
+<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
+
+<span># 感谢 Rory Winston。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
+<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
+<div><pre><code>
+<span>stringZ</span><span>=</span>abcABC123ABCabc
+<span>#                    ||     最短</span>
+<span>#        |------------|     最长</span>
+
+<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
+
+<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
+<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
+<p>样例 10-3. 改变图像文件的格式及文件名</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>#  cvt.sh:</span>
+<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
+
+<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
+<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
+<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
+
+<span>OPERATION</span><span>=</span>macptopbm
+<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
+<span>then</span>
+  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
+<span>else</span>
+  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
+<span>fi</span>
+
+<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
+<span>#+ ".mac" 的文件后缀名。</span>
+
+<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
+<span>do</span>
+  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
+                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
+                            <span>#  所有字符，包括其本身)。</span>
+  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
+                            <span># 将转换结果重定向到新的文件。</span>
+  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
+  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
+<span>done</span>
+
+<span>exit</span> <span>0</span>
+
+<span># 练习：</span>
+<span># -----</span>
+<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
+<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
+
+
+
+<span># *** 还可以使用另外一种方法。 *** #</span>
+
+<span>#!/bin/bash</span>
+<span># 将图像批处理转换成不同的格式。</span>
+<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
+
+<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
+<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
+
+<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
+<span>do</span>
+  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
+  <span># echo $p2</span>
+  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
+<span>done</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
+
+<span># 使用 "mplayer" 媒体播放器程序：</span>
+<span>#      http://www.mplayerhq.hu/homepage</span>
+<span># 使用 "ogg" 库与 "oggenc"：</span>
+<span>#      http://www.xiph.org/</span>
+<span>#</span>
+<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
+<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
+
+
+<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
+<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
+<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
+E_NOARGS=85
+
+if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
+then
+  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
+  exit <span>$E_NOAGRS</span>
+fi
+
+
+######################################################
+mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
+oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
+######################################################
+
+rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
+                   # 如果你仍需保留原文件，注释掉上面这一行即可。
+                   
+exit <span>$?</span>
+
+#  注意：
+#  -----
+#  在网站上，点击一个 *.ram 的流媒体音频文件
+#+ 通常只会下载到 *.ra 音频文件的 URL。
+#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
+
+
+#  练习：
+#  -----
+#  这个脚本仅仅转换 *.ra 文件。
+#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
+#
+#  如果你非常有热情，你可以扩展这个脚本使其
+#+ 可以自动下载并且转换流媒体音频文件。
+#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
+<span>#+ 然后转换它。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
+<p>样例 10-5. 模拟 <code>getopt</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># getopt-simple.sh</span>
+<span># 作者: Chris Morgan</span>
+<span># 允许在高级脚本编程指南中使用。</span>
+
+
+<span>getopt_simple</span><span>(</span><span>)</span>
+<span>{</span>
+    <span>echo</span> <span>"getopt_simple()"</span>
+    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
+    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
+    <span>do</span>
+      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
+      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
+      <span>then</span>
+          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
+          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
+          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
+          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
+          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
+      <span>fi</span>
+      <span>shift</span>
+    <span>done</span>
+<span>}</span>
+
+<span># 将所有参数传递给 getopt_simple()。</span>
+getopt_simple <span>$*</span>
+
+<span>echo</span> <span>"test is '<span>$test</span>'"</span>
+<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
+
+<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
+
+---
+
+<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
+
+Parameters are <span>'/test=value1 /test2=value2'</span>
+Processing parameter of: <span>'/test=value1'</span>
+Parameter: <span>'test'</span>, value: <span>'value1'</span>
+Processing parameter of: <span>'/test2=value2'</span>
+Parameter: <span>'test2'</span>, value: <span>'value2'</span>
+<span>test</span> is <span>'value1'</span>
+test2 is <span>'value2'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
+<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
+<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
+<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
+<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
+                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
+                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
+                              
+<span>echo</span>  ---------------
+<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
+<span>echo</span>  ---------------
+                              <span># 字符串本身并不会被修改！</span>
+                              
+<span># 匹配以及替换的字符串可以是参数么？</span>
+<span>match</span><span>=</span>abc
+<span>repl</span><span>=</span>000
+<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
+<span>#              ^      ^         ^^^</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
+<span># Yes!          ^      ^        ^^^         ^^^</span>
+
+<span>echo</span>
+
+<span># 如果没有给定 $replacement 字符串会怎样？</span>
+<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
+<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
+<span># 仅仅是将其删除而已。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
+<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
+<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
+
+<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
+                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
+                                  
+<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
+                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
+<section>
+<ol>
+<li id="footnote1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
+</li>
+<li id="footnote2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">10.2 参数替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/"/>
@@ -31863,6 +32323,88 @@ exec 3&gt;&amp;-                              # 现在关闭它.
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第二十二章. 限制模式的Shell</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/22_Restricted_Shells/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/22_Restricted_Shells/"/>
+    <updated>2021-05-14T02:55:19.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
+<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
+<ul>
+<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
+</ul>
+<p>被禁用的命令和功能：</p>
+<ul>
+<li>使用 cd 来改变工作目录。</li>
+<li>修改 $PATH, $SHELL, $BASH_ENV 或 $ENV 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
+<li>读取或修改 $SHELLOPTS，shell环境选项。</li>
+<li>输出重定向。</li>
+<li>调用包含 / 的命令。</li>
+<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
+<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
+<li>在脚本中跳出限制模式。</li>
+</ul>
+<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
+<div><pre><code>#!/bin/bash
+
+#  在脚本开头用&quot;#!/bin/bash -r&quot;
+#+ 可以让整个脚本在限制模式运行。
+
+echo
+
+echo &quot;改变目录。&quot;
+cd /usr/local
+echo &quot;现在是在 `pwd`&quot;
+echo &quot;回到家目录。&quot;
+cd
+echo &quot;现在是在 `pwd`&quot;
+echo
+
+# 到此为止一切都是正常的，非限制模式。
+
+set -r
+# set --restricted 效果相同。
+echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
+
+echo
+echo
+
+echo &quot;在限制模式试图改变目录。&quot;
+cd ..
+echo &quot;依旧在 `pwd`&quot;
+
+echo
+echo
+
+echo &quot;\$SHELL = $SHELL&quot;
+echo &quot;试图在限制模式改变Shell 。&quot;
+SHELL=&quot;/bin/ash&quot;
+echo
+echo &quot;\$SHELL= $SHELL&quot;
+
+echo
+echo
+
+echo &quot;试图在限制模式重定向输出内容。&quot;
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    # 尝试列出试图创建的文件。
+
+echo
+
+exit 0
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第二十一章 子shell</title>
     <id>https://clay-wangzhi.com/code/shell/part5/21_subshells/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/21_subshells/"/>
@@ -32092,88 +32634,6 @@ PID <span>2698</span>, 脚本, 启动 PID <span>2699</span>, 子shell.
 </ol>
 </section>
 ]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第二十二章. 限制模式的Shell</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/22_Restricted_Shells/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/22_Restricted_Shells/"/>
-    <updated>2021-05-14T02:55:19.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第二十二章-限制模式的shell"> 第二十二章. 限制模式的Shell</h1>
-<h4 id="限制模式下被禁用的命令"> 限制模式下被禁用的命令</h4>
-<ul>
-<li>在限制模式下运行一个脚本或部分脚本将禁用一些命令，尽管这些命令在正常模式下是可用的。这是个安全措施，可以限制脚本用户的权限，减少运行脚本可能带来的损害。</li>
-</ul>
-<p>被禁用的命令和功能：</p>
-<ul>
-<li>使用 cd 来改变工作目录。</li>
-<li>修改 $PATH, $SHELL, $BASH_ENV 或 $ENV 等<a href="http://tldp.org/LDP/abs/html/othertypesv.html#ENVREF" target="_blank" rel="noopener noreferrer">环境变量</a></li>
-<li>读取或修改 $SHELLOPTS，shell环境选项。</li>
-<li>输出重定向。</li>
-<li>调用包含 / 的命令。</li>
-<li>调用 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a> 来替代shell进程。</li>
-<li>其他各种会造成混乱或颠覆脚本用途的命令。</li>
-<li>在脚本中跳出限制模式。</li>
-</ul>
-<h4 id="例-22-1-在限制模式运行脚本"> 例 22-1. 在限制模式运行脚本</h4>
-<div><pre><code>#!/bin/bash
-
-#  在脚本开头用&quot;#!/bin/bash -r&quot;
-#+ 可以让整个脚本在限制模式运行。
-
-echo
-
-echo &quot;改变目录。&quot;
-cd /usr/local
-echo &quot;现在是在 `pwd`&quot;
-echo &quot;回到家目录。&quot;
-cd
-echo &quot;现在是在 `pwd`&quot;
-echo
-
-# 到此为止一切都是正常的，非限制模式。
-
-set -r
-# set --restricted 效果相同。
-echo &quot;==&gt; 现在是限制模式 &lt;==&quot;
-
-echo
-echo
-
-echo &quot;在限制模式试图改变目录。&quot;
-cd ..
-echo &quot;依旧在 `pwd`&quot;
-
-echo
-echo
-
-echo &quot;\$SHELL = $SHELL&quot;
-echo &quot;试图在限制模式改变Shell 。&quot;
-SHELL=&quot;/bin/ash&quot;
-echo
-echo &quot;\$SHELL= $SHELL&quot;
-
-echo
-echo
-
-echo &quot;试图在限制模式重定向输出内容。&quot;
-ls -l /usr/bin &gt; bin.files
-ls -l bin.files    # 尝试列出试图创建的文件。
-
-echo
-
-exit 0
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -37731,6 +38191,88 @@ exit 0
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">开机集成zabbix和jumpserver脚本</title>
+    <id>https://clay-wangzhi.com/code/shell/part7/shili/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part7/shili/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
+<div><pre><code><span>#!/bin/bash</span>
+<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
+<span>ANS_PASS</span><span>=</span><span>"****"</span>
+<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
+<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
+<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
+<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
+
+<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
+
+<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
+  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
+  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+<span>}</span>
+
+<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
+  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
+  <span>fi</span> 
+  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
+    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
+    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
+        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
+        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
+<span>}</span>
+
+<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
+  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
+  set timeout 180
+  spawn ssh root@192.168.162.1
+  expect {
+    "(yes/no)?" {
+      send "yes<span title="\r">\r</span>";
+      expect "password:";
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "password:" {
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "*#" {
+      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
+             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
+    }
+  }
+  expect eof
+EOF</span>
+<span>}</span>
+
+<span>main</span><span>(</span><span>)</span> <span>{</span>
+  update_ssh
+  integrate_jms <span>"<span>$@</span>"</span>
+  integrate_ans_zbx <span>"<span>$@</span>"</span> 
+<span>}</span>
+
+main <span>"<span>$@</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第六部分 Google Shell 风格指南</title>
     <id>https://clay-wangzhi.com/code/shell/part6/</id>
     <link href="https://clay-wangzhi.com/code/shell/part6/"/>
@@ -38351,88 +38893,6 @@ mypackage::<span>my_func</span><span>(</span><span>)</span> <span>{</span>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Google</rights>
-  </entry>
-  <entry>
-    <title type="html">开机集成zabbix和jumpserver脚本</title>
-    <id>https://clay-wangzhi.com/code/shell/part7/shili/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part7/shili/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
-<div><pre><code><span>#!/bin/bash</span>
-<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
-<span>ANS_PASS</span><span>=</span><span>"****"</span>
-<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
-<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
-<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
-<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
-
-<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
-
-<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
-  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
-  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-<span>}</span>
-
-<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
-  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
-  <span>fi</span> 
-  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
-    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
-    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
-        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
-        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
-<span>}</span>
-
-<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
-  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
-  set timeout 180
-  spawn ssh root@192.168.162.1
-  expect {
-    "(yes/no)?" {
-      send "yes<span title="\r">\r</span>";
-      expect "password:";
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "password:" {
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "*#" {
-      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
-             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
-    }
-  }
-  expect eof
-EOF</span>
-<span>}</span>
-
-<span>main</span><span>(</span><span>)</span> <span>{</span>
-  update_ssh
-  integrate_jms <span>"<span>$@</span>"</span>
-  integrate_ans_zbx <span>"<span>$@</span>"</span> 
-<span>}</span>
-
-main <span>"<span>$@</span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">高级 Bash 脚本编程指南</title>
@@ -39793,6 +40253,51 @@ Slave_SQL_Running: Yes
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">14 MySQL bin-log日志清理</title>
+    <id>https://clay-wangzhi.com/db/mysql/bin-log/</id>
+    <link href="https://clay-wangzhi.com/db/mysql/bin-log/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_14-mysql-bin-log日志清理"> 14 MySQL bin-log日志清理</h1>
+<h2 id="自动清理"> 自动清理</h2>
+<h3 id="永久生效"> 永久生效</h3>
+<p>需要重启mysql才能生效</p>
+<p>修改<code>my.cnf</code>文件</p>
+<p>添加下面一行</p>
+<div><pre><code>expire_logs_days = 7
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="临时生效"> 临时生效</h3>
+<p>进入mysql，执行，下面的语句</p>
+<div><pre><code>show variables like &#39;%expire_logs_days%&#39;;
+set global expire_logs_days = 7;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="手动清理"> 手动清理</h2>
+<p>进入mysql，查看binlog日志</p>
+<div><pre><code>show binary logs;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
+<div><pre><code>purge binary logs to &#39;mysql-bin.000035&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
+<div><pre><code>PURGE MASTER LOGS BEFORE &#39;2019-09-09 13:00:00&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>清除3天前的bin日志</strong></p>
+<div><pre><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>注意，不要轻易手动去删除binlog，会导致binlog.index和真实存在的binlog不匹配，而导致expire_logs_day失效</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="MySQL"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">7 备份恢复</title>
     <id>https://clay-wangzhi.com/db/mysql/back/</id>
     <link href="https://clay-wangzhi.com/db/mysql/back/"/>
@@ -40552,51 +41057,6 @@ innobackupex会用子程序启动xtrabackup --log-stream 定向到临时文件�
 <p>参考文章：</p>
 <p>https://www.cnblogs.com/huchong/p/10238515.html#_label1</p>
 <p>https://www.linuxidc.com/Linux/2019-01/156363.htm</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="MySQL"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">14 MySQL bin-log日志清理</title>
-    <id>https://clay-wangzhi.com/db/mysql/bin-log/</id>
-    <link href="https://clay-wangzhi.com/db/mysql/bin-log/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_14-mysql-bin-log日志清理"> 14 MySQL bin-log日志清理</h1>
-<h2 id="自动清理"> 自动清理</h2>
-<h3 id="永久生效"> 永久生效</h3>
-<p>需要重启mysql才能生效</p>
-<p>修改<code>my.cnf</code>文件</p>
-<p>添加下面一行</p>
-<div><pre><code>expire_logs_days = 7
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="临时生效"> 临时生效</h3>
-<p>进入mysql，执行，下面的语句</p>
-<div><pre><code>show variables like &#39;%expire_logs_days%&#39;;
-set global expire_logs_days = 7;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="手动清理"> 手动清理</h2>
-<p>进入mysql，查看binlog日志</p>
-<div><pre><code>show binary logs;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
-<div><pre><code>purge binary logs to &#39;mysql-bin.000035&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
-<div><pre><code>PURGE MASTER LOGS BEFORE &#39;2019-09-09 13:00:00&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>清除3天前的bin日志</strong></p>
-<div><pre><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>注意，不要轻易手动去删除binlog，会导致binlog.index和真实存在的binlog不匹配，而导致expire_logs_day失效</p>
 </blockquote>
 ]]></content>
     <author>
@@ -49475,6 +49935,42 @@ rpm -ql xxx //查询xxx安装的文件
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">用户管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/user/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">基本权限 UGO</title>
     <id>https://clay-wangzhi.com/linux/basic/ugo/</id>
     <link href="https://clay-wangzhi.com/linux/basic/ugo/"/>
@@ -49563,42 +50059,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </tbody>
 </table>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">用户管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/user/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -53378,87 +53838,32 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">倒排索引入门</title>
-    <id>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/primer/inverted-index/"/>
+    <title type="html">10.1.2 参考资料</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
-<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
+    <content type="html"><![CDATA[<h1 id="_10-1-2-参考资料"> 10.1.2 参考资料</h1>
+<p>更多关于脚本中处理字符串的资料，可以查看 <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html" target="_blank" rel="noopener noreferrer">章节 10.2</a> 以及 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 命令的<a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPEXTRSUB" target="_blank" rel="noopener noreferrer">相关章节</a>。</p>
+<p>脚本样例：</p>
+<ol>
+<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#LENGTH" target="_blank" rel="noopener noreferrer">样例 10-9</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PATTMATCHING" target="_blank" rel="noopener noreferrer">样例 10-10</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#RFE" target="_blank" rel="noopener noreferrer">样例 10-11</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#VARMATCH" target="_blank" rel="noopener noreferrer">样例 10-13</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#INSERTIONSORT" target="_blank" rel="noopener noreferrer">样例 A-36</a></li>
+<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a></li>
+</ol>
 ]]></content>
     <author>
-      <name>Clay</name>
+      <name>LinuxStory</name>
     </author>
-    <category term="监控"/>
+    <category term="Linux"/>
     <contributor>
-      <name>Clay</name>
+      <name>LinuxStory</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
+    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">通过分析器进行分词</title>
@@ -54483,55 +54888,6 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">8 activemq监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
-<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
-<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
-<p>因为是基于JMX进行监控的</p>
-<h2 id="修改配置文件"> 修改配置文件</h2>
-<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
-<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
-<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
-</code></pre>
-<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
-<div><pre><code>&lt;managementContext&gt;
-            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
-&lt;/managementContext&gt; 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
-<p>在脚本最后添加：</p>
-<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
-<blockquote>
-<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
-</blockquote>
-<h2 id="导入模板"> 导入模板</h2>
-<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
-<p>在被监控主机上增加宏设置
-加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">2 zabbix借助ansible安装</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-ans/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-ans/"/>
@@ -54817,6 +55173,55 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">8 activemq监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
+<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
+<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
+<p>因为是基于JMX进行监控的</p>
+<h2 id="修改配置文件"> 修改配置文件</h2>
+<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
+<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
+<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
+</code></pre>
+<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
+<div><pre><code>&lt;managementContext&gt;
+            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
+&lt;/managementContext&gt; 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
+<p>在脚本最后添加：</p>
+<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
+<blockquote>
+<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
+</blockquote>
+<h2 id="导入模板"> 导入模板</h2>
+<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
+<p>在被监控主机上增加宏设置
+加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -55236,41 +55641,6 @@ fi
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">5 Redis监控模块</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">9 zookeeper集群监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/"/>
@@ -55339,6 +55709,41 @@ fi
 </li>
 </ol>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">5 Redis监控模块</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -56034,13 +56439,35 @@ kernel级调优		最后的希望，kernel调优具有普遍性</p>
     <title type="html">优秀的技术博客</title>
     <id>https://clay-wangzhi.com/other/blog/</id>
     <link href="https://clay-wangzhi.com/other/blog/"/>
-    <updated>2021-05-31T13:28:25.000Z</updated>
+    <updated>2021-05-31T13:36:36.000Z</updated>
     <content type="html"><![CDATA[<h1 id="优秀的技术博客"> 优秀的技术博客</h1>
+<table>
+<thead>
+<tr>
+<th>博客地址</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://skyao.io/learning/" target="_blank" rel="noopener noreferrer">敖小剑的博客</a></td>
+<td>资深码农，十九年软件开发经验，微服务专家，Service Mesh布道师，Servicemesher社区联合创始人，Dapr Maintainer</td>
+</tr>
+<tr>
+<td><a href="https://www.junmajinlong.com/" target="_blank" rel="noopener noreferrer">骏马金龙</a></td>
+<td>运维开发，<code>Ansible专栏：一步到位玩透Ansible</code> 作者</td>
+</tr>
+<tr>
+<td><a href="https://www.duyidong.com/" target="_blank" rel="noopener noreferrer">杜屹东的博客</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://notes.abelsu7.top/" target="_blank" rel="noopener noreferrer">苏易北</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><a href="https://skyao.io/learning/" target="_blank" rel="noopener noreferrer">敖小剑的博客</a></li>
-<li><a href="https://www.junmajinlong.com/" target="_blank" rel="noopener noreferrer">骏马金龙</a></li>
-<li><a href="https://www.duyidong.com/" target="_blank" rel="noopener noreferrer">杜屹东的博客</a></li>
-<li><a href="https://notes.abelsu7.top/" target="_blank" rel="noopener noreferrer">苏易北</a></li>
 <li><a href="https://www.zze.xyz/s/bookmarks.html" target="_blank" rel="noopener noreferrer">张种恩的技术小栈 </a></li>
 <li><a href="https://www.kancloud.cn/@willseecloud" target="_blank" rel="noopener noreferrer">willseecloud</a></li>
 <li><a href="https://mrhope.site/" target="_blank" rel="noopener noreferrer">mrhope</a></li>
@@ -61121,80 +61548,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.1 nginx全局块和events块配置</title>
-    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
-<h2 id="_1-example"> 1 example</h2>
-<div><pre><code><span># 运行Nginx进程的用户</span>
-<span>user</span> nginx<span>;</span>
-<span>worker_processes</span>  <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> auto<span>;</span>
-
-<span># 定义存储某类型的全局错误的日志位置</span>
-<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
-<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
-<span># 指定进程ID（pid）存放的路径 </span>
-<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
-<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
-<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
-
-<span>events</span> <span>{</span>
-    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
-    <span>use</span> epoll<span>;</span>
-    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
-    <span>worker_connections</span>  <span>20480</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
-<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
-<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
-<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
-<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
-<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
-<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
-<blockquote>
-<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
-</blockquote>
-<h3 id="_2-3-实例"> 2.3 实例</h3>
-<p><strong>2核CPU，开启2个进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
-<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
-<p>测试结束后，CPU内核的负载应该都同时降低。</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">3.2 nginxHTTP块配置</title>
     <id>https://clay-wangzhi.com/web/nginx/http/</id>
     <link href="https://clay-wangzhi.com/web/nginx/http/"/>
@@ -61351,6 +61704,80 @@ real_ip_recursive on; #递归的去除所配置中的可信IP。
 <p>参考链接：</p>
 <p>https://www.hi-linux.com/posts/53006.html</p>
 <p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">3.1 nginx全局块和events块配置</title>
+    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
+<h2 id="_1-example"> 1 example</h2>
+<div><pre><code><span># 运行Nginx进程的用户</span>
+<span>user</span> nginx<span>;</span>
+<span>worker_processes</span>  <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> auto<span>;</span>
+
+<span># 定义存储某类型的全局错误的日志位置</span>
+<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
+<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
+<span># 指定进程ID（pid）存放的路径 </span>
+<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
+<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
+<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
+
+<span>events</span> <span>{</span>
+    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
+    <span>use</span> epoll<span>;</span>
+    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
+    <span>worker_connections</span>  <span>20480</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
+<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
+<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
+<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
+<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
+<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
+<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
+<blockquote>
+<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
+</blockquote>
+<h3 id="_2-3-实例"> 2.3 实例</h3>
+<p><strong>2核CPU，开启2个进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
+<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
+<p>测试结束后，CPU内核的负载应该都同时降低。</p>
 </blockquote>
 ]]></content>
     <author>
@@ -62921,491 +63348,86 @@ echo | awk '</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">10.1.2 参考资料</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_2_further_reference/"/>
+    <title type="html">倒排索引入门</title>
+    <id>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/primer/inverted-index/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-1-2-参考资料"> 10.1.2 参考资料</h1>
-<p>更多关于脚本中处理字符串的资料，可以查看 <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html" target="_blank" rel="noopener noreferrer">章节 10.2</a> 以及 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 命令的<a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPEXTRSUB" target="_blank" rel="noopener noreferrer">相关章节</a>。</p>
-<p>脚本样例：</p>
-<ol>
-<li><a href="http://tldp.org/LDP/abs/html/moreadv.html#EX45" target="_blank" rel="noopener noreferrer">样例 16-9</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#LENGTH" target="_blank" rel="noopener noreferrer">样例 10-9</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PATTMATCHING" target="_blank" rel="noopener noreferrer">样例 10-10</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#RFE" target="_blank" rel="noopener noreferrer">样例 10-11</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#VARMATCH" target="_blank" rel="noopener noreferrer">样例 10-13</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#INSERTIONSORT" target="_blank" rel="noopener noreferrer">样例 A-36</a></li>
-<li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#QKY" target="_blank" rel="noopener noreferrer">样例 A-41</a></li>
-</ol>
+    <content type="html"><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
+<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
 ]]></content>
     <author>
-      <name>LinuxStory</name>
+      <name>Clay</name>
     </author>
-    <category term="Linux"/>
+    <category term="监控"/>
     <contributor>
-      <name>LinuxStory</name>
+      <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">10.1 字符串处理</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_1_manipulating_strings/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-1-字符串处理"> 10.1 字符串处理</h1>
-<p>Bash 支持的字符串操作数量达到了一个惊人的数目。但可惜的是，这些操作工具缺乏一个统一的核心。他们中的一些是<a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF" target="_blank" rel="noopener noreferrer">参数代换</a>的子集，另外一些则是 UNIX 下 <a href="http://tldp.org/LDP/abs/html/moreadv.html#EXPRREF" target="_blank" rel="noopener noreferrer"><code>expr</code></a> 函数的子集。这将会导致语法前后不一致或者功能上出现重叠，更不用说那些可能导致的混乱了。</p>
-<h3 id="字符串长度"> 字符串长度</h3>
-<h4 id="string"> <code>${#string}</code></h4>
-<h4 id="expr-length-string"> <code>expr length $string</code></h4>
-<p>上面两个表达式等价于C语言中的 <code>strlen()</code> 函数。</p>
-<h4 id="expr-string"> <code>expr &quot;$string&quot; : '.*'</code></h4>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${<span>#</span>stringZ}</span>                 <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> length $stringz<span>`</span></span>      <span># 15</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*'</span><span>`</span></span>    <span># 15</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>样例 10-1. 在文本的段落之间插入空行</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># paragraph-space.sh</span>
-<span># 版本 2.1，发布日期 2012年7月29日</span>
-
-<span># 在无空行的文本文件的段落之间插入空行。</span>
-<span># 像这样使用: $0 &lt;FILENAME</span>
-
-<span>MINLEN</span><span>=</span><span>60</span>        <span># 可以试试修改这个值。它用来做判断。</span>
-<span>#  假设一行的字符数小于 $MINLEN，并且以句点结束段落。</span>
-<span>#+ 结尾部分有练习！</span>
-
-<span>while</span> <span>read</span> line  <span># 当文件有许多行的时候</span>
-<span>do</span>
-  <span>echo</span> <span>"<span>$line</span>"</span>   <span># 输出行本身。</span>
-  
-  <span>len</span><span>=</span><span>${<span>#</span>line}</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>$len</span>"</span> -lt <span>"<span>$MINLEN</span>"</span> <span>&amp;&amp;</span> <span>"<span>$line</span>"</span> <span>=</span>~ <span>[</span>*<span>{</span><span>\</span>.<span>}</span><span>]</span>$ <span>]</span><span>]</span>
-<span># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
-<span># 新版Bash将不能正常运行前一个版本的脚本。Ouch！</span>
-<span># 感谢 Halim Srama 指出这点，并且给出了修正版本。</span>
-    <span>then</span> <span>echo</span>    <span>#  在该行以句点结束时，</span>
-  <span>fi</span>             <span>#+ 增加一行空行。</span>
-<span>done</span>
-
-<span>exit</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span>#  1) 该脚本通常会在文件的最后插入一个空行。</span>
-<span>#+    尝试解决这个问题。</span>
-<span>#  2) 在第17行仅仅考虑到了以句点作为句子终止的情况。</span>
-<span>#+    修改以满足其他的终止符，例如 ?, ! 和 "。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><h3 id="起始部分字符串匹配长度"> 起始部分字符串匹配长度</h3>
-<h4 id="expr-match-string-substring"> <code>expr match &quot;$string&quot; '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring"> <code>expr &quot;$string&quot; : '$substring'</code></h4>
-<p>其中，<code>$substring</code> 是一个正则表达式。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |------|</span>
-<span>#       12345678</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>   <span># 8</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'abc[A-Z]*.2'</span><span>`</span></span>       <span># 8</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="索引"> 索引</h3>
-<h4 id="expr-index-string-substring"> <code>expr index $string $substring</code></h4>
-<p>返回在 <code>$string</code> 中第一个出现的 <code>$substring</code> 字符所在的位置。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456 ...</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> C12<span>`</span></span>             <span># 6</span>
-                                             <span># C 的位置。</span>
-<span>echo</span> <span><span>`</span><span>expr</span> index <span>"<span>$stringZ</span>"</span> 1c<span>`</span></span>              <span># 3</span>
-<span># 'c' (第三号位) 较 '1' 出现的更早。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>几乎等价于C语言中的 <code>strchr()</code>。</p>
-<h3 id="截取字符串-字符串分片"> 截取字符串（字符串分片）</h3>
-<h4 id="string-position"> <code>${string:position}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串。</p>
-<p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起的<a href="http://tldp.org/LDP/abs/html/internalvariables.html#POSPARAMREF" target="_blank" rel="noopener noreferrer">位置参数</a>。<sup></sup></p>
-<h4 id="string-position-length"> <code>${string:position:length}</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       0123456789.....</span>
-<span>#       索引位置从0开始。</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>0}</span>                            <span># abcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>1}</span>                            <span># bcABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>:</span>7}</span>                            <span># 23ABCabc</span>
-
-<span>echo</span> <span>${stringz<span>:</span>7<span>:</span>3}</span>                          <span># 23A</span>
-                                             <span># 三个字符的子字符串。</span>
-                                             
-                                             
-
-<span># 从右至左进行截取可行么？</span>
-
-<span>echo</span> <span>${stringZ<span>:-</span>4}</span>                           <span># abcABC123ABCabc</span>
-<span># ${parameter:-default} 将会得到整个字符串。</span>
-<span># 但是……</span>
-
-<span>echo</span> <span>${stringZ<span>:</span>(-4)}</span>                         <span># Cabc</span>
-<span>echo</span> <span>${stringZ<span>:</span> -4}</span>                          <span># Cabc</span>
-<span># 现在可以了。</span>
-<span># 括号或者增加空格都可以"转义"位置参数。</span>
-
-<span># 感谢 Dan Jacobson 指出这些。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>其中，参数 <code>position</code> 与 <code>length</code> 可以传入一个变量而不一定需要传入常量。</p>
-<p>样例 10-2. 产生一个8个字符的随机字符串</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># rand-string.sh</span>
-<span># 产生一个8个字符的随机字符串。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>  <span>#  如果在命令行中已经传入了参数，</span>
-<span>then</span>            <span>#+ 那么就以它作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$1</span>"</span>
-<span>else</span>            <span>#  否则，就将脚本的进程标识符PID作为起始字符串。</span>
-  <span>str0</span><span>=</span><span>"<span>$$</span>"</span>
-<span>fi</span>
-
-<span>POS</span><span>=</span><span>2</span>  <span># 从字符串的第二位开始。</span>
-<span>LEN</span><span>=</span><span>8</span>  <span># 截取八个字符。</span>
-
-<span>str1</span><span>=</span><span><span>$(</span> <span>echo</span> <span>"<span>$str0</span>"</span> <span>|</span> md5sum <span>|</span> md5sum <span>)</span></span>
-<span>#                      ^^^^^^   ^^^^^^</span>
-<span># 将字符串通过管道计算两次 md5 来进行两次混淆。</span>
-
-<span>randstring</span><span>=</span><span>"<span>${str1<span>:</span>$POS<span>:</span>$LEN}</span>"</span>
-<span>#                  ^^^^ ^^^^</span>
-<span># 允许传入参数</span>
-
-<span>echo</span> <span>"<span>$randstring</span>"</span>
-
-<span>exit</span> <span>$?</span>
-
-<span># bozo$ ./rand-string.sh my-password</span>
-<span># 1bdd88c4</span>
-
-<span># 不过不建议将其作为一种能够抵抗黑客的生成密码的方法。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><p>如果参数 <code>$string</code> 是 &quot;*&quot; 或者 &quot;@&quot;，那么将会截取自 <code>$position</code> 起，最大个数为 <code>$length</code> 的位置参数。</p>
-<div><pre><code><span>echo</span> <span>${*<span>:</span>2}</span>          <span># 输出第二个及之后的所有位置参数。</span>
-<span>echo</span> <span>${@<span>:</span>2}</span>          <span># 同上。</span>
-
-<span>echo</span> <span>${*<span>:</span>2<span>:</span>3}</span>        <span># 从第二个位置参数起，输出三个位置参数。 </span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h4 id="expr-substr-string-position-length"> <code>expr substr $string $position $length</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起，长度为 <code>$length</code> 的字符串。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       123456789......</span>
-<span>#       索引位置从1开始。</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>1</span> <span>2</span><span>`</span></span>              <span># ab</span>
-<span>echo</span> <span><span>`</span><span>expr</span> substr $stringZ <span>4</span> <span>3</span><span>`</span></span>              <span># ABC</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="expr-match-string-substring-2"> <code>expr match &quot;$string&quot; '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>。</p>
-<h4 id="expr-string-substring-2"> <code>expr &quot;$string&quot; : '\($substring\)'</code></h4>
-<p>在 <code>$string</code> 中截取自 <code>$position</code> 起的字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       =======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>   <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.[b-c]*[A-Z]..[0-9]\)'</span><span>`</span></span>       <span># abcABC1</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'\(.......\)'</span><span>`</span></span>                   <span># abcABC1</span>
-<span># 上面所有的形式都给出了相同的结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="expr-match-string-substring-3"> <code>expr match &quot;$string&quot; '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<h4 id="expr-string-substring-3"> <code>expr &quot;$string&quot; : '.*\($substring\)'</code></h4>
-<p>从 <code>$string</code> 结尾部分截取 <code>$substring</code> 字符串，其中 <code>$substring</code> 是正则表达式。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                ======</span>
-
-<span>echo</span> <span><span>`</span><span>expr</span> match <span>"<span>$stringZ</span>"</span> <span>'.*\([A-C][A-C][A-C][a-c]*\)'</span><span>`</span></span>    <span># ABCabc</span>
-<span>echo</span> <span><span>`</span><span>expr</span> <span>"<span>$stringZ</span>"</span> <span>:</span> <span>'.*\(......\)'</span><span>`</span></span>                       <span># ABCabc</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除子串"> 删除子串</h3>
-<h4 id="string-substring"> <code>${string#substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最短的 <code>$substring</code>。</p>
-<h4 id="string-substring-2"> <code>${string##substring}</code></h4>
-<p>删除从 <code>$string</code> 起始部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#       |----|          最长</span>
-<span>#       |----------|    最短</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>a*C}</span>      <span># 123ABCabc</span>
-<span># 删除 'a' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>##</span>a*C}</span>     <span># abc</span>
-<span># 删除 'a' 与 'c' 之间最长的匹配。</span>
-
-
-
-<span># 你可以使用变量代替 substring。</span>
-
-<span>X</span><span>=</span><span>'a*C'</span>
-
-<span>echo</span> <span>${stringZ<span>#</span>$X}</span>      <span># 123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>##</span>$X}</span>     <span># abc</span>
-                        <span># 同上。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h4 id="string-substring-3"> <code>${string%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最短的 <code>$substring</code>。</p>
-<p>例如：</p>
-<div><pre><code><span># 将当前目录下所有后缀名为 "TXT" 的文件改为 "txt" 后缀。</span>
-<span># 例如 "file1.TXT" 改为 "file1.txt"。</span>
-
-<span>SUFF</span><span>=</span>TXT
-<span>suff</span><span>=</span>txt
-
-<span>for</span> <span>i</span> <span>in</span> <span><span>$(</span><span>ls</span> *.$SUFF<span>)</span></span>
-<span>do</span>
-  <span>mv</span> -f <span>$i</span> <span><span>$(</span>i%.$SUFF<span>)</span></span><span>.</span><span>$suff</span>
-  <span>#  除了从变量 $i 右侧匹配到的最短的字符串之外，</span>
-  <span>#+ 其他一切都保持不变。</span>
-<span>done</span> <span>### 如果需要，循环可以压缩成一行的形式。</span>
-
-<span># 感谢 Rory Winston。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h4 id="string-substring-4"> <code>${string%%substring}</code></h4>
-<p>删除从 <code>$string</code> 结尾部分起，匹配到的最长的 <code>$substring</code>。</p>
-<div><pre><code>
-<span>stringZ</span><span>=</span>abcABC123ABCabc
-<span>#                    ||     最短</span>
-<span>#        |------------|     最长</span>
-
-<span>echo</span> <span>${stringZ<span>%</span>b*c}</span>      <span># abcABC123ABCa</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最短的匹配。</span>
-
-<span>echo</span> <span>${stringZ<span>%%</span>b*c}</span>     <span># a</span>
-<span># 从结尾处删除 'b' 与 'c' 之间最长的匹配。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>这个操作对生成文件名非常有帮助。</p>
-<p>样例 10-3. 改变图像文件的格式及文件名</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>#  cvt.sh:</span>
-<span>#  将目录下所有的 MacPaint 文件转换为 "pbm" 格式。</span>
-
-<span>#  使用由 Brian Henderson (bryanh@giraffe-data.com) 维护的</span>
-<span>#+ "netpbm" 包下的 "macptobpm" 二进制工具。</span>
-<span>#  Netpbm 是大多数 Linux 发行版的标准组成部分。</span>
-
-<span>OPERATION</span><span>=</span>macptopbm
-<span>SUFFIX</span><span>=</span>pbm          <span># 新的文件名后缀。</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
-<span>then</span>
-  <span>directory</span><span>=</span><span>$1</span>      <span># 如果已经通过脚本参数传入了目录名的情况……</span>
-<span>else</span>
-  <span>directory</span><span>=</span><span>$PWD</span>    <span># 否则就使用当前工作目录。</span>
-<span>fi</span>
-
-<span>#  假设目标目录下的所有 MacPaint 图像文件都拥有</span>
-<span>#+ ".mac" 的文件后缀名。</span>
-
-<span>for</span> <span>file</span> <span>in</span> <span>$directory</span>/*    <span># 文件名匹配。</span>
-<span>do</span>
-  <span>filename</span><span>=</span><span>${file<span>%</span>.*c}</span>      <span>#  从文件名中删除 ".mac" 后缀</span>
-                            <span>#+ ('.*c' 匹配 '.' 与 'c' 之间的</span>
-                            <span>#  所有字符，包括其本身)。</span>
-  <span>$OPERATION</span> <span>$file</span> <span>></span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>
-                            <span># 将转换结果重定向到新的文件。</span>
-  <span>rm</span> -f <span>$file</span>               <span># 在转换后删除原文件。</span>
-  <span>echo</span> <span>"<span>$filename</span>.<span>$SUFFIX</span>"</span>  <span># 将记录输出到 stdout 中。</span>
-<span>done</span>
-
-<span>exit</span> <span>0</span>
-
-<span># 练习：</span>
-<span># -----</span>
-<span># 这个脚本会将当前工作目录下的所有文件进行转换。</span>
-<span># 修改脚本，使得它仅转换 ".mac" 后缀的文件。</span>
-
-
-
-<span># *** 还可以使用另外一种方法。 *** #</span>
-
-<span>#!/bin/bash</span>
-<span># 将图像批处理转换成不同的格式。</span>
-<span># 假设已经安装了 imagemagick。（在大部分 Linux 发行版中都有）</span>
-
-<span>INFMT</span><span>=</span>png   <span># 可以是 tif, jpg, gif 等等。</span>
-<span>OUTFMT</span><span>=</span>pdf  <span># 可以是 tif, jpg, gif, pdf 等等。</span>
-
-<span>for</span> <span>pic</span> <span>in</span> *<span>"<span>$INFMT</span>"</span>
-<span>do</span>
-  <span>p2</span><span>=</span><span><span>$(</span><span>ls</span> <span>"<span>$pic</span>"</span> <span>|</span> <span>sed</span> -e s/<span>\</span>.$INFMT//<span>)</span></span>
-  <span># echo $p2</span>
-  convert <span>"<span>$pic</span>"</span> <span>$p2</span><span>.</span><span>$OUTFMT</span>
-<span>done</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><p>样例 10-4. 将流音频格式转换成 ogg 格式</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ra2ogg.sh: 将流音频文件 (*.ra) 转换成 ogg 格式。</span>
-
-<span># 使用 "mplayer" 媒体播放器程序：</span>
-<span>#      http://www.mplayerhq.hu/homepage</span>
-<span># 使用 "ogg" 库与 "oggenc"：</span>
-<span>#      http://www.xiph.org/</span>
-<span>#</span>
-<span># 脚本同时需要安装一些解码器，例如 sipr.so 等等一些。</span>
-<span># 这些解码器可以在 compat-libstdc++ 包中找到。</span>
-
-
-<span>OFILEPREF</span><span>=</span><span>${1<span>%%</span>ra}</span>      <span># 删除 "ra" 后缀。</span>
-<span>OFILESUFF</span><span>=</span>wav           <span># wav 文件后缀。</span>
-<span>OUTFILE</span><span>=</span><span>"<span>$OFILEPREF</span>"</span>"<span>$OFILESUFF</span><span>"
-E_NOARGS=85
-
-if [ -z "</span><span>$1</span><span>" ]          # 必须指定一个文件进行转换。
-then
-  echo "</span>Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>[</span>filename<span>]</span><span>"
-  exit <span>$E_NOAGRS</span>
-fi
-
-
-######################################################
-mplayer "</span><span>$1</span><span>" -ao pcm:file=<span>$OUTFILE</span>
-oggenc "</span><span>$OUTFILE</span><span>"  # 由 oggenc 自动加上正确的文件后缀名。
-######################################################
-
-rm "</span><span>$OUTFILE</span><span>"      # 立即删除 *.wav 文件。
-                   # 如果你仍需保留原文件，注释掉上面这一行即可。
-                   
-exit <span>$?</span>
-
-#  注意：
-#  -----
-#  在网站上，点击一个 *.ram 的流媒体音频文件
-#+ 通常只会下载到 *.ra 音频文件的 URL。
-#  你可以使用 "</span><span>wget</span><span>" 或者类似的工具下载 *.ra 文件本身。
-
-
-#  练习：
-#  -----
-#  这个脚本仅仅转换 *.ra 文件。
-#  修改脚本增加适应性，使其可以转换 *.ram 或其他文件格式。
-#
-#  如果你非常有热情，你可以扩展这个脚本使其
-#+ 可以自动下载并且转换流媒体音频文件。
-#  给定一个 URL，自动下载流媒体音频文件 (使用 "</span>wget"<span>)</span>，
-<span>#+ 然后转换它。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>下面是使用字符串截取结构对 <a href="http://tldp.org/LDP/abs/html/extmisc.html#GETOPTY" target="_blank" rel="noopener noreferrer"><code>getopt</code></a> 的一个简单模拟。</p>
-<p>样例 10-5. 模拟 <code>getopt</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># getopt-simple.sh</span>
-<span># 作者: Chris Morgan</span>
-<span># 允许在高级脚本编程指南中使用。</span>
-
-
-<span>getopt_simple</span><span>(</span><span>)</span>
-<span>{</span>
-    <span>echo</span> <span>"getopt_simple()"</span>
-    <span>echo</span> <span>"Parameters are '<span>$*</span>'"</span>
-    <span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
-    <span>do</span>
-      <span>echo</span> <span>"Processing parameter of: '<span>$1</span>'"</span>
-      <span>if</span> <span>[</span> <span>${1<span>:</span>0<span>:</span>1}</span> <span>=</span> <span>'/'</span> <span>]</span>
-      <span>then</span>
-          <span>tmp</span><span>=</span><span>${1<span>:</span>1}</span>               <span># 删除开头的 '/'</span>
-          <span>parameter</span><span>=</span><span>${tmp<span>%%</span>=*}</span>     <span># 取出名称。</span>
-          <span>value</span><span>=</span><span>${tmp<span>##</span>*=}</span>         <span># 取出值。</span>
-          <span>echo</span> <span>"Parameter: '<span>$parameter</span>', value: '<span>$value</span>'"</span>
-          <span>eval</span> <span>$parameter</span><span>=</span><span>$value</span>
-      <span>fi</span>
-      <span>shift</span>
-    <span>done</span>
-<span>}</span>
-
-<span># 将所有参数传递给 getopt_simple()。</span>
-getopt_simple <span>$*</span>
-
-<span>echo</span> <span>"test is '<span>$test</span>'"</span>
-<span>echo</span> <span>"test2 is '<span>$test2</span>'"</span>
-
-<span>exit</span> <span>0</span>  <span># 可以查看该脚本的修改版 UseGetOpt.sh。</span>
-
----
-
-<span>sh</span> getopt_example.sh /test<span>=</span>value1 /test2<span>=</span>value2
-
-Parameters are <span>'/test=value1 /test2=value2'</span>
-Processing parameter of: <span>'/test=value1'</span>
-Parameter: <span>'test'</span>, value: <span>'value1'</span>
-Processing parameter of: <span>'/test2=value2'</span>
-Parameter: <span>'test2'</span>, value: <span>'value2'</span>
-<span>test</span> is <span>'value1'</span>
-test2 is <span>'value2'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><h3 id="子串替换"> 子串替换</h3>
-<h4 id="string-substring-replacement"> <code>${string/substring/replacement}</code></h4>
-<p>替换匹配到的第一个 <code>$substring</code> 为 <code>$replacement</code>。<sup></sup></p>
-<h4 id="string-substring-replacement-2"> <code>${string//substring/replacement}</code></h4>
-<p>替换匹配到的所有 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span>abc<span>/</span>xyz}</span>       <span># xyzABC123ABCabc</span>
-                              <span># 将匹配到的第一个 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc<span>/</span>xyz}</span>      <span># xyzABC123ABCxyz</span>
-                              <span># 将匹配到的所有 'abc' 替换为 'xyz'。</span>
-                              
-<span>echo</span>  ---------------
-<span>echo</span> <span>"<span>$stringZ</span>"</span>               <span># abcABC123ABCabc</span>
-<span>echo</span>  ---------------
-                              <span># 字符串本身并不会被修改！</span>
-                              
-<span># 匹配以及替换的字符串可以是参数么？</span>
-<span>match</span><span>=</span>abc
-<span>repl</span><span>=</span>000
-<span>echo</span> <span>${stringZ<span>/</span>$match<span>/</span>$repl}</span>  <span># 000ABC123ABCabc</span>
-<span>#              ^      ^         ^^^</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>$match<span>/</span>$repl}</span> <span># 000ABC123ABC000</span>
-<span># Yes!          ^      ^        ^^^         ^^^</span>
-
-<span>echo</span>
-
-<span># 如果没有给定 $replacement 字符串会怎样？</span>
-<span>echo</span> <span>${stringZ<span>/</span>abc}</span>           <span># ABC123ABCabc</span>
-<span>echo</span> <span>${stringZ<span>/</span><span>/</span>abc}</span>          <span># ABC123ABC</span>
-<span># 仅仅是将其删除而已。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h4 id="string-substring-replacement-3"> <code>${string/#substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最前端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<h4 id="string-substring-replacement-4"> <code>${string/%substring/replacement}</code></h4>
-<p>替换 <code>$string</code> 中最末端匹配到的 <code>$substring</code> 为 <code>$replacement</code>。</p>
-<div><pre><code><span>stringZ</span><span>=</span>abcABC123ABCabc
-
-<span>echo</span> <span>${stringZ<span>/</span><span>#</span>abc<span>/</span>XYZ}</span>          <span># XYZABC123ABCabc</span>
-                                  <span># 将前端的 'abc' 替换为 'XYZ'</span>
-                                  
-<span>echo</span> <span>${stringZ<span>/</span><span>%</span>abc<span>/</span>XYZ}</span>          <span># abcABC123ABCXYZ</span>
-                                  <span># 将末端的 'abc' 替换为 'XYZ'</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><hr>
-<section>
-<ol>
-<li id="footnote1"><p>这种情况同时适用于命令行参数和传入函数的参数。 </p>
-</li>
-<li id="footnote2"><p>注意根据使用时上下文的不同，<code>$substring</code> 和 <code>$replacement</code> 可以是文本字符串也可以是变量。可以参考第一个样例。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
+    <rights>Copyright by Clay</rights>
   </entry>
 </feed>
