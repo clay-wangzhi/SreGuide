@@ -19,7 +19,9 @@ tags:
 
 《高级Bash脚本编程指南》Revision 10中文版
 
-![](advanced-bash.png)
+![](shell 常用知识点.png)
+
+[详细的核心知识点 复习思维导图](https://clay-wangzhi.com/advanced-bash.png)
 
 ## 原著及早期翻译作品
 
