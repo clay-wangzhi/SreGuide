@@ -7,12 +7,6 @@ tags:
 
 # 使用Jenkins Pipeline自动化构建发布
 
-## 一、Jenkins介绍
-
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp)
-
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp)
-
 ## 二、Jenkins Pipeline介绍
 
 ### Jenkins Pipeline总体介绍

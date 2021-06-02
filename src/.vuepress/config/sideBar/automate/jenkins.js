@@ -1,17 +1,20 @@
 module.exports = [
   "",
+  {
+    title: "1 Jenkins 简介",
+    collapsable: false,
+    children: ["cicd", "first"]
+  },
   "install",
   "build-tools",
   "user-auth",
   {
     title: "管理 jenkins",
-    // path: "ad-hoc/",
     collapsable: false,
     children: ["restart",]
   },
   {
     title: "日常维护",
-    // path: "ad-hoc/",
     collapsable: false,
     children: ["migrate-job",]
   },

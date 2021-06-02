@@ -15,7 +15,7 @@ tags:
 
 ## 优秀教程
 
-[Jenkins 实践 | devops site](http://docs.idevops.site/jenkins/)
+[Jenkins 实践 | 泽阳](http://docs.idevops.site/jenkins/)
 
 [jenkins | willseecloud | 看云](https://www.kancloud.cn/willseecloud/jenkins/1860515)
 
