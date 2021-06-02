@@ -5,13 +5,13 @@ tags:
   - Jenkins
 ---
 
-# Jenkins关闭和重启的实现方式
+# Jenkins 关闭和重启的实现方式
 
-## 关闭jenkins
+## 关闭 jenkins
 
   只需要在访问jenkins服务器的网址url地址后加上exit。例如我jenkins的地址http://localhost:8080/，那么我只需要在浏览器地址栏上敲下**http://localhost:8080/exit** 网址就能关闭jenkins服务.
 
-## 重启Jenkins
+## 重启 Jenkins
 
  **http://localhost:8080/restart**
 
