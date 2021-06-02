@@ -13,6 +13,6 @@ module.exports = [
     title: "流水线核心语法",
     // path: "ad-hoc/",
     collapsable: false,
-    children: ["jenkins-shared-library", "dingding-plugin"]
+    children: ["jenkins-shared-library", "dingding-plugin", "pipeline-example"]
   },
 ]
