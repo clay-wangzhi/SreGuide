@@ -4,9 +4,9 @@ tags:
   - Jenkins
 ---
 
->  转载自：[DevOps、CI、CD都是什么鬼？| 晶晶的博客](https://blog.jjonline.cn/linux/238.html)
-
 # 1.1 DevOps、CI、CD都是什么鬼？
+
+> 转载自：[DevOps、CI、CD都是什么鬼？| 晶晶的博客](https://blog.jjonline.cn/linux/238.html)
 
 ![DevOps、Ci、Cd图](https://blog.jjonline.cn/Upload/image/201901/20190122160637.jpg)
 
