@@ -5,6 +5,11 @@ module.exports = [
     collapsable: false,
     children: ["cicd", "first"]
   },
+  {
+    title: "2 安装 Jenkins",
+    collapsable: false,
+    children: ["yum-install", "war-install", "ansible-install", "docker-install-jenkins"]
+  },
   "install",
   "build-tools",
   "user-auth",
