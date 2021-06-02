@@ -8,6 +8,7 @@ module.exports = {
     "/code/frontend/": require("./code/frontend"),
     "/cloudnative/docker/": require("./cloudnative/docker"),
     "/automate/ansible/": require("./automate/ansible"),
+    "/automate/jenkins/": require("./automate/jenkins"),
     "/web/nginx/": require("./web/nginx"),
     "/monitor/zabbix/": require("./monitor/zabbix"),
     "/monitor/elk/": require("./monitor/elk"),
