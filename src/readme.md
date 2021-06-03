@@ -43,6 +43,10 @@ project:
   - type: article
     name: Ansible 学习笔记
     link: /automate/ansible/
+  
+  - type: article
+    name: Jenkins 学习笔记
+    link: /automate/jenkins/
 
   - type: article
     name: ELK 学习笔记
