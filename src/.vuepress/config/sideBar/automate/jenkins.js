@@ -15,6 +15,11 @@ module.exports = [
     collapsable: false,
     children: ["userandpermissions", "api"]
   },
+  {
+    title: "4 流水线核心语法",
+    collapsable: false,
+    children: ["start-jenkinsfile", "pipelinesyntax", "groovy-simple-tutorial", "jenkins-shared-library", "dingding-plugin", "pipeline-dev-tools", ""]
+  },
   "build-tools",
   "user-auth",
   {
@@ -26,12 +31,6 @@ module.exports = [
     title: "日常维护",
     collapsable: false,
     children: ["migrate-job",]
-  },
-  {
-    title: "流水线核心语法",
-    // path: "ad-hoc/",
-    collapsable: false,
-    children: ["jenkins-shared-library", "dingding-plugin", "pipeline-example"]
   },
   "qa"
 ]

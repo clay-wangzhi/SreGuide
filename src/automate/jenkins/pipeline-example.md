@@ -4,7 +4,7 @@ tags:
   - Jenkins
 ---
 
-# pipeline 生产配置实例
+# 4.7 pipeline 生产配置实例
 
 ## pipeline配置java项目
 
@@ -309,6 +309,8 @@ sh 'rm merge_output.txt'
 
 
 ## 参考链接
+
+[Jenkins 安装和配置| judasn/Linux-Tutorial | github](https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/Jenkins-Install-And-Settings.md)
 
 [jenkins pipeline 局部变量定义及传递 | triThirty | csdn](https://blog.csdn.net/triThirty/article/details/91381502)
 
