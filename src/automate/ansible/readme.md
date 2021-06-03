@@ -24,11 +24,17 @@ tags:
 
 > 以下笔记大多数整理自以上两篇教程
 
+
+
+## 知识体系
+
 Hello Ansible~
 
 ![](ansible-com-know.png)
 
 [详细的核心知识点 复习思维导图](https://clay-wangzhi.com/ansible-core-know.png)
+
+
 
 ## Summary
 
