@@ -18,17 +18,20 @@ module.exports = [
   {
     title: "4 流水线核心语法",
     collapsable: false,
-    children: ["start-jenkinsfile", "pipelinesyntax", "groovy-simple-tutorial", "jenkins-shared-library", "dingding-plugin", "pipeline-dev-tools", ""]
+    children: ["start-jenkinsfile", "pipelinesyntax", "groovy-simple-tutorial", "jenkins-shared-library", "dingding-plugin", "pipeline-dev-tools"]
   },
-  "build-tools",
-  "user-auth",
   {
-    title: "管理 jenkins",
+    title: "5 流水线集成篇",
+    collapsable: false,
+    children: ["build-tools", "user-auth"]
+  },
+  {
+    title: "6 管理 jenkins",
     collapsable: false,
     children: ["restart",]
   },
   {
-    title: "日常维护",
+    title: "7 日常维护",
     collapsable: false,
     children: ["migrate-job",]
   },

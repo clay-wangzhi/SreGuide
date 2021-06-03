@@ -5,7 +5,7 @@ tags:
   - Jenkins
 ---
 
-# Jenkins Job迁移
+# 7.1 Jenkins Job迁移
 
 在工作中可能会遇到这样的场景，即需要把一个Jenkins Master上的job迁移到另外一台Jenkins Master上，那怎么做比较好呢？
 

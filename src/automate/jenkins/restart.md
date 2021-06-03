@@ -5,7 +5,7 @@ tags:
   - Jenkins
 ---
 
-# Jenkins 关闭和重启的实现方式
+# 6.1 Jenkins 关闭和重启的实现方式
 
 ## 关闭 jenkins
 
