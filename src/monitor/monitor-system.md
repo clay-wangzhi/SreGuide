@@ -1,6 +1,6 @@
 ---
-sticky: 50
-star: 50
+sticky: 10
+star: 10
 category: 监控
 ---
 
