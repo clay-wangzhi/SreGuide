@@ -27,6 +27,10 @@ Jenkins 2.x 实践指南 | 翟之军
 
 
 
+## 知识体系
+
+![](jenkins.png)
+
 ## Summary
 
 * 1 Jenkins 简介
