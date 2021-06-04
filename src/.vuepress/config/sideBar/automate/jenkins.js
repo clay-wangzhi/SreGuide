@@ -18,7 +18,7 @@ module.exports = [
   {
     title: "4 流水线核心语法",
     collapsable: false,
-    children: ["start-jenkinsfile", "pipelinesyntax", "groovy-simple-tutorial", "jenkins-shared-library", "dingding-plugin", "pipeline-dev-tools", "pipeline-example"]
+    children: ["start-jenkinsfile", "pipelinesyntax", "groovy-simple-tutorial", "jenkins-shared-library", "dingding-plugin", "pipeline-dev-tools", "pipeline-example", "validate-jenkinsfile"]
   },
   {
     title: "5 流水线集成篇",
