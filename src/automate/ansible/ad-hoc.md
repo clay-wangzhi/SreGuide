@@ -75,7 +75,7 @@ ssh-copy-id -i .ssh/id_rsa.pub ansible@db1.example.com
 命令执行模块包含如下 四个模块：
 
 - command模块：该模块通过-a跟上要执行的命令可以直接执行，不过命令里如果有带有如下字符部分则执行不成功 “ "<", ">", "|", "&" 
-- shell 模块：用法基本和command一样，不和command相同，但是支持解析特殊shell符号
+- shell 模块：用法基本和command一样，但是支持解析特殊shell符号
 - raw模块：执行底层shell命令。command和shell模块都是通过目标主机上的python代码启动/bin/sh来执行命令的，但目标主机上可能没有安装python，这时只能使用raw模块在远程主机上直接启动/bin/sh来执行命令，通常只有在目标主机上安装python时才使用raw模块，其它时候都不使用该模块
 - script模块：在远程主机上执行脚本文件，其原理是先将shell 复制到远程主机，再在远程主机上执行
 
