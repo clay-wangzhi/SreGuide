@@ -11,7 +11,7 @@ project:
   - type: link
     name: linux-command
     desc: Linux命令大全搜索工具
-    link: https://jaywcjlove.gitee.io/linux-command/
+    link: https://wangchujiang.com/linux-command/
 
   - type: link
     name: Docker — 从入门到实践
