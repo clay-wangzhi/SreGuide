@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Mon, 07 Jun 2021 12:53:21 GMT</pubDate>
-    <lastBuildDate>Mon, 07 Jun 2021 12:53:21 GMT</lastBuildDate>
+    <pubDate>Mon, 07 Jun 2021 13:31:42 GMT</pubDate>
+    <lastBuildDate>Mon, 07 Jun 2021 13:31:42 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -16,34 +16,14 @@
     <category>操作系统</category>
     <category>常见服务的搭建</category>
     <category>云原生</category>
+    <category>前端</category>
     <category>Golang</category>
     <category>Python</category>
     <category>Linux</category>
-    <category>前端</category>
     <category>MySQL</category>
     <category>Redis</category>
     <category>监控</category>
     <category>web中间件</category>
-    <item>
-      <title>23 未分类</title>
-      <link>https://clay-wangzhi.com/SUMMARY/</link>
-      <guid>https://clay-wangzhi.com/SUMMARY/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">23 未分类</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="_23-未分类"> 23 未分类</h2>
-<ul>
-<li>
-<p>[调优](23 未分类/调优.md)</p>
-</li>
-<li>
-<p>[PrometheusAlert](23 未分类/promethues-alerts.md)</p>
-</li>
-<li>
-<p>[grafana问题](27 监控体系/grafana问题.md)</p>
-</li>
-</ul>
-]]></content:encoded>
-    </item>
     <item>
       <title>3 Ansible Ad-hoc命令集</title>
       <link>https://clay-wangzhi.com/automate/ansible/ad-hoc/</link>
@@ -8278,6 +8258,73 @@ stage(&#39;Example Deploy&#39;) {
 ]]></content:encoded>
     </item>
     <item>
+      <title>8 Jenkins 常见问题</title>
+      <link>https://clay-wangzhi.com/automate/jenkins/qa/</link>
+      <guid>https://clay-wangzhi.com/automate/jenkins/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">8 Jenkins 常见问题</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_8-jenkins-常见问题"> 8 Jenkins 常见问题</h1>
+<h2 id="jenkins报错error-cloning-remote-repo-origin"> Jenkins报错Error cloning remote repo 'origin'</h2>
+<p>Jenkins配置了2个节点，但是只有master安装了git，很有可能任务被调到slave上执行所以报错</p>
+<p>解决办法</p>
+<ul>
+<li>slave安装git</li>
+<li>指定任务在master执行</li>
+</ul>
+<h2 id="jenkins添加从节点失败"> jenkins添加从节点失败</h2>
+<p>jenkins在添加从节点时
+可以在启动方式中选择：Non verifying Verification Strategy</p>
+<h2 id="jenkins配置ldap错误导致无法登陆的问题"> Jenkins配置ldap错误导致无法登陆的问题</h2>
+<p>为了方便用户管理，通过ldap集中式认证，让Gitlab和Jenkins都接入，这样就省去每个系统都是要创建用户的麻烦了。上一篇<a href="https://www.58jb.com/html/121.html" target="_blank" rel="noopener noreferrer">Jenkins整合ldap认证</a>的文章中有网友发邮件说了，配置不当导致Jenkins无法登陆，可能文章未能详细说明。</p>
+<p>运维人员都会有这样的操作，修改任何配置文件前都会来一个备份。就是确保万一出错了可以回到之前的状态。所以建议就是Jenkins配置的问题，特别是这个登陆认证的配置，一搞错了就无法登陆。甚至无法正常访问到系统。
+默认Centos7使用rpm安装的目录为：/var/lib/jenkins/</p>
+<p>备份配置文件：config.xml</p>
+<div><pre><code>[root@jenkins ~]# cp /var/lib/jenkins/config.xml{,$(date +%F)}
+[root@jenkins ~]# ls /var/lib/jenkins/config.xml
+config.xml            config.xml2019-06-12
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>然后在config.xml配置文件中找到这段关于ldap认证的信息：</p>
+<div><pre><code>  &lt;securityRealm class=&quot;hudson.security.LDAPSecurityRealm&quot; plugin=&quot;ldap@1.20&quot;&gt;
+    &lt;disableMailAddre***esolver&gt;false&lt;/disableMailAddre***esolver&gt;
+    &lt;configurations&gt;
+      &lt;jenkins.security.plugins.ldap.LDAPConfiguration&gt;
+        &lt;server&gt;ldap://XXXXXX.com:389&lt;/server&gt;
+        &lt;rootDN&gt;dc=XXXXXX,dc=com&lt;/rootDN&gt;
+        &lt;inhibitInferRootDN&gt;false&lt;/inhibitInferRootDN&gt;
+        &lt;userSearchBase&gt;&lt;/userSearchBase&gt;
+        &lt;userSearch&gt;uid={0}&lt;/userSearch&gt;
+        &lt;groupMembershipStrategy class=&quot;jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy&quot;&gt;
+          &lt;filter&gt;cn=jenkins&lt;/filter&gt;
+        &lt;/groupMembershipStrategy&gt;
+        &lt;managerDN&gt;uid=jarry,ou=People,dc=XXXXXX,dc=com&lt;/managerDN&gt;
+        &lt;managerPasswordSecret&gt;{AQAAABAAAAAQWfZrb7qoIjewuj3SK/z53/oRo86cW5wi/t07QeW/4mM=}&lt;/managerPasswordSecret&gt;
+        &lt;displayNameAttributeName&gt;uid&lt;/displayNameAttributeName&gt;
+        &lt;mailAddressAttributeName&gt;mail&lt;/mailAddressAttributeName&gt;
+        &lt;ignoreIfUnavailable&gt;false&lt;/ignoreIfUnavailable&gt;
+        &lt;extraEnvVars class=&quot;linked-hash-map&quot;&gt;
+          &lt;entry&gt;
+            &lt;string&gt;&lt;/string&gt;
+            &lt;string&gt;&lt;/string&gt;
+          &lt;/entry&gt;
+        &lt;/extraEnvVars&gt;
+      &lt;/jenkins.security.plugins.ldap.LDAPConfiguration&gt;
+    &lt;/configurations&gt;
+    &lt;userIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
+    &lt;groupIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
+    &lt;disableRolePrefixing&gt;true&lt;/disableRolePrefixing&gt;
+  &lt;/securityRealm&gt;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>上面的配置不当导致了无法通过ldap认证，而且导致jenkins也无法正常登陆了，可以把上面一段修改成以下样子：</p>
+<div><pre><code>   &lt;securityRealm class=&quot;hudson.security.HudsonPrivateSecurityRealm&quot;&gt;
+     &lt;disableSignup&gt;false&lt;/disableSignup&gt;
+     &lt;enableCaptcha&gt;false&lt;/enableCaptcha&gt;
+   &lt;/securityRealm&gt;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>文章来源：https://www.58jb.com/html/jenkins_ldap_login_failure.html</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Jenkins 学习笔记</title>
       <link>https://clay-wangzhi.com/automate/jenkins/</link>
       <guid>https://clay-wangzhi.com/automate/jenkins/</guid>
@@ -10565,6 +10612,18 @@ Connection closed by foreign host.
       <content:encoded><![CDATA[<h1 id="docker-学习笔记"> Docker 学习笔记</h1>
 <h2 id="文章推荐"> 文章推荐</h2>
 <p><a href="https://vuepress.mirror.docker-practice.com/" target="_blank" rel="noopener noreferrer">Docker — 从入门到实践 | yeasy</a> ⭐️</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>前端学习笔记</title>
+      <link>https://clay-wangzhi.com/code/frontend/</link>
+      <guid>https://clay-wangzhi.com/code/frontend/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">前端学习笔记</source>
+      <category>前端</category>
+      <pubDate>Sun, 30 May 2021 09:17:19 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
+<h2 id="文章推荐"> 文章推荐</h2>
+<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
 ]]></content:encoded>
     </item>
     <item>
@@ -13385,6 +13444,546 @@ logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>F
 ]]></content:encoded>
     </item>
     <item>
+      <title>03 哈希表和解析式</title>
+      <link>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</link>
+      <guid>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">03 哈希表和解析式</source>
+      <category>Python</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_03-哈希表和解析式"> 03 哈希表和解析式</h1>
+<h2 id="封装和解构"> 封装和解构</h2>
+<h3 id="基本概念"> 基本概念</h3>
+<div><pre><code>t1 <span>=</span> <span>1</span><span>,</span> <span>2</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>t1<span>)</span><span>)</span> <span># 什么类型, tuple</span>
+
+t2 <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>t2<span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>Python等式右侧出现逗号分隔的多值的时候，就会将这几个值封装到元组中。这种操作称为封装packing。</p>
+<div><pre><code>x<span>,</span> y <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
+<span>print</span><span>(</span>x<span>)</span> <span># 1</span>
+<span>print</span><span>(</span>y<span>)</span> <span># 2</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>Python 中等式右侧是一个容器类型，左侧是逗号分隔的多个标识符，将右侧容器中数据的一个个和左侧
+标识符一一对应。这种操作称为解构 unpacking。</p>
+<p>从 Python3 开始，对解构做了很大的改进，现在用起来已经非常的方便快捷。</p>
+<p>封装和解构是非常方便的提取数据的方法，在 Python、JavaScript 等语言中应用极广。</p>
+<div><pre><code><span># 交换数据</span>
+x <span>=</span> <span>4</span>
+y <span>=</span> <span>5</span>
+t <span>=</span> x
+x <span>=</span> y
+y <span>=</span> t
+
+<span># 封装和解构，交换</span>
+x <span>=</span> <span>10</span>
+y <span>=</span> <span>11</span>
+x<span>,</span> y <span>=</span> y<span>,</span> x
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="简单解构"> 简单解构</h3>
+<div><pre><code><span># 左右个数相同  ,必须相等</span>
+a<span>,</span>b <span>=</span> <span>1</span><span>,</span><span>2</span>
+a<span>,</span>b <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
+a<span>,</span>b <span>=</span> <span>[</span><span>1</span><span>,</span><span>2</span><span>]</span>
+a<span>,</span>b <span>=</span> <span>[</span><span>10</span><span>,</span><span>20</span><span>]</span>
+a<span>,</span>b <span>=</span> <span>{</span><span>10</span><span>,</span><span>20</span><span>}</span> <span># 非线性结构</span>
+a<span>,</span>b <span>=</span> <span>{</span><span>'a'</span><span>:</span><span>10</span><span>,</span><span>'b'</span><span>:</span><span>20</span><span>}</span> <span># 非线性结构也可以解构</span>
+<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
+<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>10</span><span>,</span><span>20</span>
+<span>(</span>a<span>,</span>b<span>)</span> <span>=</span> <span>{</span><span>30</span><span>,</span><span>40</span><span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h3 id="剩余变量解构"> 剩余变量解构</h3>
+<p>在 Python3.0 中增加了剩余变量解构（rest）。</p>
+<div><pre><code>a<span>,</span> <span>*</span>rest<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
+<span>print</span><span>(</span>a<span>,</span> b<span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>rest<span>)</span><span>,</span> rest<span>)</span> <span># &lt;class 'list'> [2, 3, 4]</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>标识符 rest 将尽可能收集剩余的数据组成一个列表。</p>
+<div><pre><code>a<span>,</span> <span>*</span>_<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 在IPython中实验，_是最后一个输出值，这里将把它覆盖</span>
+_<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 第一个_是什么</span>
+<span>print</span><span>(</span>b<span>)</span> <span># 是什么</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 第二个_是什么</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>_ 是合法的标识符，这里它没有什么可读性，它在这里的作用就是表示不关心这个变量的值，我不想要。有人把它称作 丢弃(Throwaway)变量。</p>
+<h2 id="集合-set"> 集合 set</h2>
+<p>集合，简称集。由任意个元素构成的集体。高级语言都实现了这个非常重要的数据结构类型。</p>
+<p>Python中，它是可变的、无序的、不重复的元素的集合。</p>
+<h3 id="初始化"> 初始化</h3>
+<ul>
+<li>set() -&gt; new empty set object</li>
+<li>set(iterable) -&gt; new set object</li>
+</ul>
+<div><pre><code>s1 <span>=</span> <span>set</span><span>(</span><span>)</span>
+s2 <span>=</span> <span>set</span><span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span>
+s3 <span>=</span> <span>set</span><span>(</span><span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span><span>)</span>  <span># 报错</span>
+s4 <span>=</span> <span>set</span><span>(</span><span>'abcdabcd'</span><span>)</span>
+s5 <span>=</span> <span>{</span><span>}</span> <span># 这是什么？  z字典</span>
+s6 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>}</span>
+s7 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>(</span><span>1</span><span>,</span><span>)</span><span>}</span>
+s8 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>(</span><span>1</span><span>,</span><span>)</span><span>,</span> <span>[</span><span>1</span><span>]</span><span>}</span> <span>#  报错</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="元素性质"> 元素性质</h3>
+<ul>
+<li>去重：在集合中，所有元素必须相异</li>
+<li>无序：因为无序，所以不可索引</li>
+<li>可哈希：Python集合中的元素必须可以hash，即元素都可以使用内建函数hash
+<ul>
+<li>目前学过不可hash的类型有：list、set、bytearray</li>
+</ul>
+</li>
+<li>可迭代：set中虽然元素不一样，但元素都可以迭代出来</li>
+</ul>
+<h3 id="增加"> 增加</h3>
+<ul>
+<li>add(elem)
+<ul>
+<li>增加一个元素到 set 中</li>
+<li>如果元素存在，什么都不做</li>
+</ul>
+</li>
+<li>update(*others)
+<ul>
+<li>合并其他元素到set集合中来</li>
+<li>参数others必须是可迭代对象</li>
+<li>就地修改</li>
+</ul>
+</li>
+</ul>
+<div><pre><code>s <span>=</span> <span>set</span><span>(</span><span>)</span>
+s<span>.</span>add<span>(</span><span>1</span><span>)</span>
+s<span>.</span>update<span>(</span><span>(</span><span>1</span><span>,</span><span>2</span><span>,</span><span>3</span><span>)</span><span>,</span> <span>[</span><span>2</span><span>,</span><span>3</span><span>,</span><span>4</span><span>]</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="删除"> 删除</h3>
+<ul>
+<li>
+<p>remove(elem)</p>
+<ul>
+<li>从set中移除一个元素</li>
+<li>元素不存在，抛出KeyError异常。为什么是KeyError？</li>
+</ul>
+</li>
+<li>
+<p>discard(elem)</p>
+<ul>
+<li>从set中移除一个元素</li>
+<li>元素不存在，什么都不做</li>
+</ul>
+</li>
+<li>
+<p>pop() -&gt; item</p>
+<ul>
+<li>移除并返回任意的元素。为什么是任意元素？ 因为是随机的，无序的</li>
+<li>空集返回KeyError异常</li>
+</ul>
+</li>
+<li>
+<p>clear()</p>
+<ul>
+<li>移除所有元素</li>
+</ul>
+</li>
+</ul>
+<div><pre><code>s <span>=</span> <span>set</span><span>(</span><span>range</span><span>(</span><span>10</span><span>)</span><span>)</span>
+s<span>.</span>remove<span>(</span><span>0</span><span>)</span>
+<span>#s.remove(11) # KeyError为什么</span>
+s<span>.</span>discard<span>(</span><span>11</span><span>)</span>
+s<span>.</span>pop<span>(</span><span>)</span>
+s<span>.</span>clear<span>(</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="修改"> 修改</h3>
+<p>集合类型没有修改。因为元素唯一。如果元素能够加入到集合中，说明它和别的元素不一样。</p>
+<p>所谓修改，其实就是把当前元素改成一个完全不同的元素，就是删除加入新元素。</p>
+<h3 id="索引"> 索引</h3>
+<p>非线性结构，不可索引。</p>
+<h3 id="遍历"> 遍历</h3>
+<p>只要是容器，都可以遍历元素。但是效率都是O(n)</p>
+<h3 id="成员运算符-in"> 成员运算符 in</h3>
+<div><pre><code><span>print</span><span>(</span><span>10</span> <span>in</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span><span>)</span>
+<span>print</span><span>(</span><span>10</span> <span>in</span> <span>{</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>}</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面2句代码，分别在列表和集合中搜索元素。如果列表和集合的元素都有100万个，谁的效率高？ 集合效率高</p>
+<p>set、dict 使用 hash 表实现，内部使用 hash 值作为 key，时间复杂度为 O(1)，查询时间和数据规模无关，不会随着数据规模增大而搜索性能下降。</p>
+<h3 id="集合概念"> 集合概念</h3>
+<ul>
+<li>全集
+<ul>
+<li>所有元素的集合。例如实数集，所有实数组成的集合就是全集</li>
+</ul>
+</li>
+<li>子集 bset 和超集 superset
+<ul>
+<li>一个集合A所有元素都在另一个集合B内，A是B的子集，B是A的超集</li>
+</ul>
+</li>
+<li>真子集和真超集
+<ul>
+<li>A是B的子集，且A不等于B，A就是B的真子集，B是A的真超集</li>
+</ul>
+</li>
+<li>并集：多个集合合并的结果</li>
+<li>交集：多个集合的公共部分</li>
+<li>差集：集合中除去和其他集合公共部分</li>
+</ul>
+<p><strong>并集</strong></p>
+<p>将两个集合A和B的所有的元素合并到一起，组成的集合称作集合A与集合B的并集</p>
+<ul>
+<li>union(*others) 返回和多个集合合并后的新的集合</li>
+<li><code>|</code> 运算符重载，等同 union</li>
+<li>update(*others) 和多个集合合并，就地修改</li>
+<li><code>|=</code> 等同update</li>
+</ul>
+<p><strong>交集</strong></p>
+<p>集合A和B，由所有属于A且属于B的元素组成的集合</p>
+<ul>
+<li>intersection(*others) 返回和多个集合的交集</li>
+<li><code>&amp;</code> 等同 intersection</li>
+<li><code>intersection_update(*others)</code> 获取和多个集合的交集，并就地修改</li>
+<li><code>&amp;=</code> 等同 intersection_update</li>
+</ul>
+<p><strong>差集</strong></p>
+<p>集合A和B，由所有属于A且不属于B的元素组成的集合</p>
+<ul>
+<li>
+<p><code>difference(*others)</code> 返回和多个集合的差集</p>
+</li>
+<li>
+<p><code>-</code> 等同difference</p>
+</li>
+<li>
+<p><code>difference_update(*others)</code>获取和多个集合的差集并就地修改</p>
+</li>
+<li>
+<p><code>-=</code> 等同difference_update</p>
+</li>
+</ul>
+<p><strong>对称差集</strong></p>
+<p>集合A和B，由所有不属于A和B的交集元素组成的集合，记作（A-B）∪（B-A）</p>
+<ul>
+<li><code>symmetric_differece(other)</code>返回和另一个集合的对称差集</li>
+<li><code>^</code> 等同symmetric_differece</li>
+<li><code>symmetric_differece_update(other)</code> 获取和另一个集合的对称差集并就地修改</li>
+<li><code>^=</code> 等同symmetric_differece_update</li>
+</ul>
+<p><strong>其它集合运算</strong></p>
+<ul>
+<li><code>issubset(other)、&lt;=</code> 判断当前集合是否是另一个集合的子集</li>
+<li><code>set1 &lt; set2</code> 判断set1是否是set2的真子集</li>
+<li><code>issuperset(other)、&gt;=</code> 判断当前集合是否是other的超集</li>
+<li><code>set1 &gt; set2</code> 判断set1是否是set2的真超集</li>
+<li><code>isdisjoint(other)</code> 当前集合和另一个集合没有交集，没有交集，返回True</li>
+</ul>
+<h2 id="字典-dict"> 字典 dict</h2>
+<p>Dict 即 Dictionary，也称为 mapping。</p>
+<p>Python 中，字典由任意个元素构成的集合，每一个元素称为 Item，也称为 Entry。这个 Item 是由(key,
+value)组成的二元组。</p>
+<p>字典是可变的、无序的、key 不重复的 key-value 键值对集合。</p>
+<h3 id="初始化-2"> 初始化</h3>
+<ul>
+<li><code>dict(**kwargs)</code> 使用 name=value 对初始化一个字典</li>
+<li><code>dict(iterable, **kwarg)</code> 使用可迭代对象和name=value对构造字典，不过可迭代对象的元素必须是一个二元结构</li>
+<li><code>dict(mapping, **kwarg)</code> 使用一个字典构建另一个字典</li>
+</ul>
+<p>字典的初始化方法都非常常用，都需要会用</p>
+<div><pre><code>d1 <span>=</span> <span>{</span><span>}</span>
+d2 <span>=</span> <span>dict</span><span>(</span><span>)</span>
+d3 <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>100</span><span>,</span> b<span>=</span><span>200</span><span>)</span>
+d4 <span>=</span> <span>dict</span><span>(</span>d3<span>)</span> <span># 构造另外一个字典</span>
+d5 <span>=</span> <span>dict</span><span>(</span>d4<span>,</span> a<span>=</span><span>300</span><span>,</span> c<span>=</span><span>400</span><span>)</span>
+d6 <span>=</span> <span>dict</span><span>(</span><span>[</span><span>(</span><span>'a'</span><span>,</span> <span>100</span><span>)</span><span>,</span> <span>[</span><span>'b'</span><span>,</span> <span>200</span><span>]</span><span>,</span> <span>(</span><span>1</span><span>,</span> <span>'abc'</span><span>)</span><span>]</span><span>,</span> b<span>=</span><span>300</span><span>,</span> c<span>=</span><span>400</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><div><pre><code><span># 类方法dict.fromkeys(iterable, value)</span>
+d <span>=</span> <span>dict</span><span>.</span>fromkeys<span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span>
+d <span>=</span> <span>dict</span><span>.</span>fromkeys<span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>,</span> <span>0</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="元素访问"> 元素访问</h3>
+<ul>
+<li>d[key]
+<ul>
+<li>返回 key 对应的值 value</li>
+<li>key 不存在抛出 KeyError 异常</li>
+</ul>
+</li>
+<li>get(key[, default])
+<ul>
+<li>返回 key 对应的值 value</li>
+<li>key 不存在返回缺省值，如果没有设置缺省值就返回 None</li>
+</ul>
+</li>
+<li>setdefault(key[, default])
+<ul>
+<li>返回 key 对应的值 value</li>
+<li>key 不存在，添加 kv 对，value 设置为 default，并返回 default，如果 default 没有设置，缺省
+为None</li>
+</ul>
+</li>
+</ul>
+<h3 id="新增和修改"> 新增和修改</h3>
+<ul>
+<li>d[key] = value
+<ul>
+<li>将 key 对应的值修改为 value</li>
+<li>key不存在添加新的kv对</li>
+</ul>
+</li>
+<li>update([other]) -&gt; None
+<ul>
+<li>使用另一个字典的 kv 对更新本字典</li>
+<li>key不存在，就添加</li>
+<li>key存在，覆盖已经存在的key对应的值</li>
+<li>就地修改</li>
+</ul>
+</li>
+</ul>
+<div><pre><code>d <span>=</span> <span>{</span><span>}</span>
+d<span>[</span><span>'a'</span><span>]</span> <span>=</span> <span>1</span>
+d<span>.</span>update<span>(</span>red<span>=</span><span>1</span><span>)</span>
+d<span>.</span>update<span>(</span><span>[</span><span>'red'</span><span>,</span> <span>2</span><span>]</span><span>)</span> <span># 错误格式</span>
+d<span>.</span>update<span>(</span><span>{</span><span>'red'</span><span>:</span><span>3</span><span>}</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除-2"> 删除</h3>
+<ul>
+<li>pop(key[, default])
+<ul>
+<li>key存在，移除它，并返回它的value</li>
+<li>key不存在，返回给定的default</li>
+<li>default未设置，key不存在则抛出KeyError异常</li>
+</ul>
+</li>
+<li>popitem()
+<ul>
+<li>移除并返回一个任意的键值对</li>
+<li>字典为empty，抛出KeyError异常</li>
+</ul>
+</li>
+<li>clear()
+<ul>
+<li>清空字典</li>
+</ul>
+</li>
+</ul>
+<h3 id="遍历-2"> 遍历</h3>
+<p>1、遍历 Key</p>
+<div><pre><code><span>for</span> k <span>in</span> d<span>:</span>
+	<span>print</span><span>(</span>k<span>)</span>
+    
+<span>for</span> k <span>in</span> d<span>.</span>keys<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>k<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>2、遍历Value</p>
+<div><pre><code><span>for</span> v <span>in</span> d<span>.</span>values<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>v<span>)</span>
+    
+<span>for</span> k <span>in</span> d<span>.</span>keys<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>d<span>[</span>k<span>]</span><span>)</span>
+	<span>print</span><span>(</span>d<span>.</span>get<span>(</span>k<span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>3、遍历Item</p>
+<div><pre><code><span>for</span> item <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>item<span>)</span>
+	<span>print</span><span>(</span>item<span>[</span><span>0</span><span>]</span><span>,</span> item<span>[</span><span>1</span><span>]</span><span>)</span>
+    
+<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>k<span>,</span> v<span>)</span>
+    
+<span>for</span> k<span>,</span>_ <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>k<span>)</span>
+    
+<span>for</span> _<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>v<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>Python3 中，keys、values、items方法返回一个类似一个生成器的可迭代对象</p>
+<ul>
+<li>Dictionary view对象，可以使用len()、iter()、in操作</li>
+<li>字典的entry的动态的视图，字典变化，视图将反映出这些变化</li>
+<li>keys返回一个类set对象，也就是可以看做一个set集合。如果values都可以hash，那么items也可以看做是类set对象</li>
+</ul>
+<p>Python2 中，上面的方法会返回一个新的列表，立即占据新的内存空间。所以 Python2 建议使用 iterkeys、itervalues、iteritems 版本，返回一个迭代器，而不是返回一个copy</p>
+<h3 id="遍历与删除"> 遍历与删除</h3>
+<div><pre><code><span># 错误的做法</span>
+d <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>1</span><span>,</span> b<span>=</span><span>2</span><span>,</span> c<span>=</span><span>3</span><span>)</span>
+<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	<span>print</span><span>(</span>d<span>.</span>pop<span>(</span>k<span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>在使用keys、values、items方法遍历的时候，不可以改变字典的size</p>
+<div><pre><code><span>while</span> <span>len</span><span>(</span>d<span>)</span><span>:</span>
+	<span>print</span><span>(</span>d<span>.</span>popitem<span>(</span><span>)</span><span>)</span>
+    
+<span>while</span> d<span>:</span>
+	<span>print</span><span>(</span>d<span>.</span>popitem<span>(</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>上面的 while 循环虽然可以移除字典元素，但是很少使用，不如直接 clear。</p>
+<div><pre><code><span># for 循环正确删除</span>
+d <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>1</span><span>,</span> b<span>=</span><span>2</span><span>,</span> c<span>=</span><span>3</span><span>)</span>
+keys <span>=</span> <span>[</span><span>]</span>
+<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
+	keys<span>.</span>append<span>(</span>k<span>)</span>
+    
+<span>for</span> k <span>in</span> keys<span>:</span>
+	d<span>.</span>pop<span>(</span>k<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="key"> key</h3>
+<p>字典的 key 和 set 的元素要求一致</p>
+<ul>
+<li>set 的元素可以就是看做 key，set 可以看做 dict 的简化版</li>
+<li>hashable 可哈希才可以作为 key，可以使用 hash() 测试</li>
+<li>使用key访问，就如同列表使用index访问一样，时间复杂度都是O(1)，这也是最好的访问元素的方式</li>
+</ul>
+<div><pre><code>d <span>=</span> <span>{</span>
+    <span>1</span> <span>:</span> <span>0</span><span>,</span>
+    <span>2.0</span> <span>:</span> <span>3</span><span>,</span>
+    <span>"abc"</span> <span>:</span> <span>None</span><span>,</span>
+    <span>(</span><span>'hello'</span><span>,</span> <span>'world'</span><span>,</span> <span>'python'</span><span>)</span> <span>:</span> <span>"string"</span><span>,</span>
+    <span>b'abc'</span> <span>:</span> <span>'135'</span>
+<span>}</span>
+
+<span>print</span><span>(</span>d<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="有序性"> 有序性</h3>
+<p>后续补充</p>
+<h2 id="解析式和生成器表达式"> 解析式和生成器表达式</h2>
+<h3 id="列表解析式"> 列表解析式</h3>
+<p>列表解析式 List Comprehension，也叫列表推导式。</p>
+<div><pre><code><span># 生成一个列表，元素0~9，将每一个元素加1后的平方值组成新的列表</span>
+x <span>=</span> <span>[</span><span>]</span>
+<span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>:</span>
+    x<span>.</span>append<span>(</span><span>(</span>i<span>+</span><span>1</span><span>)</span><span>**</span><span>2</span><span>)</span>
+<span>print</span><span>(</span>x<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code><span># 列表解析式</span>
+<span>print</span><span>(</span><span>[</span><span>(</span>i<span>+</span><span>1</span><span>)</span><span>**</span><span>2</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>]</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>语法</p>
+<ul>
+<li>[返回值 for 元素 in 可迭代对象 if 条件]</li>
+<li>使用中括号[]，内部是 for 循环，if 条件语句可选</li>
+<li>返回一个新的列表</li>
+</ul>
+<p>列表解析式是一种语法糖</p>
+<ul>
+<li>编译器会优化，不会因为简写而影响效率，反而因优化提高了效率</li>
+<li>减少程序员工作量，减少出错</li>
+<li>简化了代码，增强了可读性</li>
+</ul>
+<div><pre><code><span>[</span>expr <span>for</span> item <span>in</span> iterable <span>if</span> cond1 <span>if</span> cond2<span>]</span>
+等价于
+ret <span>=</span> <span>[</span><span>]</span>
+<span>for</span> item <span>in</span> iterable<span>:</span>
+    <span>if</span> cond1<span>:</span>
+    	<span>if</span> cond2<span>:</span>
+        	ret<span>.</span>append<span>(</span>expr<span>)</span>
+<span>#</span>
+<span>[</span>expr <span>for</span> i <span>in</span> iterable1 <span>for</span> j <span>in</span> iterable2 <span>]</span>
+等价于
+ret <span>=</span> <span>[</span><span>]</span>
+<span>for</span> i <span>in</span> iterable1<span>:</span>
+    <span>for</span> j <span>in</span> iterable2<span>:</span>
+        ret<span>.</span>append<span>(</span>expr<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 因为循环或判断只有一个，一斜到底，所以结果相同</span>
+<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> j<span>></span><span>23</span><span>]</span>
+<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>if</span> j<span>></span><span>23</span><span>]</span>
+<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>and</span> j<span>></span><span>23</span><span>]</span>
+<span># 都是[(5, 24), (6, 24)]</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="生成器表达式"> 生成器表达式</h3>
+<p>语法</p>
+<ul>
+<li>(返回值 for 元素 in 可迭代对象 if 条件)</li>
+<li>列表解析式的中括号换成小括号就行了</li>
+<li>返回一个生成器对象</li>
+</ul>
+<p>和列表解析式的区别</p>
+<ul>
+<li>生成器表达式是按需计算（或称惰性求值、延迟计算），需要的时候才计算值，返回可迭代对象迭代器，只能迭代一次</li>
+<li>列表解析式是立即返回值，返回可迭代对象列表，不是迭代器，可反复迭代</li>
+</ul>
+<p>生成器对象</p>
+<ul>
+<li>可迭代对象</li>
+<li>迭代器</li>
+</ul>
+<p><strong>生成器表达式和列表解析式对比</strong></p>
+<ul>
+<li>计算方式
+<ul>
+<li>生成器表达式延迟计算，列表解析式立即计算</li>
+</ul>
+</li>
+<li>内存占用
+<ul>
+<li>单从返回值本身来说，生成器表达式省内存，列表解析式返回新的列表</li>
+<li>生成器没有数据，内存占用极少，但是使用的时候，虽然一个个返回数据，但是合起来占用的内存也差不多</li>
+<li>列表解析式构造新的列表需要立即占用掉内存</li>
+</ul>
+</li>
+<li>计算速度
+<ul>
+<li>单看计算时间看，生成器表达式耗时非常短，列表解析式耗时长</li>
+<li>但生成器本身并没有返回任何值，只返回了一个生成器对象</li>
+<li>列表解析式构造并返回了一个新的列表</li>
+</ul>
+</li>
+</ul>
+<h3 id="集合解析式"> 集合解析式</h3>
+<p>语法</p>
+<ul>
+<li>{返回值 for 元素 in 可迭代对象 if 条件}</li>
+<li>列表解析式的中括号换成大括号{}就变成了集合解析式</li>
+<li>立即返回一个集合</li>
+</ul>
+<div><pre><code><span>{</span><span>(</span>x<span>,</span> x<span>+</span><span>1</span><span>)</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span>
+<span>{</span><span>[</span>x<span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span> <span># 可以吗？ 不可以 list是不可hash的</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="字典解析式"> 字典解析式</h3>
+<p>语法</p>
+<ul>
+<li>{key:value for 元素 in 可迭代对象 if 条件}</li>
+<li>列表解析式的中括号换成大括号{}，元素的构造使用 key:value 形式</li>
+<li>立即返回一个字典</li>
+</ul>
+<div><pre><code><span>print</span><span>(</span><span>{</span>x<span>:</span><span>(</span>x<span>,</span>x<span>+</span><span>1</span><span>)</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
+<span>print</span><span>(</span><span>{</span>x<span>:</span><span>[</span>x<span>,</span>x<span>+</span><span>1</span><span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
+<span>print</span><span>(</span><span>{</span><span>(</span>x<span>,</span><span>)</span><span>:</span><span>[</span>x<span>,</span>x<span>+</span><span>1</span><span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
+<span># print({[x]:[x,x+1] for x in range(10)}) # 错误 key要求 可hash</span>
+<span>print</span><span>(</span><span>{</span><span>str</span><span>(</span>x<span>)</span><span>:</span>y <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span> <span>for</span> y <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>}</span><span>)</span> <span># 输出多少个元素？ 返回三个元素，key值唯一，{'0': 3, '1': 3, '2': 3}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="总结"> 总结</h3>
+<ul>
+<li>Python2 引入列表解析式</li>
+<li>Python2.4 引入生成器表达式</li>
+<li>Python3 引入集合、字典解析式，并迁移到了2.7</li>
+</ul>
+<p>一般来说，应该多应用解析式，简短、高效。如果一个解析式非常复杂，难以读懂，要考虑拆解成for循环。</p>
+<p>生成器和迭代器是不同的对象，但都是可迭代对象。</p>
+<p>如果不需要立即获得所有可迭代对象的元素，在Python 3中，推荐使用惰性求值的迭代器。</p>
+<table>
+<thead>
+<tr>
+<th>内建函数</th>
+<th>函数签名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sorted</td>
+<td>sorted(iterable[,key][,reverse])</td>
+<td>默认升序，对可迭代对象排序<br/>立即返回列表</td>
+</tr>
+</tbody>
+</table>
+<div><pre><code><span># 排序一定是容器内全体参与</span>
+<span>print</span><span>(</span><span>sorted</span><span>(</span><span>[</span><span>1</span><span>,</span><span>2</span><span>,</span><span>3</span><span>,</span><span>4</span><span>,</span><span>5</span><span>]</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>sorted</span><span>(</span><span>range</span><span>(</span><span>10</span><span>,</span> <span>20</span><span>)</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>100</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>100</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>items<span>(</span><span>)</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>'ABC'</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>values<span>(</span><span>)</span><span>,</span> key<span>=</span><span>str</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>python 实际工作中的实例</title>
       <link>https://clay-wangzhi.com/code/python/python-instance/</link>
       <guid>https://clay-wangzhi.com/code/python/python-instance/</guid>
@@ -14014,546 +14613,6 @@ now <span>=</span> time<span>.</span>strftime<span>(</span><span>"%Y-%m-%d %H:%M
 <div><pre><code>*/2 * * * * /usr/bin/python3 /root/activemq.py &gt;&gt; /var/log/activemq.log
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>03 哈希表和解析式</title>
-      <link>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</link>
-      <guid>https://clay-wangzhi.com/code/python/python-ha-tables-analytic-expre/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">03 哈希表和解析式</source>
-      <category>Python</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_03-哈希表和解析式"> 03 哈希表和解析式</h1>
-<h2 id="封装和解构"> 封装和解构</h2>
-<h3 id="基本概念"> 基本概念</h3>
-<div><pre><code>t1 <span>=</span> <span>1</span><span>,</span> <span>2</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>t1<span>)</span><span>)</span> <span># 什么类型, tuple</span>
-
-t2 <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>t2<span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>Python等式右侧出现逗号分隔的多值的时候，就会将这几个值封装到元组中。这种操作称为封装packing。</p>
-<div><pre><code>x<span>,</span> y <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
-<span>print</span><span>(</span>x<span>)</span> <span># 1</span>
-<span>print</span><span>(</span>y<span>)</span> <span># 2</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>Python 中等式右侧是一个容器类型，左侧是逗号分隔的多个标识符，将右侧容器中数据的一个个和左侧
-标识符一一对应。这种操作称为解构 unpacking。</p>
-<p>从 Python3 开始，对解构做了很大的改进，现在用起来已经非常的方便快捷。</p>
-<p>封装和解构是非常方便的提取数据的方法，在 Python、JavaScript 等语言中应用极广。</p>
-<div><pre><code><span># 交换数据</span>
-x <span>=</span> <span>4</span>
-y <span>=</span> <span>5</span>
-t <span>=</span> x
-x <span>=</span> y
-y <span>=</span> t
-
-<span># 封装和解构，交换</span>
-x <span>=</span> <span>10</span>
-y <span>=</span> <span>11</span>
-x<span>,</span> y <span>=</span> y<span>,</span> x
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="简单解构"> 简单解构</h3>
-<div><pre><code><span># 左右个数相同  ,必须相等</span>
-a<span>,</span>b <span>=</span> <span>1</span><span>,</span><span>2</span>
-a<span>,</span>b <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
-a<span>,</span>b <span>=</span> <span>[</span><span>1</span><span>,</span><span>2</span><span>]</span>
-a<span>,</span>b <span>=</span> <span>[</span><span>10</span><span>,</span><span>20</span><span>]</span>
-a<span>,</span>b <span>=</span> <span>{</span><span>10</span><span>,</span><span>20</span><span>}</span> <span># 非线性结构</span>
-a<span>,</span>b <span>=</span> <span>{</span><span>'a'</span><span>:</span><span>10</span><span>,</span><span>'b'</span><span>:</span><span>20</span><span>}</span> <span># 非线性结构也可以解构</span>
-<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
-<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>10</span><span>,</span><span>20</span>
-<span>(</span>a<span>,</span>b<span>)</span> <span>=</span> <span>{</span><span>30</span><span>,</span><span>40</span><span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h3 id="剩余变量解构"> 剩余变量解构</h3>
-<p>在 Python3.0 中增加了剩余变量解构（rest）。</p>
-<div><pre><code>a<span>,</span> <span>*</span>rest<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
-<span>print</span><span>(</span>a<span>,</span> b<span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>rest<span>)</span><span>,</span> rest<span>)</span> <span># &lt;class 'list'> [2, 3, 4]</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>标识符 rest 将尽可能收集剩余的数据组成一个列表。</p>
-<div><pre><code>a<span>,</span> <span>*</span>_<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 在IPython中实验，_是最后一个输出值，这里将把它覆盖</span>
-_<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 第一个_是什么</span>
-<span>print</span><span>(</span>b<span>)</span> <span># 是什么</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 第二个_是什么</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>_ 是合法的标识符，这里它没有什么可读性，它在这里的作用就是表示不关心这个变量的值，我不想要。有人把它称作 丢弃(Throwaway)变量。</p>
-<h2 id="集合-set"> 集合 set</h2>
-<p>集合，简称集。由任意个元素构成的集体。高级语言都实现了这个非常重要的数据结构类型。</p>
-<p>Python中，它是可变的、无序的、不重复的元素的集合。</p>
-<h3 id="初始化"> 初始化</h3>
-<ul>
-<li>set() -&gt; new empty set object</li>
-<li>set(iterable) -&gt; new set object</li>
-</ul>
-<div><pre><code>s1 <span>=</span> <span>set</span><span>(</span><span>)</span>
-s2 <span>=</span> <span>set</span><span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span>
-s3 <span>=</span> <span>set</span><span>(</span><span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span><span>)</span>  <span># 报错</span>
-s4 <span>=</span> <span>set</span><span>(</span><span>'abcdabcd'</span><span>)</span>
-s5 <span>=</span> <span>{</span><span>}</span> <span># 这是什么？  z字典</span>
-s6 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>}</span>
-s7 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>(</span><span>1</span><span>,</span><span>)</span><span>}</span>
-s8 <span>=</span> <span>{</span><span>1</span><span>,</span> <span>(</span><span>1</span><span>,</span><span>)</span><span>,</span> <span>[</span><span>1</span><span>]</span><span>}</span> <span>#  报错</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="元素性质"> 元素性质</h3>
-<ul>
-<li>去重：在集合中，所有元素必须相异</li>
-<li>无序：因为无序，所以不可索引</li>
-<li>可哈希：Python集合中的元素必须可以hash，即元素都可以使用内建函数hash
-<ul>
-<li>目前学过不可hash的类型有：list、set、bytearray</li>
-</ul>
-</li>
-<li>可迭代：set中虽然元素不一样，但元素都可以迭代出来</li>
-</ul>
-<h3 id="增加"> 增加</h3>
-<ul>
-<li>add(elem)
-<ul>
-<li>增加一个元素到 set 中</li>
-<li>如果元素存在，什么都不做</li>
-</ul>
-</li>
-<li>update(*others)
-<ul>
-<li>合并其他元素到set集合中来</li>
-<li>参数others必须是可迭代对象</li>
-<li>就地修改</li>
-</ul>
-</li>
-</ul>
-<div><pre><code>s <span>=</span> <span>set</span><span>(</span><span>)</span>
-s<span>.</span>add<span>(</span><span>1</span><span>)</span>
-s<span>.</span>update<span>(</span><span>(</span><span>1</span><span>,</span><span>2</span><span>,</span><span>3</span><span>)</span><span>,</span> <span>[</span><span>2</span><span>,</span><span>3</span><span>,</span><span>4</span><span>]</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="删除"> 删除</h3>
-<ul>
-<li>
-<p>remove(elem)</p>
-<ul>
-<li>从set中移除一个元素</li>
-<li>元素不存在，抛出KeyError异常。为什么是KeyError？</li>
-</ul>
-</li>
-<li>
-<p>discard(elem)</p>
-<ul>
-<li>从set中移除一个元素</li>
-<li>元素不存在，什么都不做</li>
-</ul>
-</li>
-<li>
-<p>pop() -&gt; item</p>
-<ul>
-<li>移除并返回任意的元素。为什么是任意元素？ 因为是随机的，无序的</li>
-<li>空集返回KeyError异常</li>
-</ul>
-</li>
-<li>
-<p>clear()</p>
-<ul>
-<li>移除所有元素</li>
-</ul>
-</li>
-</ul>
-<div><pre><code>s <span>=</span> <span>set</span><span>(</span><span>range</span><span>(</span><span>10</span><span>)</span><span>)</span>
-s<span>.</span>remove<span>(</span><span>0</span><span>)</span>
-<span>#s.remove(11) # KeyError为什么</span>
-s<span>.</span>discard<span>(</span><span>11</span><span>)</span>
-s<span>.</span>pop<span>(</span><span>)</span>
-s<span>.</span>clear<span>(</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="修改"> 修改</h3>
-<p>集合类型没有修改。因为元素唯一。如果元素能够加入到集合中，说明它和别的元素不一样。</p>
-<p>所谓修改，其实就是把当前元素改成一个完全不同的元素，就是删除加入新元素。</p>
-<h3 id="索引"> 索引</h3>
-<p>非线性结构，不可索引。</p>
-<h3 id="遍历"> 遍历</h3>
-<p>只要是容器，都可以遍历元素。但是效率都是O(n)</p>
-<h3 id="成员运算符-in"> 成员运算符 in</h3>
-<div><pre><code><span>print</span><span>(</span><span>10</span> <span>in</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span><span>)</span>
-<span>print</span><span>(</span><span>10</span> <span>in</span> <span>{</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>}</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面2句代码，分别在列表和集合中搜索元素。如果列表和集合的元素都有100万个，谁的效率高？ 集合效率高</p>
-<p>set、dict 使用 hash 表实现，内部使用 hash 值作为 key，时间复杂度为 O(1)，查询时间和数据规模无关，不会随着数据规模增大而搜索性能下降。</p>
-<h3 id="集合概念"> 集合概念</h3>
-<ul>
-<li>全集
-<ul>
-<li>所有元素的集合。例如实数集，所有实数组成的集合就是全集</li>
-</ul>
-</li>
-<li>子集 bset 和超集 superset
-<ul>
-<li>一个集合A所有元素都在另一个集合B内，A是B的子集，B是A的超集</li>
-</ul>
-</li>
-<li>真子集和真超集
-<ul>
-<li>A是B的子集，且A不等于B，A就是B的真子集，B是A的真超集</li>
-</ul>
-</li>
-<li>并集：多个集合合并的结果</li>
-<li>交集：多个集合的公共部分</li>
-<li>差集：集合中除去和其他集合公共部分</li>
-</ul>
-<p><strong>并集</strong></p>
-<p>将两个集合A和B的所有的元素合并到一起，组成的集合称作集合A与集合B的并集</p>
-<ul>
-<li>union(*others) 返回和多个集合合并后的新的集合</li>
-<li><code>|</code> 运算符重载，等同 union</li>
-<li>update(*others) 和多个集合合并，就地修改</li>
-<li><code>|=</code> 等同update</li>
-</ul>
-<p><strong>交集</strong></p>
-<p>集合A和B，由所有属于A且属于B的元素组成的集合</p>
-<ul>
-<li>intersection(*others) 返回和多个集合的交集</li>
-<li><code>&amp;</code> 等同 intersection</li>
-<li><code>intersection_update(*others)</code> 获取和多个集合的交集，并就地修改</li>
-<li><code>&amp;=</code> 等同 intersection_update</li>
-</ul>
-<p><strong>差集</strong></p>
-<p>集合A和B，由所有属于A且不属于B的元素组成的集合</p>
-<ul>
-<li>
-<p><code>difference(*others)</code> 返回和多个集合的差集</p>
-</li>
-<li>
-<p><code>-</code> 等同difference</p>
-</li>
-<li>
-<p><code>difference_update(*others)</code>获取和多个集合的差集并就地修改</p>
-</li>
-<li>
-<p><code>-=</code> 等同difference_update</p>
-</li>
-</ul>
-<p><strong>对称差集</strong></p>
-<p>集合A和B，由所有不属于A和B的交集元素组成的集合，记作（A-B）∪（B-A）</p>
-<ul>
-<li><code>symmetric_differece(other)</code>返回和另一个集合的对称差集</li>
-<li><code>^</code> 等同symmetric_differece</li>
-<li><code>symmetric_differece_update(other)</code> 获取和另一个集合的对称差集并就地修改</li>
-<li><code>^=</code> 等同symmetric_differece_update</li>
-</ul>
-<p><strong>其它集合运算</strong></p>
-<ul>
-<li><code>issubset(other)、&lt;=</code> 判断当前集合是否是另一个集合的子集</li>
-<li><code>set1 &lt; set2</code> 判断set1是否是set2的真子集</li>
-<li><code>issuperset(other)、&gt;=</code> 判断当前集合是否是other的超集</li>
-<li><code>set1 &gt; set2</code> 判断set1是否是set2的真超集</li>
-<li><code>isdisjoint(other)</code> 当前集合和另一个集合没有交集，没有交集，返回True</li>
-</ul>
-<h2 id="字典-dict"> 字典 dict</h2>
-<p>Dict 即 Dictionary，也称为 mapping。</p>
-<p>Python 中，字典由任意个元素构成的集合，每一个元素称为 Item，也称为 Entry。这个 Item 是由(key,
-value)组成的二元组。</p>
-<p>字典是可变的、无序的、key 不重复的 key-value 键值对集合。</p>
-<h3 id="初始化-2"> 初始化</h3>
-<ul>
-<li><code>dict(**kwargs)</code> 使用 name=value 对初始化一个字典</li>
-<li><code>dict(iterable, **kwarg)</code> 使用可迭代对象和name=value对构造字典，不过可迭代对象的元素必须是一个二元结构</li>
-<li><code>dict(mapping, **kwarg)</code> 使用一个字典构建另一个字典</li>
-</ul>
-<p>字典的初始化方法都非常常用，都需要会用</p>
-<div><pre><code>d1 <span>=</span> <span>{</span><span>}</span>
-d2 <span>=</span> <span>dict</span><span>(</span><span>)</span>
-d3 <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>100</span><span>,</span> b<span>=</span><span>200</span><span>)</span>
-d4 <span>=</span> <span>dict</span><span>(</span>d3<span>)</span> <span># 构造另外一个字典</span>
-d5 <span>=</span> <span>dict</span><span>(</span>d4<span>,</span> a<span>=</span><span>300</span><span>,</span> c<span>=</span><span>400</span><span>)</span>
-d6 <span>=</span> <span>dict</span><span>(</span><span>[</span><span>(</span><span>'a'</span><span>,</span> <span>100</span><span>)</span><span>,</span> <span>[</span><span>'b'</span><span>,</span> <span>200</span><span>]</span><span>,</span> <span>(</span><span>1</span><span>,</span> <span>'abc'</span><span>)</span><span>]</span><span>,</span> b<span>=</span><span>300</span><span>,</span> c<span>=</span><span>400</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><div><pre><code><span># 类方法dict.fromkeys(iterable, value)</span>
-d <span>=</span> <span>dict</span><span>.</span>fromkeys<span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span>
-d <span>=</span> <span>dict</span><span>.</span>fromkeys<span>(</span><span>range</span><span>(</span><span>5</span><span>)</span><span>,</span> <span>0</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="元素访问"> 元素访问</h3>
-<ul>
-<li>d[key]
-<ul>
-<li>返回 key 对应的值 value</li>
-<li>key 不存在抛出 KeyError 异常</li>
-</ul>
-</li>
-<li>get(key[, default])
-<ul>
-<li>返回 key 对应的值 value</li>
-<li>key 不存在返回缺省值，如果没有设置缺省值就返回 None</li>
-</ul>
-</li>
-<li>setdefault(key[, default])
-<ul>
-<li>返回 key 对应的值 value</li>
-<li>key 不存在，添加 kv 对，value 设置为 default，并返回 default，如果 default 没有设置，缺省
-为None</li>
-</ul>
-</li>
-</ul>
-<h3 id="新增和修改"> 新增和修改</h3>
-<ul>
-<li>d[key] = value
-<ul>
-<li>将 key 对应的值修改为 value</li>
-<li>key不存在添加新的kv对</li>
-</ul>
-</li>
-<li>update([other]) -&gt; None
-<ul>
-<li>使用另一个字典的 kv 对更新本字典</li>
-<li>key不存在，就添加</li>
-<li>key存在，覆盖已经存在的key对应的值</li>
-<li>就地修改</li>
-</ul>
-</li>
-</ul>
-<div><pre><code>d <span>=</span> <span>{</span><span>}</span>
-d<span>[</span><span>'a'</span><span>]</span> <span>=</span> <span>1</span>
-d<span>.</span>update<span>(</span>red<span>=</span><span>1</span><span>)</span>
-d<span>.</span>update<span>(</span><span>[</span><span>'red'</span><span>,</span> <span>2</span><span>]</span><span>)</span> <span># 错误格式</span>
-d<span>.</span>update<span>(</span><span>{</span><span>'red'</span><span>:</span><span>3</span><span>}</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="删除-2"> 删除</h3>
-<ul>
-<li>pop(key[, default])
-<ul>
-<li>key存在，移除它，并返回它的value</li>
-<li>key不存在，返回给定的default</li>
-<li>default未设置，key不存在则抛出KeyError异常</li>
-</ul>
-</li>
-<li>popitem()
-<ul>
-<li>移除并返回一个任意的键值对</li>
-<li>字典为empty，抛出KeyError异常</li>
-</ul>
-</li>
-<li>clear()
-<ul>
-<li>清空字典</li>
-</ul>
-</li>
-</ul>
-<h3 id="遍历-2"> 遍历</h3>
-<p>1、遍历 Key</p>
-<div><pre><code><span>for</span> k <span>in</span> d<span>:</span>
-	<span>print</span><span>(</span>k<span>)</span>
-    
-<span>for</span> k <span>in</span> d<span>.</span>keys<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>k<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>2、遍历Value</p>
-<div><pre><code><span>for</span> v <span>in</span> d<span>.</span>values<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>v<span>)</span>
-    
-<span>for</span> k <span>in</span> d<span>.</span>keys<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>d<span>[</span>k<span>]</span><span>)</span>
-	<span>print</span><span>(</span>d<span>.</span>get<span>(</span>k<span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>3、遍历Item</p>
-<div><pre><code><span>for</span> item <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>item<span>)</span>
-	<span>print</span><span>(</span>item<span>[</span><span>0</span><span>]</span><span>,</span> item<span>[</span><span>1</span><span>]</span><span>)</span>
-    
-<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>k<span>,</span> v<span>)</span>
-    
-<span>for</span> k<span>,</span>_ <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>k<span>)</span>
-    
-<span>for</span> _<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>v<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>Python3 中，keys、values、items方法返回一个类似一个生成器的可迭代对象</p>
-<ul>
-<li>Dictionary view对象，可以使用len()、iter()、in操作</li>
-<li>字典的entry的动态的视图，字典变化，视图将反映出这些变化</li>
-<li>keys返回一个类set对象，也就是可以看做一个set集合。如果values都可以hash，那么items也可以看做是类set对象</li>
-</ul>
-<p>Python2 中，上面的方法会返回一个新的列表，立即占据新的内存空间。所以 Python2 建议使用 iterkeys、itervalues、iteritems 版本，返回一个迭代器，而不是返回一个copy</p>
-<h3 id="遍历与删除"> 遍历与删除</h3>
-<div><pre><code><span># 错误的做法</span>
-d <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>1</span><span>,</span> b<span>=</span><span>2</span><span>,</span> c<span>=</span><span>3</span><span>)</span>
-<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	<span>print</span><span>(</span>d<span>.</span>pop<span>(</span>k<span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>在使用keys、values、items方法遍历的时候，不可以改变字典的size</p>
-<div><pre><code><span>while</span> <span>len</span><span>(</span>d<span>)</span><span>:</span>
-	<span>print</span><span>(</span>d<span>.</span>popitem<span>(</span><span>)</span><span>)</span>
-    
-<span>while</span> d<span>:</span>
-	<span>print</span><span>(</span>d<span>.</span>popitem<span>(</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>上面的 while 循环虽然可以移除字典元素，但是很少使用，不如直接 clear。</p>
-<div><pre><code><span># for 循环正确删除</span>
-d <span>=</span> <span>dict</span><span>(</span>a<span>=</span><span>1</span><span>,</span> b<span>=</span><span>2</span><span>,</span> c<span>=</span><span>3</span><span>)</span>
-keys <span>=</span> <span>[</span><span>]</span>
-<span>for</span> k<span>,</span>v <span>in</span> d<span>.</span>items<span>(</span><span>)</span><span>:</span>
-	keys<span>.</span>append<span>(</span>k<span>)</span>
-    
-<span>for</span> k <span>in</span> keys<span>:</span>
-	d<span>.</span>pop<span>(</span>k<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h3 id="key"> key</h3>
-<p>字典的 key 和 set 的元素要求一致</p>
-<ul>
-<li>set 的元素可以就是看做 key，set 可以看做 dict 的简化版</li>
-<li>hashable 可哈希才可以作为 key，可以使用 hash() 测试</li>
-<li>使用key访问，就如同列表使用index访问一样，时间复杂度都是O(1)，这也是最好的访问元素的方式</li>
-</ul>
-<div><pre><code>d <span>=</span> <span>{</span>
-    <span>1</span> <span>:</span> <span>0</span><span>,</span>
-    <span>2.0</span> <span>:</span> <span>3</span><span>,</span>
-    <span>"abc"</span> <span>:</span> <span>None</span><span>,</span>
-    <span>(</span><span>'hello'</span><span>,</span> <span>'world'</span><span>,</span> <span>'python'</span><span>)</span> <span>:</span> <span>"string"</span><span>,</span>
-    <span>b'abc'</span> <span>:</span> <span>'135'</span>
-<span>}</span>
-
-<span>print</span><span>(</span>d<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="有序性"> 有序性</h3>
-<p>后续补充</p>
-<h2 id="解析式和生成器表达式"> 解析式和生成器表达式</h2>
-<h3 id="列表解析式"> 列表解析式</h3>
-<p>列表解析式 List Comprehension，也叫列表推导式。</p>
-<div><pre><code><span># 生成一个列表，元素0~9，将每一个元素加1后的平方值组成新的列表</span>
-x <span>=</span> <span>[</span><span>]</span>
-<span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>:</span>
-    x<span>.</span>append<span>(</span><span>(</span>i<span>+</span><span>1</span><span>)</span><span>**</span><span>2</span><span>)</span>
-<span>print</span><span>(</span>x<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code><span># 列表解析式</span>
-<span>print</span><span>(</span><span>[</span><span>(</span>i<span>+</span><span>1</span><span>)</span><span>**</span><span>2</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>]</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>语法</p>
-<ul>
-<li>[返回值 for 元素 in 可迭代对象 if 条件]</li>
-<li>使用中括号[]，内部是 for 循环，if 条件语句可选</li>
-<li>返回一个新的列表</li>
-</ul>
-<p>列表解析式是一种语法糖</p>
-<ul>
-<li>编译器会优化，不会因为简写而影响效率，反而因优化提高了效率</li>
-<li>减少程序员工作量，减少出错</li>
-<li>简化了代码，增强了可读性</li>
-</ul>
-<div><pre><code><span>[</span>expr <span>for</span> item <span>in</span> iterable <span>if</span> cond1 <span>if</span> cond2<span>]</span>
-等价于
-ret <span>=</span> <span>[</span><span>]</span>
-<span>for</span> item <span>in</span> iterable<span>:</span>
-    <span>if</span> cond1<span>:</span>
-    	<span>if</span> cond2<span>:</span>
-        	ret<span>.</span>append<span>(</span>expr<span>)</span>
-<span>#</span>
-<span>[</span>expr <span>for</span> i <span>in</span> iterable1 <span>for</span> j <span>in</span> iterable2 <span>]</span>
-等价于
-ret <span>=</span> <span>[</span><span>]</span>
-<span>for</span> i <span>in</span> iterable1<span>:</span>
-    <span>for</span> j <span>in</span> iterable2<span>:</span>
-        ret<span>.</span>append<span>(</span>expr<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><div><pre><code><span># 因为循环或判断只有一个，一斜到底，所以结果相同</span>
-<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> j<span>></span><span>23</span><span>]</span>
-<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>if</span> j<span>></span><span>23</span><span>]</span>
-<span>[</span><span>(</span>i<span>,</span>j<span>)</span> <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>7</span><span>)</span> <span>for</span> j <span>in</span> <span>range</span><span>(</span><span>20</span><span>,</span><span>25</span><span>)</span> <span>if</span> i<span>></span><span>4</span> <span>and</span> j<span>></span><span>23</span><span>]</span>
-<span># 都是[(5, 24), (6, 24)]</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="生成器表达式"> 生成器表达式</h3>
-<p>语法</p>
-<ul>
-<li>(返回值 for 元素 in 可迭代对象 if 条件)</li>
-<li>列表解析式的中括号换成小括号就行了</li>
-<li>返回一个生成器对象</li>
-</ul>
-<p>和列表解析式的区别</p>
-<ul>
-<li>生成器表达式是按需计算（或称惰性求值、延迟计算），需要的时候才计算值，返回可迭代对象迭代器，只能迭代一次</li>
-<li>列表解析式是立即返回值，返回可迭代对象列表，不是迭代器，可反复迭代</li>
-</ul>
-<p>生成器对象</p>
-<ul>
-<li>可迭代对象</li>
-<li>迭代器</li>
-</ul>
-<p><strong>生成器表达式和列表解析式对比</strong></p>
-<ul>
-<li>计算方式
-<ul>
-<li>生成器表达式延迟计算，列表解析式立即计算</li>
-</ul>
-</li>
-<li>内存占用
-<ul>
-<li>单从返回值本身来说，生成器表达式省内存，列表解析式返回新的列表</li>
-<li>生成器没有数据，内存占用极少，但是使用的时候，虽然一个个返回数据，但是合起来占用的内存也差不多</li>
-<li>列表解析式构造新的列表需要立即占用掉内存</li>
-</ul>
-</li>
-<li>计算速度
-<ul>
-<li>单看计算时间看，生成器表达式耗时非常短，列表解析式耗时长</li>
-<li>但生成器本身并没有返回任何值，只返回了一个生成器对象</li>
-<li>列表解析式构造并返回了一个新的列表</li>
-</ul>
-</li>
-</ul>
-<h3 id="集合解析式"> 集合解析式</h3>
-<p>语法</p>
-<ul>
-<li>{返回值 for 元素 in 可迭代对象 if 条件}</li>
-<li>列表解析式的中括号换成大括号{}就变成了集合解析式</li>
-<li>立即返回一个集合</li>
-</ul>
-<div><pre><code><span>{</span><span>(</span>x<span>,</span> x<span>+</span><span>1</span><span>)</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span>
-<span>{</span><span>[</span>x<span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span> <span># 可以吗？ 不可以 list是不可hash的</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="字典解析式"> 字典解析式</h3>
-<p>语法</p>
-<ul>
-<li>{key:value for 元素 in 可迭代对象 if 条件}</li>
-<li>列表解析式的中括号换成大括号{}，元素的构造使用 key:value 形式</li>
-<li>立即返回一个字典</li>
-</ul>
-<div><pre><code><span>print</span><span>(</span><span>{</span>x<span>:</span><span>(</span>x<span>,</span>x<span>+</span><span>1</span><span>)</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
-<span>print</span><span>(</span><span>{</span>x<span>:</span><span>[</span>x<span>,</span>x<span>+</span><span>1</span><span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
-<span>print</span><span>(</span><span>{</span><span>(</span>x<span>,</span><span>)</span><span>:</span><span>[</span>x<span>,</span>x<span>+</span><span>1</span><span>]</span> <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>10</span><span>)</span><span>}</span><span>)</span>
-<span># print({[x]:[x,x+1] for x in range(10)}) # 错误 key要求 可hash</span>
-<span>print</span><span>(</span><span>{</span><span>str</span><span>(</span>x<span>)</span><span>:</span>y <span>for</span> x <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span> <span>for</span> y <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>}</span><span>)</span> <span># 输出多少个元素？ 返回三个元素，key值唯一，{'0': 3, '1': 3, '2': 3}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="总结"> 总结</h3>
-<ul>
-<li>Python2 引入列表解析式</li>
-<li>Python2.4 引入生成器表达式</li>
-<li>Python3 引入集合、字典解析式，并迁移到了2.7</li>
-</ul>
-<p>一般来说，应该多应用解析式，简短、高效。如果一个解析式非常复杂，难以读懂，要考虑拆解成for循环。</p>
-<p>生成器和迭代器是不同的对象，但都是可迭代对象。</p>
-<p>如果不需要立即获得所有可迭代对象的元素，在Python 3中，推荐使用惰性求值的迭代器。</p>
-<table>
-<thead>
-<tr>
-<th>内建函数</th>
-<th>函数签名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sorted</td>
-<td>sorted(iterable[,key][,reverse])</td>
-<td>默认升序，对可迭代对象排序<br/>立即返回列表</td>
-</tr>
-</tbody>
-</table>
-<div><pre><code><span># 排序一定是容器内全体参与</span>
-<span>print</span><span>(</span><span>sorted</span><span>(</span><span>[</span><span>1</span><span>,</span><span>2</span><span>,</span><span>3</span><span>,</span><span>4</span><span>,</span><span>5</span><span>]</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>sorted</span><span>(</span><span>range</span><span>(</span><span>10</span><span>,</span> <span>20</span><span>)</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>100</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>100</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>items<span>(</span><span>)</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>sorted</span><span>(</span><span>{</span><span>'a'</span><span>:</span><span>'ABC'</span><span>,</span> <span>'b'</span><span>:</span><span>'abc'</span><span>}</span><span>.</span>values<span>(</span><span>)</span><span>,</span> key<span>=</span><span>str</span><span>,</span> reverse<span>=</span><span>True</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>17 IO 模型</title>
@@ -22836,18 +22895,6 @@ echo "</span><span>$var</span><span>"      # '(]\{}$"</span>
       <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
     </item>
     <item>
-      <title>前端学习笔记</title>
-      <link>https://clay-wangzhi.com/code/frontend/</link>
-      <guid>https://clay-wangzhi.com/code/frontend/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">前端学习笔记</source>
-      <category>前端</category>
-      <pubDate>Sun, 30 May 2021 09:17:19 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
-<h2 id="文章推荐"> 文章推荐</h2>
-<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>5.2 转义</title>
       <link>https://clay-wangzhi.com/code/shell/part2/05_2_escaping/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/05_2_escaping/</guid>
@@ -24292,362 +24339,33 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>8.1 运算符</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/08_1_operators/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/08_1_operators/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">8.1 运算符</source>
+      <title>7.4 嵌套 if/then 条件测试</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/07_4_nested_if_then_condition_tests/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/07_4_nested_if_then_condition_tests/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">7.4 嵌套 if/then 条件测试</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_8-1-运算符"> 8.1 运算符</h1>
-<h2 id="赋值运算符"> 赋值运算符</h2>
-<p><em>变量赋值</em>，初始化或改变一个变量的值。</p>
-<h3 id=""> =</h3>
-<p>等号<code>=</code>赋值运算符，既可用于算术赋值，也可用于字符串赋值。</p>
-<div><pre><code>var=27
-category=minerals  # &quot;=&quot;左右不允许有空格
+      <content:encoded><![CDATA[<h1 id="_7-4-嵌套-if-then-条件测试"> 7.4 嵌套 if/then 条件测试</h1>
+<p>可以嵌套 <code>if/then</code> 条件测试结构。嵌套的结果等价于使用 <a href="http://tldp.org/LDP/abs/html/ops.html#LOGOPS1" target="_blank" rel="noopener noreferrer"><code>&amp;&amp;</code></a> 复合比较运算符。</p>
+<div><pre><code><span>a</span><span>=</span><span>3</span>
+
+<span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>0</span> <span>]</span>
+<span>then</span>
+  <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -lt <span>5</span> <span>]</span>
+  <span>then</span>
+    <span>echo</span> <span>"The value of <span title="\&quot;">\"</span>a<span title="\&quot;">\"</span> lies somewhere between 0 and 5."</span>
+  <span>fi</span>
+<span>fi</span>
+
+<span># 和下面的结果相同</span>
+
+<span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>[</span> <span>"<span>$a</span>"</span> -lt <span>5</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"The value of <span title="\&quot;">\"</span>a<span title="\&quot;">\"</span> lies somewhere between 0 and 5."</span>
+<span>fi</span>
 </code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> 注意，不要混淆<code>=</code>赋值运算符与<code>=</code><a href="http://tldp.org/LDP/abs/html/comparison-ops.html#EQUALSIGNREF" target="_blank" rel="noopener noreferrer">测试操作符</a>。</p>
-</blockquote>
-<div><pre><code>#   =   作为测试操作符
-
-if [ &quot;$string1&quot; = &quot;$string2&quot; ]
-then
-   command
-fi
-
-#  [ &quot;X$string1&quot; = &quot;X$string2&quot; ] 这样写是安全的,
-#  这样写可以避免任意一个变量为空时的报错。
-#  (变量前加的&quot;X&quot;字符规避了变量为空的情况)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="算术运算符"> 算术运算符</h2>
-<h3 id="-2"> +</h3>
-<p>加</p>
-<h3 id="-3"> -</h3>
-<p>减</p>
-<h3 id="-4"> *</h3>
-<p>乘</p>
-<h3 id="-5"> /</h3>
-<p>除</p>
-<h3 id="-6"> **</h3>
-<p>幂运算</p>
-<div><pre><code># Bash, 2.02版本，推出了&quot;**&quot;幂运算操作符。
-
-let &quot;z=5**3&quot;    # 5 * 5 * 5
-echo &quot;z = $z&quot;   # z = 125
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="-7"> %</h3>
-<p>取余(返回整数除法的余数)</p>
-<div><pre><code>bash$ expr 5 % 3
-2
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>5/3=1，余2
-取余运算符经常被用于生成一定范围内的数( 案例9-11, 案例9-15)，以及格式化程序输出(案例 27-16，案例 A-6)。
-取余运算符还可以用来产生素数（案例A-15），取余的出现大大扩展了整数的算术运算。</p>
-<p><strong>样例 8-1. 最大公约数</strong></p>
-<div><pre><code>#!/bin/bash
-# gcd.sh: 最大公约数
-#         使用欧几里得算法
-
-#  两个整数的最大公约数（gcd）
-#  是两数能同时整除的最大数
-
-#  欧几里得算法使用辗转相除法
-#    In each pass,
-#       dividend &lt;---  divisor
-#       divisor  &lt;---  remainder
-#    until remainder = 0.
-#    The gcd = dividend, on the final pass.
-#
-#  关于欧几里得算法更详细的讨论，可以查看:
-#  Jim Loy&#39;s site, http://www.jimloy.com/number/euclids.htm.
-
-
-# ------------------------------------------------------
-# 参数检查
-ARGS=2
-E_BADARGS=85
-
-if [ $# -ne &quot;$ARGS&quot; ]
-then
-  echo &quot;Usage: `basename $0` first-number second-number&quot;
-  exit $E_BADARGS
-fi
-# ------------------------------------------------------
-
-
-gcd ()
-{
-
-  dividend=$1             #  随意赋值，
-  divisor=$2              #  两数谁大谁小是无关紧要的，
-                          #  为什么?
-
-  remainder=1             #  如果在测试括号里使用了一个未初始化的变量，
-                          #  会报错的。
-
-  until [ &quot;$remainder&quot; -eq 0 ]
-  do    #  ^^^^^^^^^^  该变量必须在使用前初始化！
-    let &quot;remainder = $dividend % $divisor&quot;
-    dividend=$divisor     # 对被除数，除数重新赋值
-    divisor=$remainder
-  done                    # 欧几里得算法
-
-}                         # 最后的 $dividend 就是最大公约数（gcd）
-
-
-gcd $1 $2
-
-echo; echo &quot;GCD of $1 and $2 = $dividend&quot;; echo
-
-
-# 练习 :
-# ---------
-# 1) 检查命令行参数，保证其为整数，
-#+   如果有错误，捕捉错误并在脚本退出前打印出适当的错误信息。
-# 2) 使用本地变量(local variables)重写gcd()函数。
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br></div></div><h3 id="-8"> +=</h3>
-<p>加等 （加上一个数）<sup></sup>
-<code>let &quot;var += 5&quot;</code> 的结果是<code>var</code>变量的值增加了5。</p>
-<h3 id="-9"> -=</h3>
-<p>减等 （减去一个数）</p>
-<h3 id="-10"> *=</h3>
-<p>乘等 （乘以一个数）
-<code>let &quot;var *= 4&quot;</code> 的结果是<code>var</code>变量的值乘了4。</p>
-<h3 id="-11"> /=</h3>
-<p>除等 （除以一个数）</p>
-<h3 id="-12"> %=</h3>
-<p>余等 （取余赋值）</p>
-<h3 id="小结"> 小结</h3>
-<p>算术运算符常用于<code>expr</code>或<code>let</code>表达式中。</p>
-<p><strong>样例 8-2. 使用算术运算符</strong></p>
-<div><pre><code>#!/bin/bash
-# 使变量自增1，10种不同的方法实现
-
-n=1; echo -n &quot;$n &quot;
-
-let &quot;n = $n + 1&quot;   # 可以使用 let &quot;n = n + 1&quot;
-echo -n &quot;$n &quot;
-
-
-: $((n = $n + 1))
-#  &quot;:&quot; 是必要的，不加的话，bash会将
-#+ &quot;$((n = $n + 1))&quot;看做一条命令。
-echo -n &quot;$n &quot;
-
-(( n = n + 1 ))
-#  更简洁的写法。
-#  感谢 David Lombard指出。
-echo -n &quot;$n &quot;
-
-n=$(($n + 1))
-echo -n &quot;$n &quot;
-
-: $[ n = $n + 1 ]
-#  &quot;:&quot; 是必要的，不加的话，bash会将
-#+ &quot;$[ n = $n + 1 ]&quot;看做一条命令。
-#  即使&quot;n&quot;是字符串，也是可行的。
-echo -n &quot;$n &quot;
-
-n=$[ $n + 1 ]
-#  即使&quot;n&quot;是字符串，也是可行的。
-#* 不要用这种写法，它已被废弃且不具有兼容性。
-#  感谢 Stephane Chazelas.
-echo -n &quot;$n &quot;
-
-# 使用C风格的自增运算符也是可以的
-# 感谢 Frank Wang 指出。
-
-let &quot;n++&quot;          # let &quot;++n&quot; 可行
-echo -n &quot;$n &quot;
-
-(( n++ ))          # (( ++n ))  可行
-echo -n &quot;$n &quot;
-
-: $(( n++ ))       # : $(( ++n )) 可行
-echo -n &quot;$n &quot;
-
-: $[ n++ ]         # : $[ ++n ] 可行
-echo -n &quot;$n &quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>在早期的Bash版本中，整型变量是带符号的长整型数（32-bit），取值范围从 -2147483648 到 2147483647。如果算术操作超出了整数的取值范围，结果会不准确。</p>
-<div><pre><code>echo $BASH_VERSION   # Bash 1.14版本
-
-a=2147483646
-echo &quot;a = $a&quot;        # a = 2147483646
-let &quot;a+=1&quot;           # 自增 &quot;a&quot;.
-echo &quot;a = $a&quot;        # a = 2147483647
-let &quot;a+=1&quot;           # 再次自增&quot;a&quot;，超出取值范围。
-echo &quot;a = $a&quot;        # a = -2147483648
-                     #      错误：超出范围，
-                     #+     最左边的符号位被重置，
-                     #+     结果变负
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>Bash版本 &gt;= 2.05b, Bash支持了64-bit整型数。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> 注意，Bash并不支持浮点运算，Bash会将带小数点的数看做字符串。</p>
-</blockquote>
-<div><pre><code>a=1.5
-
-let &quot;b = $a + 1.3&quot;  # 报错
-# t2.sh: let: b = 1.5 + 1.3: syntax error in expression
-#                            (error token is &quot;.5 + 1.3&quot;)
-
-echo &quot;b = $b&quot;       # b=1
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>如果你想在脚本中使用浮点数运算，借助<a href="http://tldp.org/LDP/abs/html/mathc.html#BCREF" target="_blank" rel="noopener noreferrer">bc</a>或外部数学函数库吧。</p>
-<h2 id="位运算"> 位运算</h2>
-<p>位运算很少出现在shell脚本中，在bash中加入位运算的初衷似乎是为了操控和检测来自<code>ports</code>或<code>sockets</code>的数据。位运算在编译型语言中能发挥更大的作用，比如C/C++，位运算提供了直接访问系统硬件的能力。然而，聪明的vladz在他的base64.sh(案例 A-54)脚本中也用到了位运算。
-下面介绍位运算符。</p>
-<h3 id="-13"> &lt;&lt;</h3>
-<p>左移运算符(左移1位相当于乘2)</p>
-<h3 id="-14"> &lt;&lt;=</h3>
-<p>左移赋值</p>
-<p><code>let &quot;var &lt;&lt;= 2&quot;</code> 的结果是var变量的值向左移了2位(乘以4)</p>
-<h3 id="-15"> &gt;&gt;</h3>
-<p>右移运算符(右移1位相当于除2)</p>
-<h3 id="-16"> &gt;&gt;=</h3>
-<p>右移赋值</p>
-<h3 id="-17"> &amp;</h3>
-<p>按位与（AND）</p>
-<h3 id="-18"> &amp;=</h3>
-<p>按位与等（AND-equal）</p>
-<h3 id="-19"> |</h3>
-<p>按位或（OR）</p>
-<h3 id="-20"> |=</h3>
-<p>按位或等（OR-equal）</p>
-<h3 id="-21"> ~</h3>
-<p>按位取反</p>
-<h3 id="-22"> ^</h3>
-<p>按位异或（XOR）</p>
-<h3 id="-23"> ^=</h3>
-<p>按位异或等（XOR-equal）</p>
-<h2 id="逻辑-布尔-运算符"> 逻辑(布尔)运算符</h2>
-<h3 id="-24"> !</h3>
-<p>非(NOT)</p>
-<div><pre><code>if [ ! -f $FILENAME ]
-then
-  ...
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="-25"> &amp;&amp;</h3>
-<p>与(AND)</p>
-<div><pre><code>if [ $condition1 ] &amp;&amp; [ $condition2 ]
-#  等同于:  if [ $condition1 -a $condition2 ]
-#  返回true如果 condition1 和 condition2 同时为真...
-
-if [[ $condition1 &amp;&amp; $condition2 ]]    # 可行
-#  注意，&amp;&amp; 运算符不能用在[ ... ]结构里。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> &amp;&amp;也可以被用在<code>list</code>结构中连接命令。</p>
-</blockquote>
-<h3 id="-26"> ||</h3>
-<p>或(OR)</p>
-<div><pre><code>if [ $condition1 ] || [ $condition2 ]
-
-#  等同于:  if [ $condition1 -a $condition2 ]
-#  返回true如果 condition1 和 condition2 任意一个为真...
-
-if [[ $condition1 || $condition2 ]]    # 可行
-#  注意，|| 运算符不能用在[ ... ]结构里。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="小结-2"> 小结</h3>
-<p><strong>样例 8-3. 在条件测试中使用 &amp;&amp; 和 ||</strong></p>
-<div><pre><code>#!/bin/bash
-
-a=24
-b=47
-
-if [ &quot;$a&quot; -eq 24 ] &amp;&amp; [ &quot;$b&quot; -eq 47 ]
-then
-  echo &quot;Test #1 succeeds.&quot;
-else
-  echo &quot;Test #1 fails.&quot;
-fi
-
-#  错误:   if [ &quot;$a&quot; -eq 24 &amp;&amp; &quot;$b&quot; -eq 47 ]
-#          这样写的话，bash会先执行&#39;[ &quot;$a&quot; -eq 24&#39;
-#          然后就找不到右括号&#39;]&#39;了...
-#
-#  注意:  if [[ $a -eq 24 &amp;&amp; $b -eq 24 ]]  这样写是可以的
-#  双方括号测试结构比单方括号更加灵活。
-#  (双方括号中的&quot;&amp;&amp;&quot;与单方括号中的&quot;&amp;&amp;&quot;意义不同)
-#  感谢 Stephane Chazelas 指出。
-
-
-if [ &quot;$a&quot; -eq 98 ] || [ &quot;$b&quot; -eq 47 ]
-then
-  echo &quot;Test #2 succeeds.&quot;
-else
-  echo &quot;Test #2 fails.&quot;
-fi
-
-
-#  使用 -a 和 -o 选项也具有同样的效果。
-#  感谢 Patrick Callahan 指出。
-
-
-if [ &quot;$a&quot; -eq 24 -a &quot;$b&quot; -eq 47 ]
-then
-  echo &quot;Test #3 succeeds.&quot;
-else
-  echo &quot;Test #3 fails.&quot;
-fi
-
-
-if [ &quot;$a&quot; -eq 98 -o &quot;$b&quot; -eq 47 ]
-then
-  echo &quot;Test #4 succeeds.&quot;
-else
-  echo &quot;Test #4 fails.&quot;
-fi
-
-
-a=rhino
-b=crocodile
-if [ &quot;$a&quot; = rhino ] &amp;&amp; [ &quot;$b&quot; = crocodile ]
-then
-  echo &quot;Test #5 succeeds.&quot;
-else
-  echo &quot;Test #5 fails.&quot;
-fi
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br></div></div><p><code>&amp;&amp;</code>和<code>||</code>运算符也可以用在算术运算中。</p>
-<div><pre><code>bash$ echo $(( 1 &amp;&amp; 2 )) $((3 &amp;&amp; 0)) $((4 || 0)) $((0 || 0))
-1 0 1 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h2 id="其他运算符"> 其他运算符</h2>
-<h3 id="-27"> ,</h3>
-<p>逗号运算符
-逗号运算符用于连接两个或多个算术操作，所有的操作会被依次求值（可能会有副作用）。<sup></sup></p>
-<div><pre><code>let &quot;t1 = ((5 + 3, 7 - 1, 15 - 4))&quot;
-echo &quot;t1 = $t1&quot;           ^^^^^^  # t1 = 11
-# 这里的t1 被赋值了11，为什么？
-
-let &quot;t2 = ((a = 9, 15 / 3))&quot;      # 对&quot;a&quot;赋值并对&quot;t2&quot;求值。
-echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>逗号运算符常被用在<code>for</code>循环中。参看案例 11-13。</p>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>取决与不同的上下文，+= 也可能作为字符串连接符。它可以很方便地修改环境变量。 </p>
-</li>
-<li id="footnote2"><p>副作用，顾名思义，就是预料之外的结果。 </p>
-</li>
-</ol>
-</section>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>在 <a href="http://tldp.org/LDP/abs/html/bashver2.html#CARDS" target="_blank" rel="noopener noreferrer">样例 37-4</a> 和 <a href="http://tldp.org/LDP/abs/html/system.html#BACKLIGHT" target="_blank" rel="noopener noreferrer">样例 17-11</a> 中展示了嵌套 <code>if/then</code> 条件测试结构。</p>
 ]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
       <title>8.2 数字常量</title>
@@ -32232,73 +31950,6 @@ echo &quot;$nr files totaling $totalSize bytes&quot;
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>8 Jenkins 常见问题</title>
-      <link>https://clay-wangzhi.com/automate/jenkins/qa/</link>
-      <guid>https://clay-wangzhi.com/automate/jenkins/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">8 Jenkins 常见问题</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_8-jenkins-常见问题"> 8 Jenkins 常见问题</h1>
-<h2 id="jenkins报错error-cloning-remote-repo-origin"> Jenkins报错Error cloning remote repo 'origin'</h2>
-<p>Jenkins配置了2个节点，但是只有master安装了git，很有可能任务被调到slave上执行所以报错</p>
-<p>解决办法</p>
-<ul>
-<li>slave安装git</li>
-<li>指定任务在master执行</li>
-</ul>
-<h2 id="jenkins添加从节点失败"> jenkins添加从节点失败</h2>
-<p>jenkins在添加从节点时
-可以在启动方式中选择：Non verifying Verification Strategy</p>
-<h2 id="jenkins配置ldap错误导致无法登陆的问题"> Jenkins配置ldap错误导致无法登陆的问题</h2>
-<p>为了方便用户管理，通过ldap集中式认证，让Gitlab和Jenkins都接入，这样就省去每个系统都是要创建用户的麻烦了。上一篇<a href="https://www.58jb.com/html/121.html" target="_blank" rel="noopener noreferrer">Jenkins整合ldap认证</a>的文章中有网友发邮件说了，配置不当导致Jenkins无法登陆，可能文章未能详细说明。</p>
-<p>运维人员都会有这样的操作，修改任何配置文件前都会来一个备份。就是确保万一出错了可以回到之前的状态。所以建议就是Jenkins配置的问题，特别是这个登陆认证的配置，一搞错了就无法登陆。甚至无法正常访问到系统。
-默认Centos7使用rpm安装的目录为：/var/lib/jenkins/</p>
-<p>备份配置文件：config.xml</p>
-<div><pre><code>[root@jenkins ~]# cp /var/lib/jenkins/config.xml{,$(date +%F)}
-[root@jenkins ~]# ls /var/lib/jenkins/config.xml
-config.xml            config.xml2019-06-12
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>然后在config.xml配置文件中找到这段关于ldap认证的信息：</p>
-<div><pre><code>  &lt;securityRealm class=&quot;hudson.security.LDAPSecurityRealm&quot; plugin=&quot;ldap@1.20&quot;&gt;
-    &lt;disableMailAddre***esolver&gt;false&lt;/disableMailAddre***esolver&gt;
-    &lt;configurations&gt;
-      &lt;jenkins.security.plugins.ldap.LDAPConfiguration&gt;
-        &lt;server&gt;ldap://XXXXXX.com:389&lt;/server&gt;
-        &lt;rootDN&gt;dc=XXXXXX,dc=com&lt;/rootDN&gt;
-        &lt;inhibitInferRootDN&gt;false&lt;/inhibitInferRootDN&gt;
-        &lt;userSearchBase&gt;&lt;/userSearchBase&gt;
-        &lt;userSearch&gt;uid={0}&lt;/userSearch&gt;
-        &lt;groupMembershipStrategy class=&quot;jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy&quot;&gt;
-          &lt;filter&gt;cn=jenkins&lt;/filter&gt;
-        &lt;/groupMembershipStrategy&gt;
-        &lt;managerDN&gt;uid=jarry,ou=People,dc=XXXXXX,dc=com&lt;/managerDN&gt;
-        &lt;managerPasswordSecret&gt;{AQAAABAAAAAQWfZrb7qoIjewuj3SK/z53/oRo86cW5wi/t07QeW/4mM=}&lt;/managerPasswordSecret&gt;
-        &lt;displayNameAttributeName&gt;uid&lt;/displayNameAttributeName&gt;
-        &lt;mailAddressAttributeName&gt;mail&lt;/mailAddressAttributeName&gt;
-        &lt;ignoreIfUnavailable&gt;false&lt;/ignoreIfUnavailable&gt;
-        &lt;extraEnvVars class=&quot;linked-hash-map&quot;&gt;
-          &lt;entry&gt;
-            &lt;string&gt;&lt;/string&gt;
-            &lt;string&gt;&lt;/string&gt;
-          &lt;/entry&gt;
-        &lt;/extraEnvVars&gt;
-      &lt;/jenkins.security.plugins.ldap.LDAPConfiguration&gt;
-    &lt;/configurations&gt;
-    &lt;userIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
-    &lt;groupIdStrategy class=&quot;jenkins.model.IdStrategy$CaseInsensitive&quot;/&gt;
-    &lt;disableRolePrefixing&gt;true&lt;/disableRolePrefixing&gt;
-  &lt;/securityRealm&gt;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>上面的配置不当导致了无法通过ldap认证，而且导致jenkins也无法正常登陆了，可以把上面一段修改成以下样子：</p>
-<div><pre><code>   &lt;securityRealm class=&quot;hudson.security.HudsonPrivateSecurityRealm&quot;&gt;
-     &lt;disableSignup&gt;false&lt;/disableSignup&gt;
-     &lt;enableCaptcha&gt;false&lt;/enableCaptcha&gt;
-   &lt;/securityRealm&gt;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>文章来源：https://www.58jb.com/html/jenkins_ldap_login_failure.html</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>20.3 应用程序</title>
       <link>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</guid>
@@ -38064,6 +37715,138 @@ test &quot;$city&quot; \&lt; Paris &amp;&amp; echo &quot;Yes, Paris is greater t
 # 向S.C.致谢
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>36.4 递归：可以调用自己的脚本</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">36.4 递归：可以调用自己的脚本</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_36-4-递归-可以调用自己的脚本"> 36.4 递归：可以调用自己的脚本</h1>
+<p>脚本可以递归的调用自己吗？答案是肯定的。</p>
+<h2 id="example-36-10-可以调用自己的脚本-但没什么实际用途"> Example 36-10. 可以调用自己的脚本（但没什么实际用途）</h2>
+<div><pre><code>#!/bin/bash
+# recurse.sh
+
+# 脚本可以调用自己吗？
+# 其实是可以的。但这样有什么实际用途吗？
+# （请往下看）
+
+RANGE=10
+MAXVAL=9
+
+i=$RANDOM
+let &quot;i %= $RANGE&quot;  # 在0到$RANGE - 1的范围内产生一个随机数
+
+if [ &quot;$i&quot; -lt &quot;$MAXVAL&quot; ]
+then
+    echo &quot;i = $i&quot;
+    ./$0           # 脚本进行递归调用（调用自己）
+fi                 # 每次被调用的脚本做同样的事情，直到$i和$MAXVAL相等。 
+
+# 如果使用“while”循环代替“if/then”语句会出问题。请试着解释为什么。
+
+exit 0
+
+# 笔记:
+# ----
+# 这个脚本文件必须有可执行权限。
+# 即使使用“sh”命令调用，这脚本也可以执行。
+# 请解释原因。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h2 id="example-36-11-一个有点用的调用自己的脚本"> Example 36-11. 一个有点用的调用自己的脚本</h2>
+<div><pre><code>#!/bin/bash
+# pb.sh: phone book
+
+# 用于权限管理的脚本，由Rick Boivie编写。
+# ABS作者稍有修改
+
+MINARGS=1     # 需要至少一个参数
+DATAFILE=./phonebook
+              # 当前目录下必须存在名为“phonebook”的数据文件
+PROGNAME=$0
+E_NOARGS=70   # 没有错误
+
+if [ $# -lt $MINARGS ]; then
+    echo &quot;Usage: &quot;$PROGNAME&quot; data-to-look-up&quot;
+    exit $E_NOARGS
+fi      
+
+if [ $# -eq $MINARGS ]; then
+    grep $1 &quot;$DATAFILE&quot;
+    # 如果$DATAFILE没有匹配则&#39;grep&#39;命令会报错。
+else
+    ( shift; &quot;$PROGNAME&quot; $* ) | grep $1
+    # 脚本的递归调用
+fi
+exit 0        # 脚本结束 
+
+# 下面是一些文件内容
+
+# ------------------------------------------------------------------------
+一个简单的&quot;phonebook&quot;数据文件:
+
+John Doe        1555 Main St., Baltimore, MD 21228          (410) 222-3333
+Mary Moe        9899 Jones Blvd., Warren, NH 03787          (603) 898-3232
+Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+Zoe Zenobia     4481 N. Baker St., San Francisco, SF 94338  (415) 501-1631
+# ------------------------------------------------------------------------
+
+$bash pb.sh Roe
+Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+
+$bash pb.sh Roe Sam
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+
+# 当对脚本传入多于一个参数时，脚本只显示包含所有参数的行
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><h2 id="example-36-12-另一个调用自己的脚本"> Example 36-12. 另一个调用自己的脚本</h2>
+<div><pre><code>#!/bin/bash
+# usrmnt.sh, 由Anthony Richardson编写
+# 在ABS Guide中用于权限管理
+
+# usage:       usrmnt.sh
+# description: 想使用挂载设备操作的用户，在/etc/sudoers文件中必须属于MNTUSERS组。
+
+# ----------------------------------------------------------
+# 这个脚本会返回加了sudo命令的自身。
+# 如果一个有权限的用户，则只需要输入：
+#   usermount /dev/fd0 /mnt/floppy
+# 而不需要使用下面的方法：
+#   sudo usermount /dev/fd0 /mnt/floppy
+
+# 我对于所有需要sudo的脚本都使用了这个技术，因为我发现这让我感觉非常舒服。
+# ----------------------------------------------------------
+
+# 如果SUDO_COMMAND变量没有被设置，那证明没有使用sudo命令运行。这需要
+# 再重新运行这个脚本，同时传递用户的ID和组ID...
+
+if [ -z &quot;$SUDO_COMMAND&quot; ]
+then
+    mntusr=$(id -u) grpusr=$(id -g) sudo $0 $* # 译注：脚本调用自己，并且传递参数
+    exit 0
+fi
+
+# 如果使用了sudo运行，就不会卡在这里了。
+/bin/mount $* -o uid=$mntusr,gid=$grpusr
+
+exit 0
+
+# 附加说明：
+# -------------------------------------------------
+
+# 1) Linux系统允许/etc/fstab文件中列出的用户挂在移动存储设备。但在服务器上，我喜欢让更少的人访问移动存储。我发现使用sudo可以帮我做到。
+
+# 2) 我还发现使用sudo比用组权限来实现让人感觉更加舒服。
+
+# 3) 这种方法可以给任何有权限的人使用mount命令，所以要小心处理。
+#    你也可以将这种技术用到比如mntfloppy，mntcdrom和mntsamba等脚本上来实现更优雅的挂载管理。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>过多层次的递归调用会导致脚本的栈空间溢出，引起段错误（segfault）。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>echo命令</title>
@@ -45876,6 +45659,51 @@ curl -sSL https://get.rvm.io | bash -s stable
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>服务器端和客户端命令</title>
+      <link>https://clay-wangzhi.com/db/redis/server-client/</link>
+      <guid>https://clay-wangzhi.com/db/redis/server-client/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">服务器端和客户端命令</source>
+      <category>Redis</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="服务器端和客户端命令"> 服务器端和客户端命令</h1>
+<h2 id="服务器端"> 服务器端</h2>
+<p>服务器端的命令为redis-server
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-server --help
+</code></pre>
+<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
+启动</p>
+<div><pre><code>sudo service redis start
+</code></pre>
+<div><span>1</span><br></div></div><p>停⽌</p>
+<div><pre><code>sudo service redis stop
+</code></pre>
+<div><span>1</span><br></div></div><p>重启</p>
+<div><pre><code>sudo service redis restart
+</code></pre>
+<div><span>1</span><br></div></div><p>个人习惯</p>
+<div><pre><code>ps -aux|grep redis //查看redis服务器进程
+sudo kill -9 pid //杀死redis服务器
+sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
+<p>客户端的命令为redis-cli
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-cli --help
+</code></pre>
+<div><span>1</span><br></div></div><p>连接redis</p>
+<div><pre><code>redis-cli
+</code></pre>
+<div><span>1</span><br></div></div><p>运⾏测试命令</p>
+<div><pre><code>ping //返回PONG
+</code></pre>
+<div><span>1</span><br></div></div><p>切换数据库
+数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
+<div><pre><code>select n
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>git的基本使用</title>
       <link>https://clay-wangzhi.com/git/git-basic/</link>
       <guid>https://clay-wangzhi.com/git/git-basic/</guid>
@@ -46397,51 +46225,6 @@ $ <span>git</span> archive
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png" type="image/png"/>
-    </item>
-    <item>
-      <title>服务器端和客户端命令</title>
-      <link>https://clay-wangzhi.com/db/redis/server-client/</link>
-      <guid>https://clay-wangzhi.com/db/redis/server-client/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">服务器端和客户端命令</source>
-      <category>Redis</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="服务器端和客户端命令"> 服务器端和客户端命令</h1>
-<h2 id="服务器端"> 服务器端</h2>
-<p>服务器端的命令为redis-server
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-server --help
-</code></pre>
-<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
-启动</p>
-<div><pre><code>sudo service redis start
-</code></pre>
-<div><span>1</span><br></div></div><p>停⽌</p>
-<div><pre><code>sudo service redis stop
-</code></pre>
-<div><span>1</span><br></div></div><p>重启</p>
-<div><pre><code>sudo service redis restart
-</code></pre>
-<div><span>1</span><br></div></div><p>个人习惯</p>
-<div><pre><code>ps -aux|grep redis //查看redis服务器进程
-sudo kill -9 pid //杀死redis服务器
-sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
-<p>客户端的命令为redis-cli
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-cli --help
-</code></pre>
-<div><span>1</span><br></div></div><p>连接redis</p>
-<div><pre><code>redis-cli
-</code></pre>
-<div><span>1</span><br></div></div><p>运⾏测试命令</p>
-<div><pre><code>ping //返回PONG
-</code></pre>
-<div><span>1</span><br></div></div><p>切换数据库
-数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
-<div><pre><code>select n
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>Commit message 和 Change log 编写指南</title>
@@ -50482,138 +50265,6 @@ mysql&gt;exit(退出)
 ]]></content:encoded>
     </item>
     <item>
-      <title>36.4 递归：可以调用自己的脚本</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/36_4_recursion_a_script_calling_itself/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">36.4 递归：可以调用自己的脚本</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_36-4-递归-可以调用自己的脚本"> 36.4 递归：可以调用自己的脚本</h1>
-<p>脚本可以递归的调用自己吗？答案是肯定的。</p>
-<h2 id="example-36-10-可以调用自己的脚本-但没什么实际用途"> Example 36-10. 可以调用自己的脚本（但没什么实际用途）</h2>
-<div><pre><code>#!/bin/bash
-# recurse.sh
-
-# 脚本可以调用自己吗？
-# 其实是可以的。但这样有什么实际用途吗？
-# （请往下看）
-
-RANGE=10
-MAXVAL=9
-
-i=$RANDOM
-let &quot;i %= $RANGE&quot;  # 在0到$RANGE - 1的范围内产生一个随机数
-
-if [ &quot;$i&quot; -lt &quot;$MAXVAL&quot; ]
-then
-    echo &quot;i = $i&quot;
-    ./$0           # 脚本进行递归调用（调用自己）
-fi                 # 每次被调用的脚本做同样的事情，直到$i和$MAXVAL相等。 
-
-# 如果使用“while”循环代替“if/then”语句会出问题。请试着解释为什么。
-
-exit 0
-
-# 笔记:
-# ----
-# 这个脚本文件必须有可执行权限。
-# 即使使用“sh”命令调用，这脚本也可以执行。
-# 请解释原因。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><h2 id="example-36-11-一个有点用的调用自己的脚本"> Example 36-11. 一个有点用的调用自己的脚本</h2>
-<div><pre><code>#!/bin/bash
-# pb.sh: phone book
-
-# 用于权限管理的脚本，由Rick Boivie编写。
-# ABS作者稍有修改
-
-MINARGS=1     # 需要至少一个参数
-DATAFILE=./phonebook
-              # 当前目录下必须存在名为“phonebook”的数据文件
-PROGNAME=$0
-E_NOARGS=70   # 没有错误
-
-if [ $# -lt $MINARGS ]; then
-    echo &quot;Usage: &quot;$PROGNAME&quot; data-to-look-up&quot;
-    exit $E_NOARGS
-fi      
-
-if [ $# -eq $MINARGS ]; then
-    grep $1 &quot;$DATAFILE&quot;
-    # 如果$DATAFILE没有匹配则&#39;grep&#39;命令会报错。
-else
-    ( shift; &quot;$PROGNAME&quot; $* ) | grep $1
-    # 脚本的递归调用
-fi
-exit 0        # 脚本结束 
-
-# 下面是一些文件内容
-
-# ------------------------------------------------------------------------
-一个简单的&quot;phonebook&quot;数据文件:
-
-John Doe        1555 Main St., Baltimore, MD 21228          (410) 222-3333
-Mary Moe        9899 Jones Blvd., Warren, NH 03787          (603) 898-3232
-Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
-Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
-Zoe Zenobia     4481 N. Baker St., San Francisco, SF 94338  (415) 501-1631
-# ------------------------------------------------------------------------
-
-$bash pb.sh Roe
-Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
-Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
-
-$bash pb.sh Roe Sam
-Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
-
-# 当对脚本传入多于一个参数时，脚本只显示包含所有参数的行
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><h2 id="example-36-12-另一个调用自己的脚本"> Example 36-12. 另一个调用自己的脚本</h2>
-<div><pre><code>#!/bin/bash
-# usrmnt.sh, 由Anthony Richardson编写
-# 在ABS Guide中用于权限管理
-
-# usage:       usrmnt.sh
-# description: 想使用挂载设备操作的用户，在/etc/sudoers文件中必须属于MNTUSERS组。
-
-# ----------------------------------------------------------
-# 这个脚本会返回加了sudo命令的自身。
-# 如果一个有权限的用户，则只需要输入：
-#   usermount /dev/fd0 /mnt/floppy
-# 而不需要使用下面的方法：
-#   sudo usermount /dev/fd0 /mnt/floppy
-
-# 我对于所有需要sudo的脚本都使用了这个技术，因为我发现这让我感觉非常舒服。
-# ----------------------------------------------------------
-
-# 如果SUDO_COMMAND变量没有被设置，那证明没有使用sudo命令运行。这需要
-# 再重新运行这个脚本，同时传递用户的ID和组ID...
-
-if [ -z &quot;$SUDO_COMMAND&quot; ]
-then
-    mntusr=$(id -u) grpusr=$(id -g) sudo $0 $* # 译注：脚本调用自己，并且传递参数
-    exit 0
-fi
-
-# 如果使用了sudo运行，就不会卡在这里了。
-/bin/mount $* -o uid=$mntusr,gid=$grpusr
-
-exit 0
-
-# 附加说明：
-# -------------------------------------------------
-
-# 1) Linux系统允许/etc/fstab文件中列出的用户挂在移动存储设备。但在服务器上，我喜欢让更少的人访问移动存储。我发现使用sudo可以帮我做到。
-
-# 2) 我还发现使用sudo比用组权限来实现让人感觉更加舒服。
-
-# 3) 这种方法可以给任何有权限的人使用mount命令，所以要小心处理。
-#    你也可以将这种技术用到比如mntfloppy，mntcdrom和mntsamba等脚本上来实现更优雅的挂载管理。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br></div></div><p>过多层次的递归调用会导致脚本的栈空间溢出，引起段错误（segfault）。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>Centos7.6下Elasticseatch7.2集群搭建步骤</title>
       <link>https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/bak/9.3%20centos7.6%E4%B8%8Belasticsearch7.2%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</guid>
@@ -51489,6 +51140,32 @@ ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start lo
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>7.5 牛刀小试</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">7.5 牛刀小试</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
+<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
+<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> <span>$HOME</span>/.Xclients
+<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> /etc/X11/xinit/Xclients
+<span>else</span>
+    <span># 安全分支。尽管程序不会执行这个分支。</span>
+    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
+    xclock -geometry 100x100-5+5 <span>&amp;</span>
+    xterm -geometry 80x50-50+150 <span>&amp;</span>
+    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
+            netscape /usr/share/doc/HTML/index.html
+    <span>fi</span>
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>数据类型</title>
@@ -52881,35 +52558,6 @@ $ crontab -e
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640.png" type="image/png"/>
     </item>
     <item>
-      <title>7.4 嵌套 if/then 条件测试</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/07_4_nested_if_then_condition_tests/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/07_4_nested_if_then_condition_tests/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">7.4 嵌套 if/then 条件测试</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_7-4-嵌套-if-then-条件测试"> 7.4 嵌套 if/then 条件测试</h1>
-<p>可以嵌套 <code>if/then</code> 条件测试结构。嵌套的结果等价于使用 <a href="http://tldp.org/LDP/abs/html/ops.html#LOGOPS1" target="_blank" rel="noopener noreferrer"><code>&amp;&amp;</code></a> 复合比较运算符。</p>
-<div><pre><code><span>a</span><span>=</span><span>3</span>
-
-<span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>0</span> <span>]</span>
-<span>then</span>
-  <span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -lt <span>5</span> <span>]</span>
-  <span>then</span>
-    <span>echo</span> <span>"The value of <span title="\&quot;">\"</span>a<span title="\&quot;">\"</span> lies somewhere between 0 and 5."</span>
-  <span>fi</span>
-<span>fi</span>
-
-<span># 和下面的结果相同</span>
-
-<span>if</span> <span>[</span> <span>"<span>$a</span>"</span> -gt <span>0</span> <span>]</span> <span>&amp;&amp;</span> <span>[</span> <span>"<span>$a</span>"</span> -lt <span>5</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"The value of <span title="\&quot;">\"</span>a<span title="\&quot;">\"</span> lies somewhere between 0 and 5."</span>
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>在 <a href="http://tldp.org/LDP/abs/html/bashver2.html#CARDS" target="_blank" rel="noopener noreferrer">样例 37-4</a> 和 <a href="http://tldp.org/LDP/abs/html/system.html#BACKLIGHT" target="_blank" rel="noopener noreferrer">样例 17-11</a> 中展示了嵌套 <code>if/then</code> 条件测试结构。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>在Docker容器中运行Elasticsearch，Kibana和Cerebro</title>
       <link>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</guid>
@@ -53017,6 +52665,46 @@ networks<span>:</span>
 ]]></content:encoded>
     </item>
     <item>
+      <title>Kibana的安装和界面快速浏览</title>
+      <link>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Kibana的安装和界面快速浏览</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
+<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
+<p>解压并安装运行</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" type="image/png"/>
+    </item>
+    <item>
       <title>Elasticsearch的安装和简单配置</title>
       <link>https://clay-wangzhi.com/monitor/elk/install/sample-install/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/install/sample-install/</guid>
@@ -53096,46 +52784,6 @@ bin/elasticsearch-plugin list
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567741507169.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Kibana的安装和界面快速浏览</title>
-      <link>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Kibana的安装和界面快速浏览</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
-<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
-<p>解压并安装运行</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" type="image/png"/>
     </item>
     <item>
       <title>基本概念</title>
@@ -53398,83 +53046,6 @@ bin/kibana remove
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567998428921.png" type="image/png"/>
     </item>
     <item>
-      <title>倒排索引入门</title>
-      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
-<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
-    </item>
-    <item>
       <title>文档的基本操作CRUP与批量操作</title>
       <link>https://clay-wangzhi.com/monitor/elk/primer/crup/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/primer/crup/</guid>
@@ -53554,6 +53125,141 @@ bin/kibana remove
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018899854.png" alt="" /></p>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568013522348.png" type="image/png"/>
+    </item>
+    <item>
+      <title>倒排索引入门</title>
+      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
+<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
+    </item>
+    <item>
+      <title>Request Body和Query DSL简介</title>
+      <link>https://clay-wangzhi.com/monitor/elk/primer/req-body/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/primer/req-body/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Request Body和Query DSL简介</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="request-body和query-dsl简介"> Request Body和Query DSL简介</h1>
+<h2 id="request-body-search"> Request Body Search</h2>
+<ul>
+<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
+<li>Query DSL</li>
+</ul>
+<p>举例</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" alt="" /></p>
+<h3 id="分页"> 分页</h3>
+<ul>
+<li>From从0开始，默认返回10个结果</li>
+<li>获取靠后的翻页成本较高</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169125069.png" alt="" /></p>
+<h3 id="排序"> 排序</h3>
+<ul>
+<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
+<ul>
+<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568170207936.png" alt="" /></p>
+<h3 id="source-filtering"> _source filtering</h3>
+<ul>
+<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
+<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191600446.png" alt="" /></p>
+<h3 id="脚本字段"> 脚本字段</h3>
+<ul>
+<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191768549.png" alt="" /></p>
+<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
+<ul>
+<li>默认使用term类型，或的关系</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191830422.png" alt="" /></p>
+<ul>
+<li>可以指定操作类型为AND</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191867781.png" alt="" /></p>
+<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
+<ul>
+<li>slop参数表示，允许各个单词之间插入的单词个数</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568192076860.png" alt="" /></p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" type="image/png"/>
     </item>
     <item>
       <title>通过分析器进行分词</title>
@@ -53637,112 +53343,6 @@ bin/kibana remove
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568094953293.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Request Body和Query DSL简介</title>
-      <link>https://clay-wangzhi.com/monitor/elk/primer/req-body/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/primer/req-body/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Request Body和Query DSL简介</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="request-body和query-dsl简介"> Request Body和Query DSL简介</h1>
-<h2 id="request-body-search"> Request Body Search</h2>
-<ul>
-<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
-<li>Query DSL</li>
-</ul>
-<p>举例</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" alt="" /></p>
-<h3 id="分页"> 分页</h3>
-<ul>
-<li>From从0开始，默认返回10个结果</li>
-<li>获取靠后的翻页成本较高</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169125069.png" alt="" /></p>
-<h3 id="排序"> 排序</h3>
-<ul>
-<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
-<ul>
-<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568170207936.png" alt="" /></p>
-<h3 id="source-filtering"> _source filtering</h3>
-<ul>
-<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
-<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191600446.png" alt="" /></p>
-<h3 id="脚本字段"> 脚本字段</h3>
-<ul>
-<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191768549.png" alt="" /></p>
-<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
-<ul>
-<li>默认使用term类型，或的关系</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191830422.png" alt="" /></p>
-<ul>
-<li>可以指定操作类型为AND</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191867781.png" alt="" /></p>
-<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
-<ul>
-<li>slop参数表示，允许各个单词之间插入的单词个数</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568192076860.png" alt="" /></p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Search API概览</title>
-      <link>https://clay-wangzhi.com/monitor/elk/primer/search-api/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/primer/search-api/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Search API概览</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="search-api概览"> Search API概览</h1>
-<h2 id="search-api"> Search API</h2>
-<ul>
-<li>URI Search
-<ul>
-<li>在URL中使用查询参数</li>
-</ul>
-</li>
-<li>Request Body Search
-<ul>
-<li>使用Elasticsearch提供的，基于JSON格式的更加完备的Query Domain Specific Language （DSL）</li>
-</ul>
-</li>
-</ul>
-<h3 id="指定查询的索引"> 指定查询的索引</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097742808.png" alt="" /></p>
-<h3 id="uri查询"> URI查询</h3>
-<ul>
-<li>使用&quot;q&quot;，指定查询字符串</li>
-<li>&quot;query string syntax&quot;，KV键值对</li>
-</ul>
-<p>举例</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097928424.png" alt="" /></p>
-<h3 id="request-body"> Request Body</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098031540.png" alt="" /></p>
-<h3 id="搜索response字段说明"> 搜索Response字段说明</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098178099.png" alt="" /></p>
-<h2 id="衡量相关性"> 衡量相关性</h2>
-<ul>
-<li>Information Retrieval（检索）
-<ul>
-<li>Rrecision（查准率） - 尽可能返回较少的无关文档</li>
-<li>Recall （查全率）- 尽量返回较多的相关文档</li>
-<li>Ranking - 是否能够按照相关度进行排序</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098803331.png" alt="" /></p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097742808.png" type="image/png"/>
     </item>
     <item>
       <title>URI Search详解</title>
@@ -53837,6 +53437,54 @@ bin/kibana remove
 </li>
 </ul>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>Search API概览</title>
+      <link>https://clay-wangzhi.com/monitor/elk/primer/search-api/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/primer/search-api/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Search API概览</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="search-api概览"> Search API概览</h1>
+<h2 id="search-api"> Search API</h2>
+<ul>
+<li>URI Search
+<ul>
+<li>在URL中使用查询参数</li>
+</ul>
+</li>
+<li>Request Body Search
+<ul>
+<li>使用Elasticsearch提供的，基于JSON格式的更加完备的Query Domain Specific Language （DSL）</li>
+</ul>
+</li>
+</ul>
+<h3 id="指定查询的索引"> 指定查询的索引</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097742808.png" alt="" /></p>
+<h3 id="uri查询"> URI查询</h3>
+<ul>
+<li>使用&quot;q&quot;，指定查询字符串</li>
+<li>&quot;query string syntax&quot;，KV键值对</li>
+</ul>
+<p>举例</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097928424.png" alt="" /></p>
+<h3 id="request-body"> Request Body</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098031540.png" alt="" /></p>
+<h3 id="搜索response字段说明"> 搜索Response字段说明</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098178099.png" alt="" /></p>
+<h2 id="衡量相关性"> 衡量相关性</h2>
+<ul>
+<li>Information Retrieval（检索）
+<ul>
+<li>Rrecision（查准率） - 尽可能返回较少的无关文档</li>
+<li>Recall （查全率）- 尽量返回较多的相关文档</li>
+<li>Ranking - 是否能够按照相关度进行排序</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568098803331.png" alt="" /></p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097742808.png" type="image/png"/>
     </item>
     <item>
       <title>ELK</title>
@@ -54285,6 +53933,57 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" type="image/webp"/>
+    </item>
+    <item>
+      <title>PrometheusAlert</title>
+      <link>https://clay-wangzhi.com/monitor/promethues-alerts/</link>
+      <guid>https://clay-wangzhi.com/monitor/promethues-alerts/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">PrometheusAlert</source>
+      <category>监控</category>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="prometheusalert"> PrometheusAlert</h1>
+<p>Prometheus Alert是开源的运维告警中心消息转发系统,支持主流的监控系统Prometheus,Zabbix,日志系统Graylog和数据可视化系统Grafana发出的预警消息,支持钉钉,微信,华为云短信,腾讯云短信,腾讯云电话,阿里云短信,阿里云电话等</p>
+<h2 id="文档"> 文档</h2>
+<p>https://feiyu563.gitbook.io/prometheusalert/</p>
+<h2 id="自定义的告警模板"> 自定义的告警模板</h2>
+<div><pre><code>{{ $var := .externalURL}}{{ range $k,$v:=.alerts }}
+{{if eq $v.status &quot;resolved&quot;}}
+## [Prometheus恢复信息]({{$v.generatorURL}})
+
+&gt; &lt;font color=&quot;info&quot;&gt;告警名称&lt;/font&gt;：[{{$v.labels.alertname}}]({{$var}})
+
+&gt; &lt;font color=&quot;info&quot;&gt;告警级别&lt;/font&gt;：{{$v.labels.severity}}
+
+&gt; &lt;font color=&quot;info&quot;&gt;当前状态&lt;/font&gt;：{{$v.status}}
+
+&gt; &lt;font color=&quot;info&quot;&gt;告警分组&lt;/font&gt;：{{$v.labels.team}}
+
+&gt; &lt;font color=&quot;info&quot;&gt;开始时间&lt;/font&gt;：{{GetCSTtime $v.startsAt}}
+
+&gt; &lt;font color=&quot;info&quot;&gt;结束时间&lt;/font&gt;：{{GetCSTtime $v.endsAt}}
+
+&gt; &lt;font color=&quot;info&quot;&gt;实例地址&lt;/font&gt;：{{$v.labels.instance}}
+
+**{{$v.annotations.description}}**
+{{else}}
+## [ &lt;font color=&quot;#FF0000&quot;&gt;Prometheus告警信息&lt;/font&gt;]({{$v.generatorURL}})
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警名称&lt;/font&gt;：[{{$v.labels.alertname}}]({{$var}})
+
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警级别&lt;/font&gt;：{{$v.labels.severity}}
+
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;当前状态&lt;/font&gt;：{{$v.status}}
+
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警分组&lt;/font&gt;：{{$v.labels.team}}
+
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;开始时间&lt;/font&gt;：{{GetCSTtime $v.startsAt}}
+
+&gt; &lt;font color=&quot;#FF0000&quot;&gt;实例地址&lt;/font&gt;：{{$v.labels.instance}}
+
+**{{$v.annotations.description}}**
+{{end}}
+{{ end }}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>6 常见问题</title>
@@ -55024,68 +54723,6 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
 ]]></content:encoded>
     </item>
     <item>
-      <title>3 zabbix添加报警媒介</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3 zabbix添加报警媒介</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
-<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" type="image/png"/>
-    </item>
-    <item>
       <title>4 MySQL监控模块</title>
       <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/</link>
       <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/</guid>
@@ -55225,6 +54862,68 @@ fi
 </ol>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/mysql图形1.png" type="image/png"/>
+    </item>
+    <item>
+      <title>3 zabbix添加报警媒介</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3 zabbix添加报警媒介</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
+<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" type="image/png"/>
     </item>
     <item>
       <title>5 Redis监控模块</title>
@@ -55701,56 +55400,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>PrometheusAlert</title>
-      <link>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/promethues-alerts/</link>
-      <guid>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/promethues-alerts/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">PrometheusAlert</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="prometheusalert"> PrometheusAlert</h1>
-<p>Prometheus Alert是开源的运维告警中心消息转发系统,支持主流的监控系统Prometheus,Zabbix,日志系统Graylog和数据可视化系统Grafana发出的预警消息,支持钉钉,微信,华为云短信,腾讯云短信,腾讯云电话,阿里云短信,阿里云电话等</p>
-<h3 id="文档"> 文档</h3>
-<p>https://feiyu563.gitbook.io/prometheusalert/</p>
-<h3 id="自定义的告警模板"> 自定义的告警模板</h3>
-<div><pre><code>{{ $var := .externalURL}}{{ range $k,$v:=.alerts }}
-{{if eq $v.status &quot;resolved&quot;}}
-## [Prometheus恢复信息]({{$v.generatorURL}})
-
-&gt; &lt;font color=&quot;info&quot;&gt;告警名称&lt;/font&gt;：[{{$v.labels.alertname}}]({{$var}})
-
-&gt; &lt;font color=&quot;info&quot;&gt;告警级别&lt;/font&gt;：{{$v.labels.severity}}
-
-&gt; &lt;font color=&quot;info&quot;&gt;当前状态&lt;/font&gt;：{{$v.status}}
-
-&gt; &lt;font color=&quot;info&quot;&gt;告警分组&lt;/font&gt;：{{$v.labels.team}}
-
-&gt; &lt;font color=&quot;info&quot;&gt;开始时间&lt;/font&gt;：{{GetCSTtime $v.startsAt}}
-
-&gt; &lt;font color=&quot;info&quot;&gt;结束时间&lt;/font&gt;：{{GetCSTtime $v.endsAt}}
-
-&gt; &lt;font color=&quot;info&quot;&gt;实例地址&lt;/font&gt;：{{$v.labels.instance}}
-
-**{{$v.annotations.description}}**
-{{else}}
-## [ &lt;font color=&quot;#FF0000&quot;&gt;Prometheus告警信息&lt;/font&gt;]({{$v.generatorURL}})
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警名称&lt;/font&gt;：[{{$v.labels.alertname}}]({{$var}})
-
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警级别&lt;/font&gt;：{{$v.labels.severity}}
-
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;当前状态&lt;/font&gt;：{{$v.status}}
-
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;告警分组&lt;/font&gt;：{{$v.labels.team}}
-
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;开始时间&lt;/font&gt;：{{GetCSTtime $v.startsAt}}
-
-&gt; &lt;font color=&quot;#FF0000&quot;&gt;实例地址&lt;/font&gt;：{{$v.labels.instance}}
-
-**{{$v.annotations.description}}**
-{{end}}
-{{ end }}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>优秀的技术博客</title>
       <link>https://clay-wangzhi.com/other/blog/</link>
       <guid>https://clay-wangzhi.com/other/blog/</guid>
@@ -55788,33 +55437,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 <li><a href="https://www.kancloud.cn/@willseecloud" target="_blank" rel="noopener noreferrer">willseecloud</a></li>
 <li><a href="https://mrhope.site/" target="_blank" rel="noopener noreferrer">mrhope</a></li>
 </ul>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>调优的目的：</title>
-      <link>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</link>
-      <guid>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/%E8%B0%83%E4%BC%98/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">调优的目的：</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h2 id="调优的目的"> 调优的目的：</h2>
-<ol>
-<li>根据不同的角色调优的方法是不一样的</li>
-<li>找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）</li>
-<li>通常做两种调优：
-response time:  Web服务器，用户感受度好
-throughput: 	文件服务器，拷贝的速度</li>
-</ol>
-<h2 id="性能调优的效率问题"> 性能调优的效率问题：</h2>
-<h3 id="业务级调优"> 业务级调优</h3>
-<p>尽量在业务级调，效果最明显</p>
-<p>例如： 网站一定要使用Apache吗?
-例如：将原有的调度器由LVS换成F5-BigIP
-例如：能否禁用一些不必要的服务如蓝牙、smart card，makewathis, updatadb</p>
-<h3 id="应用级调优"> 应用级调优</h3>
-<p>NFS，Samba，Apache、Nginx、MySQL、Oracle、LVS本身调优				
-对于日志的处理： 只要有日志产生，就会存盘fsync()，可以调整记录的日志等级或延后日志写，从而避免大量的I/O操作
-kernel级调优		最后的希望，kernel调优具有普遍性</p>
-<p>自上往下，效果越来越不明显</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -56032,6 +55654,104 @@ kernel级调优		最后的希望，kernel调优具有普遍性</p>
 <div><pre><code>要粘贴时：set paste
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>IT 博客写作工作</title>
+      <link>https://clay-wangzhi.com/other/writing/</link>
+      <guid>https://clay-wangzhi.com/other/writing/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">IT 博客写作工作</source>
+      <pubDate>Sun, 30 May 2021 10:05:37 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="it-博客写作工作"> IT 博客写作工作</h1>
+<h2 id="写作前"> 写作前</h2>
+<h3 id="trello"> trello</h3>
+<p>官网地址:https://trello.com/</p>
+<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img" /></p>
+<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img" /></p>
+<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img" /></p>
+<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
+<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
+<h2 id="写作中"> 写作中</h2>
+<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
+<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
+<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
+<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
+<blockquote>
+<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
+</blockquote>
+<ul>
+<li>安装成功界面</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683" /></p>
+<ul>
+<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
+</ul>
+<blockquote>
+<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996" /></p>
+<ul>
+<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145" /></p>
+<ul>
+<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
+</ul>
+<div><pre><code>url：https://getee.com
+owner：写你的码云用户名
+repo：仓库名称
+token：填入码云的私人令牌
+path：路径，一般写上img
+message：可以不用写
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452" /></p>
+<ul>
+<li>设置PicGo开机自启</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568" /></p>
+<ul>
+<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802" /></p>
+<ul>
+<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678" /></p>
+<ul>
+<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
+</ul>
+<h3 id="代码图片生成器"> 代码图片生成器</h3>
+<p>官网地址:https://carbon.now.sh/</p>
+<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405" /></p>
+<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
+<h2 id="写作后"> 写作后</h2>
+<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
+<h3 id="微信公众号"> 微信公众号</h3>
+<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
+<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
+<p>官网地址：</p>
+<p>http://md.aclickall.com/</p>
+<p>https://mdnice.com/</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255" /></p>
+<h3 id="其他博客平台"> 其他博客平台</h3>
+<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
+<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
+<p>官网地址：</p>
+<p>https://openwrite.cn/</p>
+<p>https://github.com/ystcode/BlogHelper</p>
+<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
+<h2 id="参考文章"> 参考文章</h2>
+<ul>
+<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
+<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
+</ul>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
       <title>安装python解释器，配置好path变量。</title>
@@ -56383,104 +56103,6 @@ git config --global user.email &quot;xxxxxxx@qq.com&quot;
 <p>转载链接：https://www.cnblogs.com/DesignerA/p/11604200.html</p>
 </blockquote>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>IT 博客写作工作</title>
-      <link>https://clay-wangzhi.com/other/writing/</link>
-      <guid>https://clay-wangzhi.com/other/writing/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">IT 博客写作工作</source>
-      <pubDate>Sun, 30 May 2021 10:05:37 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="it-博客写作工作"> IT 博客写作工作</h1>
-<h2 id="写作前"> 写作前</h2>
-<h3 id="trello"> trello</h3>
-<p>官网地址:https://trello.com/</p>
-<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img" /></p>
-<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img" /></p>
-<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img" /></p>
-<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
-<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
-<h2 id="写作中"> 写作中</h2>
-<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
-<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
-<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
-<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
-<blockquote>
-<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
-</blockquote>
-<ul>
-<li>安装成功界面</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683" /></p>
-<ul>
-<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
-</ul>
-<blockquote>
-<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996" /></p>
-<ul>
-<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145" /></p>
-<ul>
-<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
-</ul>
-<div><pre><code>url：https://getee.com
-owner：写你的码云用户名
-repo：仓库名称
-token：填入码云的私人令牌
-path：路径，一般写上img
-message：可以不用写
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452" /></p>
-<ul>
-<li>设置PicGo开机自启</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568" /></p>
-<ul>
-<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802" /></p>
-<ul>
-<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678" /></p>
-<ul>
-<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
-</ul>
-<h3 id="代码图片生成器"> 代码图片生成器</h3>
-<p>官网地址:https://carbon.now.sh/</p>
-<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405" /></p>
-<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
-<h2 id="写作后"> 写作后</h2>
-<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
-<h3 id="微信公众号"> 微信公众号</h3>
-<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
-<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
-<p>官网地址：</p>
-<p>http://md.aclickall.com/</p>
-<p>https://mdnice.com/</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255" /></p>
-<h3 id="其他博客平台"> 其他博客平台</h3>
-<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
-<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
-<p>官网地址：</p>
-<p>https://openwrite.cn/</p>
-<p>https://github.com/ystcode/BlogHelper</p>
-<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
-<h2 id="参考文章"> 参考文章</h2>
-<ul>
-<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
-<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
-</ul>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" type="image/jpeg"/>
     </item>
     <item>
       <title>高可用开源方案 Keepalived VS Heartbeat对比</title>
@@ -57899,6 +57521,94 @@ drwxrwxr-x 2 root root   4096 11-13 05:50 test4
 ]]></content:encoded>
     </item>
     <item>
+      <title>每天一个linux命令（29）-chown</title>
+      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</link>
+      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">每天一个linux命令（29）-chown</source>
+      <pubDate>Fri, 27 Jul 2018 18:58:00 GMT</pubDate>
+      <content:encoded><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>chown(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
+-f或--quite或——silent：不显示错误信息；
+-h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
+-R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
+-v或——version：显示指令执行过程；
+--dereference：效果和“-h”参数相同；
+--help：在线帮助；
+--reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
+文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
+<h2 id="功能"> 功能</h2>
+<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）<strong>改变拥有者和群组</strong></p>
+<div><pre><code># ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root users 302108 11-30 08:39 log2012.log
+# chown mail:mail log2012.log 
+# ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
+<div><pre><code>ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+# chown root: log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root root  302108 11-30 08:39 log2012.log
+# chown :mail log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
+<div><pre><code># ll
+drwxr-xr-x 2 root users   4096 11-30 08:39 test6
+# chown -R -v root:mail test6
+“test6/log2014.log” 的所有者已更改为 root:mail
+“test6/linklog.log” 的所有者已更改为 root:mail
+“test6/log2015.log” 的所有者已更改为 root:mail
+“test6/log2013.log” 的所有者已更改为 root:mail
+“test6/log2012.log” 的所有者已保留为 root:mail
+“test6/log2017.log” 的所有者已更改为 root:mail
+“test6/log2016.log” 的所有者已更改为 root:mail
+“test6” 的所有者已更改为 root:mail
+# ll
+drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
+# cd test6
+# ll
+总计 604
+---xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
+<p>http://man.linuxde.net/chown</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>每天一个linux命令（33）-du</title>
       <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</link>
       <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</guid>
@@ -58022,94 +57732,6 @@ drwxrwxr-x 2 root root   4096 11-13 05:50 test4
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
 <p>http://man.linuxde.net/du</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>每天一个linux命令（29）-chown</title>
-      <link>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</link>
-      <guid>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">每天一个linux命令（29）-chown</source>
-      <pubDate>Fri, 27 Jul 2018 18:58:00 GMT</pubDate>
-      <content:encoded><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>chown(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
--f或--quite或——silent：不显示错误信息；
--h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
--R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
--v或——version：显示指令执行过程；
---dereference：效果和“-h”参数相同；
---help：在线帮助；
---reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
-文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
-<h2 id="功能"> 功能</h2>
-<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）<strong>改变拥有者和群组</strong></p>
-<div><pre><code># ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root users 302108 11-30 08:39 log2012.log
-# chown mail:mail log2012.log 
-# ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
-<div><pre><code>ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-# chown root: log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root root  302108 11-30 08:39 log2012.log
-# chown :mail log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
-<div><pre><code># ll
-drwxr-xr-x 2 root users   4096 11-30 08:39 test6
-# chown -R -v root:mail test6
-“test6/log2014.log” 的所有者已更改为 root:mail
-“test6/linklog.log” 的所有者已更改为 root:mail
-“test6/log2015.log” 的所有者已更改为 root:mail
-“test6/log2013.log” 的所有者已更改为 root:mail
-“test6/log2012.log” 的所有者已保留为 root:mail
-“test6/log2017.log” 的所有者已更改为 root:mail
-“test6/log2016.log” 的所有者已更改为 root:mail
-“test6” 的所有者已更改为 root:mail
-# ll
-drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
-# cd test6
-# ll
-总计 604
----xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
-<p>http://man.linuxde.net/chown</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -59656,6 +59278,129 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
+      <title>4. 内核参数优化</title>
+      <link>https://clay-wangzhi.com/web/nginx/core/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
+<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>文件内容如下：</p>
+<div><pre><code>net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 268435456
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 30000
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_mem = 524288 699050 1048576
+vm.swappiness = 0
+vm.min_free_kbytes = 65536
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
+<li>
+<p>net.core.somaxconn = 262144</p>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
+</li>
+<li>
+<p>net.core.netdev_max_backlog = 262144</p>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_orphans = 262144</p>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
+<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
+这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
+<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
+<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_recycle = 0</p>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
+当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
+会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_reuse = 1</p>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syncookies = 1</p>
+<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
+假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
+这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
+正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
+设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
+开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
+如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
+<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
+该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
+实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syn_retries = 1</p>
+<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_synack_retries = 1</p>
+<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
+</li>
+<li>
+<p>net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
+当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
+这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_fin_timeout = 30</p>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_keepalive_time = 30</p>
+<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
+客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
+并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
+比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
+就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>3. nginx配置文件详解</title>
       <link>https://clay-wangzhi.com/web/nginx/config/</link>
       <guid>https://clay-wangzhi.com/web/nginx/config/</guid>
@@ -60076,129 +59821,6 @@ $document_uri ： 与$uri相同。
 <p>http://nginx.org/en/docs/http/ngx_http_core_module.html#variables</p>
 <p>http://nginx.org/en/docs/</p>
 </blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>4. 内核参数优化</title>
-      <link>https://clay-wangzhi.com/web/nginx/core/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
-<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
-<p>文件内容如下：</p>
-<div><pre><code>net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 268435456
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.somaxconn = 262144
-net.core.netdev_max_backlog = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn_backlog = 30000
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 65536 4194304
-net.ipv4.tcp_mem = 524288 699050 1048576
-vm.swappiness = 0
-vm.min_free_kbytes = 65536
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
-<li>
-<p>net.core.somaxconn = 262144</p>
-<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
-</li>
-<li>
-<p>net.core.netdev_max_backlog = 262144</p>
-<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_orphans = 262144</p>
-<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
-<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
-<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
-这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
-<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
-<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_recycle = 0</p>
-<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
-<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
-当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
-会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_reuse = 1</p>
-<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syncookies = 1</p>
-<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
-假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
-这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
-正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
-设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
-开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
-如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
-<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
-该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
-实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syn_retries = 1</p>
-<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_synack_retries = 1</p>
-<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
-</li>
-<li>
-<p>net.ipv4.ip_local_port_range = 1024 65000</p>
-<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
-当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
-这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_fin_timeout = 30</p>
-<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_keepalive_time = 30</p>
-<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
-客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
-并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
-比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
-就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
-</li>
-</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -62122,18 +61744,6 @@ D -&gt; nginx将处理结果返回给客户端
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/http.png" type="image/png"/>
     </item>
     <item>
-      <title>tomcat注意事项</title>
-      <link>https://clay-wangzhi.com/web/tomcat/danger/</link>
-      <guid>https://clay-wangzhi.com/web/tomcat/danger/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">tomcat注意事项</source>
-      <category>web中间件</category>
-      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
-<h2 id="war正确删除姿势"> war正确删除姿势</h2>
-<p>tomcat中war包停止后才可以删除</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>tomcat假死现象</title>
       <link>https://clay-wangzhi.com/web/tomcat/dead/</link>
       <guid>https://clay-wangzhi.com/web/tomcat/dead/</guid>
@@ -62249,6 +61859,18 @@ D -&gt; nginx将处理结果返回给客户端
 <blockquote>
 <p>转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html</p>
 </blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>tomcat注意事项</title>
+      <link>https://clay-wangzhi.com/web/tomcat/danger/</link>
+      <guid>https://clay-wangzhi.com/web/tomcat/danger/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">tomcat注意事项</source>
+      <category>web中间件</category>
+      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
+<h2 id="war正确删除姿势"> war正确删除姿势</h2>
+<p>tomcat中war包停止后才可以删除</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -62564,30 +62186,362 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>7.5 牛刀小试</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">7.5 牛刀小试</source>
+      <title>8.1 运算符</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/08_1_operators/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/08_1_operators/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">8.1 运算符</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
-<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
-<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> <span>$HOME</span>/.Xclients
-<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> /etc/X11/xinit/Xclients
-<span>else</span>
-    <span># 安全分支。尽管程序不会执行这个分支。</span>
-    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
-    xclock -geometry 100x100-5+5 <span>&amp;</span>
-    xterm -geometry 80x50-50+150 <span>&amp;</span>
-    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
-            netscape /usr/share/doc/HTML/index.html
-    <span>fi</span>
-<span>fi</span>
+      <content:encoded><![CDATA[<h1 id="_8-1-运算符"> 8.1 运算符</h1>
+<h2 id="赋值运算符"> 赋值运算符</h2>
+<p><em>变量赋值</em>，初始化或改变一个变量的值。</p>
+<h3 id=""> =</h3>
+<p>等号<code>=</code>赋值运算符，既可用于算术赋值，也可用于字符串赋值。</p>
+<div><pre><code>var=27
+category=minerals  # &quot;=&quot;左右不允许有空格
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> 注意，不要混淆<code>=</code>赋值运算符与<code>=</code><a href="http://tldp.org/LDP/abs/html/comparison-ops.html#EQUALSIGNREF" target="_blank" rel="noopener noreferrer">测试操作符</a>。</p>
+</blockquote>
+<div><pre><code>#   =   作为测试操作符
+
+if [ &quot;$string1&quot; = &quot;$string2&quot; ]
+then
+   command
+fi
+
+#  [ &quot;X$string1&quot; = &quot;X$string2&quot; ] 这样写是安全的,
+#  这样写可以避免任意一个变量为空时的报错。
+#  (变量前加的&quot;X&quot;字符规避了变量为空的情况)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h2 id="算术运算符"> 算术运算符</h2>
+<h3 id="-2"> +</h3>
+<p>加</p>
+<h3 id="-3"> -</h3>
+<p>减</p>
+<h3 id="-4"> *</h3>
+<p>乘</p>
+<h3 id="-5"> /</h3>
+<p>除</p>
+<h3 id="-6"> **</h3>
+<p>幂运算</p>
+<div><pre><code># Bash, 2.02版本，推出了&quot;**&quot;幂运算操作符。
+
+let &quot;z=5**3&quot;    # 5 * 5 * 5
+echo &quot;z = $z&quot;   # z = 125
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="-7"> %</h3>
+<p>取余(返回整数除法的余数)</p>
+<div><pre><code>bash$ expr 5 % 3
+2
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>5/3=1，余2
+取余运算符经常被用于生成一定范围内的数( 案例9-11, 案例9-15)，以及格式化程序输出(案例 27-16，案例 A-6)。
+取余运算符还可以用来产生素数（案例A-15），取余的出现大大扩展了整数的算术运算。</p>
+<p><strong>样例 8-1. 最大公约数</strong></p>
+<div><pre><code>#!/bin/bash
+# gcd.sh: 最大公约数
+#         使用欧几里得算法
+
+#  两个整数的最大公约数（gcd）
+#  是两数能同时整除的最大数
+
+#  欧几里得算法使用辗转相除法
+#    In each pass,
+#       dividend &lt;---  divisor
+#       divisor  &lt;---  remainder
+#    until remainder = 0.
+#    The gcd = dividend, on the final pass.
+#
+#  关于欧几里得算法更详细的讨论，可以查看:
+#  Jim Loy&#39;s site, http://www.jimloy.com/number/euclids.htm.
+
+
+# ------------------------------------------------------
+# 参数检查
+ARGS=2
+E_BADARGS=85
+
+if [ $# -ne &quot;$ARGS&quot; ]
+then
+  echo &quot;Usage: `basename $0` first-number second-number&quot;
+  exit $E_BADARGS
+fi
+# ------------------------------------------------------
+
+
+gcd ()
+{
+
+  dividend=$1             #  随意赋值，
+  divisor=$2              #  两数谁大谁小是无关紧要的，
+                          #  为什么?
+
+  remainder=1             #  如果在测试括号里使用了一个未初始化的变量，
+                          #  会报错的。
+
+  until [ &quot;$remainder&quot; -eq 0 ]
+  do    #  ^^^^^^^^^^  该变量必须在使用前初始化！
+    let &quot;remainder = $dividend % $divisor&quot;
+    dividend=$divisor     # 对被除数，除数重新赋值
+    divisor=$remainder
+  done                    # 欧几里得算法
+
+}                         # 最后的 $dividend 就是最大公约数（gcd）
+
+
+gcd $1 $2
+
+echo; echo &quot;GCD of $1 and $2 = $dividend&quot;; echo
+
+
+# 练习 :
+# ---------
+# 1) 检查命令行参数，保证其为整数，
+#+   如果有错误，捕捉错误并在脚本退出前打印出适当的错误信息。
+# 2) 使用本地变量(local variables)重写gcd()函数。
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br></div></div><h3 id="-8"> +=</h3>
+<p>加等 （加上一个数）<sup></sup>
+<code>let &quot;var += 5&quot;</code> 的结果是<code>var</code>变量的值增加了5。</p>
+<h3 id="-9"> -=</h3>
+<p>减等 （减去一个数）</p>
+<h3 id="-10"> *=</h3>
+<p>乘等 （乘以一个数）
+<code>let &quot;var *= 4&quot;</code> 的结果是<code>var</code>变量的值乘了4。</p>
+<h3 id="-11"> /=</h3>
+<p>除等 （除以一个数）</p>
+<h3 id="-12"> %=</h3>
+<p>余等 （取余赋值）</p>
+<h3 id="小结"> 小结</h3>
+<p>算术运算符常用于<code>expr</code>或<code>let</code>表达式中。</p>
+<p><strong>样例 8-2. 使用算术运算符</strong></p>
+<div><pre><code>#!/bin/bash
+# 使变量自增1，10种不同的方法实现
+
+n=1; echo -n &quot;$n &quot;
+
+let &quot;n = $n + 1&quot;   # 可以使用 let &quot;n = n + 1&quot;
+echo -n &quot;$n &quot;
+
+
+: $((n = $n + 1))
+#  &quot;:&quot; 是必要的，不加的话，bash会将
+#+ &quot;$((n = $n + 1))&quot;看做一条命令。
+echo -n &quot;$n &quot;
+
+(( n = n + 1 ))
+#  更简洁的写法。
+#  感谢 David Lombard指出。
+echo -n &quot;$n &quot;
+
+n=$(($n + 1))
+echo -n &quot;$n &quot;
+
+: $[ n = $n + 1 ]
+#  &quot;:&quot; 是必要的，不加的话，bash会将
+#+ &quot;$[ n = $n + 1 ]&quot;看做一条命令。
+#  即使&quot;n&quot;是字符串，也是可行的。
+echo -n &quot;$n &quot;
+
+n=$[ $n + 1 ]
+#  即使&quot;n&quot;是字符串，也是可行的。
+#* 不要用这种写法，它已被废弃且不具有兼容性。
+#  感谢 Stephane Chazelas.
+echo -n &quot;$n &quot;
+
+# 使用C风格的自增运算符也是可以的
+# 感谢 Frank Wang 指出。
+
+let &quot;n++&quot;          # let &quot;++n&quot; 可行
+echo -n &quot;$n &quot;
+
+(( n++ ))          # (( ++n ))  可行
+echo -n &quot;$n &quot;
+
+: $(( n++ ))       # : $(( ++n )) 可行
+echo -n &quot;$n &quot;
+
+: $[ n++ ]         # : $[ ++n ] 可行
+echo -n &quot;$n &quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br></div></div><p>在早期的Bash版本中，整型变量是带符号的长整型数（32-bit），取值范围从 -2147483648 到 2147483647。如果算术操作超出了整数的取值范围，结果会不准确。</p>
+<div><pre><code>echo $BASH_VERSION   # Bash 1.14版本
+
+a=2147483646
+echo &quot;a = $a&quot;        # a = 2147483646
+let &quot;a+=1&quot;           # 自增 &quot;a&quot;.
+echo &quot;a = $a&quot;        # a = 2147483647
+let &quot;a+=1&quot;           # 再次自增&quot;a&quot;，超出取值范围。
+echo &quot;a = $a&quot;        # a = -2147483648
+                     #      错误：超出范围，
+                     #+     最左边的符号位被重置，
+                     #+     结果变负
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>Bash版本 &gt;= 2.05b, Bash支持了64-bit整型数。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" /> 注意，Bash并不支持浮点运算，Bash会将带小数点的数看做字符串。</p>
+</blockquote>
+<div><pre><code>a=1.5
+
+let &quot;b = $a + 1.3&quot;  # 报错
+# t2.sh: let: b = 1.5 + 1.3: syntax error in expression
+#                            (error token is &quot;.5 + 1.3&quot;)
+
+echo &quot;b = $b&quot;       # b=1
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>如果你想在脚本中使用浮点数运算，借助<a href="http://tldp.org/LDP/abs/html/mathc.html#BCREF" target="_blank" rel="noopener noreferrer">bc</a>或外部数学函数库吧。</p>
+<h2 id="位运算"> 位运算</h2>
+<p>位运算很少出现在shell脚本中，在bash中加入位运算的初衷似乎是为了操控和检测来自<code>ports</code>或<code>sockets</code>的数据。位运算在编译型语言中能发挥更大的作用，比如C/C++，位运算提供了直接访问系统硬件的能力。然而，聪明的vladz在他的base64.sh(案例 A-54)脚本中也用到了位运算。
+下面介绍位运算符。</p>
+<h3 id="-13"> &lt;&lt;</h3>
+<p>左移运算符(左移1位相当于乘2)</p>
+<h3 id="-14"> &lt;&lt;=</h3>
+<p>左移赋值</p>
+<p><code>let &quot;var &lt;&lt;= 2&quot;</code> 的结果是var变量的值向左移了2位(乘以4)</p>
+<h3 id="-15"> &gt;&gt;</h3>
+<p>右移运算符(右移1位相当于除2)</p>
+<h3 id="-16"> &gt;&gt;=</h3>
+<p>右移赋值</p>
+<h3 id="-17"> &amp;</h3>
+<p>按位与（AND）</p>
+<h3 id="-18"> &amp;=</h3>
+<p>按位与等（AND-equal）</p>
+<h3 id="-19"> |</h3>
+<p>按位或（OR）</p>
+<h3 id="-20"> |=</h3>
+<p>按位或等（OR-equal）</p>
+<h3 id="-21"> ~</h3>
+<p>按位取反</p>
+<h3 id="-22"> ^</h3>
+<p>按位异或（XOR）</p>
+<h3 id="-23"> ^=</h3>
+<p>按位异或等（XOR-equal）</p>
+<h2 id="逻辑-布尔-运算符"> 逻辑(布尔)运算符</h2>
+<h3 id="-24"> !</h3>
+<p>非(NOT)</p>
+<div><pre><code>if [ ! -f $FILENAME ]
+then
+  ...
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="-25"> &amp;&amp;</h3>
+<p>与(AND)</p>
+<div><pre><code>if [ $condition1 ] &amp;&amp; [ $condition2 ]
+#  等同于:  if [ $condition1 -a $condition2 ]
+#  返回true如果 condition1 和 condition2 同时为真...
+
+if [[ $condition1 &amp;&amp; $condition2 ]]    # 可行
+#  注意，&amp;&amp; 运算符不能用在[ ... ]结构里。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" /> &amp;&amp;也可以被用在<code>list</code>结构中连接命令。</p>
+</blockquote>
+<h3 id="-26"> ||</h3>
+<p>或(OR)</p>
+<div><pre><code>if [ $condition1 ] || [ $condition2 ]
+
+#  等同于:  if [ $condition1 -a $condition2 ]
+#  返回true如果 condition1 和 condition2 任意一个为真...
+
+if [[ $condition1 || $condition2 ]]    # 可行
+#  注意，|| 运算符不能用在[ ... ]结构里。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="小结-2"> 小结</h3>
+<p><strong>样例 8-3. 在条件测试中使用 &amp;&amp; 和 ||</strong></p>
+<div><pre><code>#!/bin/bash
+
+a=24
+b=47
+
+if [ &quot;$a&quot; -eq 24 ] &amp;&amp; [ &quot;$b&quot; -eq 47 ]
+then
+  echo &quot;Test #1 succeeds.&quot;
+else
+  echo &quot;Test #1 fails.&quot;
+fi
+
+#  错误:   if [ &quot;$a&quot; -eq 24 &amp;&amp; &quot;$b&quot; -eq 47 ]
+#          这样写的话，bash会先执行&#39;[ &quot;$a&quot; -eq 24&#39;
+#          然后就找不到右括号&#39;]&#39;了...
+#
+#  注意:  if [[ $a -eq 24 &amp;&amp; $b -eq 24 ]]  这样写是可以的
+#  双方括号测试结构比单方括号更加灵活。
+#  (双方括号中的&quot;&amp;&amp;&quot;与单方括号中的&quot;&amp;&amp;&quot;意义不同)
+#  感谢 Stephane Chazelas 指出。
+
+
+if [ &quot;$a&quot; -eq 98 ] || [ &quot;$b&quot; -eq 47 ]
+then
+  echo &quot;Test #2 succeeds.&quot;
+else
+  echo &quot;Test #2 fails.&quot;
+fi
+
+
+#  使用 -a 和 -o 选项也具有同样的效果。
+#  感谢 Patrick Callahan 指出。
+
+
+if [ &quot;$a&quot; -eq 24 -a &quot;$b&quot; -eq 47 ]
+then
+  echo &quot;Test #3 succeeds.&quot;
+else
+  echo &quot;Test #3 fails.&quot;
+fi
+
+
+if [ &quot;$a&quot; -eq 98 -o &quot;$b&quot; -eq 47 ]
+then
+  echo &quot;Test #4 succeeds.&quot;
+else
+  echo &quot;Test #4 fails.&quot;
+fi
+
+
+a=rhino
+b=crocodile
+if [ &quot;$a&quot; = rhino ] &amp;&amp; [ &quot;$b&quot; = crocodile ]
+then
+  echo &quot;Test #5 succeeds.&quot;
+else
+  echo &quot;Test #5 fails.&quot;
+fi
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br></div></div><p><code>&amp;&amp;</code>和<code>||</code>运算符也可以用在算术运算中。</p>
+<div><pre><code>bash$ echo $(( 1 &amp;&amp; 2 )) $((3 &amp;&amp; 0)) $((4 || 0)) $((0 || 0))
+1 0 1 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h2 id="其他运算符"> 其他运算符</h2>
+<h3 id="-27"> ,</h3>
+<p>逗号运算符
+逗号运算符用于连接两个或多个算术操作，所有的操作会被依次求值（可能会有副作用）。<sup></sup></p>
+<div><pre><code>let &quot;t1 = ((5 + 3, 7 - 1, 15 - 4))&quot;
+echo &quot;t1 = $t1&quot;           ^^^^^^  # t1 = 11
+# 这里的t1 被赋值了11，为什么？
+
+let &quot;t2 = ((a = 9, 15 / 3))&quot;      # 对&quot;a&quot;赋值并对&quot;t2&quot;求值。
+echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>逗号运算符常被用在<code>for</code>循环中。参看案例 11-13。</p>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>取决与不同的上下文，+= 也可能作为字符串连接符。它可以很方便地修改环境变量。 </p>
+</li>
+<li id="footnote2"><p>副作用，顾名思义，就是预料之外的结果。 </p>
+</li>
+</ol>
+</section>
 ]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
   </channel>
 </rss>
