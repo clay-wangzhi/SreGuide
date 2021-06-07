@@ -1,4 +1,9 @@
-## curl方式执行shell脚本时如何传参
+---
+tag: 奇技淫巧
+date: 2020-07-27
+---
+
+# curl方式执行shell脚本时如何传参
 
 有时候shell脚本可以放在http页面上，不用download，可以直接执行。
 
