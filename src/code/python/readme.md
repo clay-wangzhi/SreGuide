@@ -25,6 +25,8 @@ category: Python
 
 [Django教程 | 刘江](https://www.liujiangblog.com/course/django/) :star:
 
+[Django REST Framework教程 | 大江狗](https://pythondjango.cn/django/rest-framework-tutorials)
+
 
 
 ## Summary
