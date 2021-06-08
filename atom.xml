@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-06-08T02:30:47.462Z</updated>
+  <updated>2021-06-08T02:33:45.572Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -15,8 +15,8 @@
   <category term="计算机网络"/>
   <category term="操作系统"/>
   <category term="常见服务的搭建"/>
-  <category term="云原生"/>
   <category term="前端"/>
+  <category term="云原生"/>
   <category term="Golang"/>
   <category term="Python"/>
   <category term="Linux"/>
@@ -36,6 +36,247 @@
   <contributor>
     <name>LinuxStory &amp; Clay</name>
   </contributor>
+  <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
   <entry>
     <title type="html">3 Ansible Ad-hoc命令集</title>
     <id>https://clay-wangzhi.com/automate/ansible/ad-hoc/</id>
@@ -712,247 +953,6 @@ PLAY RECAP *********************************************************************
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><blockquote>
 <p>注意格式，=号左右没有空格</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -6642,6 +6642,44 @@ gitlab-ctl restart
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">2.3 使用 ansible 安装 jenkins</title>
+    <id>https://clay-wangzhi.com/automate/jenkins/ansible-install/</id>
+    <link href="https://clay-wangzhi.com/automate/jenkins/ansible-install/"/>
+    <updated>2021-06-02T09:13:59.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_2-3-使用-ansible-安装-jenkins"> 2.3 使用 ansible 安装 jenkins</h1>
+<blockquote>
+<p>经实验：ansible 2.7.10版本可以安装 jenkins 2.210版本</p>
+<p>安装更高版本，请一并升级ansible，低版本ansible在安装插件时会报如下错误：</p>
+<div><pre><code>{&quot;attempts&quot;: 5, &quot;changed&quot;: false, &quot;details&quot;: &quot;HTTP Error 403: Forbidden&quot;, &quot;item&quot;: &quot;ansible&quot;, &quot;msg&quot;: &quot;Cannot install plugin.&quot;}
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p><strong>ansible安装jenkins</strong></p>
+<div><pre><code>ansible-galaxy <span>install</span> clay_wangzhi.jenkins
+</code></pre>
+<div><span>1</span><br></div></div><p>galaxy中有详细的文档说明：</p>
+<blockquote>
+<p>链接地址：https://galaxy.ansible.com/clay_wangzhi/jenkins</p>
+</blockquote>
+<p>额外注意一些插件的安装：</p>
+<div><pre><code>Role-based Authorization Strategy  #权限控制插件
+git-parameter
+Publish Over SSH
+DIngDIng
+git-parameter #选项参数增加，git-brach选项
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id=""> </h2>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-01-16T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">3.2 访问 API</title>
     <id>https://clay-wangzhi.com/automate/jenkins/api/</id>
     <link href="https://clay-wangzhi.com/automate/jenkins/api/"/>
@@ -6750,44 +6788,6 @@ gitlab-ctl restart
       <name>Clay</name>
     </contributor>
     <published>2021-06-02T09:51:46.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">2.3 使用 ansible 安装 jenkins</title>
-    <id>https://clay-wangzhi.com/automate/jenkins/ansible-install/</id>
-    <link href="https://clay-wangzhi.com/automate/jenkins/ansible-install/"/>
-    <updated>2021-06-02T09:13:59.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_2-3-使用-ansible-安装-jenkins"> 2.3 使用 ansible 安装 jenkins</h1>
-<blockquote>
-<p>经实验：ansible 2.7.10版本可以安装 jenkins 2.210版本</p>
-<p>安装更高版本，请一并升级ansible，低版本ansible在安装插件时会报如下错误：</p>
-<div><pre><code>{&quot;attempts&quot;: 5, &quot;changed&quot;: false, &quot;details&quot;: &quot;HTTP Error 403: Forbidden&quot;, &quot;item&quot;: &quot;ansible&quot;, &quot;msg&quot;: &quot;Cannot install plugin.&quot;}
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p><strong>ansible安装jenkins</strong></p>
-<div><pre><code>ansible-galaxy <span>install</span> clay_wangzhi.jenkins
-</code></pre>
-<div><span>1</span><br></div></div><p>galaxy中有详细的文档说明：</p>
-<blockquote>
-<p>链接地址：https://galaxy.ansible.com/clay_wangzhi/jenkins</p>
-</blockquote>
-<p>额外注意一些插件的安装：</p>
-<div><pre><code>Role-based Authorization Strategy  #权限控制插件
-git-parameter
-Publish Over SSH
-DIngDIng
-git-parameter #选项参数增加，git-brach选项
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id=""> </h2>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-01-16T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -8685,62 +8685,6 @@ config.xml            config.xml2019-06-12
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">5.2 用户认证系统集成</title>
-    <id>https://clay-wangzhi.com/automate/jenkins/user-auth/</id>
-    <link href="https://clay-wangzhi.com/automate/jenkins/user-auth/"/>
-    <updated>2021-06-03T07:02:02.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_5-2-用户认证系统集成"> 5.2 用户认证系统集成</h1>
-<blockquote>
-<p>转载自：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/" target="_blank" rel="noopener noreferrer">用户认证系统集成 | 泽阳</a></p>
-</blockquote>
-<p>您好，本章主要讲解与jenkins与用户认证系统集成 例如：LDAP Gitlab GitHub 。我们做实验的过程中建议先开启匿名模式，防止配置错误导致无法直接登录。 😀</p>
-<hr>
-<p>Jenkins默认使用自带数据库模式存储用户，在企业中一般都会有统一的认证中心，例如 LDAP、ActiveDirectory中管理用户。可以配置Jenkins集成实现统一用户管理。</p>
-<h2 id="ldap系统集成"> ldap系统集成</h2>
-<p>LDAP系统是用于用户管理，在配置集成的时候我们只需要以下信息：</p>
-<ul>
-<li>服务器地址： ldap://192.168.1.200</li>
-<li>服务器端口: 389</li>
-<li>组织OU: ou=jenkins,dc=devops,dc=com</li>
-<li>管理员账号和密码: cn=admin,dc=devops,dc=com</li>
-</ul>
-<p>首先，我需要在Jenkins系统中安装<code>LDAP</code>插件，然后进入 系统管理 -&gt; <code>全局安全配置</code>页面中。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" alt="images" /></a></p>
-<p>填写好信息之后，我们可以点击测试按钮进行测试。会模拟用户登录，成功后再保存配置即可。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" alt="images" /></a></p>
-<h2 id="gitlab单点登录"> gitlab单点登录</h2>
-<p>一般我们会配置Gitlab系统与LDAP系统做用户认证集成，开发人员登录gitlab系统的频率还是很多的，今天我们的配置效果是：当用户已经登录了gitlab，再次打开Jenkins会自动登入。</p>
-<h3 id="gitlab配置"> gitlab配置</h3>
-<p>首先，我们需要在Gitlab中添加一个应用。系统设置 -&gt; 应用管理</p>
-<p>填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>,勾选权限默认具有<code>read_user</code>权限即可。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" alt="images" /></a></p>
-<p>保存配置，会提示以下信息，这些信息需要填写到Jenkins中。<code>ApplicationId</code> <code>secret</code><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" alt="images" /></a></p>
-<h3 id="jenkins配置"> jenkins配置</h3>
-<p>我们需要在Jenkins系统中安装插件<code>Gitlab Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" alt="images" /></a></p>
-<p>注意：当Jenkins前面有代理的时候可能会出现跳转错误的问题。这时候需要看下提示错误的redirect URL地址,检查下图配置。 如果下图配置没有问题，请检查代理的配置问题。另外要注意是<code>http</code>模式哦</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" alt="images" /></a></p>
-<h2 id="github单点登录"> github单点登录</h2>
-<p>如果你用过GitLab，你会发现与GitHub很类似。这里我们要配置的GitHub集成与GitLab配置很类似。</p>
-<h3 id="github配置"> github配置</h3>
-<p>首先登录GitHub, settings -&gt; Developer Settings -&gt; Oauth Apps。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" alt="images" /></a></p>
-<p>新建应用：填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" alt="images" /></a></p>
-<p>保存，获取应用ID和secret<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" alt="images" /></a></p>
-<h3 id="配置jenkins"> 配置jenkins</h3>
-<p>我们需要在Jenkins系统中安装插件<code>Github Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" alt="images" /></a></p>
-<p>效果：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" alt="images" /></a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-01-16T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">4.1 开始编写Jenkinsfile</title>
     <id>https://clay-wangzhi.com/automate/jenkins/start-jenkinsfile/</id>
     <link href="https://clay-wangzhi.com/automate/jenkins/start-jenkinsfile/"/>
@@ -8853,6 +8797,62 @@ config.xml            config.xml2019-06-12
       <name>Clay</name>
     </contributor>
     <published>2021-06-03T06:25:08.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">5.2 用户认证系统集成</title>
+    <id>https://clay-wangzhi.com/automate/jenkins/user-auth/</id>
+    <link href="https://clay-wangzhi.com/automate/jenkins/user-auth/"/>
+    <updated>2021-06-03T07:02:02.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_5-2-用户认证系统集成"> 5.2 用户认证系统集成</h1>
+<blockquote>
+<p>转载自：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/" target="_blank" rel="noopener noreferrer">用户认证系统集成 | 泽阳</a></p>
+</blockquote>
+<p>您好，本章主要讲解与jenkins与用户认证系统集成 例如：LDAP Gitlab GitHub 。我们做实验的过程中建议先开启匿名模式，防止配置错误导致无法直接登录。 😀</p>
+<hr>
+<p>Jenkins默认使用自带数据库模式存储用户，在企业中一般都会有统一的认证中心，例如 LDAP、ActiveDirectory中管理用户。可以配置Jenkins集成实现统一用户管理。</p>
+<h2 id="ldap系统集成"> ldap系统集成</h2>
+<p>LDAP系统是用于用户管理，在配置集成的时候我们只需要以下信息：</p>
+<ul>
+<li>服务器地址： ldap://192.168.1.200</li>
+<li>服务器端口: 389</li>
+<li>组织OU: ou=jenkins,dc=devops,dc=com</li>
+<li>管理员账号和密码: cn=admin,dc=devops,dc=com</li>
+</ul>
+<p>首先，我需要在Jenkins系统中安装<code>LDAP</code>插件，然后进入 系统管理 -&gt; <code>全局安全配置</code>页面中。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" alt="images" /></a></p>
+<p>填写好信息之后，我们可以点击测试按钮进行测试。会模拟用户登录，成功后再保存配置即可。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" alt="images" /></a></p>
+<h2 id="gitlab单点登录"> gitlab单点登录</h2>
+<p>一般我们会配置Gitlab系统与LDAP系统做用户认证集成，开发人员登录gitlab系统的频率还是很多的，今天我们的配置效果是：当用户已经登录了gitlab，再次打开Jenkins会自动登入。</p>
+<h3 id="gitlab配置"> gitlab配置</h3>
+<p>首先，我们需要在Gitlab中添加一个应用。系统设置 -&gt; 应用管理</p>
+<p>填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>,勾选权限默认具有<code>read_user</code>权限即可。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" alt="images" /></a></p>
+<p>保存配置，会提示以下信息，这些信息需要填写到Jenkins中。<code>ApplicationId</code> <code>secret</code><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" alt="images" /></a></p>
+<h3 id="jenkins配置"> jenkins配置</h3>
+<p>我们需要在Jenkins系统中安装插件<code>Gitlab Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" alt="images" /></a></p>
+<p>注意：当Jenkins前面有代理的时候可能会出现跳转错误的问题。这时候需要看下提示错误的redirect URL地址,检查下图配置。 如果下图配置没有问题，请检查代理的配置问题。另外要注意是<code>http</code>模式哦</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" alt="images" /></a></p>
+<h2 id="github单点登录"> github单点登录</h2>
+<p>如果你用过GitLab，你会发现与GitHub很类似。这里我们要配置的GitHub集成与GitLab配置很类似。</p>
+<h3 id="github配置"> github配置</h3>
+<p>首先登录GitHub, settings -&gt; Developer Settings -&gt; Oauth Apps。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" alt="images" /></a></p>
+<p>新建应用：填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" alt="images" /></a></p>
+<p>保存，获取应用ID和secret<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" alt="images" /></a></p>
+<h3 id="配置jenkins"> 配置jenkins</h3>
+<p>我们需要在Jenkins系统中安装插件<code>Github Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" alt="images" /></a></p>
+<p>效果：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" alt="images" /></a></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-01-16T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -10775,6 +10775,105 @@ rabbitmqctl add_user admin admin
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">zookeeper3.4.14集群搭建步骤</title>
+    <id>https://clay-wangzhi.com/build/zookeeper-install/</id>
+    <link href="https://clay-wangzhi.com/build/zookeeper-install/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="zookeeper3-4-14集群搭建步骤"> zookeeper3.4.14集群搭建步骤</h1>
+<h3 id="下载解压"> 下载解压</h3>
+<div><pre><code>cd /opt
+wget https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
+tar -xvf zookeeper-3.4.14.tar.gz 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="修改相关配置"> 修改相关配置</h3>
+<div><pre><code>mkdir -p /var/lib/zookeeper/data
+mkdir -p /var/lib/zookeeper/log
+mkdir -p /var/log/zookeeper
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>生产myid文件（三台主机分别执行）</p>
+<div><pre><code>echo 29 &gt; /var/lib/zookeeper/data/myid
+echo 30 &gt; /var/lib/zookeeper/data/myid
+echo 31 &gt; /var/lib/zookeeper/data/myid
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>修改zoo.cfg文件</p>
+<div><pre><code>cd /opt/zookeeper-3.4.14/conf
+cp zoo_sample.cfg zoo.cfg
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code># egrep -v &quot;^#|^$&quot; zoo.cfg 
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/var/lib/zookeeper/data
+dataLogDir=/var/lib/zookeeper/log
+clientPort=2181
+server.29=192.168.165.29:2888:3888
+server.30=192.168.165.30:2888:3888
+server.31=192.168.165.31:2888:3888
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>修改/zkEnv.sh文件</p>
+<div><pre><code>cd /opt/zookeeper-3.4.14/bin
+</code></pre>
+<div><span>1</span><br></div></div><p>找到 ZOO_LOG_DIR=&quot;.&quot; 一行，换成如下</p>
+<div><pre><code># vim zkEnv.sh
+ZOO_LOG_DIR=&quot;/var/log/zookeeper&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改防火墙规则"> 修改防火墙规则</h3>
+<div><pre><code># cat /etc/sysconfig/iptables
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 2181 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 2888 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 3888 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10050 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+
+# systemctl restart iptables.service 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h3 id="启动集群"> 启动集群</h3>
+<div><pre><code>/opt/zookeeper-3.4.14/bin/zkServer.sh start
+/opt/zookeeper-3.4.14/bin/zkServer.sh status
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>通过<code>nc</code>方式验证</p>
+<div><pre><code>yum -y install nc
+echo stat | nc 192.168.165.46 2181
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>通过四字命令<code>srvr</code>方式验证</p>
+<div><pre><code># telnet 192.168.165.45 2181
+Trying 192.168.165.45...
+Connected to 192.168.165.45.
+Escape character is &#39;^]&#39;.
+srvr
+Zookeeper version: 3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf, built on 03/06/2019 16:18 GMT
+Latency min/avg/max: 0/0/0
+Received: 2
+Sent: 1
+Connections: 1
+Outstanding: 0
+Zxid: 0x0
+Mode: follower
+Node count: 4
+Connection closed by foreign host.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="常见服务的搭建"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">rocketmq集群的搭建</title>
     <id>https://clay-wangzhi.com/build/rocketmq-install/</id>
     <link href="https://clay-wangzhi.com/build/rocketmq-install/"/>
@@ -10906,102 +11005,22 @@ sh bin/mqshutdown namesrv
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">zookeeper3.4.14集群搭建步骤</title>
-    <id>https://clay-wangzhi.com/build/zookeeper-install/</id>
-    <link href="https://clay-wangzhi.com/build/zookeeper-install/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="zookeeper3-4-14集群搭建步骤"> zookeeper3.4.14集群搭建步骤</h1>
-<h3 id="下载解压"> 下载解压</h3>
-<div><pre><code>cd /opt
-wget https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
-tar -xvf zookeeper-3.4.14.tar.gz 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="修改相关配置"> 修改相关配置</h3>
-<div><pre><code>mkdir -p /var/lib/zookeeper/data
-mkdir -p /var/lib/zookeeper/log
-mkdir -p /var/log/zookeeper
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>生产myid文件（三台主机分别执行）</p>
-<div><pre><code>echo 29 &gt; /var/lib/zookeeper/data/myid
-echo 30 &gt; /var/lib/zookeeper/data/myid
-echo 31 &gt; /var/lib/zookeeper/data/myid
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>修改zoo.cfg文件</p>
-<div><pre><code>cd /opt/zookeeper-3.4.14/conf
-cp zoo_sample.cfg zoo.cfg
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code># egrep -v &quot;^#|^$&quot; zoo.cfg 
-tickTime=2000
-initLimit=10
-syncLimit=5
-dataDir=/var/lib/zookeeper/data
-dataLogDir=/var/lib/zookeeper/log
-clientPort=2181
-server.29=192.168.165.29:2888:3888
-server.30=192.168.165.30:2888:3888
-server.31=192.168.165.31:2888:3888
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>修改/zkEnv.sh文件</p>
-<div><pre><code>cd /opt/zookeeper-3.4.14/bin
-</code></pre>
-<div><span>1</span><br></div></div><p>找到 ZOO_LOG_DIR=&quot;.&quot; 一行，换成如下</p>
-<div><pre><code># vim zkEnv.sh
-ZOO_LOG_DIR=&quot;/var/log/zookeeper&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="修改防火墙规则"> 修改防火墙规则</h3>
-<div><pre><code># cat /etc/sysconfig/iptables
-*filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
--A INPUT -p icmp -j ACCEPT
--A INPUT -i lo -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 2181 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 2888 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 3888 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 10050 -j ACCEPT
--A INPUT -j REJECT --reject-with icmp-host-prohibited
--A FORWARD -j REJECT --reject-with icmp-host-prohibited
-COMMIT
-
-# systemctl restart iptables.service 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><h3 id="启动集群"> 启动集群</h3>
-<div><pre><code>/opt/zookeeper-3.4.14/bin/zkServer.sh start
-/opt/zookeeper-3.4.14/bin/zkServer.sh status
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>通过<code>nc</code>方式验证</p>
-<div><pre><code>yum -y install nc
-echo stat | nc 192.168.165.46 2181
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>通过四字命令<code>srvr</code>方式验证</p>
-<div><pre><code># telnet 192.168.165.45 2181
-Trying 192.168.165.45...
-Connected to 192.168.165.45.
-Escape character is &#39;^]&#39;.
-srvr
-Zookeeper version: 3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf, built on 03/06/2019 16:18 GMT
-Latency min/avg/max: 0/0/0
-Received: 2
-Sent: 1
-Connections: 1
-Outstanding: 0
-Zxid: 0x0
-Mode: follower
-Node count: 4
-Connection closed by foreign host.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
+    <title type="html">前端学习笔记</title>
+    <id>https://clay-wangzhi.com/code/frontend/</id>
+    <link href="https://clay-wangzhi.com/code/frontend/"/>
+    <updated>2021-05-31T06:50:38.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
+<h2 id="文章推荐"> 文章推荐</h2>
+<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
-    <category term="常见服务的搭建"/>
+    <category term="前端"/>
     <contributor>
       <name>Clay</name>
     </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
+    <published>2021-05-30T09:17:19.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -11021,25 +11040,6 @@ Connection closed by foreign host.
       <name>Clay</name>
     </contributor>
     <published>2021-05-30T05:43:06.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">前端学习笔记</title>
-    <id>https://clay-wangzhi.com/code/frontend/</id>
-    <link href="https://clay-wangzhi.com/code/frontend/"/>
-    <updated>2021-05-31T06:50:38.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
-<h2 id="文章推荐"> 文章推荐</h2>
-<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="前端"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-30T09:17:19.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -30765,59 +30765,6 @@ bash$ echo $(echo \\)
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第三部分 shell进阶</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
-<h3 id="目录"> 目录</h3>
-<ul>
-<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-</li>
-<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-</li>
-<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-</li>
-<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
-<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
-<li><a href="./14_recess_time.html">14. 休息时间</a></li>
-</ul>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第十三章 算术扩展</title>
     <id>https://clay-wangzhi.com/code/shell/part3/13_arithmetic_expansion/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/13_arithmetic_expansion/"/>
@@ -30860,6 +30807,59 @@ bash$ echo $(echo \\)
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第三部分 shell进阶</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第三部分-shell进阶"> 第三部分 shell进阶</h1>
+<h3 id="目录"> 目录</h3>
+<ul>
+<li><a href="./09_another_look_at_variables.html">9. 换个角度看变量</a>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+</li>
+<li><a href="./10_manipulating_variables.html">10. 变量处理</a>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+</li>
+<li><a href="./11_loops_and_branches.html">11. 循环与分支</a>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+</li>
+<li><a href="./12_command_substitution.html">12. 命令替换</a></li>
+<li><a href="./13_arithmetic_expansion.html">13. 算术扩展</a></li>
+<li><a href="./14_recess_time.html">14. 休息时间</a></li>
+</ul>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -33220,6 +33220,97 @@ echo &quot;$nr files totaling $totalSize bytes&quot;
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">20.3 应用程序</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
+<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
+<p>样例 20-12. 日志记录事件</p>
+<div><pre><code>#!/bin/bash
+# logevents.sh
+# 作者: Stephane Chazelas.
+# 用于 ABS 许可指南.
+
+# 事件记录到文件.
+# 必须 root 身份执行 (可以写入 /var/log).
+
+ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
+E_NOTROOT=67   # 非 root 会报错.
+
+
+if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
+then
+  echo &quot;Must be root to run this script.&quot;
+  exit $E_NOTROOT
+fi  
+
+
+FD_DEBUG1=3
+FD_DEBUG2=4
+FD_DEBUG3=5
+
+# === 取消下面两行注释来激活脚本. ===
+# LOG_EVENTS=1
+# LOG_VARS=1
+
+
+log()  # 时间和日期写入日志文件.
+{
+echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
+#     ^^^^^^^  命令替换
+                           # 见下文.
+}
+
+
+
+case $LOG_LEVEL in
+ 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
+ 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
+ 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
+ *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
+esac
+
+FD_LOGVARS=6
+if [[ $LOG_VARS ]]
+then exec 6&gt;&gt; /var/log/vars.log
+else exec 6&gt; /dev/null                     # 清空输出.
+fi
+
+FD_LOGEVENTS=7
+if [[ $LOG_EVENTS ]]
+then
+  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
+  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
+  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
+  log                                      # 写入时间和日期.
+else exec 7&gt; /dev/null                     # 清空输出.
+fi
+
+echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
+
+ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
+
+echo &quot;Done&quot;                                # 命令2 
+
+echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
+# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
+
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">20 I/O 重定向</title>
     <id>https://clay-wangzhi.com/code/shell/part5/20_io_redirection/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/20_io_redirection/"/>
@@ -33406,97 +33497,6 @@ exec 3&gt;&amp;-                              # 现在关闭它.
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17894" target="_blank" rel="noopener noreferrer">[2]</a>	 <code>文件描述符</code> 仅仅是操作系统分配的一个可追踪的打开的文件号. 可以认为是一个简化的文件指针. 类似于 C 语言的 <code>文件句柄</code>.</p>
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17906" target="_blank" rel="noopener noreferrer">[3]</a>	当 bash 创建一个子进程的时候使用 <code>文件描述符 5</code> 会有问题. 例如 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a>, 子进程继承了文件描述符 5 (详情见 Chet Ramey's 归档的 e-mail, <a href="https://groups.google.com/forum/#!topic/gnu.bash.bug/E5Vdqv3tO1w" target="_blank" rel="noopener noreferrer">SUBJECT: RE: File descriptor 5 is held open</a>). 最好将这个文件描述符单独规避.</p>
 ]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">20.3 应用程序</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
-<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
-<p>样例 20-12. 日志记录事件</p>
-<div><pre><code>#!/bin/bash
-# logevents.sh
-# 作者: Stephane Chazelas.
-# 用于 ABS 许可指南.
-
-# 事件记录到文件.
-# 必须 root 身份执行 (可以写入 /var/log).
-
-ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
-E_NOTROOT=67   # 非 root 会报错.
-
-
-if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
-then
-  echo &quot;Must be root to run this script.&quot;
-  exit $E_NOTROOT
-fi  
-
-
-FD_DEBUG1=3
-FD_DEBUG2=4
-FD_DEBUG3=5
-
-# === 取消下面两行注释来激活脚本. ===
-# LOG_EVENTS=1
-# LOG_VARS=1
-
-
-log()  # 时间和日期写入日志文件.
-{
-echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
-#     ^^^^^^^  命令替换
-                           # 见下文.
-}
-
-
-
-case $LOG_LEVEL in
- 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
- 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
- 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
- *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
-esac
-
-FD_LOGVARS=6
-if [[ $LOG_VARS ]]
-then exec 6&gt;&gt; /var/log/vars.log
-else exec 6&gt; /dev/null                     # 清空输出.
-fi
-
-FD_LOGEVENTS=7
-if [[ $LOG_EVENTS ]]
-then
-  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
-  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
-  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
-  log                                      # 写入时间和日期.
-else exec 7&gt; /dev/null                     # 清空输出.
-fi
-
-echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
-
-ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
-
-echo &quot;Done&quot;                                # 命令2 
-
-echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
-# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
-
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -33819,266 +33819,6 @@ exit 0
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第二十三章. 进程替换</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/"/>
-    <updated>2021-05-14T03:06:07.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第二十三章-进程替换"> 第二十三章. 进程替换</h1>
-<p>用<a href="http://tldp.org/LDP/abs/html/special-chars.html#PIPEREF" target="_blank" rel="noopener noreferrer">管道</a> 将一个命令的 <code>标准输出</code> 输送到另一个命令的 <code>标准输入</code> 是个强大的技术。但是如果你需要用管道输送多个命令的 <code>标准输出</code> 怎么办？这时候 <em>进程替换</em> 就派上用场了。</p>
-<p><em>进程替换</em> 把一个（或多个）<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSREF" target="_blank" rel="noopener noreferrer">进程</a> 的输出送到另一个进程的 <code>标准输入</code>。</p>
-<p><strong>样板</strong>
-命令列表要用括号括起来</p>
-<div><pre><code>&gt;(command_list)
-&lt;(command_list)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>进程替换使用 <code>/dev/fd/&lt;n&gt;</code> 文件发送括号内进程的结果到另一个进程。[1]</p>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif">&quot;&lt;&quot;或&quot;&gt;&quot;与括号之间没有空格，加上空格或报错。</p>
-<div><pre><code>bash$ echo &gt;(true)
-/dev/fd/63
-
-bash$ echo &lt;(true)
-/dev/fd/63
-
-bash$ echo &gt;(true) &lt;(true)
-/dev/fd/63 /dev/fd/62
-
-bash$ wc &lt;(cat /usr/share/dict/linux.words)
- 483523  483523 4992010 /dev/fd/63
-
-bash$ grep script /usr/share/dict/linux.words | wc
-    262     262    3601
-
-bash$ wc &lt;(grep script /usr/share/dict/linux.words)
-    262     262    3601 /dev/fd/63
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif">Bash用两个文件描述符创建管道，<code>--fIn 和 fOut--</code> 。<a href="http://tldp.org/LDP/abs/html/internal.html#TRUEREF" target="_blank" rel="noopener noreferrer">true</a> 的<code>标准输入</code>连接 fOut(dup2(fOut, 0))，然后Bash 传递一个 <code>/dev/fd/fIn</code> 参数给 <strong>echo</strong> 。在不使用 <code>/dev/fd/&lt;n&gt;</code> 的系统里，Bash可以用临时文件（感谢 S.C. 指出这点）。</p>
-<p>进程替换可以比较两个不同命令的输出，或者同一个命令使用不同选项的输出。</p>
-<div><pre><code>bash$ comm &lt;(ls -l) &lt;(ls -al)
-total 12
--rw-rw-r--    1 bozo bozo       78 Mar 10 12:58 File0
--rw-rw-r--    1 bozo bozo       42 Mar 10 12:58 File2
--rw-rw-r--    1 bozo bozo      103 Mar 10 12:58 t2.sh
-        total 20
-        drwxrwxrwx    2 bozo bozo     4096 Mar 10 18:10 .
-        drwx------   72 bozo bozo     4096 Mar 10 17:58 ..
-        -rw-rw-r--    1 bozo bozo       78 Mar 10 12:58 File0
-        -rw-rw-r--    1 bozo bozo       42 Mar 10 12:58 File2
-        -rw-rw-r--    1 bozo bozo      103 Mar 10 12:58 t2.sh
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>进程替换可以比较两个目录的内容——来检查哪些文件在这个目录而不在那个目录。</p>
-<div><pre><code>diff &lt;(ls $first_directory) &lt;(ls $second_directory)
-</code></pre>
-<div><span>1</span><br></div></div><p>进程替换的一些其他用法：</p>
-<div><pre><code>read -a list &lt; &lt;( od -Ad -w24 -t u2 /dev/urandom )
-#  从 /dev/urandom 读取一个随机数列表
-#+ 用 &quot;od&quot; 处理
-#+ 输送到 &quot;read&quot; 的标准输入. . .
-#  来自 &quot;insertion-sort.bash&quot; 示例脚本。
-#  致谢：JuanJo Ciarlante。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><div><pre><code>PORT=6881   # bittorrent（BT端口）
-
-#  扫描端口，确保没有恶意行为
-netcat -l $PORT | tee&gt;(md5sum -&gt;mydata-orig.md5) |
-gzip | tee&gt;(md5sum - | sed &#39;s/-$/mydata.lz2/&#39;&gt;mydata-gz.md5)&gt;mydata.gz
-
-#  检查解压缩结果：
-  gzip -d&lt;mydata.gz | md5sum -c mydata-orig.md5)
-#  对原件的MD5校验用来检查标准输入，并且探测压缩当中出现的问题。
-
-#  Bill Davidsen 贡献了这个例子
-#+ （ABS指南作者做了轻微修改）。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><div><pre><code>cat &lt;(ls -l)
-# 等价于	ls -l | cat
-
-sort -k 9 &lt;(ls -l /bin) &lt;(ls -l /usr/bin) &lt;(ls -l /usr/X11R6/bin)
-#  列出 3 个主要 &#39;bin&#39; 目录的文件，按照文件名排序。
-#  注意，有三个（数一下）单独的命令输送给了 &#39;sort&#39;。
-
-diff &lt;(command1) &lt;(command2)    # 比较命令输出结果的不同之处。
-
-tar cf &gt;(bzip2 -c &gt; file.tar.bz2) $directory_name
-
-#  调用 &quot;tar cf /dev/fd/?? $directory_name&quot;，然后 &quot;bzip2 -c &gt; file.tar.bz2&quot;。
-#
-#  因为 /dev/fd/&lt;n&gt; 系统特性
-#  不需要在两个命令之间使用管道符
-#
-#  这个可以模拟
-#
-bzip2 -c &lt; pipe &gt; file.tar.bz2&amp;
-tar cf pipe $directory_name
-rm pipe
-#	或者
-exec 3&gt;&amp;1
-tar cf /dev/fd/4 $directory_name 4&gt;&amp;1 &gt;&amp;3 3&gt;&amp;- | bzip2 -c &gt; file.tar.bz2 3&gt;&amp;-
-exec 3&gt;&amp;-
-
-# 致谢：Stéphane Chazelas
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>在子shell中 <a href="http://tldp.org/LDP/abs/html/gotchas.html#BADREAD0" target="_blank" rel="noopener noreferrer">echo 命令用管道输送给 while-read 循环</a>时会出现问题，下面是避免的方法：</p>
-<p><strong>例23-1 不用 fork 的代码块重定向。</strong></p>
-<div><pre><code>#!/bin/bash
-
-#  wr-ps.bash: 使用进程替换的 while-read 循环。
-
-#  示例由 Tomas Pospisek 贡献。
-# （ABS指南作者做了大量改动。）
-
-echo
-
-echo &quot;random input&quot; | while read i
-do
-  global=3D&quot;: Not available outside the loop.&quot;
-  # ... 因为在子 shell 中运行。
-done
-
-echo &quot;\$global (从子进程之外) = $global&quot;
-# $global (从子进程之外) =
-
-echo; echo &quot;--&quot;; echo
-
-while read i
-do
-  echo $i
-  global=3D&quot;: Available outside the loop.&quot;
-  # ... 因为没有在子 shell 中运行。
-done &lt; &lt;( echo &quot;random input&quot; )
-#    ^ ^
-
-echo &quot;\$global (使用进程替换) = $global&quot;
-#  随机输入
-#  $global (使用进程替换)= 3D: Available outside the loop.
-
-
-echo; echo &quot;##########&quot;; echo
-
-
-
-# 同样道理 . . .
-
-declare -a inloop
-index=0
-cat $0 | while read line
-do
-  inloop[$index]=&quot;$line&quot;
-  ((index++))
-  # 在子 shell 中运行，所以 ...
-done
-echo &quot;OUTPUT = &quot;
-echo ${inloop[*]}           # ... 什么也没有显示。
-
-
-echo; echo &quot;--&quot;; echo
-
-
-declare -a outloop
-index=0
-while read line
-do
-  outloop[$index]=&quot;$line&quot;
-  ((index++))
-  # 没有在子 shell 中运行，所以 ...
-done &lt; &lt;( cat $0 )
-echo &quot;OUTPUT = &quot;
-echo ${outloop[*]}          # ... 整个脚本的结果显示出来。
-
-exit $?
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br></div></div><p>下面是个类似的例子。</p>
-<p><strong>例 23-2. 重定向进程替换的输出到一个循环内</strong></p>
-<div><pre><code>#!/bin/bash
-# psub.bash
-#  受 Diego Molina 启发（感谢！）。
-
-declare -a array0
-while read
-do
-  array0[${#array0[@]}]=&quot;$REPLY&quot;
-done &lt; &lt;( sed -e &#39;s/bash/CRASH-BANG!/&#39; $0 | grep bin | awk &#39;{print $1}&#39; )
-#  由进程替换来设置&#39;read&#39;默认变量（$REPLY）。
-#+ 然后将变量复制到一个数组。
-
-echo &quot;${array0[@]}&quot;
-
-exit $?
-
-# ====================================== #
-# 运行结果：
-bash psub.bash
-
-#!/bin/CRASH-BANG! done #!/bin/CRASH-BANG!
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>一个读者发来一个有趣的进程替换例子，如下：</p>
-<div><pre><code># SuSE 发行版中提取的脚本片段：
-
-# --------------------------------------------------------------#
-while read  des what mask iface; do
-# 一些命令 ...
-done &lt; &lt;(route -n)  
-#    ^ ^  第一个 &lt; 是重定向，第二个是进程替换。
-
-#  为了测试，我们让它来做点儿事情。
-while read  des what mask iface; do
-  echo $des $what $mask $iface
-done &lt; &lt;(route -n)  
-
-# 输出内容:
-# Kernel IP routing table
-# Destination Gateway Genmask Flags Metric Ref Use Iface
-# 127.0.0.0 0.0.0.0 255.0.0.0 U 0 0 0 lo
-# --------------------------------------------------------------#
-
-#  正如 Stéphane Chazelas 指出的,
-#+ 一个更容易理解的等价代码如下：
-route -n |
-  while read des what mask iface; do   # 通过管道输出设置的变量
-    echo $des $what $mask $iface
-  done  #  这段代码的结果更上面的相同。
-        #  但是，Ulrich Gayer 指出 . . .
-        #+ 这段简化版等价代码在 while 循环里用了子 shell，
-        #+ 因此当管道终止时变量都消失了。
-
-# --------------------------------------------------------------#
-
-#  然而，Filip Moritz 说上面的两个例子有一个微妙的区别，
-#+ 见下面的代码
-
-(
-route -n | while read x; do ((y++)); done
-echo $y # $y is still unset
-
-while read x; do ((y++)); done &lt; &lt;(route -n)
-echo $y # $y has the number of lines of output of route -n
-)
-
-#  更通俗地说（译者注：原文本行少了注释符）
-(
-: | x=x
-# 似乎启动了子 shell ，就像
-: | ( x=x )
-# 而
-x=x &lt; &lt;(:)
-# 并没有。
-)
-#  这个方法在解析 csv 和类似格式时很有用。
-#  也就是在效果上，原始 SuSE 系统的代码片段就是做这个用的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
-这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
-]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -34646,6 +34386,266 @@ Function ()  # 不行.
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> Emmanuel Rouat的 <a href="http://tldp.org/LDP/abs/html/sample-bashrc.html" target="_blank" rel="noopener noreferrer">sample bash</a> 文件包含了一些很有指导性意义的函数例子。</p>
 <h3 id="echo"> echo</h3>
 <p>shell中函数返回值，个人觉得可以用<code>echo</code></p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第二十三章. 进程替换</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/23_Process_Substitution/"/>
+    <updated>2021-05-14T03:06:07.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第二十三章-进程替换"> 第二十三章. 进程替换</h1>
+<p>用<a href="http://tldp.org/LDP/abs/html/special-chars.html#PIPEREF" target="_blank" rel="noopener noreferrer">管道</a> 将一个命令的 <code>标准输出</code> 输送到另一个命令的 <code>标准输入</code> 是个强大的技术。但是如果你需要用管道输送多个命令的 <code>标准输出</code> 怎么办？这时候 <em>进程替换</em> 就派上用场了。</p>
+<p><em>进程替换</em> 把一个（或多个）<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSREF" target="_blank" rel="noopener noreferrer">进程</a> 的输出送到另一个进程的 <code>标准输入</code>。</p>
+<p><strong>样板</strong>
+命令列表要用括号括起来</p>
+<div><pre><code>&gt;(command_list)
+&lt;(command_list)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>进程替换使用 <code>/dev/fd/&lt;n&gt;</code> 文件发送括号内进程的结果到另一个进程。[1]</p>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif">&quot;&lt;&quot;或&quot;&gt;&quot;与括号之间没有空格，加上空格或报错。</p>
+<div><pre><code>bash$ echo &gt;(true)
+/dev/fd/63
+
+bash$ echo &lt;(true)
+/dev/fd/63
+
+bash$ echo &gt;(true) &lt;(true)
+/dev/fd/63 /dev/fd/62
+
+bash$ wc &lt;(cat /usr/share/dict/linux.words)
+ 483523  483523 4992010 /dev/fd/63
+
+bash$ grep script /usr/share/dict/linux.words | wc
+    262     262    3601
+
+bash$ wc &lt;(grep script /usr/share/dict/linux.words)
+    262     262    3601 /dev/fd/63
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif">Bash用两个文件描述符创建管道，<code>--fIn 和 fOut--</code> 。<a href="http://tldp.org/LDP/abs/html/internal.html#TRUEREF" target="_blank" rel="noopener noreferrer">true</a> 的<code>标准输入</code>连接 fOut(dup2(fOut, 0))，然后Bash 传递一个 <code>/dev/fd/fIn</code> 参数给 <strong>echo</strong> 。在不使用 <code>/dev/fd/&lt;n&gt;</code> 的系统里，Bash可以用临时文件（感谢 S.C. 指出这点）。</p>
+<p>进程替换可以比较两个不同命令的输出，或者同一个命令使用不同选项的输出。</p>
+<div><pre><code>bash$ comm &lt;(ls -l) &lt;(ls -al)
+total 12
+-rw-rw-r--    1 bozo bozo       78 Mar 10 12:58 File0
+-rw-rw-r--    1 bozo bozo       42 Mar 10 12:58 File2
+-rw-rw-r--    1 bozo bozo      103 Mar 10 12:58 t2.sh
+        total 20
+        drwxrwxrwx    2 bozo bozo     4096 Mar 10 18:10 .
+        drwx------   72 bozo bozo     4096 Mar 10 17:58 ..
+        -rw-rw-r--    1 bozo bozo       78 Mar 10 12:58 File0
+        -rw-rw-r--    1 bozo bozo       42 Mar 10 12:58 File2
+        -rw-rw-r--    1 bozo bozo      103 Mar 10 12:58 t2.sh
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>进程替换可以比较两个目录的内容——来检查哪些文件在这个目录而不在那个目录。</p>
+<div><pre><code>diff &lt;(ls $first_directory) &lt;(ls $second_directory)
+</code></pre>
+<div><span>1</span><br></div></div><p>进程替换的一些其他用法：</p>
+<div><pre><code>read -a list &lt; &lt;( od -Ad -w24 -t u2 /dev/urandom )
+#  从 /dev/urandom 读取一个随机数列表
+#+ 用 &quot;od&quot; 处理
+#+ 输送到 &quot;read&quot; 的标准输入. . .
+#  来自 &quot;insertion-sort.bash&quot; 示例脚本。
+#  致谢：JuanJo Ciarlante。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><div><pre><code>PORT=6881   # bittorrent（BT端口）
+
+#  扫描端口，确保没有恶意行为
+netcat -l $PORT | tee&gt;(md5sum -&gt;mydata-orig.md5) |
+gzip | tee&gt;(md5sum - | sed &#39;s/-$/mydata.lz2/&#39;&gt;mydata-gz.md5)&gt;mydata.gz
+
+#  检查解压缩结果：
+  gzip -d&lt;mydata.gz | md5sum -c mydata-orig.md5)
+#  对原件的MD5校验用来检查标准输入，并且探测压缩当中出现的问题。
+
+#  Bill Davidsen 贡献了这个例子
+#+ （ABS指南作者做了轻微修改）。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><div><pre><code>cat &lt;(ls -l)
+# 等价于	ls -l | cat
+
+sort -k 9 &lt;(ls -l /bin) &lt;(ls -l /usr/bin) &lt;(ls -l /usr/X11R6/bin)
+#  列出 3 个主要 &#39;bin&#39; 目录的文件，按照文件名排序。
+#  注意，有三个（数一下）单独的命令输送给了 &#39;sort&#39;。
+
+diff &lt;(command1) &lt;(command2)    # 比较命令输出结果的不同之处。
+
+tar cf &gt;(bzip2 -c &gt; file.tar.bz2) $directory_name
+
+#  调用 &quot;tar cf /dev/fd/?? $directory_name&quot;，然后 &quot;bzip2 -c &gt; file.tar.bz2&quot;。
+#
+#  因为 /dev/fd/&lt;n&gt; 系统特性
+#  不需要在两个命令之间使用管道符
+#
+#  这个可以模拟
+#
+bzip2 -c &lt; pipe &gt; file.tar.bz2&amp;
+tar cf pipe $directory_name
+rm pipe
+#	或者
+exec 3&gt;&amp;1
+tar cf /dev/fd/4 $directory_name 4&gt;&amp;1 &gt;&amp;3 3&gt;&amp;- | bzip2 -c &gt; file.tar.bz2 3&gt;&amp;-
+exec 3&gt;&amp;-
+
+# 致谢：Stéphane Chazelas
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>在子shell中 <a href="http://tldp.org/LDP/abs/html/gotchas.html#BADREAD0" target="_blank" rel="noopener noreferrer">echo 命令用管道输送给 while-read 循环</a>时会出现问题，下面是避免的方法：</p>
+<p><strong>例23-1 不用 fork 的代码块重定向。</strong></p>
+<div><pre><code>#!/bin/bash
+
+#  wr-ps.bash: 使用进程替换的 while-read 循环。
+
+#  示例由 Tomas Pospisek 贡献。
+# （ABS指南作者做了大量改动。）
+
+echo
+
+echo &quot;random input&quot; | while read i
+do
+  global=3D&quot;: Not available outside the loop.&quot;
+  # ... 因为在子 shell 中运行。
+done
+
+echo &quot;\$global (从子进程之外) = $global&quot;
+# $global (从子进程之外) =
+
+echo; echo &quot;--&quot;; echo
+
+while read i
+do
+  echo $i
+  global=3D&quot;: Available outside the loop.&quot;
+  # ... 因为没有在子 shell 中运行。
+done &lt; &lt;( echo &quot;random input&quot; )
+#    ^ ^
+
+echo &quot;\$global (使用进程替换) = $global&quot;
+#  随机输入
+#  $global (使用进程替换)= 3D: Available outside the loop.
+
+
+echo; echo &quot;##########&quot;; echo
+
+
+
+# 同样道理 . . .
+
+declare -a inloop
+index=0
+cat $0 | while read line
+do
+  inloop[$index]=&quot;$line&quot;
+  ((index++))
+  # 在子 shell 中运行，所以 ...
+done
+echo &quot;OUTPUT = &quot;
+echo ${inloop[*]}           # ... 什么也没有显示。
+
+
+echo; echo &quot;--&quot;; echo
+
+
+declare -a outloop
+index=0
+while read line
+do
+  outloop[$index]=&quot;$line&quot;
+  ((index++))
+  # 没有在子 shell 中运行，所以 ...
+done &lt; &lt;( cat $0 )
+echo &quot;OUTPUT = &quot;
+echo ${outloop[*]}          # ... 整个脚本的结果显示出来。
+
+exit $?
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br></div></div><p>下面是个类似的例子。</p>
+<p><strong>例 23-2. 重定向进程替换的输出到一个循环内</strong></p>
+<div><pre><code>#!/bin/bash
+# psub.bash
+#  受 Diego Molina 启发（感谢！）。
+
+declare -a array0
+while read
+do
+  array0[${#array0[@]}]=&quot;$REPLY&quot;
+done &lt; &lt;( sed -e &#39;s/bash/CRASH-BANG!/&#39; $0 | grep bin | awk &#39;{print $1}&#39; )
+#  由进程替换来设置&#39;read&#39;默认变量（$REPLY）。
+#+ 然后将变量复制到一个数组。
+
+echo &quot;${array0[@]}&quot;
+
+exit $?
+
+# ====================================== #
+# 运行结果：
+bash psub.bash
+
+#!/bin/CRASH-BANG! done #!/bin/CRASH-BANG!
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>一个读者发来一个有趣的进程替换例子，如下：</p>
+<div><pre><code># SuSE 发行版中提取的脚本片段：
+
+# --------------------------------------------------------------#
+while read  des what mask iface; do
+# 一些命令 ...
+done &lt; &lt;(route -n)  
+#    ^ ^  第一个 &lt; 是重定向，第二个是进程替换。
+
+#  为了测试，我们让它来做点儿事情。
+while read  des what mask iface; do
+  echo $des $what $mask $iface
+done &lt; &lt;(route -n)  
+
+# 输出内容:
+# Kernel IP routing table
+# Destination Gateway Genmask Flags Metric Ref Use Iface
+# 127.0.0.0 0.0.0.0 255.0.0.0 U 0 0 0 lo
+# --------------------------------------------------------------#
+
+#  正如 Stéphane Chazelas 指出的,
+#+ 一个更容易理解的等价代码如下：
+route -n |
+  while read des what mask iface; do   # 通过管道输出设置的变量
+    echo $des $what $mask $iface
+  done  #  这段代码的结果更上面的相同。
+        #  但是，Ulrich Gayer 指出 . . .
+        #+ 这段简化版等价代码在 while 循环里用了子 shell，
+        #+ 因此当管道终止时变量都消失了。
+
+# --------------------------------------------------------------#
+
+#  然而，Filip Moritz 说上面的两个例子有一个微妙的区别，
+#+ 见下面的代码
+
+(
+route -n | while read x; do ((y++)); done
+echo $y # $y is still unset
+
+while read x; do ((y++)); done &lt; &lt;(route -n)
+echo $y # $y has the number of lines of output of route -n
+)
+
+#  更通俗地说（译者注：原文本行少了注释符）
+(
+: | x=x
+# 似乎启动了子 shell ，就像
+: | ( x=x )
+# 而
+x=x &lt; &lt;(:)
+# 并没有。
+)
+#  这个方法在解析 csv 和类似格式时很有用。
+#  也就是在效果上，原始 SuSE 系统的代码片段就是做这个用的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br></div></div><p>注解 [1]
+这个与命名管道（使用临时文件）的效果相同，而且事实上，进程替换也曾经用过命名管道。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -38687,87 +38687,6 @@ bash$
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">36.1 交互和非交互shell以及脚本</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
-    <updated>2021-05-11T06:41:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
-<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
-<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
-<div><pre><code>#!/bin/bash
-MY_PROMPT=&#39;$ &#39;
-while :
-    do
-        echo -n &quot;$MY_PROMPT&quot;
-        read line
-        eval &quot;$line&quot;
-    done
-
-exit 0
-
-# 这个脚本以及以上解释是由Stéphane Chazelas提供的
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
-<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
-<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
-<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
-<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
-### if [ -v PS1 ]   # Bash 4.2+ ...
-then
-    # 非交互模式
-    ...
-else
-    # 交互模式
-    ...
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
-<div><pre><code>case $- in
-    *i*)    # 交互shell
-    ;;
-    *)      # 非交互shell
-    ;;
-# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
-<div><pre><code># 关于终端的测试！
-
-fd=0   # stdin 标准输入
-
-# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
-if [ -t &quot;$fd&quot; ]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-
-# 但是John指出：
-#     if [ -t 0 ] 仅在你本地登录时有效，
-#     如果通过ssh远程调用就会失效，
-#     所以还要加上对socket的判断。
-
-if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
-<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">36.2 shell wrappers</title>
     <id>https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/"/>
@@ -39065,6 +38984,87 @@ exit
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>有个有趣的shell wrapper例子是Martin Matusiak的undvd，为复杂的mencoder工具提供了一个简单易用的命令行接口。另一个例子是Itzchak Rehberg的Ext3Undel，它为在ext3文件系统上恢复删除的文件提供了一整套工具。</p>
 <p>Notes
 [1] Linux工具事实上很多是shell wrapper，比如/usr/bin/pdf2ps，/usr/bin/batch和/usr/bin/xmkmf。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">36.1 交互和非交互shell以及脚本</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
+    <updated>2021-05-11T06:41:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
+<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
+<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
+<div><pre><code>#!/bin/bash
+MY_PROMPT=&#39;$ &#39;
+while :
+    do
+        echo -n &quot;$MY_PROMPT&quot;
+        read line
+        eval &quot;$line&quot;
+    done
+
+exit 0
+
+# 这个脚本以及以上解释是由Stéphane Chazelas提供的
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
+<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
+<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
+<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
+<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
+### if [ -v PS1 ]   # Bash 4.2+ ...
+then
+    # 非交互模式
+    ...
+else
+    # 交互模式
+    ...
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
+<div><pre><code>case $- in
+    *i*)    # 交互shell
+    ;;
+    *)      # 非交互shell
+    ;;
+# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
+<div><pre><code># 关于终端的测试！
+
+fd=0   # stdin 标准输入
+
+# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
+if [ -t &quot;$fd&quot; ]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+
+# 但是John指出：
+#     if [ -t 0 ] 仅在你本地登录时有效，
+#     如果通过ssh远程调用就会失效，
+#     所以还要加上对socket的判断。
+
+if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
+<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -46373,6 +46373,62 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">set 类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
+<ul>
+<li>⽆序集合</li>
+<li>元素为string类型</li>
+<li>元素具有唯⼀性，不重复</li>
+<li>说明：对于集合没有修改操作</li>
+</ul>
+<p>增加</p>
+<ul>
+<li>添加元素</li>
+</ul>
+<div><pre><code>sadd key member1 member2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
+</ul>
+<div><pre><code>sadd a3 zhangsan sili wangwu
+</code></pre>
+<div><span>1</span><br></div></div><p>获取</p>
+<ul>
+<li>返回所有的元素</li>
+</ul>
+<div><pre><code>smembers key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例2：获取键'a3'的集合中所有元素</li>
+</ul>
+<div><pre><code>smembers a3
+</code></pre>
+<div><span>1</span><br></div></div><p>删除</p>
+<ul>
+<li>删除指定元素</li>
+</ul>
+<div><pre><code>srem key value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>例3：删除键'a3'的集合中元素'wangwu'</li>
+</ul>
+<div><pre><code>srem a3 wangwu
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">string类型</title>
     <id>https://clay-wangzhi.com/db/redis/operate/string/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/string/"/>
@@ -46422,62 +46478,6 @@ func main(){
 <div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
 <p>详⻅下节键的操作，删除键时会将值删除</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">set 类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/set/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/set/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="set-类型"> set 类型</h1>
-<ul>
-<li>⽆序集合</li>
-<li>元素为string类型</li>
-<li>元素具有唯⼀性，不重复</li>
-<li>说明：对于集合没有修改操作</li>
-</ul>
-<p>增加</p>
-<ul>
-<li>添加元素</li>
-</ul>
-<div><pre><code>sadd key member1 member2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例1：向键'a3'的集合中添加元素'zhangsan'、'lisi'、'wangwu'</li>
-</ul>
-<div><pre><code>sadd a3 zhangsan sili wangwu
-</code></pre>
-<div><span>1</span><br></div></div><p>获取</p>
-<ul>
-<li>返回所有的元素</li>
-</ul>
-<div><pre><code>smembers key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例2：获取键'a3'的集合中所有元素</li>
-</ul>
-<div><pre><code>smembers a3
-</code></pre>
-<div><span>1</span><br></div></div><p>删除</p>
-<ul>
-<li>删除指定元素</li>
-</ul>
-<div><pre><code>srem key value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>例3：删除键'a3'的集合中元素'wangwu'</li>
-</ul>
-<div><pre><code>srem a3 wangwu
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -47305,6 +47305,58 @@ curl -sSL https://get.rvm.io | bash -s stable
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">服务器端和客户端命令</title>
+    <id>https://clay-wangzhi.com/db/redis/server-client/</id>
+    <link href="https://clay-wangzhi.com/db/redis/server-client/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="服务器端和客户端命令"> 服务器端和客户端命令</h1>
+<h2 id="服务器端"> 服务器端</h2>
+<p>服务器端的命令为redis-server
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-server --help
+</code></pre>
+<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
+启动</p>
+<div><pre><code>sudo service redis start
+</code></pre>
+<div><span>1</span><br></div></div><p>停⽌</p>
+<div><pre><code>sudo service redis stop
+</code></pre>
+<div><span>1</span><br></div></div><p>重启</p>
+<div><pre><code>sudo service redis restart
+</code></pre>
+<div><span>1</span><br></div></div><p>个人习惯</p>
+<div><pre><code>ps -aux|grep redis //查看redis服务器进程
+sudo kill -9 pid //杀死redis服务器
+sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
+<p>客户端的命令为redis-cli
+可以使⽤help查看帮助⽂档</p>
+<div><pre><code>redis-cli --help
+</code></pre>
+<div><span>1</span><br></div></div><p>连接redis</p>
+<div><pre><code>redis-cli
+</code></pre>
+<div><span>1</span><br></div></div><p>运⾏测试命令</p>
+<div><pre><code>ping //返回PONG
+</code></pre>
+<div><span>1</span><br></div></div><p>切换数据库
+数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
+<div><pre><code>select n
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">git的基本使用</title>
     <id>https://clay-wangzhi.com/git/git-basic/</id>
     <link href="https://clay-wangzhi.com/git/git-basic/"/>
@@ -47834,58 +47886,6 @@ $ <span>git</span> archive
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">服务器端和客户端命令</title>
-    <id>https://clay-wangzhi.com/db/redis/server-client/</id>
-    <link href="https://clay-wangzhi.com/db/redis/server-client/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="服务器端和客户端命令"> 服务器端和客户端命令</h1>
-<h2 id="服务器端"> 服务器端</h2>
-<p>服务器端的命令为redis-server
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-server --help
-</code></pre>
-<div><span>1</span><br></div></div><p>推荐使⽤服务的⽅式管理redis服务
-启动</p>
-<div><pre><code>sudo service redis start
-</code></pre>
-<div><span>1</span><br></div></div><p>停⽌</p>
-<div><pre><code>sudo service redis stop
-</code></pre>
-<div><span>1</span><br></div></div><p>重启</p>
-<div><pre><code>sudo service redis restart
-</code></pre>
-<div><span>1</span><br></div></div><p>个人习惯</p>
-<div><pre><code>ps -aux|grep redis //查看redis服务器进程
-sudo kill -9 pid //杀死redis服务器
-sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端"> 客户端</h2>
-<p>客户端的命令为redis-cli
-可以使⽤help查看帮助⽂档</p>
-<div><pre><code>redis-cli --help
-</code></pre>
-<div><span>1</span><br></div></div><p>连接redis</p>
-<div><pre><code>redis-cli
-</code></pre>
-<div><span>1</span><br></div></div><p>运⾏测试命令</p>
-<div><pre><code>ping //返回PONG
-</code></pre>
-<div><span>1</span><br></div></div><p>切换数据库
-数据库没有名称，默认有16个，通过0-15来标识，连接redis默认选择第一个数据库</p>
-<div><pre><code>select n
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Commit message 和 Change log 编写指南</title>
     <id>https://clay-wangzhi.com/git/git-commit-message/</id>
     <link href="https://clay-wangzhi.com/git/git-commit-message/"/>
@@ -48107,6 +48107,39 @@ $ conventional-changelog -p angular -i CHANGELOG.md -w
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">常用知识</title>
+    <id>https://clay-wangzhi.com/linux/basic/common-kno/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/common-kno/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="常用知识"> 常用知识</h1>
+<p><strong>如何查看当前服务器内核的版本</strong></p>
+<div><pre><code>uname -r
+cat /proc/version
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>查看当前服务器 cpu 的 core(核心)数</strong></p>
+<div><pre><code># 总核数 = 物理CPU个数 X 每颗物理CPU的核数 
+# 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数
+# 查看物理CPU个数
+cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l
+# 查看每个物理CPU中core的个数(即核数)
+cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l
+查看CPU信息（型号）
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">计划任务</title>
     <id>https://clay-wangzhi.com/linux/basic/crontab/</id>
     <link href="https://clay-wangzhi.com/linux/basic/crontab/"/>
@@ -48314,39 +48347,6 @@ $ conventional-changelog -p angular -i CHANGELOG.md -w
 <p>http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html</p>
 <p>http://man.linuxde.net/crontab</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">常用知识</title>
-    <id>https://clay-wangzhi.com/linux/basic/common-kno/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/common-kno/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="常用知识"> 常用知识</h1>
-<p><strong>如何查看当前服务器内核的版本</strong></p>
-<div><pre><code>uname -r
-cat /proc/version
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>查看当前服务器 cpu 的 core(核心)数</strong></p>
-<div><pre><code># 总核数 = 物理CPU个数 X 每颗物理CPU的核数 
-# 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数
-# 查看物理CPU个数
-cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l
-# 查看每个物理CPU中core的个数(即核数)
-cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq
-# 查看逻辑CPU的个数
-cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l
-查看CPU信息（型号）
-cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -48919,6 +48919,38 @@ test.txt:linuxmint
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">查看文件详细属性</title>
+    <id>https://clay-wangzhi.com/linux/basic/file/file-detail/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/file/file-detail/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="查看文件详细属性"> 查看文件详细属性</h1>
+<h3 id="stat命令"> stat命令</h3>
+<div><pre><code># stat a.go 
+  File: a.go
+  Size: 63        	Blocks: 0          IO Block: 512    regular file
+Device: 2h/2d	Inode: 19140298416386648  Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2018-10-09 12:42:07.978765400 +0800
+Modify: 2018-10-09 12:42:07.980763600 +0800
+Change: 2018-10-09 12:42:07.982774800 +0800
+ Birth: -
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>访问时间：atime，查看内容<br>
+修改时间：mtime，修改内容
+改变时间：ctime，文件属性，比如权限
+删除时间：dtime，文件被删除的时间</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">查看文件类型</title>
     <id>https://clay-wangzhi.com/linux/basic/file/file-type/</id>
     <link href="https://clay-wangzhi.com/linux/basic/file/file-type/"/>
@@ -49034,38 +49066,6 @@ lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">查看文件详细属性</title>
-    <id>https://clay-wangzhi.com/linux/basic/file/file-detail/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/file/file-detail/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="查看文件详细属性"> 查看文件详细属性</h1>
-<h3 id="stat命令"> stat命令</h3>
-<div><pre><code># stat a.go 
-  File: a.go
-  Size: 63        	Blocks: 0          IO Block: 512    regular file
-Device: 2h/2d	Inode: 19140298416386648  Links: 1
-Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2018-10-09 12:42:07.978765400 +0800
-Modify: 2018-10-09 12:42:07.980763600 +0800
-Change: 2018-10-09 12:42:07.982774800 +0800
- Birth: -
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>访问时间：atime，查看内容<br>
-修改时间：mtime，修改内容
-改变时间：ctime，文件属性，比如权限
-删除时间：dtime，文件被删除的时间</p>
-]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -51068,95 +51068,6 @@ Ctrl+Y 粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本，粘贴或者恢复上次�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">软件包管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/rpm/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/rpm/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="软件包管理"> 软件包管理</h1>
-<h2 id="yum管理rpm包"> yum管理RPM包</h2>
-<p>清空缓存及其它文件</p>
-<div><pre><code>yum clean all
-</code></pre>
-<div><span>1</span><br></div></div><p>建立缓存数据库</p>
-<div><pre><code>yum makecache
-</code></pre>
-<div><span>1</span><br></div></div><p>查询可用的仓库</p>
-<div><pre><code>yum repolist
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>yum list mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>yum -y update
-</code></pre>
-<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
-<div><pre><code>yum provides */httpd
-</code></pre>
-<div><span>1</span><br></div></div><p>卸载</p>
-<div><pre><code>yum -y remove mysql-server
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
-<p>安装</p>
-<div><pre><code>rpm -ivh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>升级</p>
-<div><pre><code>rpm -Uvh xxx.rpm
-</code></pre>
-<div><span>1</span><br></div></div><p>查询</p>
-<div><pre><code>rpm -q xxx //查询指定包是否安装
-rpm -ql xxx //查询xxx安装的文件
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
-<div><pre><code>rpm -e xxx
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">用户管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/user/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">基本权限 UGO</title>
     <id>https://clay-wangzhi.com/linux/basic/ugo/</id>
     <link href="https://clay-wangzhi.com/linux/basic/ugo/"/>
@@ -51245,6 +51156,95 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </tbody>
 </table>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">软件包管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/rpm/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/rpm/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="软件包管理"> 软件包管理</h1>
+<h2 id="yum管理rpm包"> yum管理RPM包</h2>
+<p>清空缓存及其它文件</p>
+<div><pre><code>yum clean all
+</code></pre>
+<div><span>1</span><br></div></div><p>建立缓存数据库</p>
+<div><pre><code>yum makecache
+</code></pre>
+<div><span>1</span><br></div></div><p>查询可用的仓库</p>
+<div><pre><code>yum repolist
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>yum list mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>yum -y update
+</code></pre>
+<div><span>1</span><br></div></div><p>查询指定的文件属于哪个包</p>
+<div><pre><code>yum provides */httpd
+</code></pre>
+<div><span>1</span><br></div></div><p>卸载</p>
+<div><pre><code>yum -y remove mysql-server
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="使用rpm工具管理rpm包"> 使用RPM工具管理RPM包</h2>
+<p>安装</p>
+<div><pre><code>rpm -ivh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>升级</p>
+<div><pre><code>rpm -Uvh xxx.rpm
+</code></pre>
+<div><span>1</span><br></div></div><p>查询</p>
+<div><pre><code>rpm -q xxx //查询指定包是否安装
+rpm -ql xxx //查询xxx安装的文件
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
+<div><pre><code>rpm -e xxx
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">用户管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/user/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -52846,39 +52846,6 @@ curl -XPOST http://localhost:9200/index/_create/4 -H &#39;Content-Type:applicati
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">7.5 牛刀小试</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
-<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
-<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> <span>$HOME</span>/.Xclients
-<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> /etc/X11/xinit/Xclients
-<span>else</span>
-    <span># 安全分支。尽管程序不会执行这个分支。</span>
-    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
-    xclock -geometry 100x100-5+5 <span>&amp;</span>
-    xterm -geometry 80x50-50+150 <span>&amp;</span>
-    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
-            netscape /usr/share/doc/HTML/index.html
-    <span>fi</span>
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">kafka2.12集群搭建步骤</title>
@@ -54516,6 +54483,85 @@ networks<span>:</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">7.5 牛刀小试</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
+<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
+<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> <span>$HOME</span>/.Xclients
+<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> /etc/X11/xinit/Xclients
+<span>else</span>
+    <span># 安全分支。尽管程序不会执行这个分支。</span>
+    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
+    xclock -geometry 100x100-5+5 <span>&amp;</span>
+    xterm -geometry 80x50-50+150 <span>&amp;</span>
+    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
+            netscape /usr/share/doc/HTML/index.html
+    <span>fi</span>
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">Kibana的安装和界面快速浏览</title>
+    <id>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/install/quick-browse/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
+<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
+<p>解压并安装运行</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Elasticsearch的安装和简单配置</title>
     <id>https://clay-wangzhi.com/monitor/elk/install/sample-install/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/install/sample-install/"/>
@@ -54591,52 +54637,6 @@ bin/elasticsearch-plugin list
 </ul>
 </li>
 </ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Kibana的安装和界面快速浏览</title>
-    <id>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/install/quick-browse/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
-<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
-<p>解压并安装运行</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -55648,6 +55648,26 @@ bin/kibana remove
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Grafana Y轴设置</title>
+    <id>https://clay-wangzhi.com/monitor/grafana-y/</id>
+    <link href="https://clay-wangzhi.com/monitor/grafana-y/"/>
+    <updated>2021-06-08T02:32:45.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="grafana-y轴设置"> Grafana Y轴设置</h1>
+<p>Y<strong>轴要有负数如何设置</strong></p>
+<p>grafana网络总图中，Y轴要有负数的话，需要设置，alias or regex，Outing为 Transform：negative-Y</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323205311303.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-06-02T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">聊透监控体系</title>
     <id>https://clay-wangzhi.com/monitor/monitor-system/</id>
     <link href="https://clay-wangzhi.com/monitor/monitor-system/"/>
@@ -56165,6 +56185,55 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">8 activemq监控</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
+<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
+<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
+<p>因为是基于JMX进行监控的</p>
+<h2 id="修改配置文件"> 修改配置文件</h2>
+<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
+<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
+<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
+</code></pre>
+<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
+<div><pre><code>&lt;managementContext&gt;
+            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
+&lt;/managementContext&gt; 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
+<p>在脚本最后添加：</p>
+<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
+ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
+<blockquote>
+<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
+</blockquote>
+<h2 id="导入模板"> 导入模板</h2>
+<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
+<p>在被监控主机上增加宏设置
+加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">2 zabbix借助ansible安装</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-ans/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-ans/"/>
@@ -56450,55 +56519,6 @@ will not be shown, you would have to be root to see it all.)
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">8 activemq监控</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-activemq监控"> 8 activemq监控</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="关闭被监控端的防火墙"> 关闭被监控端的防火墙</h2>
-<p>activemq  防火墙的添加还是有问题，先把防火墙给关了，它好像是后续会再产生一个随机端口，进行数据的传输</p>
-<h2 id="zabbix-proxy安装java-gateway"> zabbix_proxy安装java_gateway，</h2>
-<p>因为是基于JMX进行监控的</p>
-<h2 id="修改配置文件"> 修改配置文件</h2>
-<p>配置<code>./apache-activemq-5.11.1/conf/activemq.xml</code></p>
-<p>修改broker字段： 增加useJmx=&quot;true&quot;</p>
-<div><pre><code>&lt;broker useJmx=&quot;true&quot; xmlns=&quot;http://activemq.apache.org/schema/core&quot; brokerName=&quot;localhost&quot; dataDirectory=&quot;${activemq.data}&quot;&gt; 
-</code></pre>
-<div><span>1</span><br></div></div><p>修改broken字段内的managementContext节点：</p>
-<div><pre><code>&lt;managementContext&gt;
-            &lt;managementContext createConnector=&quot;true&quot; connectorPort=&quot;11099&quot;/&gt;
-&lt;/managementContext&gt; 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置./apache-activemq-5.11.1/bin/activemq</p>
-<p>在脚本最后添加：</p>
-<div><pre><code>ACTIVEMQ_SUNJMX_START=&quot;-Dcom.sun.management.jmxremote.port=11099 &quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.password.file=${ACTIVEMQ_CONF}/jmx.password&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.access.file=${ACTIVEMQ_CONF}/jmx.access&quot;
-ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote.ssl=false&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后重启activemq</p>
-<blockquote>
-<p>增加的方式不对，添加上以后密码还是为空，后续有空查一下原因</p>
-</blockquote>
-<h2 id="导入模板"> 导入模板</h2>
-<p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
-<p>在被监控主机上增加宏设置
-加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -57491,6 +57511,29 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">在线工具</title>
+    <id>https://clay-wangzhi.com/other/online-tools/</id>
+    <link href="https://clay-wangzhi.com/other/online-tools/"/>
+    <updated>2021-05-30T10:20:03.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="在线工具"> 在线工具</h1>
+<h2 id="画图工具"> 画图工具</h2>
+<p><a href="https://draw.io/" target="_blank" rel="noopener noreferrer">draw.io</a> ⭐️</p>
+<p><a href="https://www.processon.com/" target="_blank" rel="noopener noreferrer">ProcessOn</a></p>
+<h2 id="图标"> 图标</h2>
+<p><a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">Iconfont-阿里巴巴矢量图标库</a>  ⭐️</p>
+<h2 id="markdown-建站"> Markdown 建站</h2>
+<p><a href="https://vuepress-theme-hope.github.io/zh/" target="_blank" rel="noopener noreferrer">vuepress-theme-hope</a> ⭐️</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-30T10:02:15.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">curl方式执行shell脚本时如何传参</title>
     <id>https://clay-wangzhi.com/other/curl-bash/</id>
     <link href="https://clay-wangzhi.com/other/curl-bash/"/>
@@ -57680,29 +57723,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">在线工具</title>
-    <id>https://clay-wangzhi.com/other/online-tools/</id>
-    <link href="https://clay-wangzhi.com/other/online-tools/"/>
-    <updated>2021-05-30T10:20:03.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="在线工具"> 在线工具</h1>
-<h2 id="画图工具"> 画图工具</h2>
-<p><a href="https://draw.io/" target="_blank" rel="noopener noreferrer">draw.io</a> ⭐️</p>
-<p><a href="https://www.processon.com/" target="_blank" rel="noopener noreferrer">ProcessOn</a></p>
-<h2 id="图标"> 图标</h2>
-<p><a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">Iconfont-阿里巴巴矢量图标库</a>  ⭐️</p>
-<h2 id="markdown-建站"> Markdown 建站</h2>
-<p><a href="https://vuepress-theme-hope.github.io/zh/" target="_blank" rel="noopener noreferrer">vuepress-theme-hope</a> ⭐️</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-30T10:02:15.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">vim 使用整理</title>
     <id>https://clay-wangzhi.com/other/vim/</id>
     <link href="https://clay-wangzhi.com/other/vim/"/>
@@ -57725,110 +57745,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
       <name>Clay</name>
     </contributor>
     <published>2021-05-31T11:02:37.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">IT 博客写作工作</title>
-    <id>https://clay-wangzhi.com/other/writing/</id>
-    <link href="https://clay-wangzhi.com/other/writing/"/>
-    <updated>2021-05-30T10:05:37.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="it-博客写作工作"> IT 博客写作工作</h1>
-<h2 id="写作前"> 写作前</h2>
-<h3 id="trello"> trello</h3>
-<p>官网地址:https://trello.com/</p>
-<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img" /></p>
-<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img" /></p>
-<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img" /></p>
-<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
-<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
-<h2 id="写作中"> 写作中</h2>
-<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
-<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
-<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
-<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
-<blockquote>
-<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
-</blockquote>
-<ul>
-<li>安装成功界面</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683" /></p>
-<ul>
-<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
-</ul>
-<blockquote>
-<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996" /></p>
-<ul>
-<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145" /></p>
-<ul>
-<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
-</ul>
-<div><pre><code>url：https://getee.com
-owner：写你的码云用户名
-repo：仓库名称
-token：填入码云的私人令牌
-path：路径，一般写上img
-message：可以不用写
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452" /></p>
-<ul>
-<li>设置PicGo开机自启</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568" /></p>
-<ul>
-<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802" /></p>
-<ul>
-<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678" /></p>
-<ul>
-<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
-</ul>
-<h3 id="代码图片生成器"> 代码图片生成器</h3>
-<p>官网地址:https://carbon.now.sh/</p>
-<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405" /></p>
-<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
-<h2 id="写作后"> 写作后</h2>
-<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
-<h3 id="微信公众号"> 微信公众号</h3>
-<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
-<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
-<p>官网地址：</p>
-<p>http://md.aclickall.com/</p>
-<p>https://mdnice.com/</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255" /></p>
-<h3 id="其他博客平台"> 其他博客平台</h3>
-<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
-<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
-<p>官网地址：</p>
-<p>https://openwrite.cn/</p>
-<p>https://github.com/ystcode/BlogHelper</p>
-<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
-<h2 id="参考文章"> 参考文章</h2>
-<ul>
-<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
-<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-30T10:05:37.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -58187,6 +58103,110 @@ git config --global user.email &quot;xxxxxxx@qq.com&quot;
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">IT 博客写作工作</title>
+    <id>https://clay-wangzhi.com/other/writing/</id>
+    <link href="https://clay-wangzhi.com/other/writing/"/>
+    <updated>2021-05-30T10:05:37.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="it-博客写作工作"> IT 博客写作工作</h1>
+<h2 id="写作前"> 写作前</h2>
+<h3 id="trello"> trello</h3>
+<p>官网地址:https://trello.com/</p>
+<p>这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg" alt="img" /></p>
+<p>日常工作我只要想到一个 <strong>idea</strong>，就会第一时间先记录到 <strong>idea</strong> 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 <strong>idea</strong>，准备晚上写一下，然后晚上就想不起来。。。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg" alt="img" /></p>
+<p>前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg" alt="img" /></p>
+<p>当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。</p>
+<p><strong>trello</strong> 十分强大，这里只是用了小功能，感兴趣的同学可以深入研究一下。</p>
+<h2 id="写作中"> 写作中</h2>
+<h3 id="typora-picgo-码云"> typora+PicGo+码云</h3>
+<p><strong>markdown 编辑器</strong>：typora，下载地址：https://typora.io/</p>
+<p><strong>图床工具</strong>：PicGo，下载地址：https://github.com/Molunerfinn/PicGo/releases</p>
+<p>就是自动把本地图片转换成链接的一款工具，网络上有很多图床工具，就目前使用种类而言，<strong>PicGo</strong> 算得上一款比较优秀的图床工具。</p>
+<blockquote>
+<p>这边使用<code>PicGo+码云</code>来实现markdown图床，也可以使用Github，不过考虑网络问题选择码云。</p>
+</blockquote>
+<ul>
+<li>安装成功界面</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png" alt="image-20200730102149683" /></p>
+<ul>
+<li>找到底下插件设置，使用码云需要另外安装插件，搜索gitee安装插件，有两个插件都可以用</li>
+</ul>
+<blockquote>
+<p>注意：安装<code>gitee-uploader 1.1.2</code>插件，必须要先安装<code>node.js</code>才能安装插件，我这里安装的是<code>gitee 2.0.2</code></p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png" alt="image-20200730102308996" /></p>
+<ul>
+<li>建立gitee码云图床库，就是在码云新建一个仓库，步骤：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png" alt="image-20200323195546145" /></p>
+<ul>
+<li>接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：</li>
+</ul>
+<div><pre><code>url：https://getee.com
+owner：写你的码云用户名
+repo：仓库名称
+token：填入码云的私人令牌
+path：路径，一般写上img
+message：可以不用写
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png" alt="image-20200730102607452" /></p>
+<ul>
+<li>设置PicGo开机自启</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png" alt="image-20200716205307568" /></p>
+<ul>
+<li>配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png" alt="image-20200323201738802" /></p>
+<ul>
+<li>Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png" alt="img" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png" alt="image-20200323204010678" /></p>
+<ul>
+<li>不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。</li>
+</ul>
+<h3 id="代码图片生成器"> 代码图片生成器</h3>
+<p>官网地址:https://carbon.now.sh/</p>
+<p>生成比较精美的代码图片，不用担心一些网站不支持代码格式。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg" alt="1419561-20200403080639617-2113865405" /></p>
+<p>另外 <strong>carbon</strong> 还有 IDEA，vscode 等插件，安装之后，可以快速使用。</p>
+<h2 id="写作后"> 写作后</h2>
+<p>写作完成之后，我们需要将文章发布到微信公众号以及其他博客平台。</p>
+<h3 id="微信公众号"> 微信公众号</h3>
+<p>由于之前文章采用 <strong>markdown</strong> 写作，而微信公众号编辑器不支持渲染 <strong>markdown</strong>，这就导致我们需要自己排版。虽然排版我们可以使用 <strong>135 编辑器</strong>，<strong>壹伴插件</strong>等完成，不过还是很麻烦。</p>
+<p>追求方便的同学可以使用自动排版 <strong>markdown</strong> 的网站，里面支持样式也是比较简洁好看。</p>
+<p>官网地址：</p>
+<p>http://md.aclickall.com/</p>
+<p>https://mdnice.com/</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg" alt="1419561-20200403080640489-1946118352" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg" alt="1419561-20200403080640732-64891255" /></p>
+<h3 id="其他博客平台"> 其他博客平台</h3>
+<p>目前个人还会把文章分发到掘金，博客园，<strong>segmentfault</strong> 等，这些平台都支持 <strong>markdown</strong>,可以直接将 <strong>markdown</strong> 直接复制过去。不过分发平台较多，一个个发还是比较麻烦。</p>
+<p>下面推荐两个工具，自动分发文章到各个博客网站。</p>
+<p>官网地址：</p>
+<p>https://openwrite.cn/</p>
+<p>https://github.com/ystcode/BlogHelper</p>
+<p><strong>openwrite</strong>，该平台目前采用会员机制，年付会员 <strong>99</strong> 元。免费版可以使用 <strong>BlogHelper</strong> 。</p>
+<h2 id="参考文章"> 参考文章</h2>
+<ul>
+<li>https://www.cnblogs.com/goodAndyxublog/p/12624282.html</li>
+<li>https://www.cnblogs.com/qtzd/p/12554902.html</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-30T10:05:37.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -59874,112 +59894,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（36）-date</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>date(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
--s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
--u：显示GMT；
---help：在线帮助；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
-<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
-<div><pre><code>%H 小时，24小时制（00~23）
-%I 小时，12小时制（01~12）
-%k 小时，24小时制（0~23）
-%l 小时，12小时制（1~12）
-%M 分钟（00~59）
-%p 显示出AM或PM
-%r 显示时间，12小时制（hh:mm:ss %p）
-%s 从1970年1月1日00:00:00到目前经历的秒数
-%S 显示秒（00~59）
-%T 显示时间，24小时制（hh:mm:ss）
-%X 显示时间的格式（%H:%M:%S）
-%Z 显示时区，日期域（CST）
-%a 星期的简称（Sun~Sat）
-%A 星期的全称（Sunday~Saturday）
-%h,%b 月的简称（Jan~Dec）
-%B 月的全称（January~December）
-%c 日期和时间（Tue Nov 20 14:12:58 2012）
-%d 一个月的第几天（01~31）
-%x,%D 日期（mm/dd/yy）
-%j 一年的第几天（001~366）
-%m 月份（01~12）
-%w 一个星期的第几天（0代表星期天）
-%W 一年的第几个星期（00~53，星期一为第一天）
-%y 年的最后两个数字（1999则是99）
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）格式化输出：</p>
-<div><pre><code>#date +&quot;%Y-%m-%d&quot;
-2018-03-29
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
-<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
-2018-03-28
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
-<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
-2018-03-29 10:08:37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2009-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
-<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
-2007-12-05 00:00.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
-<div><pre><code>date +%Y%m%d                   //显示前天年月日
-date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
-date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
-date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
-date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
-date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
-date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
-<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
-date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
-date -s 01:01:01               //设置具体时间，不会对日期做更改
-date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
-date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
-date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
-date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
-<div><pre><code>#!/bin/bash
-
-start=$(date +%s)
-nmap man.linuxde.net &amp;&gt; /dev/null
-
-end=$(date +%s)
-difference=$(( end - start ))
-echo $difference seconds.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
-<p>http://man.linuxde.net/date</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:07:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（35）-diff</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/"/>
@@ -60277,6 +60191,112 @@ patching file log2013.log
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:05:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（36）-date</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>在linux环境中，不管是编程还是其他维护，时间是必不可少的，也经常会用到时间的运算，熟练运用date命令来表示自己想要表示的时间，肯定可以给自己的工作带来诸多方便。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>date(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-d&lt;字符串&gt;：显示字符串所指的日期与时间。字符串前后必须加上双引号；
+-s&lt;字符串&gt;：根据字符串来设置日期与时间。字符串前后必须加上双引号；
+-u：显示GMT；
+--help：在线帮助；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>&lt;+时间日期格式&gt;：指定显示时使用的日期时间格式。</p>
+<h2 id="日期格式字符串列表"> 日期格式字符串列表</h2>
+<div><pre><code>%H 小时，24小时制（00~23）
+%I 小时，12小时制（01~12）
+%k 小时，24小时制（0~23）
+%l 小时，12小时制（1~12）
+%M 分钟（00~59）
+%p 显示出AM或PM
+%r 显示时间，12小时制（hh:mm:ss %p）
+%s 从1970年1月1日00:00:00到目前经历的秒数
+%S 显示秒（00~59）
+%T 显示时间，24小时制（hh:mm:ss）
+%X 显示时间的格式（%H:%M:%S）
+%Z 显示时区，日期域（CST）
+%a 星期的简称（Sun~Sat）
+%A 星期的全称（Sunday~Saturday）
+%h,%b 月的简称（Jan~Dec）
+%B 月的全称（January~December）
+%c 日期和时间（Tue Nov 20 14:12:58 2012）
+%d 一个月的第几天（01~31）
+%x,%D 日期（mm/dd/yy）
+%j 一年的第几天（001~366）
+%m 月份（01~12）
+%w 一个星期的第几天（0代表星期天）
+%W 一年的第几个星期（00~53，星期一为第一天）
+%y 年的最后两个数字（1999则是99）
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）格式化输出：</p>
+<div><pre><code>#date +&quot;%Y-%m-%d&quot;
+2018-03-29
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>2）输出昨天日期：</p>
+<div><pre><code>#date -d &quot;1 day ago&quot; +&quot;%Y-%m-%d&quot;
+2018-03-28
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）2秒后输出：</p>
+<div><pre><code>#date -d &quot;2 second&quot; +&quot;%Y-%m-%d %H:%M:%S&quot; 
+2018-03-29 10:08:37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>4）apache格式转换：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2009-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>5）格式转换后时间游走：</p>
+<div><pre><code>date -d &quot;Dec 5, 2009 12:00:37 AM 2 year ago&quot; +&quot;%Y-%m-%d %H:%M.%S&quot;
+2007-12-05 00:00.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>6）加减操作：</p>
+<div><pre><code>date +%Y%m%d                   //显示前天年月日
+date -d &quot;+1 day&quot; +%Y%m%d       //显示前一天的日期
+date -d &quot;-1 day&quot; +%Y%m%d       //显示后一天的日期
+date -d &quot;-1 month&quot; +%Y%m%d     //显示上一月的日期
+date -d &quot;+1 month&quot; +%Y%m%d     //显示下一月的日期
+date -d &quot;-1 year&quot; +%Y%m%d      //显示前一年的日期
+date -d &quot;+1 year&quot; +%Y%m%d      //显示下一年的日期
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>7）设定时间</p>
+<div><pre><code>date -s                        //设置当前时间，只有root权限才能设置，其他只能查看
+date -s 20120523               //设置成20120523，这样会把具体时间设置成空00:00:00
+date -s 01:01:01               //设置具体时间，不会对日期做更改
+date -s &quot;01:01:01 2012-05-23&quot;  //这样可以设置全部时间
+date -s &quot;01:01:01 20120523&quot;    //这样可以设置全部时间
+date -s &quot;2012-05-23 01:01:01&quot;  //这样可以设置全部时间
+date -s &quot;20120523 01:01:01&quot;    //这样可以设置全部时间
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>8）有时需要检查一组命令花费的时间，举例：</p>
+<div><pre><code>#!/bin/bash
+
+start=$(date +%s)
+nmap man.linuxde.net &amp;&gt; /dev/null
+
+end=$(date +%s)
+difference=$(( end - start ))
+echo $difference seconds.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>参考链接：</p>
+<p>http://man.linuxde.net/date</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/13/2815687.html</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:07:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -62563,6 +62583,67 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">6.1 Nginx出现403 forbidden的三种原因</title>
+    <id>https://clay-wangzhi.com/web/nginx/forbidden/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/forbidden/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_6-1-nginx出现403-forbidden的三种原因"> 6.1 Nginx出现403 forbidden的三种原因</h1>
+<p>引起<code>nginx 403 forbidden</code>通常是三种情况：一是缺少主页文件，二是权限问题，三是<code>SELinux</code>状态。</p>
+<h2 id="缺少主页文件"> 缺少主页文件</h2>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> localhost<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>php <span>index</span><span>.</span>html<span>;</span>
+    <span># index index.html index.htm;</span>
+    <span>root</span> <span>/</span>clay<span>/</span>clay1<span>/</span>clay2<span>/</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>如果在<code>/clay/clay1/clay2/</code>下面没有<code>index.php</code>或<code>index.html</code>的时候，直接文件，会报403 forbidden。</p>
+<blockquote>
+<p>当index文件问<code>index.html</code>时，index指令可以省略不写</p>
+</blockquote>
+<h2 id="权限问题"> 权限问题</h2>
+<p>主要原因是<code>nginx</code>启动用户没有，查看主页文件的权限</p>
+<p>1）查看<code>nginx</code>启动用户</p>
+<div><pre><code><span>ps</span> aux <span>|</span> <span>grep</span> <span>"nginx: worker process"</span> <span>|</span> <span>grep</span> -v <span>"grep"</span> <span>|</span> <span>awk</span> <span>'{ print <span>$1</span> }'</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>2）查看主页文件权限及递归查看主页文件所在目录权限</p>
+<ul>
+<li>
+<p>主页文件，<code>nginx</code>启动用户要有<code>r</code>权限，读取文件内容的权限</p>
+</li>
+<li>
+<p>递归主页所在的目录，<code>nginx</code>启动用户要有<code>x</code>权限，可以访问目录的内容</p>
+<blockquote>
+<p>递归目录在上述配置文件中是指<code>/clay/</code>、<code>/clay/clay1/</code>、<code>/clay/clay1/clay2/</code>这三个目录</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="selinux为开启状态-enabled"> <code>SELinux</code>为开启状态(enabled)</h2>
+<p>1）查看当前<code>selinux</code>的状态</p>
+<div><pre><code>/usr/sbin/sestatus 
+</code></pre>
+<div><span>1</span><br></div></div><p>2）将<code>SELINUX=enforcing</code> 修改为 <code>SELINUX=disabled</code> 状态</p>
+<div><pre><code><span>vi</span> /etc/selinux/config
+
+<span>#SELINUX=enforcing</span>
+<span>SELINUX</span><span>=</span>disabled
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>3）重启生效</p>
+<div><pre><code><span>reboot</span>
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">2. nginx架构基础</title>
     <id>https://clay-wangzhi.com/web/nginx/framework/</id>
     <link href="https://clay-wangzhi.com/web/nginx/framework/"/>
@@ -62673,67 +62754,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
 <h2 id="_9-模块分类"> 9 模块分类</h2>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310174353557.png" alt="" /></p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">6.1 Nginx出现403 forbidden的三种原因</title>
-    <id>https://clay-wangzhi.com/web/nginx/forbidden/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/forbidden/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_6-1-nginx出现403-forbidden的三种原因"> 6.1 Nginx出现403 forbidden的三种原因</h1>
-<p>引起<code>nginx 403 forbidden</code>通常是三种情况：一是缺少主页文件，二是权限问题，三是<code>SELinux</code>状态。</p>
-<h2 id="缺少主页文件"> 缺少主页文件</h2>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> localhost<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>php <span>index</span><span>.</span>html<span>;</span>
-    <span># index index.html index.htm;</span>
-    <span>root</span> <span>/</span>clay<span>/</span>clay1<span>/</span>clay2<span>/</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>如果在<code>/clay/clay1/clay2/</code>下面没有<code>index.php</code>或<code>index.html</code>的时候，直接文件，会报403 forbidden。</p>
-<blockquote>
-<p>当index文件问<code>index.html</code>时，index指令可以省略不写</p>
-</blockquote>
-<h2 id="权限问题"> 权限问题</h2>
-<p>主要原因是<code>nginx</code>启动用户没有，查看主页文件的权限</p>
-<p>1）查看<code>nginx</code>启动用户</p>
-<div><pre><code><span>ps</span> aux <span>|</span> <span>grep</span> <span>"nginx: worker process"</span> <span>|</span> <span>grep</span> -v <span>"grep"</span> <span>|</span> <span>awk</span> <span>'{ print <span>$1</span> }'</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>2）查看主页文件权限及递归查看主页文件所在目录权限</p>
-<ul>
-<li>
-<p>主页文件，<code>nginx</code>启动用户要有<code>r</code>权限，读取文件内容的权限</p>
-</li>
-<li>
-<p>递归主页所在的目录，<code>nginx</code>启动用户要有<code>x</code>权限，可以访问目录的内容</p>
-<blockquote>
-<p>递归目录在上述配置文件中是指<code>/clay/</code>、<code>/clay/clay1/</code>、<code>/clay/clay1/clay2/</code>这三个目录</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="selinux为开启状态-enabled"> <code>SELinux</code>为开启状态(enabled)</h2>
-<p>1）查看当前<code>selinux</code>的状态</p>
-<div><pre><code>/usr/sbin/sestatus 
-</code></pre>
-<div><span>1</span><br></div></div><p>2）将<code>SELINUX=enforcing</code> 修改为 <code>SELINUX=disabled</code> 状态</p>
-<div><pre><code><span>vi</span> /etc/selinux/config
-
-<span>#SELINUX=enforcing</span>
-<span>SELINUX</span><span>=</span>disabled
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>3）重启生效</p>
-<div><pre><code><span>reboot</span>
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -64495,6 +64515,32 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">第七章 测试</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/07_tests/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/07_tests/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
+<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
+<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
+<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
+<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
+</ul>
+<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">filebeat的安装注意</title>
     <id>https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/bak/filebeat%E7%9A%84%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
@@ -64548,31 +64594,5 @@ output.kafka:
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">第七章 测试</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/07_tests/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/07_tests/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第七章-测试"> 第七章 测试</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./07_1_test_constructs.html">7.1 测试结构</a></li>
-<li><a href="./07_2_file_test_operators.html">7.2 文件测试操作</a></li>
-<li><a href="./07_3_other_comparison_operators.html">7.3 其他比较操作</a></li>
-<li><a href="./07_4_nested_if_then_condition_tests.html">7.4 嵌套 if/then 条件测试</a></li>
-<li><a href="./07_5_testing_your_knowledge_of_tests.html">7.5 牛刀小试</a></li>
-</ul>
-<p>每一个完备的程序设计语言都可以对一个条件进行判断，然后根据判断结果执行相应的指令。Bash 拥有 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TTESTREF" target="_blank" rel="noopener noreferrer"><code>test</code></a> 命令，<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双方括号</a>、<a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLPARENSTST" target="_blank" rel="noopener noreferrer">双圆括号</a> 测试操作符以及 <code>if/then</code> 测试结构。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
   </entry>
 </feed>
