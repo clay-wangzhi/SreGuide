@@ -3,10 +3,6 @@ category: Python
 ---
 # 01 Python基础语法
 
-Python 语言 后续补充
-
-计算机基础知识 后续补充
-
 ## 基础语法
 
 ### 数字
