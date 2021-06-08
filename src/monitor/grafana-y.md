@@ -5,7 +5,7 @@ tags:
   - grafana
 ---
 
-
+# Grafana Y轴设置
 
 Y**轴要有负数如何设置**
 
