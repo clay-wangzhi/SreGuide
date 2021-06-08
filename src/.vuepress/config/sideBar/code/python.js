@@ -10,14 +10,13 @@ module.exports = [
     collapsable: false,
     children: ["python-basic-grammar", "python-control",
     {
-      // title: "2.3 Python数据类型",
+      title: "2.3 Python数据类型",
       path: "type-of-data",
       collapsable: false,
       children: ["num-data", "str-data", "bytearray-data", "list-tuple-data"],
     },
     ]
   },
-  "python-linear-data-structure.md",
   "python-ha-tables-analytic-expre.md",
   "python-function.md",
   "python-decorator.md",
