@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Tue, 08 Jun 2021 09:29:26 GMT</pubDate>
-    <lastBuildDate>Tue, 08 Jun 2021 09:29:26 GMT</lastBuildDate>
+    <pubDate>Tue, 08 Jun 2021 09:47:40 GMT</pubDate>
+    <lastBuildDate>Tue, 08 Jun 2021 09:47:40 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -24,6 +24,240 @@
     <category>Redis</category>
     <category>监控</category>
     <category>web中间件</category>
+    <item>
+      <title>4.4 Playbook高级用法</title>
+      <link>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</link>
+      <guid>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4.4 Playbook高级用法</source>
+      <category>自动化工具</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content:encoded>
+    </item>
     <item>
       <title>3 Ansible Ad-hoc命令集</title>
       <link>https://clay-wangzhi.com/automate/ansible/ad-hoc/</link>
@@ -392,240 +626,6 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
 <p>https://www.cnblogs.com/breezey/p/8811187.html</p>
 <p>https://blog.51cto.com/cloumn/blog/1544</p>
 </blockquote>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>4.4 Playbook高级用法</title>
-      <link>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</link>
-      <guid>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4.4 Playbook高级用法</source>
-      <category>自动化工具</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -15305,62 +15305,6 @@ logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>F
       <category>Python</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="_03-哈希表和解析式"> 03 哈希表和解析式</h1>
-<h2 id="封装和解构"> 封装和解构</h2>
-<h3 id="基本概念"> 基本概念</h3>
-<div><pre><code>t1 <span>=</span> <span>1</span><span>,</span> <span>2</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>t1<span>)</span><span>)</span> <span># 什么类型, tuple</span>
-
-t2 <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>t2<span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>Python等式右侧出现逗号分隔的多值的时候，就会将这几个值封装到元组中。这种操作称为封装packing。</p>
-<div><pre><code>x<span>,</span> y <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
-<span>print</span><span>(</span>x<span>)</span> <span># 1</span>
-<span>print</span><span>(</span>y<span>)</span> <span># 2</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>Python 中等式右侧是一个容器类型，左侧是逗号分隔的多个标识符，将右侧容器中数据的一个个和左侧
-标识符一一对应。这种操作称为解构 unpacking。</p>
-<p>从 Python3 开始，对解构做了很大的改进，现在用起来已经非常的方便快捷。</p>
-<p>封装和解构是非常方便的提取数据的方法，在 Python、JavaScript 等语言中应用极广。</p>
-<div><pre><code><span># 交换数据</span>
-x <span>=</span> <span>4</span>
-y <span>=</span> <span>5</span>
-t <span>=</span> x
-x <span>=</span> y
-y <span>=</span> t
-
-<span># 封装和解构，交换</span>
-x <span>=</span> <span>10</span>
-y <span>=</span> <span>11</span>
-x<span>,</span> y <span>=</span> y<span>,</span> x
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="简单解构"> 简单解构</h3>
-<div><pre><code><span># 左右个数相同  ,必须相等</span>
-a<span>,</span>b <span>=</span> <span>1</span><span>,</span><span>2</span>
-a<span>,</span>b <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
-a<span>,</span>b <span>=</span> <span>[</span><span>1</span><span>,</span><span>2</span><span>]</span>
-a<span>,</span>b <span>=</span> <span>[</span><span>10</span><span>,</span><span>20</span><span>]</span>
-a<span>,</span>b <span>=</span> <span>{</span><span>10</span><span>,</span><span>20</span><span>}</span> <span># 非线性结构</span>
-a<span>,</span>b <span>=</span> <span>{</span><span>'a'</span><span>:</span><span>10</span><span>,</span><span>'b'</span><span>:</span><span>20</span><span>}</span> <span># 非线性结构也可以解构</span>
-<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
-<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>10</span><span>,</span><span>20</span>
-<span>(</span>a<span>,</span>b<span>)</span> <span>=</span> <span>{</span><span>30</span><span>,</span><span>40</span><span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h3 id="剩余变量解构"> 剩余变量解构</h3>
-<p>在 Python3.0 中增加了剩余变量解构（rest）。</p>
-<div><pre><code>a<span>,</span> <span>*</span>rest<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
-<span>print</span><span>(</span>a<span>,</span> b<span>)</span>
-<span>print</span><span>(</span><span>type</span><span>(</span>rest<span>)</span><span>,</span> rest<span>)</span> <span># &lt;class 'list'> [2, 3, 4]</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>标识符 rest 将尽可能收集剩余的数据组成一个列表。</p>
-<div><pre><code>a<span>,</span> <span>*</span>_<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 在IPython中实验，_是最后一个输出值，这里将把它覆盖</span>
-_<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 第一个_是什么</span>
-<span>print</span><span>(</span>b<span>)</span> <span># 是什么</span>
-<span>print</span><span>(</span>_<span>)</span> <span># 第二个_是什么</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>_ 是合法的标识符，这里它没有什么可读性，它在这里的作用就是表示不关心这个变量的值，我不想要。有人把它称作 丢弃(Throwaway)变量。</p>
 <h2 id="集合-set"> 集合 set</h2>
 <p>集合，简称集。由任意个元素构成的集体。高级语言都实现了这个非常重要的数据结构类型。</p>
 <p>Python中，它是可变的、无序的、不重复的元素的集合。</p>
@@ -21282,6 +21226,70 @@ s1 <span>=</span> <span>'www.baidu.edu'</span>
 </ul>
 </li>
 </ul>
+<h2 id="类型转换"> 类型转换</h2>
+<ul>
+<li>int、float、complex、bool 也可以当做内建函数对数据进行类型转换</li>
+<li>int(x) 返回一个整数</li>
+<li>float(x) 返回一个浮点数</li>
+<li>complex(x)、complex(x,y) 返回一个复数</li>
+<li>bool(x) 返回布尔值，前面讲过False等价的对象</li>
+</ul>
+<h2 id="封装和解构"> 封装和解构</h2>
+<h3 id="基本概念"> 基本概念</h3>
+<div><pre><code>t1 <span>=</span> <span>1</span><span>,</span> <span>2</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>t1<span>)</span><span>)</span> <span># 什么类型, tuple</span>
+
+t2 <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>t2<span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>Python等式右侧出现逗号分隔的多值的时候，就会将这几个值封装到元组中。这种操作称为封装packing。</p>
+<div><pre><code>x<span>,</span> y <span>=</span> <span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span>
+<span>print</span><span>(</span>x<span>)</span> <span># 1</span>
+<span>print</span><span>(</span>y<span>)</span> <span># 2</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>Python 中等式右侧是一个容器类型，左侧是逗号分隔的多个标识符，将右侧容器中数据的一个个和左侧
+标识符一一对应。这种操作称为解构 unpacking。</p>
+<p>从 Python3 开始，对解构做了很大的改进，现在用起来已经非常的方便快捷。</p>
+<p>封装和解构是非常方便的提取数据的方法，在 Python、JavaScript 等语言中应用极广。</p>
+<div><pre><code><span># 交换数据</span>
+x <span>=</span> <span>4</span>
+y <span>=</span> <span>5</span>
+t <span>=</span> x
+x <span>=</span> y
+y <span>=</span> t
+
+<span># 封装和解构，交换</span>
+x <span>=</span> <span>10</span>
+y <span>=</span> <span>11</span>
+x<span>,</span> y <span>=</span> y<span>,</span> x
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="简单解构"> 简单解构</h3>
+<div><pre><code><span># 左右个数相同  ,必须相等</span>
+a<span>,</span>b <span>=</span> <span>1</span><span>,</span><span>2</span>
+a<span>,</span>b <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
+a<span>,</span>b <span>=</span> <span>[</span><span>1</span><span>,</span><span>2</span><span>]</span>
+a<span>,</span>b <span>=</span> <span>[</span><span>10</span><span>,</span><span>20</span><span>]</span>
+a<span>,</span>b <span>=</span> <span>{</span><span>10</span><span>,</span><span>20</span><span>}</span> <span># 非线性结构</span>
+a<span>,</span>b <span>=</span> <span>{</span><span>'a'</span><span>:</span><span>10</span><span>,</span><span>'b'</span><span>:</span><span>20</span><span>}</span> <span># 非线性结构也可以解构</span>
+<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>(</span><span>1</span><span>,</span><span>2</span><span>)</span>
+<span>[</span>a<span>,</span>b<span>]</span> <span>=</span> <span>10</span><span>,</span><span>20</span>
+<span>(</span>a<span>,</span>b<span>)</span> <span>=</span> <span>{</span><span>30</span><span>,</span><span>40</span><span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><h3 id="剩余变量解构"> 剩余变量解构</h3>
+<p>在 Python3.0 中增加了剩余变量解构（rest）。</p>
+<div><pre><code>a<span>,</span> <span>*</span>rest<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
+<span>print</span><span>(</span>a<span>,</span> b<span>)</span>
+<span>print</span><span>(</span><span>type</span><span>(</span>rest<span>)</span><span>,</span> rest<span>)</span> <span># &lt;class 'list'> [2, 3, 4]</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>标识符 rest 将尽可能收集剩余的数据组成一个列表。</p>
+<div><pre><code>a<span>,</span> <span>*</span>_<span>,</span> b <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>]</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 在IPython中实验，_是最后一个输出值，这里将把它覆盖</span>
+_<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>]</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 第一个_是什么</span>
+<span>print</span><span>(</span>b<span>)</span> <span># 是什么</span>
+<span>print</span><span>(</span>_<span>)</span> <span># 第二个_是什么</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>_ 是合法的标识符，这里它没有什么可读性，它在这里的作用就是表示不关心这个变量的值，我不想要。有人把它称作 丢弃(Throwaway)变量。</p>
 <h2 id="线性数据结构"> 线性数据结构</h2>
 <p>线性表</p>
 <ul>
@@ -21439,14 +21447,6 @@ m <span>=</span> x <span># 这一句有什么用？y[:] = x有什么用？</span
 <p>y=[]、y[:]=x 等价于  z=x[:] ，都是创建x的副本。</p>
 <p>切片赋值用作初始化相当于copy，还可以使用。如果用在替换、插入元素，看似语法比较简洁，但是由
 于列表是顺序表结构，将会引起数据的挪动，这非常影响性能，应当尽量避免使用。</p>
-<h2 id="类型转换"> 类型转换</h2>
-<ul>
-<li>int、float、complex、bool 也可以当做内建函数对数据进行类型转换</li>
-<li>int(x) 返回一个整数</li>
-<li>float(x) 返回一个浮点数</li>
-<li>complex(x)、complex(x,y) 返回一个复数</li>
-<li>bool(x) 返回布尔值，前面讲过False等价的对象</li>
-</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -23206,82 +23206,6 @@ bash$ echo $variable1
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>4.3 Bash变量是弱类型的</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4.3 Bash变量是弱类型的</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
-<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
-<p>样例 4-4. 整数还是字符串？</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># int-or-string.sh</span>
-
-<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
-<span>let</span> <span>"a += 1"</span>
-<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
-<span>echo</span>                     <span># 依旧是整数。</span>
-
-
-<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
-                         <span># $b 变成了字符串。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-
-<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
-<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
-
-<span>c</span><span>=</span>BB34
-<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
-<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
-                         <span># $d 变为了一个整数。</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
-<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
-<span>echo</span>
-
-
-<span># 如果是空值会怎样呢？</span>
-<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
-<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
-<span>echo</span>                     <span># 空值变为了一个整数。</span>
-
-<span># 如果时未声明的变量呢？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
-<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
-<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
-<span>#</span>
-<span># 然而……</span>
-<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
-<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
-<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
-<span>#</span>
-<span># 但是，仍旧……</span>
-<span>let</span> <span>"f /= 0"</span>
-<span>#   let: f /= 0: division by 0 (error token is "0")</span>
-<span># 预期之中。</span>
-
-
-<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
-<span># 但是不要做这种事情！</span>
-<span># 因为这可能会导致一些意外的后果。</span>
-
-
-<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
-<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>5.1 引用变量</title>
       <link>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</guid>
@@ -23410,6 +23334,25 @@ echo "</span><span>$var</span><span>"      # '(]\{}$"</span>
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>第四章 变量与参数</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/04_introduction_to_variables_and_parameters/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/04_introduction_to_variables_and_parameters/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第四章 变量与参数</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第四章-变量与参数"> 第四章 变量与参数</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./04_1_variable_substitution.html">4.1 变量替换</a></li>
+<li><a href="./04_2_variable_assignment.html">4.2 变量赋值</a></li>
+<li><a href="./04_3_bash_variables_are_untyped.html">4.3 Bash变量弱类型</a></li>
+<li><a href="./04_4_special_variable_types.html">4.4 特殊变量类型</a></li>
+</ul>
+<p>变量（variable）在编程语言中用来表示数据。它本身只是一个标记，指向数据在计算机内存中的一个或一组地址。</p>
+<p>变量通常出现在算术运算，数量操作及字符串解析中。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>5.2 转义</title>
@@ -23797,61 +23740,6 @@ bar'</span>     <span># 在强引用中，\ 就按照字面意思来解释了。
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>第五章 引用</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/05_quoting/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/05_quoting/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第五章 引用</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第五章-引用"> 第五章 引用</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./05_1_quoting_variables.html">5.1 引用变量</a></li>
-<li><a href="./05_2_escaping.html">5.2 转义</a></li>
-</ul>
-<hr>
-<p>引用就是将一个字符串用引号括起来。这样做是为了保护Shell/Shell脚本中被重新解释过或带扩展功能的<a href="http://tldp.org/LDP/abs/html/special-chars.html" target="_blank" rel="noopener noreferrer">特殊字符</a>（如果一个字符带有其特殊意义而不仅仅是字面量的话，这个字符就能称为“特殊字符”。比如星号“*”就能表示<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>中的一个<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">通配符</a>）。</p>
-<div><pre><code>bash$ ls -l [Vv]*
--rw-rw-r--    1 bozo  bozo       324 Apr  2 15:05 VIEWDATA.BAT
--rw-rw-r--    1 bozo  bozo       507 May  4 14:25 vartrace.sh
--rw-rw-r--    1 bozo  bozo       539 Apr 14 17:11 viewdata.sh
-
-bash$ ls -l &#39;[Vv]*&#39;
-ls: [Vv]*: No such file or directory
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><blockquote>
-<p>可以看到，提示不存在该文件。这里的<code>'[Vv]*</code>被当成了文件名。
-在日常沟通和写作中，当我们引用一个短语的时候，我们会将它单独隔开并赋予它特殊的意义，而在bash脚本中，当我们<em>引用</em>一个字符串，意味着保留它的<em>字面量</em>。</p>
-</blockquote>
-<p>很多程序和公用代码会展开被引用字符串中的特殊字符。引用的一个重用用途是保护Shell中的命令行参数，但仍然允许调用的程序扩展它。</p>
-<div><pre><code>bash$ grep &#39;[Ff]irst&#39; *.txt
-file1.txt:This is the first line of file1.txt.
-file2.txt:This is the First line of file2.txt.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><blockquote>
-<p>在所有.txt文件中找出包含first或者First字符串的行</p>
-</blockquote>
-<p>注意，不加引号的 <code>grep [Ff]irst *.txt</code> 在Bash下也同样有效。<sup></sup></p>
-<p>引用也可以控制<a href="http://tldp.org/LDP/abs/html/internal.html#ECHOREF" target="_blank" rel="noopener noreferrer">echo</a>命令的断行符。</p>
-<div><pre><code>bash$ echo $(ls -l)
-total 8 -rw-rw-r-- 1 bo bo 13 Aug 21 12:57 t.sh -rw-rw-r-- 1 bo bo 78 Aug 21 12:57 u.sh
-
-
-bash$ echo &quot;$(ls -l)&quot;
-total 8
- -rw-rw-r--  1 bo bo  13 Aug 21 12:57 t.sh
- -rw-rw-r--  1 bo bo  78 Aug 21 12:57 u.sh
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><hr>
-<section>
-<ol>
-<li id="footnote1"><p>前提是当前目录下有文件名为First或first的文件。这也是使用引用的另一个原因。（感谢 Harald Koenig 指出了这一点） </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第六章 退出与退出状态</title>
       <link>https://clay-wangzhi.com/code/shell/part2/06_exit_and_exit_status/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/06_exit_and_exit_status/</guid>
@@ -23973,6 +23861,61 @@ lskdf      <span># 不认识的命令。</span>
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>第五章 引用</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/05_quoting/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/05_quoting/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第五章 引用</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第五章-引用"> 第五章 引用</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./05_1_quoting_variables.html">5.1 引用变量</a></li>
+<li><a href="./05_2_escaping.html">5.2 转义</a></li>
+</ul>
+<hr>
+<p>引用就是将一个字符串用引号括起来。这样做是为了保护Shell/Shell脚本中被重新解释过或带扩展功能的<a href="http://tldp.org/LDP/abs/html/special-chars.html" target="_blank" rel="noopener noreferrer">特殊字符</a>（如果一个字符带有其特殊意义而不仅仅是字面量的话，这个字符就能称为“特殊字符”。比如星号“*”就能表示<a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a>中的一个<a href="http://tldp.org/LDP/abs/html/globbingref.html" target="_blank" rel="noopener noreferrer">通配符</a>）。</p>
+<div><pre><code>bash$ ls -l [Vv]*
+-rw-rw-r--    1 bozo  bozo       324 Apr  2 15:05 VIEWDATA.BAT
+-rw-rw-r--    1 bozo  bozo       507 May  4 14:25 vartrace.sh
+-rw-rw-r--    1 bozo  bozo       539 Apr 14 17:11 viewdata.sh
+
+bash$ ls -l &#39;[Vv]*&#39;
+ls: [Vv]*: No such file or directory
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><blockquote>
+<p>可以看到，提示不存在该文件。这里的<code>'[Vv]*</code>被当成了文件名。
+在日常沟通和写作中，当我们引用一个短语的时候，我们会将它单独隔开并赋予它特殊的意义，而在bash脚本中，当我们<em>引用</em>一个字符串，意味着保留它的<em>字面量</em>。</p>
+</blockquote>
+<p>很多程序和公用代码会展开被引用字符串中的特殊字符。引用的一个重用用途是保护Shell中的命令行参数，但仍然允许调用的程序扩展它。</p>
+<div><pre><code>bash$ grep &#39;[Ff]irst&#39; *.txt
+file1.txt:This is the first line of file1.txt.
+file2.txt:This is the First line of file2.txt.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><blockquote>
+<p>在所有.txt文件中找出包含first或者First字符串的行</p>
+</blockquote>
+<p>注意，不加引号的 <code>grep [Ff]irst *.txt</code> 在Bash下也同样有效。<sup></sup></p>
+<p>引用也可以控制<a href="http://tldp.org/LDP/abs/html/internal.html#ECHOREF" target="_blank" rel="noopener noreferrer">echo</a>命令的断行符。</p>
+<div><pre><code>bash$ echo $(ls -l)
+total 8 -rw-rw-r-- 1 bo bo 13 Aug 21 12:57 t.sh -rw-rw-r-- 1 bo bo 78 Aug 21 12:57 u.sh
+
+
+bash$ echo &quot;$(ls -l)&quot;
+total 8
+ -rw-rw-r--  1 bo bo  13 Aug 21 12:57 t.sh
+ -rw-rw-r--  1 bo bo  78 Aug 21 12:57 u.sh
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><hr>
+<section>
+<ol>
+<li id="footnote1"><p>前提是当前目录下有文件名为First或first的文件。这也是使用引用的另一个原因。（感谢 Harald Koenig 指出了这一点） </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
     </item>
     <item>
       <title>7.1 测试结构</title>
@@ -34535,162 +34478,6 @@ exit 0  # 这个脚本可能不会正常退出。
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>24.3 不使用局部变量的递归</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">24.3 不使用局部变量的递归</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
-<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
-<h2 id="斐波那契序列"> 斐波那契序列</h2>
-<div><pre><code>#!/bin/bash
-# fibo.sh : 斐波那契序列 (递归)
-# 作者: M. Cooper
-# License: GPL3
-
-# ----------算法--------------
-# Fibo(0) = 0
-# Fibo(1) = 1
-# else
-#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
-# ---------------------------------
-
-MAXTERM=15       # 要产生的计算次数。
-MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
-
-Fibonacci ()
-{
-    idx=$1   # 不需要是局部变量，为什么？
-    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
-    then
-        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
-    else
-        (( --idx ))  # j-1
-        term1=$( Fibonacci $idx )   #  Fibo(j-1)
-        (( --idx ))  # j-2
-        term2=$( Fibonacci $idx )   #  Fibo(j-2)
-        echo $(( term1 + term2 ))
-    fi
-    #  一个丑陋的实现
-    #  C语言里，一个更加优雅的斐波那契递归实现
-    #+ 是一个简单的只需要7-10代码的算法翻译。
-}
-
-for i in $(seq 0 $MAXTERM)
-do  # 计算 $MAXTERM+1 次.
-    FIBO=$(Fibonacci $i)
-    echo -n &quot;$FIBO &quot;
-done
-# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
-# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
-<div><pre><code>#! /bin/bash
-#
-# 汉诺塔
-# Bash script
-# Copyright (C) 2000 Amit Singh. All Rights Reserved.
-# http://hanoi.kernelthread.com
-#
-# 在 Bash version 2.05b.0(13)-release下通过测试.
-# 同样在Bash3.x版本下工作正常。
-#
-#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
-#+ 经过了脚本作者的许可。
-#  ABS的作者对脚本进行了轻微的修改和注释。
-#=================================================================#
-#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
-#+  他是19世纪的法国数学家。
-#
-# 有三个直立的柱子竖在地面上。
-# 第一个柱子上有一组盘子套在上面。
-# 这些盘子是平的，中间有孔，
-#+ 可以套在柱子上面。
-# 这些盘子的直径不同，它们从下而上， 
-#+ 按照尺寸递减的顺序摆放。
-# 也就是说，最小的在最上边，最大的在最下面。
-#
-# 现在的任务是要把这组盘子  
-#+ 从一个柱子上全部搬到另一个柱子上 
-# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
-# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
-# 你只能把小的盘子放到大的盘子上。
-#+ 反过来就不行。
-# 切记，绝对不能把大盘子放到小盘子的上面。
-# 如果盘子的数量比较少，那么移不了几次就能完成。
-#+ 但是随着盘子数量的增加，
-#+ 移动次数几乎成倍的增长，
-#+ 而且移动的“策略”也会变得越来越复杂。
-#
-# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
-#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
-#
-#
-#           ...             ...         ...
-#           | |             | |         | |
-#          _|_|_            | |         | |
-#         |_____|           | |         | |
-#        |_______|          | |         | |
-#       |_________|         | |         | |
-#      |___________|        | |         | |
-#     |             |       | |         | |
-# .--------------------------------------------------------------. 
-# |**************************************************************| 
-#            #1              #2          #3
-# #=================================================================#
-
-E_NOPARAM=66  # 没有参数传给脚本。
-E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
-Moves=        # 保存移动次数的全局变量。
-              # 这里修改了原来的脚本。
-
-dohanoi() {   # 递归函数
-    case $1 in
-    0)
-        ;;
-    *)
-        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
-        echo move $2 &quot;--&gt;&quot; $3
-        ((Moves++))          # 这里修改了原来的脚本。
-        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
-        ;;
-    esac 
-}
-
-case $# in
-    1) case $(($1&gt;0)) in     # 至少要有一个盘子
-        1)  # Nested case statement.
-            dohanoi $1 1 3 2
-            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
-            exit 0;
-            ;; 
-        *)    
-            echo &quot;$0: illegal value for number of disks&quot;;
-            exit $E_BADPARAM;
-            ;;
-        esac ;;
-    *)
-        echo &quot;usage: $0 N&quot;
-        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
-        exit $E_NOPARAM;
-        ;;
-    esac
-
-# 练习:
-# ---------
-# 1) 这个位置以下的代码会不会执行？ 
-#    为什么不(容易)
-# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
-#    (比较难 可以参考上面的Dewdney 的引用)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>24 函数</title>
       <link>https://clay-wangzhi.com/code/shell/part5/24_functions/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/24_functions/</guid>
@@ -34938,6 +34725,162 @@ exit $?
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>24.3 不使用局部变量的递归</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">24.3 不使用局部变量的递归</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
+<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
+<h2 id="斐波那契序列"> 斐波那契序列</h2>
+<div><pre><code>#!/bin/bash
+# fibo.sh : 斐波那契序列 (递归)
+# 作者: M. Cooper
+# License: GPL3
+
+# ----------算法--------------
+# Fibo(0) = 0
+# Fibo(1) = 1
+# else
+#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
+# ---------------------------------
+
+MAXTERM=15       # 要产生的计算次数。
+MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
+
+Fibonacci ()
+{
+    idx=$1   # 不需要是局部变量，为什么？
+    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
+    then
+        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
+    else
+        (( --idx ))  # j-1
+        term1=$( Fibonacci $idx )   #  Fibo(j-1)
+        (( --idx ))  # j-2
+        term2=$( Fibonacci $idx )   #  Fibo(j-2)
+        echo $(( term1 + term2 ))
+    fi
+    #  一个丑陋的实现
+    #  C语言里，一个更加优雅的斐波那契递归实现
+    #+ 是一个简单的只需要7-10代码的算法翻译。
+}
+
+for i in $(seq 0 $MAXTERM)
+do  # 计算 $MAXTERM+1 次.
+    FIBO=$(Fibonacci $i)
+    echo -n &quot;$FIBO &quot;
+done
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
+# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
+<div><pre><code>#! /bin/bash
+#
+# 汉诺塔
+# Bash script
+# Copyright (C) 2000 Amit Singh. All Rights Reserved.
+# http://hanoi.kernelthread.com
+#
+# 在 Bash version 2.05b.0(13)-release下通过测试.
+# 同样在Bash3.x版本下工作正常。
+#
+#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
+#+ 经过了脚本作者的许可。
+#  ABS的作者对脚本进行了轻微的修改和注释。
+#=================================================================#
+#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
+#+  他是19世纪的法国数学家。
+#
+# 有三个直立的柱子竖在地面上。
+# 第一个柱子上有一组盘子套在上面。
+# 这些盘子是平的，中间有孔，
+#+ 可以套在柱子上面。
+# 这些盘子的直径不同，它们从下而上， 
+#+ 按照尺寸递减的顺序摆放。
+# 也就是说，最小的在最上边，最大的在最下面。
+#
+# 现在的任务是要把这组盘子  
+#+ 从一个柱子上全部搬到另一个柱子上 
+# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
+# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
+# 你只能把小的盘子放到大的盘子上。
+#+ 反过来就不行。
+# 切记，绝对不能把大盘子放到小盘子的上面。
+# 如果盘子的数量比较少，那么移不了几次就能完成。
+#+ 但是随着盘子数量的增加，
+#+ 移动次数几乎成倍的增长，
+#+ 而且移动的“策略”也会变得越来越复杂。
+#
+# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
+#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
+#
+#
+#           ...             ...         ...
+#           | |             | |         | |
+#          _|_|_            | |         | |
+#         |_____|           | |         | |
+#        |_______|          | |         | |
+#       |_________|         | |         | |
+#      |___________|        | |         | |
+#     |             |       | |         | |
+# .--------------------------------------------------------------. 
+# |**************************************************************| 
+#            #1              #2          #3
+# #=================================================================#
+
+E_NOPARAM=66  # 没有参数传给脚本。
+E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
+Moves=        # 保存移动次数的全局变量。
+              # 这里修改了原来的脚本。
+
+dohanoi() {   # 递归函数
+    case $1 in
+    0)
+        ;;
+    *)
+        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
+        echo move $2 &quot;--&gt;&quot; $3
+        ((Moves++))          # 这里修改了原来的脚本。
+        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
+        ;;
+    esac 
+}
+
+case $# in
+    1) case $(($1&gt;0)) in     # 至少要有一个盘子
+        1)  # Nested case statement.
+            dohanoi $1 1 3 2
+            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
+            exit 0;
+            ;; 
+        *)    
+            echo &quot;$0: illegal value for number of disks&quot;;
+            exit $E_BADPARAM;
+            ;;
+        esac ;;
+    *)
+        echo &quot;usage: $0 N&quot;
+        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
+        exit $E_NOPARAM;
+        ;;
+    esac
+
+# 练习:
+# ---------
+# 1) 这个位置以下的代码会不会执行？ 
+#    为什么不(容易)
+# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
+#    (比较难 可以参考上面的Dewdney 的引用)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>25. 别名</title>
@@ -50373,6 +50316,82 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 ]]></content:encoded>
     </item>
     <item>
+      <title>4.3 Bash变量是弱类型的</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4.3 Bash变量是弱类型的</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
+<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
+<p>样例 4-4. 整数还是字符串？</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># int-or-string.sh</span>
+
+<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
+<span>let</span> <span>"a += 1"</span>
+<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
+<span>echo</span>                     <span># 依旧是整数。</span>
+
+
+<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
+                         <span># $b 变成了字符串。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+
+<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
+<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
+
+<span>c</span><span>=</span>BB34
+<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
+<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
+                         <span># $d 变为了一个整数。</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
+<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
+<span>echo</span>
+
+
+<span># 如果是空值会怎样呢？</span>
+<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
+<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
+<span>echo</span>                     <span># 空值变为了一个整数。</span>
+
+<span># 如果时未声明的变量呢？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
+<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
+<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
+<span>#</span>
+<span># 然而……</span>
+<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
+<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
+<span>#</span>
+<span># 但是，仍旧……</span>
+<span>let</span> <span>"f /= 0"</span>
+<span>#   let: f /= 0: division by 0 (error token is "0")</span>
+<span># 预期之中。</span>
+
+
+<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
+<span># 但是不要做这种事情！</span>
+<span># 因为这可能会导致一些意外的后果。</span>
+
+
+<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
+<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>用户管理</title>
       <link>https://clay-wangzhi.com/linux/basic/user/</link>
       <guid>https://clay-wangzhi.com/linux/basic/user/</guid>
@@ -50402,60 +50421,241 @@ useradd aa -G wheel
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>编程语言的分类</title>
-      <link>https://clay-wangzhi.com/linux/gainian/code-type/</link>
-      <guid>https://clay-wangzhi.com/linux/gainian/code-type/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">编程语言的分类</source>
+      <title>4.4 特殊的变量类型</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4.4 特殊的变量类型</source>
+      <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="编程语言的分类"> 编程语言的分类</h1>
-<p>编程语言的分类可以从三个角度出发：</p>
-<h2 id="编译型和解释型"> 编译型和解释型</h2>
-<h3 id="编译型"> 编译型</h3>
-<p>即把源程序的每一条语句都编译成机器语言，并保存为二进制文件，这样运行时计算机可以直接以机器语言来运行此程序。</p>
-<ul>
-<li>优点：执行速度很快</li>
-<li>缺点：开发效率低，不能跨平台</li>
-</ul>
-<p>常见语言有<code>C\C++</code>、<code>Go</code>等</p>
-<h3 id="解释型"> 解释型</h3>
-<p>只在运行时才一条一条的解释成机器语言给计算机执行。</p>
-<ul>
-<li>优点：开发效率高，跨平台</li>
-<li>缺点：运行速度慢</li>
-</ul>
-<p>常见语言有<code>Python</code>、<code>PHP</code>、<code>JavaScript</code></p>
-<h3 id="混合型"> 混合型</h3>
-<p>常见语言有<code>JAVA</code>、<code>C#</code></p>
-<h2 id="静态语言和动态语言"> 静态语言和动态语言</h2>
-<h3 id="动态语言"> 动态语言</h3>
-<p>即数据类型是在运行期间检查的，写程序时不用给变量指定数据类型，当你第一次赋值给变量时，就在内部记录下了数据类型。</p>
-<p>常见语言有<code>Python</code>、<code>Ruby</code>、<code>JavaScript</code></p>
-<h3 id="静态语言"> 静态语言</h3>
-<p>即数据类型是在编译期间检查的，写程序时声明所有变量的数据类型。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Go</code></p>
-<h2 id="强类型语言和弱类型语言"> 强类型语言和弱类型语言</h2>
-<h3 id="强类型语言-类型安全"> 强类型语言（类型安全）</h3>
-<p>强制数据类型定义的语言，即一旦一个变量被指定了某个数据类型，如果不经过强制转换，那么它就永远是这个数据类型了。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Python</code>、<code>Go</code>。</p>
-<h3 id="弱类型语言"> 弱类型语言</h3>
-<p>一个变量可以赋不同数据类型的值。</p>
-<p>常见语言有<code>JavaScript</code></p>
-<h2 id="结论"> 结论</h2>
-<h3 id="python"> Python</h3>
-<p>Python是一门动态解释型的强类型定义语言</p>
-<h3 id="c"> C</h3>
-<p>C语言是一门静态编译型的强类型定义语言</p>
-<h3 id="java"> JAVA</h3>
-<p>Java是一门静态混合型的强类型定义语言</p>
-<h3 id="go"> Go</h3>
-<p>Go是一门静态编译型的强类型定义语言</p>
-<h3 id="javascript"> JavaScript</h3>
-<p>JavaScript是一门动态解释型的弱类型定义语言</p>
-<h2 id="参考链接"> 参考链接</h2>
+      <content:encoded><![CDATA[<h1 id="_4-4-特殊的变量类型"> 4.4 特殊的变量类型</h1>
+<h3 id="局部变量"> 局部变量</h3>
+<p>仅在代码块或函数中才可见的变量（参考函数章节的局部变量部分）。</p>
+<h3 id="环境变量"> 环境变量</h3>
+<p>会影响用户及shell行为的变量。</p>
 <blockquote>
-<p>https://www.cnblogs.com/sunbr/p/11214498.html</p>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 一般情况下，每一个进程都有自己的“环境”（environment），也就是一组该进程可以访问到的变量。从这个意义上来说，shell表现出与其他进程一样的行为。</p>
+<p>每当shell启动时，都会创建出与其环境对应的shell环境变量。改变或增加shell环境变量会使shell更新其自身的环境。<em>子进程</em>（由父进程执行产生）会继承<em>父进程</em>的环境变量。</p>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 分配给环境变量的空间是有限的。创建过多环境变量或占用空间过大的环境变量有可能会造成问题。</p>
 </blockquote>
+<div><pre><code>bash$ eval &quot;`seq 10000 | sed -e &#39;s/.*/export var&amp;=ZZZZZZZZZZZZZZ/&#39;`&quot;
+&gt;
+bash$ du
+bash: /usr/bin/du: Argument list too long
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
+<p>注意，上面的&quot;错误&quot;已经在Linux内核版本号为2.6.23的系统中修复了。</p>
+<p>（感谢 Stéphane Chazelas 对此问题的解释并提供了上面的例子。）</p>
+</blockquote>
+<p>如果在脚本中设置了环境变量，那么这些环境变量需要被“导出”，也就是通知脚本所在的<em>环境</em>做出相应的更新。这个“导出”操作就是 <code>export</code> 命令。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 脚本只能将变量导出到子进程，即在这个脚本中所调用的命令或程序。在命令行中调用的脚本不能够将变量回传给命令行环境，即<em>子进程不能将变量回传给父进程</em>。</p>
+<p><strong>定义：</strong> 子进程（child process）是由另一个进程，即其父进程（parent process）所启动的子程序。</p>
+</blockquote>
+<h3 id="位置参数"> 位置参数</h3>
+<p>从命令行中传递给脚本的参数<sup></sup>：<code>$0, $1, $2, $3 ...</code>
+即<strong>命令行参数</strong>。</p>
+<p><code>$0</code> 代表脚本名称，<code>$1</code> 代表第一个参数，<code>$2</code> 代表第二个，<code>$3</code> 代表第三个，以此类推<sup></sup>。在 <code>$9</code> 之后的参数必须被包含在大括号中，如 <code>${10}, ${11}, ${12}</code>。</p>
+<p>特殊变量 <code>$*</code> 与 <code>$@</code> 代表所有位置参数。</p>
+<p>样例 4-5. 位置参数</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span># 调用脚本时使用至少10个参数，例如</span>
+<span># ./scriptname 1 2 3 4 5 6 7 8 9 10</span>
+<span>MINPARAMS</span><span>=</span><span>10</span>
+
+<span>echo</span>
+
+<span>echo</span> <span>"The name of this script is <span title="\&quot;">\"</span><span>$0</span><span title="\&quot;">\"</span>."</span>
+<span># 附带 ./ 代表当前目录</span>
+<span>echo</span> <span>"The name of this script is <span title="\&quot;">\"</span><span><span>`</span><span>basename</span> $0<span>`</span></span><span title="\&quot;">\"</span>."</span>
+<span># 除去路径信息（查看 'basename'）</span>
+
+<span>echo</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>              <span># 测试变量是否存在</span>
+<span>then</span>
+ <span>echo</span> <span>"Parameter #1 is <span>$1</span>"</span>  <span># 使用引号转义#</span>
+<span>fi</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$2</span>"</span> <span>]</span>
+<span>then</span>
+ <span>echo</span> <span>"Parameter #2 is <span>$2</span>"</span>
+<span>fi</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$3</span>"</span> <span>]</span>
+<span>then</span>
+ <span>echo</span> <span>"Parameter #3 is <span>$3</span>"</span>
+<span>fi</span>
+
+<span># ...</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>${10}</span>"</span> <span>]</span>  <span># 大于 $9 的参数必须被放在大括号中</span>
+<span>then</span>
+ <span>echo</span> <span>"Parameter #10 is <span>${10}</span>"</span>
+<span>fi</span>
+
+<span>echo</span> <span>"-----------------------------------"</span>
+<span>echo</span> <span>"All the command-line parameters are: "</span><span>$*</span><span>""</span>
+
+<span>if</span> <span>[</span> <span>$#</span> -lt <span>"<span>$MINPARAMS</span>"</span> <span>]</span>
+<span>then</span>
+  <span>echo</span>
+  <span>echo</span> <span>"This script needs at least <span>$MINPARAMS</span> command-line arguments!"</span>
+<span>fi</span>
+
+<span>echo</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>在位置参数中使用大括号助记符提供了一种非常简单的方式来访问传入脚本的最后一个参数。在其中会使用到间接引用。</p>
+<div><pre><code><span>args</span><span>=</span><span>$#</span>           <span># 传入参数的个数</span>
+<span>lastarg</span><span>=</span><span>${<span>!</span>args}</span>
+<span># 这是 $args 的一种间接引用方式</span>
+
+<span># 也可以使用:       lastarg=${!#}             (感谢 Chris Monson.)</span>
+<span># 这是 $# 的一种间接引用方式。</span>
+<span># 注意 lastarg=${!$#} 是无效的。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>一些脚本能够根据调用时文件名的不同来执行不同的操作。要达到这样的效果，脚本需要检测 <code>$0</code>，也就是调用时的文件名<sup></sup>。同时，也必须存在指向这个脚本所有别名的符号链接文件（symbolic links）。详情查看样例 16-2。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="info" /> 如果一个脚本需要一个命令行参数但是在调用的时候却没有传入，那么这将会造成一个空变量赋值。这通常不是我们想要的。一种避免的方法是，在使用期望的位置参数时候，在赋值语句两侧添加一个额外的字符。</p>
+</blockquote>
+<div><pre><code><span>variable1_</span><span>=</span><span>$1_</span>  <span># 而不是 variable1=$1</span>
+<span># 使用这种方法可以在没有位置参数的情况下避免产生错误。</span>
+
+<span>critical_argument01</span><span>=</span><span>$variable1_</span>
+
+<span># 多余的字符可以被去掉，就像下面这样：</span>
+<span>variable1</span><span>=</span><span>${variable1_<span>/</span>_<span>/</span>}</span>
+<span># 仅仅当 $variable1_ 是以下划线开头时候才会有一些副作用。</span>
+<span># 这里使用了我们稍后会介绍的参数替换模板中的一种。</span>
+<span># （将替换模式设为空等价于删除。）</span>
+
+<span># 更直接的处理方法就是先检测预期的位置参数是否被传入。</span>
+<span>if</span> <span>[</span> -z <span>$1</span> <span>]</span>
+<span>then</span>
+  <span>exit</span> <span>$E_MISSING_POS_PARAM</span>
+<span>fi</span>
+
+
+<span>#  但是，正如 Fabin Kreutz 指出的，</span>
+<span>#+ 上面的方法会有一些意想不到的副作用。</span>
+<span>#  更好的方法是使用参数替换：</span>
+<span>#         ${1:-$DefaultVal}</span>
+<span>#  详情查看第十章“操作变量”的第二节“变量替换”。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>样例 4-6. <em>wh</em>, <em>whois</em> 域名查询</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ex18.sh</span>
+
+<span># 在下面三个可选的服务器中进行 whois 域名查询：</span>
+<span># ripe.net, cw.net, radb.net</span>
+
+<span># 将这个脚本重命名为 'wh' 后放在 /usr/local/bin 目录下</span>
+
+<span># 这个脚本需要进行符号链接：</span>
+<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-ripe</span>
+<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-apnic</span>
+<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-tucows</span>
+
+<span>E_NOARGS</span><span>=</span><span>75</span>
+
+
+<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> [domain-name]"</span>
+  <span>exit</span> <span>$E_NOARGS</span>
+<span>fi</span>
+
+<span># 检查脚本名，访问对应服务器进行查询。</span>
+<span>case</span> <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>in</span>    <span># 也可以写:    case ${0##*/} in</span>
+    <span>"wh"</span>       <span>)</span> whois <span>$1</span>@whois.tucows.com<span>;</span><span>;</span>
+    <span>"wh-ripe"</span>  <span>)</span> whois <span>$1</span>@whois.ripe.net<span>;</span><span>;</span>
+    <span>"wh-apnic"</span> <span>)</span> whois <span>$1</span>@whois.apnic.net<span>;</span><span>;</span>
+    <span>"wh-cw"</span>    <span>)</span> whois <span>$1</span>@whois.cw.net<span>;</span><span>;</span>
+    *          <span>)</span> <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> [domain-name]"</span><span>;</span><span>;</span>
+<span>esac</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>使用 <code>shift</code> 命令可以将全体位置参数向左移一位, 重新赋值。</p>
+<p><code>$1 &lt;--- $2</code>, <code>$2 &lt;--- $3</code>, <code>$3 &lt;--- $4</code>，以此类推。</p>
+<p>原先的 <code>$1</code> 将会消失，而 <code>$0</code>（脚本名称）不会有任何改变。如果你在脚本中使用了大量的位置参数，<code>shift</code> 可以让你不使用{大括号}助记法也可以访问超过10个的位置参数。</p>
+<p>样例 4-7. 使用 <code>shift</code> 命令</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># shft.sh: 使用 `shift` 命令步进访问所有的位置参数。</span>
+
+<span># 将这个脚本命名为 shft.sh，然后在调用时跟上一些参数。</span>
+<span># 例如：</span>
+<span>#    sh shft.sh a b c def 83 barndoor</span>
+
+<span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>  <span># 直到访问完所有的参数</span>
+<span>do</span>
+  <span>echo</span> -n <span>"<span>$1</span> "</span>
+  <span>shift</span>
+<span>done</span>
+
+<span>echo</span>               <span># 换行。</span>
+
+<span># 那些被访问完的参数又会怎样呢？</span>
+<span>echo</span> <span>"<span>$2</span>"</span>
+<span># 什么都不会被打印出来。</span>
+<span># 当 $2 被移动到 $1 且没有 $3 时，$2 将会保持空。</span>
+<span># 因此 shift 是移动参数而非复制参数。</span>
+
+<span>exit</span>
+
+<span>#  可以参考 echo-params.sh 脚本，在不使用 shift 命令的情况下，</span>
+<span>#+ 步进访问所有位置参数。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p><code>shift</code> 命令也可以带一个参数来指明一次移动多少位。</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># shift-past.sh</span>
+
+<span>shift</span> <span>3</span>    <span># 移动3位。</span>
+<span># 与 n=3; shift $n 效果相同。</span>
+
+<span>echo</span> <span>"<span>$1</span>"</span>
+
+<span>exit</span> <span>0</span>
+
+<span># ======================== #</span>
+
+
+$ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+<span>4</span>
+
+<span>#  但是就像 Eleni Fragkiadaki 指出的那样，</span>
+<span>#  如果尝试将位置参数（$#）传给 'shift'，</span>
+<span>#  将会导致脚本错误的结束，同时位置参数也不会发送改变。</span>
+<span>#  这也许是因为陷入了一个死循环...</span>
+<span>#  比如：</span>
+<span>#      until [ -z "$1" ]</span>
+<span>#      do</span>
+<span>#         echo -n "$1 "</span>
+<span>#         shift 20    #  如果少于20个位置参数，</span>
+<span>#      done           #+ 那么循环将永远不会结束。</span>
+<span>#</span>
+<span>#  当你不确定是否有这么多的参数时，你可以加入一个测试：</span>
+<span>#      shift 20 || break</span>
+<span>#               ^^^^^^^^</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 使用 <code>shift</code> 命令同给函数传参相类似。详情查看样例 36-18。</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>函数同样也可以接受与使用位置参数。 </p>
+</li>
+<li id="footnote2"><p>是调用脚本的进程设置了 $0 参数。就是脚本的文件名。详情可以查看 <code>execv</code> 的使用手册。<br>在命令行中，<span><span><i>Not supported content</i></span><span aria-hidden="true"><span><span style="height:0.73354em;vertical-align:-0.0391em;"></span><span>0</span><span>是</span><span>s</span><span>h</span><span>e</span><span style="margin-right:0.01968em;">ll</span><span>的名称。</span><span style="margin-right:0.2777777777777778em;"></span><span>&lt;</span><span style="margin-right:0.2777777777777778em;"></span></span><span><span style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span>p</span><span>re</span><span style="margin-right:0.2777777777777778em;"></span><span>&gt;</span><span style="margin-right:0.2777777777777778em;"></span></span><span><span style="height:0.69444em;vertical-align:0em;"></span><span>ba</span><span>s</span><span>h</span></span></span></span> echo $0<br>bash<br><br>tcsh% echo $0<br>tcsh</pre> </p>
+</li>
+<li id="footnote3"><p>如果脚本被引用（sourced）执行或者被链接（symlinked）执行时会失效。安全的方法是检测变量 <code>$BASH_Source</code>。 </p>
+</li>
+</ol>
+</section>
 ]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
       <title>中文技术文档的写作规范</title>
@@ -60598,241 +60798,127 @@ $document_uri ： 与$uri相同。
 ]]></content:encoded>
     </item>
     <item>
-      <title>4.4 特殊的变量类型</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/04_4_special_variable_types/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4.4 特殊的变量类型</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-4-特殊的变量类型"> 4.4 特殊的变量类型</h1>
-<h3 id="局部变量"> 局部变量</h3>
-<p>仅在代码块或函数中才可见的变量（参考函数章节的局部变量部分）。</p>
-<h3 id="环境变量"> 环境变量</h3>
-<p>会影响用户及shell行为的变量。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 一般情况下，每一个进程都有自己的“环境”（environment），也就是一组该进程可以访问到的变量。从这个意义上来说，shell表现出与其他进程一样的行为。</p>
-<p>每当shell启动时，都会创建出与其环境对应的shell环境变量。改变或增加shell环境变量会使shell更新其自身的环境。<em>子进程</em>（由父进程执行产生）会继承<em>父进程</em>的环境变量。</p>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="notice" /> 分配给环境变量的空间是有限的。创建过多环境变量或占用空间过大的环境变量有可能会造成问题。</p>
-</blockquote>
-<div><pre><code>bash$ eval &quot;`seq 10000 | sed -e &#39;s/.*/export var&amp;=ZZZZZZZZZZZZZZ/&#39;`&quot;
-&gt;
-bash$ du
-bash: /usr/bin/du: Argument list too long
+      <title>4. 内核参数优化</title>
+      <link>https://clay-wangzhi.com/web/nginx/core/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
+<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>文件内容如下：</p>
+<div><pre><code>net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 268435456
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 30000
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_mem = 524288 699050 1048576
+vm.swappiness = 0
+vm.min_free_kbytes = 65536
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><blockquote>
-<p>注意，上面的&quot;错误&quot;已经在Linux内核版本号为2.6.23的系统中修复了。</p>
-<p>（感谢 Stéphane Chazelas 对此问题的解释并提供了上面的例子。）</p>
-</blockquote>
-<p>如果在脚本中设置了环境变量，那么这些环境变量需要被“导出”，也就是通知脚本所在的<em>环境</em>做出相应的更新。这个“导出”操作就是 <code>export</code> 命令。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 脚本只能将变量导出到子进程，即在这个脚本中所调用的命令或程序。在命令行中调用的脚本不能够将变量回传给命令行环境，即<em>子进程不能将变量回传给父进程</em>。</p>
-<p><strong>定义：</strong> 子进程（child process）是由另一个进程，即其父进程（parent process）所启动的子程序。</p>
-</blockquote>
-<h3 id="位置参数"> 位置参数</h3>
-<p>从命令行中传递给脚本的参数<sup></sup>：<code>$0, $1, $2, $3 ...</code>
-即<strong>命令行参数</strong>。</p>
-<p><code>$0</code> 代表脚本名称，<code>$1</code> 代表第一个参数，<code>$2</code> 代表第二个，<code>$3</code> 代表第三个，以此类推<sup></sup>。在 <code>$9</code> 之后的参数必须被包含在大括号中，如 <code>${10}, ${11}, ${12}</code>。</p>
-<p>特殊变量 <code>$*</code> 与 <code>$@</code> 代表所有位置参数。</p>
-<p>样例 4-5. 位置参数</p>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span># 调用脚本时使用至少10个参数，例如</span>
-<span># ./scriptname 1 2 3 4 5 6 7 8 9 10</span>
-<span>MINPARAMS</span><span>=</span><span>10</span>
-
-<span>echo</span>
-
-<span>echo</span> <span>"The name of this script is <span title="\&quot;">\"</span><span>$0</span><span title="\&quot;">\"</span>."</span>
-<span># 附带 ./ 代表当前目录</span>
-<span>echo</span> <span>"The name of this script is <span title="\&quot;">\"</span><span><span>`</span><span>basename</span> $0<span>`</span></span><span title="\&quot;">\"</span>."</span>
-<span># 除去路径信息（查看 'basename'）</span>
-
-<span>echo</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>              <span># 测试变量是否存在</span>
-<span>then</span>
- <span>echo</span> <span>"Parameter #1 is <span>$1</span>"</span>  <span># 使用引号转义#</span>
-<span>fi</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$2</span>"</span> <span>]</span>
-<span>then</span>
- <span>echo</span> <span>"Parameter #2 is <span>$2</span>"</span>
-<span>fi</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$3</span>"</span> <span>]</span>
-<span>then</span>
- <span>echo</span> <span>"Parameter #3 is <span>$3</span>"</span>
-<span>fi</span>
-
-<span># ...</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>${10}</span>"</span> <span>]</span>  <span># 大于 $9 的参数必须被放在大括号中</span>
-<span>then</span>
- <span>echo</span> <span>"Parameter #10 is <span>${10}</span>"</span>
-<span>fi</span>
-
-<span>echo</span> <span>"-----------------------------------"</span>
-<span>echo</span> <span>"All the command-line parameters are: "</span><span>$*</span><span>""</span>
-
-<span>if</span> <span>[</span> <span>$#</span> -lt <span>"<span>$MINPARAMS</span>"</span> <span>]</span>
-<span>then</span>
-  <span>echo</span>
-  <span>echo</span> <span>"This script needs at least <span>$MINPARAMS</span> command-line arguments!"</span>
-<span>fi</span>
-
-<span>echo</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br></div></div><p>在位置参数中使用大括号助记符提供了一种非常简单的方式来访问传入脚本的最后一个参数。在其中会使用到间接引用。</p>
-<div><pre><code><span>args</span><span>=</span><span>$#</span>           <span># 传入参数的个数</span>
-<span>lastarg</span><span>=</span><span>${<span>!</span>args}</span>
-<span># 这是 $args 的一种间接引用方式</span>
-
-<span># 也可以使用:       lastarg=${!#}             (感谢 Chris Monson.)</span>
-<span># 这是 $# 的一种间接引用方式。</span>
-<span># 注意 lastarg=${!$#} 是无效的。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>一些脚本能够根据调用时文件名的不同来执行不同的操作。要达到这样的效果，脚本需要检测 <code>$0</code>，也就是调用时的文件名<sup></sup>。同时，也必须存在指向这个脚本所有别名的符号链接文件（symbolic links）。详情查看样例 16-2。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="info" /> 如果一个脚本需要一个命令行参数但是在调用的时候却没有传入，那么这将会造成一个空变量赋值。这通常不是我们想要的。一种避免的方法是，在使用期望的位置参数时候，在赋值语句两侧添加一个额外的字符。</p>
-</blockquote>
-<div><pre><code><span>variable1_</span><span>=</span><span>$1_</span>  <span># 而不是 variable1=$1</span>
-<span># 使用这种方法可以在没有位置参数的情况下避免产生错误。</span>
-
-<span>critical_argument01</span><span>=</span><span>$variable1_</span>
-
-<span># 多余的字符可以被去掉，就像下面这样：</span>
-<span>variable1</span><span>=</span><span>${variable1_<span>/</span>_<span>/</span>}</span>
-<span># 仅仅当 $variable1_ 是以下划线开头时候才会有一些副作用。</span>
-<span># 这里使用了我们稍后会介绍的参数替换模板中的一种。</span>
-<span># （将替换模式设为空等价于删除。）</span>
-
-<span># 更直接的处理方法就是先检测预期的位置参数是否被传入。</span>
-<span>if</span> <span>[</span> -z <span>$1</span> <span>]</span>
-<span>then</span>
-  <span>exit</span> <span>$E_MISSING_POS_PARAM</span>
-<span>fi</span>
-
-
-<span>#  但是，正如 Fabin Kreutz 指出的，</span>
-<span>#+ 上面的方法会有一些意想不到的副作用。</span>
-<span>#  更好的方法是使用参数替换：</span>
-<span>#         ${1:-$DefaultVal}</span>
-<span>#  详情查看第十章“操作变量”的第二节“变量替换”。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>样例 4-6. <em>wh</em>, <em>whois</em> 域名查询</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ex18.sh</span>
-
-<span># 在下面三个可选的服务器中进行 whois 域名查询：</span>
-<span># ripe.net, cw.net, radb.net</span>
-
-<span># 将这个脚本重命名为 'wh' 后放在 /usr/local/bin 目录下</span>
-
-<span># 这个脚本需要进行符号链接：</span>
-<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-ripe</span>
-<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-apnic</span>
-<span># ln -s /usr/local/bin/wh /usr/local/bin/wh-tucows</span>
-
-<span>E_NOARGS</span><span>=</span><span>75</span>
-
-
-<span>if</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> [domain-name]"</span>
-  <span>exit</span> <span>$E_NOARGS</span>
-<span>fi</span>
-
-<span># 检查脚本名，访问对应服务器进行查询。</span>
-<span>case</span> <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>in</span>    <span># 也可以写:    case ${0##*/} in</span>
-    <span>"wh"</span>       <span>)</span> whois <span>$1</span>@whois.tucows.com<span>;</span><span>;</span>
-    <span>"wh-ripe"</span>  <span>)</span> whois <span>$1</span>@whois.ripe.net<span>;</span><span>;</span>
-    <span>"wh-apnic"</span> <span>)</span> whois <span>$1</span>@whois.apnic.net<span>;</span><span>;</span>
-    <span>"wh-cw"</span>    <span>)</span> whois <span>$1</span>@whois.cw.net<span>;</span><span>;</span>
-    *          <span>)</span> <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> [domain-name]"</span><span>;</span><span>;</span>
-<span>esac</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>使用 <code>shift</code> 命令可以将全体位置参数向左移一位, 重新赋值。</p>
-<p><code>$1 &lt;--- $2</code>, <code>$2 &lt;--- $3</code>, <code>$3 &lt;--- $4</code>，以此类推。</p>
-<p>原先的 <code>$1</code> 将会消失，而 <code>$0</code>（脚本名称）不会有任何改变。如果你在脚本中使用了大量的位置参数，<code>shift</code> 可以让你不使用{大括号}助记法也可以访问超过10个的位置参数。</p>
-<p>样例 4-7. 使用 <code>shift</code> 命令</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># shft.sh: 使用 `shift` 命令步进访问所有的位置参数。</span>
-
-<span># 将这个脚本命名为 shft.sh，然后在调用时跟上一些参数。</span>
-<span># 例如：</span>
-<span>#    sh shft.sh a b c def 83 barndoor</span>
-
-<span>until</span> <span>[</span> -z <span>"<span>$1</span>"</span> <span>]</span>  <span># 直到访问完所有的参数</span>
-<span>do</span>
-  <span>echo</span> -n <span>"<span>$1</span> "</span>
-  <span>shift</span>
-<span>done</span>
-
-<span>echo</span>               <span># 换行。</span>
-
-<span># 那些被访问完的参数又会怎样呢？</span>
-<span>echo</span> <span>"<span>$2</span>"</span>
-<span># 什么都不会被打印出来。</span>
-<span># 当 $2 被移动到 $1 且没有 $3 时，$2 将会保持空。</span>
-<span># 因此 shift 是移动参数而非复制参数。</span>
-
-<span>exit</span>
-
-<span>#  可以参考 echo-params.sh 脚本，在不使用 shift 命令的情况下，</span>
-<span>#+ 步进访问所有位置参数。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p><code>shift</code> 命令也可以带一个参数来指明一次移动多少位。</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># shift-past.sh</span>
-
-<span>shift</span> <span>3</span>    <span># 移动3位。</span>
-<span># 与 n=3; shift $n 效果相同。</span>
-
-<span>echo</span> <span>"<span>$1</span>"</span>
-
-<span>exit</span> <span>0</span>
-
-<span># ======================== #</span>
-
-
-$ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-<span>4</span>
-
-<span>#  但是就像 Eleni Fragkiadaki 指出的那样，</span>
-<span>#  如果尝试将位置参数（$#）传给 'shift'，</span>
-<span>#  将会导致脚本错误的结束，同时位置参数也不会发送改变。</span>
-<span>#  这也许是因为陷入了一个死循环...</span>
-<span>#  比如：</span>
-<span>#      until [ -z "$1" ]</span>
-<span>#      do</span>
-<span>#         echo -n "$1 "</span>
-<span>#         shift 20    #  如果少于20个位置参数，</span>
-<span>#      done           #+ 那么循环将永远不会结束。</span>
-<span>#</span>
-<span>#  当你不确定是否有这么多的参数时，你可以加入一个测试：</span>
-<span>#      shift 20 || break</span>
-<span>#               ^^^^^^^^</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 使用 <code>shift</code> 命令同给函数传参相类似。详情查看样例 36-18。</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>函数同样也可以接受与使用位置参数。 </p>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
+<li>
+<p>net.core.somaxconn = 262144</p>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
 </li>
-<li id="footnote2"><p>是调用脚本的进程设置了 $0 参数。就是脚本的文件名。详情可以查看 <code>execv</code> 的使用手册。<br>在命令行中，<span><span><i>Not supported content</i></span><span aria-hidden="true"><span><span style="height:0.73354em;vertical-align:-0.0391em;"></span><span>0</span><span>是</span><span>s</span><span>h</span><span>e</span><span style="margin-right:0.01968em;">ll</span><span>的名称。</span><span style="margin-right:0.2777777777777778em;"></span><span>&lt;</span><span style="margin-right:0.2777777777777778em;"></span></span><span><span style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span>p</span><span>re</span><span style="margin-right:0.2777777777777778em;"></span><span>&gt;</span><span style="margin-right:0.2777777777777778em;"></span></span><span><span style="height:0.69444em;vertical-align:0em;"></span><span>ba</span><span>s</span><span>h</span></span></span></span> echo $0<br>bash<br><br>tcsh% echo $0<br>tcsh</pre> </p>
+<li>
+<p>net.core.netdev_max_backlog = 262144</p>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
 </li>
-<li id="footnote3"><p>如果脚本被引用（sourced）执行或者被链接（symlinked）执行时会失效。安全的方法是检测变量 <code>$BASH_Source</code>。 </p>
+<li>
+<p>net.ipv4.tcp_max_orphans = 262144</p>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
 </li>
-</ol>
-</section>
+<li>
+<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
+<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
+这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
+<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
+<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_recycle = 0</p>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
+当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
+会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_reuse = 1</p>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syncookies = 1</p>
+<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
+假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
+这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
+正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
+设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
+开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
+如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
+<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
+该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
+实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syn_retries = 1</p>
+<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_synack_retries = 1</p>
+<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
+</li>
+<li>
+<p>net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
+当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
+这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_fin_timeout = 30</p>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_keepalive_time = 30</p>
+<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
+客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
+并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
+比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
+就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
+</li>
+</ul>
 ]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
       <title>1. 初识Nginx</title>
@@ -61343,129 +61429,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
 <p>2、USR1是自定义信号，也就是进程编写者自己确定收到这个信号该干什么。而在nginx中它自己编写了代码当接到USR1信号的时候让nginx重新打开日志文件（重新打开的日志就是配置文件中设置的位置和名称）。</p>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200102212417067.png" type="image/png"/>
-    </item>
-    <item>
-      <title>4. 内核参数优化</title>
-      <link>https://clay-wangzhi.com/web/nginx/core/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
-<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
-<p>文件内容如下：</p>
-<div><pre><code>net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 268435456
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.somaxconn = 262144
-net.core.netdev_max_backlog = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn_backlog = 30000
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 65536 4194304
-net.ipv4.tcp_mem = 524288 699050 1048576
-vm.swappiness = 0
-vm.min_free_kbytes = 65536
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
-<li>
-<p>net.core.somaxconn = 262144</p>
-<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
-</li>
-<li>
-<p>net.core.netdev_max_backlog = 262144</p>
-<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_orphans = 262144</p>
-<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
-<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
-<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
-这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
-<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
-<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_recycle = 0</p>
-<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
-<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
-当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
-会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_reuse = 1</p>
-<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syncookies = 1</p>
-<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
-假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
-这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
-正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
-设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
-开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
-如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
-<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
-该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
-实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syn_retries = 1</p>
-<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_synack_retries = 1</p>
-<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
-</li>
-<li>
-<p>net.ipv4.ip_local_port_range = 1024 65000</p>
-<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
-当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
-这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_fin_timeout = 30</p>
-<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_keepalive_time = 30</p>
-<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
-客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
-并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
-比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
-就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
-</li>
-</ul>
-]]></content:encoded>
     </item>
     <item>
       <title>6.1 Nginx出现403 forbidden的三种原因</title>
@@ -62087,227 +62050,6 @@ Reading: 6 Writing: 179 Waiting: 106
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nginx中location匹配流程图.png" type="image/png"/>
     </item>
     <item>
-      <title>6. nginx的常见问题</title>
-      <link>https://clay-wangzhi.com/web/nginx/qa/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6. nginx的常见问题</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-nginx的常见问题"> 6. nginx的常见问题</h1>
-<h2 id="nginx前面有多个反向代理时-proxy的正确设置"> nginx前面有多个反向代理时，proxy的正确设置</h2>
-<div><pre><code>#proxy_redirect off;
-#proxy_set_header Host $host
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>注释掉这两行，让它使用默认配置</p>
-<h2 id="nginx解决跨域问题"> nginx解决跨域问题</h2>
-<p>在nginx.conf中编辑</p>
-<div><pre><code><span>server</span> <span>{</span>
-        <span>location</span> <span>/</span> <span>{</span>
-            <span>root</span>   html<span>;</span>
-            <span>index</span>  <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-            <span>/</span><span>/</span>允许cros跨域访问
-            <span>add_header</span> <span>'Access-Control-Allow-Origin'</span> <span>'*'</span><span>;</span>
-        <span>}</span>
- <span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="从http跳转到https"> 从http跳转到https</h2>
-<p>项目前期使用http，后期为了安全方面的考虑，启用了https。
-项目架构：前端使用nginx作为多个tomcat实例的反向代理和负载均衡。
-实际上只需要在nginx上启用https即可，使客户端与nginx之后使用https方式通信，而nginx与tomcat之间依然以http方式通信。</p>
-<p>现在需要将之前客户端所有的http请求全部都自动重定向为https，只需要在nginx上添加相应配置即可。</p>
-<h3 id="使用rewrite指令"> 使用rewrite指令</h3>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span>$<span>1</span> permanent<span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
-<h3 id="使用return指令"> 使用return指令</h3>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>return</span> <span>301</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
-<h3 id="使用error-page指令"> 使用error_page指令</h3>
-<p>只允许HTTP来访问时，用HTTP访问会让Nginx报497错误，然后利用error_page将链接重定向至HTTPS上。</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
-    <span>server_name</span> domain<span>.</span>com<span>;</span>
-    <span>ssl</span> on<span>;</span>
-    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span> 
-    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
-    <span># other</span>
-    <span>error_page</span> <span>497</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
-<p>需要注意的是，此时需要将<code>error_page</code>指令语句写在最后，否则不能生效。</p>
-<h2 id="nginx出现403的原因"> nginx出现403的原因</h2>
-<h3 id="缺少index-html"> 缺少index.html</h3>
-<p>缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件</p>
-<div><pre><code>server {  
-      listen       80;  
-      server_name  localhost;  
-      index  index.php index.html;  
-      root  /data/www/;
-}
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。</p>
-<h3 id="权限问题"> 权限问题</h3>
-<p>1）查看nginx的启动用户</p>
-<div><pre><code>ps aux | grep &quot;nginx: worker process&quot; | grep -v &quot;grep&quot; | awk &#39;{ print $1 }&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p><code>index</code>文件的权限，<code>nginx</code>启动用户要有读的权限，<code>index</code>所在的目录要有可以访问目录内容的权限（递归都要有，每一级）</p>
-<p>如果nginx没有web目录的操作权限，也会出现403错误。上一级目录权限，有读的权限就行，不必要改为777</p>
-<p>解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决</p>
-<div><pre><code>chmod -R 777 /data
-chmod -R 777 /data/www/
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="selinux设置问题"> SELinux设置问题</h3>
-<p>设置为：<code>SELINUX=disabled</code></p>
-<h2 id="通过nginx实现蓝绿发布"> 通过nginx实现蓝绿发布</h2>
-<p>样例</p>
-<p><code>nginx.conf</code>通过两个子配置文件来实现</p>
-<div><pre><code><span>include</span> conf<span>.</span>d<span>/</span>v1<span>.</span>conf
-<span>#include conf.d/v2.conf</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><code>v1.conf</code></p>
-<div><pre><code><span>upstream</span> app_v1 <span>{</span>
-	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-<span>upstream</span> app_v2 <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> localhost<span>;</span>
-    <span>set</span> <span>$group</span> <span>"app_v1"</span><span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><code>v2.conf</code></p>
-<div><pre><code><span>upstream</span> app_v1 <span>{</span>
-	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-<span>upstream</span> app_v2 <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
-<span>}</span>
-
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> localhost<span>;</span>
-    <span>set</span> <span>$group</span> <span>"app_v2"</span><span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>有的时候还是结合cookie进行使用</p>
-<div><pre><code><span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"version=V1"</span><span>)</span> <span>{</span>
-	<span>set</span> <span>$group</span> app_v1<span>;</span>
-<span>}</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析"> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
-<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx</a>模块名<code>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
-<p>nginx的访问控制模块语法很简单，至少比apache好理解，apache的allow和deny的顺序让很多初学者抓头.好了具体看下这个插件的使用方法吧。</p>
-<h3 id="_1、安装模块"> 1、安装模块</h3>
-<p>这个模块内置在了nginx中，除非你安装中使用了--without-http_access_module。如果你还没安装过nginx，那么请参考下ttlsa之前写的<a href="http://www.ttlsa.com/html/1548.html" target="_blank" rel="noopener noreferrer">nginx安装</a>.</p>
-<h3 id="_2、指令"> 2、指令</h3>
-<p>allow
-语法:    allow address | CIDR | unix: | all;
-默认值:    —
-配置段:    http, server, location, limit_except</p>
-<p>允许某个ip或者一个ip段访问.如果指定unix:,那将允许socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
-<p>deny
-语法:    deny address | CIDR | unix: | all;
-默认值:    —
-配置段:    http, server, location, limit_except</p>
-<p>禁止某个ip或者一个ip段访问.如果指定unix:,那将禁止socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
-<h3 id="_3-allow、deny实例"> 3. allow、deny实例</h3>
-<p>location / {
-deny 192.168.1.1;
-allow 192.168.1.0/24;
-allow 10.1.1.0/16;
-allow 2001:0db8::/32;
-deny all;
-}</p>
-<p>从上到下的顺序，类似iptables。匹配到了便跳出。如上的例子先禁止了192.16.1.1，接下来允许了3个网段，其中包含了一个ipv6，最后未匹配的IP全部禁止访问. 在实际生产环境中，我们也会使用nginx 的geo模块配合使用，有兴趣的请参考ttlsa相关文章<a href="http://www.ttlsa.com/html/3203.html" target="_blank" rel="noopener noreferrer">nginx geo使用方法</a>.</p>
-<h3 id=""> </h3>
-<p>nginx访问控制模块要数nginx里面最简单的指令，只要记住你想禁止谁访问就deny加上IP，想允许则加上allow ip，想禁止或者允许所有，那么allow all或者deny all即可.</p>
-<p>但是具体的配置出现很多问题</p>
-<p>简单一点举例说明：
-ip段：10.0.0.1-10.0.0.255        的表示方法：10.0.0.0/24
-ip段：10.0.0.1-10.0.255.255     的表示方法：10.0.0.0/16
-ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
-<p>利用主机数来计算</p>
-<p>1)将主机数目转化为二进制来表示</p>
-<p>2)如果主机数小于或等于254（注意去掉保留的两个IP地址），则取得该主机的二进制位数，为 N，这里肯定 N&lt;8。如果大于254，则 N&gt;8，这就是说主机地址将占据不止8位。</p>
-<p>3)使用255.255.255.255来将该类IP地址的主机地址位数全部置1，然后从后向前的将N位全部置为 0，即为子网掩码值。</p>
-<p>如欲将B类IP地址168.195.0.0划分成若干子网，每个子网内有主机700台：</p>
-<ol>
-<li>700=1010111100</li>
-<li>该二进制为十位数，N = 10</li>
-<li>将该B类地址的子网掩码255.255.0.0的主机地址全部置 1，得到255.255.255.255 然后再从后向前将后 10位置0,即为： 11111111.11111111.11111100.00000000 即255.255.252.0。这就是该欲划分成主机为700台的B类IP地址 168.195.0.0的子网掩码。</li>
-</ol>
-<p>二进制表（表1）</p>
-<p>0  0  0  0   0  0  0 0</p>
-<p>128 64 32 16  8  4   2 1</p>
-<p>CIDR值（表2）</p>
-<p>子网掩码           CIDR值</p>
-<p>255.0.0.0           /8</p>
-<p>255.128.0.0          /9</p>
-<p>255.192.0.0          /10</p>
-<p>255.224.0.0          /11</p>
-<p>255.240.0.0          /12</p>
-<p>255.248.0.0          /13</p>
-<p>255.252.0.0          /14</p>
-<p>255.254.0.0          /15</p>
-<p>255.255.0.0          /16</p>
-<p>255.255.128.0        /17</p>
-<p>255.255.192.0        /18</p>
-<p>255.255.224.0        /19</p>
-<p>255.255.240.0        /20</p>
-<p>255.255.248.0        /21</p>
-<p>255.255.252.0        /22</p>
-<p>255.255.254.0        /23</p>
-<p>255.255.255.0        /24</p>
-<p>255.255.255.128       /25</p>
-<p>255.255.255.192       /26</p>
-<p>255.255.255.224       /27</p>
-<p>255.255.255.240       /28</p>
-<p>255.255.255.248       /29</p>
-<p>255.255.255.252       /30</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>3.5 nginx常用模块</title>
       <link>https://clay-wangzhi.com/web/nginx/module/</link>
       <guid>https://clay-wangzhi.com/web/nginx/module/</guid>
@@ -62717,6 +62459,227 @@ Context:	http, server, location
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195040345.png" type="image/png"/>
     </item>
     <item>
+      <title>6. nginx的常见问题</title>
+      <link>https://clay-wangzhi.com/web/nginx/qa/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6. nginx的常见问题</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-nginx的常见问题"> 6. nginx的常见问题</h1>
+<h2 id="nginx前面有多个反向代理时-proxy的正确设置"> nginx前面有多个反向代理时，proxy的正确设置</h2>
+<div><pre><code>#proxy_redirect off;
+#proxy_set_header Host $host
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>注释掉这两行，让它使用默认配置</p>
+<h2 id="nginx解决跨域问题"> nginx解决跨域问题</h2>
+<p>在nginx.conf中编辑</p>
+<div><pre><code><span>server</span> <span>{</span>
+        <span>location</span> <span>/</span> <span>{</span>
+            <span>root</span>   html<span>;</span>
+            <span>index</span>  <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+            <span>/</span><span>/</span>允许cros跨域访问
+            <span>add_header</span> <span>'Access-Control-Allow-Origin'</span> <span>'*'</span><span>;</span>
+        <span>}</span>
+ <span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="从http跳转到https"> 从http跳转到https</h2>
+<p>项目前期使用http，后期为了安全方面的考虑，启用了https。
+项目架构：前端使用nginx作为多个tomcat实例的反向代理和负载均衡。
+实际上只需要在nginx上启用https即可，使客户端与nginx之后使用https方式通信，而nginx与tomcat之间依然以http方式通信。</p>
+<p>现在需要将之前客户端所有的http请求全部都自动重定向为https，只需要在nginx上添加相应配置即可。</p>
+<h3 id="使用rewrite指令"> 使用rewrite指令</h3>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>rewrite</span> <span>^</span><span>(</span><span>.</span><span>*</span><span>)</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span>$<span>1</span> permanent<span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+<h3 id="使用return指令"> 使用return指令</h3>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>return</span> <span>301</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+<h3 id="使用error-page指令"> 使用error_page指令</h3>
+<p>只允许HTTP来访问时，用HTTP访问会让Nginx报497错误，然后利用error_page将链接重定向至HTTPS上。</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>listen</span> <span>443</span> <span>ssl</span><span>;</span>
+    <span>server_name</span> domain<span>.</span>com<span>;</span>
+    <span>ssl</span> on<span>;</span>
+    <span>ssl_certificate</span>     <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span> 
+    <span>ssl_certificate_key</span> <span>/</span>etc<span>/</span>nginx<span>/</span><span>ssl</span><span>/</span>domain<span>.</span>com<span>.</span>crt<span>;</span>
+    <span># other</span>
+    <span>error_page</span> <span>497</span> <span>https</span><span>:</span><span>/</span><span>/</span><span>$server_name</span><span>$request_uri</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
+<p>需要注意的是，此时需要将<code>error_page</code>指令语句写在最后，否则不能生效。</p>
+<h2 id="nginx出现403的原因"> nginx出现403的原因</h2>
+<h3 id="缺少index-html"> 缺少index.html</h3>
+<p>缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件</p>
+<div><pre><code>server {  
+      listen       80;  
+      server_name  localhost;  
+      index  index.php index.html;  
+      root  /data/www/;
+}
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。</p>
+<h3 id="权限问题"> 权限问题</h3>
+<p>1）查看nginx的启动用户</p>
+<div><pre><code>ps aux | grep &quot;nginx: worker process&quot; | grep -v &quot;grep&quot; | awk &#39;{ print $1 }&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p><code>index</code>文件的权限，<code>nginx</code>启动用户要有读的权限，<code>index</code>所在的目录要有可以访问目录内容的权限（递归都要有，每一级）</p>
+<p>如果nginx没有web目录的操作权限，也会出现403错误。上一级目录权限，有读的权限就行，不必要改为777</p>
+<p>解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决</p>
+<div><pre><code>chmod -R 777 /data
+chmod -R 777 /data/www/
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="selinux设置问题"> SELinux设置问题</h3>
+<p>设置为：<code>SELINUX=disabled</code></p>
+<h2 id="通过nginx实现蓝绿发布"> 通过nginx实现蓝绿发布</h2>
+<p>样例</p>
+<p><code>nginx.conf</code>通过两个子配置文件来实现</p>
+<div><pre><code><span>include</span> conf<span>.</span>d<span>/</span>v1<span>.</span>conf
+<span>#include conf.d/v2.conf</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><code>v1.conf</code></p>
+<div><pre><code><span>upstream</span> app_v1 <span>{</span>
+	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+<span>upstream</span> app_v2 <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> localhost<span>;</span>
+    <span>set</span> <span>$group</span> <span>"app_v1"</span><span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p><code>v2.conf</code></p>
+<div><pre><code><span>upstream</span> app_v1 <span>{</span>
+	<span>server</span> <span>192.168</span><span>.1</span><span>.2</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+<span>upstream</span> app_v2 <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.3</span><span>:</span><span>8080</span><span>;</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.4</span><span>:</span><span>8080</span><span>;</span>
+<span>}</span>
+
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> localhost<span>;</span>
+    <span>set</span> <span>$group</span> <span>"app_v2"</span><span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span><span>$group</span><span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>有的时候还是结合cookie进行使用</p>
+<div><pre><code><span>if</span> <span>(</span><span>$http_cookie</span> <span>~</span><span>*</span> <span>"version=V1"</span><span>)</span> <span>{</span>
+	<span>set</span> <span>$group</span> app_v1<span>;</span>
+<span>}</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析"> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
+<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx</a>模块名<code>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
+<p>nginx的访问控制模块语法很简单，至少比apache好理解，apache的allow和deny的顺序让很多初学者抓头.好了具体看下这个插件的使用方法吧。</p>
+<h3 id="_1、安装模块"> 1、安装模块</h3>
+<p>这个模块内置在了nginx中，除非你安装中使用了--without-http_access_module。如果你还没安装过nginx，那么请参考下ttlsa之前写的<a href="http://www.ttlsa.com/html/1548.html" target="_blank" rel="noopener noreferrer">nginx安装</a>.</p>
+<h3 id="_2、指令"> 2、指令</h3>
+<p>allow
+语法:    allow address | CIDR | unix: | all;
+默认值:    —
+配置段:    http, server, location, limit_except</p>
+<p>允许某个ip或者一个ip段访问.如果指定unix:,那将允许socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
+<p>deny
+语法:    deny address | CIDR | unix: | all;
+默认值:    —
+配置段:    http, server, location, limit_except</p>
+<p>禁止某个ip或者一个ip段访问.如果指定unix:,那将禁止socket的访问.注意：unix在1.5.1中新加入的功能，如果你的版本比这个低，请不要使用这个方法。</p>
+<h3 id="_3-allow、deny实例"> 3. allow、deny实例</h3>
+<p>location / {
+deny 192.168.1.1;
+allow 192.168.1.0/24;
+allow 10.1.1.0/16;
+allow 2001:0db8::/32;
+deny all;
+}</p>
+<p>从上到下的顺序，类似iptables。匹配到了便跳出。如上的例子先禁止了192.16.1.1，接下来允许了3个网段，其中包含了一个ipv6，最后未匹配的IP全部禁止访问. 在实际生产环境中，我们也会使用nginx 的geo模块配合使用，有兴趣的请参考ttlsa相关文章<a href="http://www.ttlsa.com/html/3203.html" target="_blank" rel="noopener noreferrer">nginx geo使用方法</a>.</p>
+<h3 id=""> </h3>
+<p>nginx访问控制模块要数nginx里面最简单的指令，只要记住你想禁止谁访问就deny加上IP，想允许则加上allow ip，想禁止或者允许所有，那么allow all或者deny all即可.</p>
+<p>但是具体的配置出现很多问题</p>
+<p>简单一点举例说明：
+ip段：10.0.0.1-10.0.0.255        的表示方法：10.0.0.0/24
+ip段：10.0.0.1-10.0.255.255     的表示方法：10.0.0.0/16
+ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
+<p>利用主机数来计算</p>
+<p>1)将主机数目转化为二进制来表示</p>
+<p>2)如果主机数小于或等于254（注意去掉保留的两个IP地址），则取得该主机的二进制位数，为 N，这里肯定 N&lt;8。如果大于254，则 N&gt;8，这就是说主机地址将占据不止8位。</p>
+<p>3)使用255.255.255.255来将该类IP地址的主机地址位数全部置1，然后从后向前的将N位全部置为 0，即为子网掩码值。</p>
+<p>如欲将B类IP地址168.195.0.0划分成若干子网，每个子网内有主机700台：</p>
+<ol>
+<li>700=1010111100</li>
+<li>该二进制为十位数，N = 10</li>
+<li>将该B类地址的子网掩码255.255.0.0的主机地址全部置 1，得到255.255.255.255 然后再从后向前将后 10位置0,即为： 11111111.11111111.11111100.00000000 即255.255.252.0。这就是该欲划分成主机为700台的B类IP地址 168.195.0.0的子网掩码。</li>
+</ol>
+<p>二进制表（表1）</p>
+<p>0  0  0  0   0  0  0 0</p>
+<p>128 64 32 16  8  4   2 1</p>
+<p>CIDR值（表2）</p>
+<p>子网掩码           CIDR值</p>
+<p>255.0.0.0           /8</p>
+<p>255.128.0.0          /9</p>
+<p>255.192.0.0          /10</p>
+<p>255.224.0.0          /11</p>
+<p>255.240.0.0          /12</p>
+<p>255.248.0.0          /13</p>
+<p>255.252.0.0          /14</p>
+<p>255.254.0.0          /15</p>
+<p>255.255.0.0          /16</p>
+<p>255.255.128.0        /17</p>
+<p>255.255.192.0        /18</p>
+<p>255.255.224.0        /19</p>
+<p>255.255.240.0        /20</p>
+<p>255.255.248.0        /21</p>
+<p>255.255.252.0        /22</p>
+<p>255.255.254.0        /23</p>
+<p>255.255.255.0        /24</p>
+<p>255.255.255.128       /25</p>
+<p>255.255.255.192       /26</p>
+<p>255.255.255.224       /27</p>
+<p>255.255.255.240       /28</p>
+<p>255.255.255.248       /29</p>
+<p>255.255.255.252       /30</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>Nginx 学习笔记</title>
       <link>https://clay-wangzhi.com/web/nginx/</link>
       <guid>https://clay-wangzhi.com/web/nginx/</guid>
@@ -62887,6 +62850,124 @@ D -&gt; nginx将处理结果返回给客户端
       <content:encoded><![CDATA[<h1 id="tomcat注意事项"> tomcat注意事项</h1>
 <h2 id="war正确删除姿势"> war正确删除姿势</h2>
 <p>tomcat中war包停止后才可以删除</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>tomcat假死现象</title>
+      <link>https://clay-wangzhi.com/web/tomcat/dead/</link>
+      <guid>https://clay-wangzhi.com/web/tomcat/dead/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">tomcat假死现象</source>
+      <category>web中间件</category>
+      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="tomcat假死现象"> tomcat假死现象</h1>
+<h1 id="_1-背景"> 1 背景</h1>
+<h2 id="_1-1-编写目的"> 1.1 编写目的</h2>
+<p>为了方便大家以后发现进程假死的时候能够正常的分析并且第一时间保留现场快照。</p>
+<h2 id="_1-2编写背景"> 1.2编写背景</h2>
+<p>最近服务器发现tomcat的应用会偶尔出现无法访问的情况。经过一段时间的观察最近又发现有台tomcat的应用出</p>
+<p>现了无法访问情况。简单描述下该台tomcat当时具体的表现：客户端请求没有响应，查看服务器端tomcat的进程</p>
+<p>是存活的，查看业务日志的时候发现日志停止没有任何最新的访问日志。连tomcat下面的catalina.log也没有任何</p>
+<p>访问记录，基本断定该台tomcat已不能提供服务。</p>
+<h1 id="_2-分析步骤"> 2 分析步骤</h1>
+<p>根据前面我描述的假死现象，我最先想到的是网络是否出现了问题，是不是有什么丢包严重的情况，于是我开始从</p>
+<p>请求的数据流程开始分析，由于我们业务的架构采用的是nginx+tomcat的集群配置，一个请求上来的流向可以用</p>
+<p>下图来简单的描述一下：</p>
+<h2 id="_2-1检查nginx的网络情况"> 2.1检查nginx的网络情况</h2>
+<p>更改nginx的配置，让该台nginx请求只转到本机器的出现问题的tomcat应用上面，在access.log里看是否有网络</p>
+<p>请求，结果可以查看到当前所有的网络请求，也就是说可以排除是网络的问题。</p>
+<h2 id="_2-2检查tomcat-的网络情况"> 2.2检查tomcat 的网络情况</h2>
+<p>分析业务配置的tomcat访问日志xxxx.log上是否有日志访问记录，经过查询该台tomcat应用日志完全没有任何访</p>
+<p>问记录，由于我们的部署是本机的nginx转到本机的tomcat应用，所以可以排除不是网络问题。到此基本可以断定</p>
+<p>网络没有问题，tomcat 本身出现了假死的情况。在tomcat的日志里有报过OutOfMemoryError的异常，所以可以</p>
+<p>肯定tomcat假死的原因是OOM</p>
+<h1 id="_3-分析jvm内存溢出"> 3 分析JVM内存溢出</h1>
+<h2 id="_3-1为什么会发生内存泄漏"> 3.1<strong>为什么会发生内存泄漏</strong></h2>
+<p>在我们学习Java的时候就知道它最为方便的地方就是我们不需要管理内存的分配和释放，一切由JVM自己来进行处</p>
+<p>理，当Java对象不再被应用时，等到堆内存不够用时JVM会进行GC处理，清除这些对象占用的堆内存空间，但是</p>
+<p>如果对象一直被应用，那么JVM是无法对其进行GC处理的，那么我们创建新的对象时，JVM就没有办法从堆中获取</p>
+<p>足够的内存分配给此对象，这时就会导致OOM。我们出现OOM原因，一般都是因为我们不断的往容器里存放对</p>
+<p>象，然而容器没有相应的大小限制或清除机制，这样就容易导致OOM。</p>
+<h2 id="_3-2快速定位问题"> 3.2<strong>快速定位问题</strong></h2>
+<p>当我们的应用服务器占用了过多内存的时候，我们怎么样才能快速的定位问题呢？要想快速定位问题，首先我们</p>
+<p>必需获取服务器JVM某时刻的内存快照。Jdk里面提供了很多相应的命令比如：jstack,jstat,jmap,jps等等. 在出现问</p>
+<p>题后我们应该快速保留现场。</p>
+<p>3.2.1 jstack</p>
+<p>可以观察到jvm中当前所有线程的运行情况和线程当前状态.</p>
+<p>sudo jstack -F 进程ID</p>
+<p>从上面的图我们可以看到tomcat进程里面没有死锁的情况，而且每个线程都处理等待的状态。这个时候我们可以</p>
+<p>telnet命令连上tomcat的端口查看tomcat进程是否有任务回应。这时发现tomcat没有任何回应可以证明tomcat应</p>
+<p>用已没有响应处理假死状态。</p>
+<p>3.2.2 jstat</p>
+<p>这是jdk命令中比较重要，也是相当实用的一个命令，可以观察到classloader，compiler，gc相关信息</p>
+<p>具体参数如下：</p>
+<div><pre><code>-class：统计class loader行为信息
+-compile：统计编译行为信息
+-gc：统计jdk gc时heap信息
+-gccapacity：统计不同的generations（包括新生区，老年区，permanent区）相应的heap容量情况
+-gccause：统计gc的情况，（同-gcutil）和引起gc的事件
+-gcnew：统计gc时，新生代的情况
+-gcnewcapacity：统计gc时，新生代heap容量
+-gcold：统计gc时，老年区的情况
+-gcoldcapacity：统计gc时，老年区heap容量
+-gcpermcapacity：统计gc时，permanent区heap容量
+-gcutil：统计gc时，heap情况
+-printcompilation：不知道干什么的，一直没用过。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一般比较常用的几个参数是：</p>
+<div><pre><code>sudo jstat -class 2083 1000 10 （每隔1秒监控一次，一共做10次）
+</code></pre>
+<div><span>1</span><br></div></div><p>查看当时的head情况</p>
+<div><pre><code>sudo jstat -gcutil 20683 2000
+</code></pre>
+<div><span>1</span><br></div></div><p>出现时候截取的数据是gc已经完全没有处理了,因为没有加上full gc的日志所以不确定JVMGC 时间过长，导致应用</p>
+<p>暂停.</p>
+<p>3.2.3获取内存快照</p>
+<p>Jdk自带的jmap可以获取内在某一时刻的快照</p>
+<p>命令：jmap -dump:format=b,file=heap.bin &lt;pid&gt;</p>
+<p>file：保存路径及文件名</p>
+<p>pid：进程编号（windows通过任务管理器查看，linux通过ps aux查看）</p>
+<p>dump文件可以通过MemoryAnalyzer分析查看，网址：http://www.eclipse.org/mat/，可以查看dump时对象数</p>
+<p>量，内存占用，线程情况等。</p>
+<p>从上图我们可以明确的看出此项目的HashMap内存使用率比较高，因为我们的系统都是返回Map的数据结构所以</p>
+<p>占用比较高的内存是正常情况。</p>
+<p>3.2.4观察运行中的jvm物理内存的占用情况</p>
+<p>观察运行中的jvm物理内存的占用情况。我们也可以用jmap命令</p>
+<p>参数如下：</p>
+<div><pre><code>-heap：打印jvm heap的情况
+-histo：打印jvm heap的直方图。其输出信息包括类名，对象数量，对象占用大小。
+-histo：live: 同上，但是只答应存活对象的情况
+-permstat:打印permanent generation heap情况
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>命令使用：</p>
+<p><code>jmap -heap 2083</code></p>
+<p>可以观察到New Generation（Eden Space，From Space，To Space）,tenured generation,Perm Generation的内存使用情况</p>
+<p>上图为tomcat应用出错前JVM的配置信息,可以明确的看到当时的信息:</p>
+<p>MaxHeapSize堆内存大小为：3500M</p>
+<p>MaxNewSize新生代内存大小：512M</p>
+<p>PermSize永久代内存大小:192M</p>
+<p>NewRatio设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为2，则年轻代与年老代所占比值为1：2，年轻代占整个堆栈的1/3</p>
+<p>SurvivorRatio设置年轻代中Eden区与Survivor区的大小比值。设置为8，则两个Survivor区与一个Eden区的比值为2:8，一个Survivor区占整个年轻代的1/10</p>
+<p>在New Generation中，有一个叫Eden的空间，主要是用来存放新生的对象，还有两个SurvivorSpaces（from,to）, 它们用来存放每次垃圾回收后存活下来的对象。在Old Generation中，主要存放应用程序中生命周期长的内存对象，还有个Permanent Generation，主要用来放JVM自己的反射对象，比如类对象和方法对象等。</p>
+<p>从上面的图可以看出来JVM的新生代设置太小，可以看出应用的新生代区完全占满了，无法再往新生代区增加新的对象此时的这些对象都处于活跃状态，所以不会被GC处理，但是tomcat应用还在继续产生新的对象，这样就会导致OOM的发生，这就是导致tomcat假死的原因.</p>
+<h1 id="_4-tomcat假死其它情况"> 4 Tomcat假死其它情况</h1>
+<p>​     以下是网上资料说的tomcat假的情况：</p>
+<ul>
+<li>应用本身程序的问题，造成死锁。</li>
+<li>load 太高，已经超出服务的极限</li>
+<li>jvm GC时间过长，导致应用暂停
+<ul>
+<li>因为出错项目里面没有打出GC的处理情况，所以不确定此原因是否也是我项目tomcat假死的原因之一。</li>
+</ul>
+</li>
+<li>大量tcp 连接 CLOSE_WAIT
+<ul>
+<li><code>netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html</p>
+</blockquote>
 ]]></content:encoded>
     </item>
     <item>
@@ -63073,124 +63154,6 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
 ]]></content:encoded>
     </item>
     <item>
-      <title>tomcat假死现象</title>
-      <link>https://clay-wangzhi.com/web/tomcat/dead/</link>
-      <guid>https://clay-wangzhi.com/web/tomcat/dead/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">tomcat假死现象</source>
-      <category>web中间件</category>
-      <pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="tomcat假死现象"> tomcat假死现象</h1>
-<h1 id="_1-背景"> 1 背景</h1>
-<h2 id="_1-1-编写目的"> 1.1 编写目的</h2>
-<p>为了方便大家以后发现进程假死的时候能够正常的分析并且第一时间保留现场快照。</p>
-<h2 id="_1-2编写背景"> 1.2编写背景</h2>
-<p>最近服务器发现tomcat的应用会偶尔出现无法访问的情况。经过一段时间的观察最近又发现有台tomcat的应用出</p>
-<p>现了无法访问情况。简单描述下该台tomcat当时具体的表现：客户端请求没有响应，查看服务器端tomcat的进程</p>
-<p>是存活的，查看业务日志的时候发现日志停止没有任何最新的访问日志。连tomcat下面的catalina.log也没有任何</p>
-<p>访问记录，基本断定该台tomcat已不能提供服务。</p>
-<h1 id="_2-分析步骤"> 2 分析步骤</h1>
-<p>根据前面我描述的假死现象，我最先想到的是网络是否出现了问题，是不是有什么丢包严重的情况，于是我开始从</p>
-<p>请求的数据流程开始分析，由于我们业务的架构采用的是nginx+tomcat的集群配置，一个请求上来的流向可以用</p>
-<p>下图来简单的描述一下：</p>
-<h2 id="_2-1检查nginx的网络情况"> 2.1检查nginx的网络情况</h2>
-<p>更改nginx的配置，让该台nginx请求只转到本机器的出现问题的tomcat应用上面，在access.log里看是否有网络</p>
-<p>请求，结果可以查看到当前所有的网络请求，也就是说可以排除是网络的问题。</p>
-<h2 id="_2-2检查tomcat-的网络情况"> 2.2检查tomcat 的网络情况</h2>
-<p>分析业务配置的tomcat访问日志xxxx.log上是否有日志访问记录，经过查询该台tomcat应用日志完全没有任何访</p>
-<p>问记录，由于我们的部署是本机的nginx转到本机的tomcat应用，所以可以排除不是网络问题。到此基本可以断定</p>
-<p>网络没有问题，tomcat 本身出现了假死的情况。在tomcat的日志里有报过OutOfMemoryError的异常，所以可以</p>
-<p>肯定tomcat假死的原因是OOM</p>
-<h1 id="_3-分析jvm内存溢出"> 3 分析JVM内存溢出</h1>
-<h2 id="_3-1为什么会发生内存泄漏"> 3.1<strong>为什么会发生内存泄漏</strong></h2>
-<p>在我们学习Java的时候就知道它最为方便的地方就是我们不需要管理内存的分配和释放，一切由JVM自己来进行处</p>
-<p>理，当Java对象不再被应用时，等到堆内存不够用时JVM会进行GC处理，清除这些对象占用的堆内存空间，但是</p>
-<p>如果对象一直被应用，那么JVM是无法对其进行GC处理的，那么我们创建新的对象时，JVM就没有办法从堆中获取</p>
-<p>足够的内存分配给此对象，这时就会导致OOM。我们出现OOM原因，一般都是因为我们不断的往容器里存放对</p>
-<p>象，然而容器没有相应的大小限制或清除机制，这样就容易导致OOM。</p>
-<h2 id="_3-2快速定位问题"> 3.2<strong>快速定位问题</strong></h2>
-<p>当我们的应用服务器占用了过多内存的时候，我们怎么样才能快速的定位问题呢？要想快速定位问题，首先我们</p>
-<p>必需获取服务器JVM某时刻的内存快照。Jdk里面提供了很多相应的命令比如：jstack,jstat,jmap,jps等等. 在出现问</p>
-<p>题后我们应该快速保留现场。</p>
-<p>3.2.1 jstack</p>
-<p>可以观察到jvm中当前所有线程的运行情况和线程当前状态.</p>
-<p>sudo jstack -F 进程ID</p>
-<p>从上面的图我们可以看到tomcat进程里面没有死锁的情况，而且每个线程都处理等待的状态。这个时候我们可以</p>
-<p>telnet命令连上tomcat的端口查看tomcat进程是否有任务回应。这时发现tomcat没有任何回应可以证明tomcat应</p>
-<p>用已没有响应处理假死状态。</p>
-<p>3.2.2 jstat</p>
-<p>这是jdk命令中比较重要，也是相当实用的一个命令，可以观察到classloader，compiler，gc相关信息</p>
-<p>具体参数如下：</p>
-<div><pre><code>-class：统计class loader行为信息
--compile：统计编译行为信息
--gc：统计jdk gc时heap信息
--gccapacity：统计不同的generations（包括新生区，老年区，permanent区）相应的heap容量情况
--gccause：统计gc的情况，（同-gcutil）和引起gc的事件
--gcnew：统计gc时，新生代的情况
--gcnewcapacity：统计gc时，新生代heap容量
--gcold：统计gc时，老年区的情况
--gcoldcapacity：统计gc时，老年区heap容量
--gcpermcapacity：统计gc时，permanent区heap容量
--gcutil：统计gc时，heap情况
--printcompilation：不知道干什么的，一直没用过。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一般比较常用的几个参数是：</p>
-<div><pre><code>sudo jstat -class 2083 1000 10 （每隔1秒监控一次，一共做10次）
-</code></pre>
-<div><span>1</span><br></div></div><p>查看当时的head情况</p>
-<div><pre><code>sudo jstat -gcutil 20683 2000
-</code></pre>
-<div><span>1</span><br></div></div><p>出现时候截取的数据是gc已经完全没有处理了,因为没有加上full gc的日志所以不确定JVMGC 时间过长，导致应用</p>
-<p>暂停.</p>
-<p>3.2.3获取内存快照</p>
-<p>Jdk自带的jmap可以获取内在某一时刻的快照</p>
-<p>命令：jmap -dump:format=b,file=heap.bin &lt;pid&gt;</p>
-<p>file：保存路径及文件名</p>
-<p>pid：进程编号（windows通过任务管理器查看，linux通过ps aux查看）</p>
-<p>dump文件可以通过MemoryAnalyzer分析查看，网址：http://www.eclipse.org/mat/，可以查看dump时对象数</p>
-<p>量，内存占用，线程情况等。</p>
-<p>从上图我们可以明确的看出此项目的HashMap内存使用率比较高，因为我们的系统都是返回Map的数据结构所以</p>
-<p>占用比较高的内存是正常情况。</p>
-<p>3.2.4观察运行中的jvm物理内存的占用情况</p>
-<p>观察运行中的jvm物理内存的占用情况。我们也可以用jmap命令</p>
-<p>参数如下：</p>
-<div><pre><code>-heap：打印jvm heap的情况
--histo：打印jvm heap的直方图。其输出信息包括类名，对象数量，对象占用大小。
--histo：live: 同上，但是只答应存活对象的情况
--permstat:打印permanent generation heap情况
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>命令使用：</p>
-<p><code>jmap -heap 2083</code></p>
-<p>可以观察到New Generation（Eden Space，From Space，To Space）,tenured generation,Perm Generation的内存使用情况</p>
-<p>上图为tomcat应用出错前JVM的配置信息,可以明确的看到当时的信息:</p>
-<p>MaxHeapSize堆内存大小为：3500M</p>
-<p>MaxNewSize新生代内存大小：512M</p>
-<p>PermSize永久代内存大小:192M</p>
-<p>NewRatio设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为2，则年轻代与年老代所占比值为1：2，年轻代占整个堆栈的1/3</p>
-<p>SurvivorRatio设置年轻代中Eden区与Survivor区的大小比值。设置为8，则两个Survivor区与一个Eden区的比值为2:8，一个Survivor区占整个年轻代的1/10</p>
-<p>在New Generation中，有一个叫Eden的空间，主要是用来存放新生的对象，还有两个SurvivorSpaces（from,to）, 它们用来存放每次垃圾回收后存活下来的对象。在Old Generation中，主要存放应用程序中生命周期长的内存对象，还有个Permanent Generation，主要用来放JVM自己的反射对象，比如类对象和方法对象等。</p>
-<p>从上面的图可以看出来JVM的新生代设置太小，可以看出应用的新生代区完全占满了，无法再往新生代区增加新的对象此时的这些对象都处于活跃状态，所以不会被GC处理，但是tomcat应用还在继续产生新的对象，这样就会导致OOM的发生，这就是导致tomcat假死的原因.</p>
-<h1 id="_4-tomcat假死其它情况"> 4 Tomcat假死其它情况</h1>
-<p>​     以下是网上资料说的tomcat假的情况：</p>
-<ul>
-<li>应用本身程序的问题，造成死锁。</li>
-<li>load 太高，已经超出服务的极限</li>
-<li>jvm GC时间过长，导致应用暂停
-<ul>
-<li>因为出错项目里面没有打出GC的处理情况，所以不确定此原因是否也是我项目tomcat假死的原因之一。</li>
-</ul>
-</li>
-<li>大量tcp 连接 CLOSE_WAIT
-<ul>
-<li><code>netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</code></li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>tomcat简介</title>
       <link>https://clay-wangzhi.com/web/tomcat/</link>
       <guid>https://clay-wangzhi.com/web/tomcat/</guid>
@@ -63301,25 +63264,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>第四章 变量与参数</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/04_introduction_to_variables_and_parameters/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/04_introduction_to_variables_and_parameters/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第四章 变量与参数</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第四章-变量与参数"> 第四章 变量与参数</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./04_1_variable_substitution.html">4.1 变量替换</a></li>
-<li><a href="./04_2_variable_assignment.html">4.2 变量赋值</a></li>
-<li><a href="./04_3_bash_variables_are_untyped.html">4.3 Bash变量弱类型</a></li>
-<li><a href="./04_4_special_variable_types.html">4.4 特殊变量类型</a></li>
-</ul>
-<p>变量（variable）在编程语言中用来表示数据。它本身只是一个标记，指向数据在计算机内存中的一个或一组地址。</p>
-<p>变量通常出现在算术运算，数量操作及字符串解析中。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</title>
       <link>https://clay-wangzhi.com/linux/gainian/dev-ops-env/</link>
       <guid>https://clay-wangzhi.com/linux/gainian/dev-ops-env/</guid>
@@ -63339,6 +63283,62 @@ PRD/PROD production 产品/正式/生产</p>
 <p>pre环境：灰度环境，外部用户可以访问，但是服务器配置相对低，其它和生产一样。</p>
 <p>test环境：测试环境，外部用户无法访问，专门给测试人员使用的，版本相对稳定。</p>
 <p>dev环境：开发环境，外部用户无法访问，开发人员使用，版本变动很大。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>编程语言的分类</title>
+      <link>https://clay-wangzhi.com/linux/gainian/code-type/</link>
+      <guid>https://clay-wangzhi.com/linux/gainian/code-type/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">编程语言的分类</source>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="编程语言的分类"> 编程语言的分类</h1>
+<p>编程语言的分类可以从三个角度出发：</p>
+<h2 id="编译型和解释型"> 编译型和解释型</h2>
+<h3 id="编译型"> 编译型</h3>
+<p>即把源程序的每一条语句都编译成机器语言，并保存为二进制文件，这样运行时计算机可以直接以机器语言来运行此程序。</p>
+<ul>
+<li>优点：执行速度很快</li>
+<li>缺点：开发效率低，不能跨平台</li>
+</ul>
+<p>常见语言有<code>C\C++</code>、<code>Go</code>等</p>
+<h3 id="解释型"> 解释型</h3>
+<p>只在运行时才一条一条的解释成机器语言给计算机执行。</p>
+<ul>
+<li>优点：开发效率高，跨平台</li>
+<li>缺点：运行速度慢</li>
+</ul>
+<p>常见语言有<code>Python</code>、<code>PHP</code>、<code>JavaScript</code></p>
+<h3 id="混合型"> 混合型</h3>
+<p>常见语言有<code>JAVA</code>、<code>C#</code></p>
+<h2 id="静态语言和动态语言"> 静态语言和动态语言</h2>
+<h3 id="动态语言"> 动态语言</h3>
+<p>即数据类型是在运行期间检查的，写程序时不用给变量指定数据类型，当你第一次赋值给变量时，就在内部记录下了数据类型。</p>
+<p>常见语言有<code>Python</code>、<code>Ruby</code>、<code>JavaScript</code></p>
+<h3 id="静态语言"> 静态语言</h3>
+<p>即数据类型是在编译期间检查的，写程序时声明所有变量的数据类型。</p>
+<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Go</code></p>
+<h2 id="强类型语言和弱类型语言"> 强类型语言和弱类型语言</h2>
+<h3 id="强类型语言-类型安全"> 强类型语言（类型安全）</h3>
+<p>强制数据类型定义的语言，即一旦一个变量被指定了某个数据类型，如果不经过强制转换，那么它就永远是这个数据类型了。</p>
+<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Python</code>、<code>Go</code>。</p>
+<h3 id="弱类型语言"> 弱类型语言</h3>
+<p>一个变量可以赋不同数据类型的值。</p>
+<p>常见语言有<code>JavaScript</code></p>
+<h2 id="结论"> 结论</h2>
+<h3 id="python"> Python</h3>
+<p>Python是一门动态解释型的强类型定义语言</p>
+<h3 id="c"> C</h3>
+<p>C语言是一门静态编译型的强类型定义语言</p>
+<h3 id="java"> JAVA</h3>
+<p>Java是一门静态混合型的强类型定义语言</p>
+<h3 id="go"> Go</h3>
+<p>Go是一门静态编译型的强类型定义语言</p>
+<h3 id="javascript"> JavaScript</h3>
+<p>JavaScript是一门动态解释型的弱类型定义语言</p>
+<h2 id="参考链接"> 参考链接</h2>
+<blockquote>
+<p>https://www.cnblogs.com/sunbr/p/11214498.html</p>
+</blockquote>
 ]]></content:encoded>
     </item>
   </channel>
