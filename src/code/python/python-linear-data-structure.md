@@ -1,19 +1,6 @@
 ---
 category: Python
 ---
-# 02 线性数据结构
-
-## 内建常用数据类型
-
-* 数值型
-  * int、float、complex、bool
-* 序列 sequence
-  * 字符串 str、字节序列 bytes、bytearray
-  * 列表 list、元组 tuple
-
-* 键值对
-  * 集合 set、字典 dict
-
 ## 数值型
 
 * int、float、complex、bool  都是class，1、5.0、2+3j 都是对象即实例
@@ -21,14 +8,6 @@ category: Python
 * float：由整数部分和小数部分组成。支持十进制和科学计数法表示。C 的双精度型实现
 * complex：有实数和虚数部分组成，实数和虚数部分都是浮点数，3+4.2J
 * bool：int 的子类，仅有2个实例 True、False 对应1和0，可以和整数直接运算
-
-### 类型转换
-
-* int、float、complex、bool 也可以当做内建函数对数据进行类型转换
-* int(x) 返回一个整数
-* float(x) 返回一个浮点数
-* complex(x)、complex(x,y) 返回一个复数
-* bool(x) 返回布尔值，前面讲过False等价的对象
 
 ### 整数
 

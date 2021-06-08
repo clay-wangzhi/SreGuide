@@ -3,9 +3,7 @@ category: Python
 ---
 # 2.1 Python基础语法
 
-## 基础语法
-
-### 数字
+## 数字
 
 * 整数`int`
   * `Python3`开始不再区分 long 、int ，long 被重命名为int，所以只有 int 类型了
@@ -21,14 +19,14 @@ category: Python
 * 复数 complex
   * 1+2j 或 +2J
 
-### 字符串
+## 字符串
 
 * 使用‘ ”单双引号引用的字符的序列
 * '''和""" 单双三引号，可以跨行、可以在其中自由的使用单双引号
 * r 前缀：在字符串前面加上 r 或者 R 前缀，表示该字符串不做特殊的处理
 * f 前缀：3.6版本开始，新增 f 前缀，格式化字符串
 
-### 转义序列
+## 转义序列
 
 * `\\` `\t` `\r` `\n` `\'` `\"`
 * 上面每一个转义字符只代表一个字符，例如`\t`显示时占了4个字符位置，但是它是一个字符
@@ -36,12 +34,12 @@ category: Python
 
 转义：让字符不再是它当前的意义，例如 \t，t 就不是当前意义字符 t 了，而是被 \ 转成了 tab 键
 
-### 续行
+## 续行
 
 * 在行尾使用 \，注意 \ 之后除了紧跟着换行之外不能有其他字符
 * 如果使用各种括号，认为括号内是一个整体，其内部跨行不用 \
 
-### 标识符
+## 标识符
 
 **标识符**
 
@@ -75,11 +73,11 @@ category: Python
 每一个标识符对应一个具有数据结构的值，但是这个值不方便直接访问，程序员就可以通过其对应的标
 识符来访问数据，标识符就是一个指代。一句话，标识符是给程序员编程使用的。
 
-### 语言类型
+## 语言类型
 
-> 详见 https://wiki.clay-wangzhi.com/23-wei-fen-lei/bian-cheng-yu-yan-de-fen-lei
+> 详见 https://clay-wangzhi.com/linux/gainian/code-type/
 
-### False 等价
+## False 等价
 
 | 对象/常量 | 值   |
 | --------- | ---- |
@@ -104,11 +102,11 @@ False 等价布尔值，相当于`bool(value)`
 * None
 * 0
 
-### 逻辑运算真值表
+## 逻辑运算真值表
 
 ![log_ope](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/log_op.png)
 
-### 运算符 Operator
+## 运算符 Operator
 
 **算数运算符**
 
@@ -160,7 +158,7 @@ in、not in
 
 is、is not
 
-### 运算符优先级
+## 运算符优先级
 
 * 单目运算符 > 双目运算符
 * 算数运算符 > 位运算符 > 比较运算符 > 逻辑运算符
@@ -168,7 +166,7 @@ is、is not
 
 搞不清楚就使用括号。长表达式，多用括号，易懂、易读。
 
-### 表达式
+## 表达式
 
 由数字、符号、括号、变量等的组合。有算数表达式、逻辑表达式、赋值表达式、lambda 表达式等
 等。
@@ -201,183 +199,3 @@ type(type) # 也是type
 print(isinstance(1, int))
 print(isinstance(False, int)) # True
 ```
-
-## 程序控制
-
-* 顺序
-  * 按照先后顺序一条条执行
-    例如，先洗手，再吃饭，再洗碗
-* 分支
-  * 根据不同的情况判断，条件满足执行某条件下的语句
-    例如，先洗手，如果饭没有做好，玩游戏；如果饭做好了，就吃饭；如果饭都没有做，叫外卖
-* 循环
-  * 条件满足就反复执行，不满足就不执行或不再执行
-    例如，先洗手，看饭好了没有，没有好，一会来看一次是否好了，一会儿来看一次，直到饭
-    好了，才可是吃饭。这里循环的条件是饭没有好，饭没有好，就循环的来看饭好了没有
-
-### 单分支
-
-```python
-if condition:
-    代码块
-    
-
-if 1<2: # if True:
-    print('1 less than 2') # 代码块
-```
-
-* condition 必须是一个 bool 类型，这个地方有一个隐式转换 bool(condition) ，相当于 False 等价
-* if 语句这行最后，会有一个冒号，冒号之后如果有多条语句的代码块，需要另起一行，并缩进
-  * if、for、def、class等关键字后面都可以跟代码块
-  * 这些关键后面，如果有一条语句，也可以跟在这一行后面。例如 `if 1>2: pass`
-
-### 多分支
-
-```python
-if condition1:
-    代码块1
-elif condition2:
-    代码块2
-elif condition3:
-    代码块3
-......
-else:
-    代码块
-    
-
-   
-a = 5
-if a<0:
-    print('negative')
-elif a==0: # 相当于 a >= 0
-    print('zero')
-else: # 相当于 a > 0
-    print('positive')
-```
-
-* 多分支结构，只要有一个分支被执行，其他分支都不会被执行
-* 前一个条件被测试过，下一个条件相当于隐含着这个条件
-
-```python
-# 嵌套
-a = 5
-if a == 0:
-    print('zero')
-else:
-    if a < 0:
-    print('negative')
-else:
-    print('positive')
-```
-
-### while 循环
-
-while循环多用于死循环，或者不明确知道循环次数的场景
-
-```python
-while cond:
-    block
-
-    
-while True: # 死循环
-    pass
-
-a = 10
-while a: # 条件满足则进入循环
-    print(a)
-    a -= 1
-```
-
-### for 语句
-
-```python
-for element in iterable:
-    block
-   
-for i in range(0, 10):
-    print(i)
-```
-
-| 内建函数 | 函数签名                                    | 说明                                                         |
-| -------- | ------------------------------------------- | ------------------------------------------------------------ |
-| range    | range(stop)<br />range(start, stop, [step]) | 返回惰性的对象<br/>可以生成一个序列，遍历它就可以得到这个序列的一个个元素<br/>前包后不包 |
-
-### continue
-
-跳过当前循环的当次循环，继续下一次循环
-
-```python
-for i in range(0, 10):
-    if i % 2 != 0: continue
-    print(i)
-```
-
-### break
-
-结束当前循环
-
-```python
-# 计算1000以内的被7整除的前20个正整数
-count = 0
-for i in range(7, 1000, 7):
-	print(i)
-	count += 1
-	if count >= 20:
-		print(count)
-		break
-```
-
-总结
-
-* continue 和 break 是循环的控制语句，只影响当前循环，包括 while、for 循环
-* 如果循环嵌套， continue 和 break 也只影响语句所在的那一层循环
-* continue 和 break 只影响循环，所以`if cond: break`不是跳出 if，而是终止 if 外的 break 所在的循环
-* 分支和循环结构可以嵌套使用，可以嵌套多层
-
-### else 字句
-
-如果循环正常结束，else子句会被执行，即使是可迭代对象没有什么元素可迭代
-
-```python
-for i in range(0): # 可迭代对象没有迭代
-    pass
-else:
-    print('ok')
-    
-for i in range(0, 10):
-    break
-else:
-    print('ok')
-    
-for i in range(0, 10):
-    continue
-else:
-    print('ok')
-```
-
-有上例可知，一般情况下，循环正常执行，只要当前循环不是被break打断的，就可以执行else子句。
-哪怕是range(0)也可以执行else子句。
-
-### 三元表达式
-
-在Python中，也有类似C语言的三目运算符构成的表达式，但python中的三元表达式不支持复杂的语句
-
-```python
-真值表达式 if 条件表达式 else 假值表达式
-```
-
-三元表达式比较适合简化非常简单的if-else语句
-
-```python
-# 判断用户的输入的值，如果为空，输出"empty"，否则输出该值
-
-value = input('>>>')
-if value:
-    print(value)
-else:
-    print('empty')
-   
-value = input('>>>')
-print(value if value else 'empty')
-```
-

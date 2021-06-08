@@ -45,7 +45,7 @@ jobs:
       # 构建项目
       - name: Build
         # 项目的构建命令
-        run: yarn run build
+        run: yarn run super:build
 
       # 第四步，部署
       - name: Deploy

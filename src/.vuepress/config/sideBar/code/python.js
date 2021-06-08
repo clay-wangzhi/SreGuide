@@ -8,9 +8,8 @@ module.exports = [
   {
     title: "2 Python 基础",
     collapsable: false,
-    children: ["python-basic-grammar", "", "", ""]
+    children: ["python-basic-grammar", "python-control", "type-of-data"]
   },
-  "python-basic-grammar.md",
   "python-linear-data-structure.md",
   "python-ha-tables-analytic-expre.md",
   "python-function.md",

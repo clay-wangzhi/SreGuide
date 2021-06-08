@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "vuepress dev src",
     "cleanServe": "vuepress dev src --no-cache",
-    "build": "vuepress build src"
+    "build": "vuepress build src",
+	"super:build": "node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build src",
   },
   "devDependencies": {
     "vuepress": "1.8.2",
