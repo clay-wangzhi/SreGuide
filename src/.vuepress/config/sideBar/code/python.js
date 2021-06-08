@@ -8,7 +8,14 @@ module.exports = [
   {
     title: "2 Python 基础",
     collapsable: false,
-    children: ["python-basic-grammar", "python-control", "type-of-data"]
+    children: ["python-basic-grammar", "python-control",
+    {
+      // title: "2.3 Python数据类型",
+      path: "type-of-data",
+      collapsable: false,
+      children: ["num-data", "str-data", "bytearray-data", "list-tuple-data"],
+    },
+    ]
   },
   "python-linear-data-structure.md",
   "python-ha-tables-analytic-expre.md",
