@@ -1,5 +1,10 @@
 module.exports = [
   "",
+  {
+    title: "1 Python 简介",
+    collapsable: false,
+    children: ["first", "codeSpecification", "python-virtualenv", "python-pip"]
+  },
   "python-basic-grammar.md",
   "python-linear-data-structure.md",
   "python-ha-tables-analytic-expre.md",

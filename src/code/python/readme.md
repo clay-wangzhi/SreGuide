@@ -5,27 +5,25 @@ category: Python
 
 ## 常用官网
 
-[www.python.org](https://www.python.org/) :star:
-
-[django](https://docs.djangoproject.com/zh-hans/) :star:
+[官方文档](https://docs.python.org/zh-cn/3/) :star:
 
 
 
 ## Python 教程
 
-[Python 运维自动化 | 马哥教育](https://clay-wangzhi.com/code/python/) :star: | 我的python笔记中大多整理自此教程 ​
+[Python 运维自动化 | 马哥教育](https://clay-wangzhi.com/code/python/) :star: 
 
 [Python 教程 | 廖雪峰](https://www.liaoxuefeng.com/wiki/1016959663602400) :star:
 
-[Python - 100天从新手到大师 | 骆昊](https://github.com/jackfrued/Python-100-Days) :star:
+[Python - 100天从新手到大师 | 骆昊 | github](https://github.com/jackfrued/Python-100-Days) :star:
+
+[Python | willseecloud | 看云](https://www.kancloud.cn/willseecloud/python/1904298)
+
+[草根学 Python | TwoWater| github](https://github.com/TwoWater/Python)
 
 [Python 入门指南](http://www.pythondoc.com/pythontutorial3/index.html)
 
 [Python Cookbook | 飞污熊](https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html)
-
-[Django教程 | 刘江](https://www.liujiangblog.com/course/django/) :star:
-
-[Django REST Framework教程 | 大江狗](https://pythondjango.cn/django/rest-framework-tutorials) :star:
 
 
 
@@ -49,4 +47,14 @@ category: Python
 * [16 SocketServer](python-socketserver.md)
 * [17 IO 模型](python-io-model.md)
 * [18 python实例](python-instance.md)
+
+## TODO
+
+Django 相关
+
+[django](https://docs.djangoproject.com/zh-hans/) :star:
+
+[Django教程 | 刘江](https://www.liujiangblog.com/course/django/) :star:
+
+[Django REST Framework教程 | 大江狗](https://pythondjango.cn/django/rest-framework-tutorials) :star:
 
