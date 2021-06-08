@@ -5,6 +5,11 @@ module.exports = [
     collapsable: false,
     children: ["first", "codeSpecification", "python-virtualenv", "python-pip"]
   },
+  {
+    title: "2 Python 基础",
+    collapsable: false,
+    children: ["python-basic-grammar", "", "", ""]
+  },
   "python-basic-grammar.md",
   "python-linear-data-structure.md",
   "python-ha-tables-analytic-expre.md",

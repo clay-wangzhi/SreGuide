@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 01 Python基础语法
+# 2.1 Python基础语法
 
 ## 基础语法
 
