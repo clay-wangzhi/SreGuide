@@ -13,7 +13,7 @@ module.exports = [
       title: "2.3 Python数据类型",
       path: "type-of-data",
       collapsable: false,
-      children: ["num-data", "str-data", "bytearray-data", "list-tuple-data"],
+      children: ["num-data", "str-data", "bytearray-data", "list-tuple-data", "set-dict-data"],
     },
     ]
   },
