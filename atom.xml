@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-06-09T02:47:27.675Z</updated>
+  <updated>2021-06-09T05:49:33.833Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -414,6 +414,247 @@ localhost <span>|</span> SUCCESS <span>=</span><span>></span> <span>{</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">4.4 Playbook高级用法</title>
+    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
+    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
+<h2 id="_1-本地执行"> 1 本地执行</h2>
+<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
+<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
+<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
+<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
+<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
+<div><pre><code>- name: wait for ssh server to be running
+  wait_for
+      port: 22 
+      host: &quot;{{ inventory_hostname }}&quot; 
+      search_regex: OpenSSH
+  connection: local
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
+<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
+<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
+<p>这种特性适用于以下场景：</p>
+<ul>
+<li>在告警系统中启用基于主机的告警</li>
+<li>向负载均衡器中添加或移除一台主机</li>
+<li>在dns上添加或修改针对某个主机的解析</li>
+<li>在存储节点上创建一个存储以用于主机挂载</li>
+<li>使用一个外部程序来检测主机上的服务是否正常</li>
+</ul>
+<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
+<div><pre><code>- name: enable alerts for web servers
+  hosts: webservers
+  tasks:
+    - name: enable alerts
+      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
+      delegate_to: nagios.example.com
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
+<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
+<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
+</blockquote>
+<h2 id="_3-任务暂停"> 3 任务暂停</h2>
+<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
+<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
+<p>wait_for模块常用参数：</p>
+<ul>
+<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
+<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
+<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
+<li>port：wait_for模块待待的主机的端口</li>
+<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
+<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
+<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
+</ul>
+<p>示例：</p>
+<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
+- wait_for: 
+    port: 8080 
+    state: started  
+    
+#等待8000端口正常监听，每隔10s检查一次，直至等待超时
+- wait_for: 
+    port: 8000 
+    delay: 10 
+    
+#等待8000端口直至有连接建立
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    delay: 10 
+    state: drained
+    
+#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
+- wait_for: 
+    host: 0.0.0.0 
+    port: 8000 
+    state: drained 
+    exclude_hosts: 10.2.1.2,10.2.1.3 
+    
+#等待/tmp/foo文件已创建    
+- wait_for: 
+    path: /tmp/foo 
+
+#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
+- wait_for: 
+    path: /tmp/foo 
+    search_regex: completed 
+
+#等待/var/lock/file.lock被删除    
+- wait_for: 
+    path: /var/lock/file.lock 
+    state: absent 
+    
+#等待指定的进程被销毁
+- wait_for: 
+    path: /proc/3466/status 
+    state: absent 
+    
+#等待openssh启动，10s检查一次
+- wait_for: 
+    port: 22 
+    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
+    delay: 10 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
+<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
+<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
+<div><pre><code>- name: upgrade pkgs on servers behind load balancer
+  hosts: myhosts
+  serial: 1
+  tasks:
+    - name: get the ec2 instance id and elastic load balancer id
+      ec2_facts:
+
+    - name: take the host out of the elastic load balancer id
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: absent
+
+    - name: upgrade pkgs
+      apt: 
+          update_cache: yes 
+          upgrade: yes
+
+    - name: put the host back n the elastic load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
+        state: present
+        ec2_elbs: &quot;{{ items }}&quot;
+      with_items: ec2_elbs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
+<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
+<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
+  hosts: myhosts
+  serial: 1
+  max_fail_percentage: 25
+  tasks:
+    ......
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
+<h2 id="_5-只执行一次"> 5 只执行一次</h2>
+<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
+<p>可以使用run_once语句来处理：</p>
+<div><pre><code>- name: run the database migrateions
+  command: /opt/run_migrateions
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  connection: local
+  run_once: true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
+<div><pre><code>- name: run the task locally, only once
+  command: /opt/my-custom-command
+  run_once: true
+  delegate_to: app.a1-61-105.dev.unp
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
+<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
+<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
+<p>在如下场景中可能需要用到环境变量：</p>
+<ul>
+<li>运行shell的时候，需要设置path变量</li>
+<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
+</ul>
+<p>下面是一个简单示例：</p>
+<div><pre><code>---
+- name: upload a remote file to aws s3
+  hosts: test
+  tasks:
+    - name: install pip
+      yum:
+        name: python-pip
+        state: installed
+    
+    - name: install the aws tools
+      pip:
+        name: awscli
+        state: present
+    
+    - name upload file to s3
+      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
+      environment:
+        AWS_ACCESS_KEY_ID: xxxxxx
+        AWS_SECRET_ACCESS_KEY: xxxxxx
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
+<div><pre><code>- hosts: all
+  remote_user: root
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+      https_proxy: http://proxy.bos.example.com:8080
+  tasks:
+    - apt: name=cobbler state=installed
+      environment: proxy_env
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
+<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
+<div><pre><code> - hosts: all
+   remote_user: root
+   vars_prompt:
+      - name: share_user
+        prompt: &quot;what is your network username?&quot;
+        private: yes
+ 
+      - name: share_pass
+        prompt: &quot;what is your network password&quot;
+        private: yes
+        
+    tasks:
+      - debug:
+          var: share_user
+      - debug:
+          var: share_pass
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
+<ul>
+<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
+<li>default：定义默认值，当用户未输入时则使用默认值</li>
+<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">5.1 自定义变量</title>
     <id>https://clay-wangzhi.com/automate/ansible/custom/</id>
     <link href="https://clay-wangzhi.com/automate/ansible/custom/"/>
@@ -712,247 +953,6 @@ PLAY RECAP *********************************************************************
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><blockquote>
 <p>注意格式，=号左右没有空格</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4.4 Playbook高级用法</title>
-    <id>https://clay-wangzhi.com/automate/ansible/advanced-playbook/</id>
-    <link href="https://clay-wangzhi.com/automate/ansible/advanced-playbook/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-4-playbook高级用法"> 4.4 Playbook高级用法</h1>
-<h2 id="_1-本地执行"> 1 本地执行</h2>
-<p>默认情况下，Ansible使用ssh去连接远程主机，但实际上它提供了多种插件来丰富连接方式：smart、ssh、paramiko、local、docker、winrm，默认为smart。</p>
-<p>smart表示智能选择ssh和paramiko(paramiko是Python的一个ssh协议模块)，当Ansible端安装的ssh支持ControlPersist(即持久连接)时自动使用ssh，否则使用paramiko。local和docker是非基于ssh连接的方式，winrm是连接Windows的插件。</p>
-<p>可以在命令行选项中使用-c或--connection选项来指定连接方式：</p>
-<p>如果希望在控制主机本地运行一个特定的任务，可以使用local_action语句。</p>
-<p>假设我们需要配置的远程主机刚刚启动，如果我们直接运行playbook，可能会因为sshd服务尚未开始监听而导致失败，我们可以在控制主机上使用如下示例来等待被控端sshd端口监听：</p>
-<div><pre><code>- name: wait for ssh server to be running
-  wait_for
-      port: 22 
-      host: &quot;{{ inventory_hostname }}&quot; 
-      search_regex: OpenSSH
-  connection: local
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>此外，inventory中也可以通过连接的行为变量ansible_connection指定连接类型：</p>
-<div><pre><code>192.168.100.101 ansible_connection=&quot;smart&quot;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-任务委托"> 2 任务委托</h2>
-<p>在有些时候，我们希望运行与选定的主机或主机组相关联的task，但是这个task又不需要在选定的主机或主机组上执行，而需要在另一台服务器上执行。</p>
-<p>这种特性适用于以下场景：</p>
-<ul>
-<li>在告警系统中启用基于主机的告警</li>
-<li>向负载均衡器中添加或移除一台主机</li>
-<li>在dns上添加或修改针对某个主机的解析</li>
-<li>在存储节点上创建一个存储以用于主机挂载</li>
-<li>使用一个外部程序来检测主机上的服务是否正常</li>
-</ul>
-<p>可以使用delegate_to语句来在另一台主机上运行task：</p>
-<div><pre><code>- name: enable alerts for web servers
-  hosts: webservers
-  tasks:
-    - name: enable alerts
-      nagios: action=enable_alerts service=web host=&quot;{{ inventory_hostname }}&quot;
-      delegate_to: nagios.example.com
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><blockquote>
-<p>如果delegate_to: 127.0.0.1的时候，等价于connection: local</p>
-<p>显然connection: local和delegate_to: localhost在功能上是等价的。当然，connection可以定义在play级别或task级别上，而delegate_to只能定义在task级别上。</p>
-</blockquote>
-<h2 id="_3-任务暂停"> 3 任务暂停</h2>
-<p>有些情况下，一些任务的运行需要等待一些状态的恢复，比如某一台主机或者应用刚刚重启，我们需要需要等待它上面的某个端口开启，此时就需要将正在运行的任务暂停，直到其状态满足要求。</p>
-<p>Ansible提供了wait_for模块以实现任务暂停的需求</p>
-<p>wait_for模块常用参数：</p>
-<ul>
-<li>connect_timeout：在下一个任务执行之前等待连接的超时时间</li>
-<li>delay：等待一个端口或者文件或者连接到指定的状态时，默认超时时间为300秒，在这等待的300s的时间里，wait_for模块会一直轮询指定的对象是否到达指定的状态，delay即为多长时间轮询一次状态。</li>
-<li>host：wait_for模块等待的主机的地址，默认为127.0.0.1</li>
-<li>port：wait_for模块待待的主机的端口</li>
-<li>path：文件路径，只有当这个文件存在时，下一任务才开始执行，即等待该文件创建完成</li>
-<li>state：等待的状态，即等待的文件或端口或者连接状态达到指定的状态时，下一个任务开始执行。当等的对象为端口时，状态有started，stoped，即端口已经监听或者端口已经关闭；当等待的对象为文件时，状态有present或者started，absent，即文件已创建或者删除；当等待的对象为一个连接时，状态有drained，即连接已建立。默认为started</li>
-<li>timeout：wait_for的等待的超时时间,默认为300秒</li>
-</ul>
-<p>示例：</p>
-<div><pre><code>#等待8080端口已正常监听，才开始下一个任务，直到超时
-- wait_for: 
-    port: 8080 
-    state: started  
-    
-#等待8000端口正常监听，每隔10s检查一次，直至等待超时
-- wait_for: 
-    port: 8000 
-    delay: 10 
-    
-#等待8000端口直至有连接建立
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    delay: 10 
-    state: drained
-    
-#等待8000端口有连接建立，如果连接来自10.2.1.2或者10.2.1.3，则忽略。
-- wait_for: 
-    host: 0.0.0.0 
-    port: 8000 
-    state: drained 
-    exclude_hosts: 10.2.1.2,10.2.1.3 
-    
-#等待/tmp/foo文件已创建    
-- wait_for: 
-    path: /tmp/foo 
-
-#等待/tmp/foo文件已创建，而且该文件中需要包含completed字符串    
-- wait_for: 
-    path: /tmp/foo 
-    search_regex: completed 
-
-#等待/var/lock/file.lock被删除    
-- wait_for: 
-    path: /var/lock/file.lock 
-    state: absent 
-    
-#等待指定的进程被销毁
-- wait_for: 
-    path: /proc/3466/status 
-    state: absent 
-    
-#等待openssh启动，10s检查一次
-- wait_for: 
-    port: 22 
-    host: &quot;{{ ansible_ssh_host | default(inventory_hostname) }}&quot; search_regex: OpenSSH 
-    delay: 10 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br></div></div><h2 id="_4-滚动执行"> 4 滚动执行</h2>
-<p>默认情况下，ansible会并行的在所有选定的主机或主机组上执行每一个task，但有的时候，我们会希望能够逐台运行。最典型的例子就是对负载均衡器后面的应用服务器进行更新时。通常来讲，我们会将应用服务器逐台从负载均衡器上摘除，更新，然后再添加回去。我们可以在play中使用serial语句来告诉ansible限制并行执行play的主机数量。</p>
-<p>下面是一个在amazon EC2的负载均衡器中移除主机，更新软件包，再添加回负载均衡的配置示例：</p>
-<div><pre><code>- name: upgrade pkgs on servers behind load balancer
-  hosts: myhosts
-  serial: 1
-  tasks:
-    - name: get the ec2 instance id and elastic load balancer id
-      ec2_facts:
-
-    - name: take the host out of the elastic load balancer id
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: absent
-
-    - name: upgrade pkgs
-      apt: 
-          update_cache: yes 
-          upgrade: yes
-
-    - name: put the host back n the elastic load balancer
-      local_action: ec2_elb
-      args:
-        instance_id: &quot;{{ ansible_ec2_instance_id }}&quot;
-        state: present
-        ec2_elbs: &quot;{{ items }}&quot;
-      with_items: ec2_elbs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>在上述示例中，serial的值为1，即表示在某一个时间段内，play只在一台主机上执行。如果为2，则同时有2台主机运行play。</p>
-<p>一般来讲，当task失败时，ansible会停止执行失败的那台主机上的任务，但是继续对其他 主机执行。在负载均衡的场景中，我们会更希望ansible在所有主机执行失败之前就让play停止，否则很可能会面临所有主机都从负载均衡器上摘除并且都执行失败导致服务不可用的场景。这个时候，我们可以使用serial语句配合max_fail_percentage语句使用。<code>max_fail_percentage</code>表示当最大失败主机的比例达到多少时，ansible就让整个play失败。示例如下：</p>
-<div><pre><code>- name: upgrade pkgs on fservers behind load balancer
-  hosts: myhosts
-  serial: 1
-  max_fail_percentage: 25
-  tasks:
-    ......
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>假如负载均衡后面有4台主机，并且有一台主机执行失败，这时ansible还会继续运行，要让Play停止运行，则必须超过25%，所以如果想一台失败就停止执行，我们可以将max_fail_percentage的值设为24。如果我们希望只要有执行失败，就放弃执行，我们可以将max_fail_percentage的值设为0。</p>
-<h2 id="_5-只执行一次"> 5 只执行一次</h2>
-<p>某些时候，我们希望某个task只执行一次，即使它被绑定到了多个主机上。例如在一个负载均衡器后面有多台应用服务器，我们希望执行一个数据库迁移，只需要在一个应用服务器上执行操作即可。</p>
-<p>可以使用run_once语句来处理：</p>
-<div><pre><code>- name: run the database migrateions
-  command: /opt/run_migrateions
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>还可以与local_action配合使用，如下：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  connection: local
-  run_once: true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>还可以与delegate_to配合使用，让这个只执行一次的任务在指定的机器上运行：</p>
-<div><pre><code>- name: run the task locally, only once
-  command: /opt/my-custom-command
-  run_once: true
-  delegate_to: app.a1-61-105.dev.unp
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="_6-设置环境变量"> 6 设置环境变量</h2>
-<p>我们在命令行下执行某些命令的时候，这些命令可能会需要依赖环境变量。比如在安装某些包的时候，可能需要通过代理才能完成完装。或者某个脚本可能需要调用某个环境变量才能完成运行。</p>
-<p>ansible 支持通过<code>environment</code>关键字来定义一些环境变量。</p>
-<p>在如下场景中可能需要用到环境变量：</p>
-<ul>
-<li>运行shell的时候，需要设置path变量</li>
-<li>需要加载一些库，这些库不在系统的标准库路径当中</li>
-</ul>
-<p>下面是一个简单示例：</p>
-<div><pre><code>---
-- name: upload a remote file to aws s3
-  hosts: test
-  tasks:
-    - name: install pip
-      yum:
-        name: python-pip
-        state: installed
-    
-    - name: install the aws tools
-      pip:
-        name: awscli
-        state: present
-    
-    - name upload file to s3
-      shell aws s3 put-object --bucket=my-test-bucket --key={{ ansible_hostname }}/fstab --body=/etc/fstab --region=eu-west-1
-      environment:
-        AWS_ACCESS_KEY_ID: xxxxxx
-        AWS_SECRET_ACCESS_KEY: xxxxxx
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><p>事实上，environment也可以存储在变量当中：</p>
-<div><pre><code>- hosts: all
-  remote_user: root
-  vars:
-    proxy_env:
-      http_proxy: http://proxy.example.com:8080
-      https_proxy: http://proxy.bos.example.com:8080
-  tasks:
-    - apt: name=cobbler state=installed
-      environment: proxy_env
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="_7-交互式提示"> 7 交互式提示</h2>
-<p>在少数情况下，ansible任务运行的过程中需要用户输入一些数据，这些数据要么比较秘密不方便，或者数据是动态的，不同的用户有不同的需求，比如输入用户自己的账户和密码或者输入不同的版本号会触发不同的后续操作等。ansible的vars_prompt关键字就是用来处理上述这种与用户交互的情况的。</p>
-<div><pre><code> - hosts: all
-   remote_user: root
-   vars_prompt:
-      - name: share_user
-        prompt: &quot;what is your network username?&quot;
-        private: yes
- 
-      - name: share_pass
-        prompt: &quot;what is your network password&quot;
-        private: yes
-        
-    tasks:
-      - debug:
-          var: share_user
-      - debug:
-          var: share_pass
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>vars_prompt常用选项说明：</p>
-<ul>
-<li>private: 默认为yes，表示用户输入的值在命令行不可见</li>
-<li>default：定义默认值，当用户未输入时则使用默认值</li>
-<li>confirm：如果设置为yes，则会要求用户输入两次，适合输入密码的情况</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -8685,62 +8685,6 @@ config.xml            config.xml2019-06-12
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">5.2 用户认证系统集成</title>
-    <id>https://clay-wangzhi.com/automate/jenkins/user-auth/</id>
-    <link href="https://clay-wangzhi.com/automate/jenkins/user-auth/"/>
-    <updated>2021-06-03T07:02:02.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_5-2-用户认证系统集成"> 5.2 用户认证系统集成</h1>
-<blockquote>
-<p>转载自：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/" target="_blank" rel="noopener noreferrer">用户认证系统集成 | 泽阳</a></p>
-</blockquote>
-<p>您好，本章主要讲解与jenkins与用户认证系统集成 例如：LDAP Gitlab GitHub 。我们做实验的过程中建议先开启匿名模式，防止配置错误导致无法直接登录。 😀</p>
-<hr>
-<p>Jenkins默认使用自带数据库模式存储用户，在企业中一般都会有统一的认证中心，例如 LDAP、ActiveDirectory中管理用户。可以配置Jenkins集成实现统一用户管理。</p>
-<h2 id="ldap系统集成"> ldap系统集成</h2>
-<p>LDAP系统是用于用户管理，在配置集成的时候我们只需要以下信息：</p>
-<ul>
-<li>服务器地址： ldap://192.168.1.200</li>
-<li>服务器端口: 389</li>
-<li>组织OU: ou=jenkins,dc=devops,dc=com</li>
-<li>管理员账号和密码: cn=admin,dc=devops,dc=com</li>
-</ul>
-<p>首先，我需要在Jenkins系统中安装<code>LDAP</code>插件，然后进入 系统管理 -&gt; <code>全局安全配置</code>页面中。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" alt="images" /></a></p>
-<p>填写好信息之后，我们可以点击测试按钮进行测试。会模拟用户登录，成功后再保存配置即可。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" alt="images" /></a></p>
-<h2 id="gitlab单点登录"> gitlab单点登录</h2>
-<p>一般我们会配置Gitlab系统与LDAP系统做用户认证集成，开发人员登录gitlab系统的频率还是很多的，今天我们的配置效果是：当用户已经登录了gitlab，再次打开Jenkins会自动登入。</p>
-<h3 id="gitlab配置"> gitlab配置</h3>
-<p>首先，我们需要在Gitlab中添加一个应用。系统设置 -&gt; 应用管理</p>
-<p>填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>,勾选权限默认具有<code>read_user</code>权限即可。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" alt="images" /></a></p>
-<p>保存配置，会提示以下信息，这些信息需要填写到Jenkins中。<code>ApplicationId</code> <code>secret</code><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" alt="images" /></a></p>
-<h3 id="jenkins配置"> jenkins配置</h3>
-<p>我们需要在Jenkins系统中安装插件<code>Gitlab Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" alt="images" /></a></p>
-<p>注意：当Jenkins前面有代理的时候可能会出现跳转错误的问题。这时候需要看下提示错误的redirect URL地址,检查下图配置。 如果下图配置没有问题，请检查代理的配置问题。另外要注意是<code>http</code>模式哦</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" alt="images" /></a></p>
-<h2 id="github单点登录"> github单点登录</h2>
-<p>如果你用过GitLab，你会发现与GitHub很类似。这里我们要配置的GitHub集成与GitLab配置很类似。</p>
-<h3 id="github配置"> github配置</h3>
-<p>首先登录GitHub, settings -&gt; Developer Settings -&gt; Oauth Apps。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" alt="images" /></a></p>
-<p>新建应用：填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" alt="images" /></a></p>
-<p>保存，获取应用ID和secret<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" alt="images" /></a></p>
-<h3 id="配置jenkins"> 配置jenkins</h3>
-<p>我们需要在Jenkins系统中安装插件<code>Github Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。</p>
-<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" alt="images" /></a></p>
-<p>效果：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" alt="images" /></a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="自动化工具"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-01-16T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">4.1 开始编写Jenkinsfile</title>
     <id>https://clay-wangzhi.com/automate/jenkins/start-jenkinsfile/</id>
     <link href="https://clay-wangzhi.com/automate/jenkins/start-jenkinsfile/"/>
@@ -8853,6 +8797,62 @@ config.xml            config.xml2019-06-12
       <name>Clay</name>
     </contributor>
     <published>2021-06-03T06:25:08.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">5.2 用户认证系统集成</title>
+    <id>https://clay-wangzhi.com/automate/jenkins/user-auth/</id>
+    <link href="https://clay-wangzhi.com/automate/jenkins/user-auth/"/>
+    <updated>2021-06-03T07:02:02.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_5-2-用户认证系统集成"> 5.2 用户认证系统集成</h1>
+<blockquote>
+<p>转载自：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/" target="_blank" rel="noopener noreferrer">用户认证系统集成 | 泽阳</a></p>
+</blockquote>
+<p>您好，本章主要讲解与jenkins与用户认证系统集成 例如：LDAP Gitlab GitHub 。我们做实验的过程中建议先开启匿名模式，防止配置错误导致无法直接登录。 😀</p>
+<hr>
+<p>Jenkins默认使用自带数据库模式存储用户，在企业中一般都会有统一的认证中心，例如 LDAP、ActiveDirectory中管理用户。可以配置Jenkins集成实现统一用户管理。</p>
+<h2 id="ldap系统集成"> ldap系统集成</h2>
+<p>LDAP系统是用于用户管理，在配置集成的时候我们只需要以下信息：</p>
+<ul>
+<li>服务器地址： ldap://192.168.1.200</li>
+<li>服务器端口: 389</li>
+<li>组织OU: ou=jenkins,dc=devops,dc=com</li>
+<li>管理员账号和密码: cn=admin,dc=devops,dc=com</li>
+</ul>
+<p>首先，我需要在Jenkins系统中安装<code>LDAP</code>插件，然后进入 系统管理 -&gt; <code>全局安全配置</code>页面中。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/01.png" alt="images" /></a></p>
+<p>填写好信息之后，我们可以点击测试按钮进行测试。会模拟用户登录，成功后再保存配置即可。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/02.png" alt="images" /></a></p>
+<h2 id="gitlab单点登录"> gitlab单点登录</h2>
+<p>一般我们会配置Gitlab系统与LDAP系统做用户认证集成，开发人员登录gitlab系统的频率还是很多的，今天我们的配置效果是：当用户已经登录了gitlab，再次打开Jenkins会自动登入。</p>
+<h3 id="gitlab配置"> gitlab配置</h3>
+<p>首先，我们需要在Gitlab中添加一个应用。系统设置 -&gt; 应用管理</p>
+<p>填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>,勾选权限默认具有<code>read_user</code>权限即可。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/03.png" alt="images" /></a></p>
+<p>保存配置，会提示以下信息，这些信息需要填写到Jenkins中。<code>ApplicationId</code> <code>secret</code><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/04.png" alt="images" /></a></p>
+<h3 id="jenkins配置"> jenkins配置</h3>
+<p>我们需要在Jenkins系统中安装插件<code>Gitlab Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/05.png" alt="images" /></a></p>
+<p>注意：当Jenkins前面有代理的时候可能会出现跳转错误的问题。这时候需要看下提示错误的redirect URL地址,检查下图配置。 如果下图配置没有问题，请检查代理的配置问题。另外要注意是<code>http</code>模式哦</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/06.png" alt="images" /></a></p>
+<h2 id="github单点登录"> github单点登录</h2>
+<p>如果你用过GitLab，你会发现与GitHub很类似。这里我们要配置的GitHub集成与GitLab配置很类似。</p>
+<h3 id="github配置"> github配置</h3>
+<p>首先登录GitHub, settings -&gt; Developer Settings -&gt; Oauth Apps。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/07.png" alt="images" /></a></p>
+<p>新建应用：填写Jenkins回调地址<code>http://jenkinsserver:8080/securityRealm/finishLogin</code>。<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/08.png" alt="images" /></a></p>
+<p>保存，获取应用ID和secret<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/09.png" alt="images" /></a></p>
+<h3 id="配置jenkins"> 配置jenkins</h3>
+<p>我们需要在Jenkins系统中安装插件<code>Github Authentication</code>， 然后导航到<code>全局安全配置</code>。 填写Gitlab系统地址和上面在Gitlab创建的应用的<code>ApplicationId</code> <code>secret</code>。</p>
+<p><a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/10.png" alt="images" /></a></p>
+<p>效果：<a href="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" target="_blank" rel="noopener noreferrer"><img src="http://docs.idevops.site/jenkins/pipelineintegrated/chapter02/images/11.png" alt="images" /></a></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="自动化工具"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-01-16T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -9308,6 +9308,58 @@ COMMIT
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Linux下配置jdk的环境变量</title>
+    <id>https://clay-wangzhi.com/build/centos-jdk/</id>
+    <link href="https://clay-wangzhi.com/build/centos-jdk/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux下配置jdk的环境变量"> Linux下配置jdk的环境变量</h1>
+<p>Hello everyone, let's learn jdk together！</p>
+<h3 id="yum安装"> yum安装</h3>
+<p>yum 查询可以安装的软件</p>
+<div><pre><code>yum list | grep jdk
+</code></pre>
+<div><span>1</span><br></div></div><p><img src="/images/jdk1.png" alt="" /></p>
+<p>根据需求选择版本进行安装</p>
+<div><pre><code>yum -y install java-1.8.0-openjdk* 
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="rpm安装"> rpm安装</h3>
+<p>jdk官网地址为：http://www.oracle.com</p>
+<p>各个版本的下载地址为：http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html   （网页会变，请自动百度，当前日期：2018-03-06）</p>
+<p>根据需求下载rpm版本  （必须有oracle账号进行登录）</p>
+<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm?AuthParam=1520474898_85357527f14068896db993a783a48e94
+rpm -ivh jdk-7u75-linux-x64.rpm\?AuthParam\=1520474898_85357527f14068896db993a783a48e94 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="压缩包安装"> 压缩包安装</h3>
+<p>我个人喜欢压缩包安装，灵活性较高</p>
+<p>根据需求下载压缩包版本</p>
+<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u76-b13/jdk-7u76-linux-x64.tar.gz?AuthParam=1520475252_b3af0149915380bf1a4a0a8d962893ca
+mv jdk-7u76-linux-x64.tar.gz\?AuthParam\=1520475252_b3af0149915380bf1a4a0a8d962893ca jdk-7u76-linux-x64.tar.gz
+tar -xvf jdk-7u76-linux-x64.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置环境变量</p>
+<div><pre><code># vim /etc/profile
+export JAVA_HOME=/opt/jdk1.7.0_76
+export JRE_HOME=/opt/jdk1.7.0_76/jre
+export CLASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+# source /etc/profile
+# java -version
+java version &quot;1.7.0_76&quot;
+Java(TM) SE Runtime Environment (build 1.7.0_76-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 24.76-b04, mixed mode)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="常见服务的搭建"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">centos7下搭建shadowsocks</title>
     <id>https://clay-wangzhi.com/build/centos7-shadowsocks/</id>
     <link href="https://clay-wangzhi.com/build/centos7-shadowsocks/"/>
@@ -9404,58 +9456,6 @@ $ firewall-cmd --reload
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000010639190</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="常见服务的搭建"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Linux下配置jdk的环境变量</title>
-    <id>https://clay-wangzhi.com/build/centos-jdk/</id>
-    <link href="https://clay-wangzhi.com/build/centos-jdk/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux下配置jdk的环境变量"> Linux下配置jdk的环境变量</h1>
-<p>Hello everyone, let's learn jdk together！</p>
-<h3 id="yum安装"> yum安装</h3>
-<p>yum 查询可以安装的软件</p>
-<div><pre><code>yum list | grep jdk
-</code></pre>
-<div><span>1</span><br></div></div><p><img src="/images/jdk1.png" alt="" /></p>
-<p>根据需求选择版本进行安装</p>
-<div><pre><code>yum -y install java-1.8.0-openjdk* 
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="rpm安装"> rpm安装</h3>
-<p>jdk官网地址为：http://www.oracle.com</p>
-<p>各个版本的下载地址为：http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html   （网页会变，请自动百度，当前日期：2018-03-06）</p>
-<p>根据需求下载rpm版本  （必须有oracle账号进行登录）</p>
-<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm?AuthParam=1520474898_85357527f14068896db993a783a48e94
-rpm -ivh jdk-7u75-linux-x64.rpm\?AuthParam\=1520474898_85357527f14068896db993a783a48e94 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="压缩包安装"> 压缩包安装</h3>
-<p>我个人喜欢压缩包安装，灵活性较高</p>
-<p>根据需求下载压缩包版本</p>
-<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u76-b13/jdk-7u76-linux-x64.tar.gz?AuthParam=1520475252_b3af0149915380bf1a4a0a8d962893ca
-mv jdk-7u76-linux-x64.tar.gz\?AuthParam\=1520475252_b3af0149915380bf1a4a0a8d962893ca jdk-7u76-linux-x64.tar.gz
-tar -xvf jdk-7u76-linux-x64.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置环境变量</p>
-<div><pre><code># vim /etc/profile
-export JAVA_HOME=/opt/jdk1.7.0_76
-export JRE_HOME=/opt/jdk1.7.0_76/jre
-export CLASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib
-export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-# source /etc/profile
-# java -version
-java version &quot;1.7.0_76&quot;
-Java(TM) SE Runtime Environment (build 1.7.0_76-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.76-b04, mixed mode)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -21218,11 +21218,11 @@ $ pyenv update
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">集合 set &amp; 字典 dict</title>
+    <title type="html">2.3.5 集合 set &amp; 字典 dict</title>
     <id>https://clay-wangzhi.com/code/python/set-dict-data/</id>
     <link href="https://clay-wangzhi.com/code/python/set-dict-data/"/>
-    <updated>2021-06-09T02:46:21.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="集合-set-字典-dict"> 集合 set &amp; 字典 dict</h1>
+    <updated>2021-06-09T05:48:27.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_2-3-5-集合-set-字典-dict"> 2.3.5 集合 set &amp; 字典 dict</h1>
 <h2 id="集合-set"> 集合 set</h2>
 <p>集合，简称集。由任意个元素构成的集体。高级语言都实现了这个非常重要的数据结构类型。</p>
 <p>Python中，它是可变的、无序的、不重复的元素的集合。</p>
@@ -29239,6 +29239,33 @@ test2 is <span>'value2'</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第十章 变量处理</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">10.2 参数替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/10_2_parameter_substitution/"/>
@@ -29741,33 +29768,6 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
 </li>
 </ol>
 </section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第十章 变量处理</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -31200,35 +31200,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第十二章 命令替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/12_command_substitution/"/>
@@ -31555,6 +31526,35 @@ bash$ echo $(echo \\)
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -52048,6 +52048,69 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">编程语言的分类</title>
+    <id>https://clay-wangzhi.com/linux/gainian/code-type/</id>
+    <link href="https://clay-wangzhi.com/linux/gainian/code-type/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="编程语言的分类"> 编程语言的分类</h1>
+<p>编程语言的分类可以从三个角度出发：</p>
+<h2 id="编译型和解释型"> 编译型和解释型</h2>
+<h3 id="编译型"> 编译型</h3>
+<p>即把源程序的每一条语句都编译成机器语言，并保存为二进制文件，这样运行时计算机可以直接以机器语言来运行此程序。</p>
+<ul>
+<li>优点：执行速度很快</li>
+<li>缺点：开发效率低，不能跨平台</li>
+</ul>
+<p>常见语言有<code>C\C++</code>、<code>Go</code>等</p>
+<h3 id="解释型"> 解释型</h3>
+<p>只在运行时才一条一条的解释成机器语言给计算机执行。</p>
+<ul>
+<li>优点：开发效率高，跨平台</li>
+<li>缺点：运行速度慢</li>
+</ul>
+<p>常见语言有<code>Python</code>、<code>PHP</code>、<code>JavaScript</code></p>
+<h3 id="混合型"> 混合型</h3>
+<p>常见语言有<code>JAVA</code>、<code>C#</code></p>
+<h2 id="静态语言和动态语言"> 静态语言和动态语言</h2>
+<h3 id="动态语言"> 动态语言</h3>
+<p>即数据类型是在运行期间检查的，写程序时不用给变量指定数据类型，当你第一次赋值给变量时，就在内部记录下了数据类型。</p>
+<p>常见语言有<code>Python</code>、<code>Ruby</code>、<code>JavaScript</code></p>
+<h3 id="静态语言"> 静态语言</h3>
+<p>即数据类型是在编译期间检查的，写程序时声明所有变量的数据类型。</p>
+<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Go</code></p>
+<h2 id="强类型语言和弱类型语言"> 强类型语言和弱类型语言</h2>
+<h3 id="强类型语言-类型安全"> 强类型语言（类型安全）</h3>
+<p>强制数据类型定义的语言，即一旦一个变量被指定了某个数据类型，如果不经过强制转换，那么它就永远是这个数据类型了。</p>
+<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Python</code>、<code>Go</code>。</p>
+<h3 id="弱类型语言"> 弱类型语言</h3>
+<p>一个变量可以赋不同数据类型的值。</p>
+<p>常见语言有<code>JavaScript</code></p>
+<h2 id="结论"> 结论</h2>
+<h3 id="python"> Python</h3>
+<p>Python是一门动态解释型的强类型定义语言</p>
+<h3 id="c"> C</h3>
+<p>C语言是一门静态编译型的强类型定义语言</p>
+<h3 id="java"> JAVA</h3>
+<p>Java是一门静态混合型的强类型定义语言</p>
+<h3 id="go"> Go</h3>
+<p>Go是一门静态编译型的强类型定义语言</p>
+<h3 id="javascript"> JavaScript</h3>
+<p>JavaScript是一门动态解释型的弱类型定义语言</p>
+<h2 id="参考链接"> 参考链接</h2>
+<blockquote>
+<p>https://www.cnblogs.com/sunbr/p/11214498.html</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</title>
     <id>https://clay-wangzhi.com/linux/gainian/dev-ops-env/</id>
     <link href="https://clay-wangzhi.com/linux/gainian/dev-ops-env/"/>
@@ -52306,69 +52369,6 @@ NTP synchronized: yes
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">编程语言的分类</title>
-    <id>https://clay-wangzhi.com/linux/gainian/code-type/</id>
-    <link href="https://clay-wangzhi.com/linux/gainian/code-type/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="编程语言的分类"> 编程语言的分类</h1>
-<p>编程语言的分类可以从三个角度出发：</p>
-<h2 id="编译型和解释型"> 编译型和解释型</h2>
-<h3 id="编译型"> 编译型</h3>
-<p>即把源程序的每一条语句都编译成机器语言，并保存为二进制文件，这样运行时计算机可以直接以机器语言来运行此程序。</p>
-<ul>
-<li>优点：执行速度很快</li>
-<li>缺点：开发效率低，不能跨平台</li>
-</ul>
-<p>常见语言有<code>C\C++</code>、<code>Go</code>等</p>
-<h3 id="解释型"> 解释型</h3>
-<p>只在运行时才一条一条的解释成机器语言给计算机执行。</p>
-<ul>
-<li>优点：开发效率高，跨平台</li>
-<li>缺点：运行速度慢</li>
-</ul>
-<p>常见语言有<code>Python</code>、<code>PHP</code>、<code>JavaScript</code></p>
-<h3 id="混合型"> 混合型</h3>
-<p>常见语言有<code>JAVA</code>、<code>C#</code></p>
-<h2 id="静态语言和动态语言"> 静态语言和动态语言</h2>
-<h3 id="动态语言"> 动态语言</h3>
-<p>即数据类型是在运行期间检查的，写程序时不用给变量指定数据类型，当你第一次赋值给变量时，就在内部记录下了数据类型。</p>
-<p>常见语言有<code>Python</code>、<code>Ruby</code>、<code>JavaScript</code></p>
-<h3 id="静态语言"> 静态语言</h3>
-<p>即数据类型是在编译期间检查的，写程序时声明所有变量的数据类型。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Go</code></p>
-<h2 id="强类型语言和弱类型语言"> 强类型语言和弱类型语言</h2>
-<h3 id="强类型语言-类型安全"> 强类型语言（类型安全）</h3>
-<p>强制数据类型定义的语言，即一旦一个变量被指定了某个数据类型，如果不经过强制转换，那么它就永远是这个数据类型了。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Python</code>、<code>Go</code>。</p>
-<h3 id="弱类型语言"> 弱类型语言</h3>
-<p>一个变量可以赋不同数据类型的值。</p>
-<p>常见语言有<code>JavaScript</code></p>
-<h2 id="结论"> 结论</h2>
-<h3 id="python"> Python</h3>
-<p>Python是一门动态解释型的强类型定义语言</p>
-<h3 id="c"> C</h3>
-<p>C语言是一门静态编译型的强类型定义语言</p>
-<h3 id="java"> JAVA</h3>
-<p>Java是一门静态混合型的强类型定义语言</p>
-<h3 id="go"> Go</h3>
-<p>Go是一门静态编译型的强类型定义语言</p>
-<h3 id="javascript"> JavaScript</h3>
-<p>JavaScript是一门动态解释型的弱类型定义语言</p>
-<h2 id="参考链接"> 参考链接</h2>
-<blockquote>
-<p>https://www.cnblogs.com/sunbr/p/11214498.html</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">证书相关问题</title>
     <id>https://clay-wangzhi.com/linux/qa/curl-https/</id>
     <link href="https://clay-wangzhi.com/linux/qa/curl-https/"/>
@@ -52411,6 +52411,31 @@ make install
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
+    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
+<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
+<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
+<h2 id="预留空间"> 预留空间</h2>
+<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
+<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
+<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
+<h2 id="未统计到的文件"> 未统计到的文件</h2>
+<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">mysql最大连接数的改变</title>
     <id>https://clay-wangzhi.com/linux/qa/mysql-max-con/</id>
     <link href="https://clay-wangzhi.com/linux/qa/mysql-max-con/"/>
@@ -52427,31 +52452,6 @@ mysql&gt;exit(退出)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这种方式有个问题，就是设置的最大连接数只在mysql当前服务进程有效，一旦mysql重启，又会恢复到初始状态。因为mysql启动后的初始化工作是从其配置文件中读取数据的，而这种方式没有对其配置文件做更改。</p>
 <h3 id="修改配置文件"> 修改配置文件</h3>
 <p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
-    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
-<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
-<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
-<h2 id="预留空间"> 预留空间</h2>
-<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
-<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
-<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
-<h2 id="未统计到的文件"> 未统计到的文件</h2>
-<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -53695,6 +53695,83 @@ output.kafka:
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">logstash安装注意</title>
+    <id>https://clay-wangzhi.com/monitor/elk/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
+<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
+<div><pre><code># cat /etc/sysconfig/logstash 
+JAVA_HOME=/opt/jdk1.8.0_144
+# source /etc/sysconfig/logstash 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
+<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
+等价于：
+/usr/share/logstash/bin/logstash -e &quot;&quot;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
+ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
+ ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
+ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">数据类型</title>
+    <id>https://clay-wangzhi.com/monitor/elk/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="数据类型"> 数据类型</h2>
+<h3 id="核心数据类型"> 核心数据类型</h3>
+<ul>
+<li>字符串： text、keyword</li>
+<li>数值：long、integer、short、byte、double、float、half_float、scaled_float</li>
+<li>日期：date</li>
+<li>布尔：boolean</li>
+<li>二进制：binary</li>
+<li>范围：integer_range、float_range、long_range、double_range、date_range</li>
+</ul>
+<h3 id="复杂数据类型"> 复杂数据类型</h3>
+<ul>
+<li>数组：array</li>
+<li>对象：object</li>
+<li>嵌套：nested object</li>
+</ul>
+<h3 id="地理位置数据类型"> 地理位置数据类型</h3>
+<ul>
+<li>geo_point</li>
+<li>geo_shape</li>
+</ul>
+<h3 id="专用类型"> 专用类型</h3>
+<ul>
+<li>记录ip地址：ip</li>
+<li>实现自动补全：completion</li>
+<li>记录分词数：token_count</li>
+<li>记录字符串hash值：murmur3</li>
+<li>percolator</li>
+<li>join</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">kafka2.12集群搭建步骤</title>
     <id>https://clay-wangzhi.com/monitor/elk/bak/kafka2.12%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/bak/kafka2.12%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"/>
@@ -53763,83 +53840,6 @@ bin/kafka-console-producer.sh --broker-list 192.168.165.44:9092,192.168.165.45:9
 <p><a href="https://www.jianshu.com/p/5297773fcc1b" target="_blank" rel="noopener noreferrer">https://www.jianshu.com/p/5297773fcc1b</a>、、</p>
 </blockquote>
 <p>JVM，参数得调整一下</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">logstash安装注意</title>
-    <id>https://clay-wangzhi.com/monitor/elk/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/bak/logstash%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="logstash安装注意"> logstash安装注意</h2>
-<p>在 /etc/sysconfig/logstash中添加对JAVA_HOME的配置</p>
-<div><pre><code># cat /etc/sysconfig/logstash 
-JAVA_HOME=/opt/jdk1.8.0_144
-# source /etc/sysconfig/logstash 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件权限所属组是不是logstash</p>
-<div><pre><code>/usr/share/logstash/bin/logstash -e &quot;input {stdin{}} output{stdout{codec=&gt;rubydebug}}&quot;
-等价于：
-/usr/share/logstash/bin/logstash -e &quot;&quot;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code> ansible logstash -m shell -a <span>"export JAVA_HOME=/opt/jdk1.8.0_144;rpm -ivh /opt/logstash-7.7.1.rpm"</span>
-ansible logstash -m shell -a <span>'echo "JAVA_HOME=/opt/jdk1.8.0_144" > /etc/sysconfig/logstash '</span>
- ansible logstash -m shell -a <span>'sed -i "s#1g#4g#g" /etc/logstash/jvm.options'</span>
-ansible logstash -m shell -a <span>"systemctl enable logstash;systemctl start logstash"</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">数据类型</title>
-    <id>https://clay-wangzhi.com/monitor/elk/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/bak/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="数据类型"> 数据类型</h2>
-<h3 id="核心数据类型"> 核心数据类型</h3>
-<ul>
-<li>字符串： text、keyword</li>
-<li>数值：long、integer、short、byte、double、float、half_float、scaled_float</li>
-<li>日期：date</li>
-<li>布尔：boolean</li>
-<li>二进制：binary</li>
-<li>范围：integer_range、float_range、long_range、double_range、date_range</li>
-</ul>
-<h3 id="复杂数据类型"> 复杂数据类型</h3>
-<ul>
-<li>数组：array</li>
-<li>对象：object</li>
-<li>嵌套：nested object</li>
-</ul>
-<h3 id="地理位置数据类型"> 地理位置数据类型</h3>
-<ul>
-<li>geo_point</li>
-<li>geo_shape</li>
-</ul>
-<h3 id="专用类型"> 专用类型</h3>
-<ul>
-<li>记录ip地址：ip</li>
-<li>实现自动补全：completion</li>
-<li>记录分词数：token_count</li>
-<li>记录字符串hash值：murmur3</li>
-<li>percolator</li>
-<li>join</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -55729,93 +55729,6 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">文档的基本操作CRUP与批量操作</title>
-    <id>https://clay-wangzhi.com/monitor/elk/primer/crup/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/primer/crup/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="文档的基本操作crup与批量操作"> 文档的基本操作CRUP与批量操作</h1>
-<h2 id="文档的crud"> 文档的CRUD</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568013522348.png" alt="" /></p>
-<ul>
-<li>Type名，约定都用_doc</li>
-<li>Create - 如果ID已经存在，会失败</li>
-<li>Index - 如果ID不存在，创建新的文档。否则，先删除现有的文档，再创建现有的文档，再创建新的文档，版本会增加</li>
-<li>Update - 文档必须已经存在，更新只会对相应字段做增量修改</li>
-</ul>
-<h3 id="create一个文档"> Create一个文档</h3>
-<ul>
-<li>支持自动生产文档id和指定文档id两种方式</li>
-<li>通过调用&quot;post /users/_doc&quot;
-<ul>
-<li>系统会自动生产document id</li>
-</ul>
-</li>
-<li>使用HTTP PUT user/create/1创建时，URI中显示指定_create，此时如果该id的文档已经存在，操作失败</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568015379663.png" alt="" /></p>
-<h3 id="get一个文档"> Get一个文档</h3>
-<ul>
-<li>找到文档，返回HTTP 200
-<ul>
-<li>文档元信息
-<ul>
-<li>_index / _type /</li>
-<li>版本信息，同一个id的文档，即使被删除，version号也会不断增加</li>
-<li>_source中默认包含了文档的所有原始信息</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>找不到文档，返回HTTP 404</li>
-</ul>
-<h3 id="index-文档"> Index 文档</h3>
-<ul>
-<li>Index和Create不一样的地方：如果文档不存在，就索引新的文档。否则现有文档会被删除，新的文档被索引。版本信息+1</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568015891907.png" alt="" /></p>
-<h3 id="update文档"> Update文档</h3>
-<ul>
-<li>Update方法不会删除原来的文档，而是实现真正的数据更新</li>
-<li>Post方法 / Payload需要包含在&quot;doc&quot;中</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568016019747.png" alt="" /></p>
-<h2 id="api的批量操作"> API的批量操作</h2>
-<h3 id="bulk-api"> Bulk API</h3>
-<ul>
-<li>支持在一次API调用中，对不同的索引进行操作</li>
-<li>支持四种类型操作
-<ul>
-<li>Index</li>
-<li>Create</li>
-<li>Update</li>
-<li>Delete</li>
-</ul>
-</li>
-<li>可以在URI中指定Index，也可以在请求的Payload中进行</li>
-<li>操作中单条操作失败，并不会影响其他操作</li>
-<li>返回结果包括了每一条操作执行的结果</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568017190479.png" alt="" /></p>
-<h3 id="批量读取-mget"> 批量读取 - mget</h3>
-<p>批量操作，可以减少网络连接所产生的开销，提高性能</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018531224.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018545981.png" alt="" /></p>
-<h3 id="批量查询-msearch"> 批量查询 - msearch</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018796705.png" alt="" /></p>
-<h2 id="常见的错误返回"> 常见的错误返回</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018899854.png" alt="" /></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">倒排索引入门</title>
     <id>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/primer/inverted-index/"/>
@@ -55899,58 +55812,81 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Request Body和Query DSL简介</title>
-    <id>https://clay-wangzhi.com/monitor/elk/primer/req-body/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/primer/req-body/"/>
+    <title type="html">文档的基本操作CRUP与批量操作</title>
+    <id>https://clay-wangzhi.com/monitor/elk/primer/crup/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/primer/crup/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="request-body和query-dsl简介"> Request Body和Query DSL简介</h1>
-<h2 id="request-body-search"> Request Body Search</h2>
+    <content type="html"><![CDATA[<h1 id="文档的基本操作crup与批量操作"> 文档的基本操作CRUP与批量操作</h1>
+<h2 id="文档的crud"> 文档的CRUD</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568013522348.png" alt="" /></p>
 <ul>
-<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
-<li>Query DSL</li>
+<li>Type名，约定都用_doc</li>
+<li>Create - 如果ID已经存在，会失败</li>
+<li>Index - 如果ID不存在，创建新的文档。否则，先删除现有的文档，再创建现有的文档，再创建新的文档，版本会增加</li>
+<li>Update - 文档必须已经存在，更新只会对相应字段做增量修改</li>
 </ul>
-<p>举例</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" alt="" /></p>
-<h3 id="分页"> 分页</h3>
+<h3 id="create一个文档"> Create一个文档</h3>
 <ul>
-<li>From从0开始，默认返回10个结果</li>
-<li>获取靠后的翻页成本较高</li>
+<li>支持自动生产文档id和指定文档id两种方式</li>
+<li>通过调用&quot;post /users/_doc&quot;
+<ul>
+<li>系统会自动生产document id</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169125069.png" alt="" /></p>
-<h3 id="排序"> 排序</h3>
+</li>
+<li>使用HTTP PUT user/create/1创建时，URI中显示指定_create，此时如果该id的文档已经存在，操作失败</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568015379663.png" alt="" /></p>
+<h3 id="get一个文档"> Get一个文档</h3>
 <ul>
-<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
+<li>找到文档，返回HTTP 200
 <ul>
-<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
+<li>文档元信息
+<ul>
+<li>_index / _type /</li>
+<li>版本信息，同一个id的文档，即使被删除，version号也会不断增加</li>
+<li>_source中默认包含了文档的所有原始信息</li>
 </ul>
 </li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568170207936.png" alt="" /></p>
-<h3 id="source-filtering"> _source filtering</h3>
-<ul>
-<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
-<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
+</li>
+<li>找不到文档，返回HTTP 404</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191600446.png" alt="" /></p>
-<h3 id="脚本字段"> 脚本字段</h3>
+<h3 id="index-文档"> Index 文档</h3>
 <ul>
-<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
+<li>Index和Create不一样的地方：如果文档不存在，就索引新的文档。否则现有文档会被删除，新的文档被索引。版本信息+1</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191768549.png" alt="" /></p>
-<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568015891907.png" alt="" /></p>
+<h3 id="update文档"> Update文档</h3>
 <ul>
-<li>默认使用term类型，或的关系</li>
+<li>Update方法不会删除原来的文档，而是实现真正的数据更新</li>
+<li>Post方法 / Payload需要包含在&quot;doc&quot;中</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191830422.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568016019747.png" alt="" /></p>
+<h2 id="api的批量操作"> API的批量操作</h2>
+<h3 id="bulk-api"> Bulk API</h3>
 <ul>
-<li>可以指定操作类型为AND</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191867781.png" alt="" /></p>
-<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
+<li>支持在一次API调用中，对不同的索引进行操作</li>
+<li>支持四种类型操作
 <ul>
-<li>slop参数表示，允许各个单词之间插入的单词个数</li>
+<li>Index</li>
+<li>Create</li>
+<li>Update</li>
+<li>Delete</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568192076860.png" alt="" /></p>
+</li>
+<li>可以在URI中指定Index，也可以在请求的Payload中进行</li>
+<li>操作中单条操作失败，并不会影响其他操作</li>
+<li>返回结果包括了每一条操作执行的结果</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568017190479.png" alt="" /></p>
+<h3 id="批量读取-mget"> 批量读取 - mget</h3>
+<p>批量操作，可以减少网络连接所产生的开销，提高性能</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018531224.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018545981.png" alt="" /></p>
+<h3 id="批量查询-msearch"> 批量查询 - msearch</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018796705.png" alt="" /></p>
+<h2 id="常见的错误返回"> 常见的错误返回</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568018899854.png" alt="" /></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -56040,6 +55976,70 @@ bin/elasticsearch-plugin list
 </ul>
 </li>
 </ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Request Body和Query DSL简介</title>
+    <id>https://clay-wangzhi.com/monitor/elk/primer/req-body/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/primer/req-body/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="request-body和query-dsl简介"> Request Body和Query DSL简介</h1>
+<h2 id="request-body-search"> Request Body Search</h2>
+<ul>
+<li>将查询语句通过HTTP Request Body发送给Elasticsearch</li>
+<li>Query DSL</li>
+</ul>
+<p>举例</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169039971.png" alt="" /></p>
+<h3 id="分页"> 分页</h3>
+<ul>
+<li>From从0开始，默认返回10个结果</li>
+<li>获取靠后的翻页成本较高</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568169125069.png" alt="" /></p>
+<h3 id="排序"> 排序</h3>
+<ul>
+<li>最好在&quot;数字型&quot;与&quot;日期型&quot;字段上排序
+<ul>
+<li>因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568170207936.png" alt="" /></p>
+<h3 id="source-filtering"> _source filtering</h3>
+<ul>
+<li>如果_source没有存储，那就只返回匹配的文档的元数据</li>
+<li>_source支持使用通配符_source[&quot;name*&quot;,&quot;desc*&quot;]</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191600446.png" alt="" /></p>
+<h3 id="脚本字段"> 脚本字段</h3>
+<ul>
+<li>用例：订单中有不同的汇率，需要结合汇率对，订单价格进行排序</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191768549.png" alt="" /></p>
+<h3 id="使用查询表达式-match"> 使用查询表达式 - Match</h3>
+<ul>
+<li>默认使用term类型，或的关系</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191830422.png" alt="" /></p>
+<ul>
+<li>可以指定操作类型为AND</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568191867781.png" alt="" /></p>
+<h3 id="短语搜索-match-phrase"> 短语搜索 - Match Phrase</h3>
+<ul>
+<li>slop参数表示，允许各个单词之间插入的单词个数</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568192076860.png" alt="" /></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -57537,6 +57537,74 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">3 zabbix添加报警媒介</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-media/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
+<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
+<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
+<h3 id="添加email报警"> 添加Email报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
+<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
+<p>图中Script内容如下</p>
+<div><pre><code><span>try</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
+ 
+    <span>var</span> result <span>=</span> <span>{</span>
+        <span>'tags'</span><span>:</span> <span>{</span>
+            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
+        <span>}</span>
+    <span>}</span><span>,</span>
+    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
+    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
+    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
+    resp<span>;</span>
+ 
+    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
+ 
+    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
+    fields<span>.</span>text <span>=</span> <span>{</span>
+      <span>"content"</span><span>:</span>params<span>.</span>content
+    <span>}</span><span>;</span>
+    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
+        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
+    <span>)</span><span>;</span>
+ 
+    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
+        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
+    <span>}</span>
+ 
+    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
+    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
+    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
+<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
+    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
+ 
+    result <span>=</span> <span>{</span><span>}</span><span>;</span>
+<span>}</span>
+ 
+<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
+<blockquote>
+<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
+</blockquote>
+<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">4 MySQL监控模块</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/"/>
@@ -57708,74 +57776,6 @@ fi
 <div><pre><code>systemctl restart zabbix-agent.service
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">3 zabbix添加报警媒介</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-media/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
-<h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
-<p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
-<h3 id="添加email报警"> 添加Email报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
-<h3 id="添加钉钉报警"> 添加钉钉报警</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
-<p>图中Script内容如下</p>
-<div><pre><code><span>try</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'dingding webhook script value='</span><span>+</span>value<span>)</span>
- 
-    <span>var</span> result <span>=</span> <span>{</span>
-        <span>'tags'</span><span>:</span> <span>{</span>
-            <span>'endpoint'</span><span>:</span> <span>'ding'</span>
-        <span>}</span>
-    <span>}</span><span>,</span>
-    params <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>value<span>)</span><span>,</span>
-    req <span>=</span> <span>new</span> <span>CurlHttpRequest</span><span>(</span><span>)</span><span>,</span>
-    fields <span>=</span> <span>{</span><span>}</span><span>,</span>
-    resp<span>;</span>
- 
-    req<span>.</span><span>AddHeader</span><span>(</span><span>'Content-Type: application/json'</span><span>)</span><span>;</span>
- 
-    fields<span>.</span>msgtype <span>=</span> params<span>.</span>msgtype<span>;</span>
-    fields<span>.</span>text <span>=</span> <span>{</span>
-      <span>"content"</span><span>:</span>params<span>.</span>content
-    <span>}</span><span>;</span>
-    resp <span>=</span> req<span>.</span><span>Post</span><span>(</span><span>'https://oapi.dingtalk.com/robot/send?access_token=1163d78d7b8a324d2f5b284414da8e93560008689744495ab4ad3eae14bdd642'</span><span>,</span>
-        <span>JSON</span><span>.</span><span>stringify</span><span>(</span>fields<span>)</span>
-    <span>)</span><span>;</span>
- 
-    <span>if</span> <span>(</span>req<span>.</span><span>Status</span><span>(</span><span>)</span> <span>!=</span> <span>201</span><span>)</span> <span>{</span>
-        <span>throw</span> <span>'Response code: '</span><span>+</span>req<span>.</span><span>Status</span><span>(</span><span>)</span><span>;</span>
-    <span>}</span>
- 
-    resp <span>=</span> <span>JSON</span><span>.</span><span>parse</span><span>(</span>resp<span>)</span><span>;</span>
-    result<span>.</span>tags<span>.</span>issue_id <span>=</span> resp<span>.</span>id<span>;</span>
-    result<span>.</span>tags<span>.</span>issue_key <span>=</span> resp<span>.</span>key<span>;</span>
-<span>}</span> <span>catch</span> <span>(</span>error<span>)</span> <span>{</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed json : '</span><span>+</span><span>JSON</span><span>.</span><span>stringify</span><span>(</span><span>{</span><span>"fields"</span><span>:</span> fields<span>}</span><span>)</span><span>)</span><span>;</span>
-    Zabbix<span>.</span><span>Log</span><span>(</span><span>4</span><span>,</span> <span>'jira issue creation failed : '</span><span>+</span>error<span>)</span><span>;</span>
- 
-    result <span>=</span> <span>{</span><span>}</span><span>;</span>
-<span>}</span>
- 
-<span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
-<p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
-</blockquote>
-<p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
-]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -58162,6 +58162,36 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">查看哪些表被锁住了</title>
+    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
+    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
+<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
+<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
+<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
+<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
+<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Nginx升级加固SSL/TLS协议信息泄露漏洞(CVE-2016-2183)和HTTP服务器的缺省banner漏洞</title>
     <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</id>
     <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/nginx%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/"/>
@@ -58227,36 +58257,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>然后重新编译，热升级nginx</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">查看哪些表被锁住了</title>
-    <id>https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/</id>
-    <link href="https://clay-wangzhi.com/other/23%20%E6%9C%AA%E5%88%86%E7%B1%BB/oracle%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%A1%A8%E8%A2%AB%E9%94%81%E4%BD%8F%E4%BA%86/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="查看哪些表被锁住了"> 查看哪些表被锁住了</h2>
-<div><pre><code><span>select</span> b<span>.</span>owner<span>,</span>b<span>.</span>object_name<span>,</span>a<span>.</span>session_id<span>,</span>a<span>.</span>locked_mode <span>from</span> v$locked_object a<span>,</span>dba_objects b <span>where</span> b<span>.</span>object_id <span>=</span> a<span>.</span>OBJECT_ID<span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查询引起死锁的会话"> 查询引起死锁的会话</h2>
-<div><pre><code><span>select</span> b<span>.</span>username<span>,</span>b<span>.</span>sid<span>,</span>b<span>.</span><span>serial</span><span>#,logon_time from v$locked_object a , v$session b where a.session_id = b.sid order by b.LOGON_TIME;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查出sid和serial"> 查出sid和serial#</h2>
-<div><pre><code><span>select</span> sid<span>,</span><span>serial</span><span>#,paddr from v$session where sid = 259;</span>
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="查v-process视图-得到spid"> 查v$process视图,得到spid</h2>
-<div><pre><code>select spid from v$process where addr= &#39;00000003E32BDE28&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="杀死进程-sid-serial"> 杀死进程(sid,serial#)</h2>
-<div><pre><code><span>alter</span> system <span>kill</span> <span>session</span> <span>'259,37152'</span><span>;</span>
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -60575,139 +60575,6 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（33）-du</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>du [选项][文件]</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-a或-all 显示目录中个别文件的大小。
--b或-bytes 显示目录或文件大小时，以byte为单位。
--c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
--k或--kilobytes 以KB(1024bytes)为单位输出。
--m或--megabytes 以MB为单位输出。
--s或--summarize 仅显示总计，只列出最后加总的值。
--h或--human-readable 以K，M，G为单位，提高信息的可读性。
--x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
--L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
--S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
--X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
---exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
--D或--dereference-args 显示指定符号链接的源文件大小。
--H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
--l或--count-links 重复计算硬件链接的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）显示目录或者文件所占空间</p>
-<div><pre><code># du
-608     ./test6
-308     ./test4
-4       ./scf/lib
-4       ./scf/service/deploy/product
-4       ./scf/service/deploy/info
-12      ./scf/service/deploy
-16      ./scf/service
-4       ./scf/doc
-4       ./scf/bin
-32      ./scf
-8       ./test3
-1288    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
-<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
-<p>2）显示指定文件所占空间</p>
-<div><pre><code># du log2012.log 
-300     log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
-<div><pre><code># du scf
-4       scf/lib
-4       scf/service/deploy/product
-4       scf/service/deploy/info
-12      scf/service/deploy
-16      scf/service
-4       scf/doc
-4       scf/bin
-32      scf
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
-<div><pre><code># du log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
-<div><pre><code># du -s
-1288    .
-# du -s scf
-32      scf
-# cd ..
-# du -s test
-1288    test
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
-<div><pre><code># du -h test
-608K    test/test6
-308K    test/test4
-4.0K    test/scf/lib
-4.0K    test/scf/service/deploy/product
-4.0K    test/scf/service/deploy/info
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
-<div><pre><code># du -ah test
-4.0K    test/log31.tar.gz
-4.0K    test/test13.tar.gz
-0       test/linklog.log
-0       test/test6/log2014.log
-300K    test/test6/linklog.log
-0       test/test6/log2015.log
-4.0K    test/test6/log2013.log
-300K    test/test6/log2012.log
-0       test/test6/log2017.log
-0       test/test6/log2016.log
-608K    test/test6
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
-<div><pre><code># du -c log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-8       总计
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
-<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
-<p>9）按照空间大小排序</p>
-<div><pre><code># du|sort -nr|more
-1288    .
-608     ./test6
-308     ./test4
-32      ./scf
-16      ./scf/service
-12      ./scf/service/deploy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
-<div><pre><code># du -h  --max-depth=1
-608K    ./test6
-308K    ./test4
-32K     ./scf
-8.0K    ./test3
-1.3M    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
-<p>http://man.linuxde.net/du</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:03:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（35）-diff</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8835%EF%BC%89-diff/"/>
@@ -61005,6 +60872,139 @@ patching file log2013.log
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:05:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（33）-du</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>du [选项][文件]</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-a或-all 显示目录中个别文件的大小。
+-b或-bytes 显示目录或文件大小时，以byte为单位。
+-c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes 以KB(1024bytes)为单位输出。
+-m或--megabytes 以MB为单位输出。
+-s或--summarize 仅显示总计，只列出最后加总的值。
+-h或--human-readable 以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
+-S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
+-X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
+--exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
+-D或--dereference-args 显示指定符号链接的源文件大小。
+-H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
+-l或--count-links 重复计算硬件链接的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）显示目录或者文件所占空间</p>
+<div><pre><code># du
+608     ./test6
+308     ./test4
+4       ./scf/lib
+4       ./scf/service/deploy/product
+4       ./scf/service/deploy/info
+12      ./scf/service/deploy
+16      ./scf/service
+4       ./scf/doc
+4       ./scf/bin
+32      ./scf
+8       ./test3
+1288    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>2）显示指定文件所占空间</p>
+<div><pre><code># du log2012.log 
+300     log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
+<div><pre><code># du scf
+4       scf/lib
+4       scf/service/deploy/product
+4       scf/service/deploy/info
+12      scf/service/deploy
+16      scf/service
+4       scf/doc
+4       scf/bin
+32      scf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
+<div><pre><code># du log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
+<div><pre><code># du -s
+1288    .
+# du -s scf
+32      scf
+# cd ..
+# du -s test
+1288    test
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
+<div><pre><code># du -h test
+608K    test/test6
+308K    test/test4
+4.0K    test/scf/lib
+4.0K    test/scf/service/deploy/product
+4.0K    test/scf/service/deploy/info
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
+<div><pre><code># du -ah test
+4.0K    test/log31.tar.gz
+4.0K    test/test13.tar.gz
+0       test/linklog.log
+0       test/test6/log2014.log
+300K    test/test6/linklog.log
+0       test/test6/log2015.log
+4.0K    test/test6/log2013.log
+300K    test/test6/log2012.log
+0       test/test6/log2017.log
+0       test/test6/log2016.log
+608K    test/test6
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
+<div><pre><code># du -c log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+8       总计
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
+<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
+<p>9）按照空间大小排序</p>
+<div><pre><code># du|sort -nr|more
+1288    .
+608     ./test6
+308     ./test4
+32      ./scf
+16      ./scf/service
+12      ./scf/service/deploy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
+<div><pre><code># du -h  --max-depth=1
+608K    ./test6
+308K    ./test4
+32K     ./scf
+8.0K    ./test3
+1.3M    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
+<p>http://man.linuxde.net/du</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:03:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -62264,6 +62264,22 @@ Trace complete.
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">博客主页</title>
+    <id>https://clay-wangzhi.com/</id>
+    <link href="https://clay-wangzhi.com/"/>
+    <updated>2021-06-07T12:39:36.000Z</updated>
+    <content type="html"><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">白天做运维，晚上搞副业赚钱</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/"/>
@@ -62294,22 +62310,6 @@ Trace complete.
 <h2 id="_3-如何运营自己的公众号"> 3 如何运营自己的公众号？</h2>
 <h3 id="_3-1-取个好名字"> 3.1 取个好名字</h3>
 <p>要通俗易懂，而且全网ID最好统一，</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">博客主页</title>
-    <id>https://clay-wangzhi.com/</id>
-    <link href="https://clay-wangzhi.com/"/>
-    <updated>2021-06-07T12:39:36.000Z</updated>
-    <content type="html"><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -63653,175 +63653,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.2 nginxHTTP块配置</title>
-    <id>https://clay-wangzhi.com/web/nginx/http/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/http/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
-<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
-<div><pre><code><span>http</span> <span>{</span>
-    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>server</span> <span>{</span>
-        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>location</span> <span>{</span>
-            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>}</span>
-        <span>location</span> <span>{</span>
-            <span>location</span> <span>{</span>
-                
-            <span>}</span>
-        <span>}</span>
-    <span>}</span>
-    <span>server</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
-<ul>
-<li>值指令：存储配置项的值
-<ul>
-<li>可以合并</li>
-<li>示例：root，access_log，gzip</li>
-</ul>
-</li>
-<li>动作类指令：指定行为
-<ul>
-<li>不可以合并</li>
-<li>示例：rewrite，proxy_pass</li>
-<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
-</ul>
-</li>
-</ul>
-<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
-<ul>
-<li>子配置不存在时，直接使用父配置块</li>
-<li>子配置存在时，直接覆盖父配置块</li>
-</ul>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>8080</span><span>;</span>
-    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
-    <span>location</span> <span>/</span>test <span>{</span>
-        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
-        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span>dlib <span>{</span>
-        <span>alias</span> dlib<span>/</span><span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
-<h2 id="_4-正则表达式"> 4 正则表达式</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
-<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
-<p>如何拿到真实的用户ip地址？</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
-<p>拿到真实用户ip后如何使用？</p>
-<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
-<p><strong>步骤</strong></p>
-<ol>
-<li>
-<p>安装realip模块</p>
-<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
-</li>
-<li>
-<p>配置语法</p>
-<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
-set_real_ip_from 192.168.2.1;
-real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
-real_ip_recursive on; #递归的去除所配置中的可信IP。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
-</li>
-<li>
-<p>配置实例</p>
-<div><pre><code><span>location</span> <span>/</span> <span>{</span>
-    <span>root</span> html<span>/</span><span>;</span>
-    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
-    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
-    real_ip_recursive on<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
-</ol>
-<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
-<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
-<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
-<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        
-    <span>}</span>
-    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
-    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span># 承接上面的location</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span># 放错误页面的目录路径。</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
-<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
-<div><pre><code><span>upstream</span> www <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
-        <span>ip_hash</span><span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
-            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
-        <span>}</span>
-        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
-        <span>proxy_intercept_errors</span> on<span>;</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
-        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
-    <span>}</span>
-    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
-<p>如果后端是php解析的，需要加一个变量</p>
-<p>在http段中加一个变量</p>
-<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://www.hi-linux.com/posts/53006.html</p>
-<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">3.4 nginxLOCATION块配置</title>
     <id>https://clay-wangzhi.com/web/nginx/location/</id>
     <link href="https://clay-wangzhi.com/web/nginx/location/"/>
@@ -64036,6 +63867,175 @@ Reading: 6 Writing: 179 Waiting: 106
 <li>Writing：处于向客户端发送响应报文过程中的连接数；</li>
 <li>Waiting：处于等待客户端发出请求的空闲连接数；</li>
 </ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">3.2 nginxHTTP块配置</title>
+    <id>https://clay-wangzhi.com/web/nginx/http/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/http/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
+<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
+<div><pre><code><span>http</span> <span>{</span>
+    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>server</span> <span>{</span>
+        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>location</span> <span>{</span>
+            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>}</span>
+        <span>location</span> <span>{</span>
+            <span>location</span> <span>{</span>
+                
+            <span>}</span>
+        <span>}</span>
+    <span>}</span>
+    <span>server</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
+<ul>
+<li>值指令：存储配置项的值
+<ul>
+<li>可以合并</li>
+<li>示例：root，access_log，gzip</li>
+</ul>
+</li>
+<li>动作类指令：指定行为
+<ul>
+<li>不可以合并</li>
+<li>示例：rewrite，proxy_pass</li>
+<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
+</ul>
+</li>
+</ul>
+<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
+<ul>
+<li>子配置不存在时，直接使用父配置块</li>
+<li>子配置存在时，直接覆盖父配置块</li>
+</ul>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>8080</span><span>;</span>
+    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
+    <span>location</span> <span>/</span>test <span>{</span>
+        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
+        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span>dlib <span>{</span>
+        <span>alias</span> dlib<span>/</span><span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
+<h2 id="_4-正则表达式"> 4 正则表达式</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
+<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
+<p>如何拿到真实的用户ip地址？</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
+<p>拿到真实用户ip后如何使用？</p>
+<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>
+<p>安装realip模块</p>
+<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
+</li>
+<li>
+<p>配置语法</p>
+<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
+set_real_ip_from 192.168.2.1;
+real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
+real_ip_recursive on; #递归的去除所配置中的可信IP。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
+</li>
+<li>
+<p>配置实例</p>
+<div><pre><code><span>location</span> <span>/</span> <span>{</span>
+    <span>root</span> html<span>/</span><span>;</span>
+    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
+    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
+    real_ip_recursive on<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
+</ol>
+<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
+<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
+<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
+<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        
+    <span>}</span>
+    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
+    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span># 承接上面的location</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span># 放错误页面的目录路径。</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
+<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
+<div><pre><code><span>upstream</span> www <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
+        <span>ip_hash</span><span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
+            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
+        <span>}</span>
+        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
+        <span>proxy_intercept_errors</span> on<span>;</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
+        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
+    <span>}</span>
+    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
+<p>如果后端是php解析的，需要加一个变量</p>
+<p>在http段中加一个变量</p>
+<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://www.hi-linux.com/posts/53006.html</p>
+<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -65329,6 +65329,42 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">用户管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/user/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">4.3 Bash变量是弱类型的</title>
     <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
     <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
@@ -65410,41 +65446,5 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">用户管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/user/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/user/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
   </entry>
 </feed>
