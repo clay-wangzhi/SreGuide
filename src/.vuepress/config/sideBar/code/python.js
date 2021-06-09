@@ -22,8 +22,11 @@ module.exports = [
     collapsable: false,
     children: ["python-function", "function-parameter", "action-scope"]
   },
-  "python-ha-tables-analytic-expre.md",
-  "python-function.md",
+  {
+    title: "4 高级特性",
+    collapsable: false,
+    children: ["python-linear-data-structure", "python-analytic-expre"]
+  },
   "python-decorator.md",
   "python-dir-file-pro.md",
   "python-serialize.md",
