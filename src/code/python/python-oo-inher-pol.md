@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 10 继承多态和Mixin
+# 9.3 继承多态和Mixin
 
 ## 继承基本概念
 

@@ -46,10 +46,13 @@ module.exports = [
   {
     title: "8 异常、调试和测试",
     collapsable: false,
-    children: ["python-exception.md"]
+    children: ["python-exception"]
   },
-  "python-oo-package.md",
-  "python-oo-inher-pol.md",
+  {
+    title: "9 面向对象编程",
+    collapsable: false,
+    children: ["python-oo-package", "access-control", "python-oo-inher-pol"]
+  },
   "python-magic.md",
   "python-thread.md",
   "python-thread-sync.md",
