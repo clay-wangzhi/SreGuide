@@ -33,6 +33,11 @@ module.exports = [
     collapsable: false,
     children: ["high-func", "lambda", "python-decorator"]
   },
+  {
+    title: "5 模块",
+    collapsable: false,
+    children: ["python-module-install", "python-setup"]
+  },
   "python-dir-file-pro.md",
   "python-serialize.md",
   "python-exception.md",
