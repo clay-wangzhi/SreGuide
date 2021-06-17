@@ -38,8 +38,11 @@ module.exports = [
     collapsable: false,
     children: ["python-module-install", "python-setup"]
   },
-  "python-dir-file-pro.md",
-  "python-serialize.md",
+  {
+    title: "7 IO编程",
+    collapsable: false,
+    children: ["python-dir-file-pro", "python-serialize"]
+  },
   "python-exception.md",
   "python-oo-package.md",
   "python-oo-inher-pol.md",
