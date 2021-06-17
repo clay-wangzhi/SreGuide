@@ -27,7 +27,12 @@ module.exports = [
     collapsable: false,
     children: ["python-linear-data-structure", "python-analytic-expre"]
   },
-  "python-decorator.md",
+  {
+    title: "5 函数式编程",
+    path: "func-prog",
+    collapsable: false,
+    children: ["high-func", "lambda", "python-decorator"]
+  },
   "python-dir-file-pro.md",
   "python-serialize.md",
   "python-exception.md",
