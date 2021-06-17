@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 17 Jun 2021 10:04:26 GMT</pubDate>
-    <lastBuildDate>Thu, 17 Jun 2021 10:04:26 GMT</lastBuildDate>
+    <pubDate>Thu, 17 Jun 2021 10:15:50 GMT</pubDate>
+    <lastBuildDate>Thu, 17 Jun 2021 10:15:50 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -6505,6 +6505,39 @@ git-parameter #选项参数增加，git-brach选项
 ]]></content:encoded>
     </item>
     <item>
+      <title>5.1 构建发布工具集成</title>
+      <link>https://clay-wangzhi.com/automate/jenkins/build-tools/</link>
+      <guid>https://clay-wangzhi.com/automate/jenkins/build-tools/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">5.1 构建发布工具集成</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-1-构建发布工具集成"> 5.1 构建发布工具集成</h1>
+<p>安装完成后，配置管理工具</p>
+<h2 id="安装并配置git"> 安装并配置git</h2>
+<div><pre><code>yum -y <span>install</span> <span>git</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
+<h2 id="安装并配置maven"> 安装并配置maven</h2>
+<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
+<span>mv</span> apache-maven-3.6.3 /usr/local/maven
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
+mvn --version
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
+<h2 id="安装并配置ansible"> 安装并配置ansible</h2>
+<div><pre><code>yum -y <span>install</span> ansible
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>3.2 访问 API</title>
       <link>https://clay-wangzhi.com/automate/jenkins/api/</link>
       <guid>https://clay-wangzhi.com/automate/jenkins/api/</guid>
@@ -6606,39 +6639,6 @@ git-parameter #选项参数增加，git-brach选项
 <p>该项目可以快速发展，该列表仅在撰写本文时才是准确的。</p>
 <h2 id="检测-jenkins-版本"> 检测 Jenkins 版本</h2>
 <p>要检查Jenkins的版本，请加载首页或任何<code>.../api/*</code>页面，然后检查<code>X-Jenkins</code>响应标题。它包含Jenkins的版本号，例如“ 1.404”。这也是检查URL是否为Jenkins URL的好方法。</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>5.1 构建发布工具集成</title>
-      <link>https://clay-wangzhi.com/automate/jenkins/build-tools/</link>
-      <guid>https://clay-wangzhi.com/automate/jenkins/build-tools/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">5.1 构建发布工具集成</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-1-构建发布工具集成"> 5.1 构建发布工具集成</h1>
-<p>安装完成后，配置管理工具</p>
-<h2 id="安装并配置git"> 安装并配置git</h2>
-<div><pre><code>yum -y <span>install</span> <span>git</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
-<h2 id="安装并配置maven"> 安装并配置maven</h2>
-<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
-<span>mv</span> apache-maven-3.6.3 /usr/local/maven
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
-mvn --version
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
-<h2 id="安装并配置ansible"> 安装并配置ansible</h2>
-<div><pre><code>yum -y <span>install</span> ansible
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -6853,6 +6853,73 @@ pipeline <span>{</span>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210426164341273.png" type="image/png"/>
     </item>
     <item>
+      <title>1.2 Jenkins简介</title>
+      <link>https://clay-wangzhi.com/automate/jenkins/first/</link>
+      <guid>https://clay-wangzhi.com/automate/jenkins/first/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">1.2 Jenkins简介</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_1-2-jenkins简介"> 1.2 Jenkins简介</h1>
+<h2 id="简单介绍"> 简单介绍</h2>
+<p><a href="https://jenkins.io/" target="_blank" rel="noopener noreferrer">Jenkins</a>前身是Hudson，Jenkins是一款开源 CI&amp;CD 软件，基于Java开发，用于自动化各种任务，包括构建、测试和部署软件。
+Jenkins 支持各种运行方式，可通过系统包、Docker 或者通过一个独立的 Java 程序。</p>
+<p>Jenkins 项目产生两个发行线, 长期支持版本 (LTS) 和每周更新版本， 两个版本都以 .war 文件, 原生包, 安装程序, 和 Docker 容器的形式分发。</p>
+<p>官网：https://jenkins.io/</p>
+<p>代码仓库：https://github.com/jenkinsci/jenkins</p>
+<h2 id="发展历史"> 发展历史</h2>
+<ul>
+<li>Jenkins的前身是Hudson，采用JAVA编写的持续集成开源工具。</li>
+<li>Hudson由Sun公司在2004年启动，第一个版本于2005年在java.net发布。</li>
+<li>2007年开始Hudson逐渐取代CruiseControl和其他的开源构建工具的江湖地位。</li>
+<li>在2008年的JavaOne大会上在开发者解决方案中获得杜克选择大奖（Duke’s Choice Award）。</li>
+<li>在2010年11月期间，因为Oracle对Sun的收购带来了Hudson的所有权问题。主要的项目贡献者和Oracle之间， 尽管达成了很多协议，但有个关键问题就是商标名称“Hudson”。</li>
+<li>甲骨文在2010年12月声明拥有该名称并申请商标的权利。因此，2011年1月11日，有人要求投票将项目名称从“Hudson”改为“Jenkins”。</li>
+<li>2011年1月29日，该建议得到社区投票的批准，创建了Jenkins项目。</li>
+<li>2011年2月1日，甲骨文表示，他们打算继续开发Hudson，并认为Jenkins只是一个分支，而不是重命名。因此，Jenkins和Hudson继续作为两个独立的项目，每个都认为对方是自己的分支。</li>
+<li>到2013年12月，GitHub上的Jenkins拥有567个项目成员和约1,100个公共仓库，与此相对的Hudson有32个项目成员和17个公共仓库。到现在两者的差异更多，应该说Jenkins已经全面超越了Hudson。此外，大家可能是出于讨厌Oracle的情绪，作为Java开发者天然地应该支持和使用Jenkins。</li>
+</ul>
+<h2 id="特点"> 特点</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" alt="img" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp" alt="img" /></p>
+<ul>
+<li>易于安装，只要把jenkins.war部署到servlet容器，不需要数据库支持</li>
+<li>易于配置，所有配置都是通过其提供的web界面实现</li>
+<li>集成RSS/E-mail通过RSS发布构建结果或当构建完成时通过e-mail通知</li>
+<li>生成JUnit/TestNG测试报告</li>
+<li>分布式构建支持Jenkins能够让多台计算机一起构建/测试</li>
+<li>支持多种扩展插件，你可以开发适合自己团队使用的工具</li>
+<li>支持pipeline流水线，可以用代码描述配置过程，方便使用</li>
+</ul>
+<h3 id="应用场景"> 应用场景</h3>
+<ul>
+<li>集成svn/git客户端实现源代码下载检出</li>
+<li>集成maven/ant/gradle/npm等构建工具实现源码编译打包单元测试</li>
+<li>集成sonarqube对源代码进行质量检查（坏味道、复杂度、新增bug等）</li>
+<li>集成SaltStack/Ansible实现自动化部署发布</li>
+<li>集成Jmeter/Soar/Kubernetes/…..</li>
+<li>可以自定义插件或者脚本通过jenkins传参运行</li>
+<li>可以说Jenkins比较灵活插件资源丰富，日常运维工作都可以自动化</li>
+</ul>
+<h2 id="三种构建方式"> 三种构建方式</h2>
+<ul>
+<li>
+<p>jenkins 触发式构建：用于开发环境部署，开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
+</li>
+<li>
+<p>jenkins 参数化构建：用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
+</li>
+<li>
+<p>jenkins 定时构建：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
+</li>
+</ul>
+<h2 id="参考链接"> 参考链接</h2>
+<p><a href="http://docs.idevops.site/jenkins/basics/introduction/" target="_blank" rel="noopener noreferrer">jenkins 简介与应用 | 泽阳</a></p>
+<p><a href="https://www.kancloud.cn/willseecloud/jenkins/1860518" target="_blank" rel="noopener noreferrer">jenkins 简介 | willseecloud | 看云</a></p>
+<p><a href="https://www.jianshu.com/p/f1167e8850cd" target="_blank" rel="noopener noreferrer">jenkins pipeline基础语法与示例 | MR_Hanjc</a></p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
+    </item>
+    <item>
       <title>2.4 使用docker安装jenkins</title>
       <link>https://clay-wangzhi.com/automate/jenkins/docker-install-jenkins/</link>
       <guid>https://clay-wangzhi.com/automate/jenkins/docker-install-jenkins/</guid>
@@ -6968,73 +7035,6 @@ nginx
 </li>
 </ol>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>1.2 Jenkins简介</title>
-      <link>https://clay-wangzhi.com/automate/jenkins/first/</link>
-      <guid>https://clay-wangzhi.com/automate/jenkins/first/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">1.2 Jenkins简介</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_1-2-jenkins简介"> 1.2 Jenkins简介</h1>
-<h2 id="简单介绍"> 简单介绍</h2>
-<p><a href="https://jenkins.io/" target="_blank" rel="noopener noreferrer">Jenkins</a>前身是Hudson，Jenkins是一款开源 CI&amp;CD 软件，基于Java开发，用于自动化各种任务，包括构建、测试和部署软件。
-Jenkins 支持各种运行方式，可通过系统包、Docker 或者通过一个独立的 Java 程序。</p>
-<p>Jenkins 项目产生两个发行线, 长期支持版本 (LTS) 和每周更新版本， 两个版本都以 .war 文件, 原生包, 安装程序, 和 Docker 容器的形式分发。</p>
-<p>官网：https://jenkins.io/</p>
-<p>代码仓库：https://github.com/jenkinsci/jenkins</p>
-<h2 id="发展历史"> 发展历史</h2>
-<ul>
-<li>Jenkins的前身是Hudson，采用JAVA编写的持续集成开源工具。</li>
-<li>Hudson由Sun公司在2004年启动，第一个版本于2005年在java.net发布。</li>
-<li>2007年开始Hudson逐渐取代CruiseControl和其他的开源构建工具的江湖地位。</li>
-<li>在2008年的JavaOne大会上在开发者解决方案中获得杜克选择大奖（Duke’s Choice Award）。</li>
-<li>在2010年11月期间，因为Oracle对Sun的收购带来了Hudson的所有权问题。主要的项目贡献者和Oracle之间， 尽管达成了很多协议，但有个关键问题就是商标名称“Hudson”。</li>
-<li>甲骨文在2010年12月声明拥有该名称并申请商标的权利。因此，2011年1月11日，有人要求投票将项目名称从“Hudson”改为“Jenkins”。</li>
-<li>2011年1月29日，该建议得到社区投票的批准，创建了Jenkins项目。</li>
-<li>2011年2月1日，甲骨文表示，他们打算继续开发Hudson，并认为Jenkins只是一个分支，而不是重命名。因此，Jenkins和Hudson继续作为两个独立的项目，每个都认为对方是自己的分支。</li>
-<li>到2013年12月，GitHub上的Jenkins拥有567个项目成员和约1,100个公共仓库，与此相对的Hudson有32个项目成员和17个公共仓库。到现在两者的差异更多，应该说Jenkins已经全面超越了Hudson。此外，大家可能是出于讨厌Oracle的情绪，作为Java开发者天然地应该支持和使用Jenkins。</li>
-</ul>
-<h2 id="特点"> 特点</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" alt="img" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp" alt="img" /></p>
-<ul>
-<li>易于安装，只要把jenkins.war部署到servlet容器，不需要数据库支持</li>
-<li>易于配置，所有配置都是通过其提供的web界面实现</li>
-<li>集成RSS/E-mail通过RSS发布构建结果或当构建完成时通过e-mail通知</li>
-<li>生成JUnit/TestNG测试报告</li>
-<li>分布式构建支持Jenkins能够让多台计算机一起构建/测试</li>
-<li>支持多种扩展插件，你可以开发适合自己团队使用的工具</li>
-<li>支持pipeline流水线，可以用代码描述配置过程，方便使用</li>
-</ul>
-<h3 id="应用场景"> 应用场景</h3>
-<ul>
-<li>集成svn/git客户端实现源代码下载检出</li>
-<li>集成maven/ant/gradle/npm等构建工具实现源码编译打包单元测试</li>
-<li>集成sonarqube对源代码进行质量检查（坏味道、复杂度、新增bug等）</li>
-<li>集成SaltStack/Ansible实现自动化部署发布</li>
-<li>集成Jmeter/Soar/Kubernetes/…..</li>
-<li>可以自定义插件或者脚本通过jenkins传参运行</li>
-<li>可以说Jenkins比较灵活插件资源丰富，日常运维工作都可以自动化</li>
-</ul>
-<h2 id="三种构建方式"> 三种构建方式</h2>
-<ul>
-<li>
-<p>jenkins 触发式构建：用于开发环境部署，开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
-</li>
-<li>
-<p>jenkins 参数化构建：用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
-</li>
-<li>
-<p>jenkins 定时构建：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
-</li>
-</ul>
-<h2 id="参考链接"> 参考链接</h2>
-<p><a href="http://docs.idevops.site/jenkins/basics/introduction/" target="_blank" rel="noopener noreferrer">jenkins 简介与应用 | 泽阳</a></p>
-<p><a href="https://www.kancloud.cn/willseecloud/jenkins/1860518" target="_blank" rel="noopener noreferrer">jenkins 简介 | willseecloud | 看云</a></p>
-<p><a href="https://www.jianshu.com/p/f1167e8850cd" target="_blank" rel="noopener noreferrer">jenkins pipeline基础语法与示例 | MR_Hanjc</a></p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
     </item>
     <item>
       <title>4.3 Groovy 简明教程</title>
@@ -10855,6 +10855,161 @@ fmt.Printf(&quot;%c&quot;, x) // &quot;HELLO&quot; (one letter per iteration)
 <h2 id="go-语言教程"> Go 语言教程</h2>
 <p><a href="http://books.studygolang.com/gopl-zh/" target="_blank" rel="noopener noreferrer">Go 语言圣经（中文版）</a> ⭐️</p>
 <p><a href="https://fuckcloudnative.io/the-way-to-go/" target="_blank" rel="noopener noreferrer">Go入门指南</a> ⭐️</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>9.2 访问控制和属性装饰器</title>
+      <link>https://clay-wangzhi.com/code/python/access-control/</link>
+      <guid>https://clay-wangzhi.com/code/python/access-control/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">9.2 访问控制和属性装饰器</source>
+      <category>Python</category>
+      <pubDate>Thu, 17 Jun 2021 10:14:48 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_9-2-访问控制和属性装饰器"> 9.2 访问控制和属性装饰器</h1>
+<h2 id="访问控制"> 访问控制</h2>
+<p><strong>私有（Private） 成员</strong></p>
+<p>在 Python 中，在类变量或实例变量前使用两个下划线的变量，称为私有成员，包括私有属性、私有方法。</p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
+        self<span>.</span>a <span>=</span> <span>'1'</span>
+        self<span>.</span>__name <span>=</span> name
+        self<span>.</span>__age <span>=</span> age
+
+    <span>def</span> <span>__showage</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>__age<span>)</span>
+
+<span>print</span><span>(</span>Person<span>.</span>__name<span>)</span>  <span># 都不可以调用</span>
+<span>print</span><span>(</span>Person<span>.</span>__showage<span>)</span>
+tom <span>=</span> Person<span>(</span><span>'tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>__name<span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>__showage<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>在类的定义范围内，使用前置双下划线的标识符，在类外部不能直接访问。</p>
+<p><strong>私有成员本质</strong></p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
+        self<span>.</span>__name <span>=</span> name
+        self<span>.</span>__age <span>=</span> age
+
+    <span>def</span> <span>__showage</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>__age<span>)</span>
+
+<span>print</span><span>(</span>Person<span>.</span>__dict__<span>)</span>
+tom <span>=</span> Person<span>(</span><span>'tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>__dict__<span>)</span>
+<span># 结果如下</span>
+<span>{</span><span>'__module__'</span><span>:</span> <span>'__main__'</span><span>,</span> <span>'__init__'</span><span>:</span> <span>&lt;</span>function Person<span>.</span>__init__ at <span>0x0000029B2B86BB80</span><span>></span><span>,</span> <span>'_Person__showage'</span><span>:</span> <span>&lt;</span>function Person<span>.</span>__showage at <span>0x0000029B2B86BC10</span><span>></span><span>,</span> <span>'__dict__'</span><span>:</span> <span>&lt;</span>attribute <span>'__dict__'</span> of <span>'Person'</span> objects<span>></span><span>,</span> <span>'__weakref__'</span><span>:</span> <span>&lt;</span>attribute <span>'__weakref__'</span> of <span>'Person'</span> objects<span>></span><span>,</span> <span>'__doc__'</span><span>:</span> <span>None</span><span>}</span>
+<span>{</span><span>'_Person__name'</span><span>:</span> <span>'tom'</span><span>,</span> <span>'_Person__age'</span><span>:</span> <span>18</span><span>}</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>打开类字典和实例字典，一目了然，都被悄悄的改了名称，所以使用定义的名字就访问不了了。</p>
+<p>名称都被前置了<code>_类名</code>前缀。</p>
+<p>如果知道了改后的名称，照样可以访问，就绕过了Python做的限制。</p>
+<blockquote>
+<p>Python就没有真正的私有成员！但是请遵守这个约定，不要在类外面访问类私有或者实例的私有成员。因为类的作用就是封装，私有成员就是要被隐藏的数据或方法。</p>
+</blockquote>
+<p><strong>保护成员</strong></p>
+<p>在类变量或实例变量前使用一个下划线的变量，称为保护成员。</p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> name
+        self<span>.</span>_age <span>=</span> age
+
+    <span>def</span> <span>_showage</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span>self<span>.</span>_age<span>)</span>
+
+<span>print</span><span>(</span>Person<span>.</span>__dict__<span>)</span>
+tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>__dict__<span>)</span>
+tom<span>.</span>_showage<span>(</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>_name<span>,</span> tom<span>.</span>_age<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>保护成员不是 Python 中定义的，是 Python 编程者自我约定俗称的，请遵守这个约定。</p>
+<p><strong>总结</strong></p>
+<p>在 Python 中使用 _单下划线或者__双下划线来表示一个成员被保护或者私有化隐藏起来。</p>
+<p>但是，不管使用什么样的访问控制，都不能真正的阻止用户修改类的成员。Python 中没有绝对的安全的保护成员或者私有成员。</p>
+<p>因此，前导的下划线只是一种警告或者提醒，请遵守这个约定。</p>
+<p>在 Pycharm 中，已经对访问私有、保护成员访问的时候不会直接提示，就是一种善意的提醒。</p>
+<h2 id="属性装饰器"> 属性装饰器</h2>
+<p>一般好的设计是：把实例的某些属性保护起来，不让外部直接访问，外部使用 getter 读取属性和 setter 方法设置属性。</p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> name
+
+    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
+        <span>return</span> self<span>.</span>_name
+
+    <span>def</span> <span>set_name</span><span>(</span>self<span>,</span>value<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> value
+
+tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>(</span><span>)</span><span>)</span>
+tom<span>.</span>set_name<span>(</span><span>'Jerry'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>(</span><span>)</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>Python 提供了 property 装饰器，简化调用。</p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> name
+
+    <span>@property</span>
+    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
+        <span>return</span> self<span>.</span>_name
+
+    <span>@name<span>.</span>setter</span>
+    <span>def</span> <span>name</span><span>(</span>self<span>,</span>value<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> value
+
+    <span>@name<span>.</span>deleter</span>
+    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
+        <span>print</span><span>(</span><span>'del name'</span><span>)</span>
+
+tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
+tom<span>.</span>name <span>=</span> <span>'Jerry'</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
+<span>del</span> tom<span>.</span>name
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>特别注意：使用 property 装饰器的时候这三个方法同名</p>
+<p>property 装饰器</p>
+<ul>
+<li>后面跟的函数名就是以后的属性名。它就是getter。这个必须有，有了它至少是只读属性</li>
+<li>setter 装饰器
+<ul>
+<li>与属性名同名，且接收2个参数，第一个是 self， 第二个是将要赋值的值。有了它，属性可写</li>
+</ul>
+</li>
+<li>deleter 装饰器
+<ul>
+<li>可以控制是否删除属性。很少用</li>
+</ul>
+</li>
+<li>property 装饰器必须在前，setter、deleter 装饰器在后</li>
+<li>property 装饰器能通过简单的方式，把对方法的操作编程对属性的访问，并起到了一定隐藏效果</li>
+</ul>
+<p>其他方法</p>
+<div><pre><code><span>class</span> <span>Person</span><span>:</span>
+    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> name
+
+    <span>def</span> <span>get_name</span><span>(</span>self<span>)</span><span>:</span>
+        <span>return</span> self<span>.</span>_name
+
+    <span>def</span> <span>set_name</span><span>(</span>self<span>,</span> value<span>)</span><span>:</span>
+        self<span>.</span>_name <span>=</span> value
+
+    <span>def</span> <span>del_name</span><span>(</span>self<span>)</span><span>:</span>
+        <span># del self._name</span>
+        <span>print</span><span>(</span><span>'del name'</span><span>)</span>
+
+    name <span>=</span> <span>property</span><span>(</span>get_name<span>,</span> set_name<span>,</span> del_name<span>)</span>
+
+tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
+tom<span>.</span>name <span>=</span> <span>'Jerry'</span>
+<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
+<span>del</span> tom<span>.</span>name
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>这种定义方式，适合 get_name、set_name、del_name 还可以单独使用，即可以当方法使用。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -17356,13 +17511,13 @@ python setup.py bdist_rpm
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>10 继承多态和Mixin</title>
+      <title>9.3 继承多态和Mixin</title>
       <link>https://clay-wangzhi.com/code/python/python-oo-inher-pol/</link>
       <guid>https://clay-wangzhi.com/code/python/python-oo-inher-pol/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">10 继承多态和Mixin</source>
+      <source url="https://clay-wangzhi.com/rss.xml">9.3 继承多态和Mixin</source>
       <category>Python</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_10-继承多态和mixin"> 10 继承多态和Mixin</h1>
+      <content:encoded><![CDATA[<h1 id="_9-3-继承多态和mixin"> 9.3 继承多态和Mixin</h1>
 <h2 id="继承基本概念"> 继承基本概念</h2>
 <p>面向对象三要素之一，继承 Inheritance</p>
 <p>人类和猫类都继承自动物类。
@@ -17816,13 +17971,13 @@ pw<span>.</span><span>print</span><span>(</span><span>)</span>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/inher.png" type="image/png"/>
     </item>
     <item>
-      <title>09 面向对象-封装</title>
+      <title>9.1 类、实例和封装</title>
       <link>https://clay-wangzhi.com/code/python/python-oo-package/</link>
       <guid>https://clay-wangzhi.com/code/python/python-oo-package/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">09 面向对象-封装</source>
+      <source url="https://clay-wangzhi.com/rss.xml">9.1 类、实例和封装</source>
       <category>Python</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_09-面向对象-封装"> 09 面向对象-封装</h1>
+      <content:encoded><![CDATA[<h1 id="_9-1-类、实例和封装"> 9.1 类、实例和封装</h1>
 <h2 id="面向对象"> 面向对象</h2>
 <p>什么是面向对象呢？</p>
 <p>一种认识世界、分析世界的方法论。将万事万物抽象为各种对象。</p>
@@ -18199,151 +18354,6 @@ tom<span>.</span>__class__<span>.</span>method<span>(</span>tom<span>)</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>tom.method() 调用的时候，会绑定实例，调用 method 方法是，实例 tom 会注入到 method 中，这样第一参数就满足了。</p>
 <p>Person.method() ，使用类调用，不会有实例绑定，调用 method 方法时，就缺少了第一参数，可以手动的填入。</p>
-<h3 id="访问控制"> 访问控制</h3>
-<p><strong>私有（Private） 成员</strong></p>
-<p>在 Python 中，在类变量或实例变量前使用两个下划线的变量，称为私有成员，包括私有属性、私有方法。</p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
-        self<span>.</span>a <span>=</span> <span>'1'</span>
-        self<span>.</span>__name <span>=</span> name
-        self<span>.</span>__age <span>=</span> age
-
-    <span>def</span> <span>__showage</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>__age<span>)</span>
-
-<span>print</span><span>(</span>Person<span>.</span>__name<span>)</span>  <span># 都不可以调用</span>
-<span>print</span><span>(</span>Person<span>.</span>__showage<span>)</span>
-tom <span>=</span> Person<span>(</span><span>'tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>__name<span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>__showage<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>在类的定义范围内，使用前置双下划线的标识符，在类外部不能直接访问。</p>
-<p><strong>私有成员本质</strong></p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
-        self<span>.</span>__name <span>=</span> name
-        self<span>.</span>__age <span>=</span> age
-
-    <span>def</span> <span>__showage</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>__age<span>)</span>
-
-<span>print</span><span>(</span>Person<span>.</span>__dict__<span>)</span>
-tom <span>=</span> Person<span>(</span><span>'tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>__dict__<span>)</span>
-<span># 结果如下</span>
-<span>{</span><span>'__module__'</span><span>:</span> <span>'__main__'</span><span>,</span> <span>'__init__'</span><span>:</span> <span>&lt;</span>function Person<span>.</span>__init__ at <span>0x0000029B2B86BB80</span><span>></span><span>,</span> <span>'_Person__showage'</span><span>:</span> <span>&lt;</span>function Person<span>.</span>__showage at <span>0x0000029B2B86BC10</span><span>></span><span>,</span> <span>'__dict__'</span><span>:</span> <span>&lt;</span>attribute <span>'__dict__'</span> of <span>'Person'</span> objects<span>></span><span>,</span> <span>'__weakref__'</span><span>:</span> <span>&lt;</span>attribute <span>'__weakref__'</span> of <span>'Person'</span> objects<span>></span><span>,</span> <span>'__doc__'</span><span>:</span> <span>None</span><span>}</span>
-<span>{</span><span>'_Person__name'</span><span>:</span> <span>'tom'</span><span>,</span> <span>'_Person__age'</span><span>:</span> <span>18</span><span>}</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><p>打开类字典和实例字典，一目了然，都被悄悄的改了名称，所以使用定义的名字就访问不了了。</p>
-<p>名称都被前置了<code>_类名</code>前缀。</p>
-<p>如果知道了改后的名称，照样可以访问，就绕过了Python做的限制。</p>
-<blockquote>
-<p>Python就没有真正的私有成员！但是请遵守这个约定，不要在类外面访问类私有或者实例的私有成员。因为类的作用就是封装，私有成员就是要被隐藏的数据或方法。</p>
-</blockquote>
-<p><strong>保护成员</strong></p>
-<p>在类变量或实例变量前使用一个下划线的变量，称为保护成员。</p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>,</span> age<span>=</span><span>18</span><span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> name
-        self<span>.</span>_age <span>=</span> age
-
-    <span>def</span> <span>_showage</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span>self<span>.</span>_age<span>)</span>
-
-<span>print</span><span>(</span>Person<span>.</span>__dict__<span>)</span>
-tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>__dict__<span>)</span>
-tom<span>.</span>_showage<span>(</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>_name<span>,</span> tom<span>.</span>_age<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>保护成员不是 Python 中定义的，是 Python 编程者自我约定俗称的，请遵守这个约定。</p>
-<p><strong>总结</strong></p>
-<p>在 Python 中使用 _单下划线或者__双下划线来表示一个成员被保护或者私有化隐藏起来。</p>
-<p>但是，不管使用什么样的访问控制，都不能真正的阻止用户修改类的成员。Python 中没有绝对的安全的保护成员或者私有成员。</p>
-<p>因此，前导的下划线只是一种警告或者提醒，请遵守这个约定。</p>
-<p>在 Pycharm 中，已经对访问私有、保护成员访问的时候不会直接提示，就是一种善意的提醒。</p>
-<h3 id="属性装饰器"> 属性装饰器</h3>
-<p>一般好的设计是：把实例的某些属性保护起来，不让外部直接访问，外部使用 getter 读取属性和 setter 方法设置属性。</p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> name
-
-    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
-        <span>return</span> self<span>.</span>_name
-
-    <span>def</span> <span>set_name</span><span>(</span>self<span>,</span>value<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> value
-
-tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>(</span><span>)</span><span>)</span>
-tom<span>.</span>set_name<span>(</span><span>'Jerry'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>(</span><span>)</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>Python 提供了 property 装饰器，简化调用。</p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> name
-
-    <span>@property</span>
-    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
-        <span>return</span> self<span>.</span>_name
-
-    <span>@name<span>.</span>setter</span>
-    <span>def</span> <span>name</span><span>(</span>self<span>,</span>value<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> value
-
-    <span>@name<span>.</span>deleter</span>
-    <span>def</span> <span>name</span><span>(</span>self<span>)</span><span>:</span>
-        <span>print</span><span>(</span><span>'del name'</span><span>)</span>
-
-tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
-tom<span>.</span>name <span>=</span> <span>'Jerry'</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
-<span>del</span> tom<span>.</span>name
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>特别注意：使用 property 装饰器的时候这三个方法同名</p>
-<p>property 装饰器</p>
-<ul>
-<li>后面跟的函数名就是以后的属性名。它就是getter。这个必须有，有了它至少是只读属性</li>
-<li>setter 装饰器
-<ul>
-<li>与属性名同名，且接收2个参数，第一个是 self， 第二个是将要赋值的值。有了它，属性可写</li>
-</ul>
-</li>
-<li>deleter 装饰器
-<ul>
-<li>可以控制是否删除属性。很少用</li>
-</ul>
-</li>
-<li>property 装饰器必须在前，setter、deleter 装饰器在后</li>
-<li>property 装饰器能通过简单的方式，把对方法的操作编程对属性的访问，并起到了一定隐藏效果</li>
-</ul>
-<p>其他方法</p>
-<div><pre><code><span>class</span> <span>Person</span><span>:</span>
-    <span>def</span> <span>__init__</span><span>(</span>self<span>,</span> name<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> name
-
-    <span>def</span> <span>get_name</span><span>(</span>self<span>)</span><span>:</span>
-        <span>return</span> self<span>.</span>_name
-
-    <span>def</span> <span>set_name</span><span>(</span>self<span>,</span> value<span>)</span><span>:</span>
-        self<span>.</span>_name <span>=</span> value
-
-    <span>def</span> <span>del_name</span><span>(</span>self<span>)</span><span>:</span>
-        <span># del self._name</span>
-        <span>print</span><span>(</span><span>'del name'</span><span>)</span>
-
-    name <span>=</span> <span>property</span><span>(</span>get_name<span>,</span> set_name<span>,</span> del_name<span>)</span>
-
-tom <span>=</span> Person<span>(</span><span>'Tom'</span><span>)</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
-tom<span>.</span>name <span>=</span> <span>'Jerry'</span>
-<span>print</span><span>(</span>tom<span>.</span>name<span>)</span>
-<span>del</span> tom<span>.</span>name
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><p>这种定义方式，适合 get_name、set_name、del_name 还可以单独使用，即可以当方法使用。</p>
 <h3 id="封装总结"> 封装总结</h3>
 <p>面向对象的三要素之一，封装 Encapsulation</p>
 <p>封装</p>
@@ -22240,64 +22250,177 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>第一章 为什么使用shell编程</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第一章 为什么使用shell编程</source>
+      <title>第二章 和Sha-Bang（#!）一起出发</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/02_starting_off_with_a_sha_bang/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/02_starting_off_with_a_sha_bang/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第二章 和Sha-Bang（#!）一起出发</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
+      <content:encoded><![CDATA[<h1 id="第二章-和sha-bang-一起出发"> 第二章 和Sha-Bang（#!）一起出发</h1>
 <blockquote>
-<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
-<p>—— Herbert Mayer</p>
+<p>Shell编程声名显赫</p>
+<p>—— Larry Wall</p>
 </blockquote>
-<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
-<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
-<blockquote>
-<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
-<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
-</blockquote>
-<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
-<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
-<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
-<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
+<h3 id="本章目录"> 本章目录</h3>
 <ul>
-<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
-<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
-<li>有跨平台需求（使用C或者Java代替）</li>
-<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
-<li>影响系统全局的关键性任务</li>
-<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
-<li>项目包含有连锁依赖关系的组件</li>
-<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
-<li>需要使用多维数组</li>
-<li>需要使用如链表、树等数据结构</li>
-<li>需要产生或操作图像和图形用户接口（GUI）</li>
-<li>需要直接访问系统硬件或外部设备</li>
-<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
-<li>需要使用库或旧程序的接口</li>
-<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
+<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
+<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
 </ul>
-<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
-<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
-<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
-<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
-<blockquote>
-<p>His countenance was bold and bashed not.</p>
-<p>—— Edmund Spenser</p>
-</blockquote>
+<hr>
+<p>一个最简单的脚本其实就是将一连串系统命令存储在一个文件中。最起码，它能帮你省下重复输入这一连串命令的功夫。</p>
+<p>样例 2-1. <em>cleanup</em>：清理<code>/var/log</code>目录下的日志文件</p>
+<div><pre><code><span># Cleanup</span>
+<span># 请使用root权限执行</span>
+
+<span>cd</span> /var/log
+<span>cat</span> /dev/null <span>></span> messages
+<span>cat</span> /dev/null <span>></span> wtmp
+<span>echo</span> <span>"Log files cleaned up."</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>这支脚本仅仅是一些可以很容易从终端或控制台输入的命令的集合罢了，没什么特殊的地方。将命令放在脚本中的好处是，你不用再一遍遍重复输入这些命令啦。脚本成了一支<em>程序</em>、一款<em>工具</em>，它可以很容易的被修改或为特殊需求定制。</p>
+<p>样例 2-2. <em>cleanup</em>：改进的清理脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># Bash脚本标准起始行。</span>
+
+<span># Cleanup, version 2</span>
+
+<span># 请使用root权限执行。</span>
+<span># 这里可以插入代码来打印错误信息，并在未使用root权限时退出。</span>
+
+<span>LOG_DIR</span><span>=</span>/var/log
+<span># 使用变量比硬编码（hard-coded）更合适</span>
+<span>cd</span> <span>$LOG_DIR</span>
+
+<span>cat</span> /dev/null <span>></span> messages
+<span>cat</span> /dev/null <span>></span> wtmp
+
+
+<span>echo</span> <span>"Logs cleaned up."</span>
+
+<span>exit</span> <span># 正确终止脚本的方式。</span>
+     <span># 不带参数的exit返回上一条指令的运行结果。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>现在我们看到了一个真正意义上的脚本! 让我们继续前进...</p>
+<p>样例 2-3. <em>cleanup</em>：改良、通用版</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># Cleanup, version 3</span>
+
+<span># 注意：</span>
+<span># --------</span>
+<span># 此脚本涉及到许多后边才会解释的特性。</span>
+<span># 当你阅读完整本书的一半以后，理解它们就没有任何困难了。</span>
+
+
+<span>LOG_DIR</span><span>=</span>/var/log
+<span>ROOT_UID</span><span>=</span><span>0</span>     <span># UID为0的用户才拥有root权限。</span>
+<span><span>LINES</span></span><span>=</span><span>50</span>       <span># 默认保存messages日志文件行数。</span>
+<span>E_XCD</span><span>=</span><span>86</span>       <span># 无法切换工作目录的错误码。</span>
+<span>E_NOTROOT</span><span>=</span><span>87</span>   <span># 非root权限用户执行的错误码。</span>
+
+
+
+<span># 请使用root权限运行。</span>
+<span>if</span> <span>[</span> <span>"<span>$UID</span>"</span> -ne <span>"<span>$ROOT_UID</span>"</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"Must be root to run this script."</span>
+  <span>exit</span> <span>$E_NOTROOT</span>
+<span>fi</span>
+
+<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
+<span># 测试命令行参数（保存行数）是否为空</span>
+<span>then</span>
+  <span>lines</span><span>=</span><span>$1</span>
+<span>else</span>
+  <span>lines</span><span>=</span><span>$LINES</span> <span># 如果为空则使用默认设置</span>
+<span>fi</span>
+
+
+<span>#  Stephane Chazelas 建议使用如下方法检查命令行参数，</span>
+<span>#  但是这已经超出了此阶段教程的范围。</span>
+<span>#</span>
+<span>#    E_WRONGARGS=85  # Non-numerical argument (bad argument format).</span>
+<span>#    case "$1" in</span>
+<span>#    ""      ) lines=50;;</span>
+<span>#    *[!0-9]*) echo "Usage: `basename $0` lines-to-cleanup";</span>
+<span>#     exit $E_WRONGARGS;;</span>
+<span>#    *       ) lines=$1;;</span>
+<span>#    esac</span>
+<span>#</span>
+<span>#* 在第十一章“循环与分支”中会对此作详细的阐述。</span>
+
+
+<span>cd</span> <span>$LOG_DIR</span>
+
+<span>if</span> <span>[</span> <span><span>`</span><span>pwd</span><span>`</span></span> <span>!=</span> <span>"<span>$LOG_DIR</span>"</span> <span>]</span>  <span># 也可以这样写 if [ "$PWD" != "$LOG_DIR" ]</span>
+                            <span># 检查工作目录是否为 /var/log ?</span>
+<span>then</span>
+  <span>echo</span> <span>"Can't change to <span>$LOG_DIR</span>"</span>
+  <span>exit</span> <span>$E_XCD</span>
+<span>fi</span>  <span># 在清理日志前，二次确认是否在正确的工作目录下。</span>
+
+<span># 更高效的写法：</span>
+<span>#</span>
+<span># cd /var/log || {</span>
+<span>#   echo "Cannot change to necessary directory." >&amp;2</span>
+<span>#   exit $E_XCD;</span>
+<span># }</span>
+
+
+<span>tail</span> -n <span>$lines</span> messages <span>></span> mesg.temp <span># 保存messages日志文件最后一部分</span>
+<span>mv</span> mesg.temp messages              <span># 替换系统日志文件以达到清理目的</span>
+
+<span>#  cat /dev/null > messages</span>
+<span>#* 我们不需要使用这个方法了，上面的方法更安全</span>
+
+<span>cat</span> /dev/null <span>></span> wtmp  <span>#  ': > wtmp' 与 '> wtmp' 有同样的效果</span>
+<span>echo</span> <span>"Log files cleaned up."</span>
+<span>#  注意在/var/log目录下的其他日志文件不会被这个脚本清除</span>
+
+<span>exit</span> <span>0</span>
+<span>#  返回0表示脚本运行成功</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br></div></div><p>也许你并不希望清空全部的系统日志，这个脚本保留了messages日志的最后一部分。随着学习的深入，你将明白更多提高脚本运行效率的方法。</p>
+<hr>
+<p>脚本起始行<em>sha-bang</em>（#!）<sup></sup>告诉系统这个脚本文件需要使用指定的命令解释器来执行。#!实际上是一个占两字节<sup></sup>的<em>幻数</em>（magic number）,幻数可以用来标识特殊的文件类型，在这里则是标记可执行shell脚本（你可以在终端中输入<code>man magic</code>了解更多信息）。紧随#!的是一个路径名。此路径指向用来解释此脚本的程序，它可以是shell，可以是程序设计语言，也可以是实用程序。这个解释器从头（#!的下一行）开始执行整个脚本的命令，同时忽略注释。<sup></sup></p>
+<div><pre><code>#!/bin/sh
+#!/bin/bash
+#!/usr/bin/perl
+#!/usr/bin/tcl
+#!/bin/sed -f
+#!/bin/awk -f
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>上面每一条脚本起始行都调用了不同的解释器，比如<code>/bin/sh</code>调用了系统默认shell（Linux系统中默认是bash）<sup></sup>。大部分UNIX商业发行版中默认的是Bourne shell，即<code>#!/bin/sh</code>。你可以以牺牲Bash特性为代价，在非Linux的机器上运行sh脚本。当然，脚本得遵循POSIX<sup></sup> sh标准。</p>
+<p>需要注意的是<code>#!</code>后的路径必须正确，否则当你运行脚本时只会得到一条错误信息，通常是&quot;Command not found.&quot;<sup></sup></p>
+<p>当脚本仅包含一些通用的系统命令而不使用shell内部指令时，可以省略<code>#!</code>。第三个例子需要<code>#!</code>是因为当对变量赋值时，例如<code>lines=50</code>，使用了与shell特性相关的结构<sup></sup>。再重复一次，<code>#!/bin/sh</code>调用的是系统默认shell解释器，在Linux系统中默认为<code>/bin/bash</code>。</p>
+<p>这个例子鼓励读者使用模块化的方式编写脚本，并在平时记录和收集一些在以后可能会用到的代码模板。最终你将拥有一个相当丰富易用的代码库。以下的代码可以用来测试脚本被调用时的参数数量是否正确。</p>
+<div><pre><code><span>E_WRONG_ARGS</span><span>=</span><span>85</span>
+<span>script_parameters</span><span>=</span><span>"-a -h -m -z"</span>
+                 <span># -a = all, -h = help 等等</span>
+
+<span>if</span> <span>[</span> <span>$#</span> -ne <span>$Number_of_expected_args</span> <span>]</span>
+<span>then</span>
+  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>$script_parameters</span>"</span>
+  <span># `basename $0` 是脚本的文件名</span>
+  <span>exit</span> <span>$E_WRONG_ARGS</span>
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>大多数情况下，你会针对特定的任务编写脚本。本章的第一个脚本就是这样。然后你也许会泛化（generalize）脚本使其能够适应更多相似的任务，比如用变量代替硬编码，用函数代替重复代码。</p>
 <hr>
 <section>
 <ol>
-<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
+<li id="footnote1"><p>在文献中更常见的形式是she-bang或者sh-bang。它们都来源于词汇sharp(#)和bang(!)的连接。 </p>
 </li>
-<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
+<li id="footnote2"><p>一些UNIX的衍生版（基于4.2 BSD）声称他们使用四字节的幻数，在#!后增加一个空格，即<code>#! /bin/sh</code>。而<a href="http://www.in-ulm.de/~mascheck/various/shebang/#details" target="_blank" rel="noopener noreferrer">Sven Mascheck</a>指出这是虚构的。 </p>
 </li>
-<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
+<li id="footnote3"><p>命令解释器首先将会解释#!这一行，而因为#!以#打头，因此解释器将其视作注释。起始行作为调用解释器的作用已经完成了。</p><p>事实上即使脚本中含有不止一个#!,bash也会将除第一个`#!`以外的解释为注释。</p><pre>#!/bin/bash<br/><br/>echo "Part 1 of script."<br/>a=1<br/><br/>#!/bin/bash<br/># 这并不会启动新的脚本<br/><br/>echo "Part 2 of script."<br/>echo $a  # $a的值仍旧为1</pre>
+ </li>
+<li id="footnote4"><p>这里允许使用一些技巧。</p><pre>#!/bin/rm<br/># 自我删除的脚本<br/><br/># 当你运行这个脚本，除了这个脚本本身消失以外并不会发生什么。<br/><br/>WHATEVER=85<br/><br/>echo "This line will never print (betcha!)."<br/><br/>exit $WHATEVER  # 这没有任何关系。脚本将不会从这里退出。<br/>                # 尝试在脚本终止后打印echo $a。<br/>                # 得到的值将会是0而不是85.</pre>当然你也可以建立一个起始行是`#!/bin/more`的README文件，并且使它可以执行。结果就是这个文件成为了一个可以打印本身的文件。（查看样例 19-3，使用`cat`命令的here document也许是一个更好的选择）
+ </li>
+<li id="footnote5"><p>可移植操作系统接口（POSIX）尝试标准化类UNIX操作系统。POSIX规范可以在<a href="http://www.opengroup.org/onlinepubs/007904975/toc.htm" target="_blank" rel="noopener noreferrer">Open Group site</a>中查看。 </p>
 </li>
-<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
+<li id="footnote6"><p>为了避免这种情况的发生，可以使用<code>#!/bin/env bash</code>作为起始行。这在bash不在<code>/bin</code>的UNIX系统中会有效果。 </p>
 </li>
-<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
+<li id="footnote7"><p>如果bash是系统默认shell，那么脚本并不一定需要#!作为起始行。但是当你在其他的shell中运行脚本，例如tcsh，则需要使用#!。 </p>
 </li>
 </ol>
 </section>
@@ -23884,18 +24007,134 @@ $ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <sp
 ]]></content:encoded>
     </item>
     <item>
-      <title>2.2 牛刀小试</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">2.2 牛刀小试</source>
+      <title>5.1 引用变量</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">5.1 引用变量</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
+      <content:encoded><![CDATA[<h1 id="_5-1-引用变量"> 5.1 引用变量</h1>
+<p>引用变量时，通常建议将变量包含在双引号中。因为这样可以防止除 <code>$</code>，<code>`</code>（反引号）和<code>\</code>（转义符）之外的其他特殊字符被重新解释。<sup></sup>在双引号中仍然可以使用<code>$</code>引用变量（<code>&quot;$variable&quot;</code>），也就是将变量名替换为变量值（详情查看样例 4-1）。</p>
+<p>使用双引号可以防止字符串被分割。<sup></sup>即使参数中拥有很多空白分隔符，被包在双引号中后依旧是算作单一字符。</p>
+<div><pre><code><span>List</span><span>=</span><span>"one two three"</span>
+
+<span>for</span> <span>a</span> <span>in</span> <span>$List</span>     <span># 空白符将变量分成几个部分。</span>
+<span>do</span>
+  <span>echo</span> <span>"<span>$a</span>"</span>
+<span>done</span>
+<span># one</span>
+<span># two</span>
+<span># three</span>
+
+<span>echo</span> <span>"---"</span>
+
+<span>for</span> <span>a</span> <span>in</span> <span>"<span>$List</span>"</span>   <span># 在单一变量中保留所有空格。</span>
+<span>do</span> <span>#     ^     ^</span>
+  <span>echo</span> <span>"<span>$a</span>"</span>
+<span>done</span>
+<span># one two three</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>下面是一个更加复杂的例子：</p>
+<div><pre><code><span>variable1</span><span>=</span><span>"a variable containing five words"</span>
+COMMAND This is <span>$variable1</span>    <span># 带上7个参数执行COMMAND命令：</span>
+<span># "This" "is" "a" "variable" "containing" "five" "words"</span>
+
+COMMAND <span>"This is <span>$variable1</span>"</span>  <span># 带上1个参数执行COMMAND命令：</span>
+<span># "This is a variable containing five words"</span>
+
+
+<span>variable2</span><span>=</span><span>""</span>    <span># 空值。</span>
+
+COMMAND  <span>$variable2</span> <span>$variable2</span> <span>$variable2</span>
+                <span># 不带参数执行COMMAND命令。</span>
+COMMAND <span>"<span>$variable2</span>"</span> <span>"<span>$variable2</span>"</span> <span>"<span>$variable2</span>"</span>
+                <span># 带上3个参数执行COMMAND命令。</span>
+COMMAND <span>"<span>$variable2</span> <span>$variable2</span> <span>$variable2</span>"</span>
+                <span># 带上1个参数执行COMMAND命令（2空格）。</span>
+
+<span># 感谢 Stéphane Chazelas。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="info" /> 当字符分割或者保留空白符出现问题时，才需要在<code>echo</code>语句中用双引号包住参数。</p>
+</blockquote>
+<p>样例 5-1. 输出一些奇怪的变量</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># weirdvars.sh: 输出一些奇怪的变量</span>
+
+<span>echo</span>
+
+<span>var</span><span>=</span><span>"'(]<span title="\\">\\</span>{}\$<span title="\&quot;">\"</span>"</span>
+<span>echo</span> <span>$var</span>        <span># '(]\{}$"</span>
+<span>echo</span> <span>"<span>$var</span>"</span>      <span># '(]\{}$"     没有任何区别。</span>
+
+<span>echo</span>
+
+<span><span>IFS</span></span><span>=</span><span>'\'
+echo <span>$var</span>        # '</span><span>(</span><span>]</span> <span>{</span><span>}</span>$<span>"     \ 被转换成了空格，为什么？
+echo "</span><span>$var</span><span>"      # '(]\{}$"</span>
+
+<span># 上面的例子由 Stephane Chazelas 提供。</span>
+
+<span>echo</span>
+
+<span>var2</span><span>=</span><span>"<span title="\\">\\</span><span title="\\">\\</span><span title="\&quot;">\"</span>"</span>
+<span>echo</span> <span>$var2</span>       <span>#   "</span>
+<span>echo</span> <span>"<span>$var2</span>"</span>     <span># \\"</span>
+<span>echo</span>
+<span># 但是...var2="\\\\"" 不是合法的语句，为什么？</span>
+<span>var3</span><span>=</span><span>'<span title="\\">\\</span><span title="\\">\\</span>'</span>
+<span>echo</span> <span>"<span>$var3</span>"</span>     <span># \\\\</span>
+<span># 强引用是可以的。</span>
+
+
+<span># ************************************************************ #</span>
+<span># 就像第一个例子展示的那样，嵌套引用是允许的。</span>
+
+<span>echo</span> <span>"<span><span>$(</span><span>echo</span> <span>'"'</span><span>)</span></span>"</span>           <span># "</span>
+<span>#    ^           ^</span>
+
+
+<span># 在有些时候这种方法非常有用。</span>
+
+<span>var1</span><span>=</span><span>"Two bits"</span>
+<span>echo</span> <span>"\<span>$var1</span> = "</span><span>$var1</span><span>""</span>      <span># $var1 = Two bits</span>
+<span>#    ^                ^</span>
+
+<span># 或者，可以像 Chris Hiestand 指出的那样：</span>
+
+<span>if</span> <span>[</span><span>[</span> <span>"<span><span>$(</span><span>du</span> <span>"<span>$My_File1</span>"</span><span>)</span></span>"</span> -gt <span>"<span><span>$(</span><span>du</span> <span>"<span>$My_File2</span>"</span><span>)</span></span>"</span> <span>]</span><span>]</span>
+<span>#     ^     ^         ^ ^     ^     ^         ^ ^</span>
+<span>then</span>
+  <span>..</span>.
+<span>fi</span>
+<span># ************************************************************ #</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>单引号（' '）与双引号类似，但是在单引号中不能引用变量，因为 <code>$</code> 不再具有特殊含义。在单引号中，除<code>'</code>之外的所有特殊字符都将会被直接按照字面意思解释。可以认为单引号（“全引用”）是双引号（“部分引用”）的一种更严格的形式。</p>
+<blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 因为在单引号中转义符（\）都已经按照字面意思解释了，因此尝试在单引号中包含单引号将不会产生你所预期的结果。</p>
+</blockquote>
+<div><pre><code><span>echo</span> <span>"Why can't I write 's between single quotes"</span>
+<span>></span>
+<span>echo</span>
+<span>></span>
+<span># 可以采取迂回的方式。</span>
+<span>echo</span> <span>'Why can'</span><span>\</span>'<span>'t I write '</span>"<span>'"'</span>s between single quotes'
+<span>#    |-------|  |----------|   |-----------------------|</span>
+<span># 由三个单引号引用的字符串，再加上转义以及双引号包住的单引号组成。</span>
+<span>></span>
+<span># 感谢 Stéphane Chazelas 提供的例子。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><hr>
+<section>
 <ol>
-<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
-<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
+<li id="footnote1"><p>在命令行里，如果双引号包含了 &quot;!&quot; 将会产生错误。这是因为shell将其解释为查看历史命令。而在脚本中，因为历史机制已经被关闭，所以不会产生这个问题。<br>我们更加需要注意的是在双引号中 <code>\</code> 的反常行为，尤其是在使用 <code>echo -e</code> 命令时。<br><pre>bash$ echo hello\!<br>hello!<br>bash$ echo &quot;hello\!&quot;<br>hello\!<br><br><br>bash$ echo \<br>&gt;<br>bash$ echo &quot;\&quot;<br>&gt;<br>bash$ echo \a<br>a<br>bash$ echo &quot;\a&quot;<br>\a<br><br><br>bash$ echo x\ty<br>xty<br>bash$ echo &quot;x\ty&quot;<br>x\ty<br><br>bash$ echo -e x\ty<br>xty<br>bash$ echo -e &quot;x\ty&quot;<br>x       y</pre>在 <code>echo</code> 后的双引号中一般会转义 <code>\</code>。并且 <code>echo -e</code> 会将 <code>&quot;\t&quot;</code> 解释成制表符。<br>（感谢 Wayne Pollock 提出这些；感谢Geoff Lee 与 Daniel Barclay 对此做出的解释。） </p>
+</li>
+<li id="footnote2"><p>字符分割（word splitting）在本文中的意思是指将一个字符串分割成独立的、离散的变量。 </p>
+</li>
 </ol>
+</section>
 ]]></content:encoded>
+      <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
     </item>
     <item>
       <title>5.2 转义</title>
@@ -28155,21 +28394,24 @@ random_numbers
 ]]></content:encoded>
     </item>
     <item>
-      <title>2.1 调用一个脚本</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">2.1 调用一个脚本</source>
+      <title>第九章 换个角度看变量</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第九章 换个角度看变量</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_2-1-调用一个脚本"> 2.1 调用一个脚本</h1>
-<p>写完一个脚本以后，你可以通过<code>sh scriptname</code>或<code>bash scriptname</code>来调用它（不推荐使用<code>sh &lt;scriptname</code>调用脚本，因为这会禁用脚本从标准输入（stdin）读入数据）。更方便的方式是使用<code>chmod</code>命令使脚本可以被直接执行。</p>
-<p>执行命令：</p>
-<p><code>chmod 555 scriptname</code>（给予所有用户读取/执行的权限）</p>
-<p>或</p>
-<p><code>chmod +rx scriptname</code>（给予所有用户读取/执行的权限）</p>
-<p><code>chmod u+rx scriptname</code>（仅给予脚本所有者读取/执行的权限）</p>
-<p>当脚本的权限被设置好后，你就可以直接使用<code>./scriptname</code>[^3]进行调用测试了。如果脚本文件以sha-bang开头，那么它将自动调用指定的命令解释器运行脚本。</p>
-<p>完成调试与测试后，你可能会将脚本文件移至<code>/usr/local/bin</code>（使用root权限）中，使脚本可以被所有用户调用。这时你可以直接在命令行中输入<code>scriptname [ENTER]</code>执行脚本。</p>
+      <content:encoded><![CDATA[<h1 id="第九章-换个角度看变量"> 第九章 换个角度看变量</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+<p>在脚本中恰当的使用变量可以增强脚本并提高适应性。因此就需要了解变量的微妙之处和细微差异。</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -29199,6 +29441,26 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
+      <title>第十章 变量处理</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第十章 变量处理</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>11.1 循环</title>
       <link>https://clay-wangzhi.com/code/shell/part3/11_1_loops/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/11_1_loops/</guid>
@@ -29949,26 +30211,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>第十章 变量处理</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第十章 变量处理</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-]]></content:encoded>
     </item>
     <item>
       <title>11.2 嵌套循环</title>
@@ -43184,6 +43426,32 @@ Empty set (0.02 sec)
 ]]></content:encoded>
     </item>
     <item>
+      <title>11 MySQL逻辑架构</title>
+      <link>https://clay-wangzhi.com/db/mysql/jiagou/</link>
+      <guid>https://clay-wangzhi.com/db/mysql/jiagou/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11 MySQL逻辑架构</source>
+      <category>MySQL</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
+<h2 id="mysql架构"> mysql架构</h2>
+<p>mysql架构分为三层：</p>
+<ol>
+<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
+<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
+<li>存储引擎层：存储和提取数据以及事务处理</li>
+</ol>
+<p><img src="./images/1.png" alt="" /></p>
+<h3 id="服务层"> 服务层</h3>
+<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
+<h3 id="核心层"> 核心层</h3>
+<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
+<h3 id="存储引擎层"> 存储引擎层</h3>
+<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
+<h2 id="总图"> 总图</h2>
+<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>2 列表类型和数据完整性</title>
       <link>https://clay-wangzhi.com/db/mysql/list-com/</link>
       <guid>https://clay-wangzhi.com/db/mysql/list-com/</guid>
@@ -44070,32 +44338,6 @@ mysql&gt; select * from stumarks;
 
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>11 MySQL逻辑架构</title>
-      <link>https://clay-wangzhi.com/db/mysql/jiagou/</link>
-      <guid>https://clay-wangzhi.com/db/mysql/jiagou/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11 MySQL逻辑架构</source>
-      <category>MySQL</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
-<h2 id="mysql架构"> mysql架构</h2>
-<p>mysql架构分为三层：</p>
-<ol>
-<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
-<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
-<li>存储引擎层：存储和提取数据以及事务处理</li>
-</ol>
-<p><img src="./images/1.png" alt="" /></p>
-<h3 id="服务层"> 服务层</h3>
-<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
-<h3 id="核心层"> 核心层</h3>
-<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
-<h3 id="存储引擎层"> 存储引擎层</h3>
-<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
-<h2 id="总图"> 总图</h2>
-<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
-]]></content:encoded>
     </item>
     <item>
       <title>12 MySQL锁等待</title>
@@ -48969,334 +49211,6 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>第二章 和Sha-Bang（#!）一起出发</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/02_starting_off_with_a_sha_bang/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/02_starting_off_with_a_sha_bang/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第二章 和Sha-Bang（#!）一起出发</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第二章-和sha-bang-一起出发"> 第二章 和Sha-Bang（#!）一起出发</h1>
-<blockquote>
-<p>Shell编程声名显赫</p>
-<p>—— Larry Wall</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
-<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
-</ul>
-<hr>
-<p>一个最简单的脚本其实就是将一连串系统命令存储在一个文件中。最起码，它能帮你省下重复输入这一连串命令的功夫。</p>
-<p>样例 2-1. <em>cleanup</em>：清理<code>/var/log</code>目录下的日志文件</p>
-<div><pre><code><span># Cleanup</span>
-<span># 请使用root权限执行</span>
-
-<span>cd</span> /var/log
-<span>cat</span> /dev/null <span>></span> messages
-<span>cat</span> /dev/null <span>></span> wtmp
-<span>echo</span> <span>"Log files cleaned up."</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>这支脚本仅仅是一些可以很容易从终端或控制台输入的命令的集合罢了，没什么特殊的地方。将命令放在脚本中的好处是，你不用再一遍遍重复输入这些命令啦。脚本成了一支<em>程序</em>、一款<em>工具</em>，它可以很容易的被修改或为特殊需求定制。</p>
-<p>样例 2-2. <em>cleanup</em>：改进的清理脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># Bash脚本标准起始行。</span>
-
-<span># Cleanup, version 2</span>
-
-<span># 请使用root权限执行。</span>
-<span># 这里可以插入代码来打印错误信息，并在未使用root权限时退出。</span>
-
-<span>LOG_DIR</span><span>=</span>/var/log
-<span># 使用变量比硬编码（hard-coded）更合适</span>
-<span>cd</span> <span>$LOG_DIR</span>
-
-<span>cat</span> /dev/null <span>></span> messages
-<span>cat</span> /dev/null <span>></span> wtmp
-
-
-<span>echo</span> <span>"Logs cleaned up."</span>
-
-<span>exit</span> <span># 正确终止脚本的方式。</span>
-     <span># 不带参数的exit返回上一条指令的运行结果。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>现在我们看到了一个真正意义上的脚本! 让我们继续前进...</p>
-<p>样例 2-3. <em>cleanup</em>：改良、通用版</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># Cleanup, version 3</span>
-
-<span># 注意：</span>
-<span># --------</span>
-<span># 此脚本涉及到许多后边才会解释的特性。</span>
-<span># 当你阅读完整本书的一半以后，理解它们就没有任何困难了。</span>
-
-
-<span>LOG_DIR</span><span>=</span>/var/log
-<span>ROOT_UID</span><span>=</span><span>0</span>     <span># UID为0的用户才拥有root权限。</span>
-<span><span>LINES</span></span><span>=</span><span>50</span>       <span># 默认保存messages日志文件行数。</span>
-<span>E_XCD</span><span>=</span><span>86</span>       <span># 无法切换工作目录的错误码。</span>
-<span>E_NOTROOT</span><span>=</span><span>87</span>   <span># 非root权限用户执行的错误码。</span>
-
-
-
-<span># 请使用root权限运行。</span>
-<span>if</span> <span>[</span> <span>"<span>$UID</span>"</span> -ne <span>"<span>$ROOT_UID</span>"</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"Must be root to run this script."</span>
-  <span>exit</span> <span>$E_NOTROOT</span>
-<span>fi</span>
-
-<span>if</span> <span>[</span> -n <span>"<span>$1</span>"</span> <span>]</span>
-<span># 测试命令行参数（保存行数）是否为空</span>
-<span>then</span>
-  <span>lines</span><span>=</span><span>$1</span>
-<span>else</span>
-  <span>lines</span><span>=</span><span>$LINES</span> <span># 如果为空则使用默认设置</span>
-<span>fi</span>
-
-
-<span>#  Stephane Chazelas 建议使用如下方法检查命令行参数，</span>
-<span>#  但是这已经超出了此阶段教程的范围。</span>
-<span>#</span>
-<span>#    E_WRONGARGS=85  # Non-numerical argument (bad argument format).</span>
-<span>#    case "$1" in</span>
-<span>#    ""      ) lines=50;;</span>
-<span>#    *[!0-9]*) echo "Usage: `basename $0` lines-to-cleanup";</span>
-<span>#     exit $E_WRONGARGS;;</span>
-<span>#    *       ) lines=$1;;</span>
-<span>#    esac</span>
-<span>#</span>
-<span>#* 在第十一章“循环与分支”中会对此作详细的阐述。</span>
-
-
-<span>cd</span> <span>$LOG_DIR</span>
-
-<span>if</span> <span>[</span> <span><span>`</span><span>pwd</span><span>`</span></span> <span>!=</span> <span>"<span>$LOG_DIR</span>"</span> <span>]</span>  <span># 也可以这样写 if [ "$PWD" != "$LOG_DIR" ]</span>
-                            <span># 检查工作目录是否为 /var/log ?</span>
-<span>then</span>
-  <span>echo</span> <span>"Can't change to <span>$LOG_DIR</span>"</span>
-  <span>exit</span> <span>$E_XCD</span>
-<span>fi</span>  <span># 在清理日志前，二次确认是否在正确的工作目录下。</span>
-
-<span># 更高效的写法：</span>
-<span>#</span>
-<span># cd /var/log || {</span>
-<span>#   echo "Cannot change to necessary directory." >&amp;2</span>
-<span>#   exit $E_XCD;</span>
-<span># }</span>
-
-
-<span>tail</span> -n <span>$lines</span> messages <span>></span> mesg.temp <span># 保存messages日志文件最后一部分</span>
-<span>mv</span> mesg.temp messages              <span># 替换系统日志文件以达到清理目的</span>
-
-<span>#  cat /dev/null > messages</span>
-<span>#* 我们不需要使用这个方法了，上面的方法更安全</span>
-
-<span>cat</span> /dev/null <span>></span> wtmp  <span>#  ': > wtmp' 与 '> wtmp' 有同样的效果</span>
-<span>echo</span> <span>"Log files cleaned up."</span>
-<span>#  注意在/var/log目录下的其他日志文件不会被这个脚本清除</span>
-
-<span>exit</span> <span>0</span>
-<span>#  返回0表示脚本运行成功</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br></div></div><p>也许你并不希望清空全部的系统日志，这个脚本保留了messages日志的最后一部分。随着学习的深入，你将明白更多提高脚本运行效率的方法。</p>
-<hr>
-<p>脚本起始行<em>sha-bang</em>（#!）<sup></sup>告诉系统这个脚本文件需要使用指定的命令解释器来执行。#!实际上是一个占两字节<sup></sup>的<em>幻数</em>（magic number）,幻数可以用来标识特殊的文件类型，在这里则是标记可执行shell脚本（你可以在终端中输入<code>man magic</code>了解更多信息）。紧随#!的是一个路径名。此路径指向用来解释此脚本的程序，它可以是shell，可以是程序设计语言，也可以是实用程序。这个解释器从头（#!的下一行）开始执行整个脚本的命令，同时忽略注释。<sup></sup></p>
-<div><pre><code>#!/bin/sh
-#!/bin/bash
-#!/usr/bin/perl
-#!/usr/bin/tcl
-#!/bin/sed -f
-#!/bin/awk -f
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>上面每一条脚本起始行都调用了不同的解释器，比如<code>/bin/sh</code>调用了系统默认shell（Linux系统中默认是bash）<sup></sup>。大部分UNIX商业发行版中默认的是Bourne shell，即<code>#!/bin/sh</code>。你可以以牺牲Bash特性为代价，在非Linux的机器上运行sh脚本。当然，脚本得遵循POSIX<sup></sup> sh标准。</p>
-<p>需要注意的是<code>#!</code>后的路径必须正确，否则当你运行脚本时只会得到一条错误信息，通常是&quot;Command not found.&quot;<sup></sup></p>
-<p>当脚本仅包含一些通用的系统命令而不使用shell内部指令时，可以省略<code>#!</code>。第三个例子需要<code>#!</code>是因为当对变量赋值时，例如<code>lines=50</code>，使用了与shell特性相关的结构<sup></sup>。再重复一次，<code>#!/bin/sh</code>调用的是系统默认shell解释器，在Linux系统中默认为<code>/bin/bash</code>。</p>
-<p>这个例子鼓励读者使用模块化的方式编写脚本，并在平时记录和收集一些在以后可能会用到的代码模板。最终你将拥有一个相当丰富易用的代码库。以下的代码可以用来测试脚本被调用时的参数数量是否正确。</p>
-<div><pre><code><span>E_WRONG_ARGS</span><span>=</span><span>85</span>
-<span>script_parameters</span><span>=</span><span>"-a -h -m -z"</span>
-                 <span># -a = all, -h = help 等等</span>
-
-<span>if</span> <span>[</span> <span>$#</span> -ne <span>$Number_of_expected_args</span> <span>]</span>
-<span>then</span>
-  <span>echo</span> <span>"Usage: <span><span>`</span><span>basename</span> $0<span>`</span></span> <span>$script_parameters</span>"</span>
-  <span># `basename $0` 是脚本的文件名</span>
-  <span>exit</span> <span>$E_WRONG_ARGS</span>
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>大多数情况下，你会针对特定的任务编写脚本。本章的第一个脚本就是这样。然后你也许会泛化（generalize）脚本使其能够适应更多相似的任务，比如用变量代替硬编码，用函数代替重复代码。</p>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>在文献中更常见的形式是she-bang或者sh-bang。它们都来源于词汇sharp(#)和bang(!)的连接。 </p>
-</li>
-<li id="footnote2"><p>一些UNIX的衍生版（基于4.2 BSD）声称他们使用四字节的幻数，在#!后增加一个空格，即<code>#! /bin/sh</code>。而<a href="http://www.in-ulm.de/~mascheck/various/shebang/#details" target="_blank" rel="noopener noreferrer">Sven Mascheck</a>指出这是虚构的。 </p>
-</li>
-<li id="footnote3"><p>命令解释器首先将会解释#!这一行，而因为#!以#打头，因此解释器将其视作注释。起始行作为调用解释器的作用已经完成了。</p><p>事实上即使脚本中含有不止一个#!,bash也会将除第一个`#!`以外的解释为注释。</p><pre>#!/bin/bash<br/><br/>echo "Part 1 of script."<br/>a=1<br/><br/>#!/bin/bash<br/># 这并不会启动新的脚本<br/><br/>echo "Part 2 of script."<br/>echo $a  # $a的值仍旧为1</pre>
- </li>
-<li id="footnote4"><p>这里允许使用一些技巧。</p><pre>#!/bin/rm<br/># 自我删除的脚本<br/><br/># 当你运行这个脚本，除了这个脚本本身消失以外并不会发生什么。<br/><br/>WHATEVER=85<br/><br/>echo "This line will never print (betcha!)."<br/><br/>exit $WHATEVER  # 这没有任何关系。脚本将不会从这里退出。<br/>                # 尝试在脚本终止后打印echo $a。<br/>                # 得到的值将会是0而不是85.</pre>当然你也可以建立一个起始行是`#!/bin/more`的README文件，并且使它可以执行。结果就是这个文件成为了一个可以打印本身的文件。（查看样例 19-3，使用`cat`命令的here document也许是一个更好的选择）
- </li>
-<li id="footnote5"><p>可移植操作系统接口（POSIX）尝试标准化类UNIX操作系统。POSIX规范可以在<a href="http://www.opengroup.org/onlinepubs/007904975/toc.htm" target="_blank" rel="noopener noreferrer">Open Group site</a>中查看。 </p>
-</li>
-<li id="footnote6"><p>为了避免这种情况的发生，可以使用<code>#!/bin/env bash</code>作为起始行。这在bash不在<code>/bin</code>的UNIX系统中会有效果。 </p>
-</li>
-<li id="footnote7"><p>如果bash是系统默认shell，那么脚本并不一定需要#!作为起始行。但是当你在其他的shell中运行脚本，例如tcsh，则需要使用#!。 </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>5.1 引用变量</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/05_1_quoting_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">5.1 引用变量</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-1-引用变量"> 5.1 引用变量</h1>
-<p>引用变量时，通常建议将变量包含在双引号中。因为这样可以防止除 <code>$</code>，<code>`</code>（反引号）和<code>\</code>（转义符）之外的其他特殊字符被重新解释。<sup></sup>在双引号中仍然可以使用<code>$</code>引用变量（<code>&quot;$variable&quot;</code>），也就是将变量名替换为变量值（详情查看样例 4-1）。</p>
-<p>使用双引号可以防止字符串被分割。<sup></sup>即使参数中拥有很多空白分隔符，被包在双引号中后依旧是算作单一字符。</p>
-<div><pre><code><span>List</span><span>=</span><span>"one two three"</span>
-
-<span>for</span> <span>a</span> <span>in</span> <span>$List</span>     <span># 空白符将变量分成几个部分。</span>
-<span>do</span>
-  <span>echo</span> <span>"<span>$a</span>"</span>
-<span>done</span>
-<span># one</span>
-<span># two</span>
-<span># three</span>
-
-<span>echo</span> <span>"---"</span>
-
-<span>for</span> <span>a</span> <span>in</span> <span>"<span>$List</span>"</span>   <span># 在单一变量中保留所有空格。</span>
-<span>do</span> <span>#     ^     ^</span>
-  <span>echo</span> <span>"<span>$a</span>"</span>
-<span>done</span>
-<span># one two three</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>下面是一个更加复杂的例子：</p>
-<div><pre><code><span>variable1</span><span>=</span><span>"a variable containing five words"</span>
-COMMAND This is <span>$variable1</span>    <span># 带上7个参数执行COMMAND命令：</span>
-<span># "This" "is" "a" "variable" "containing" "five" "words"</span>
-
-COMMAND <span>"This is <span>$variable1</span>"</span>  <span># 带上1个参数执行COMMAND命令：</span>
-<span># "This is a variable containing five words"</span>
-
-
-<span>variable2</span><span>=</span><span>""</span>    <span># 空值。</span>
-
-COMMAND  <span>$variable2</span> <span>$variable2</span> <span>$variable2</span>
-                <span># 不带参数执行COMMAND命令。</span>
-COMMAND <span>"<span>$variable2</span>"</span> <span>"<span>$variable2</span>"</span> <span>"<span>$variable2</span>"</span>
-                <span># 带上3个参数执行COMMAND命令。</span>
-COMMAND <span>"<span>$variable2</span> <span>$variable2</span> <span>$variable2</span>"</span>
-                <span># 带上1个参数执行COMMAND命令（2空格）。</span>
-
-<span># 感谢 Stéphane Chazelas。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="info" /> 当字符分割或者保留空白符出现问题时，才需要在<code>echo</code>语句中用双引号包住参数。</p>
-</blockquote>
-<p>样例 5-1. 输出一些奇怪的变量</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># weirdvars.sh: 输出一些奇怪的变量</span>
-
-<span>echo</span>
-
-<span>var</span><span>=</span><span>"'(]<span title="\\">\\</span>{}\$<span title="\&quot;">\"</span>"</span>
-<span>echo</span> <span>$var</span>        <span># '(]\{}$"</span>
-<span>echo</span> <span>"<span>$var</span>"</span>      <span># '(]\{}$"     没有任何区别。</span>
-
-<span>echo</span>
-
-<span><span>IFS</span></span><span>=</span><span>'\'
-echo <span>$var</span>        # '</span><span>(</span><span>]</span> <span>{</span><span>}</span>$<span>"     \ 被转换成了空格，为什么？
-echo "</span><span>$var</span><span>"      # '(]\{}$"</span>
-
-<span># 上面的例子由 Stephane Chazelas 提供。</span>
-
-<span>echo</span>
-
-<span>var2</span><span>=</span><span>"<span title="\\">\\</span><span title="\\">\\</span><span title="\&quot;">\"</span>"</span>
-<span>echo</span> <span>$var2</span>       <span>#   "</span>
-<span>echo</span> <span>"<span>$var2</span>"</span>     <span># \\"</span>
-<span>echo</span>
-<span># 但是...var2="\\\\"" 不是合法的语句，为什么？</span>
-<span>var3</span><span>=</span><span>'<span title="\\">\\</span><span title="\\">\\</span>'</span>
-<span>echo</span> <span>"<span>$var3</span>"</span>     <span># \\\\</span>
-<span># 强引用是可以的。</span>
-
-
-<span># ************************************************************ #</span>
-<span># 就像第一个例子展示的那样，嵌套引用是允许的。</span>
-
-<span>echo</span> <span>"<span><span>$(</span><span>echo</span> <span>'"'</span><span>)</span></span>"</span>           <span># "</span>
-<span>#    ^           ^</span>
-
-
-<span># 在有些时候这种方法非常有用。</span>
-
-<span>var1</span><span>=</span><span>"Two bits"</span>
-<span>echo</span> <span>"\<span>$var1</span> = "</span><span>$var1</span><span>""</span>      <span># $var1 = Two bits</span>
-<span>#    ^                ^</span>
-
-<span># 或者，可以像 Chris Hiestand 指出的那样：</span>
-
-<span>if</span> <span>[</span><span>[</span> <span>"<span><span>$(</span><span>du</span> <span>"<span>$My_File1</span>"</span><span>)</span></span>"</span> -gt <span>"<span><span>$(</span><span>du</span> <span>"<span>$My_File2</span>"</span><span>)</span></span>"</span> <span>]</span><span>]</span>
-<span>#     ^     ^         ^ ^     ^     ^         ^ ^</span>
-<span>then</span>
-  <span>..</span>.
-<span>fi</span>
-<span># ************************************************************ #</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div><p>单引号（' '）与双引号类似，但是在单引号中不能引用变量，因为 <code>$</code> 不再具有特殊含义。在单引号中，除<code>'</code>之外的所有特殊字符都将会被直接按照字面意思解释。可以认为单引号（“全引用”）是双引号（“部分引用”）的一种更严格的形式。</p>
-<blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" /> 因为在单引号中转义符（\）都已经按照字面意思解释了，因此尝试在单引号中包含单引号将不会产生你所预期的结果。</p>
-</blockquote>
-<div><pre><code><span>echo</span> <span>"Why can't I write 's between single quotes"</span>
-<span>></span>
-<span>echo</span>
-<span>></span>
-<span># 可以采取迂回的方式。</span>
-<span>echo</span> <span>'Why can'</span><span>\</span>'<span>'t I write '</span>"<span>'"'</span>s between single quotes'
-<span>#    |-------|  |----------|   |-----------------------|</span>
-<span># 由三个单引号引用的字符串，再加上转义以及双引号包住的单引号组成。</span>
-<span>></span>
-<span># 感谢 Stéphane Chazelas 提供的例子。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><hr>
-<section>
-<ol>
-<li id="footnote1"><p>在命令行里，如果双引号包含了 &quot;!&quot; 将会产生错误。这是因为shell将其解释为查看历史命令。而在脚本中，因为历史机制已经被关闭，所以不会产生这个问题。<br>我们更加需要注意的是在双引号中 <code>\</code> 的反常行为，尤其是在使用 <code>echo -e</code> 命令时。<br><pre>bash$ echo hello\!<br>hello!<br>bash$ echo &quot;hello\!&quot;<br>hello\!<br><br><br>bash$ echo \<br>&gt;<br>bash$ echo &quot;\&quot;<br>&gt;<br>bash$ echo \a<br>a<br>bash$ echo &quot;\a&quot;<br>\a<br><br><br>bash$ echo x\ty<br>xty<br>bash$ echo &quot;x\ty&quot;<br>x\ty<br><br>bash$ echo -e x\ty<br>xty<br>bash$ echo -e &quot;x\ty&quot;<br>x       y</pre>在 <code>echo</code> 后的双引号中一般会转义 <code>\</code>。并且 <code>echo -e</code> 会将 <code>&quot;\t&quot;</code> 解释成制表符。<br>（感谢 Wayne Pollock 提出这些；感谢Geoff Lee 与 Daniel Barclay 对此做出的解释。） </p>
-</li>
-<li id="footnote2"><p>字符分割（word splitting）在本文中的意思是指将一个字符串分割成独立的、离散的变量。 </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-      <enclosure url="http://tldp.org/LDP/abs/images/tip.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>第九章 换个角度看变量</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第九章 换个角度看变量</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第九章-换个角度看变量"> 第九章 换个角度看变量</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-<p>在脚本中恰当的使用变量可以增强脚本并提高适应性。因此就需要了解变量的微妙之处和细微差异。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>创建、复制、移动、删除</title>
       <link>https://clay-wangzhi.com/linux/basic/file/zsgc/</link>
       <guid>https://clay-wangzhi.com/linux/basic/file/zsgc/</guid>
@@ -49902,6 +49816,287 @@ rmdir: logs: 目录非空
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>管道及I/O重定向</title>
+      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
+<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
+<h3 id="输出重定向"> 输出重定向</h3>
+<p>输出重定向（覆盖）</p>
+<div><pre><code>date &gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
+<div><pre><code>date 1&gt;&gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>错误输出重定向</p>
+<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
+ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
+<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
+</code></pre>
+<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
+<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
+&gt; 11
+&gt; 22
+&gt; EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>网络管理</title>
+      <link>https://clay-wangzhi.com/linux/basic/inter/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/inter/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">网络管理</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="网络管理"> 网络管理</h1>
+<h1 id="网络基础"> 网络基础</h1>
+<h2 id="常见的网络接口"> 常见的网络接口</h2>
+<p>eth0			以太网接口
+lo				本地环回接口<br>
+br0			桥接接口 （虚拟交换机）
+vnet0		    KVM虚拟机网卡接口</p>
+<h2 id="查看网络信息"> 查看网络信息</h2>
+<div><pre><code>ip addr //查看IP、掩码、MAC...
+ip addr show eth0 //只显示eth0的信息
+ip route //查看本机路由表
+cat /etc/resolv.conf //查看DNS
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>/etc/security/limits.conf 详解与配置</title>
+      <link>https://clay-wangzhi.com/linux/basic/limit/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/limit/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">/etc/security/limits.conf 详解与配置</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="etc-security-limits-conf-详解与配置"> /etc/security/limits.conf 详解与配置</h1>
+<h2 id="一、-etc-security-limits-conf-详解"> 一、 /etc/security/limits.conf 详解</h2>
+<p><code>/etc/security/limits.conf</code> 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 <code>pam_limits.so</code> 的配置文件，而且只针对于单个会话。 该设置不会影响系统服务的资源限制。还要注意 <code>/etc/security/limits.d/</code> 的这个目录，</p>
+<h3 id="etc-security-limits-conf-配置解析"> /etc/security/limits.conf 配置解析</h3>
+<div><pre><code># /etc/security/limits.conf
+#
+#This file sets the resource limits for the users logged in via PAM.
+该文件为通过PAM登录的用户设置资源限制。
+#It does not affect resource limits of the system services.
+#它不影响系统服务的资源限制。
+#Also note that configuration files in /etc/security/limits.d directory,
+#which are read in alphabetical order, override the settings in this
+#file in case the domain is the same or more specific.
+请注意/etc/security/limits.d下按照字母顺序排列的配置文件会覆盖 /etc/security/limits.conf中的
+domain相同的的配置
+#That means for example that setting a limit for wildcard domain here
+#can be overriden with a wildcard setting in a config file in the
+#subdirectory, but a user specific setting here can be overriden only
+#with a user specific setting in the subdirectory.
+这意味着，例如使用通配符的domain会被子目录中相同的通配符配置所覆盖，但是某一用户的特定配置
+只能被字母路中用户的配置所覆盖。其实就是某一用户A如果在/etc/security/limits.conf有配置，当
+/etc/security/limits.d子目录下配置文件也有用户A的配置时，那么A中某些配置会被覆盖。最终取的值是 /etc/security/limits.d 下的配置文件的配置。
+
+#
+#Each line describes a limit for a user in the form:
+#每一行描述一个用户配置
+#&lt;domain&gt; &lt;type&gt; &lt;item&gt; &lt;value&gt;
+
+#Where:
+#&lt;domain&gt; can be:
+# - a user name    一个用户名
+# - a group name, with @group syntax    用户组格式为@GROUP_NAME
+# - the wildcard *, for default entry    默认配置为*，代表所有用户
+# - the wildcard %, can be also used with %group syntax,
+# for maxlogin limit 
+#
+#&lt;type&gt; can have the two values:
+# - &quot;soft&quot; for enforcing the soft limits 
+# - &quot;hard&quot; for enforcing hard limits
+有soft，hard和-，soft指的是当前系统生效的设置值，软限制也可以理解为警告值。
+hard表名系统中所能设定的最大值。soft的限制不能比hard限制高，用-表名同时设置了soft和hard的值。
+#&lt;item&gt; can be one of the following:    &lt;item&gt;可以使以下选项中的一个
+# - core - limits the core file size (KB)    限制内核文件的大小。
+# - data - max data size (KB)    最大数据大小
+# - fsize - maximum filesize (KB)    最大文件大小
+# - memlock - max locked-in-memory address space (KB)    最大锁定内存地址空间
+# - nofile - max number of open file descriptors 最大打开的文件数(以文件描叙符，file descripter计数) 
+# - rss - max resident set size (KB) 最大持久设置大小
+# - stack - max stack size (KB) 最大栈大小
+# - cpu - max CPU time (MIN)    最多CPU占用时间，单位为MIN分钟
+# - nproc - max number of processes 进程的最大数目
+# - as - address space limit (KB) 地址空间限制 
+# - maxlogins - max number of logins for this user    此用户允许登录的最大数目
+# - maxsyslogins - max number of logins on the system    系统最大同时在线用户数
+# - priority - the priority to run user process with    运行用户进程的优先级
+# - locks - max number of file locks the user can hold    用户可以持有的文件锁的最大数量
+# - sigpending - max number of pending signals
+# - msgqueue - max memory used by POSIX message queues (bytes)
+# - nice - max nice priority allowed to raise to values: [-20, 19] max nice优先级允许提升到值
+# - rtprio - max realtime pr iority
+#
+#&lt;domain&gt; &lt;type&gt; &lt;item&gt; &lt;value&gt;
+#
+
+#* soft core 0
+#* hard rss 10000
+#@student hard nproc 20
+#@faculty soft nproc 20
+#@faculty hard nproc 50
+#ftp hard nproc 0
+#@st
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br></div></div><h3 id="etc-security-limits-d-目录"> /etc/security/limits.d/目录</h3>
+<ul>
+<li>
+<p><code>/etc/security/limits.d/</code>目录</p>
+<p>该目录下默认有<code>*-nproc.conf</code>文件，该文件是用于限制用户的线程限制。我们也可以在该目录创建配置文件</p>
+<p>在<code>/etc/security/limits.d/</code>下，以 .conf 结尾。</p>
+<ul>
+<li>
+<p>centos 7</p>
+<p>在CentOS 7版本中为<code>/etc/security/limits.d/20-nproc.conf</code>，</p>
+<div><pre><code># Default limit for number of user&#39;s processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     4096 # 所有的用户默认可以打开最大的进程数为 4096
+root       soft    nproc     unlimited # root 用户默认可以打开最大的进程数 无限制的。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div></li>
+<li>
+<p>CentOS 6</p>
+<p>在CentOS 6版本中为<code>/etc/security/limits.d/90-nproc.conf</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、-ulimit-如何配置"> 二、 ulimit 如何配置</h2>
+<h3 id="配置注意事项"> 配置注意事项</h3>
+<p>注意不能设置 <code>nofile</code>不能设置 <code>unlimited</code>，<code>noproc</code>可以.
+当我们设置了 <code>nofile</code>不能设置 <code>unlimited</code> 后，我们进行 ssh 登录，是登录不了的，并且报错下面的内容。</p>
+<div><pre><code>Dec  1 14:57:57 localhost sshd[1543]: pam_limits(sshd:session): Could not set limit for &#39;nofile&#39;: Operation not permitted
+</code></pre>
+<div><span>1</span><br></div></div><p>当我们设置的 <code>nofile</code> 的值可以设置的最大值为 1048576(2**20)，设置的值大于该数，就会进行登录不了。也会显示上面的登录错误。(亲测)</p>
+<h3 id="基础配置"> 基础配置</h3>
+<p>我们不将所有的配置配置在<code>/etc/security/limits.conf</code> 而是将配置放在 <code>/etc/security/limits.d/</code> 下。
+比如我们将 nofile的配置放在 <code>/etc/security/limits.d/20-nofile.conf</code> ，nproc 的配置放在 <code>/etc/security/limits.d/20-nproc.conf</code>.</p>
+<p>一般我们需要配置的 <code>/etc/security/limits.d/20-nofile.conf</code> 为。</p>
+<div><pre><code>root soft nofile 65535
+root hard nofile 65535
+* soft nofile 65535
+* hard nofile 65535
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><code>/etc/security/limits.d/20-nproc.conf</code> 设置为</p>
+<div><pre><code>*    -     nproc   65535
+root soft  nproc  unlimited
+root hard  nproc  unlimited
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="注意覆盖点的问题。"> 注意覆盖点的问题。</h3>
+<p><strong>示例一：</strong>
+当 <code>/etc/security/limits.conf</code> 配置了:</p>
+<div><pre><code>root soft nofile 65538
+root hard nofile 65538
+* soft nofile 65539
+* hard nofile 65539
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这个root 用户的 默认取值是 65538 ，* 统配符虽然在 root 配置后面，但是 root 的配置只能被 root 进行覆盖。</p>
+<p>我们看下这个配置，当这样配置的时候</p>
+<div><pre><code>root soft nofile 65538
+root hard nofile 65538
+* soft nofile 65539
+* hard nofile 65539
+root soft nofile 65539
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>这个的 root 用户的取值还是 65538 ，因为虽然 <code>root soft nofile 65539</code> 会覆盖我们之前的配置，但是这个配置是不生效的。因为 <code>root soft nofile 65539</code> 配置的值大于<code>root hard nofile 65538</code> , <code>soft</code> 配置的值不能大于 <code>hard</code>.</p>
+<p><strong>示例二：</strong>
+当我们在 <code>/etc/security/limits.conf</code> 配置了:</p>
+<div><pre><code>root soft nofile 65538
+root hard nofile 65538
+* soft nofile 65539
+* hard nofile 65539
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后我们在 <code>/etc/security/limits.d/20-nofile.conf</code> 配置了：</p>
+<div><pre><code>root soft nofile 65536
+root hard nofile 65536
+* soft nofile 65540
+* hard nofile 65540
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>最后的取值是会取 <code>/etc/security/limits.d/20-nofile.conf</code> 里面的值。</p>
+<blockquote>
+<ol>
+<li>配置，只能被特定覆盖。</li>
+<li><code>/etc/security/limits.d/</code> 下文件的相同配置可以覆盖 <code>/etc/security/limits.conf</code></li>
+<li><code>soft</code>和<code>hard</code>需要都进行设置,才能生效。</li>
+<li><code>nofile</code>不能设置 <code>unlimited</code></li>
+<li><code>nofile</code>可以设置的最大值为 1048576(2**20)，设置的值大于该数，就会进行登录不了。</li>
+<li>soft 设置的值 一定要小于或等于 hard 的值。</li>
+</ol>
+</blockquote>
+<p>具体详细配置根据应用情况进行配置。</p>
+<h2 id="三、ulimit-配置后生效"> 三、ulimit 配置后生效</h2>
+<h3 id="临时配置"> 临时配置</h3>
+<p>设置可以打开文件的最大数为 65536</p>
+<div><pre><code>ulimit  -SHn  65536
+</code></pre>
+<div><span>1</span><br></div></div><p>重启后失效。</p>
+<h3 id="永久配置"> 永久配置</h3>
+<p>配置到配置文件<code>/etc/security/limits.conf</code>或者 <code>/etc/security/limits.d/</code> 中。
+然后退出当前会话，重新登录。 即可生效，重启配置也会保留。</p>
+<h3 id="配置不生效的问题"> 配置不生效的问题</h3>
+<p>按照上面的配置好了之后，我们进行设置登录到服务器，我发现是配置没有生效的，但是我使用 su - root 之后，发现配置是生效的。 很怪异。
+设备环境： Centos6.</p>
+<h4 id="问题原因"> 问题原因</h4>
+<p>主要是 Centos6 的原因，我们排查到 sshd 服务的 PAM 模块是没有开启的，而<code>/etc/security/limits.conf</code> 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 <code>pam_limits.so</code> 的配置文件，我们没有开启 PAM 模块，最终也就没有读取到 <code>/etc/security/limits.conf</code> 的内容。 而 su 进行切换的时候使用的是 终端tty登陆(默认使用PAM模块),</p>
+<h4 id="解决办法"> 解决办法</h4>
+<p>在 <code>/etc/ssh/sshd_config</code> 将 <code>UsePAM no</code> 更改为 <code>UsePAM yes</code>, 然后重启 sshd 服务。</p>
+<h2 id="四、ulimit-常用命令"> 四、ulimit 常用命令</h2>
+<div><pre><code>      -S	use the `soft&#39; resource limit # 设置软限制
+      -H	use the `hard&#39; resource limit # 设置硬限制
+      -a	all current limits are reported# 显示所有的配置。
+      -b	the socket buffer size # 设置socket buffer 的最大值。
+      -c	the maximum size of core files created # 设置core文件的最大值.
+      -d	the maximum size of a process&#39;s data segment  # 设置线程数据段的最大值
+      -e	the maximum scheduling priority (`nice&#39;) # 设置最大调度优先级
+      -f	the maximum size of files written by the shell and its children # 创建文件的最大值。
+      -i	the maximum number of pending signals # 设置最大的等待信号
+      -l	the maximum size a process may lock into memory #设置在内存中锁定进程的最大值
+      -m	the maximum resident set size 
+      -n	the maximum number of open file descriptors # 设置最大可以的打开文件描述符。
+      -p	the pipe buffer size
+      -q	the maximum number of bytes in POSIX message queues
+      -r	the maximum real-time scheduling priority
+      -s	the maximum stack size
+      -t	the maximum amount of cpu time in seconds
+      -u	the maximum number of user processes  # 设置用户可以创建的最大进程数。
+      -v	the size of virtual memory  # 设置虚拟内存的最大值
+      -x	the maximum number of file locks
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><h3 id="查看配置"> 查看配置</h3>
+<p>查看所有的配置</p>
+<div><pre><code>ulimit  -a
+</code></pre>
+<div><span>1</span><br></div></div><p>查看配置的最大打开文件数</p>
+<div><pre><code>ulimit  -n
+</code></pre>
+<div><span>1</span><br></div></div><p>更改配置</p>
+<div><pre><code>ulimit  -SHn  65536
+</code></pre>
+<div><span>1</span><br></div></div><blockquote>
+<p>转载链接：https://www.cnblogs.com/operationhome/p/11966041.html</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
       <title>日志logrotate</title>
       <link>https://clay-wangzhi.com/linux/basic/logrotate/</link>
       <guid>https://clay-wangzhi.com/linux/basic/logrotate/</guid>
@@ -50079,6 +50274,70 @@ exit 0
 <div><pre><code>/etc/init.d/crond restart
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>第一章 为什么使用shell编程</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第一章 为什么使用shell编程</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
+<blockquote>
+<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
+<p>—— Herbert Mayer</p>
+</blockquote>
+<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
+<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
+<blockquote>
+<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
+<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
+</blockquote>
+<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
+<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
+<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
+<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
+<ul>
+<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
+<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
+<li>有跨平台需求（使用C或者Java代替）</li>
+<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
+<li>影响系统全局的关键性任务</li>
+<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
+<li>项目包含有连锁依赖关系的组件</li>
+<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
+<li>需要使用多维数组</li>
+<li>需要使用如链表、树等数据结构</li>
+<li>需要产生或操作图像和图形用户接口（GUI）</li>
+<li>需要直接访问系统硬件或外部设备</li>
+<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
+<li>需要使用库或旧程序的接口</li>
+<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
+</ul>
+<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
+<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
+<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
+<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
+<blockquote>
+<p>His countenance was bold and bashed not.</p>
+<p>—— Edmund Spenser</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
+</li>
+<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
+</li>
+<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
+</li>
+<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
+</li>
+<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
     </item>
     <item>
       <title>进程管理</title>
@@ -50765,226 +51024,6 @@ Ctrl+Y 粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本，粘贴或者恢复上次�
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/HFS.png" type="image/png"/>
     </item>
     <item>
-      <title>/etc/security/limits.conf 详解与配置</title>
-      <link>https://clay-wangzhi.com/linux/basic/limit/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/limit/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">/etc/security/limits.conf 详解与配置</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="etc-security-limits-conf-详解与配置"> /etc/security/limits.conf 详解与配置</h1>
-<h2 id="一、-etc-security-limits-conf-详解"> 一、 /etc/security/limits.conf 详解</h2>
-<p><code>/etc/security/limits.conf</code> 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 <code>pam_limits.so</code> 的配置文件，而且只针对于单个会话。 该设置不会影响系统服务的资源限制。还要注意 <code>/etc/security/limits.d/</code> 的这个目录，</p>
-<h3 id="etc-security-limits-conf-配置解析"> /etc/security/limits.conf 配置解析</h3>
-<div><pre><code># /etc/security/limits.conf
-#
-#This file sets the resource limits for the users logged in via PAM.
-该文件为通过PAM登录的用户设置资源限制。
-#It does not affect resource limits of the system services.
-#它不影响系统服务的资源限制。
-#Also note that configuration files in /etc/security/limits.d directory,
-#which are read in alphabetical order, override the settings in this
-#file in case the domain is the same or more specific.
-请注意/etc/security/limits.d下按照字母顺序排列的配置文件会覆盖 /etc/security/limits.conf中的
-domain相同的的配置
-#That means for example that setting a limit for wildcard domain here
-#can be overriden with a wildcard setting in a config file in the
-#subdirectory, but a user specific setting here can be overriden only
-#with a user specific setting in the subdirectory.
-这意味着，例如使用通配符的domain会被子目录中相同的通配符配置所覆盖，但是某一用户的特定配置
-只能被字母路中用户的配置所覆盖。其实就是某一用户A如果在/etc/security/limits.conf有配置，当
-/etc/security/limits.d子目录下配置文件也有用户A的配置时，那么A中某些配置会被覆盖。最终取的值是 /etc/security/limits.d 下的配置文件的配置。
-
-#
-#Each line describes a limit for a user in the form:
-#每一行描述一个用户配置
-#&lt;domain&gt; &lt;type&gt; &lt;item&gt; &lt;value&gt;
-
-#Where:
-#&lt;domain&gt; can be:
-# - a user name    一个用户名
-# - a group name, with @group syntax    用户组格式为@GROUP_NAME
-# - the wildcard *, for default entry    默认配置为*，代表所有用户
-# - the wildcard %, can be also used with %group syntax,
-# for maxlogin limit 
-#
-#&lt;type&gt; can have the two values:
-# - &quot;soft&quot; for enforcing the soft limits 
-# - &quot;hard&quot; for enforcing hard limits
-有soft，hard和-，soft指的是当前系统生效的设置值，软限制也可以理解为警告值。
-hard表名系统中所能设定的最大值。soft的限制不能比hard限制高，用-表名同时设置了soft和hard的值。
-#&lt;item&gt; can be one of the following:    &lt;item&gt;可以使以下选项中的一个
-# - core - limits the core file size (KB)    限制内核文件的大小。
-# - data - max data size (KB)    最大数据大小
-# - fsize - maximum filesize (KB)    最大文件大小
-# - memlock - max locked-in-memory address space (KB)    最大锁定内存地址空间
-# - nofile - max number of open file descriptors 最大打开的文件数(以文件描叙符，file descripter计数) 
-# - rss - max resident set size (KB) 最大持久设置大小
-# - stack - max stack size (KB) 最大栈大小
-# - cpu - max CPU time (MIN)    最多CPU占用时间，单位为MIN分钟
-# - nproc - max number of processes 进程的最大数目
-# - as - address space limit (KB) 地址空间限制 
-# - maxlogins - max number of logins for this user    此用户允许登录的最大数目
-# - maxsyslogins - max number of logins on the system    系统最大同时在线用户数
-# - priority - the priority to run user process with    运行用户进程的优先级
-# - locks - max number of file locks the user can hold    用户可以持有的文件锁的最大数量
-# - sigpending - max number of pending signals
-# - msgqueue - max memory used by POSIX message queues (bytes)
-# - nice - max nice priority allowed to raise to values: [-20, 19] max nice优先级允许提升到值
-# - rtprio - max realtime pr iority
-#
-#&lt;domain&gt; &lt;type&gt; &lt;item&gt; &lt;value&gt;
-#
-
-#* soft core 0
-#* hard rss 10000
-#@student hard nproc 20
-#@faculty soft nproc 20
-#@faculty hard nproc 50
-#ftp hard nproc 0
-#@st
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br></div></div><h3 id="etc-security-limits-d-目录"> /etc/security/limits.d/目录</h3>
-<ul>
-<li>
-<p><code>/etc/security/limits.d/</code>目录</p>
-<p>该目录下默认有<code>*-nproc.conf</code>文件，该文件是用于限制用户的线程限制。我们也可以在该目录创建配置文件</p>
-<p>在<code>/etc/security/limits.d/</code>下，以 .conf 结尾。</p>
-<ul>
-<li>
-<p>centos 7</p>
-<p>在CentOS 7版本中为<code>/etc/security/limits.d/20-nproc.conf</code>，</p>
-<div><pre><code># Default limit for number of user&#39;s processes to prevent
-# accidental fork bombs.
-# See rhbz #432903 for reasoning.
-
-*          soft    nproc     4096 # 所有的用户默认可以打开最大的进程数为 4096
-root       soft    nproc     unlimited # root 用户默认可以打开最大的进程数 无限制的。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div></li>
-<li>
-<p>CentOS 6</p>
-<p>在CentOS 6版本中为<code>/etc/security/limits.d/90-nproc.conf</code></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="二、-ulimit-如何配置"> 二、 ulimit 如何配置</h2>
-<h3 id="配置注意事项"> 配置注意事项</h3>
-<p>注意不能设置 <code>nofile</code>不能设置 <code>unlimited</code>，<code>noproc</code>可以.
-当我们设置了 <code>nofile</code>不能设置 <code>unlimited</code> 后，我们进行 ssh 登录，是登录不了的，并且报错下面的内容。</p>
-<div><pre><code>Dec  1 14:57:57 localhost sshd[1543]: pam_limits(sshd:session): Could not set limit for &#39;nofile&#39;: Operation not permitted
-</code></pre>
-<div><span>1</span><br></div></div><p>当我们设置的 <code>nofile</code> 的值可以设置的最大值为 1048576(2**20)，设置的值大于该数，就会进行登录不了。也会显示上面的登录错误。(亲测)</p>
-<h3 id="基础配置"> 基础配置</h3>
-<p>我们不将所有的配置配置在<code>/etc/security/limits.conf</code> 而是将配置放在 <code>/etc/security/limits.d/</code> 下。
-比如我们将 nofile的配置放在 <code>/etc/security/limits.d/20-nofile.conf</code> ，nproc 的配置放在 <code>/etc/security/limits.d/20-nproc.conf</code>.</p>
-<p>一般我们需要配置的 <code>/etc/security/limits.d/20-nofile.conf</code> 为。</p>
-<div><pre><code>root soft nofile 65535
-root hard nofile 65535
-* soft nofile 65535
-* hard nofile 65535
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><code>/etc/security/limits.d/20-nproc.conf</code> 设置为</p>
-<div><pre><code>*    -     nproc   65535
-root soft  nproc  unlimited
-root hard  nproc  unlimited
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="注意覆盖点的问题。"> 注意覆盖点的问题。</h3>
-<p><strong>示例一：</strong>
-当 <code>/etc/security/limits.conf</code> 配置了:</p>
-<div><pre><code>root soft nofile 65538
-root hard nofile 65538
-* soft nofile 65539
-* hard nofile 65539
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这个root 用户的 默认取值是 65538 ，* 统配符虽然在 root 配置后面，但是 root 的配置只能被 root 进行覆盖。</p>
-<p>我们看下这个配置，当这样配置的时候</p>
-<div><pre><code>root soft nofile 65538
-root hard nofile 65538
-* soft nofile 65539
-* hard nofile 65539
-root soft nofile 65539
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>这个的 root 用户的取值还是 65538 ，因为虽然 <code>root soft nofile 65539</code> 会覆盖我们之前的配置，但是这个配置是不生效的。因为 <code>root soft nofile 65539</code> 配置的值大于<code>root hard nofile 65538</code> , <code>soft</code> 配置的值不能大于 <code>hard</code>.</p>
-<p><strong>示例二：</strong>
-当我们在 <code>/etc/security/limits.conf</code> 配置了:</p>
-<div><pre><code>root soft nofile 65538
-root hard nofile 65538
-* soft nofile 65539
-* hard nofile 65539
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>然后我们在 <code>/etc/security/limits.d/20-nofile.conf</code> 配置了：</p>
-<div><pre><code>root soft nofile 65536
-root hard nofile 65536
-* soft nofile 65540
-* hard nofile 65540
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>最后的取值是会取 <code>/etc/security/limits.d/20-nofile.conf</code> 里面的值。</p>
-<blockquote>
-<ol>
-<li>配置，只能被特定覆盖。</li>
-<li><code>/etc/security/limits.d/</code> 下文件的相同配置可以覆盖 <code>/etc/security/limits.conf</code></li>
-<li><code>soft</code>和<code>hard</code>需要都进行设置,才能生效。</li>
-<li><code>nofile</code>不能设置 <code>unlimited</code></li>
-<li><code>nofile</code>可以设置的最大值为 1048576(2**20)，设置的值大于该数，就会进行登录不了。</li>
-<li>soft 设置的值 一定要小于或等于 hard 的值。</li>
-</ol>
-</blockquote>
-<p>具体详细配置根据应用情况进行配置。</p>
-<h2 id="三、ulimit-配置后生效"> 三、ulimit 配置后生效</h2>
-<h3 id="临时配置"> 临时配置</h3>
-<p>设置可以打开文件的最大数为 65536</p>
-<div><pre><code>ulimit  -SHn  65536
-</code></pre>
-<div><span>1</span><br></div></div><p>重启后失效。</p>
-<h3 id="永久配置"> 永久配置</h3>
-<p>配置到配置文件<code>/etc/security/limits.conf</code>或者 <code>/etc/security/limits.d/</code> 中。
-然后退出当前会话，重新登录。 即可生效，重启配置也会保留。</p>
-<h3 id="配置不生效的问题"> 配置不生效的问题</h3>
-<p>按照上面的配置好了之后，我们进行设置登录到服务器，我发现是配置没有生效的，但是我使用 su - root 之后，发现配置是生效的。 很怪异。
-设备环境： Centos6.</p>
-<h4 id="问题原因"> 问题原因</h4>
-<p>主要是 Centos6 的原因，我们排查到 sshd 服务的 PAM 模块是没有开启的，而<code>/etc/security/limits.conf</code> 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 <code>pam_limits.so</code> 的配置文件，我们没有开启 PAM 模块，最终也就没有读取到 <code>/etc/security/limits.conf</code> 的内容。 而 su 进行切换的时候使用的是 终端tty登陆(默认使用PAM模块),</p>
-<h4 id="解决办法"> 解决办法</h4>
-<p>在 <code>/etc/ssh/sshd_config</code> 将 <code>UsePAM no</code> 更改为 <code>UsePAM yes</code>, 然后重启 sshd 服务。</p>
-<h2 id="四、ulimit-常用命令"> 四、ulimit 常用命令</h2>
-<div><pre><code>      -S	use the `soft&#39; resource limit # 设置软限制
-      -H	use the `hard&#39; resource limit # 设置硬限制
-      -a	all current limits are reported# 显示所有的配置。
-      -b	the socket buffer size # 设置socket buffer 的最大值。
-      -c	the maximum size of core files created # 设置core文件的最大值.
-      -d	the maximum size of a process&#39;s data segment  # 设置线程数据段的最大值
-      -e	the maximum scheduling priority (`nice&#39;) # 设置最大调度优先级
-      -f	the maximum size of files written by the shell and its children # 创建文件的最大值。
-      -i	the maximum number of pending signals # 设置最大的等待信号
-      -l	the maximum size a process may lock into memory #设置在内存中锁定进程的最大值
-      -m	the maximum resident set size 
-      -n	the maximum number of open file descriptors # 设置最大可以的打开文件描述符。
-      -p	the pipe buffer size
-      -q	the maximum number of bytes in POSIX message queues
-      -r	the maximum real-time scheduling priority
-      -s	the maximum stack size
-      -t	the maximum amount of cpu time in seconds
-      -u	the maximum number of user processes  # 设置用户可以创建的最大进程数。
-      -v	the size of virtual memory  # 设置虚拟内存的最大值
-      -x	the maximum number of file locks
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><h3 id="查看配置"> 查看配置</h3>
-<p>查看所有的配置</p>
-<div><pre><code>ulimit  -a
-</code></pre>
-<div><span>1</span><br></div></div><p>查看配置的最大打开文件数</p>
-<div><pre><code>ulimit  -n
-</code></pre>
-<div><span>1</span><br></div></div><p>更改配置</p>
-<div><pre><code>ulimit  -SHn  65536
-</code></pre>
-<div><span>1</span><br></div></div><blockquote>
-<p>转载链接：https://www.cnblogs.com/operationhome/p/11966041.html</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>软件包管理</title>
       <link>https://clay-wangzhi.com/linux/basic/rpm/</link>
       <guid>https://clay-wangzhi.com/linux/basic/rpm/</guid>
@@ -51027,35 +51066,6 @@ rpm -ql xxx //查询xxx安装的文件
 </code></pre>
 <div><span>1</span><br><span>2</span><br></div></div><p>卸载</p>
 <div><pre><code>rpm -e xxx
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>用户管理</title>
-      <link>https://clay-wangzhi.com/linux/basic/user/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/user/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">用户管理</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
@@ -51150,6 +51160,35 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </tbody>
 </table>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>用户管理</title>
+      <link>https://clay-wangzhi.com/linux/basic/user/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/user/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">用户管理</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>编程语言的分类</title>
@@ -54771,83 +54810,6 @@ bin/elasticsearch-plugin list
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568013522348.png" type="image/png"/>
     </item>
     <item>
-      <title>倒排索引入门</title>
-      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
-<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
-    </item>
-    <item>
       <title>通过分析器进行分词</title>
       <link>https://clay-wangzhi.com/monitor/elk/primer/participle/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/primer/participle/</guid>
@@ -54929,6 +54891,83 @@ bin/elasticsearch-plugin list
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568094953293.png" type="image/png"/>
+    </item>
+    <item>
+      <title>倒排索引入门</title>
+      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
+<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
     </item>
     <item>
       <title>Request Body和Query DSL简介</title>
@@ -55593,6 +55632,33 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" type="image/webp"/>
     </item>
     <item>
+      <title>6 常见问题</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>PrometheusAlert</title>
       <link>https://clay-wangzhi.com/monitor/promethues-alerts/</link>
       <guid>https://clay-wangzhi.com/monitor/promethues-alerts/</guid>
@@ -55642,33 +55708,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 {{ end }}
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>6 常见问题</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
-]]></content:encoded>
     </item>
     <item>
       <title>1 zabbix4.4新功能</title>
@@ -62172,73 +62211,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png" type="image/png"/>
     </item>
     <item>
-      <title>3.1 nginx全局块和events块配置</title>
-      <link>https://clay-wangzhi.com/web/nginx/global-events/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/global-events/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3.1 nginx全局块和events块配置</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
-<h2 id="_1-example"> 1 example</h2>
-<div><pre><code><span># 运行Nginx进程的用户</span>
-<span>user</span> nginx<span>;</span>
-<span>worker_processes</span>  <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> auto<span>;</span>
-
-<span># 定义存储某类型的全局错误的日志位置</span>
-<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
-<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
-<span># 指定进程ID（pid）存放的路径 </span>
-<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
-<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
-<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
-
-<span>events</span> <span>{</span>
-    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
-    <span>use</span> epoll<span>;</span>
-    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
-    <span>worker_connections</span>  <span>20480</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
-<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
-<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
-<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
-<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
-<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
-<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
-<blockquote>
-<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
-</blockquote>
-<h3 id="_2-3-实例"> 2.3 实例</h3>
-<p><strong>2核CPU，开启2个进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
-<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
-<p>测试结束后，CPU内核的负载应该都同时降低。</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>3.2 nginxHTTP块配置</title>
       <link>https://clay-wangzhi.com/web/nginx/http/</link>
       <guid>https://clay-wangzhi.com/web/nginx/http/</guid>
@@ -62400,6 +62372,73 @@ real_ip_recursive on; #递归的去除所配置中的可信IP。
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" type="image/png"/>
+    </item>
+    <item>
+      <title>3.1 nginx全局块和events块配置</title>
+      <link>https://clay-wangzhi.com/web/nginx/global-events/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/global-events/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3.1 nginx全局块和events块配置</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
+<h2 id="_1-example"> 1 example</h2>
+<div><pre><code><span># 运行Nginx进程的用户</span>
+<span>user</span> nginx<span>;</span>
+<span>worker_processes</span>  <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> auto<span>;</span>
+
+<span># 定义存储某类型的全局错误的日志位置</span>
+<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
+<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
+<span># 指定进程ID（pid）存放的路径 </span>
+<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
+<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
+<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
+
+<span>events</span> <span>{</span>
+    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
+    <span>use</span> epoll<span>;</span>
+    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
+    <span>worker_connections</span>  <span>20480</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
+<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
+<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
+<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
+<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
+<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
+<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
+<blockquote>
+<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
+</blockquote>
+<h3 id="_2-3-实例"> 2.3 实例</h3>
+<p><strong>2核CPU，开启2个进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
+<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
+<p>测试结束后，CPU内核的负载应该都同时降低。</p>
+</blockquote>
+]]></content:encoded>
     </item>
     <item>
       <title>3.4 nginxLOCATION块配置</title>
@@ -63836,65 +63875,36 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>管道及I/O重定向</title>
-      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
+      <title>2.1 调用一个脚本</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">2.1 调用一个脚本</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
-<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
-<h3 id="输出重定向"> 输出重定向</h3>
-<p>输出重定向（覆盖）</p>
-<div><pre><code>date &gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
-<div><pre><code>date 1&gt;&gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>错误输出重定向</p>
-<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
-ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
-<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
-</code></pre>
-<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
-<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
-&gt; 11
-&gt; 22
-&gt; EOF
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="_2-1-调用一个脚本"> 2.1 调用一个脚本</h1>
+<p>写完一个脚本以后，你可以通过<code>sh scriptname</code>或<code>bash scriptname</code>来调用它（不推荐使用<code>sh &lt;scriptname</code>调用脚本，因为这会禁用脚本从标准输入（stdin）读入数据）。更方便的方式是使用<code>chmod</code>命令使脚本可以被直接执行。</p>
+<p>执行命令：</p>
+<p><code>chmod 555 scriptname</code>（给予所有用户读取/执行的权限）</p>
+<p>或</p>
+<p><code>chmod +rx scriptname</code>（给予所有用户读取/执行的权限）</p>
+<p><code>chmod u+rx scriptname</code>（仅给予脚本所有者读取/执行的权限）</p>
+<p>当脚本的权限被设置好后，你就可以直接使用<code>./scriptname</code>[^3]进行调用测试了。如果脚本文件以sha-bang开头，那么它将自动调用指定的命令解释器运行脚本。</p>
+<p>完成调试与测试后，你可能会将脚本文件移至<code>/usr/local/bin</code>（使用root权限）中，使脚本可以被所有用户调用。这时你可以直接在命令行中输入<code>scriptname [ENTER]</code>执行脚本。</p>
+]]></content:encoded>
     </item>
     <item>
-      <title>网络管理</title>
-      <link>https://clay-wangzhi.com/linux/basic/inter/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/inter/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">网络管理</source>
+      <title>2.2 牛刀小试</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">2.2 牛刀小试</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="网络管理"> 网络管理</h1>
-<h1 id="网络基础"> 网络基础</h1>
-<h2 id="常见的网络接口"> 常见的网络接口</h2>
-<p>eth0			以太网接口
-lo				本地环回接口<br>
-br0			桥接接口 （虚拟交换机）
-vnet0		    KVM虚拟机网卡接口</p>
-<h2 id="查看网络信息"> 查看网络信息</h2>
-<div><pre><code>ip addr //查看IP、掩码、MAC...
-ip addr show eth0 //只显示eth0的信息
-ip route //查看本机路由表
-cat /etc/resolv.conf //查看DNS
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
+<ol>
+<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
+<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
+</ol>
+]]></content:encoded>
     </item>
   </channel>
 </rss>
