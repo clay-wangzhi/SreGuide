@@ -34,7 +34,7 @@ module.exports = [
     children: ["high-func", "lambda", "python-decorator"]
   },
   {
-    title: "5 模块",
+    title: "6 模块",
     collapsable: false,
     children: ["python-module-install", "python-setup"]
   },

@@ -2,7 +2,7 @@
 category: Python
 ---
 
-# 5.1 Python 模块常用的几种安装方式
+# 6.1 Python 模块常用的几种安装方式
 
 ## 单文件模块
 

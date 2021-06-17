@@ -2,7 +2,7 @@
 category: Python
 ---
 
-# 5.2 Python 的 setup.py 详解
+# 6.2 Python 的 setup.py 详解
 
 > 转载自：[花了两天，终于把 Python 的 setup.py 给整明白了 | Python编程时光| 知乎](https://zhuanlan.zhihu.com/p/276461821)
 
