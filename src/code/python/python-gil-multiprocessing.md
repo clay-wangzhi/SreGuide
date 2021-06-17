@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 14 多进程
+# 10.1 多进程
 
 ## GIL
 

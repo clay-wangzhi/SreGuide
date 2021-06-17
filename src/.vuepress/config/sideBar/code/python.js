@@ -53,10 +53,14 @@ module.exports = [
     collapsable: false,
     children: ["python-oo-package", "access-control", "python-oo-inher-pol"]
   },
+  {
+    title: "10 进程和线程",
+    path: "process-thread",
+    collapsable: false,
+    children: ["python-gil-multiprocessing", "python-thread"]
+  },
   "python-magic.md",
-  "python-thread.md",
   "python-thread-sync.md",
-  "python-gil-multiprocessing.md",
   "python-tcp-pg.md",
   "python-socketserver.md",
   "python-io-model.md",
