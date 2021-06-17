@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 17 Jun 2021 10:15:50 GMT</pubDate>
-    <lastBuildDate>Thu, 17 Jun 2021 10:15:50 GMT</lastBuildDate>
+    <pubDate>Thu, 17 Jun 2021 10:27:52 GMT</pubDate>
+    <lastBuildDate>Thu, 17 Jun 2021 10:27:52 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -6505,39 +6505,6 @@ git-parameter #选项参数增加，git-brach选项
 ]]></content:encoded>
     </item>
     <item>
-      <title>5.1 构建发布工具集成</title>
-      <link>https://clay-wangzhi.com/automate/jenkins/build-tools/</link>
-      <guid>https://clay-wangzhi.com/automate/jenkins/build-tools/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">5.1 构建发布工具集成</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-1-构建发布工具集成"> 5.1 构建发布工具集成</h1>
-<p>安装完成后，配置管理工具</p>
-<h2 id="安装并配置git"> 安装并配置git</h2>
-<div><pre><code>yum -y <span>install</span> <span>git</span>
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
-<h2 id="安装并配置maven"> 安装并配置maven</h2>
-<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
-<span>mv</span> apache-maven-3.6.3 /usr/local/maven
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
-mvn --version
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
-<h2 id="安装并配置ansible"> 安装并配置ansible</h2>
-<div><pre><code>yum -y <span>install</span> ansible
-</code></pre>
-<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>3.2 访问 API</title>
       <link>https://clay-wangzhi.com/automate/jenkins/api/</link>
       <guid>https://clay-wangzhi.com/automate/jenkins/api/</guid>
@@ -6639,6 +6606,39 @@ mvn --version
 <p>该项目可以快速发展，该列表仅在撰写本文时才是准确的。</p>
 <h2 id="检测-jenkins-版本"> 检测 Jenkins 版本</h2>
 <p>要检查Jenkins的版本，请加载首页或任何<code>.../api/*</code>页面，然后检查<code>X-Jenkins</code>响应标题。它包含Jenkins的版本号，例如“ 1.404”。这也是检查URL是否为Jenkins URL的好方法。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>5.1 构建发布工具集成</title>
+      <link>https://clay-wangzhi.com/automate/jenkins/build-tools/</link>
+      <guid>https://clay-wangzhi.com/automate/jenkins/build-tools/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">5.1 构建发布工具集成</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-1-构建发布工具集成"> 5.1 构建发布工具集成</h1>
+<p>安装完成后，配置管理工具</p>
+<h2 id="安装并配置git"> 安装并配置git</h2>
+<div><pre><code>yum -y <span>install</span> <span>git</span>
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑git环境变量为/usr/bin/git</p>
+<h2 id="安装并配置maven"> 安装并配置maven</h2>
+<div><pre><code><span>wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+<span>tar</span> -xvf apache-maven-3.6.3-bin.tar.gz
+<span>mv</span> apache-maven-3.6.3 /usr/local/maven
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p><code>vim /etc/profile.d/maven.sh</code></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span>export</span> <span>M2_HOME</span><span>=</span>/usr/local/maven
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$M2_HOME</span>/bin
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>source /etc/profile.d/maven.sh
+mvn --version
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>编辑maven的环境变量为/usr/local/maven</p>
+<h2 id="安装并配置ansible"> 安装并配置ansible</h2>
+<div><pre><code>yum -y <span>install</span> ansible
+</code></pre>
+<div><span>1</span><br></div></div><p>编辑ansible的环境变量为/usr/bin</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -6853,73 +6853,6 @@ pipeline <span>{</span>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210426164341273.png" type="image/png"/>
     </item>
     <item>
-      <title>1.2 Jenkins简介</title>
-      <link>https://clay-wangzhi.com/automate/jenkins/first/</link>
-      <guid>https://clay-wangzhi.com/automate/jenkins/first/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">1.2 Jenkins简介</source>
-      <category>自动化工具</category>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_1-2-jenkins简介"> 1.2 Jenkins简介</h1>
-<h2 id="简单介绍"> 简单介绍</h2>
-<p><a href="https://jenkins.io/" target="_blank" rel="noopener noreferrer">Jenkins</a>前身是Hudson，Jenkins是一款开源 CI&amp;CD 软件，基于Java开发，用于自动化各种任务，包括构建、测试和部署软件。
-Jenkins 支持各种运行方式，可通过系统包、Docker 或者通过一个独立的 Java 程序。</p>
-<p>Jenkins 项目产生两个发行线, 长期支持版本 (LTS) 和每周更新版本， 两个版本都以 .war 文件, 原生包, 安装程序, 和 Docker 容器的形式分发。</p>
-<p>官网：https://jenkins.io/</p>
-<p>代码仓库：https://github.com/jenkinsci/jenkins</p>
-<h2 id="发展历史"> 发展历史</h2>
-<ul>
-<li>Jenkins的前身是Hudson，采用JAVA编写的持续集成开源工具。</li>
-<li>Hudson由Sun公司在2004年启动，第一个版本于2005年在java.net发布。</li>
-<li>2007年开始Hudson逐渐取代CruiseControl和其他的开源构建工具的江湖地位。</li>
-<li>在2008年的JavaOne大会上在开发者解决方案中获得杜克选择大奖（Duke’s Choice Award）。</li>
-<li>在2010年11月期间，因为Oracle对Sun的收购带来了Hudson的所有权问题。主要的项目贡献者和Oracle之间， 尽管达成了很多协议，但有个关键问题就是商标名称“Hudson”。</li>
-<li>甲骨文在2010年12月声明拥有该名称并申请商标的权利。因此，2011年1月11日，有人要求投票将项目名称从“Hudson”改为“Jenkins”。</li>
-<li>2011年1月29日，该建议得到社区投票的批准，创建了Jenkins项目。</li>
-<li>2011年2月1日，甲骨文表示，他们打算继续开发Hudson，并认为Jenkins只是一个分支，而不是重命名。因此，Jenkins和Hudson继续作为两个独立的项目，每个都认为对方是自己的分支。</li>
-<li>到2013年12月，GitHub上的Jenkins拥有567个项目成员和约1,100个公共仓库，与此相对的Hudson有32个项目成员和17个公共仓库。到现在两者的差异更多，应该说Jenkins已经全面超越了Hudson。此外，大家可能是出于讨厌Oracle的情绪，作为Java开发者天然地应该支持和使用Jenkins。</li>
-</ul>
-<h2 id="特点"> 特点</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" alt="img" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp" alt="img" /></p>
-<ul>
-<li>易于安装，只要把jenkins.war部署到servlet容器，不需要数据库支持</li>
-<li>易于配置，所有配置都是通过其提供的web界面实现</li>
-<li>集成RSS/E-mail通过RSS发布构建结果或当构建完成时通过e-mail通知</li>
-<li>生成JUnit/TestNG测试报告</li>
-<li>分布式构建支持Jenkins能够让多台计算机一起构建/测试</li>
-<li>支持多种扩展插件，你可以开发适合自己团队使用的工具</li>
-<li>支持pipeline流水线，可以用代码描述配置过程，方便使用</li>
-</ul>
-<h3 id="应用场景"> 应用场景</h3>
-<ul>
-<li>集成svn/git客户端实现源代码下载检出</li>
-<li>集成maven/ant/gradle/npm等构建工具实现源码编译打包单元测试</li>
-<li>集成sonarqube对源代码进行质量检查（坏味道、复杂度、新增bug等）</li>
-<li>集成SaltStack/Ansible实现自动化部署发布</li>
-<li>集成Jmeter/Soar/Kubernetes/…..</li>
-<li>可以自定义插件或者脚本通过jenkins传参运行</li>
-<li>可以说Jenkins比较灵活插件资源丰富，日常运维工作都可以自动化</li>
-</ul>
-<h2 id="三种构建方式"> 三种构建方式</h2>
-<ul>
-<li>
-<p>jenkins 触发式构建：用于开发环境部署，开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
-</li>
-<li>
-<p>jenkins 参数化构建：用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
-</li>
-<li>
-<p>jenkins 定时构建：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
-</li>
-</ul>
-<h2 id="参考链接"> 参考链接</h2>
-<p><a href="http://docs.idevops.site/jenkins/basics/introduction/" target="_blank" rel="noopener noreferrer">jenkins 简介与应用 | 泽阳</a></p>
-<p><a href="https://www.kancloud.cn/willseecloud/jenkins/1860518" target="_blank" rel="noopener noreferrer">jenkins 简介 | willseecloud | 看云</a></p>
-<p><a href="https://www.jianshu.com/p/f1167e8850cd" target="_blank" rel="noopener noreferrer">jenkins pipeline基础语法与示例 | MR_Hanjc</a></p>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
-    </item>
-    <item>
       <title>2.4 使用docker安装jenkins</title>
       <link>https://clay-wangzhi.com/automate/jenkins/docker-install-jenkins/</link>
       <guid>https://clay-wangzhi.com/automate/jenkins/docker-install-jenkins/</guid>
@@ -7035,6 +6968,73 @@ nginx
 </li>
 </ol>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>1.2 Jenkins简介</title>
+      <link>https://clay-wangzhi.com/automate/jenkins/first/</link>
+      <guid>https://clay-wangzhi.com/automate/jenkins/first/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">1.2 Jenkins简介</source>
+      <category>自动化工具</category>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_1-2-jenkins简介"> 1.2 Jenkins简介</h1>
+<h2 id="简单介绍"> 简单介绍</h2>
+<p><a href="https://jenkins.io/" target="_blank" rel="noopener noreferrer">Jenkins</a>前身是Hudson，Jenkins是一款开源 CI&amp;CD 软件，基于Java开发，用于自动化各种任务，包括构建、测试和部署软件。
+Jenkins 支持各种运行方式，可通过系统包、Docker 或者通过一个独立的 Java 程序。</p>
+<p>Jenkins 项目产生两个发行线, 长期支持版本 (LTS) 和每周更新版本， 两个版本都以 .war 文件, 原生包, 安装程序, 和 Docker 容器的形式分发。</p>
+<p>官网：https://jenkins.io/</p>
+<p>代码仓库：https://github.com/jenkinsci/jenkins</p>
+<h2 id="发展历史"> 发展历史</h2>
+<ul>
+<li>Jenkins的前身是Hudson，采用JAVA编写的持续集成开源工具。</li>
+<li>Hudson由Sun公司在2004年启动，第一个版本于2005年在java.net发布。</li>
+<li>2007年开始Hudson逐渐取代CruiseControl和其他的开源构建工具的江湖地位。</li>
+<li>在2008年的JavaOne大会上在开发者解决方案中获得杜克选择大奖（Duke’s Choice Award）。</li>
+<li>在2010年11月期间，因为Oracle对Sun的收购带来了Hudson的所有权问题。主要的项目贡献者和Oracle之间， 尽管达成了很多协议，但有个关键问题就是商标名称“Hudson”。</li>
+<li>甲骨文在2010年12月声明拥有该名称并申请商标的权利。因此，2011年1月11日，有人要求投票将项目名称从“Hudson”改为“Jenkins”。</li>
+<li>2011年1月29日，该建议得到社区投票的批准，创建了Jenkins项目。</li>
+<li>2011年2月1日，甲骨文表示，他们打算继续开发Hudson，并认为Jenkins只是一个分支，而不是重命名。因此，Jenkins和Hudson继续作为两个独立的项目，每个都认为对方是自己的分支。</li>
+<li>到2013年12月，GitHub上的Jenkins拥有567个项目成员和约1,100个公共仓库，与此相对的Hudson有32个项目成员和17个公共仓库。到现在两者的差异更多，应该说Jenkins已经全面超越了Hudson。此外，大家可能是出于讨厌Oracle的情绪，作为Java开发者天然地应该支持和使用Jenkins。</li>
+</ul>
+<h2 id="特点"> 特点</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" alt="img" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp" alt="img" /></p>
+<ul>
+<li>易于安装，只要把jenkins.war部署到servlet容器，不需要数据库支持</li>
+<li>易于配置，所有配置都是通过其提供的web界面实现</li>
+<li>集成RSS/E-mail通过RSS发布构建结果或当构建完成时通过e-mail通知</li>
+<li>生成JUnit/TestNG测试报告</li>
+<li>分布式构建支持Jenkins能够让多台计算机一起构建/测试</li>
+<li>支持多种扩展插件，你可以开发适合自己团队使用的工具</li>
+<li>支持pipeline流水线，可以用代码描述配置过程，方便使用</li>
+</ul>
+<h3 id="应用场景"> 应用场景</h3>
+<ul>
+<li>集成svn/git客户端实现源代码下载检出</li>
+<li>集成maven/ant/gradle/npm等构建工具实现源码编译打包单元测试</li>
+<li>集成sonarqube对源代码进行质量检查（坏味道、复杂度、新增bug等）</li>
+<li>集成SaltStack/Ansible实现自动化部署发布</li>
+<li>集成Jmeter/Soar/Kubernetes/…..</li>
+<li>可以自定义插件或者脚本通过jenkins传参运行</li>
+<li>可以说Jenkins比较灵活插件资源丰富，日常运维工作都可以自动化</li>
+</ul>
+<h2 id="三种构建方式"> 三种构建方式</h2>
+<ul>
+<li>
+<p>jenkins 触发式构建：用于开发环境部署，开发人员push代码或者合并代码到gitlab项目的master分支，jenkins就部署代码到对应服务器。</p>
+</li>
+<li>
+<p>jenkins 参数化构建：用于测试环境预上线环境部署，开发push代码或者合并代码到gitlab项目的master分支之后，并不会部署代码，而是需要登录到jenkins的web界面，点击构建按钮，传入对应的参数（比如参数需要构建的tag，需要部署的分支）然后才会部署。</p>
+</li>
+<li>
+<p>jenkins 定时构建：用于APP自动打包，定时构建是在参数化构建的基础上添加的，开发人员可以登录jenkins手动传入tag进行打包，如果不手动打包，那么jenkins就每天凌晨从gitlab拉取最新的APP代码打包。</p>
+</li>
+</ul>
+<h2 id="参考链接"> 参考链接</h2>
+<p><a href="http://docs.idevops.site/jenkins/basics/introduction/" target="_blank" rel="noopener noreferrer">jenkins 简介与应用 | 泽阳</a></p>
+<p><a href="https://www.kancloud.cn/willseecloud/jenkins/1860518" target="_blank" rel="noopener noreferrer">jenkins 简介 | willseecloud | 看云</a></p>
+<p><a href="https://www.jianshu.com/p/f1167e8850cd" target="_blank" rel="noopener noreferrer">jenkins pipeline基础语法与示例 | MR_Hanjc</a></p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp" type="image/webp"/>
     </item>
     <item>
       <title>4.3 Groovy 简明教程</title>
@@ -13494,6 +13494,40 @@ x <span>=</span> <span>[</span><span>1</span><span>,</span> <span>2</span><span>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>并发</title>
+      <link>https://clay-wangzhi.com/code/python/process-thread/</link>
+      <guid>https://clay-wangzhi.com/code/python/process-thread/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">并发</source>
+      <category>Python</category>
+      <pubDate>Thu, 17 Jun 2021 10:26:44 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="并发"> 并发</h1>
+<p><strong>并发和并行区别</strong></p>
+<p>并行，parallel
+同时做某些事，可以互不干扰的同一个时刻做几件事</p>
+<p>并发，concurrency
+也是同时做某些事，但是强调，一个时段内有事情要处理。</p>
+<p>举例
+高速公路的车道，双向4车道，所有车辆（数据）可以互不干扰的在自己的车道上奔跑（传输）。
+在同一个时刻，每条车道上可能同时有车辆在跑，是同时发生的概念，这是并行。
+在一段时间内，有这么多车要通过，这是并发。</p>
+<p>并行不过是使用水平扩展方式解决并发的一种手段而已。</p>
+<h1 id="进程和线程"> 进程和线程</h1>
+<p>进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。</p>
+<p>进程和程序的关系：程序是源代码编译后的文件，而这些文件存放在磁盘上。当程序被操作系统加载到内存中，就是进程，进程中存放着指令和数据（资源）。一个程序的执行实例就是一个进程。它也是线程的容器。</p>
+<p>Linux进程有父进程、子进程，Windows的进程是平等关系。</p>
+<p>在实现了线程的操作系统中，线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。</p>
+<p>线程，有时被称为轻量级进程(Lightweight Process，LWP），是程序执行流的最小单元。
+一个标准的线程由线程ID，当前指令指针(PC）、寄存器集合和堆、栈组成。</p>
+<p>在许多系统中，创建一个线程比创建一个进程快10-100倍。</p>
+<p><strong>进程、线程的理解</strong></p>
+<p>现代操作系统提出进程的概念，每一个进程都认为自己独占所有的计算机硬件资源。
+进程就是独立的王国，进程间不可以随便的共享数据。
+线程就是省份，同一个进程内的线程可以共享进程的资源，每一个线程拥有自己独立的堆栈。</p>
+<p><strong>python 中的进程和线程</strong></p>
+<p>运行程序会启动一个解释器进程，线程共享一个解释器进程。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>4.2 解析式和生成器表达式</title>
       <link>https://clay-wangzhi.com/code/python/python-analytic-expre/</link>
       <guid>https://clay-wangzhi.com/code/python/python-analytic-expre/</guid>
@@ -15350,312 +15384,6 @@ out <span>=</span> add<span>(</span><span>4</span><span>,</span><span>5</span><s
 ]]></content:encoded>
     </item>
     <item>
-      <title>14 多进程</title>
-      <link>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</link>
-      <guid>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">14 多进程</source>
-      <category>Python</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_14-多进程"> 14 多进程</h1>
-<h2 id="gil"> GIL</h2>
-<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
-<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
-<p>CPython中</p>
-<ul>
-<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
-<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
-<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
-</ul>
-<p>新版CPython正在努力优化GIL的问题，但不是移除。
-如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
-<blockquote>
-<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
-由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
-</blockquote>
-<p>保留GIL的原因：
-GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
-而且移除GIL，会降低CPython单线程的执行效率。
-测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
-<div><pre><code><span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-calc<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
-<span>import</span> logging
-<span>import</span> datetime
-
-logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-
-t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
-t1<span>.</span>start<span>(</span><span>)</span>
-t2<span>.</span>start<span>(</span><span>)</span>
-t3<span>.</span>start<span>(</span><span>)</span>
-t4<span>.</span>start<span>(</span><span>)</span>
-t1<span>.</span>join<span>(</span><span>)</span>
-t2<span>.</span>join<span>(</span><span>)</span>
-t3<span>.</span>join<span>(</span><span>)</span>
-t4<span>.</span>join<span>(</span><span>)</span>
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-logging<span>.</span>info<span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
-<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
-程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
-<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
-<h2 id="多进程"> 多进程</h2>
-<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
-多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
-但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
-<h3 id="multiprocessing"> multiprocessing</h3>
-<p><strong>Process类</strong></p>
-<p>Process类遵循了Thread类的API，减少了学习难度。</p>
-<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
-<div><pre><code><span>import</span> multiprocessing
-<span>import</span> datetime
-
-
-<span># 计算</span>
-<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> <span>0</span>
-    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    <span>return</span> i<span>,</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-
-    ps <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
-        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
-        ps<span>.</span>append<span>(</span>p<span>)</span>
-        p<span>.</span>start<span>(</span><span>)</span>
-
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        p<span>.</span>join<span>(</span><span>)</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-    <span>for</span> p <span>in</span> ps<span>:</span>
-        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
-    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
-<ul>
-<li>使用单线程、多线程跑了4分钟多</li>
-<li>多进程用了1分半</li>
-</ul>
-<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
-<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pid</td>
-<td>进程 id</td>
-</tr>
-<tr>
-<td>exitcode</td>
-<td>进程的退出状态码</td>
-</tr>
-<tr>
-<td>terminate()</td>
-<td>终止指定的进程</td>
-</tr>
-</tbody>
-</table>
-<h3 id="进程间同步"> 进程间同步</h3>
-<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
-不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
-multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
-<p>通信方式不同</p>
-<ol>
-<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
-<li>数据的线程安全性问题
-如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
-</ol>
-<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
-<p>1、CPU密集型
-CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
-高。</p>
-<p>2、IO密集型
-在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
-<p><strong>应用</strong></p>
-<p>请求/应答模型：WEB应用中常见的处理模型</p>
-<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
-worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
-这就是nginx工作模式。</p>
-<h2 id="concurrent-futures包"> concurrent.futures包</h2>
-<p>3.2版本引入的模块。</p>
-<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
-<p>提供了2个池执行器：</p>
-<ul>
-<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
-<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
-</ul>
-<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
-<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ThreadPoolExecutor(max_workers=1)</td>
-<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
-</tr>
-<tr>
-<td>submit(fn, *args, **kwargs)</td>
-<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
-</tr>
-<tr>
-<td>shutdown(wait=True)</td>
-<td>清理池，wait 表示是否等待到任务线程完成</td>
-</tr>
-</tbody>
-</table>
-<p>Future 类</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>done()</td>
-<td>如果调用被成功的取消或者执行完成，返回True</td>
-</tr>
-<tr>
-<td>cancelled()</td>
-<td>如果调用被成功的取消，返回True</td>
-</tr>
-<tr>
-<td>running()</td>
-<td>如果正在运行且不能被取消，返回True</td>
-</tr>
-<tr>
-<td>cancel()</td>
-<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
-</tr>
-<tr>
-<td>result(timeout=None)</td>
-<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-<tr>
-<td>exception(timeout=None)</td>
-<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
-</tr>
-</tbody>
-</table>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
-<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-    fs <span>=</span> <span>[</span><span>]</span>
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-        fs<span>.</span>append<span>(</span>future<span>)</span>
-
-    <span>#wait(fs) # 阻塞</span>
-    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-<span>for</span> f <span>in</span> fs<span>:</span>
-    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-
-<span>print</span><span>(</span>delta<span>)</span>
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
-<p>方法一样。就是使用多进程完成。</p>
-<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
-<span>import</span> datetime
-<span>import</span> logging
-
-FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
-logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
-
-<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
-    <span>sum</span> <span>=</span> base
-    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
-        <span>sum</span> <span>+=</span> <span>1</span>
-    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
-    <span>return</span> <span>sum</span>
-
-<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
-    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
-    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
-    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
-        fs <span>=</span> <span>[</span><span>]</span>
-        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
-            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
-            fs<span>.</span>append<span>(</span>future<span>)</span>
-
-        <span>#wait(fs) # 阻塞</span>
-        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
-
-    <span>for</span> f <span>in</span> fs<span>:</span>
-        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
-    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
-
-    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
-    <span>print</span><span>(</span>delta<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
-<p>该库统一了线程池、进程池调用，简化了编程。
-是Python简单的思想哲学的体现。</p>
-<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>python 实际工作中的实例</title>
       <link>https://clay-wangzhi.com/code/python/python-instance/</link>
       <guid>https://clay-wangzhi.com/code/python/python-instance/</guid>
@@ -16285,6 +16013,312 @@ now <span>=</span> time<span>.</span>strftime<span>(</span><span>"%Y-%m-%d %H:%M
 <div><pre><code>*/2 * * * * /usr/bin/python3 /root/activemq.py &gt;&gt; /var/log/activemq.log
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>10.1 多进程</title>
+      <link>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</link>
+      <guid>https://clay-wangzhi.com/code/python/python-gil-multiprocessing/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">10.1 多进程</source>
+      <category>Python</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_10-1-多进程"> 10.1 多进程</h1>
+<h2 id="gil"> GIL</h2>
+<p>CPython 在解释器进程级别有一把锁，叫做GIL，即全局解释器锁。</p>
+<p>GIL 保证CPython进程中，只有一个线程执行字节码。甚至是在多核CPU的情况下，也只允许同时只能有一个CPU核心上运行该进程的一个线程。</p>
+<p>CPython中</p>
+<ul>
+<li>IO密集型，某个线程阻塞，GIL会释放，就会调度其他就绪线程</li>
+<li>CPU密集型，当前线程可能会连续的获得GIL，导致其它线程几乎无法使用CPU</li>
+<li>在CPython中由于有GIL存在，IO密集型，使用多线程较为合算；CPU密集型，使用多进程，要绕开GIL</li>
+</ul>
+<p>新版CPython正在努力优化GIL的问题，但不是移除。
+如果在意多线程的效率问题，请绕行，选择其它语言erlang、Go等。</p>
+<blockquote>
+<p>Python中绝大多数内置数据结构的读、写操作都是原子操作。
+由于GIL的存在，Python的内置数据类型在多线程编程的时候就变成了安全的了，但是实际上它们本身 不是线程安全类型。</p>
+</blockquote>
+<p>保留GIL的原因：
+GvR坚持的简单哲学，对于初学者门槛低，不需要高深的系统知识也能安全、简单的使用Python。
+而且移除GIL，会降低CPython单线程的执行效率。
+测试下面2个程序，请问下面的程序是计算密集型还是IO密集型？</p>
+<div><pre><code><span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+calc<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><div><pre><code><span>import</span> threading
+<span>import</span> logging
+<span>import</span> datetime
+
+logging<span>.</span>basicConfig<span>(</span>level<span>=</span>logging<span>.</span>INFO<span>,</span> <span>format</span><span>=</span><span>"%(thread)s %(message)s"</span><span>)</span>
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span><span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+
+t1 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t2 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t3 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t4 <span>=</span> threading<span>.</span>Thread<span>(</span>target<span>=</span>calc<span>)</span>
+t1<span>.</span>start<span>(</span><span>)</span>
+t2<span>.</span>start<span>(</span><span>)</span>
+t3<span>.</span>start<span>(</span><span>)</span>
+t4<span>.</span>start<span>(</span><span>)</span>
+t1<span>.</span>join<span>(</span><span>)</span>
+t2<span>.</span>join<span>(</span><span>)</span>
+t3<span>.</span>join<span>(</span><span>)</span>
+t4<span>.</span>join<span>(</span><span>)</span>
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+logging<span>.</span>info<span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br></div></div><p>注意，不要在代码中出现print等访问IO的语句。访问IO，线程阻塞，会释放GIL锁，其他线程被调度。</p>
+<p>程序1是单线程程序，所有calc()依次执行，根本就不是并发。在主线程内，函数串行执行。
+程序2是多线程程序，calc()执行在不同的线程中，但是由于GIL的存在，线程的执行变成了假并发。但是这些线程可以被调度到不同的CPU核心上执行，只不过GIL让同一时间该进程只有一个线程被执行。</p>
+<p>从两段程序测试的结果来看，CPython中多线程根本没有任何优势，和一个线程执行时间相当。因为GIL的存在，尤其是像上面的计算密集型程序，和单线程串行效果相当。这样，实际上就没有用上CPU多核心的优势。</p>
+<h2 id="多进程"> 多进程</h2>
+<p>由于Python的GIL全局解释器锁存在，多线程未必是CPU密集型程序的好的选择。
+多进程可以完全独立的进程环境中运行程序，可以较充分地利用多处理器。
+但是进程本身的隔离带来的数据不共享也是一个问题。而且线程比进程轻量级。</p>
+<h3 id="multiprocessing"> multiprocessing</h3>
+<p><strong>Process类</strong></p>
+<p>Process类遵循了Thread类的API，减少了学习难度。</p>
+<p>先看一个例子，前面介绍的单线程、多线程比较的例子的多进程版本</p>
+<div><pre><code><span>import</span> multiprocessing
+<span>import</span> datetime
+
+
+<span># 计算</span>
+<span>def</span> <span>calc</span><span>(</span>i<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> <span>0</span>
+    <span>for</span> _ <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    <span>return</span> i<span>,</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+
+    ps <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>4</span><span>)</span><span>:</span>
+        p <span>=</span> multiprocessing<span>.</span>Process<span>(</span>target<span>=</span>calc<span>,</span> args<span>=</span><span>(</span>i<span>,</span> <span>)</span><span>,</span> name<span>=</span><span>'calc-{}'</span><span>.</span><span>format</span><span>(</span>i<span>)</span><span>)</span>
+        ps<span>.</span>append<span>(</span>p<span>)</span>
+        p<span>.</span>start<span>(</span><span>)</span>
+
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        p<span>.</span>join<span>(</span><span>)</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+    <span>for</span> p <span>in</span> ps<span>:</span>
+        <span>print</span><span>(</span>p<span>.</span>name<span>,</span> p<span>.</span>exitcode<span>)</span>
+    <span>print</span><span>(</span><span>'===end==='</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br></div></div><p>对于上面这个程序，在同一主上运行时长的对比</p>
+<ul>
+<li>使用单线程、多线程跑了4分钟多</li>
+<li>多进程用了1分半</li>
+</ul>
+<p>看到了多个进程都在使用CPU，这是真并行，而且进程库几乎没有什么学习难度</p>
+<p>注意：多进程代码一定要放在 <code>__name__ == '__main__'</code> 下面执行。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pid</td>
+<td>进程 id</td>
+</tr>
+<tr>
+<td>exitcode</td>
+<td>进程的退出状态码</td>
+</tr>
+<tr>
+<td>terminate()</td>
+<td>终止指定的进程</td>
+</tr>
+</tbody>
+</table>
+<h3 id="进程间同步"> 进程间同步</h3>
+<p>Python 在进程间同步提供了和线程同步一样的类，使用的方法一样，使用的效果也类似。
+不过，进程间代价要高于线程间，而且系统底层实现是不同的，只不过 Python 屏蔽了这些不同之处，让用户简单使用多进程。
+multiprocessing 还提供共享内存、服务器进程来共享数据，还提供了用于进程间通讯的 Queue队列、Pipe 管道。</p>
+<p>通信方式不同</p>
+<ol>
+<li>多进程就是启动多个解释器进程，进程间通信必须序列化、反序列化</li>
+<li>数据的线程安全性问题
+如果每个进程中没有实现多线程，GIL可以说没什么用了</li>
+</ol>
+<h3 id="多进程、多线程的选择"> 多进程、多线程的选择</h3>
+<p>1、CPU密集型
+CPython中使用到了GIL，多线程的时候锁相互竞争，且多核优势不能发挥，选用Python多进程效率更
+高。</p>
+<p>2、IO密集型
+在Python中适合是用多线程，可以减少多进程间IO的序列化开销。且在IO等待的时候，切换到其他线程继续执行，效率不错。</p>
+<p><strong>应用</strong></p>
+<p>请求/应答模型：WEB应用中常见的处理模型</p>
+<p>master启动多个worker工作进程，一般和CPU数目相同。发挥多核优势。
+worker工作进程中，往往需要操作网络IO和磁盘IO，启动多线程，提高并发处理能力。worker处理用户的请求，往往需要等待数据，处理完请求还要通过网络IO返回响应。
+这就是nginx工作模式。</p>
+<h2 id="concurrent-futures包"> concurrent.futures包</h2>
+<p>3.2版本引入的模块。</p>
+<p>异步并行任务编程模块，提供一个高级的异步可执行的便利接口。</p>
+<p>提供了2个池执行器：</p>
+<ul>
+<li>ThreadPoolExecutor 异步调用的线程池的 Executor</li>
+<li>ProcessPoolExecutor 异步调用的进程池的Executor</li>
+</ul>
+<h3 id="threadpoolexecutor对象"> ThreadPoolExecutor对象</h3>
+<p>首先需要定义一个池的执行器对象，Executor类的子类实例。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThreadPoolExecutor(max_workers=1)</td>
+<td>池中至多创建max_workers个线程的池来同时异步执行，返回Executor实例<br/>支持上下文，进入时返回自己，退出时调用shutdown(wait=True)</td>
+</tr>
+<tr>
+<td>submit(fn, *args, **kwargs)</td>
+<td>提交执行的函数及其参数，如有空闲开启daemon线程，返回Future类的实例</td>
+</tr>
+<tr>
+<td>shutdown(wait=True)</td>
+<td>清理池，wait 表示是否等待到任务线程完成</td>
+</tr>
+</tbody>
+</table>
+<p>Future 类</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>done()</td>
+<td>如果调用被成功的取消或者执行完成，返回True</td>
+</tr>
+<tr>
+<td>cancelled()</td>
+<td>如果调用被成功的取消，返回True</td>
+</tr>
+<tr>
+<td>running()</td>
+<td>如果正在运行且不能被取消，返回True</td>
+</tr>
+<tr>
+<td>cancel()</td>
+<td>尝试取消调用。如果已经执行且不能取消返回False，否则返回True</td>
+</tr>
+<tr>
+<td>result(timeout=None)</td>
+<td>取返回的结果，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+<tr>
+<td>exception(timeout=None)</td>
+<td>取返回的异常，timeout为None，一直等待返回；timeout设置到期，抛出<br/>concurrent.futures.TimeoutError 异常</td>
+</tr>
+</tbody>
+</table>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ThreadPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>1000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+executor <span>=</span> ThreadPoolExecutor<span>(</span><span>3</span><span>)</span>
+<span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+    fs <span>=</span> <span>[</span><span>]</span>
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+        future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+        fs<span>.</span>append<span>(</span>future<span>)</span>
+
+    <span>#wait(fs) # 阻塞</span>
+    <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+<span>for</span> f <span>in</span> fs<span>:</span>
+    <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+<span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+
+<span>print</span><span>(</span>delta<span>)</span>
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br></div></div><h3 id="processpoolexecutor对象"> ProcessPoolExecutor对象</h3>
+<p>方法一样。就是使用多进程完成。</p>
+<div><pre><code><span>from</span> concurrent<span>.</span>futures <span>import</span> ProcessPoolExecutor<span>,</span> wait
+<span>import</span> datetime
+<span>import</span> logging
+
+FORMAT <span>=</span> <span>"%(asctime)s [%(processName)s %(threadName)s] %(message)s"</span>
+logging<span>.</span>basicConfig<span>(</span><span>format</span><span>=</span>FORMAT<span>,</span> level<span>=</span>logging<span>.</span>INFO<span>)</span>
+
+<span>def</span> <span>calc</span><span>(</span>base<span>)</span><span>:</span>
+    <span>sum</span> <span>=</span> base
+    <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>10000000</span><span>)</span><span>:</span>
+        <span>sum</span> <span>+=</span> <span>1</span>
+    logging<span>.</span>info<span>(</span><span>sum</span><span>)</span>
+    <span>return</span> <span>sum</span>
+
+<span>if</span> __name__ <span>==</span> <span>'__main__'</span><span>:</span>
+    start <span>=</span> datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span>
+    executor <span>=</span> ProcessPoolExecutor<span>(</span><span>3</span><span>)</span>
+    <span>with</span> executor<span>:</span> <span># 默认shutdown阻塞</span>
+        fs <span>=</span> <span>[</span><span>]</span>
+        <span>for</span> i <span>in</span> <span>range</span><span>(</span><span>3</span><span>)</span><span>:</span>
+            future <span>=</span> executor<span>.</span>submit<span>(</span>calc<span>,</span> i<span>*</span><span>100</span><span>)</span>
+            fs<span>.</span>append<span>(</span>future<span>)</span>
+
+        <span>#wait(fs) # 阻塞</span>
+        <span>print</span><span>(</span><span>'-'</span> <span>*</span> <span>30</span><span>)</span>
+
+    <span>for</span> f <span>in</span> fs<span>:</span>
+        <span>print</span><span>(</span>f<span>,</span> f<span>.</span>done<span>(</span><span>)</span><span>,</span> f<span>.</span>result<span>(</span><span>)</span><span>)</span> <span># done不阻塞，result阻塞</span>
+    <span>print</span><span>(</span><span>'='</span> <span>*</span> <span>30</span><span>)</span>
+
+    delta <span>=</span> <span>(</span>datetime<span>.</span>datetime<span>.</span>now<span>(</span><span>)</span> <span>-</span> start<span>)</span><span>.</span>total_seconds<span>(</span><span>)</span>
+    <span>print</span><span>(</span>delta<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p><strong>总结</strong></p>
+<p>该库统一了线程池、进程池调用，简化了编程。
+是Python简单的思想哲学的体现。</p>
+<p>唯一的缺点：无法设置线程名称。但这都不值一提。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>17 IO 模型</title>
@@ -20472,37 +20506,14 @@ Queue 类的 size 虽然加了锁，但是，依然不能保证立即 get、put 
 ]]></content:encoded>
     </item>
     <item>
-      <title>12 线程</title>
+      <title>10.2 多线程</title>
       <link>https://clay-wangzhi.com/code/python/python-thread/</link>
       <guid>https://clay-wangzhi.com/code/python/python-thread/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">12 线程</source>
+      <source url="https://clay-wangzhi.com/rss.xml">10.2 多线程</source>
       <category>Python</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_12-线程"> 12 线程</h1>
-<h2 id="并发"> 并发</h2>
-<p><strong>并发和并行区别</strong></p>
-<p>并行，parallel
-同时做某些事，可以互不干扰的同一个时刻做几件事</p>
-<p>并发，concurrency
-也是同时做某些事，但是强调，一个时段内有事情要处理。</p>
-<p>举例
-高速公路的车道，双向4车道，所有车辆（数据）可以互不干扰的在自己的车道上奔跑（传输）。
-在同一个时刻，每条车道上可能同时有车辆在跑，是同时发生的概念，这是并行。
-在一段时间内，有这么多车要通过，这是并发。</p>
-<p>并行不过是使用水平扩展方式解决并发的一种手段而已。</p>
-<h2 id="进程和线程"> 进程和线程</h2>
-<p>进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。</p>
-<p>进程和程序的关系：程序是源代码编译后的文件，而这些文件存放在磁盘上。当程序被操作系统加载到内存中，就是进程，进程中存放着指令和数据（资源）。一个程序的执行实例就是一个进程。它也是线程的容器。</p>
-<p>Linux进程有父进程、子进程，Windows的进程是平等关系。</p>
-<p>在实现了线程的操作系统中，线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。</p>
-<p>线程，有时被称为轻量级进程(Lightweight Process，LWP），是程序执行流的最小单元。
-一个标准的线程由线程ID，当前指令指针(PC）、寄存器集合和堆、栈组成。</p>
-<p>在许多系统中，创建一个线程比创建一个进程快10-100倍。</p>
-<h3 id="进程、线程的理解"> 进程、线程的理解</h3>
-<p>现代操作系统提出进程的概念，每一个进程都认为自己独占所有的计算机硬件资源。
-进程就是独立的王国，进程间不可以随便的共享数据。
-线程就是省份，同一个进程内的线程可以共享进程的资源，每一个线程拥有自己独立的堆栈。</p>
-<h3 id="线程的状态"> 线程的状态</h3>
+      <content:encoded><![CDATA[<h1 id="_10-2-多线程"> 10.2 多线程</h1>
+<h2 id="线程的状态"> 线程的状态</h2>
 <ul>
 <li>就绪（Ready）：线程能够运行，但在等待被调度。可能线程刚刚创建启动，或刚刚从阻塞中恢复，或者被其他线程抢占</li>
 <li>运行（Running）：线程正在运行</li>
@@ -20510,8 +20521,6 @@ Queue 类的 size 虽然加了锁，但是，依然不能保证立即 get、put 
 <li>终止（Terminated）：线程完成，或退出，或被取消</li>
 </ul>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/thread.png" alt="thread" /></p>
-<p><strong>python 中的进程和线程</strong></p>
-<p>运行程序会启动一个解释器进程，线程共享一个解释器进程。</p>
 <h2 id="python的线程开发"> Python的线程开发</h2>
 <p>Python 的线程开发使用标准库 threading。</p>
 <p>进程靠线程执行代码，至少有一个<strong>主线程</strong>，其它线程是工作线程。
@@ -22107,147 +22116,62 @@ COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>附录 T. ASCII 表</title>
-      <link>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</link>
-      <guid>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">附录 T. ASCII 表</source>
+      <title>2.1 调用一个脚本</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">2.1 调用一个脚本</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="附录-t-ascii-表"> 附录 T. ASCII 表</h1>
-<p>传统上，这类书的附录会有一个 ASCII 表。但本书不会。取而代之的是这些生成一张完整 ASCII 表的简短脚本。</p>
-<p>例 T-1. 一个生成 ASCII 表的脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ascii.sh</span>
-<span># ver. 0.2, reldate 26 Aug 2008</span>
-<span># Patched by ABS Guide author.</span>
-
-<span># Original script by Sebastian Arming.</span>
-<span># Used with permission (thanks!).</span>
-
-<span>exec</span> <span>></span>ASCII.txt         <span>#  Save stdout to file,</span>
-                        <span>#+ as in the example scripts</span>
-                        <span>#+ reassign-stdout.sh and upperconv.sh.</span>
-
-<span>MAXNUM</span><span>=</span><span>256</span>
-<span><span>COLUMNS</span></span><span>=</span><span>5</span>
-<span>OCT</span><span>=</span><span>8</span>
-<span>OCTSQU</span><span>=</span><span>64</span>
-<span>LITTLESPACE</span><span>=</span>-3
-<span>BIGSPACE</span><span>=</span>-5
-
-<span>i</span><span>=</span><span>1</span> <span># Decimal counter</span>
-<span>o</span><span>=</span><span>1</span> <span># Octal counter</span>
-
-<span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>"<span>$MAXNUM</span>"</span> <span>]</span><span>;</span> <span>do</span>  <span># We don't have to count past 400 octal.</span>
-        <span>paddi</span><span>=</span><span>"    <span>$i</span>"</span>
-        <span>echo</span> -n <span>"<span>${paddi<span>:</span> $BIGSPACE}</span>  "</span>       <span># Column spacing.</span>
-        <span>paddo</span><span>=</span><span>"00<span>$o</span>"</span>
-<span>#       echo -ne "\\${paddo: $LITTLESPACE}"   # Original.</span>
-        <span>echo</span> -ne <span>"<span title="\\">\\</span>0<span>${paddo<span>:</span> $LITTLESPACE}</span>"</span>  <span># Fixup.</span>
-<span>#                   ^</span>
-        <span>echo</span> -n <span>"     "</span>
-        <span>if</span> <span><span>((</span> i <span>%</span> $COLUMNS <span>==</span> <span>0</span><span>))</span></span><span>;</span> <span>then</span>       <span># New line.</span>
-           <span>echo</span>
-        <span>fi</span>
-        <span><span>((</span>i<span>++</span><span>,</span> o<span>++</span><span>))</span></span>
-        <span># The octal notation for 8 is 10, and 64 decimal is 100 octal.</span>
-        <span><span>((</span> i <span>%</span> $OCT <span>==</span> <span>0</span><span>))</span></span>    <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>2</span><span>))</span></span>
-        <span><span>((</span> i <span>%</span> $OCTSQU <span>==</span> <span>0</span><span>))</span></span> <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>20</span><span>))</span></span>
-<span>done</span>
-
-<span>exit</span> <span>$?</span>
-
-<span># Compare this script with the "pr-asc.sh" example.</span>
-<span># This one handles "unprintable" characters.</span>
-
-<span># Exercise:</span>
-<span># Rewrite this script to use decimal numbers, rather than octal.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>例 T-2. 另一个 ASCII 表脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># Script author: Joseph Steinhauser</span>
-<span># Lightly edited by ABS Guide author, but not commented.</span>
-<span># Used in ABS Guide with permission.</span>
-
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- File:  ascii.sh    Print ASCII chart, base 10/8/16         (JETS-2012)</span>
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
-<span>#--</span>
-<span>#-- This script prints out a summary of ASCII char codes from Zero to 127.</span>
-<span>#-- Numeric values may be printed in Base10, Octal, or Hex.</span>
-<span>#--</span>
-<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
-<span>#-- For more detail, man ascii . . .</span>
-<span>#-------------------------------------------------------------------------</span>
-
-<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
-   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
-   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   *<span>)</span> <span>Obase</span><span>=</span>Decimal
-<span>esac</span> <span># CODE is actually shorter than the chart!</span>
-
-<span>printf</span> <span>"<span title="\t">\t</span><span title="\t">\t</span>## <span>$Obase</span> ASCII Chart ##<span title="\n">\n</span><span title="\n">\n</span>"</span><span>;</span> <span>FM1</span><span>=</span><span>"|%0<span>${Numy<span>:-</span>3d}</span>"</span><span>;</span> <span>LD</span><span>=</span>-1
-
-<span>AB</span><span>=</span><span>"nul soh stx etx eot enq ack bel bs tab nl vt np cr so si dle"</span>
-<span>AD</span><span>=</span><span>"dc1 dc2 dc3 dc4 nak syn etb can em sub esc fs gs rs us sp"</span>
-
-<span>for</span> <span>TOK</span> <span>in</span> <span>$AB</span> <span>$AD</span><span>;</span> <span>do</span> ABR<span>[</span><span><span>$((</span>LD<span>+</span><span>=</span><span>1</span><span>))</span></span><span>]</span><span>=</span><span>$TOK</span><span>;</span> <span>done</span><span>;</span>
-ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
-
-<span>IDX</span><span>=</span><span>0</span>
-<span>while</span> <span>[</span> <span>$IDX</span> -le <span>127</span> <span>]</span> <span>&amp;&amp;</span> <span>CHR</span><span>=</span><span>"<span>${ABR<span>[</span>$IDX<span>]</span>}</span>"</span>
-   <span>do</span> <span><span>((</span>${#CHR}<span>))</span></span><span>&amp;&amp;</span> <span>FM2</span><span>=</span><span>'%-3s'</span><span>||</span> <span>FM2</span><span>=</span><span><span>`</span><span>printf</span> <span>'<span title="\\">\\</span><span title="\\">\\</span>%o  '</span> $IDX<span>`</span></span>
-      <span>printf</span> <span>"<span>$FM1</span> <span>$FM2</span>"</span> <span>"<span>$IDX</span>"</span> <span>$CHR</span><span>;</span> <span><span>((</span> <span>(</span>IDX<span>+</span><span>=</span><span>1</span><span>)</span><span>%</span><span>8</span><span>))</span></span><span>||</span><span>echo</span> <span>'|'</span>
-   <span>done</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>例 T-3. 第三个 ASCII 表脚本，使用 <em>awk</em></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ASCII table script, using awk.</span>
-<span># Author: Joseph Steinhauser</span>
-<span># Used in ABS Guide with permission.</span>
-
-
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- File:  ascii     Print ASCII chart, base 10/8/16         (JETS-2010)</span>
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
-<span>#--</span>
-<span>#-- This script prints a summary of ASCII char codes from Zero to 127.</span>
-<span>#-- Numeric values may be printed in Base10, Octal, or Hex (Base16).</span>
-<span>#--</span>
-<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
-<span>#-- For more detail, man ascii</span>
-<span>#-------------------------------------------------------------------------</span>
-
-<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
-   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
-   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   *<span>)</span> <span>Obase</span><span>=</span>Decimal
-<span>esac</span>
-<span>export</span> Obase   <span># CODE is actually shorter than the chart!</span>
-
-<span>awk</span> <span>'BEGIN{print "<span title="\n">\n</span><span title="\t">\t</span><span title="\t">\t</span>## "ENVIRON["Obase"]" ASCII Chart ##<span title="\n">\n</span>"
-           ab="soh,stx,etx,eot,enq,ack,bel,bs,tab,nl,vt,np,cr,so,si,dle,"
-           ad="dc1,dc2,dc3,dc4,nak,syn,etb,can,em,sub,esc,fs,gs,rs,us,sp"
-           split(ab ad,abr,",");abr[0]="nul";abr[127]="del";
-           fm1="|%0'</span>"<span>${Numy<span>:-</span> 4d}</span><span>"' %-3s"</span>
-           for<span>(</span>idx<span>=</span><span>0</span><span>;</span>idx<span>&lt;</span><span>128</span><span>;</span>idx++<span>)</span><span>{</span>fmt<span>=</span>fm1 <span>(</span>++colz%8?<span>""</span><span>:</span><span>"|<span title="\n">\n</span>"</span><span>)</span>
-           printf<span>(</span>fmt,idx,<span>(</span>idx <span>in</span> abr<span>)</span>?abr<span>[</span>idx<span>]</span>:sprintf<span>(</span><span>"%c"</span>,idx<span>))</span><span>}</span> <span>}</span>'
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="_2-1-调用一个脚本"> 2.1 调用一个脚本</h1>
+<p>写完一个脚本以后，你可以通过<code>sh scriptname</code>或<code>bash scriptname</code>来调用它（不推荐使用<code>sh &lt;scriptname</code>调用脚本，因为这会禁用脚本从标准输入（stdin）读入数据）。更方便的方式是使用<code>chmod</code>命令使脚本可以被直接执行。</p>
+<p>执行命令：</p>
+<p><code>chmod 555 scriptname</code>（给予所有用户读取/执行的权限）</p>
+<p>或</p>
+<p><code>chmod +rx scriptname</code>（给予所有用户读取/执行的权限）</p>
+<p><code>chmod u+rx scriptname</code>（仅给予脚本所有者读取/执行的权限）</p>
+<p>当脚本的权限被设置好后，你就可以直接使用<code>./scriptname</code>[^3]进行调用测试了。如果脚本文件以sha-bang开头，那么它将自动调用指定的命令解释器运行脚本。</p>
+<p>完成调试与测试后，你可能会将脚本文件移至<code>/usr/local/bin</code>（使用root权限）中，使脚本可以被所有用户调用。这时你可以直接在命令行中输入<code>scriptname [ENTER]</code>执行脚本。</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>2.2 牛刀小试</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">2.2 牛刀小试</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
+<ol>
+<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
+<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
+</ol>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>第一部分 初见Shell</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第一部分 初见Shell</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第一部分-初见shell"> 第一部分 初见Shell</h1>
+<blockquote>
+<p><em>脚本：文章；书面文档</em></p>
+<p><em>——韦伯斯特字典1913年版</em></p>
+</blockquote>
+<p>Shell是一种命令解释器，它不仅分离了用户层与操作系统内核，更是一门强大的编程语言。我们称为shell编写的程序为脚本（script）。脚本是一种易于使用的工具，它能够将系统调用、工具软件、实用程序（utility）和已编译的二进制文件联系在一起构建程序。实际上，shell脚本可以调用所有的UNIX命令、实用程序以及工具软件。如果你觉得这还不够，使用像<code>test</code>命令和循环结构这样的shell内建命令能够让脚本更加灵活强大。Shell脚本特别适合完成系统管理任务和那些不需要复杂结构性语言实现的重复工作。</p>
+<h3 id="内容目录"> 内容目录</h3>
+<ul>
+<li><a href="./01_shell_programming.html">1. 为什么使用shell编程</a></li>
+<li><a href="./02_starting_off_with_a_sha_bang.html">2. 和Sha-Bang（#!）一起出发</a>
+<ul>
+<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
+<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
+</ul>
+</li>
+</ul>
+<p>原著链接：http://tldp.org/LDP/abs/html/</p>
+]]></content:encoded>
     </item>
     <item>
       <title>第二章 和Sha-Bang（#!）一起出发</title>
@@ -22424,32 +22348,6 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
 </li>
 </ol>
 </section>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>第一部分 初见Shell</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第一部分 初见Shell</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第一部分-初见shell"> 第一部分 初见Shell</h1>
-<blockquote>
-<p><em>脚本：文章；书面文档</em></p>
-<p><em>——韦伯斯特字典1913年版</em></p>
-</blockquote>
-<p>Shell是一种命令解释器，它不仅分离了用户层与操作系统内核，更是一门强大的编程语言。我们称为shell编写的程序为脚本（script）。脚本是一种易于使用的工具，它能够将系统调用、工具软件、实用程序（utility）和已编译的二进制文件联系在一起构建程序。实际上，shell脚本可以调用所有的UNIX命令、实用程序以及工具软件。如果你觉得这还不够，使用像<code>test</code>命令和循环结构这样的shell内建命令能够让脚本更加灵活强大。Shell脚本特别适合完成系统管理任务和那些不需要复杂结构性语言实现的重复工作。</p>
-<h3 id="内容目录"> 内容目录</h3>
-<ul>
-<li><a href="./01_shell_programming.html">1. 为什么使用shell编程</a></li>
-<li><a href="./02_starting_off_with_a_sha_bang.html">2. 和Sha-Bang（#!）一起出发</a>
-<ul>
-<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
-<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
-</ul>
-</li>
-</ul>
-<p>原著链接：http://tldp.org/LDP/abs/html/</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -23591,6 +23489,82 @@ bash$ echo $variable1
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
+      <title>4.3 Bash变量是弱类型的</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4.3 Bash变量是弱类型的</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
+<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
+<p>样例 4-4. 整数还是字符串？</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># int-or-string.sh</span>
+
+<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
+<span>let</span> <span>"a += 1"</span>
+<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
+<span>echo</span>                     <span># 依旧是整数。</span>
+
+
+<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
+                         <span># $b 变成了字符串。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+
+<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
+<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
+
+<span>c</span><span>=</span>BB34
+<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
+<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
+                         <span># $d 变为了一个整数。</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
+<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
+<span>echo</span>
+
+
+<span># 如果是空值会怎样呢？</span>
+<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
+<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
+<span>echo</span>                     <span># 空值变为了一个整数。</span>
+
+<span># 如果时未声明的变量呢？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
+<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
+<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
+<span>#</span>
+<span># 然而……</span>
+<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
+<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
+<span>#</span>
+<span># 但是，仍旧……</span>
+<span>let</span> <span>"f /= 0"</span>
+<span>#   let: f /= 0: division by 0 (error token is "0")</span>
+<span># 预期之中。</span>
+
+
+<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
+<span># 但是不要做这种事情！</span>
+<span># 因为这可能会导致一些意外的后果。</span>
+
+
+<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
+<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>4.2 变量赋值</title>
       <link>https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/</guid>
@@ -23673,82 +23647,6 @@ bash$ echo $variable1
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>4.3 Bash变量是弱类型的</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4.3 Bash变量是弱类型的</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
-<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
-<p>样例 4-4. 整数还是字符串？</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># int-or-string.sh</span>
-
-<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
-<span>let</span> <span>"a += 1"</span>
-<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
-<span>echo</span>                     <span># 依旧是整数。</span>
-
-
-<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
-                         <span># $b 变成了字符串。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-
-<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
-<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
-
-<span>c</span><span>=</span>BB34
-<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
-<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
-                         <span># $d 变为了一个整数。</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
-<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
-<span>echo</span>
-
-
-<span># 如果是空值会怎样呢？</span>
-<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
-<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
-<span>echo</span>                     <span># 空值变为了一个整数。</span>
-
-<span># 如果时未声明的变量呢？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
-<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
-<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
-<span>#</span>
-<span># 然而……</span>
-<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
-<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
-<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
-<span>#</span>
-<span># 但是，仍旧……</span>
-<span>let</span> <span>"f /= 0"</span>
-<span>#   let: f /= 0: division by 0 (error token is "0")</span>
-<span># 预期之中。</span>
-
-
-<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
-<span># 但是不要做这种事情！</span>
-<span># 因为这可能会导致一些意外的后果。</span>
-
-
-<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
-<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>4.4 特殊的变量类型</title>
@@ -26457,6 +26355,32 @@ if [[ &quot;$v1&quot; -gt &quot;$v2&quot; ]] || [[ &quot;$v1&quot; -lt &quot;$v2
 ]]></content:encoded>
     </item>
     <item>
+      <title>9.2.1 declare 的另类用法</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/09_2_1_another_use_for_declare/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/09_2_1_another_use_for_declare/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">9.2.1 declare 的另类用法</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_9-2-1-declare-的另类用法"> 9.2.1 <code>declare</code> 的另类用法</h1>
+<p><code>declare</code> 命令可以帮助用户识别变量、<a href="">环境变量</a> 或是其他信息，与 <a href="">数组</a> 搭配效果更佳。</p>
+<div><pre><code>bash$ <span>declare</span> <span>|</span> <span>grep</span> <span>HOME</span>
+<span><span>HOME</span></span><span>=</span>/home/bozo
+
+
+bash$ <span>zzy</span><span>=</span><span>68</span>
+bash$ <span>declare</span> <span>|</span> <span>grep</span> zzy
+<span>zzy</span><span>=</span><span>68</span>
+
+
+bash$ <span>Colors</span><span>=</span><span>(</span><span>[</span><span>0</span><span>]</span><span>=</span><span>"purple"</span> <span>[</span><span>1</span><span>]</span><span>=</span><span>"reddish-orange"</span> <span>[</span><span>2</span><span>]</span><span>=</span><span>"light green"</span><span>)</span>
+bash$ <span>echo</span> <span>${Colors<span>[</span>@<span>]</span>}</span>
+purple reddish-orange light green
+bash$ <span>declare</span> <span>|</span> <span>grep</span> Colors
+<span>Colors</span><span>=</span><span>(</span><span>[</span><span>0</span><span>]</span><span>=</span><span>"purple"</span> <span>[</span><span>1</span><span>]</span><span>=</span><span>"reddish-orange"</span> <span>[</span><span>2</span><span>]</span><span>=</span><span>"light green"</span><span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>9.1 内部变量</title>
       <link>https://clay-wangzhi.com/code/shell/part3/09_1_internal_variables/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/09_1_internal_variables/</guid>
@@ -27529,173 +27453,6 @@ possibly_hanging_job <span>&amp;</span> <span>{</span>
 ]]></content:encoded>
     </item>
     <item>
-      <title>9.2.1 declare 的另类用法</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/09_2_1_another_use_for_declare/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/09_2_1_another_use_for_declare/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">9.2.1 declare 的另类用法</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_9-2-1-declare-的另类用法"> 9.2.1 <code>declare</code> 的另类用法</h1>
-<p><code>declare</code> 命令可以帮助用户识别变量、<a href="">环境变量</a> 或是其他信息，与 <a href="">数组</a> 搭配效果更佳。</p>
-<div><pre><code>bash$ <span>declare</span> <span>|</span> <span>grep</span> <span>HOME</span>
-<span><span>HOME</span></span><span>=</span>/home/bozo
-
-
-bash$ <span>zzy</span><span>=</span><span>68</span>
-bash$ <span>declare</span> <span>|</span> <span>grep</span> zzy
-<span>zzy</span><span>=</span><span>68</span>
-
-
-bash$ <span>Colors</span><span>=</span><span>(</span><span>[</span><span>0</span><span>]</span><span>=</span><span>"purple"</span> <span>[</span><span>1</span><span>]</span><span>=</span><span>"reddish-orange"</span> <span>[</span><span>2</span><span>]</span><span>=</span><span>"light green"</span><span>)</span>
-bash$ <span>echo</span> <span>${Colors<span>[</span>@<span>]</span>}</span>
-purple reddish-orange light green
-bash$ <span>declare</span> <span>|</span> <span>grep</span> Colors
-<span>Colors</span><span>=</span><span>(</span><span>[</span><span>0</span><span>]</span><span>=</span><span>"purple"</span> <span>[</span><span>1</span><span>]</span><span>=</span><span>"reddish-orange"</span> <span>[</span><span>2</span><span>]</span><span>=</span><span>"light green"</span><span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>9.2 变量类型标注：declare 与 typeset</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/09_2_typing_variables_declare_or_typeset/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/09_2_typing_variables_declare_or_typeset/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">9.2 变量类型标注：declare 与 typeset</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_9-2-变量类型标注-declare-与-typeset"> 9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></h1>
-<p><a href="">内建命令</a> <code>declare</code> 和 <code>typeset</code> 是完全相同的命令，其被用于修改变量的属性。相比起一部分编程语言来说，这种修改属于非常弱的类型标注方式<sup></sup>。<code>declare</code> 命令只有在 Bash version 2 及更高版本才能使用，而 <code>typeset</code> 命令可以在 ksh 脚本中运行。</p>
-<h2 id="declare-typeset-命令选项"> <code>declare</code>/<code>typeset</code> 命令选项</h2>
-<h3 id="r-只读-readonly"> -r 只读（readonly）</h3>
-<p>（<code>declare -r var1</code> 与 <code>readonly var1</code> 的作用相同）</p>
-<p>该选项约等于 C 语言中的类型限定符 <code>const</code>。任何尝试修改只读变量的行为都会导致脚本出错。</p>
-<div><pre><code><span>declare</span> -r <span>var1</span><span>=</span><span>1</span>
-<span>echo</span> <span>"var1 = <span>$var1</span>"</span>   <span># var1 = 1</span>
-
-<span><span>((</span> var1<span>++</span> <span>))</span></span>          <span># x.sh: line 4: var1: readonly variable</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="i-整型-integer"> -i 整型（integer）</h3>
-<div><pre><code><span>declare</span> -i number
-<span># 脚本会将之后所有出现的 "number" 变量的类型都视作整型。</span>
-
-<span>number</span><span>=</span><span>3</span>
-<span>echo</span> <span>"Number = <span>$number</span>"</span>     <span># Number = 3</span>
-
-<span>number</span><span>=</span>three
-<span>echo</span> <span>"Number = <span>$number</span>"</span>     <span># Number = 0</span>
-<span># 脚本试图将字符串 "three" 视为整型。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>被视为整型的变量无需命令 <a href=""><code>expr</code></a> 或是 <a href=""><code>let</code></a> 即可进行数学运算。</p>
-<div><pre><code><span>n</span><span>=</span><span>6</span>/3
-<span>echo</span> <span>"n = <span>$n</span>"</span>       <span># n = 6/3</span>
-
-<span>declare</span> -i n
-<span>n</span><span>=</span><span>6</span>/3
-<span>echo</span> <span>"n = <span>$n</span>"</span>       <span># n = 2</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="a-数组-array"> -a 数组（array）</h3>
-<div><pre><code><span>declare</span> -a indices
-</code></pre>
-<div><span>1</span><br></div></div><p>变量 <code>indices</code> 会被视作 <a href="">数组</a>。</p>
-<h3 id="f-函数-function"> -f 函数（function）</h3>
-<div><pre><code><span>declare</span> -f
-</code></pre>
-<div><span>1</span><br></div></div><p>如果没有在 <code>declare -f</code> 后带上任何参数，该语句将会列出在脚本中已经定义的所有函数。</p>
-<div><pre><code><span>declare</span> -f function_name
-</code></pre>
-<div><span>1</span><br></div></div><p>而 <code>declare -f function_name</code> 则仅仅列出名为 <code>function_name</code> 的函数。</p>
-<h3 id="x-导出-export"> -x 导出（export）</h3>
-<div><pre><code><span>declare</span> -x var3
-</code></pre>
-<div><span>1</span><br></div></div><p>该语句声明了变量 <code>var3</code> 可以导出到该变量所属脚本之外的 shell 环境中。</p>
-<h3 id="x-var-value"> -x var=$value</h3>
-<div><pre><code><span>declare</span> -x <span>var3</span><span>=</span><span>373</span>
-</code></pre>
-<div><span>1</span><br></div></div><p><code>declare</code> 命令允许在设置变量属性的同时给变量赋值。</p>
-<h4 id="样例9-10-使用-declare-命令标注变量类型"> 样例9-10. 使用 <code>declare</code> 命令标注变量类型</h4>
-<div><pre><code><span>#!/bin/bash</span>
-
-<span>func1</span> <span>(</span><span>)</span>
-<span>{</span>
-  <span>echo</span> This is a function.
-<span>}</span>
-
-<span>declare</span> -f        <span># 显示上面的所有函数。</span>
-
-<span>echo</span>
-
-<span>declare</span> -i var1   <span># var1 是一个整型变量。</span>
-<span>var1</span><span>=</span><span>2367</span>
-<span>echo</span> <span>"var1 declared as <span>$var1</span>"</span>
-<span>var1</span><span>=</span>var1+1       <span># 整型变量的运算可以省略 let 命令。</span>
-<span>echo</span> <span>"var1 incremented by 1 is <span>$var1</span>."</span>
-<span># 尝试修改整型变量。</span>
-<span>echo</span> <span>"Attempting to change var1 to floating point value, 2367.1."</span>
-<span>var1</span><span>=</span><span>2367.1</span>       <span># 报错，并且 var1 的值并没有被修改。</span>
-<span>echo</span> <span>"var1 is still <span>$var1</span>"</span>
-
-<span>echo</span>
-
-<span>declare</span> -r <span>var2</span><span>=</span><span>13.36</span>         <span># 'declare' 允许在设置变量属性时，</span>
-                              <span>#+ 同时给变量赋值。</span>
-<span>echo</span> <span>"var2 declared as <span>$var2</span>"</span> <span># 尝试修改只读变量。</span>
-<span>var2</span><span>=</span><span>13.37</span>                    <span># 报错，然后脚本异常结束。</span>
-
-<span>echo</span> <span>"var2 is still <span>$var2</span>"</span>    <span># 这行语句将不会被执行。</span>
-
-<span>exit</span> <span>0</span>                        <span># 脚本也不会从这里结束。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><p>{% hint style=&quot;warning&quot; %}</p>
-<p>使用内建命令 <code>declare</code> 还可以限制变量的 <a href="">作用域</a>。</p>
-<div><pre><code><span>foo</span> <span>(</span><span>)</span>
-<span>{</span>
-<span>FOO</span><span>=</span><span>"bar"</span>
-<span>}</span>
-
-<span>bar</span> <span>(</span><span>)</span>
-<span>{</span>
-foo
-<span>echo</span> <span>$FOO</span>
-<span>}</span>
-
-bar   <span># 输出 bar。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>但是...</p>
-<div><pre><code><span>foo</span><span>(</span><span>)</span><span>{</span>
-<span>declare</span> <span>FOO</span><span>=</span><span>"bar"</span>
-<span>}</span>
-
-<span>bar</span> <span>(</span><span>)</span>
-<span>{</span>
-foo
-<span>echo</span> <span>$FOO</span>
-<span>}</span>
-
-bar  <span># 什么都不会输出。</span>
-
-
-<span># 感谢 Michael Iatrou 指出这点。</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>{% endhint %}</p>
-<h2 id="注记"> 注记</h2>
-<p>{% hint style=&quot;info&quot; %}
-在本书中，变量类型标注（typing）是指指定变量类型并限制其属性。例如一个变量被 <code>declared</code> 或是 <code>typed</code> 命令声明为整型，则该变量不再适用于各种 <a href="">字符串操作</a>。</p>
-<div><pre><code><span>declare</span> -i intvar
-
-<span>intvar</span><span>=</span><span>23</span>
-<span>echo</span> <span>"<span>$intvar</span>"</span>   <span># 23</span>
-<span>intvar</span><span>=</span>stringval
-<span>echo</span> <span>"<span>$intvar</span>"</span>   <span># 0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>{% endhint %}</p>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>Footnotes placeholder </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
-    </item>
-    <item>
       <title>9.3 $RANDOM：生成随机数</title>
       <link>https://clay-wangzhi.com/code/shell/part3/09_3_random_generate_random_integer/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/09_3_random_generate_random_integer/</guid>
@@ -28388,6 +28145,147 @@ random_numbers
 <li id="footnote1"><p>Footnote Placeholder </p>
 </li>
 <li id="footnote2"><p>Footnote Placeholder </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>9.2 变量类型标注：declare 与 typeset</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/09_2_typing_variables_declare_or_typeset/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/09_2_typing_variables_declare_or_typeset/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">9.2 变量类型标注：declare 与 typeset</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_9-2-变量类型标注-declare-与-typeset"> 9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></h1>
+<p><a href="">内建命令</a> <code>declare</code> 和 <code>typeset</code> 是完全相同的命令，其被用于修改变量的属性。相比起一部分编程语言来说，这种修改属于非常弱的类型标注方式<sup></sup>。<code>declare</code> 命令只有在 Bash version 2 及更高版本才能使用，而 <code>typeset</code> 命令可以在 ksh 脚本中运行。</p>
+<h2 id="declare-typeset-命令选项"> <code>declare</code>/<code>typeset</code> 命令选项</h2>
+<h3 id="r-只读-readonly"> -r 只读（readonly）</h3>
+<p>（<code>declare -r var1</code> 与 <code>readonly var1</code> 的作用相同）</p>
+<p>该选项约等于 C 语言中的类型限定符 <code>const</code>。任何尝试修改只读变量的行为都会导致脚本出错。</p>
+<div><pre><code><span>declare</span> -r <span>var1</span><span>=</span><span>1</span>
+<span>echo</span> <span>"var1 = <span>$var1</span>"</span>   <span># var1 = 1</span>
+
+<span><span>((</span> var1<span>++</span> <span>))</span></span>          <span># x.sh: line 4: var1: readonly variable</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="i-整型-integer"> -i 整型（integer）</h3>
+<div><pre><code><span>declare</span> -i number
+<span># 脚本会将之后所有出现的 "number" 变量的类型都视作整型。</span>
+
+<span>number</span><span>=</span><span>3</span>
+<span>echo</span> <span>"Number = <span>$number</span>"</span>     <span># Number = 3</span>
+
+<span>number</span><span>=</span>three
+<span>echo</span> <span>"Number = <span>$number</span>"</span>     <span># Number = 0</span>
+<span># 脚本试图将字符串 "three" 视为整型。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>被视为整型的变量无需命令 <a href=""><code>expr</code></a> 或是 <a href=""><code>let</code></a> 即可进行数学运算。</p>
+<div><pre><code><span>n</span><span>=</span><span>6</span>/3
+<span>echo</span> <span>"n = <span>$n</span>"</span>       <span># n = 6/3</span>
+
+<span>declare</span> -i n
+<span>n</span><span>=</span><span>6</span>/3
+<span>echo</span> <span>"n = <span>$n</span>"</span>       <span># n = 2</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="a-数组-array"> -a 数组（array）</h3>
+<div><pre><code><span>declare</span> -a indices
+</code></pre>
+<div><span>1</span><br></div></div><p>变量 <code>indices</code> 会被视作 <a href="">数组</a>。</p>
+<h3 id="f-函数-function"> -f 函数（function）</h3>
+<div><pre><code><span>declare</span> -f
+</code></pre>
+<div><span>1</span><br></div></div><p>如果没有在 <code>declare -f</code> 后带上任何参数，该语句将会列出在脚本中已经定义的所有函数。</p>
+<div><pre><code><span>declare</span> -f function_name
+</code></pre>
+<div><span>1</span><br></div></div><p>而 <code>declare -f function_name</code> 则仅仅列出名为 <code>function_name</code> 的函数。</p>
+<h3 id="x-导出-export"> -x 导出（export）</h3>
+<div><pre><code><span>declare</span> -x var3
+</code></pre>
+<div><span>1</span><br></div></div><p>该语句声明了变量 <code>var3</code> 可以导出到该变量所属脚本之外的 shell 环境中。</p>
+<h3 id="x-var-value"> -x var=$value</h3>
+<div><pre><code><span>declare</span> -x <span>var3</span><span>=</span><span>373</span>
+</code></pre>
+<div><span>1</span><br></div></div><p><code>declare</code> 命令允许在设置变量属性的同时给变量赋值。</p>
+<h4 id="样例9-10-使用-declare-命令标注变量类型"> 样例9-10. 使用 <code>declare</code> 命令标注变量类型</h4>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>func1</span> <span>(</span><span>)</span>
+<span>{</span>
+  <span>echo</span> This is a function.
+<span>}</span>
+
+<span>declare</span> -f        <span># 显示上面的所有函数。</span>
+
+<span>echo</span>
+
+<span>declare</span> -i var1   <span># var1 是一个整型变量。</span>
+<span>var1</span><span>=</span><span>2367</span>
+<span>echo</span> <span>"var1 declared as <span>$var1</span>"</span>
+<span>var1</span><span>=</span>var1+1       <span># 整型变量的运算可以省略 let 命令。</span>
+<span>echo</span> <span>"var1 incremented by 1 is <span>$var1</span>."</span>
+<span># 尝试修改整型变量。</span>
+<span>echo</span> <span>"Attempting to change var1 to floating point value, 2367.1."</span>
+<span>var1</span><span>=</span><span>2367.1</span>       <span># 报错，并且 var1 的值并没有被修改。</span>
+<span>echo</span> <span>"var1 is still <span>$var1</span>"</span>
+
+<span>echo</span>
+
+<span>declare</span> -r <span>var2</span><span>=</span><span>13.36</span>         <span># 'declare' 允许在设置变量属性时，</span>
+                              <span>#+ 同时给变量赋值。</span>
+<span>echo</span> <span>"var2 declared as <span>$var2</span>"</span> <span># 尝试修改只读变量。</span>
+<span>var2</span><span>=</span><span>13.37</span>                    <span># 报错，然后脚本异常结束。</span>
+
+<span>echo</span> <span>"var2 is still <span>$var2</span>"</span>    <span># 这行语句将不会被执行。</span>
+
+<span>exit</span> <span>0</span>                        <span># 脚本也不会从这里结束。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><p>{% hint style=&quot;warning&quot; %}</p>
+<p>使用内建命令 <code>declare</code> 还可以限制变量的 <a href="">作用域</a>。</p>
+<div><pre><code><span>foo</span> <span>(</span><span>)</span>
+<span>{</span>
+<span>FOO</span><span>=</span><span>"bar"</span>
+<span>}</span>
+
+<span>bar</span> <span>(</span><span>)</span>
+<span>{</span>
+foo
+<span>echo</span> <span>$FOO</span>
+<span>}</span>
+
+bar   <span># 输出 bar。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>但是...</p>
+<div><pre><code><span>foo</span><span>(</span><span>)</span><span>{</span>
+<span>declare</span> <span>FOO</span><span>=</span><span>"bar"</span>
+<span>}</span>
+
+<span>bar</span> <span>(</span><span>)</span>
+<span>{</span>
+foo
+<span>echo</span> <span>$FOO</span>
+<span>}</span>
+
+bar  <span># 什么都不会输出。</span>
+
+
+<span># 感谢 Michael Iatrou 指出这点。</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><p>{% endhint %}</p>
+<h2 id="注记"> 注记</h2>
+<p>{% hint style=&quot;info&quot; %}
+在本书中，变量类型标注（typing）是指指定变量类型并限制其属性。例如一个变量被 <code>declared</code> 或是 <code>typed</code> 命令声明为整型，则该变量不再适用于各种 <a href="">字符串操作</a>。</p>
+<div><pre><code><span>declare</span> -i intvar
+
+<span>intvar</span><span>=</span><span>23</span>
+<span>echo</span> <span>"<span>$intvar</span>"</span>   <span># 23</span>
+<span>intvar</span><span>=</span>stringval
+<span>echo</span> <span>"<span>$intvar</span>"</span>   <span># 0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>{% endhint %}</p>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>Footnotes placeholder </p>
 </li>
 </ol>
 </section>
@@ -34992,162 +34890,6 @@ Function ()  # 不行.
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
     </item>
     <item>
-      <title>24.3 不使用局部变量的递归</title>
-      <link>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">24.3 不使用局部变量的递归</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
-<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
-<h2 id="斐波那契序列"> 斐波那契序列</h2>
-<div><pre><code>#!/bin/bash
-# fibo.sh : 斐波那契序列 (递归)
-# 作者: M. Cooper
-# License: GPL3
-
-# ----------算法--------------
-# Fibo(0) = 0
-# Fibo(1) = 1
-# else
-#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
-# ---------------------------------
-
-MAXTERM=15       # 要产生的计算次数。
-MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
-
-Fibonacci ()
-{
-    idx=$1   # 不需要是局部变量，为什么？
-    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
-    then
-        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
-    else
-        (( --idx ))  # j-1
-        term1=$( Fibonacci $idx )   #  Fibo(j-1)
-        (( --idx ))  # j-2
-        term2=$( Fibonacci $idx )   #  Fibo(j-2)
-        echo $(( term1 + term2 ))
-    fi
-    #  一个丑陋的实现
-    #  C语言里，一个更加优雅的斐波那契递归实现
-    #+ 是一个简单的只需要7-10代码的算法翻译。
-}
-
-for i in $(seq 0 $MAXTERM)
-do  # 计算 $MAXTERM+1 次.
-    FIBO=$(Fibonacci $i)
-    echo -n &quot;$FIBO &quot;
-done
-# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
-# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
-<div><pre><code>#! /bin/bash
-#
-# 汉诺塔
-# Bash script
-# Copyright (C) 2000 Amit Singh. All Rights Reserved.
-# http://hanoi.kernelthread.com
-#
-# 在 Bash version 2.05b.0(13)-release下通过测试.
-# 同样在Bash3.x版本下工作正常。
-#
-#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
-#+ 经过了脚本作者的许可。
-#  ABS的作者对脚本进行了轻微的修改和注释。
-#=================================================================#
-#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
-#+  他是19世纪的法国数学家。
-#
-# 有三个直立的柱子竖在地面上。
-# 第一个柱子上有一组盘子套在上面。
-# 这些盘子是平的，中间有孔，
-#+ 可以套在柱子上面。
-# 这些盘子的直径不同，它们从下而上， 
-#+ 按照尺寸递减的顺序摆放。
-# 也就是说，最小的在最上边，最大的在最下面。
-#
-# 现在的任务是要把这组盘子  
-#+ 从一个柱子上全部搬到另一个柱子上 
-# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
-# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
-# 你只能把小的盘子放到大的盘子上。
-#+ 反过来就不行。
-# 切记，绝对不能把大盘子放到小盘子的上面。
-# 如果盘子的数量比较少，那么移不了几次就能完成。
-#+ 但是随着盘子数量的增加，
-#+ 移动次数几乎成倍的增长，
-#+ 而且移动的“策略”也会变得越来越复杂。
-#
-# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
-#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
-#
-#
-#           ...             ...         ...
-#           | |             | |         | |
-#          _|_|_            | |         | |
-#         |_____|           | |         | |
-#        |_______|          | |         | |
-#       |_________|         | |         | |
-#      |___________|        | |         | |
-#     |             |       | |         | |
-# .--------------------------------------------------------------. 
-# |**************************************************************| 
-#            #1              #2          #3
-# #=================================================================#
-
-E_NOPARAM=66  # 没有参数传给脚本。
-E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
-Moves=        # 保存移动次数的全局变量。
-              # 这里修改了原来的脚本。
-
-dohanoi() {   # 递归函数
-    case $1 in
-    0)
-        ;;
-    *)
-        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
-        echo move $2 &quot;--&gt;&quot; $3
-        ((Moves++))          # 这里修改了原来的脚本。
-        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
-        ;;
-    esac 
-}
-
-case $# in
-    1) case $(($1&gt;0)) in     # 至少要有一个盘子
-        1)  # Nested case statement.
-            dohanoi $1 1 3 2
-            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
-            exit 0;
-            ;; 
-        *)    
-            echo &quot;$0: illegal value for number of disks&quot;;
-            exit $E_BADPARAM;
-            ;;
-        esac ;;
-    *)
-        echo &quot;usage: $0 N&quot;
-        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
-        exit $E_NOPARAM;
-        ;;
-    esac
-
-# 练习:
-# ---------
-# 1) 这个位置以下的代码会不会执行？ 
-#    为什么不(容易)
-# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
-#    (比较难 可以参考上面的Dewdney 的引用)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>24.2 局部变量</title>
       <link>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</link>
       <guid>https://clay-wangzhi.com/code/shell/part5/24_2_local_variables/</guid>
@@ -35414,6 +35156,162 @@ exit 0  # 这个脚本可能不会正常退出。
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div>]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>24.3 不使用局部变量的递归</title>
+      <link>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part5/24_3_recursion_without_local_variables/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">24.3 不使用局部变量的递归</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_24-3-不使用局部变量的递归"> 24.3 不使用局部变量的递归</h1>
+<p>即使不适用局部变量，函数也可以递归的调用自身。</p>
+<h2 id="斐波那契序列"> 斐波那契序列</h2>
+<div><pre><code>#!/bin/bash
+# fibo.sh : 斐波那契序列 (递归)
+# 作者: M. Cooper
+# License: GPL3
+
+# ----------算法--------------
+# Fibo(0) = 0
+# Fibo(1) = 1
+# else
+#   Fibo(j) = Fibo(j-1) + Fibo(j-2)
+# ---------------------------------
+
+MAXTERM=15       # 要产生的计算次数。
+MINIDX=2         # 如果下标小于2，那么 Fibo(idx) = idx.
+
+Fibonacci ()
+{
+    idx=$1   # 不需要是局部变量，为什么？
+    if [ &quot;$idx&quot; -lt &quot;$MINIDX&quot; ]
+    then
+        echo &quot;$idx&quot;  # 前两个下标是0和1 ... 从上面的算法可以看出来。
+    else
+        (( --idx ))  # j-1
+        term1=$( Fibonacci $idx )   #  Fibo(j-1)
+        (( --idx ))  # j-2
+        term2=$( Fibonacci $idx )   #  Fibo(j-2)
+        echo $(( term1 + term2 ))
+    fi
+    #  一个丑陋的实现
+    #  C语言里，一个更加优雅的斐波那契递归实现
+    #+ 是一个简单的只需要7-10代码的算法翻译。
+}
+
+for i in $(seq 0 $MAXTERM)
+do  # 计算 $MAXTERM+1 次.
+    FIBO=$(Fibonacci $i)
+    echo -n &quot;$FIBO &quot;
+done
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610
+# 要花费一段时间，不是么？ 一个递归脚本是有些慢的。
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br></div></div><p>例子 24-17. 汉诺塔</p>
+<div><pre><code>#! /bin/bash
+#
+# 汉诺塔
+# Bash script
+# Copyright (C) 2000 Amit Singh. All Rights Reserved.
+# http://hanoi.kernelthread.com
+#
+# 在 Bash version 2.05b.0(13)-release下通过测试.
+# 同样在Bash3.x版本下工作正常。
+#
+#  在 &quot;Advanced Bash Scripting Guide&quot; 一书中使用
+#+ 经过了脚本作者的许可。
+#  ABS的作者对脚本进行了轻微的修改和注释。
+#=================================================================#
+#  汉诺塔是由Edouard Lucas,提出的数学谜题， 
+#+  他是19世纪的法国数学家。
+#
+# 有三个直立的柱子竖在地面上。
+# 第一个柱子上有一组盘子套在上面。
+# 这些盘子是平的，中间有孔，
+#+ 可以套在柱子上面。
+# 这些盘子的直径不同，它们从下而上， 
+#+ 按照尺寸递减的顺序摆放。
+# 也就是说，最小的在最上边，最大的在最下面。
+#
+# 现在的任务是要把这组盘子  
+#+ 从一个柱子上全部搬到另一个柱子上 
+# 你每次只能将一个盘子从一个柱子移到另一个柱子上。
+# 你也可以把盘子从其他的柱子上移回到原来的柱子上。
+# 你只能把小的盘子放到大的盘子上。
+#+ 反过来就不行。
+# 切记，绝对不能把大盘子放到小盘子的上面。
+# 如果盘子的数量比较少，那么移不了几次就能完成。
+#+ 但是随着盘子数量的增加，
+#+ 移动次数几乎成倍的增长，
+#+ 而且移动的“策略”也会变得越来越复杂。
+#
+# 想了解更多信息的话，请访问http://hanoi.kernelthread.com
+#+ 或者 pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.
+#
+#
+#           ...             ...         ...
+#           | |             | |         | |
+#          _|_|_            | |         | |
+#         |_____|           | |         | |
+#        |_______|          | |         | |
+#       |_________|         | |         | |
+#      |___________|        | |         | |
+#     |             |       | |         | |
+# .--------------------------------------------------------------. 
+# |**************************************************************| 
+#            #1              #2          #3
+# #=================================================================#
+
+E_NOPARAM=66  # 没有参数传给脚本。
+E_BADPARAM=67 # 传给脚本的盘子个数不符合要求。
+Moves=        # 保存移动次数的全局变量。
+              # 这里修改了原来的脚本。
+
+dohanoi() {   # 递归函数
+    case $1 in
+    0)
+        ;;
+    *)
+        dohanoi &quot;$(($1-1))&quot; $2 $4 $3
+        echo move $2 &quot;--&gt;&quot; $3
+        ((Moves++))          # 这里修改了原来的脚本。
+        dohanoi &quot;$(($1-1))&quot; $4 $3 $2
+        ;;
+    esac 
+}
+
+case $# in
+    1) case $(($1&gt;0)) in     # 至少要有一个盘子
+        1)  # Nested case statement.
+            dohanoi $1 1 3 2
+            echo &quot;Total moves = $Moves&quot;     # 2^n - 1, where n = # of disks.
+            exit 0;
+            ;; 
+        *)    
+            echo &quot;$0: illegal value for number of disks&quot;;
+            exit $E_BADPARAM;
+            ;;
+        esac ;;
+    *)
+        echo &quot;usage: $0 N&quot;
+        echo &quot;       Where \&quot;N\&quot; is the number of disks.&quot;
+        exit $E_NOPARAM;
+        ;;
+    esac
+
+# 练习:
+# ---------
+# 1) 这个位置以下的代码会不会执行？ 
+#    为什么不(容易)
+# 2) 解释一下这个 &quot;dohanoi&quot; 函数的运行原理.
+#    (比较难 可以参考上面的Dewdney 的引用)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br><span>97</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>24 函数</title>
@@ -42408,6 +42306,32 @@ set global expire_logs_days = 7;
 ]]></content:encoded>
     </item>
     <item>
+      <title>11 MySQL逻辑架构</title>
+      <link>https://clay-wangzhi.com/db/mysql/jiagou/</link>
+      <guid>https://clay-wangzhi.com/db/mysql/jiagou/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11 MySQL逻辑架构</source>
+      <category>MySQL</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
+<h2 id="mysql架构"> mysql架构</h2>
+<p>mysql架构分为三层：</p>
+<ol>
+<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
+<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
+<li>存储引擎层：存储和提取数据以及事务处理</li>
+</ol>
+<p><img src="./images/1.png" alt="" /></p>
+<h3 id="服务层"> 服务层</h3>
+<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
+<h3 id="核心层"> 核心层</h3>
+<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
+<h3 id="存储引擎层"> 存储引擎层</h3>
+<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
+<h2 id="总图"> 总图</h2>
+<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>3 数据库设计与查询语句</title>
       <link>https://clay-wangzhi.com/db/mysql/des-select/</link>
       <guid>https://clay-wangzhi.com/db/mysql/des-select/</guid>
@@ -43423,32 +43347,6 @@ Empty set (0.02 sec)
 <p>选择一个表的数据插入到另外的表中。</p>
 <h3 id="_9-2-on-duplicate-key-update"> 9.2 on duplicate key update</h3>
 <p>在插入数据的时候，如果插入的数据不满足主键约束或唯一约束则执行更新操作。</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>11 MySQL逻辑架构</title>
-      <link>https://clay-wangzhi.com/db/mysql/jiagou/</link>
-      <guid>https://clay-wangzhi.com/db/mysql/jiagou/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11 MySQL逻辑架构</source>
-      <category>MySQL</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-mysql逻辑架构"> 11 MySQL逻辑架构</h1>
-<h2 id="mysql架构"> mysql架构</h2>
-<p>mysql架构分为三层：</p>
-<ol>
-<li>服务层：为客户请求做连接处理、授权认证、安全等</li>
-<li>核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等</li>
-<li>存储引擎层：存储和提取数据以及事务处理</li>
-</ol>
-<p><img src="./images/1.png" alt="" /></p>
-<h3 id="服务层"> 服务层</h3>
-<p>​         <img src="./images/1-1581242308187.png" alt="" /></p>
-<h3 id="核心层"> 核心层</h3>
-<p>​         <img src="./images/1-1581242354457.png" alt="" /></p>
-<h3 id="存储引擎层"> 存储引擎层</h3>
-<p>​         <img src="./images/1-1581242634333.png" alt="" /></p>
-<h2 id="总图"> 总图</h2>
-<p>​         <img src="./images/1-1581242670762.png" alt="" /></p>
 ]]></content:encoded>
     </item>
     <item>
@@ -47349,6 +47247,221 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>Commit message 和 Change log 编写指南</title>
+      <link>https://clay-wangzhi.com/git/git-commit-message/</link>
+      <guid>https://clay-wangzhi.com/git/git-commit-message/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">Commit message 和 Change log 编写指南</source>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="commit-message-和-change-log-编写指南"> Commit message 和 Change log 编写指南</h1>
+<p>Git 每次提交代码，都要写 Commit message（提交说明），否则就不允许提交。</p>
+<blockquote>
+<div><pre><code>$ <span>git</span> commit -m <span>"hello world"</span>
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>上面代码的<code>-m</code>参数，就是用来指定 commit mesage 的。</p>
+<p>如果一行不够，可以只执行<code>git commit</code>，就会跳出文本编辑器，让你写多行。</p>
+<blockquote>
+<div><pre><code>$ <span>git</span> commit
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>但是，一般来说，commit message 应该清晰明了，说明本次提交的目的。</p>
+<p>目前，社区有多种 Commit message 的<a href="https://github.com/ajoslin/conventional-changelog/blob/master/conventions" target="_blank" rel="noopener noreferrer">写法规范</a>。本文介绍<a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0" target="_blank" rel="noopener noreferrer">Angular 规范</a>（见上图），这是目前使用最广的写法，比较合理和系统化，并且有配套的工具。</p>
+<h2 id="一、commit-message-的作用"> 一、Commit message 的作用</h2>
+<p>格式化的Commit message，有几个好处。</p>
+<p><strong>（1）提供更多的历史信息，方便快速浏览。</strong></p>
+<p>比如，下面的命令显示上次发布后的变动，每个commit占据一行。你只看行首，就知道某次 commit 的目的。</p>
+<blockquote>
+<div><pre><code>$ <span>git</span> log <span>&lt;</span>last tag<span>></span> HEAD --pretty<span>=</span>format:%s
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png" alt="img" /></p>
+<p><strong>（2）可以过滤某些commit（比如文档改动），便于快速查找信息。</strong></p>
+<p>比如，下面的命令仅仅显示本次发布新增加的功能。</p>
+<blockquote>
+<div><pre><code>$ <span>git</span> log <span>&lt;</span>last release<span>></span> HEAD --grep feature
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p><strong>（3）可以直接从commit生成Change log。</strong></p>
+<p>Change Log 是发布新版本时，用来说明与上一个版本差异的文档，详见后文。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010603.png" alt="img" /></p>
+<h2 id="二、commit-message-的格式"> 二、Commit message 的格式</h2>
+<p>每次提交，Commit message 都包括三个部分：Header，Body 和 Footer。</p>
+<blockquote>
+<div><pre><code><span>&lt;</span>type<span>></span><span>(</span><span>&lt;</span>scope<span>></span><span>)</span>: <span>&lt;</span>subject<span>></span>
+// 空一行
+<span>&lt;</span>body<span>></span>
+// 空一行
+<span>&lt;</span>footer<span>></span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
+<p>其中，Header 是必需的，Body 和 Footer 可以省略。</p>
+<p>不管是哪一个部分，任何一行都不得超过72个字符（或100个字符）。这是为了避免自动换行影响美观。</p>
+<h3 id="_2-1-header"> 2.1 Header</h3>
+<p>Header部分只有一行，包括三个字段：<code>type</code>（必需）、<code>scope</code>（可选）和<code>subject</code>（必需）。</p>
+<p><strong>（1）type</strong></p>
+<p><code>type</code>用于说明 commit 的类别，只允许使用下面7个标识。</p>
+<blockquote>
+<ul>
+<li>feat：新功能（feature）</li>
+<li>fix：修补bug</li>
+<li>docs：文档（documentation）</li>
+<li>style： 格式（不影响代码运行的变动）</li>
+<li>refactor：重构（即不是新增功能，也不是修改bug的代码变动）</li>
+<li>test：增加测试</li>
+<li>chore：构建过程或辅助工具的变动</li>
+</ul>
+</blockquote>
+<p>如果<code>type</code>为<code>feat</code>和<code>fix</code>，则该 commit 将肯定出现在 Change log 之中。其他情况（<code>docs</code>、<code>chore</code>、<code>style</code>、<code>refactor</code>、<code>test</code>）由你决定，要不要放入 Change log，建议是不要。</p>
+<p><strong>（2）scope</strong></p>
+<p><code>scope</code>用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。</p>
+<p><strong>（3）subject</strong></p>
+<p><code>subject</code>是 commit 目的的简短描述，不超过50个字符。</p>
+<blockquote>
+<ul>
+<li>以动词开头，使用第一人称现在时，比如<code>change</code>，而不是<code>changed</code>或<code>changes</code></li>
+<li>第一个字母小写</li>
+<li>结尾不加句号（<code>.</code>）</li>
+</ul>
+</blockquote>
+<h3 id="_2-2-body"> 2.2 Body</h3>
+<p>Body 部分是对本次 commit 的详细描述，可以分成多行。下面是一个范例。</p>
+<blockquote>
+<div><pre><code>More detailed explanatory text, <span>if</span> necessary.  Wrap it to 
+about <span>72</span> characters or so. 
+
+Further paragraphs come after blank lines.
+
+- Bullet points are okay, too
+- Use a hanging indent
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div></blockquote>
+<p>有两个注意点。</p>
+<p>（1）使用第一人称现在时，比如使用<code>change</code>而不是<code>changed</code>或<code>changes</code>。</p>
+<p>（2）应该说明代码变动的动机，以及与以前行为的对比。</p>
+<h3 id="_2-3-footer"> 2.3 Footer</h3>
+<p>Footer 部分只用于两种情况。</p>
+<p><strong>（1）不兼容变动</strong></p>
+<p>如果当前代码与上一个版本不兼容，则 Footer 部分以<code>BREAKING CHANGE</code>开头，后面是对变动的描述、以及变动理由和迁移方法。</p>
+<blockquote>
+<div><pre><code>BREAKING CHANGE: isolate scope bindings definition has changed.
+
+    To migrate the code follow the example below:
+
+    Before:
+
+    scope: <span>{</span>
+      myAttr: <span>'attribute'</span>,
+    <span>}</span>
+
+    After:
+
+    scope: <span>{</span>
+      myAttr: <span>'@'</span>,
+    <span>}</span>
+
+    The removed <span><span>`</span>inject<span>`</span></span> wasn't generaly useful <span>for</span> directives so there should be no code using it.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div></blockquote>
+<p><strong>（2）关闭 Issue</strong></p>
+<p>如果当前 commit 针对某个issue，那么可以在 Footer 部分关闭这个 issue 。</p>
+<blockquote>
+<div><pre><code>Closes <span>#234</span>
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>也可以一次关闭多个 issue 。</p>
+<blockquote>
+<div><pre><code>Closes <span>#123, #245, #992</span>
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<h3 id="_2-4-revert"> 2.4 Revert</h3>
+<p>还有一种特殊情况，如果当前 commit 用于撤销以前的 commit，则必须以<code>revert:</code>开头，后面跟着被撤销 Commit 的 Header。</p>
+<blockquote>
+<div><pre><code>revert: feat<span>(</span>pencil<span>)</span>: <span>add</span> <span>'graphiteWidth'</span> option
+
+This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
+<p>Body部分的格式是固定的，必须写成<code>This reverts commit &lt;hash&gt;.</code>，其中的<code>hash</code>是被撤销 commit 的 SHA 标识符。</p>
+<p>如果当前 commit 与被撤销的 commit，在同一个发布（release）里面，那么它们都不会出现在 Change log 里面。如果两者在不同的发布，那么当前 commit，会出现在 Change log 的<code>Reverts</code>小标题下面。</p>
+<h2 id="三、commitizen"> 三、Commitizen</h2>
+<p><a href="https://github.com/commitizen/cz-cli" target="_blank" rel="noopener noreferrer">Commitizen</a>是一个撰写合格 Commit message 的工具。</p>
+<p>安装命令如下。</p>
+<blockquote>
+<div><pre><code>$ <span>npm</span> <span>install</span> -g commitizen
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>然后，在项目目录里，运行下面的命令，使其支持 Angular 的 Commit message 格式。</p>
+<blockquote>
+<div><pre><code>$ commitizen init cz-conventional-changelog --save --save-exact
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>以后，凡是用到<code>git commit</code>命令，一律改为使用<code>git cz</code>。这时，就会出现选项，用来生成符合格式的 Commit message。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010605.png" alt="img" /></p>
+<h2 id="四、validate-commit-msg"> 四、validate-commit-msg</h2>
+<p><a href="https://github.com/kentcdodds/validate-commit-msg" target="_blank" rel="noopener noreferrer">validate-commit-msg</a> 用于检查 Node 项目的 Commit message 是否符合格式。</p>
+<p>它的安装是手动的。首先，拷贝下面这个<a href="https://github.com/kentcdodds/validate-commit-msg/blob/master/index.js" target="_blank" rel="noopener noreferrer">JS文件</a>，放入你的代码库。文件名可以取为<code>validate-commit-msg.js</code>。</p>
+<p>接着，把这个脚本加入 Git 的 hook。下面是在<code>package.json</code>里面使用 <a href="http://npm.im/ghooks" target="_blank" rel="noopener noreferrer">ghooks</a>，把这个脚本加为<code>commit-msg</code>时运行。</p>
+<blockquote>
+<div><pre><code>  <span>"config"</span><span>:</span> <span>{</span>
+    <span>"ghooks"</span><span>:</span> <span>{</span>
+      <span>"commit-msg"</span><span>:</span> <span>"./validate-commit-msg.js"</span>
+    <span>}</span>
+  <span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
+<p>然后，每次<code>git commit</code>的时候，这个脚本就会自动检查 Commit message 是否合格。如果不合格，就会报错。</p>
+<blockquote>
+<div><pre><code>$ <span>git</span> <span>add</span> -A 
+$ <span>git</span> commit -m <span>"edit markdown"</span> 
+INVALID COMMIT MSG: does not match <span>"&lt;type>(&lt;scope>): &lt;subject>"</span> <span>!</span> was: edit markdown
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
+<h2 id="五、生成-change-log"> 五、生成 Change log</h2>
+<p>如果你的所有 Commit 都符合 Angular 格式，那么发布新版本时， Change log 就可以用脚本自动生成（<a href="https://github.com/ajoslin/conventional-changelog/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例1</a>，<a href="https://github.com/karma-runner/karma/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例2</a>，<a href="https://github.com/btford/grunt-conventional-changelog/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例3</a>）。</p>
+<p>生成的文档包括以下三个部分。</p>
+<blockquote>
+<ul>
+<li>New features</li>
+<li>Bug fixes</li>
+<li>Breaking changes.</li>
+</ul>
+</blockquote>
+<p>每个部分都会罗列相关的 commit ，并且有指向这些 commit 的链接。当然，生成的文档允许手动修改，所以发布前，你还可以添加其他内容。</p>
+<p><a href="https://github.com/ajoslin/conventional-changelog" target="_blank" rel="noopener noreferrer">conventional-changelog</a> 就是生成 Change log 的工具，运行下面的命令即可。</p>
+<blockquote>
+<div><pre><code>$ <span>npm</span> <span>install</span> -g conventional-changelog
+$ <span>cd</span> my-project
+$ conventional-changelog -p angular -i CHANGELOG.md -w
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
+<p>上面命令不会覆盖以前的 Change log，只会在<code>CHANGELOG.md</code>的头部加上自从上次发布以来的变动。</p>
+<p>如果你想生成所有发布的 Change log，要改为运行下面的命令。</p>
+<blockquote>
+<div><pre><code>$ conventional-changelog -p angular -i CHANGELOG.md -w -r <span>0</span>
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<p>为了方便使用，可以将其写入<code>package.json</code>的<code>scripts</code>字段。</p>
+<blockquote>
+<div><pre><code><span>{</span>
+  <span>"scripts"</span><span>:</span> <span>{</span>
+    <span>"changelog"</span><span>:</span> <span>"conventional-changelog -p angular -i CHANGELOG.md -w -r 0"</span>
+  <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
+<p>以后，直接运行下面的命令即可。</p>
+<blockquote>
+<div><pre><code>$ <span>npm</span> run changelog
+</code></pre>
+<div><span>1</span><br></div></div></blockquote>
+<blockquote>
+<p>转载自：阮一峰 Commit message 和 Change log 编写指南</p>
+<p>https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</p>
+</blockquote>
+]]></content:encoded>
+      <enclosure url="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png" type="image/png"/>
+    </item>
+    <item>
       <title>git的基本使用</title>
       <link>https://clay-wangzhi.com/git/git-basic/</link>
       <guid>https://clay-wangzhi.com/git/git-basic/</guid>
@@ -47870,221 +47983,6 @@ $ <span>git</span> archive
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png" type="image/png"/>
-    </item>
-    <item>
-      <title>Commit message 和 Change log 编写指南</title>
-      <link>https://clay-wangzhi.com/git/git-commit-message/</link>
-      <guid>https://clay-wangzhi.com/git/git-commit-message/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">Commit message 和 Change log 编写指南</source>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="commit-message-和-change-log-编写指南"> Commit message 和 Change log 编写指南</h1>
-<p>Git 每次提交代码，都要写 Commit message（提交说明），否则就不允许提交。</p>
-<blockquote>
-<div><pre><code>$ <span>git</span> commit -m <span>"hello world"</span>
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>上面代码的<code>-m</code>参数，就是用来指定 commit mesage 的。</p>
-<p>如果一行不够，可以只执行<code>git commit</code>，就会跳出文本编辑器，让你写多行。</p>
-<blockquote>
-<div><pre><code>$ <span>git</span> commit
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>但是，一般来说，commit message 应该清晰明了，说明本次提交的目的。</p>
-<p>目前，社区有多种 Commit message 的<a href="https://github.com/ajoslin/conventional-changelog/blob/master/conventions" target="_blank" rel="noopener noreferrer">写法规范</a>。本文介绍<a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0" target="_blank" rel="noopener noreferrer">Angular 规范</a>（见上图），这是目前使用最广的写法，比较合理和系统化，并且有配套的工具。</p>
-<h2 id="一、commit-message-的作用"> 一、Commit message 的作用</h2>
-<p>格式化的Commit message，有几个好处。</p>
-<p><strong>（1）提供更多的历史信息，方便快速浏览。</strong></p>
-<p>比如，下面的命令显示上次发布后的变动，每个commit占据一行。你只看行首，就知道某次 commit 的目的。</p>
-<blockquote>
-<div><pre><code>$ <span>git</span> log <span>&lt;</span>last tag<span>></span> HEAD --pretty<span>=</span>format:%s
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png" alt="img" /></p>
-<p><strong>（2）可以过滤某些commit（比如文档改动），便于快速查找信息。</strong></p>
-<p>比如，下面的命令仅仅显示本次发布新增加的功能。</p>
-<blockquote>
-<div><pre><code>$ <span>git</span> log <span>&lt;</span>last release<span>></span> HEAD --grep feature
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p><strong>（3）可以直接从commit生成Change log。</strong></p>
-<p>Change Log 是发布新版本时，用来说明与上一个版本差异的文档，详见后文。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010603.png" alt="img" /></p>
-<h2 id="二、commit-message-的格式"> 二、Commit message 的格式</h2>
-<p>每次提交，Commit message 都包括三个部分：Header，Body 和 Footer。</p>
-<blockquote>
-<div><pre><code><span>&lt;</span>type<span>></span><span>(</span><span>&lt;</span>scope<span>></span><span>)</span>: <span>&lt;</span>subject<span>></span>
-// 空一行
-<span>&lt;</span>body<span>></span>
-// 空一行
-<span>&lt;</span>footer<span>></span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
-<p>其中，Header 是必需的，Body 和 Footer 可以省略。</p>
-<p>不管是哪一个部分，任何一行都不得超过72个字符（或100个字符）。这是为了避免自动换行影响美观。</p>
-<h3 id="_2-1-header"> 2.1 Header</h3>
-<p>Header部分只有一行，包括三个字段：<code>type</code>（必需）、<code>scope</code>（可选）和<code>subject</code>（必需）。</p>
-<p><strong>（1）type</strong></p>
-<p><code>type</code>用于说明 commit 的类别，只允许使用下面7个标识。</p>
-<blockquote>
-<ul>
-<li>feat：新功能（feature）</li>
-<li>fix：修补bug</li>
-<li>docs：文档（documentation）</li>
-<li>style： 格式（不影响代码运行的变动）</li>
-<li>refactor：重构（即不是新增功能，也不是修改bug的代码变动）</li>
-<li>test：增加测试</li>
-<li>chore：构建过程或辅助工具的变动</li>
-</ul>
-</blockquote>
-<p>如果<code>type</code>为<code>feat</code>和<code>fix</code>，则该 commit 将肯定出现在 Change log 之中。其他情况（<code>docs</code>、<code>chore</code>、<code>style</code>、<code>refactor</code>、<code>test</code>）由你决定，要不要放入 Change log，建议是不要。</p>
-<p><strong>（2）scope</strong></p>
-<p><code>scope</code>用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。</p>
-<p><strong>（3）subject</strong></p>
-<p><code>subject</code>是 commit 目的的简短描述，不超过50个字符。</p>
-<blockquote>
-<ul>
-<li>以动词开头，使用第一人称现在时，比如<code>change</code>，而不是<code>changed</code>或<code>changes</code></li>
-<li>第一个字母小写</li>
-<li>结尾不加句号（<code>.</code>）</li>
-</ul>
-</blockquote>
-<h3 id="_2-2-body"> 2.2 Body</h3>
-<p>Body 部分是对本次 commit 的详细描述，可以分成多行。下面是一个范例。</p>
-<blockquote>
-<div><pre><code>More detailed explanatory text, <span>if</span> necessary.  Wrap it to 
-about <span>72</span> characters or so. 
-
-Further paragraphs come after blank lines.
-
-- Bullet points are okay, too
-- Use a hanging indent
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div></blockquote>
-<p>有两个注意点。</p>
-<p>（1）使用第一人称现在时，比如使用<code>change</code>而不是<code>changed</code>或<code>changes</code>。</p>
-<p>（2）应该说明代码变动的动机，以及与以前行为的对比。</p>
-<h3 id="_2-3-footer"> 2.3 Footer</h3>
-<p>Footer 部分只用于两种情况。</p>
-<p><strong>（1）不兼容变动</strong></p>
-<p>如果当前代码与上一个版本不兼容，则 Footer 部分以<code>BREAKING CHANGE</code>开头，后面是对变动的描述、以及变动理由和迁移方法。</p>
-<blockquote>
-<div><pre><code>BREAKING CHANGE: isolate scope bindings definition has changed.
-
-    To migrate the code follow the example below:
-
-    Before:
-
-    scope: <span>{</span>
-      myAttr: <span>'attribute'</span>,
-    <span>}</span>
-
-    After:
-
-    scope: <span>{</span>
-      myAttr: <span>'@'</span>,
-    <span>}</span>
-
-    The removed <span><span>`</span>inject<span>`</span></span> wasn't generaly useful <span>for</span> directives so there should be no code using it.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div></blockquote>
-<p><strong>（2）关闭 Issue</strong></p>
-<p>如果当前 commit 针对某个issue，那么可以在 Footer 部分关闭这个 issue 。</p>
-<blockquote>
-<div><pre><code>Closes <span>#234</span>
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>也可以一次关闭多个 issue 。</p>
-<blockquote>
-<div><pre><code>Closes <span>#123, #245, #992</span>
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<h3 id="_2-4-revert"> 2.4 Revert</h3>
-<p>还有一种特殊情况，如果当前 commit 用于撤销以前的 commit，则必须以<code>revert:</code>开头，后面跟着被撤销 Commit 的 Header。</p>
-<blockquote>
-<div><pre><code>revert: feat<span>(</span>pencil<span>)</span>: <span>add</span> <span>'graphiteWidth'</span> option
-
-This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
-<p>Body部分的格式是固定的，必须写成<code>This reverts commit &lt;hash&gt;.</code>，其中的<code>hash</code>是被撤销 commit 的 SHA 标识符。</p>
-<p>如果当前 commit 与被撤销的 commit，在同一个发布（release）里面，那么它们都不会出现在 Change log 里面。如果两者在不同的发布，那么当前 commit，会出现在 Change log 的<code>Reverts</code>小标题下面。</p>
-<h2 id="三、commitizen"> 三、Commitizen</h2>
-<p><a href="https://github.com/commitizen/cz-cli" target="_blank" rel="noopener noreferrer">Commitizen</a>是一个撰写合格 Commit message 的工具。</p>
-<p>安装命令如下。</p>
-<blockquote>
-<div><pre><code>$ <span>npm</span> <span>install</span> -g commitizen
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>然后，在项目目录里，运行下面的命令，使其支持 Angular 的 Commit message 格式。</p>
-<blockquote>
-<div><pre><code>$ commitizen init cz-conventional-changelog --save --save-exact
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>以后，凡是用到<code>git commit</code>命令，一律改为使用<code>git cz</code>。这时，就会出现选项，用来生成符合格式的 Commit message。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010605.png" alt="img" /></p>
-<h2 id="四、validate-commit-msg"> 四、validate-commit-msg</h2>
-<p><a href="https://github.com/kentcdodds/validate-commit-msg" target="_blank" rel="noopener noreferrer">validate-commit-msg</a> 用于检查 Node 项目的 Commit message 是否符合格式。</p>
-<p>它的安装是手动的。首先，拷贝下面这个<a href="https://github.com/kentcdodds/validate-commit-msg/blob/master/index.js" target="_blank" rel="noopener noreferrer">JS文件</a>，放入你的代码库。文件名可以取为<code>validate-commit-msg.js</code>。</p>
-<p>接着，把这个脚本加入 Git 的 hook。下面是在<code>package.json</code>里面使用 <a href="http://npm.im/ghooks" target="_blank" rel="noopener noreferrer">ghooks</a>，把这个脚本加为<code>commit-msg</code>时运行。</p>
-<blockquote>
-<div><pre><code>  <span>"config"</span><span>:</span> <span>{</span>
-    <span>"ghooks"</span><span>:</span> <span>{</span>
-      <span>"commit-msg"</span><span>:</span> <span>"./validate-commit-msg.js"</span>
-    <span>}</span>
-  <span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
-<p>然后，每次<code>git commit</code>的时候，这个脚本就会自动检查 Commit message 是否合格。如果不合格，就会报错。</p>
-<blockquote>
-<div><pre><code>$ <span>git</span> <span>add</span> -A 
-$ <span>git</span> commit -m <span>"edit markdown"</span> 
-INVALID COMMIT MSG: does not match <span>"&lt;type>(&lt;scope>): &lt;subject>"</span> <span>!</span> was: edit markdown
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
-<h2 id="五、生成-change-log"> 五、生成 Change log</h2>
-<p>如果你的所有 Commit 都符合 Angular 格式，那么发布新版本时， Change log 就可以用脚本自动生成（<a href="https://github.com/ajoslin/conventional-changelog/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例1</a>，<a href="https://github.com/karma-runner/karma/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例2</a>，<a href="https://github.com/btford/grunt-conventional-changelog/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">例3</a>）。</p>
-<p>生成的文档包括以下三个部分。</p>
-<blockquote>
-<ul>
-<li>New features</li>
-<li>Bug fixes</li>
-<li>Breaking changes.</li>
-</ul>
-</blockquote>
-<p>每个部分都会罗列相关的 commit ，并且有指向这些 commit 的链接。当然，生成的文档允许手动修改，所以发布前，你还可以添加其他内容。</p>
-<p><a href="https://github.com/ajoslin/conventional-changelog" target="_blank" rel="noopener noreferrer">conventional-changelog</a> 就是生成 Change log 的工具，运行下面的命令即可。</p>
-<blockquote>
-<div><pre><code>$ <span>npm</span> <span>install</span> -g conventional-changelog
-$ <span>cd</span> my-project
-$ conventional-changelog -p angular -i CHANGELOG.md -w
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div></blockquote>
-<p>上面命令不会覆盖以前的 Change log，只会在<code>CHANGELOG.md</code>的头部加上自从上次发布以来的变动。</p>
-<p>如果你想生成所有发布的 Change log，要改为运行下面的命令。</p>
-<blockquote>
-<div><pre><code>$ conventional-changelog -p angular -i CHANGELOG.md -w -r <span>0</span>
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<p>为了方便使用，可以将其写入<code>package.json</code>的<code>scripts</code>字段。</p>
-<blockquote>
-<div><pre><code><span>{</span>
-  <span>"scripts"</span><span>:</span> <span>{</span>
-    <span>"changelog"</span><span>:</span> <span>"conventional-changelog -p angular -i CHANGELOG.md -w -r 0"</span>
-  <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div></blockquote>
-<p>以后，直接运行下面的命令即可。</p>
-<blockquote>
-<div><pre><code>$ <span>npm</span> run changelog
-</code></pre>
-<div><span>1</span><br></div></div></blockquote>
-<blockquote>
-<p>转载自：阮一峰 Commit message 和 Change log 编写指南</p>
-<p>https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</p>
-</blockquote>
-]]></content:encoded>
-      <enclosure url="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016010604.png" type="image/png"/>
     </item>
     <item>
       <title>常用知识</title>
@@ -49211,6 +49109,70 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>第一章 为什么使用shell编程</title>
+      <link>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">第一章 为什么使用shell编程</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
+<blockquote>
+<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
+<p>—— Herbert Mayer</p>
+</blockquote>
+<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
+<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
+<blockquote>
+<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
+<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
+</blockquote>
+<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
+<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
+<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
+<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
+<ul>
+<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
+<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
+<li>有跨平台需求（使用C或者Java代替）</li>
+<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
+<li>影响系统全局的关键性任务</li>
+<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
+<li>项目包含有连锁依赖关系的组件</li>
+<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
+<li>需要使用多维数组</li>
+<li>需要使用如链表、树等数据结构</li>
+<li>需要产生或操作图像和图形用户接口（GUI）</li>
+<li>需要直接访问系统硬件或外部设备</li>
+<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
+<li>需要使用库或旧程序的接口</li>
+<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
+</ul>
+<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
+<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
+<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
+<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
+<blockquote>
+<p>His countenance was bold and bashed not.</p>
+<p>—— Edmund Spenser</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
+</li>
+<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
+</li>
+<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
+</li>
+<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
+</li>
+<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
+</li>
+</ol>
+</section>
+]]></content:encoded>
+    </item>
+    <item>
       <title>创建、复制、移动、删除</title>
       <link>https://clay-wangzhi.com/linux/basic/file/zsgc/</link>
       <guid>https://clay-wangzhi.com/linux/basic/file/zsgc/</guid>
@@ -49816,45 +49778,6 @@ rmdir: logs: 目录非空
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>管道及I/O重定向</title>
-      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
-<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
-<h3 id="输出重定向"> 输出重定向</h3>
-<p>输出重定向（覆盖）</p>
-<div><pre><code>date &gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
-<div><pre><code>date 1&gt;&gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>错误输出重定向</p>
-<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
-ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
-<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
-</code></pre>
-<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
-<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
-&gt; 11
-&gt; 22
-&gt; EOF
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>网络管理</title>
       <link>https://clay-wangzhi.com/linux/basic/inter/</link>
       <guid>https://clay-wangzhi.com/linux/basic/inter/</guid>
@@ -50274,70 +50197,6 @@ exit 0
 <div><pre><code>/etc/init.d/crond restart
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>第一章 为什么使用shell编程</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">第一章 为什么使用shell编程</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
-<blockquote>
-<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
-<p>—— Herbert Mayer</p>
-</blockquote>
-<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
-<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
-<blockquote>
-<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
-<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
-</blockquote>
-<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
-<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
-<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
-<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
-<ul>
-<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
-<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
-<li>有跨平台需求（使用C或者Java代替）</li>
-<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
-<li>影响系统全局的关键性任务</li>
-<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
-<li>项目包含有连锁依赖关系的组件</li>
-<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
-<li>需要使用多维数组</li>
-<li>需要使用如链表、树等数据结构</li>
-<li>需要产生或操作图像和图形用户接口（GUI）</li>
-<li>需要直接访问系统硬件或外部设备</li>
-<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
-<li>需要使用库或旧程序的接口</li>
-<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
-</ul>
-<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
-<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
-<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
-<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
-<blockquote>
-<p>His countenance was bold and bashed not.</p>
-<p>—— Edmund Spenser</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
-</li>
-<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
-</li>
-<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
-</li>
-<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
-</li>
-<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
-</li>
-</ol>
-</section>
-]]></content:encoded>
     </item>
     <item>
       <title>进程管理</title>
@@ -51070,6 +50929,35 @@ rpm -ql xxx //查询xxx安装的文件
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>用户管理</title>
+      <link>https://clay-wangzhi.com/linux/basic/user/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/user/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">用户管理</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
+<p>查看当前登录的用户信息：</p>
+<div><pre><code>id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
+uid: 0     	    特权用户
+uid: 1~499 	    系统用户
+uid: 500+  	    普通用户</p>
+<h2 id="给普通用户提权"> 给普通用户提权</h2>
+<p>1.su</p>
+<div><pre><code>su -
+</code></pre>
+<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
+<div><pre><code>vim /etc/sudoers
+%wheel  ALL=(ALL)       NOPASSWD: ALL
+useradd aa -G wheel
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
+</code></pre>
+<div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>基本权限 UGO</title>
       <link>https://clay-wangzhi.com/linux/basic/ugo/</link>
       <guid>https://clay-wangzhi.com/linux/basic/ugo/</guid>
@@ -51160,35 +51048,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </tbody>
 </table>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>用户管理</title>
-      <link>https://clay-wangzhi.com/linux/basic/user/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/user/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">用户管理</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="用户管理"> 用户管理</h1>
-<p>查看当前登录的用户信息：</p>
-<div><pre><code>id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>系统约定： RHEL6
-uid: 0     	    特权用户
-uid: 1~499 	    系统用户
-uid: 500+  	    普通用户</p>
-<h2 id="给普通用户提权"> 给普通用户提权</h2>
-<p>1.su</p>
-<div><pre><code>su -
-</code></pre>
-<div><span>1</span><br></div></div><p>2.添加用户至sudoers</p>
-<div><pre><code>vim /etc/sudoers
-%wheel  ALL=(ALL)       NOPASSWD: ALL
-useradd aa -G wheel
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><div><pre><code>usermod aa -G wheel
-</code></pre>
-<div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>编程语言的分类</title>
@@ -54810,6 +54669,83 @@ bin/elasticsearch-plugin list
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568013522348.png" type="image/png"/>
     </item>
     <item>
+      <title>倒排索引入门</title>
+      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
+<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
+<ul>
+<li>在一本书的开始，有一个目录 - 正排</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
+<ul>
+<li>在一本书的最后，有一个索引页 - 倒排</li>
+</ul>
+<p>根据关键词查看内容所在页</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
+<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
+<ul>
+<li>图书
+<ul>
+<li>正排索引 - 目录页</li>
+<li>倒排索引 - 索引页</li>
+</ul>
+</li>
+<li>索引引擎
+<ul>
+<li>正排索引 - 文档id到文档内容和单词的关联</li>
+<li>倒排索引 - 单词到文档id的关联</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例"> 举例</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
+<h2 id="倒排索引"> 倒排索引</h2>
+<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
+<ul>
+<li>
+<p>倒排索引包含两个部分</p>
+<ul>
+<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
+<ul>
+<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
+</ul>
+</li>
+<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
+<ul>
+<li>倒排索引项（Posting）
+<ul>
+<li>文档ID</li>
+<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
+<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
+<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="举例-2"> 举例</h3>
+<p>Elasticsearch的在文档内容的索引</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
+<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
+<ul>
+<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
+<li>可以指定对某些字段不做索引
+<ul>
+<li>优点：节省存储空间</li>
+<li>缺点： 字段无法被搜索</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
+    </item>
+    <item>
       <title>通过分析器进行分词</title>
       <link>https://clay-wangzhi.com/monitor/elk/primer/participle/</link>
       <guid>https://clay-wangzhi.com/monitor/elk/primer/participle/</guid>
@@ -54891,83 +54827,6 @@ bin/elasticsearch-plugin list
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568094953293.png" type="image/png"/>
-    </item>
-    <item>
-      <title>倒排索引入门</title>
-      <link>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/primer/inverted-index/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">倒排索引入门</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="倒排索引入门"> 倒排索引入门</h1>
-<h2 id="正排与倒排索引"> 正排与倒排索引</h2>
-<ul>
-<li>在一本书的开始，有一个目录 - 正排</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" alt="" /></p>
-<ul>
-<li>在一本书的最后，有一个索引页 - 倒排</li>
-</ul>
-<p>根据关键词查看内容所在页</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083528241.png" alt="" /></p>
-<h3 id="图书和索引引擎的类比"> 图书和索引引擎的类比</h3>
-<ul>
-<li>图书
-<ul>
-<li>正排索引 - 目录页</li>
-<li>倒排索引 - 索引页</li>
-</ul>
-</li>
-<li>索引引擎
-<ul>
-<li>正排索引 - 文档id到文档内容和单词的关联</li>
-<li>倒排索引 - 单词到文档id的关联</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例"> 举例</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568084661010.png" alt="" /></p>
-<h2 id="倒排索引"> 倒排索引</h2>
-<h3 id="倒排索引的核心组成"> 倒排索引的核心组成</h3>
-<ul>
-<li>
-<p>倒排索引包含两个部分</p>
-<ul>
-<li>单词词典（Term Dictionary）,记录所有文档的单词，记录单词到倒排列表的关联关系
-<ul>
-<li>单词词典一般比较大，可以通过B + 树或哈希拉链法实现，以满足高性能的插入与查询</li>
-</ul>
-</li>
-<li>倒排列表（Posting List）,记录了单词对应的文档组合，由倒排索引项组成
-<ul>
-<li>倒排索引项（Posting）
-<ul>
-<li>文档ID</li>
-<li>词频 TF - 该单词在文档中出现的次数，用户相关性评分</li>
-<li>位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）</li>
-<li>偏移（Offset）- 记录单词的开始结束位置，实现高亮显示</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="举例-2"> 举例</h3>
-<p>Elasticsearch的在文档内容的索引</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568085534232.png" alt="" /></p>
-<h3 id="elasticsearch的倒排索引"> Elasticsearch的倒排索引</h3>
-<ul>
-<li>Elasticsearch的JSON文档中的每个字段，都有自己的倒排索引</li>
-<li>可以指定对某些字段不做索引
-<ul>
-<li>优点：节省存储空间</li>
-<li>缺点： 字段无法被搜索</li>
-</ul>
-</li>
-</ul>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568083459813.png" type="image/png"/>
     </item>
     <item>
       <title>Request Body和Query DSL简介</title>
@@ -55632,33 +55491,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" type="image/webp"/>
     </item>
     <item>
-      <title>6 常见问题</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>PrometheusAlert</title>
       <link>https://clay-wangzhi.com/monitor/promethues-alerts/</link>
       <guid>https://clay-wangzhi.com/monitor/promethues-alerts/</guid>
@@ -55708,6 +55540,33 @@ will not be shown, you would have to be root to see it all.)
 {{ end }}
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>6 常见问题</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content:encoded>
     </item>
     <item>
       <title>1 zabbix4.4新功能</title>
@@ -62096,119 +61955,71 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
 <div><span>1</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>2. nginx架构基础</title>
-      <link>https://clay-wangzhi.com/web/nginx/framework/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/framework/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">2. nginx架构基础</source>
+      <title>3.1 nginx全局块和events块配置</title>
+      <link>https://clay-wangzhi.com/web/nginx/global-events/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/global-events/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3.1 nginx全局块和events块配置</source>
       <category>web中间件</category>
       <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_2-nginx架构基础"> 2. nginx架构基础</h1>
-<h2 id="_1-nginx请求处理流程"> 1 Nginx请求处理流程</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png" alt="" /></p>
-<h2 id="_2-nginx进程结构"> 2 Nginx进程结构</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164732720.png" alt="" /></p>
-<h2 id="_3-nginx进程管理-信号"> 3 Nginx进程管理：信号</h2>
-<h3 id="_3-1-master进程"> 3.1 Master进程</h3>
-<ul>
-<li>监控worker进程
-<ul>
-<li>CHLD</li>
-</ul>
-</li>
-<li>管理worker进程</li>
-<li>接收信号
-<ul>
-<li>TERM，INT</li>
-<li>QUIT</li>
-<li>HUP</li>
-<li>USR1</li>
-<li>USR2</li>
-<li>WINCH</li>
-</ul>
-</li>
-</ul>
-<h3 id="_3-2-worker进程"> 3.2 Worker进程</h3>
-<ul>
-<li>接收信号
-<ul>
-<li>TERM，INT</li>
-<li>QUIT</li>
-<li>USR1</li>
-<li>WINCH</li>
-</ul>
-</li>
-</ul>
-<h3 id="_3-3-nginx命令行"> 3.3 nginx命令行</h3>
-<ul>
-<li>reload：HUP</li>
-<li>reopen：USR1</li>
-<li>stop：TERM</li>
-<li>quit：QUIT</li>
-</ul>
-<h2 id="_4-reload-流程"> 4 reload 流程</h2>
-<p>1）向master进程发送HUP信号（reload命令）</p>
-<p>2）master进程校验配置语法是否正确</p>
-<p>3）master进行打开新的监听端口</p>
-<p>4）master进程用新配置启动新的worker子进程</p>
-<p>5）master进程向老worker子进程发送QUIT信号</p>
-<p>6）老worker进程关闭监听句柄，处理完当前连接后结束进程</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310170519124.png" alt="" /></p>
-<h2 id="_5-热升级流程"> 5 热升级流程</h2>
-<p>1）将旧Ningx文件换成新Nginx文件（注意备份）</p>
-<p>2）向master进程发送USR2信号</p>
-<p>3）master进程修改pid文件名，加后缀.oldbin（进程自动改的，不需要手动改）</p>
-<p>4）master进程用新Nginx文件启动新master进程</p>
-<p>5）向老master进程发送QUIT信号，关闭老master</p>
-<p>6）回滚：向老master发送HUP，向新master发送QUIT</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310171424958.png" alt="" /></p>
-<h2 id="_6-worker进程-优雅的关闭"> 6 worker进程：优雅的关闭</h2>
-<p>1）设置定时器<code>worker_shutdown_timeout</code></p>
-<p>2）关闭监听句柄</p>
-<p>3）关闭空闲连接</p>
-<p>4）在循环中等待全部连接关闭</p>
-<p>5）退出进程</p>
-<h2 id="_7-网络相关"> 7 网络相关</h2>
-<h3 id="_7-1-网络传输"> 7.1 网络传输</h3>
-<ul>
-<li>应用层</li>
-<li>传输层</li>
-<li>网络层</li>
-<li>链路层</li>
-<li>物理层</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172023302.png" alt="" /></p>
-<h3 id="_7-2-tcp流与报文"> 7.2 TCP流与报文</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172138764.png" alt="" /></p>
-<h3 id="_7-3-tcp协议与非阻塞接口"> 7.3 TCP协议与非阻塞接口</h3>
-<ul>
-<li>读事件
-<ul>
-<li>Accept建立连接</li>
-<li>Read读消息</li>
-</ul>
-</li>
-<li>写事件
-<ul>
-<li>Write写信息</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172800752.png" alt="" /></p>
-<h2 id="_8-nginx事件循环"> 8 Nginx事件循环</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173131875.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173315213.png" alt="" /></p>
-<h3 id="_8-1-epoll"> 8.1 epoll</h3>
-<p><strong>前提</strong></p>
-<p>高并发连接中，每次处理的活跃连接数量占比很小</p>
-<p><strong>实现</strong></p>
-<p>红黑树，链表</p>
-<p><strong>使用</strong></p>
-<p>创建，操作（添加/修改/删除），获取句柄，关闭</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173757670.png" alt="" /></p>
-<h2 id="_9-模块分类"> 9 模块分类</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310174353557.png" alt="" /></p>
+      <content:encoded><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
+<h2 id="_1-example"> 1 example</h2>
+<div><pre><code><span># 运行Nginx进程的用户</span>
+<span>user</span> nginx<span>;</span>
+<span>worker_processes</span>  <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> auto<span>;</span>
+
+<span># 定义存储某类型的全局错误的日志位置</span>
+<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
+<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
+<span># 指定进程ID（pid）存放的路径 </span>
+<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
+<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
+<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
+
+<span>events</span> <span>{</span>
+    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
+    <span>use</span> epoll<span>;</span>
+    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
+    <span>worker_connections</span>  <span>20480</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
+<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
+<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
+<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
+<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
+<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
+<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
+<blockquote>
+<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
+</blockquote>
+<h3 id="_2-3-实例"> 2.3 实例</h3>
+<p><strong>2核CPU，开启2个进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
+<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
+<p>测试结束后，CPU内核的负载应该都同时降低。</p>
+</blockquote>
 ]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png" type="image/png"/>
     </item>
     <item>
       <title>3.2 nginxHTTP块配置</title>
@@ -62372,73 +62183,6 @@ real_ip_recursive on; #递归的去除所配置中的可信IP。
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" type="image/png"/>
-    </item>
-    <item>
-      <title>3.1 nginx全局块和events块配置</title>
-      <link>https://clay-wangzhi.com/web/nginx/global-events/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/global-events/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3.1 nginx全局块和events块配置</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
-<h2 id="_1-example"> 1 example</h2>
-<div><pre><code><span># 运行Nginx进程的用户</span>
-<span>user</span> nginx<span>;</span>
-<span>worker_processes</span>  <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> auto<span>;</span>
-
-<span># 定义存储某类型的全局错误的日志位置</span>
-<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
-<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
-<span># 指定进程ID（pid）存放的路径 </span>
-<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
-<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
-<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
-
-<span>events</span> <span>{</span>
-    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
-    <span>use</span> epoll<span>;</span>
-    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
-    <span>worker_connections</span>  <span>20480</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
-<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
-<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
-<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
-<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
-<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
-<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
-<blockquote>
-<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
-</blockquote>
-<h3 id="_2-3-实例"> 2.3 实例</h3>
-<p><strong>2核CPU，开启2个进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
-<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
-<p>测试结束后，CPU内核的负载应该都同时降低。</p>
-</blockquote>
-]]></content:encoded>
     </item>
     <item>
       <title>3.4 nginxLOCATION块配置</title>
@@ -63068,6 +62812,121 @@ Context:	http, server, location
 </blockquote>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200320195040345.png" type="image/png"/>
+    </item>
+    <item>
+      <title>2. nginx架构基础</title>
+      <link>https://clay-wangzhi.com/web/nginx/framework/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/framework/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">2. nginx架构基础</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_2-nginx架构基础"> 2. nginx架构基础</h1>
+<h2 id="_1-nginx请求处理流程"> 1 Nginx请求处理流程</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png" alt="" /></p>
+<h2 id="_2-nginx进程结构"> 2 Nginx进程结构</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164732720.png" alt="" /></p>
+<h2 id="_3-nginx进程管理-信号"> 3 Nginx进程管理：信号</h2>
+<h3 id="_3-1-master进程"> 3.1 Master进程</h3>
+<ul>
+<li>监控worker进程
+<ul>
+<li>CHLD</li>
+</ul>
+</li>
+<li>管理worker进程</li>
+<li>接收信号
+<ul>
+<li>TERM，INT</li>
+<li>QUIT</li>
+<li>HUP</li>
+<li>USR1</li>
+<li>USR2</li>
+<li>WINCH</li>
+</ul>
+</li>
+</ul>
+<h3 id="_3-2-worker进程"> 3.2 Worker进程</h3>
+<ul>
+<li>接收信号
+<ul>
+<li>TERM，INT</li>
+<li>QUIT</li>
+<li>USR1</li>
+<li>WINCH</li>
+</ul>
+</li>
+</ul>
+<h3 id="_3-3-nginx命令行"> 3.3 nginx命令行</h3>
+<ul>
+<li>reload：HUP</li>
+<li>reopen：USR1</li>
+<li>stop：TERM</li>
+<li>quit：QUIT</li>
+</ul>
+<h2 id="_4-reload-流程"> 4 reload 流程</h2>
+<p>1）向master进程发送HUP信号（reload命令）</p>
+<p>2）master进程校验配置语法是否正确</p>
+<p>3）master进行打开新的监听端口</p>
+<p>4）master进程用新配置启动新的worker子进程</p>
+<p>5）master进程向老worker子进程发送QUIT信号</p>
+<p>6）老worker进程关闭监听句柄，处理完当前连接后结束进程</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310170519124.png" alt="" /></p>
+<h2 id="_5-热升级流程"> 5 热升级流程</h2>
+<p>1）将旧Ningx文件换成新Nginx文件（注意备份）</p>
+<p>2）向master进程发送USR2信号</p>
+<p>3）master进程修改pid文件名，加后缀.oldbin（进程自动改的，不需要手动改）</p>
+<p>4）master进程用新Nginx文件启动新master进程</p>
+<p>5）向老master进程发送QUIT信号，关闭老master</p>
+<p>6）回滚：向老master发送HUP，向新master发送QUIT</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310171424958.png" alt="" /></p>
+<h2 id="_6-worker进程-优雅的关闭"> 6 worker进程：优雅的关闭</h2>
+<p>1）设置定时器<code>worker_shutdown_timeout</code></p>
+<p>2）关闭监听句柄</p>
+<p>3）关闭空闲连接</p>
+<p>4）在循环中等待全部连接关闭</p>
+<p>5）退出进程</p>
+<h2 id="_7-网络相关"> 7 网络相关</h2>
+<h3 id="_7-1-网络传输"> 7.1 网络传输</h3>
+<ul>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>链路层</li>
+<li>物理层</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172023302.png" alt="" /></p>
+<h3 id="_7-2-tcp流与报文"> 7.2 TCP流与报文</h3>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172138764.png" alt="" /></p>
+<h3 id="_7-3-tcp协议与非阻塞接口"> 7.3 TCP协议与非阻塞接口</h3>
+<ul>
+<li>读事件
+<ul>
+<li>Accept建立连接</li>
+<li>Read读消息</li>
+</ul>
+</li>
+<li>写事件
+<ul>
+<li>Write写信息</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172800752.png" alt="" /></p>
+<h2 id="_8-nginx事件循环"> 8 Nginx事件循环</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173131875.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173315213.png" alt="" /></p>
+<h3 id="_8-1-epoll"> 8.1 epoll</h3>
+<p><strong>前提</strong></p>
+<p>高并发连接中，每次处理的活跃连接数量占比很小</p>
+<p><strong>实现</strong></p>
+<p>红黑树，链表</p>
+<p><strong>使用</strong></p>
+<p>创建，操作（添加/修改/删除），获取句柄，关闭</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173757670.png" alt="" /></p>
+<h2 id="_9-模块分类"> 9 模块分类</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310174353557.png" alt="" /></p>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png" type="image/png"/>
     </item>
     <item>
       <title>6. nginx的常见问题</title>
@@ -63875,36 +63734,186 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ]]></content:encoded>
     </item>
     <item>
-      <title>2.1 调用一个脚本</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/02_1_invoking_the_script/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">2.1 调用一个脚本</source>
+      <title>附录 T. ASCII 表</title>
+      <link>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</link>
+      <guid>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">附录 T. ASCII 表</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_2-1-调用一个脚本"> 2.1 调用一个脚本</h1>
-<p>写完一个脚本以后，你可以通过<code>sh scriptname</code>或<code>bash scriptname</code>来调用它（不推荐使用<code>sh &lt;scriptname</code>调用脚本，因为这会禁用脚本从标准输入（stdin）读入数据）。更方便的方式是使用<code>chmod</code>命令使脚本可以被直接执行。</p>
-<p>执行命令：</p>
-<p><code>chmod 555 scriptname</code>（给予所有用户读取/执行的权限）</p>
-<p>或</p>
-<p><code>chmod +rx scriptname</code>（给予所有用户读取/执行的权限）</p>
-<p><code>chmod u+rx scriptname</code>（仅给予脚本所有者读取/执行的权限）</p>
-<p>当脚本的权限被设置好后，你就可以直接使用<code>./scriptname</code>[^3]进行调用测试了。如果脚本文件以sha-bang开头，那么它将自动调用指定的命令解释器运行脚本。</p>
-<p>完成调试与测试后，你可能会将脚本文件移至<code>/usr/local/bin</code>（使用root权限）中，使脚本可以被所有用户调用。这时你可以直接在命令行中输入<code>scriptname [ENTER]</code>执行脚本。</p>
-]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="附录-t-ascii-表"> 附录 T. ASCII 表</h1>
+<p>传统上，这类书的附录会有一个 ASCII 表。但本书不会。取而代之的是这些生成一张完整 ASCII 表的简短脚本。</p>
+<p>例 T-1. 一个生成 ASCII 表的脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ascii.sh</span>
+<span># ver. 0.2, reldate 26 Aug 2008</span>
+<span># Patched by ABS Guide author.</span>
+
+<span># Original script by Sebastian Arming.</span>
+<span># Used with permission (thanks!).</span>
+
+<span>exec</span> <span>></span>ASCII.txt         <span>#  Save stdout to file,</span>
+                        <span>#+ as in the example scripts</span>
+                        <span>#+ reassign-stdout.sh and upperconv.sh.</span>
+
+<span>MAXNUM</span><span>=</span><span>256</span>
+<span><span>COLUMNS</span></span><span>=</span><span>5</span>
+<span>OCT</span><span>=</span><span>8</span>
+<span>OCTSQU</span><span>=</span><span>64</span>
+<span>LITTLESPACE</span><span>=</span>-3
+<span>BIGSPACE</span><span>=</span>-5
+
+<span>i</span><span>=</span><span>1</span> <span># Decimal counter</span>
+<span>o</span><span>=</span><span>1</span> <span># Octal counter</span>
+
+<span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>"<span>$MAXNUM</span>"</span> <span>]</span><span>;</span> <span>do</span>  <span># We don't have to count past 400 octal.</span>
+        <span>paddi</span><span>=</span><span>"    <span>$i</span>"</span>
+        <span>echo</span> -n <span>"<span>${paddi<span>:</span> $BIGSPACE}</span>  "</span>       <span># Column spacing.</span>
+        <span>paddo</span><span>=</span><span>"00<span>$o</span>"</span>
+<span>#       echo -ne "\\${paddo: $LITTLESPACE}"   # Original.</span>
+        <span>echo</span> -ne <span>"<span title="\\">\\</span>0<span>${paddo<span>:</span> $LITTLESPACE}</span>"</span>  <span># Fixup.</span>
+<span>#                   ^</span>
+        <span>echo</span> -n <span>"     "</span>
+        <span>if</span> <span><span>((</span> i <span>%</span> $COLUMNS <span>==</span> <span>0</span><span>))</span></span><span>;</span> <span>then</span>       <span># New line.</span>
+           <span>echo</span>
+        <span>fi</span>
+        <span><span>((</span>i<span>++</span><span>,</span> o<span>++</span><span>))</span></span>
+        <span># The octal notation for 8 is 10, and 64 decimal is 100 octal.</span>
+        <span><span>((</span> i <span>%</span> $OCT <span>==</span> <span>0</span><span>))</span></span>    <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>2</span><span>))</span></span>
+        <span><span>((</span> i <span>%</span> $OCTSQU <span>==</span> <span>0</span><span>))</span></span> <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>20</span><span>))</span></span>
+<span>done</span>
+
+<span>exit</span> <span>$?</span>
+
+<span># Compare this script with the "pr-asc.sh" example.</span>
+<span># This one handles "unprintable" characters.</span>
+
+<span># Exercise:</span>
+<span># Rewrite this script to use decimal numbers, rather than octal.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>例 T-2. 另一个 ASCII 表脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># Script author: Joseph Steinhauser</span>
+<span># Lightly edited by ABS Guide author, but not commented.</span>
+<span># Used in ABS Guide with permission.</span>
+
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- File:  ascii.sh    Print ASCII chart, base 10/8/16         (JETS-2012)</span>
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
+<span>#--</span>
+<span>#-- This script prints out a summary of ASCII char codes from Zero to 127.</span>
+<span>#-- Numeric values may be printed in Base10, Octal, or Hex.</span>
+<span>#--</span>
+<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
+<span>#-- For more detail, man ascii . . .</span>
+<span>#-------------------------------------------------------------------------</span>
+
+<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
+   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
+   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   *<span>)</span> <span>Obase</span><span>=</span>Decimal
+<span>esac</span> <span># CODE is actually shorter than the chart!</span>
+
+<span>printf</span> <span>"<span title="\t">\t</span><span title="\t">\t</span>## <span>$Obase</span> ASCII Chart ##<span title="\n">\n</span><span title="\n">\n</span>"</span><span>;</span> <span>FM1</span><span>=</span><span>"|%0<span>${Numy<span>:-</span>3d}</span>"</span><span>;</span> <span>LD</span><span>=</span>-1
+
+<span>AB</span><span>=</span><span>"nul soh stx etx eot enq ack bel bs tab nl vt np cr so si dle"</span>
+<span>AD</span><span>=</span><span>"dc1 dc2 dc3 dc4 nak syn etb can em sub esc fs gs rs us sp"</span>
+
+<span>for</span> <span>TOK</span> <span>in</span> <span>$AB</span> <span>$AD</span><span>;</span> <span>do</span> ABR<span>[</span><span><span>$((</span>LD<span>+</span><span>=</span><span>1</span><span>))</span></span><span>]</span><span>=</span><span>$TOK</span><span>;</span> <span>done</span><span>;</span>
+ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
+
+<span>IDX</span><span>=</span><span>0</span>
+<span>while</span> <span>[</span> <span>$IDX</span> -le <span>127</span> <span>]</span> <span>&amp;&amp;</span> <span>CHR</span><span>=</span><span>"<span>${ABR<span>[</span>$IDX<span>]</span>}</span>"</span>
+   <span>do</span> <span><span>((</span>${#CHR}<span>))</span></span><span>&amp;&amp;</span> <span>FM2</span><span>=</span><span>'%-3s'</span><span>||</span> <span>FM2</span><span>=</span><span><span>`</span><span>printf</span> <span>'<span title="\\">\\</span><span title="\\">\\</span>%o  '</span> $IDX<span>`</span></span>
+      <span>printf</span> <span>"<span>$FM1</span> <span>$FM2</span>"</span> <span>"<span>$IDX</span>"</span> <span>$CHR</span><span>;</span> <span><span>((</span> <span>(</span>IDX<span>+</span><span>=</span><span>1</span><span>)</span><span>%</span><span>8</span><span>))</span></span><span>||</span><span>echo</span> <span>'|'</span>
+   <span>done</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>例 T-3. 第三个 ASCII 表脚本，使用 <em>awk</em></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ASCII table script, using awk.</span>
+<span># Author: Joseph Steinhauser</span>
+<span># Used in ABS Guide with permission.</span>
+
+
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- File:  ascii     Print ASCII chart, base 10/8/16         (JETS-2010)</span>
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
+<span>#--</span>
+<span>#-- This script prints a summary of ASCII char codes from Zero to 127.</span>
+<span>#-- Numeric values may be printed in Base10, Octal, or Hex (Base16).</span>
+<span>#--</span>
+<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
+<span>#-- For more detail, man ascii</span>
+<span>#-------------------------------------------------------------------------</span>
+
+<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
+   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
+   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   *<span>)</span> <span>Obase</span><span>=</span>Decimal
+<span>esac</span>
+<span>export</span> Obase   <span># CODE is actually shorter than the chart!</span>
+
+<span>awk</span> <span>'BEGIN{print "<span title="\n">\n</span><span title="\t">\t</span><span title="\t">\t</span>## "ENVIRON["Obase"]" ASCII Chart ##<span title="\n">\n</span>"
+           ab="soh,stx,etx,eot,enq,ack,bel,bs,tab,nl,vt,np,cr,so,si,dle,"
+           ad="dc1,dc2,dc3,dc4,nak,syn,etb,can,em,sub,esc,fs,gs,rs,us,sp"
+           split(ab ad,abr,",");abr[0]="nul";abr[127]="del";
+           fm1="|%0'</span>"<span>${Numy<span>:-</span> 4d}</span><span>"' %-3s"</span>
+           for<span>(</span>idx<span>=</span><span>0</span><span>;</span>idx<span>&lt;</span><span>128</span><span>;</span>idx++<span>)</span><span>{</span>fmt<span>=</span>fm1 <span>(</span>++colz%8?<span>""</span><span>:</span><span>"|<span title="\n">\n</span>"</span><span>)</span>
+           printf<span>(</span>fmt,idx,<span>(</span>idx <span>in</span> abr<span>)</span>?abr<span>[</span>idx<span>]</span>:sprintf<span>(</span><span>"%c"</span>,idx<span>))</span><span>}</span> <span>}</span>'
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>2.2 牛刀小试</title>
-      <link>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part1/02_2_preliminary_exercises/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">2.2 牛刀小试</source>
+      <title>管道及I/O重定向</title>
+      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_2-2-牛刀小试"> 2.2 牛刀小试</h1>
-<ol>
-<li>系统管理员通常会写一些脚本来完成自动化工作。试举例说明使用脚本的便利之处。</li>
-<li>请尝试写一个脚本。调用脚本，会打印当前系统时间和日期，所有已登录的用户和系统运行时间。并将这些信息保存到一个日志文件中。</li>
-</ol>
-]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
+<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
+<h3 id="输出重定向"> 输出重定向</h3>
+<p>输出重定向（覆盖）</p>
+<div><pre><code>date &gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
+<div><pre><code>date 1&gt;&gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>错误输出重定向</p>
+<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
+ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
+<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
+</code></pre>
+<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
+<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
+&gt; 11
+&gt; 22
+&gt; EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
