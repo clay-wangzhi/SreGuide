@@ -43,7 +43,11 @@ module.exports = [
     collapsable: false,
     children: ["python-dir-file-pro", "python-serialize"]
   },
-  "python-exception.md",
+  {
+    title: "8 异常、调试和测试",
+    collapsable: false,
+    children: ["python-exception.md"]
+  },
   "python-oo-package.md",
   "python-oo-inher-pol.md",
   "python-magic.md",

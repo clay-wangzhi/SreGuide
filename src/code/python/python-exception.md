@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 08 异常处理
+# 8.1 异常处理
 
 **错误 Error**
 
