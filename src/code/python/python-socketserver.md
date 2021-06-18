@@ -1,7 +1,7 @@
 ---
 category: Python
 ---
-# 16 SocketServer
+# 11.1 SocketServer
 
 socket 编程过于底层，编程虽然有套路，但是想要写出健壮的代码还是比较困难的，所以很多语言都对 socket 底层 API 进行封装，Python 的封装就是 socketserver 模块。它是网络服务编程框架，便于企业级快速开发。
 

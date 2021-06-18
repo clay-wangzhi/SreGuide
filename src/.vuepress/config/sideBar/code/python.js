@@ -57,12 +57,14 @@ module.exports = [
     title: "10 进程和线程",
     path: "process-thread",
     collapsable: false,
-    children: ["python-gil-multiprocessing", "python-thread"]
+    children: ["python-gil-multiprocessing", "python-thread", "python-thread-sync"]
+  },
+  {
+    title: "11 网络编程",
+    collapsable: false,
+    children: ["python-socketserver", "python-tcp-pg"]
   },
   "python-magic.md",
-  "python-thread-sync.md",
-  "python-tcp-pg.md",
-  "python-socketserver.md",
   "python-io-model.md",
   "python-instance",
 ]
