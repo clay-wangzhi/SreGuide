@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-06-22T05:52:35.696Z</updated>
+  <updated>2021-06-22T07:31:32.771Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -12759,6 +12759,158 @@ b<span>.</span>clear<span>(</span><span>)</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">1.1 初识Python</title>
+    <id>https://clay-wangzhi.com/code/python/first/</id>
+    <link href="https://clay-wangzhi.com/code/python/first/"/>
+    <updated>2021-06-08T07:36:45.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_1-1-初识python"> 1.1 初识Python</h1>
+<blockquote>
+<p>转载自：Python - 100天从新手到大师 | 骆昊</p>
+</blockquote>
+<h2 id="python简介"> Python简介</h2>
+<h3 id="python的历史"> Python的历史</h3>
+<ol>
+<li>1989年圣诞节：Guido von Rossum开始写Python语言的编译器。</li>
+<li>1991年2月：第一个Python编译器（同时也是解释器）诞生，它是用C语言实现的（后面），可以调用C语言的库函数。在最早的版本中，Python已经提供了对“类”，“函数”，“异常处理”等构造块的支持，还有对列表、字典等核心数据类型，同时支持以模块为基础来构造应用程序。</li>
+<li>1994年1月：Python 1.0正式发布。</li>
+<li>2000年10月16日：Python 2.0发布，增加了完整的<a href="https://zh.wikipedia.org/wiki/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)" target="_blank" rel="noopener noreferrer">垃圾回收</a>，提供了对<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener noreferrer">Unicode</a>的支持。与此同时，Python的整个开发过程更加透明，社区对开发进度的影响逐渐扩大，生态圈开始慢慢形成。</li>
+<li>2008年12月3日：Python 3.0发布，它并不完全兼容之前的Python代码，不过因为目前还有不少公司在项目和运维中使用Python 2.x版本，所以Python 3.x的很多新特性后来也被移植到Python 2.6/2.7版本中。</li>
+</ol>
+<p>目前我们使用的Python 3.7.x的版本是在2018年发布的，Python的版本号分为三段，形如A.B.C。其中A表示大版本号，一般当整体重写，或出现不向后兼容的改变时，增加A；B表示功能更新，出现新功能时增加B；C表示小的改动（例如：修复了某个Bug），只要有修改就增加C。如果对Python的历史感兴趣，可以阅读名为<a href="http://www.cnblogs.com/vamei/archive/2013/02/06/2892628.html" target="_blank" rel="noopener noreferrer">《Python简史》</a>的网络文章。</p>
+<h3 id="python的优缺点"> Python的优缺点</h3>
+<p>Python的优点很多，简单的可以总结为以下几点。</p>
+<ol>
+<li>简单明了，学习曲线低，比很多编程语言都容易上手。</li>
+<li>开放源代码，拥有强大的社区和生态圈，尤其是在数据分析和机器学习领域。</li>
+<li>解释型语言，天生具有平台可移植性，代码可以工作于不同的操作系统。</li>
+<li>对两种主流的编程范式（面向对象编程和函数式编程）都提供了支持。</li>
+<li>代码规范程度高，可读性强，适合有代码洁癖和强迫症的人群。</li>
+</ol>
+<p>Python的缺点主要集中在以下几点。</p>
+<ol>
+<li>执行效率稍低，对执行效率要求高的部分可以由其他语言（如：C、C++）编写。</li>
+<li>代码无法加密，但是现在很多公司都不销售卖软件而是销售服务，这个问题会被弱化。</li>
+<li>在开发时可以选择的框架太多（如Web框架就有100多个），有选择的地方就有错误。</li>
+</ol>
+<h3 id="python的应用领域"> Python的应用领域</h3>
+<p>目前Python在Web应用后端开发、云基础设施建设、DevOps、网络数据采集（爬虫）、自动化测试、数据分析、机器学习等领域都有着广泛的应用。</p>
+<h2 id="python-解释器分类"> Python 解释器分类</h2>
+<table>
+<thead>
+<tr>
+<th>解释器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CPython</code></td>
+<td>官方，C 语言开发，最广泛的 Python 解释器</td>
+</tr>
+<tr>
+<td><code>IPython</code></td>
+<td>一个交互式、功能增强的<code>CPython</code></td>
+</tr>
+<tr>
+<td><code>PyPy</code></td>
+<td>Python 语言写的 Python 解释器，<code>JIT</code>技术，动态编译 Python 代码</td>
+</tr>
+<tr>
+<td><code>Jython</code></td>
+<td>Python 的源代码编译成 Java 的字节码，跑在<code>JVM</code>上</td>
+</tr>
+<tr>
+<td><code>IronPython</code></td>
+<td>与<code>Jytho</code>n类似，运行在<code>.Net</code>平台上的解释器，Python 代码被编译成<code>.Net</code>的字节码</td>
+</tr>
+<tr>
+<td><code>stackless</code></td>
+<td>Python的增强版本解释器，不使用<code>CPython</code>的 C 的栈，采用微线程概念编程，并发编程</td>
+</tr>
+</tbody>
+</table>
+<p>想要开始Python编程之旅，首先得在自己使用的计算机上安装Python解释器环境，下面将以安装官方的Python解释器为例，讲解如何在不同的操作系统上安装Python环境。官方的Python解释器是用C语言实现的，也是使用最为广泛的Python解释器，通常称之为CPython。</p>
+<h2 id="安装python解释器"> 安装Python解释器</h2>
+<h3 id="windows环境"> Windows环境</h3>
+<p>可以在<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python官方网站</a>下载到Python的Windows安装程序（exe文件），需要注意的是如果在Windows 7环境下安装Python 3.x，需要先安装Service Pack 1补丁包（可以通过一些工具软件自动安装系统补丁的功能来安装），安装过程建议勾选“Add Python 3.x to PATH”（将Python 3.x添加到PATH环境变量）并选择自定义安装，在设置“Optional Features”界面最好将“pip”、“tcl/tk”、“Python test suite”等项全部勾选上。强烈建议选择自定义的安装路径并保证路径中没有中文。安装完成会看到“Setup was successful”的提示。如果稍后运行Python程序时，出现因为缺失一些动态链接库文件而导致Python解释器无法工作的问题，可以按照下面的方法加以解决。</p>
+<p>如果系统显示api-ms-win-crt*.dll文件缺失，可以参照<a href="https://zhuanlan.zhihu.com/p/32087135" target="_blank" rel="noopener noreferrer">《api-ms-win-crt*.dll缺失原因分析和解决方法》</a>一文讲解的方法进行处理或者直接在<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=48145" target="_blank" rel="noopener noreferrer">微软官网</a>下载Visual C++ Redistributable for Visual Studio 2015文件进行修复；如果是因为更新Windows的DirectX之后导致某些动态链接库文件缺失问题，可以下载一个<a href="https://dl.pconline.com.cn/download/360074-1.html" target="_blank" rel="noopener noreferrer">DirectX修复工具</a>进行修复。</p>
+<h3 id="linux环境"> Linux环境</h3>
+<p>Linux环境自带了Python 2.x版本，但是如果要更新到3.x的版本，可以在<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站</a>下载Python的源代码并通过源代码构建安装的方式进行安装，具体的步骤如下所示（以CentOS为例）。</p>
+<ol>
+<li>安装依赖库（因为没有这些依赖库可能在源代码构件安装时因为缺失底层依赖库而失败）。</li>
+</ol>
+<div><pre><code>yum -y <span>install</span> <span>wget</span> gcc zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
+</code></pre>
+<div><span>1</span><br></div></div><ol start="2">
+<li>下载Python源代码并解压缩到指定目录。</li>
+</ol>
+<div><pre><code><span>wget</span> https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tar.xz
+xz -d Python-3.7.6.tar.xz
+<span>tar</span> -xvf Python-3.7.6.tar
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ol start="3">
+<li>切换至Python源代码目录并执行下面的命令进行配置和安装。</li>
+</ol>
+<div><pre><code><span>cd</span> Python-3.7.6
+./configure --prefix<span>=</span>/usr/local/python37 --enable-optimizations
+<span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ol start="4">
+<li>修改用户主目录下名为.bash_profile的文件，配置PATH环境变量并使其生效。</li>
+</ol>
+<div><pre><code><span>cd</span> ~
+<span>vim</span> .bash_profile
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ... 此处省略上面的代码 ...</span>
+
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span>:/usr/local/python37/bin
+
+<span># ... 此处省略下面的代码 ...</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><ol start="5">
+<li>激活环境变量。</li>
+</ol>
+<div><pre><code><span>source</span> .bash_profile
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="macos环境"> macOS环境</h3>
+<p>macOS也自带了Python 2.x版本，可以通过<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站</a>提供的安装文件（pkg文件）安装Python 3.x的版本。默认安装完成后，可以通过在终端执行<code>python</code>命令来启动2.x版本的Python解释器，启动3.x版本的Python解释器需要执行<code>python3</code>命令。</p>
+<h2 id="运行python程序"> 运行Python程序</h2>
+<h3 id="确认python的版本"> 确认Python的版本</h3>
+<p>可以Windows的命令行提示符中键入下面的命令。</p>
+<div><pre><code>python --version
+</code></pre>
+<div><span>1</span><br></div></div><p>在Linux或macOS系统的终端中键入下面的命令。</p>
+<div><pre><code>python3 --version
+</code></pre>
+<div><span>1</span><br></div></div><p>当然也可以先输入<code>python</code>或<code>python3</code>进入交互式环境，再执行以下的代码检查Python的版本。</p>
+<div><pre><code><span>import</span> sys
+
+<span>print</span><span>(</span>sys<span>.</span>version_info<span>)</span>
+<span>print</span><span>(</span>sys<span>.</span>version<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="编写python源代码"> 编写Python源代码</h3>
+<p>可以用文本编辑工具（推荐使用<a href="https://www.sublimetext.com/" target="_blank" rel="noopener noreferrer">Sublime</a>、<a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Code</a>等高级文本编辑工具）编写Python源代码并用py作为后缀名保存该文件，代码内容如下所示。</p>
+<div><pre><code><span>print</span><span>(</span><span>'hello, world!'</span><span>)</span>
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="运行程序"> 运行程序</h3>
+<p>切换到源代码所在的目录并执行下面的命令，看看屏幕上是否输出了&quot;hello, world!&quot;。</p>
+<div><pre><code>python hello.py
+</code></pre>
+<div><span>1</span><br></div></div><p>或</p>
+<div><pre><code>python3 hello.py
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-06-08T07:36:45.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">1.2 Python 代码规范</title>
     <id>https://clay-wangzhi.com/code/python/codeSpecification/</id>
     <link href="https://clay-wangzhi.com/code/python/codeSpecification/"/>
@@ -13166,158 +13318,6 @@ Class <span>FooBar</span><span>:</span>
         <span>print</span><span>(</span>print_<span>)</span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-06-08T07:36:45.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">1.1 初识Python</title>
-    <id>https://clay-wangzhi.com/code/python/first/</id>
-    <link href="https://clay-wangzhi.com/code/python/first/"/>
-    <updated>2021-06-08T07:36:45.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_1-1-初识python"> 1.1 初识Python</h1>
-<blockquote>
-<p>转载自：Python - 100天从新手到大师 | 骆昊</p>
-</blockquote>
-<h2 id="python简介"> Python简介</h2>
-<h3 id="python的历史"> Python的历史</h3>
-<ol>
-<li>1989年圣诞节：Guido von Rossum开始写Python语言的编译器。</li>
-<li>1991年2月：第一个Python编译器（同时也是解释器）诞生，它是用C语言实现的（后面），可以调用C语言的库函数。在最早的版本中，Python已经提供了对“类”，“函数”，“异常处理”等构造块的支持，还有对列表、字典等核心数据类型，同时支持以模块为基础来构造应用程序。</li>
-<li>1994年1月：Python 1.0正式发布。</li>
-<li>2000年10月16日：Python 2.0发布，增加了完整的<a href="https://zh.wikipedia.org/wiki/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)" target="_blank" rel="noopener noreferrer">垃圾回收</a>，提供了对<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener noreferrer">Unicode</a>的支持。与此同时，Python的整个开发过程更加透明，社区对开发进度的影响逐渐扩大，生态圈开始慢慢形成。</li>
-<li>2008年12月3日：Python 3.0发布，它并不完全兼容之前的Python代码，不过因为目前还有不少公司在项目和运维中使用Python 2.x版本，所以Python 3.x的很多新特性后来也被移植到Python 2.6/2.7版本中。</li>
-</ol>
-<p>目前我们使用的Python 3.7.x的版本是在2018年发布的，Python的版本号分为三段，形如A.B.C。其中A表示大版本号，一般当整体重写，或出现不向后兼容的改变时，增加A；B表示功能更新，出现新功能时增加B；C表示小的改动（例如：修复了某个Bug），只要有修改就增加C。如果对Python的历史感兴趣，可以阅读名为<a href="http://www.cnblogs.com/vamei/archive/2013/02/06/2892628.html" target="_blank" rel="noopener noreferrer">《Python简史》</a>的网络文章。</p>
-<h3 id="python的优缺点"> Python的优缺点</h3>
-<p>Python的优点很多，简单的可以总结为以下几点。</p>
-<ol>
-<li>简单明了，学习曲线低，比很多编程语言都容易上手。</li>
-<li>开放源代码，拥有强大的社区和生态圈，尤其是在数据分析和机器学习领域。</li>
-<li>解释型语言，天生具有平台可移植性，代码可以工作于不同的操作系统。</li>
-<li>对两种主流的编程范式（面向对象编程和函数式编程）都提供了支持。</li>
-<li>代码规范程度高，可读性强，适合有代码洁癖和强迫症的人群。</li>
-</ol>
-<p>Python的缺点主要集中在以下几点。</p>
-<ol>
-<li>执行效率稍低，对执行效率要求高的部分可以由其他语言（如：C、C++）编写。</li>
-<li>代码无法加密，但是现在很多公司都不销售卖软件而是销售服务，这个问题会被弱化。</li>
-<li>在开发时可以选择的框架太多（如Web框架就有100多个），有选择的地方就有错误。</li>
-</ol>
-<h3 id="python的应用领域"> Python的应用领域</h3>
-<p>目前Python在Web应用后端开发、云基础设施建设、DevOps、网络数据采集（爬虫）、自动化测试、数据分析、机器学习等领域都有着广泛的应用。</p>
-<h2 id="python-解释器分类"> Python 解释器分类</h2>
-<table>
-<thead>
-<tr>
-<th>解释器</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>CPython</code></td>
-<td>官方，C 语言开发，最广泛的 Python 解释器</td>
-</tr>
-<tr>
-<td><code>IPython</code></td>
-<td>一个交互式、功能增强的<code>CPython</code></td>
-</tr>
-<tr>
-<td><code>PyPy</code></td>
-<td>Python 语言写的 Python 解释器，<code>JIT</code>技术，动态编译 Python 代码</td>
-</tr>
-<tr>
-<td><code>Jython</code></td>
-<td>Python 的源代码编译成 Java 的字节码，跑在<code>JVM</code>上</td>
-</tr>
-<tr>
-<td><code>IronPython</code></td>
-<td>与<code>Jytho</code>n类似，运行在<code>.Net</code>平台上的解释器，Python 代码被编译成<code>.Net</code>的字节码</td>
-</tr>
-<tr>
-<td><code>stackless</code></td>
-<td>Python的增强版本解释器，不使用<code>CPython</code>的 C 的栈，采用微线程概念编程，并发编程</td>
-</tr>
-</tbody>
-</table>
-<p>想要开始Python编程之旅，首先得在自己使用的计算机上安装Python解释器环境，下面将以安装官方的Python解释器为例，讲解如何在不同的操作系统上安装Python环境。官方的Python解释器是用C语言实现的，也是使用最为广泛的Python解释器，通常称之为CPython。</p>
-<h2 id="安装python解释器"> 安装Python解释器</h2>
-<h3 id="windows环境"> Windows环境</h3>
-<p>可以在<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python官方网站</a>下载到Python的Windows安装程序（exe文件），需要注意的是如果在Windows 7环境下安装Python 3.x，需要先安装Service Pack 1补丁包（可以通过一些工具软件自动安装系统补丁的功能来安装），安装过程建议勾选“Add Python 3.x to PATH”（将Python 3.x添加到PATH环境变量）并选择自定义安装，在设置“Optional Features”界面最好将“pip”、“tcl/tk”、“Python test suite”等项全部勾选上。强烈建议选择自定义的安装路径并保证路径中没有中文。安装完成会看到“Setup was successful”的提示。如果稍后运行Python程序时，出现因为缺失一些动态链接库文件而导致Python解释器无法工作的问题，可以按照下面的方法加以解决。</p>
-<p>如果系统显示api-ms-win-crt*.dll文件缺失，可以参照<a href="https://zhuanlan.zhihu.com/p/32087135" target="_blank" rel="noopener noreferrer">《api-ms-win-crt*.dll缺失原因分析和解决方法》</a>一文讲解的方法进行处理或者直接在<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=48145" target="_blank" rel="noopener noreferrer">微软官网</a>下载Visual C++ Redistributable for Visual Studio 2015文件进行修复；如果是因为更新Windows的DirectX之后导致某些动态链接库文件缺失问题，可以下载一个<a href="https://dl.pconline.com.cn/download/360074-1.html" target="_blank" rel="noopener noreferrer">DirectX修复工具</a>进行修复。</p>
-<h3 id="linux环境"> Linux环境</h3>
-<p>Linux环境自带了Python 2.x版本，但是如果要更新到3.x的版本，可以在<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站</a>下载Python的源代码并通过源代码构建安装的方式进行安装，具体的步骤如下所示（以CentOS为例）。</p>
-<ol>
-<li>安装依赖库（因为没有这些依赖库可能在源代码构件安装时因为缺失底层依赖库而失败）。</li>
-</ol>
-<div><pre><code>yum -y <span>install</span> <span>wget</span> gcc zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
-</code></pre>
-<div><span>1</span><br></div></div><ol start="2">
-<li>下载Python源代码并解压缩到指定目录。</li>
-</ol>
-<div><pre><code><span>wget</span> https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tar.xz
-xz -d Python-3.7.6.tar.xz
-<span>tar</span> -xvf Python-3.7.6.tar
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ol start="3">
-<li>切换至Python源代码目录并执行下面的命令进行配置和安装。</li>
-</ol>
-<div><pre><code><span>cd</span> Python-3.7.6
-./configure --prefix<span>=</span>/usr/local/python37 --enable-optimizations
-<span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><ol start="4">
-<li>修改用户主目录下名为.bash_profile的文件，配置PATH环境变量并使其生效。</li>
-</ol>
-<div><pre><code><span>cd</span> ~
-<span>vim</span> .bash_profile
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><div><pre><code><span># ... 此处省略上面的代码 ...</span>
-
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span>:/usr/local/python37/bin
-
-<span># ... 此处省略下面的代码 ...</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><ol start="5">
-<li>激活环境变量。</li>
-</ol>
-<div><pre><code><span>source</span> .bash_profile
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="macos环境"> macOS环境</h3>
-<p>macOS也自带了Python 2.x版本，可以通过<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站</a>提供的安装文件（pkg文件）安装Python 3.x的版本。默认安装完成后，可以通过在终端执行<code>python</code>命令来启动2.x版本的Python解释器，启动3.x版本的Python解释器需要执行<code>python3</code>命令。</p>
-<h2 id="运行python程序"> 运行Python程序</h2>
-<h3 id="确认python的版本"> 确认Python的版本</h3>
-<p>可以Windows的命令行提示符中键入下面的命令。</p>
-<div><pre><code>python --version
-</code></pre>
-<div><span>1</span><br></div></div><p>在Linux或macOS系统的终端中键入下面的命令。</p>
-<div><pre><code>python3 --version
-</code></pre>
-<div><span>1</span><br></div></div><p>当然也可以先输入<code>python</code>或<code>python3</code>进入交互式环境，再执行以下的代码检查Python的版本。</p>
-<div><pre><code><span>import</span> sys
-
-<span>print</span><span>(</span>sys<span>.</span>version_info<span>)</span>
-<span>print</span><span>(</span>sys<span>.</span>version<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h3 id="编写python源代码"> 编写Python源代码</h3>
-<p>可以用文本编辑工具（推荐使用<a href="https://www.sublimetext.com/" target="_blank" rel="noopener noreferrer">Sublime</a>、<a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Code</a>等高级文本编辑工具）编写Python源代码并用py作为后缀名保存该文件，代码内容如下所示。</p>
-<div><pre><code><span>print</span><span>(</span><span>'hello, world!'</span><span>)</span>
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="运行程序"> 运行程序</h3>
-<p>切换到源代码所在的目录并执行下面的命令，看看屏幕上是否输出了&quot;hello, world!&quot;。</p>
-<div><pre><code>python hello.py
-</code></pre>
-<div><span>1</span><br></div></div><p>或</p>
-<div><pre><code>python3 hello.py
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -18616,7 +18616,7 @@ pw<span>.</span><span>print</span><span>(</span><span>)</span>
     <title type="html">9.1 类、实例和封装</title>
     <id>https://clay-wangzhi.com/code/python/python-oo-package/</id>
     <link href="https://clay-wangzhi.com/code/python/python-oo-package/"/>
-    <updated>2021-06-17T10:14:48.000Z</updated>
+    <updated>2021-06-22T07:30:25.000Z</updated>
     <content type="html"><![CDATA[<h1 id="_9-1-类、实例和封装"> 9.1 类、实例和封装</h1>
 <h2 id="面向对象"> 面向对象</h2>
 <p>什么是面向对象呢？</p>
@@ -18645,7 +18645,7 @@ pw<span>.</span><span>print</span><span>(</span><span>)</span>
 <li>隐藏数据：对外只暴露一些接口，通过接口访问对象。</li>
 </ul>
 </li>
-<li>集成
+<li>继承
 <ul>
 <li>多复用，继承来的就不用自己写了</li>
 <li>多继承少修改，OCP（Open-closed Principle），使用继承来改变，来体现个性</li>
@@ -24246,77 +24246,6 @@ bash$ echo $variable1
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第一章 为什么使用shell编程</title>
-    <id>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part1/01_shell_programming/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
-<blockquote>
-<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
-<p>—— Herbert Mayer</p>
-</blockquote>
-<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
-<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
-<blockquote>
-<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
-<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
-</blockquote>
-<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
-<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
-<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
-<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
-<ul>
-<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
-<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
-<li>有跨平台需求（使用C或者Java代替）</li>
-<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
-<li>影响系统全局的关键性任务</li>
-<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
-<li>项目包含有连锁依赖关系的组件</li>
-<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
-<li>需要使用多维数组</li>
-<li>需要使用如链表、树等数据结构</li>
-<li>需要产生或操作图像和图形用户接口（GUI）</li>
-<li>需要直接访问系统硬件或外部设备</li>
-<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
-<li>需要使用库或旧程序的接口</li>
-<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
-</ul>
-<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
-<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
-<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
-<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
-<blockquote>
-<p>His countenance was bold and bashed not.</p>
-<p>—— Edmund Spenser</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
-</li>
-<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
-</li>
-<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
-</li>
-<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
-</li>
-<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">4.2 变量赋值</title>
     <id>https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/</id>
     <link href="https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/"/>
@@ -24396,6 +24325,89 @@ bash$ echo $variable1
 <span>arch</span><span>=</span><span><span>$(</span><span>uname</span> -m<span>)</span></span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">4.3 Bash变量是弱类型的</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
+<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
+<p>样例 4-4. 整数还是字符串？</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># int-or-string.sh</span>
+
+<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
+<span>let</span> <span>"a += 1"</span>
+<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
+<span>echo</span>                     <span># 依旧是整数。</span>
+
+
+<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
+                         <span># $b 变成了字符串。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+
+<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
+<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
+
+<span>c</span><span>=</span>BB34
+<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
+<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
+                         <span># $d 变为了一个整数。</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
+<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
+<span>echo</span>
+
+
+<span># 如果是空值会怎样呢？</span>
+<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
+<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
+<span>echo</span>                     <span># 空值变为了一个整数。</span>
+
+<span># 如果时未声明的变量呢？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
+<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
+<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
+<span>#</span>
+<span># 然而……</span>
+<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
+<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
+<span>#</span>
+<span># 但是，仍旧……</span>
+<span>let</span> <span>"f /= 0"</span>
+<span>#   let: f /= 0: division by 0 (error token is "0")</span>
+<span># 预期之中。</span>
+
+
+<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
+<span># 但是不要做这种事情！</span>
+<span># 因为这可能会导致一些意外的后果。</span>
+
+
+<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
+<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
+]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -24650,77 +24662,65 @@ $ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <sp
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">4.3 Bash变量是弱类型的</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
+    <title type="html">第一章 为什么使用shell编程</title>
+    <id>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part1/01_shell_programming/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
-<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
-<p>样例 4-4. 整数还是字符串？</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># int-or-string.sh</span>
-
-<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
-<span>let</span> <span>"a += 1"</span>
-<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
-<span>echo</span>                     <span># 依旧是整数。</span>
-
-
-<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
-                         <span># $b 变成了字符串。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-
-<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
-<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
-
-<span>c</span><span>=</span>BB34
-<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
-<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
-                         <span># $d 变为了一个整数。</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
-<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
-<span>echo</span>
-
-
-<span># 如果是空值会怎样呢？</span>
-<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
-<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
-<span>echo</span>                     <span># 空值变为了一个整数。</span>
-
-<span># 如果时未声明的变量呢？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
-<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
-<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
-<span>#</span>
-<span># 然而……</span>
-<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
-<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
-<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
-<span>#</span>
-<span># 但是，仍旧……</span>
-<span>let</span> <span>"f /= 0"</span>
-<span>#   let: f /= 0: division by 0 (error token is "0")</span>
-<span># 预期之中。</span>
-
-
-<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
-<span># 但是不要做这种事情！</span>
-<span># 因为这可能会导致一些意外的后果。</span>
-
-
-<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
-<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
+    <content type="html"><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
+<blockquote>
+<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
+<p>—— Herbert Mayer</p>
+</blockquote>
+<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
+<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
+<blockquote>
+<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
+<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
+</blockquote>
+<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
+<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
+<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
+<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
+<ul>
+<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
+<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
+<li>有跨平台需求（使用C或者Java代替）</li>
+<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
+<li>影响系统全局的关键性任务</li>
+<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
+<li>项目包含有连锁依赖关系的组件</li>
+<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
+<li>需要使用多维数组</li>
+<li>需要使用如链表、树等数据结构</li>
+<li>需要产生或操作图像和图形用户接口（GUI）</li>
+<li>需要直接访问系统硬件或外部设备</li>
+<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
+<li>需要使用库或旧程序的接口</li>
+<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
+</ul>
+<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
+<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
+<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
+<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
+<blockquote>
+<p>His countenance was bold and bashed not.</p>
+<p>—— Edmund Spenser</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
+</li>
+<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
+</li>
+<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
+</li>
+<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
+</li>
+<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
+</li>
+</ol>
+</section>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -28574,6 +28574,34 @@ bar  <span># 什么都不会输出。</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第九章 换个角度看变量</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第九章-换个角度看变量"> 第九章 换个角度看变量</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
+<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
+<ul>
+<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
+</ul>
+</li>
+<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
+</ul>
+<p>在脚本中恰当的使用变量可以增强脚本并提高适应性。因此就需要了解变量的微妙之处和细微差异。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">9.3 $RANDOM：生成随机数</title>
     <id>https://clay-wangzhi.com/code/shell/part3/09_3_random_generate_random_integer/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/09_3_random_generate_random_integer/"/>
@@ -29267,34 +29295,6 @@ random_numbers
 </li>
 </ol>
 </section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第九章 换个角度看变量</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/09_another_look_at_variables/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第九章-换个角度看变量"> 第九章 换个角度看变量</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./09_1_internal_variables.html">9.1 内部变量</a></li>
-<li><a href="./09_2_typing_variables_declare_or_typeset.html">9.2 变量类型标注：<code>declare</code> 与 <code>typeset</code></a>
-<ul>
-<li><a href="./09_2_1_another_use_for_declare.html">9.2.1 <code>declare</code> 的另类用法</a></li>
-</ul>
-</li>
-<li><a href="./09_3_random_generate_random_integer.html">9.3 <code>$RANDOM</code>：生成随机数</a></li>
-</ul>
-<p>在脚本中恰当的使用变量可以增强脚本并提高适应性。因此就需要了解变量的微妙之处和细微差异。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -30360,82 +30360,6 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第十章 变量处理</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
-<ul>
-<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
-<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
-</ul>
-</li>
-<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
-</ul>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">11.2 嵌套循环</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">11.1 循环</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_1_loops/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_1_loops/"/>
@@ -31194,6 +31118,82 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第十章 变量处理</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/10_manipulating_variables/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十章-变量处理"> 第十章 变量处理</h1>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./10_1_manipulating_strings.html">10.1 字符串处理</a>
+<ul>
+<li><a href="./10_1_1_manipulating_strings_using_awk.html">10.1.1 使用 <code>awk</code> 处理字符串</a></li>
+<li><a href="./10_1_2_further_reference.html">10.1.2 参考资料</a></li>
+</ul>
+</li>
+<li><a href="./10_2_parameter_substitution.html">10.2 参数替换</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">11.2 嵌套循环</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">11.3 循环控制</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
@@ -31807,6 +31807,35 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">第十二章 命令替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/12_command_substitution/"/>
@@ -32187,35 +32216,6 @@ bash$ echo $(echo \\)
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -40096,87 +40096,6 @@ bash$
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">36.1 交互和非交互shell以及脚本</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
-    <updated>2021-05-11T06:41:33.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
-<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
-<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
-<div><pre><code>#!/bin/bash
-MY_PROMPT=&#39;$ &#39;
-while :
-    do
-        echo -n &quot;$MY_PROMPT&quot;
-        read line
-        eval &quot;$line&quot;
-    done
-
-exit 0
-
-# 这个脚本以及以上解释是由Stéphane Chazelas提供的
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
-<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
-<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
-<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
-<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
-### if [ -v PS1 ]   # Bash 4.2+ ...
-then
-    # 非交互模式
-    ...
-else
-    # 交互模式
-    ...
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
-<div><pre><code>case $- in
-    *i*)    # 交互shell
-    ;;
-    *)      # 非交互shell
-    ;;
-# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
-<div><pre><code># 关于终端的测试！
-
-fd=0   # stdin 标准输入
-
-# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
-if [ -t &quot;$fd&quot; ]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-
-# 但是John指出：
-#     if [ -t 0 ] 仅在你本地登录时有效，
-#     如果通过ssh远程调用就会失效，
-#     所以还要加上对socket的判断。
-
-if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
-then
-    echo interactive # 译注：交互模式
-else
-    echo non-interactive # 译注：非交互模式
-fi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
-<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">36.2 shell wrappers</title>
     <id>https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/36_2_shell_wrappers/"/>
@@ -40474,6 +40393,87 @@ exit
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>有个有趣的shell wrapper例子是Martin Matusiak的undvd，为复杂的mencoder工具提供了一个简单易用的命令行接口。另一个例子是Itzchak Rehberg的Ext3Undel，它为在ext3文件系统上恢复删除的文件提供了一整套工具。</p>
 <p>Notes
 [1] Linux工具事实上很多是shell wrapper，比如/usr/bin/pdf2ps，/usr/bin/batch和/usr/bin/xmkmf。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">36.1 交互和非交互shell以及脚本</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/36_1_interactive_and_non-interactive_shells_and_scripts/"/>
+    <updated>2021-05-11T06:41:33.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_36-1-交互和非交互shell以及脚本"> 36.1 交互和非交互shell以及脚本</h1>
+<p>交互shell从tty读取用户输入。shell默认会读取启动文件，显示提示符和打开任务控制等。用户可以和shell交互。</p>
+<p>脚本总是运行在非交互的shell上。同样，脚本可以访问它自己的tty，这使得在脚本中依然可以模拟出交互的shell。</p>
+<div><pre><code>#!/bin/bash
+MY_PROMPT=&#39;$ &#39;
+while :
+    do
+        echo -n &quot;$MY_PROMPT&quot;
+        read line
+        eval &quot;$line&quot;
+    done
+
+exit 0
+
+# 这个脚本以及以上解释是由Stéphane Chazelas提供的
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>一个要求用户输入的交互脚本，通常会用到read语句（请看例15-3）。不过实际上要复杂一些，一个被用户通过console或者xterm调用的脚本，意味着这个脚本被绑定到了一个tty上。</p>
+<p>初始化和启动脚本必须是非交互的，因为在运行过程中不能要求人类的介入。许多管理和系统维护脚本也同样是非交互的。要求自动运行的重复性任务也是通过非交互脚本实现的。</p>
+<p>非交互的脚本可以在后台运行，而交互脚本（在后台运行）则会挂起，因为要等待永远不可能出现的“输入”。解决这个难题可以使用带有expect命令的脚本，或者将文档嵌入到后台运行的交互脚本中。最简单的例子就是将一个文件重定向到read语句，来提供“输入”。(read variable &lt; file) 这可以创造出一个在交互和非交互两种模式下通用的脚本。</p>
+<p>如果脚本需要知道它是否运行在交互模式下，简单的方法就是看提示符变量是否存在，就是$PS1变量。（如果用户通过提示符输入，那么脚本就需要显示提示符，所以脚本中$PS1变量会被设置）</p>
+<div><pre><code>if [ -z $PS1 ] # 是否有提示符（译注：判断脚本是否运行在交互模式下）
+### if [ -v PS1 ]   # Bash 4.2+ ...
+then
+    # 非交互模式
+    ...
+else
+    # 交互模式
+    ...
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>脚本也可以测试$-变量中是否使用了“i”选项来判读是否运行在交互模式下。</p>
+<div><pre><code>case $- in
+    *i*)    # 交互shell
+    ;;
+    *)      # 非交互shell
+    ;;
+# (参见 &quot;UNIX F.A.Q.,&quot; 1993)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>John Lange描述了另一种替代方法：使用test -t来测试。</p>
+<div><pre><code># 关于终端的测试！
+
+fd=0   # stdin 标准输入
+
+# 使用test -t测试stdin或者stdout是否是一个终端（如果是则证明该脚本运行于交互模式）。
+if [ -t &quot;$fd&quot; ]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+
+# 但是John指出：
+#     if [ -t 0 ] 仅在你本地登录时有效，
+#     如果通过ssh远程调用就会失效，
+#     所以还要加上对socket的判断。
+
+if [[ -t &quot;$fd&quot; || -p /dev/stdin ]]
+then
+    echo interactive # 译注：交互模式
+else
+    echo non-interactive # 译注：非交互模式
+fi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>笔记</p>
+<p>脚本可以使用-i选项或者#!/bin/bash -i的文件头强制进入交互模式执行。这可能导致古怪的脚本行为或者在没有错误的情况下显示错误信息。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -41407,88 +41407,6 @@ mypackage::<span>my_func</span><span>(</span><span>)</span> <span>{</span>
     <rights>Copyright by Google</rights>
   </entry>
   <entry>
-    <title type="html">开机集成zabbix和jumpserver脚本</title>
-    <id>https://clay-wangzhi.com/code/shell/part7/shili/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part7/shili/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
-<div><pre><code><span>#!/bin/bash</span>
-<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
-<span>ANS_PASS</span><span>=</span><span>"****"</span>
-<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
-<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
-<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
-<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
-
-<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
-
-<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
-  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
-  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
-<span>}</span>
-
-<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
-  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
-  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
-    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
-  <span>fi</span> 
-  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
-    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
-    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
-        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
-        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
-        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
-<span>}</span>
-
-<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
-  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
-  set timeout 180
-  spawn ssh root@192.168.162.1
-  expect {
-    "(yes/no)?" {
-      send "yes<span title="\r">\r</span>";
-      expect "password:";
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "password:" {
-      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
-      exp_continue;
-    }
-    "*#" {
-      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
-      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
-             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
-    }
-  }
-  expect eof
-EOF</span>
-<span>}</span>
-
-<span>main</span><span>(</span><span>)</span> <span>{</span>
-  update_ssh
-  integrate_jms <span>"<span>$@</span>"</span>
-  integrate_ans_zbx <span>"<span>$@</span>"</span> 
-<span>}</span>
-
-main <span>"<span>$@</span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">高级 Bash 脚本编程指南</title>
     <id>https://clay-wangzhi.com/code/shell/</id>
     <link href="https://clay-wangzhi.com/code/shell/"/>
@@ -41730,6 +41648,88 @@ Hello world
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by LinuxStory &amp; Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">开机集成zabbix和jumpserver脚本</title>
+    <id>https://clay-wangzhi.com/code/shell/part7/shili/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part7/shili/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="开机集成zabbix和jumpserver脚本"> 开机集成zabbix和jumpserver脚本</h2>
+<div><pre><code><span>#!/bin/bash</span>
+<span>LOCAL_PASS</span><span>=</span><span>"****"</span>
+<span>ANS_PASS</span><span>=</span><span>"****"</span>
+<span>INVENTORY_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/inventory/zabbix.yml"</span>
+<span>ZABBIX_PALYBOOK_FILE</span><span>=</span><span>"/etc/ansible/playbook/zabbix/new-zabbix-agent.yml"</span>
+<span>IP</span><span>=</span><span><span>$(</span><span>ifconfig</span> <span>|</span> <span>grep</span> broadcast <span>|</span> <span>awk</span> <span>'{ print <span>$2</span> }'</span><span>)</span></span>
+<span>LAST_TWO_IP</span><span>=</span><span><span>$(</span><span>echo</span> $IP <span>|</span> <span>cut</span> -d. -f3-4<span>)</span></span>
+
+<span>node</span><span>=</span><span>"f6d2228f-c474-4b1e-ac8b-5c7d10e63b53"</span>
+
+<span>update_ssh</span><span>(</span><span>)</span> <span>{</span>
+  <span>sed</span> -i <span>'s/PasswordAuthentication no/PasswordAuthentication yes/g'</span> /etc/ssh/sshd_config
+  systemctl restart sshd <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+  <span>echo</span> <span>"<span>${LOCAL_PASS}</span>"</span> <span>|</span> <span>passwd</span> root --stdin  <span>></span> /dev/null <span><span>2</span>></span><span>&amp;1</span>
+<span>}</span>
+
+<span>integrate_jms</span><span>(</span><span>)</span> <span>{</span>
+  <span>if</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"csp"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b256f30b-896e-44cd-90f0-0fc28984afe9"</span>
+  <span>elif</span> <span>[</span><span>[</span> <span>"<span>${1}</span>"</span> <span>==</span> <span>"bes"</span> <span>]</span><span>]</span><span>;</span> <span>then</span>
+    <span>node</span><span>=</span><span>"b594957e-d6e8-4c85-92e6-b89757792e1a"</span>
+  <span>fi</span> 
+  <span>curl</span> -XPOST -H <span>'Authorization: Token d54c30e98f49de8e4e75bd3c28f214d0dea761ca'</span> <span>\</span>
+    -H <span>"Content-Type:application/json"</span> http://192.168.162.10/api/v1/assets/assets/ <span>\</span>
+    -d <span>"{ <span title="\&quot;">\"</span>ip<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${IP}</span><span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>hostname<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span><span>${LAST_TWO_IP}</span>-<span>${2}</span><span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>protocol<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>ssh<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>port<span title="\&quot;">\"</span>: 22, <span title="\&quot;">\"</span>protocols<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span>ssh/22<span title="\&quot;">\"</span> ], 
+        <span title="\&quot;">\"</span>platform<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>Linux<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>is_active<span title="\&quot;">\"</span>: true, 
+        <span title="\&quot;">\"</span>admin_user<span title="\&quot;">\"</span>: <span title="\&quot;">\"</span>59bb8ee8-98ad-4aac-a1a7-3e1b2b83f38f<span title="\&quot;">\"</span>, 
+        <span title="\&quot;">\"</span>nodes<span title="\&quot;">\"</span>: [ <span title="\&quot;">\"</span><span>${node}</span><span title="\&quot;">\"</span> ]}"</span>
+<span>}</span>
+
+<span>integrate_ans_zbx</span><span>(</span><span>)</span> <span>{</span>
+  /usr/bin/expect <span>&lt;&lt;</span><span>EOF
+  set timeout 180
+  spawn ssh root@192.168.162.1
+  expect {
+    "(yes/no)?" {
+      send "yes<span title="\r">\r</span>";
+      expect "password:";
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "password:" {
+      send "<span>${ANS_PASS}</span><span title="\r">\r</span>";
+      exp_continue;
+    }
+    "*#" {
+      send "sed -i '/# <span>${1}</span> insert/i\  <span>${IP}</span>:' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send "sed -i 's/<span>${IP}</span>/        <span>${IP}</span>/g' <span>${INVENTORY_FILE}</span><span title="\r">\r</span>";
+      send " ansible-playbook -i <span>${INVENTORY_FILE}</span> <span>${ZABBIX_PALYBOOK_FILE}</span> \
+             -l <span>${IP}</span> --skip-tags 'sangoma,debian,suse,windows,docker'<span title="\r">\r</span>";
+    }
+  }
+  expect eof
+EOF</span>
+<span>}</span>
+
+<span>main</span><span>(</span><span>)</span> <span>{</span>
+  update_ssh
+  integrate_jms <span>"<span>$@</span>"</span>
+  integrate_ans_zbx <span>"<span>$@</span>"</span> 
+<span>}</span>
+
+main <span>"<span>$@</span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">Harbor 搭建</title>
@@ -42331,6 +42331,37 @@ proxy:
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">使用方法</title>
+    <id>https://clay-wangzhi.com/container/dockerfile/fastdfs/</id>
+    <link href="https://clay-wangzhi.com/container/dockerfile/fastdfs/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="使用方法"> 使用方法</h2>
+<p>需要注意的是 你需要在运行容器的时候制定宿主机的<code>ip</code> 用参数<code>PUBIP</code> 来指定</p>
+<div><pre><code><span>mkdir</span> -p /data/fastdfs
+docker pull wangzhichidocker/fastdfs:1.0.0
+docker container run -d --name fdfs-test --network <span>host</span> -e <span>PUBIP</span><span>=</span>xxx --mount <span>type</span><span>=</span>bind,source<span>=</span>/data/fastdfs,target<span>=</span>/data/fastdfs wangzhichidocker/fastdfs:1.0.0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端测试"> 客户端测试</h2>
+<p>拷贝一个图片到容器内</p>
+<div><pre><code>docker container cp favicon.png fdfs-test:/tmp
+</code></pre>
+<div><span>1</span><br></div></div><p>进入容器上传图片</p>
+<div><pre><code>docker container exec -it fdfs-test /bin/bash
+fdfs_upload_file /etc/fdfs/client.conf /tmp/favicon.png 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>返回值为<code>group1/M00/00/00/wKh932A9-xCAcK7FAAGO_BH5JHs036.png</code></p>
+<p>在浏览器访问<code>http://宿主机IP:8888/group1/M00/00/00/wKh932A9-xCAcK7FAAGO_BH5JHs036.png</code>，如果访问图片正常，则测试成功</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">docker 安装rabbitmq集群</title>
     <id>https://clay-wangzhi.com/container/Docker/docker_rabbitmq/</id>
     <link href="https://clay-wangzhi.com/container/Docker/docker_rabbitmq/"/>
@@ -42735,37 +42766,6 @@ vrrp_instance VI_1 {
       <name>Clay</name>
     </author>
     <category term="常见服务的搭建"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">使用方法</title>
-    <id>https://clay-wangzhi.com/container/dockerfile/fastdfs/</id>
-    <link href="https://clay-wangzhi.com/container/dockerfile/fastdfs/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="使用方法"> 使用方法</h2>
-<p>需要注意的是 你需要在运行容器的时候制定宿主机的<code>ip</code> 用参数<code>PUBIP</code> 来指定</p>
-<div><pre><code><span>mkdir</span> -p /data/fastdfs
-docker pull wangzhichidocker/fastdfs:1.0.0
-docker container run -d --name fdfs-test --network <span>host</span> -e <span>PUBIP</span><span>=</span>xxx --mount <span>type</span><span>=</span>bind,source<span>=</span>/data/fastdfs,target<span>=</span>/data/fastdfs wangzhichidocker/fastdfs:1.0.0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="客户端测试"> 客户端测试</h2>
-<p>拷贝一个图片到容器内</p>
-<div><pre><code>docker container cp favicon.png fdfs-test:/tmp
-</code></pre>
-<div><span>1</span><br></div></div><p>进入容器上传图片</p>
-<div><pre><code>docker container exec -it fdfs-test /bin/bash
-fdfs_upload_file /etc/fdfs/client.conf /tmp/favicon.png 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>返回值为<code>group1/M00/00/00/wKh932A9-xCAcK7FAAGO_BH5JHs036.png</code></p>
-<p>在浏览器访问<code>http://宿主机IP:8888/group1/M00/00/00/wKh932A9-xCAcK7FAAGO_BH5JHs036.png</code>，如果访问图片正常，则测试成功</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -46616,70 +46616,6 @@ skip-grant-tables
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">hash类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
-<p>hash⽤于存储对象
-对象的结构为属性、值
-值的类型为string</p>
-<h2 id="增加、修改"> 增加、修改</h2>
-<ul>
-<li>设置单个属性</li>
-</ul>
-<div><pre><code>hset key field value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个属性</li>
-</ul>
-<div><pre><code>hmset key field1 value1 field2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取指定键所有的属性</li>
-</ul>
-<div><pre><code>hkeys key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取⼀个属性的值</li>
-</ul>
-<div><pre><code>hget key field
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取多个属性的值</li>
-</ul>
-<div><pre><code>hmget key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取所有属性的值</li>
-</ul>
-<div><pre><code>hvals key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取一个hash有多少个属性</li>
-</ul>
-<div><pre><code>hlen key
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<ul>
-<li>删除整个hash键及值，使⽤del命令</li>
-<li>删除属性，属性对应的值会被⼀起删除</li>
-</ul>
-<div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">4 视图、事务、索引、函数</title>
     <id>https://clay-wangzhi.com/db/mysql/view-func/</id>
     <link href="https://clay-wangzhi.com/db/mysql/view-func/"/>
@@ -47640,6 +47576,70 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">hash类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
+<p>hash⽤于存储对象
+对象的结构为属性、值
+值的类型为string</p>
+<h2 id="增加、修改"> 增加、修改</h2>
+<ul>
+<li>设置单个属性</li>
+</ul>
+<div><pre><code>hset key field value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个属性</li>
+</ul>
+<div><pre><code>hmset key field1 value1 field2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取指定键所有的属性</li>
+</ul>
+<div><pre><code>hkeys key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取⼀个属性的值</li>
+</ul>
+<div><pre><code>hget key field
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取多个属性的值</li>
+</ul>
+<div><pre><code>hmget key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取所有属性的值</li>
+</ul>
+<div><pre><code>hvals key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取一个hash有多少个属性</li>
+</ul>
+<div><pre><code>hlen key
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<ul>
+<li>删除整个hash键及值，使⽤del命令</li>
+<li>删除属性，属性对应的值会被⼀起删除</li>
+</ul>
+<div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">键命令</title>
     <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
@@ -47838,66 +47838,6 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">string类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/string/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/string/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="string类型"> string类型</h1>
-<p>字符串类型是Redis中最为基础的数据存储类型，该类型可以接受任何格式的数据，如JPEG图像数据或Json对象描述信息等。在Redis中字符串类型的Value最多可以容纳的数据长度是512M。</p>
-<h2 id="保存"> 保存</h2>
-<p>如果设置的键不存在则为添加，如果设置的键已经存在则修改</p>
-<ul>
-<li>设置键值</li>
-</ul>
-<div><pre><code>set key value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置键值及过期时间，以秒为单位</li>
-</ul>
-<div><pre><code>setex key seconds value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个键值</li>
-</ul>
-<div><pre><code>mset key1 value1 key2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>追加值</li>
-</ul>
-<div><pre><code>append key value
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="中文乱码问题的解决"> 中文乱码问题的解决</h2>
-<p>a) 退出redis客户端</p>
-<div><pre><code>Exit
-</code></pre>
-<div><span>1</span><br></div></div><p>b) 再次进图redis客户端</p>
-<div><pre><code>Redis-cli --raw
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取：根据键获取值，如果不存在此键则返回nil</li>
-</ul>
-<div><pre><code>get key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>根据多个键获取多个值</li>
-</ul>
-<div><pre><code>mget key1 key2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<p>详⻅下节键的操作，删除键时会将值删除</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">zset 类型</title>
     <id>https://clay-wangzhi.com/db/redis/operate/zset/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/zset/"/>
@@ -47975,6 +47915,66 @@ func main(){
 <div><pre><code>zremrangebyscore a4 5 6
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">string类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/string/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/string/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="string类型"> string类型</h1>
+<p>字符串类型是Redis中最为基础的数据存储类型，该类型可以接受任何格式的数据，如JPEG图像数据或Json对象描述信息等。在Redis中字符串类型的Value最多可以容纳的数据长度是512M。</p>
+<h2 id="保存"> 保存</h2>
+<p>如果设置的键不存在则为添加，如果设置的键已经存在则修改</p>
+<ul>
+<li>设置键值</li>
+</ul>
+<div><pre><code>set key value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置键值及过期时间，以秒为单位</li>
+</ul>
+<div><pre><code>setex key seconds value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个键值</li>
+</ul>
+<div><pre><code>mset key1 value1 key2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>追加值</li>
+</ul>
+<div><pre><code>append key value
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="中文乱码问题的解决"> 中文乱码问题的解决</h2>
+<p>a) 退出redis客户端</p>
+<div><pre><code>Exit
+</code></pre>
+<div><span>1</span><br></div></div><p>b) 再次进图redis客户端</p>
+<div><pre><code>Redis-cli --raw
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取：根据键获取值，如果不存在此键则返回nil</li>
+</ul>
+<div><pre><code>get key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>根据多个键获取多个值</li>
+</ul>
+<div><pre><code>mget key1 key2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<p>详⻅下节键的操作，删除键时会将值删除</p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -48139,42 +48139,6 @@ func main(){
 <h2 id="redis集群如何选择数据库"> Redis集群如何选择数据库</h2>
 <p>Redis集群目前无法做数据库选择，默认在0数据库。</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">redis-dump方式导入导出数据</title>
-    <id>https://clay-wangzhi.com/db/redis/redis-dump/</id>
-    <link href="https://clay-wangzhi.com/db/redis/redis-dump/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h1>
-<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
-<p>安装ruby（略）,详见上一章节</p>
-<div><pre><code>gem install redis-dump -V
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
-<p>示例</p>
-<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
-<p>示例</p>
-<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
-<div><pre><code>&lt; test1.json redis-load
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
-<p>-n （以二进制形式导入）</p>
-<div><pre><code>&lt; test.json redis-load -n 
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -48439,6 +48403,42 @@ ERR Target instance replied with error: NOAUTH Authentication required.</li>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9844310.html" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/kevingrace/p/9844310.html</a></p>
 </blockquote>
 ]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">redis-dump方式导入导出数据</title>
+    <id>https://clay-wangzhi.com/db/redis/redis-dump/</id>
+    <link href="https://clay-wangzhi.com/db/redis/redis-dump/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h1>
+<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div><pre><code>gem install redis-dump -V
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
+<p>示例</p>
+<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
+<p>示例</p>
+<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div><pre><code>&lt; test1.json redis-load
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div><pre><code>&lt; test.json redis-load -n 
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -49767,6 +49767,38 @@ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">查看文件详细属性</title>
+    <id>https://clay-wangzhi.com/linux/basic/file/file-detail/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/file/file-detail/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="查看文件详细属性"> 查看文件详细属性</h1>
+<h3 id="stat命令"> stat命令</h3>
+<div><pre><code># stat a.go 
+  File: a.go
+  Size: 63        	Blocks: 0          IO Block: 512    regular file
+Device: 2h/2d	Inode: 19140298416386648  Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2018-10-09 12:42:07.978765400 +0800
+Modify: 2018-10-09 12:42:07.980763600 +0800
+Change: 2018-10-09 12:42:07.982774800 +0800
+ Birth: -
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>访问时间：atime，查看内容<br>
+修改时间：mtime，修改内容
+改变时间：ctime，文件属性，比如权限
+删除时间：dtime，文件被删除的时间</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">查看文件内容</title>
     <id>https://clay-wangzhi.com/linux/basic/file/cat/</id>
     <link href="https://clay-wangzhi.com/linux/basic/file/cat/"/>
@@ -50328,38 +50360,6 @@ test.txt:linuxmint
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">查看文件详细属性</title>
-    <id>https://clay-wangzhi.com/linux/basic/file/file-detail/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/file/file-detail/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="查看文件详细属性"> 查看文件详细属性</h1>
-<h3 id="stat命令"> stat命令</h3>
-<div><pre><code># stat a.go 
-  File: a.go
-  Size: 63        	Blocks: 0          IO Block: 512    regular file
-Device: 2h/2d	Inode: 19140298416386648  Links: 1
-Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2018-10-09 12:42:07.978765400 +0800
-Modify: 2018-10-09 12:42:07.980763600 +0800
-Change: 2018-10-09 12:42:07.982774800 +0800
- Birth: -
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>访问时间：atime，查看内容<br>
-修改时间：mtime，修改内容
-改变时间：ctime，文件属性，比如权限
-删除时间：dtime，文件被删除的时间</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">查看文件类型</title>
     <id>https://clay-wangzhi.com/linux/basic/file/file-type/</id>
     <link href="https://clay-wangzhi.com/linux/basic/file/file-type/"/>
@@ -50679,105 +50679,6 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">附录 F. I/O 与 I/O 重定向详细介绍</title>
-    <id>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</id>
-    <link href="https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
-<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
-<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
-<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
-<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
-cat: standard output: Bad <span>file</span> descriptor
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
-<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
-<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
-<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
-bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
-
-
-bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
- <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
- <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
-<p>分析以下脚本。</p>
-<div><pre><code><span>#! /usr/bin/env bash</span>
-
-<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
-<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
-<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
-
-<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
-<span>(</span>
- <span>(</span>
-  <span>(</span>
-   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
-   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
-
-   <span>echo</span> 1st, to stdout
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
-
-  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
- <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
-<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
-
-<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
-
-
-<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
-<span># 祝你好运！</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">管道及I/O重定向</title>
@@ -52437,6 +52338,105 @@ PRD/PROD production 产品/正式/生产</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">附录 F. I/O 与 I/O 重定向详细介绍</title>
+    <id>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</id>
+    <link href="https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
+<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
+<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
+<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
+<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
+cat: standard output: Bad <span>file</span> descriptor
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
+<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
+<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
+<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+
+
+bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
+bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
+
+
+bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
+ <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+
+
+bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
+ <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
+<p>分析以下脚本。</p>
+<div><pre><code><span>#! /usr/bin/env bash</span>
+
+<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
+<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
+<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
+
+<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
+<span>(</span>
+ <span>(</span>
+  <span>(</span>
+   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
+   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
+
+   <span>echo</span> 1st, to stdout
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
+
+  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
+ <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
+<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
+
+<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
+
+
+<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
+<span># 祝你好运！</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">centos7下时区问题</title>
     <id>https://clay-wangzhi.com/linux/qa/centos-time/</id>
     <link href="https://clay-wangzhi.com/linux/qa/centos-time/"/>
@@ -52462,6 +52462,31 @@ NTP synchronized: yes
 <div><pre><code># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 </code></pre>
 <div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
+    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
+<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
+<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
+<h2 id="预留空间"> 预留空间</h2>
+<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
+<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
+<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
+<h2 id="未统计到的文件"> 未统计到的文件</h2>
+<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
+]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -52515,20 +52540,33 @@ make install
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
-    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
+    <title type="html">linux下如何增加swap交换分区</title>
+    <id>https://clay-wangzhi.com/linux/qa/swap/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/swap/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
-<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
-<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
-<h2 id="预留空间"> 预留空间</h2>
-<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
-<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
-<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
-<h2 id="未统计到的文件"> 未统计到的文件</h2>
-<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
-]]></content>
+    <content type="html"><![CDATA[<h1 id="linux下如何增加swap交换分区"> linux下如何增加swap交换分区</h1>
+<p>swap即交换分区，类似于<a href="http://www.ttlsa.com/windows/" target="_blank" rel="noopener noreferrer">windows</a>虚拟内存功能，就是在硬盘上分配出一块空间作为虚拟内存来使用.</p>
+<p>通常swap都是在装系统硬盘分区时设定，这里只是探讨一下系统已经安装好后，扩展swap分区的方法.下面我们来将下如何在安装好的<a href="http://www.ttlsa.com/linux/" target="_blank" rel="noopener noreferrer">linux</a>下增加swap交换分区.</p>
+<p>可以有两种方法来增加swap分区，一种是将新的分区来作为swap，另一种是在磁盘中创建一个大的文件来作swap.</p>
+<h2 id="新分区扩展swap"> 新分区扩展swap</h2>
+<p>假如有一个新的分区/dev/sda3,我们用它来作swap.</p>
+<div><pre><code># swapon -s                --查看当前swap情况
+# mkswap /dev/sda3
+# swapon /dev/sda3
+# swapon -s
+# vi /etc/fstab
+/dev/sda3   swap   swap  defaults  0  0    --添加开机自动挂载
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="大文件扩展swap"> 大文件扩展swap</h2>
+<div><pre><code># cd /var
+# dd if=/dev/zero of=file bs=1M count=1000       --生成1G的大文件
+# mkswap file
+# swapon file
+# swapon -s
+# vi /etc/fstab
+/var/file   swap   swap   defaults  0   0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -52557,44 +52595,6 @@ mysql&gt;exit(退出)
 <h3 id="修改配置文件"> 修改配置文件</h3>
 <p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">linux下如何增加swap交换分区</title>
-    <id>https://clay-wangzhi.com/linux/qa/swap/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/swap/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux下如何增加swap交换分区"> linux下如何增加swap交换分区</h1>
-<p>swap即交换分区，类似于<a href="http://www.ttlsa.com/windows/" target="_blank" rel="noopener noreferrer">windows</a>虚拟内存功能，就是在硬盘上分配出一块空间作为虚拟内存来使用.</p>
-<p>通常swap都是在装系统硬盘分区时设定，这里只是探讨一下系统已经安装好后，扩展swap分区的方法.下面我们来将下如何在安装好的<a href="http://www.ttlsa.com/linux/" target="_blank" rel="noopener noreferrer">linux</a>下增加swap交换分区.</p>
-<p>可以有两种方法来增加swap分区，一种是将新的分区来作为swap，另一种是在磁盘中创建一个大的文件来作swap.</p>
-<h2 id="新分区扩展swap"> 新分区扩展swap</h2>
-<p>假如有一个新的分区/dev/sda3,我们用它来作swap.</p>
-<div><pre><code># swapon -s                --查看当前swap情况
-# mkswap /dev/sda3
-# swapon /dev/sda3
-# swapon -s
-# vi /etc/fstab
-/dev/sda3   swap   swap  defaults  0  0    --添加开机自动挂载
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h2 id="大文件扩展swap"> 大文件扩展swap</h2>
-<div><pre><code># cd /var
-# dd if=/dev/zero of=file bs=1M count=1000       --生成1G的大文件
-# mkswap file
-# swapon file
-# swapon -s
-# vi /etc/fstab
-/var/file   swap   swap   defaults  0   0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -56471,6 +56471,26 @@ bin/elasticsearch-plugin list
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Grafana Y轴设置</title>
+    <id>https://clay-wangzhi.com/monitor/grafana-y/</id>
+    <link href="https://clay-wangzhi.com/monitor/grafana-y/"/>
+    <updated>2021-06-08T02:32:45.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="grafana-y轴设置"> Grafana Y轴设置</h1>
+<p>Y<strong>轴要有负数如何设置</strong></p>
+<p>grafana网络总图中，Y轴要有负数的话，需要设置，alias or regex，Outing为 Transform：negative-Y</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323205311303.png" alt="" /></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-06-02T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Elastic Stack 家族成员及其应用场景</title>
     <id>https://clay-wangzhi.com/monitor/elk/summarize/scene/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/summarize/scene/"/>
@@ -56563,26 +56583,6 @@ bin/elasticsearch-plugin list
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Grafana Y轴设置</title>
-    <id>https://clay-wangzhi.com/monitor/grafana-y/</id>
-    <link href="https://clay-wangzhi.com/monitor/grafana-y/"/>
-    <updated>2021-06-08T02:32:45.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="grafana-y轴设置"> Grafana Y轴设置</h1>
-<p>Y<strong>轴要有负数如何设置</strong></p>
-<p>grafana网络总图中，Y轴要有负数的话，需要设置，alias or regex，Outing为 Transform：negative-Y</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323205311303.png" alt="" /></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-06-02T00:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -57079,30 +57079,6 @@ will not be shown, you would have to be root to see it all.)
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">10 Todolist</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/todolist/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/todolist/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
-<p>待整理链接有：</p>
-<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
-<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
-<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
-<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
-<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
-<p>zabbix 告警分组和添加远端命令</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">8 activemq监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-activemq/"/>
@@ -57140,6 +57116,30 @@ ACTIVEMQ_SUNJMX_START=&quot;$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremot
 <p>在zabbix_web中导入zbx_activemq目录下的xml文件</p>
 <p>在被监控主机上增加宏设置
 加入{<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 13: JMX_PASSWORD}̲，和{'>JMX_PASSWORD}，和{</span>JMX_USERNAME}，user为admin，pass为activemq</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">10 Todolist</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/todolist/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/todolist/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_10-todolist"> 10 Todolist</h1>
+<p>待整理链接有：</p>
+<p>tomcat监控自动重启脚本：https://mp.weixin.qq.com/s?__biz=MzU2MDg5NzYzNA==&amp;mid=2247483717&amp;idx=1&amp;sn=f3404f8b58d260cf29bb465525a0c391&amp;chksm=fc004a48cb77c35e4a0646d82b015ea76ab5642c3dda935f75845de449fecb7ea64e8c501d0b&amp;scene=21#wechat_redirect</p>
+<p>tomcat，jmx监控：https://www.cnblogs.com/ssgeek/p/9299273.html，</p>
+<p>zabbix监控的shell脚本，你不得看看啊：https://github.com/RuslanMahotkin/zabbix</p>
+<p>nginx监控和nginx自带的监控模板，不得看一下啊：https://www.cnblogs.com/lovelinux199075/p/8990538.html ， https://www.cnblogs.com/anay/p/8994290.html</p>
+<p>github优秀模板：https://github.com/qiueer/zabbix/tree/master/All%20In%20One</p>
+<p>zabbix 告警分组和添加远端命令</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -57970,51 +57970,6 @@ fi
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">phpldapadmin操作指导</title>
-    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
-    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
-<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
-<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
-<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
-<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
-<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
-<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
-<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
-<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
-<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
-<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
-<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
-<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
-<p>示例：</p>
-<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
-<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
-<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
-<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
-<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
-<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
-<p>示例如下。</p>
-<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
-<p>15.点击【Update Object】</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Centos7 搭建openldap</title>
     <id>https://clay-wangzhi.com/openldap/Centos7%20%E6%90%AD%E5%BB%BAopenldap/</id>
     <link href="https://clay-wangzhi.com/openldap/Centos7%20%E6%90%AD%E5%BB%BAopenldap/"/>
@@ -58255,6 +58210,51 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
 <p>openldap系列文章：</p>
 <p>https://www.ilanni.com/?tag=openldap</p>
 </blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">phpldapadmin操作指导</title>
+    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
+    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
+<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
+<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
+<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
+<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
+<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
+<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
+<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
+<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
+<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
+<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
+<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
+<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
+<p>示例：</p>
+<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
+<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
+<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
+<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
+<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
+<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
+<p>示例如下。</p>
+<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
+<p>15.点击【Update Object】</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -60061,234 +60061,6 @@ misc_dynamic                                               #这个就很好用�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（29）-chown</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>chown(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
--f或--quite或——silent：不显示错误信息；
--h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
--R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
--v或——version：显示指令执行过程；
---dereference：效果和“-h”参数相同；
---help：在线帮助；
---reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
---version：显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
-文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
-<h2 id="功能"> 功能</h2>
-<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）<strong>改变拥有者和群组</strong></p>
-<div><pre><code># ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root users 302108 11-30 08:39 log2012.log
-# chown mail:mail log2012.log 
-# ll
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
-<div><pre><code>ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
-# chown root: log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
-<div><pre><code># ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root root  302108 11-30 08:39 log2012.log
-# chown :mail log2012.log 
-# ll
-总计 604
----xr--r-- 1 root users 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
-<div><pre><code># ll
-drwxr-xr-x 2 root users   4096 11-30 08:39 test6
-# chown -R -v root:mail test6
-“test6/log2014.log” 的所有者已更改为 root:mail
-“test6/linklog.log” 的所有者已更改为 root:mail
-“test6/log2015.log” 的所有者已更改为 root:mail
-“test6/log2013.log” 的所有者已更改为 root:mail
-“test6/log2012.log” 的所有者已保留为 root:mail
-“test6/log2017.log” 的所有者已更改为 root:mail
-“test6/log2016.log” 的所有者已更改为 root:mail
-“test6” 的所有者已更改为 root:mail
-# ll
-drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
-# cd test6
-# ll
-总计 604
----xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
----xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
--rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
--rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
-<p>http://man.linuxde.net/chown</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T18:58:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">每天一个linux命令（33）-du</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>du [选项][文件]</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-a或-all 显示目录中个别文件的大小。
--b或-bytes 显示目录或文件大小时，以byte为单位。
--c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
--k或--kilobytes 以KB(1024bytes)为单位输出。
--m或--megabytes 以MB为单位输出。
--s或--summarize 仅显示总计，只列出最后加总的值。
--h或--human-readable 以K，M，G为单位，提高信息的可读性。
--x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
--L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
--S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
--X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
---exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
--D或--dereference-args 显示指定符号链接的源文件大小。
--H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
--l或--count-links 重复计算硬件链接的文件。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
-<p>1）显示目录或者文件所占空间</p>
-<div><pre><code># du
-608     ./test6
-308     ./test4
-4       ./scf/lib
-4       ./scf/service/deploy/product
-4       ./scf/service/deploy/info
-12      ./scf/service/deploy
-16      ./scf/service
-4       ./scf/doc
-4       ./scf/bin
-32      ./scf
-8       ./test3
-1288    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
-<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
-<p>2）显示指定文件所占空间</p>
-<div><pre><code># du log2012.log 
-300     log2012.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
-<div><pre><code># du scf
-4       scf/lib
-4       scf/service/deploy/product
-4       scf/service/deploy/info
-12      scf/service/deploy
-16      scf/service
-4       scf/doc
-4       scf/bin
-32      scf
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
-<div><pre><code># du log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
-<div><pre><code># du -s
-1288    .
-# du -s scf
-32      scf
-# cd ..
-# du -s test
-1288    test
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
-<div><pre><code># du -h test
-608K    test/test6
-308K    test/test4
-4.0K    test/scf/lib
-4.0K    test/scf/service/deploy/product
-4.0K    test/scf/service/deploy/info
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
-<div><pre><code># du -ah test
-4.0K    test/log31.tar.gz
-4.0K    test/test13.tar.gz
-0       test/linklog.log
-0       test/test6/log2014.log
-300K    test/test6/linklog.log
-0       test/test6/log2015.log
-4.0K    test/test6/log2013.log
-300K    test/test6/log2012.log
-0       test/test6/log2017.log
-0       test/test6/log2016.log
-608K    test/test6
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
-<div><pre><code># du -c log30.tar.gz log31.tar.gz 
-4       log30.tar.gz
-4       log31.tar.gz
-8       总计
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
-<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
-<p>9）按照空间大小排序</p>
-<div><pre><code># du|sort -nr|more
-1288    .
-608     ./test6
-308     ./test4
-32      ./scf
-16      ./scf/service
-12      ./scf/service/deploy
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
-<div><pre><code># du -h  --max-depth=1
-608K    ./test6
-308K    ./test4
-32K     ./scf
-8.0K    ./test3
-1.3M    .
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
-<p>http://man.linuxde.net/du</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:03:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（21）-find之xargs</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/"/>
@@ -60451,6 +60223,101 @@ drwxrwxr-x 2 root root   4096 11-13 05:50 test4
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T18:50:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（29）-chown</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>chown将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>chown(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-c或——changes：效果类似“-v”参数，但仅回报更改的部分；
+-f或--quite或——silent：不显示错误信息；
+-h或--no-dereference：只对符号连接的文件作修改，而不更改其他任何相关文件；
+-R或——recursive：递归处理，将指定目录下的所有文件及子目录一并处理；
+-v或——version：显示指令执行过程；
+--dereference：效果和“-h”参数相同；
+--help：在线帮助；
+--reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>用户：组：指定所有者和所属工作组。当省略“：组”，仅改变文件所有者；
+文件：指定要改变所有者和工作组的文件列表。支持多个文件和目标，支持shell通配符。</p>
+<h2 id="功能"> 功能</h2>
+<p>通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）<strong>改变拥有者和群组</strong></p>
+<div><pre><code># ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root users 302108 11-30 08:39 log2012.log
+# chown mail:mail log2012.log 
+# ll
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）<strong>改变文件拥有者</strong></p>
+<div><pre><code>ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 mail mail  302108 11-30 08:39 log2012.log
+# chown root: log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）<strong>改变文件群组</strong></p>
+<div><pre><code># ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root root  302108 11-30 08:39 log2012.log
+# chown :mail log2012.log 
+# ll
+总计 604
+---xr--r-- 1 root users 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail  302108 11-30 08:39 log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）**改变指定目录以及其子目录下的所有文件的拥有者和群组 **</p>
+<div><pre><code># ll
+drwxr-xr-x 2 root users   4096 11-30 08:39 test6
+# chown -R -v root:mail test6
+“test6/log2014.log” 的所有者已更改为 root:mail
+“test6/linklog.log” 的所有者已更改为 root:mail
+“test6/log2015.log” 的所有者已更改为 root:mail
+“test6/log2013.log” 的所有者已更改为 root:mail
+“test6/log2012.log” 的所有者已保留为 root:mail
+“test6/log2017.log” 的所有者已更改为 root:mail
+“test6/log2016.log” 的所有者已更改为 root:mail
+“test6” 的所有者已更改为 root:mail
+# ll
+drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
+# cd test6
+# ll
+总计 604
+---xr--r-- 1 root mail 302108 11-30 08:39 linklog.log
+---xr--r-- 1 root mail 302108 11-30 08:39 log2012.log
+-rw-r--r-- 1 root mail     61 11-30 08:39 log2013.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2014.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2015.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2016.log
+-rw-r--r-- 1 root mail      0 11-30 08:39 log2017.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/04/2800684.html</p>
+<p>http://man.linuxde.net/chown</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T18:58:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -60751,6 +60618,139 @@ patching file log2013.log
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:05:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（33）-du</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8833%EF%BC%89-du/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>du命令</strong>也是查看使用空间的，但是与<a href="http://man.linuxde.net/df" target="_blank" rel="noopener noreferrer">df</a>命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>du [选项][文件]</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-a或-all 显示目录中个别文件的大小。
+-b或-bytes 显示目录或文件大小时，以byte为单位。
+-c或--total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes 以KB(1024bytes)为单位输出。
+-m或--megabytes 以MB为单位输出。
+-s或--summarize 仅显示总计，只列出最后加总的值。
+-h或--human-readable 以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem 以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L&lt;符号链接&gt;或--dereference&lt;符号链接&gt; 显示选项中所指定符号链接的源文件大小。
+-S或--separate-dirs 显示个别目录的大小时，并不含其子目录的大小。
+-X&lt;文件&gt;或--exclude-from=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。
+--exclude=&lt;目录或文件&gt; 略过指定的目录或文件。
+-D或--dereference-args 显示指定符号链接的源文件大小。
+-H或--si 与-h参数相同，但是K，M，G是以1000为换算单位。
+-l或--count-links 重复计算硬件链接的文件。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><h2 id="常用实例"> 常用实例</h2>
+<p>1）显示目录或者文件所占空间</p>
+<div><pre><code># du
+608     ./test6
+308     ./test4
+4       ./scf/lib
+4       ./scf/service/deploy/product
+4       ./scf/service/deploy/info
+12      ./scf/service/deploy
+16      ./scf/service
+4       ./scf/doc
+4       ./scf/bin
+32      ./scf
+8       ./test3
+1288    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>说明：</p>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>2）显示指定文件所占空间</p>
+<div><pre><code># du log2012.log 
+300     log2012.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>3）查看指定目录的所占空间</p>
+<div><pre><code># du scf
+4       scf/lib
+4       scf/service/deploy/product
+4       scf/service/deploy/info
+12      scf/service/deploy
+16      scf/service
+4       scf/doc
+4       scf/bin
+32      scf
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>4）显示多个文件所占空间</p>
+<div><pre><code># du log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>5）只显示总和的大小</p>
+<div><pre><code># du -s
+1288    .
+# du -s scf
+32      scf
+# cd ..
+# du -s test
+1288    test
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>6）方便阅读的格式显示</p>
+<div><pre><code># du -h test
+608K    test/test6
+308K    test/test4
+4.0K    test/scf/lib
+4.0K    test/scf/service/deploy/product
+4.0K    test/scf/service/deploy/info
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>7）文件和目录都显示</p>
+<div><pre><code># du -ah test
+4.0K    test/log31.tar.gz
+4.0K    test/test13.tar.gz
+0       test/linklog.log
+0       test/test6/log2014.log
+300K    test/test6/linklog.log
+0       test/test6/log2015.log
+4.0K    test/test6/log2013.log
+300K    test/test6/log2012.log
+0       test/test6/log2017.log
+0       test/test6/log2016.log
+608K    test/test6
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）显示几个文件或目录各自占用磁盘空间的大小，还统计它们的总和</p>
+<div><pre><code># du -c log30.tar.gz log31.tar.gz 
+4       log30.tar.gz
+4       log31.tar.gz
+8       总计
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>说明：</p>
+<p>加上-c选项后，du不仅显示两个目录各自占用磁盘空间的大小，还在最后一行统计它们的总和。</p>
+<p>9）按照空间大小排序</p>
+<div><pre><code># du|sort -nr|more
+1288    .
+608     ./test6
+308     ./test4
+32      ./scf
+16      ./scf/service
+12      ./scf/service/deploy
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>10）输出当前目录下各个子目录所使用的空间</p>
+<div><pre><code># du -h  --max-depth=1
+608K    ./test6
+308K    ./test4
+32K     ./scf
+8.0K    ./test3
+1.3M    .
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/10/2810755.html</p>
+<p>http://man.linuxde.net/du</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:03:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -63325,175 +63325,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.2 nginxHTTP块配置</title>
-    <id>https://clay-wangzhi.com/web/nginx/http/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/http/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
-<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
-<div><pre><code><span>http</span> <span>{</span>
-    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>server</span> <span>{</span>
-        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>location</span> <span>{</span>
-            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>}</span>
-        <span>location</span> <span>{</span>
-            <span>location</span> <span>{</span>
-                
-            <span>}</span>
-        <span>}</span>
-    <span>}</span>
-    <span>server</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
-<ul>
-<li>值指令：存储配置项的值
-<ul>
-<li>可以合并</li>
-<li>示例：root，access_log，gzip</li>
-</ul>
-</li>
-<li>动作类指令：指定行为
-<ul>
-<li>不可以合并</li>
-<li>示例：rewrite，proxy_pass</li>
-<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
-</ul>
-</li>
-</ul>
-<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
-<ul>
-<li>子配置不存在时，直接使用父配置块</li>
-<li>子配置存在时，直接覆盖父配置块</li>
-</ul>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>8080</span><span>;</span>
-    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
-    <span>location</span> <span>/</span>test <span>{</span>
-        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
-        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span>dlib <span>{</span>
-        <span>alias</span> dlib<span>/</span><span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
-<h2 id="_4-正则表达式"> 4 正则表达式</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
-<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
-<p>如何拿到真实的用户ip地址？</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
-<p>拿到真实用户ip后如何使用？</p>
-<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
-<p><strong>步骤</strong></p>
-<ol>
-<li>
-<p>安装realip模块</p>
-<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
-</li>
-<li>
-<p>配置语法</p>
-<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
-set_real_ip_from 192.168.2.1;
-real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
-real_ip_recursive on; #递归的去除所配置中的可信IP。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
-</li>
-<li>
-<p>配置实例</p>
-<div><pre><code><span>location</span> <span>/</span> <span>{</span>
-    <span>root</span> html<span>/</span><span>;</span>
-    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
-    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
-    real_ip_recursive on<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
-</ol>
-<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
-<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
-<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
-<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        
-    <span>}</span>
-    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
-    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span># 承接上面的location</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span># 放错误页面的目录路径。</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
-<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
-<div><pre><code><span>upstream</span> www <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
-        <span>ip_hash</span><span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
-            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
-        <span>}</span>
-        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
-        <span>proxy_intercept_errors</span> on<span>;</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
-        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
-    <span>}</span>
-    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
-<p>如果后端是php解析的，需要加一个变量</p>
-<p>在http段中加一个变量</p>
-<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://www.hi-linux.com/posts/53006.html</p>
-<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">3.1 nginx全局块和events块配置</title>
     <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
     <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
@@ -64437,6 +64268,175 @@ ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">3.2 nginxHTTP块配置</title>
+    <id>https://clay-wangzhi.com/web/nginx/http/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/http/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
+<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
+<div><pre><code><span>http</span> <span>{</span>
+    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>server</span> <span>{</span>
+        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>location</span> <span>{</span>
+            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>}</span>
+        <span>location</span> <span>{</span>
+            <span>location</span> <span>{</span>
+                
+            <span>}</span>
+        <span>}</span>
+    <span>}</span>
+    <span>server</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
+<ul>
+<li>值指令：存储配置项的值
+<ul>
+<li>可以合并</li>
+<li>示例：root，access_log，gzip</li>
+</ul>
+</li>
+<li>动作类指令：指定行为
+<ul>
+<li>不可以合并</li>
+<li>示例：rewrite，proxy_pass</li>
+<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
+</ul>
+</li>
+</ul>
+<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
+<ul>
+<li>子配置不存在时，直接使用父配置块</li>
+<li>子配置存在时，直接覆盖父配置块</li>
+</ul>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>8080</span><span>;</span>
+    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
+    <span>location</span> <span>/</span>test <span>{</span>
+        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
+        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span>dlib <span>{</span>
+        <span>alias</span> dlib<span>/</span><span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
+<h2 id="_4-正则表达式"> 4 正则表达式</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
+<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
+<p>如何拿到真实的用户ip地址？</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
+<p>拿到真实用户ip后如何使用？</p>
+<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>
+<p>安装realip模块</p>
+<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
+</li>
+<li>
+<p>配置语法</p>
+<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
+set_real_ip_from 192.168.2.1;
+real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
+real_ip_recursive on; #递归的去除所配置中的可信IP。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
+</li>
+<li>
+<p>配置实例</p>
+<div><pre><code><span>location</span> <span>/</span> <span>{</span>
+    <span>root</span> html<span>/</span><span>;</span>
+    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
+    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
+    real_ip_recursive on<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
+</ol>
+<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
+<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
+<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
+<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        
+    <span>}</span>
+    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
+    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span># 承接上面的location</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span># 放错误页面的目录路径。</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
+<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
+<div><pre><code><span>upstream</span> www <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
+        <span>ip_hash</span><span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
+            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
+        <span>}</span>
+        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
+        <span>proxy_intercept_errors</span> on<span>;</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
+        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
+    <span>}</span>
+    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
+<p>如果后端是php解析的，需要加一个变量</p>
+<p>在http段中加一个变量</p>
+<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://www.hi-linux.com/posts/53006.html</p>
+<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Nginx 学习笔记</title>
     <id>https://clay-wangzhi.com/web/nginx/</id>
     <link href="https://clay-wangzhi.com/web/nginx/"/>
@@ -65075,156 +65075,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">附录 T. ASCII 表</title>
-    <id>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</id>
-    <link href="https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="附录-t-ascii-表"> 附录 T. ASCII 表</h1>
-<p>传统上，这类书的附录会有一个 ASCII 表。但本书不会。取而代之的是这些生成一张完整 ASCII 表的简短脚本。</p>
-<p>例 T-1. 一个生成 ASCII 表的脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ascii.sh</span>
-<span># ver. 0.2, reldate 26 Aug 2008</span>
-<span># Patched by ABS Guide author.</span>
-
-<span># Original script by Sebastian Arming.</span>
-<span># Used with permission (thanks!).</span>
-
-<span>exec</span> <span>></span>ASCII.txt         <span>#  Save stdout to file,</span>
-                        <span>#+ as in the example scripts</span>
-                        <span>#+ reassign-stdout.sh and upperconv.sh.</span>
-
-<span>MAXNUM</span><span>=</span><span>256</span>
-<span><span>COLUMNS</span></span><span>=</span><span>5</span>
-<span>OCT</span><span>=</span><span>8</span>
-<span>OCTSQU</span><span>=</span><span>64</span>
-<span>LITTLESPACE</span><span>=</span>-3
-<span>BIGSPACE</span><span>=</span>-5
-
-<span>i</span><span>=</span><span>1</span> <span># Decimal counter</span>
-<span>o</span><span>=</span><span>1</span> <span># Octal counter</span>
-
-<span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>"<span>$MAXNUM</span>"</span> <span>]</span><span>;</span> <span>do</span>  <span># We don't have to count past 400 octal.</span>
-        <span>paddi</span><span>=</span><span>"    <span>$i</span>"</span>
-        <span>echo</span> -n <span>"<span>${paddi<span>:</span> $BIGSPACE}</span>  "</span>       <span># Column spacing.</span>
-        <span>paddo</span><span>=</span><span>"00<span>$o</span>"</span>
-<span>#       echo -ne "\\${paddo: $LITTLESPACE}"   # Original.</span>
-        <span>echo</span> -ne <span>"<span title="\\">\\</span>0<span>${paddo<span>:</span> $LITTLESPACE}</span>"</span>  <span># Fixup.</span>
-<span>#                   ^</span>
-        <span>echo</span> -n <span>"     "</span>
-        <span>if</span> <span><span>((</span> i <span>%</span> $COLUMNS <span>==</span> <span>0</span><span>))</span></span><span>;</span> <span>then</span>       <span># New line.</span>
-           <span>echo</span>
-        <span>fi</span>
-        <span><span>((</span>i<span>++</span><span>,</span> o<span>++</span><span>))</span></span>
-        <span># The octal notation for 8 is 10, and 64 decimal is 100 octal.</span>
-        <span><span>((</span> i <span>%</span> $OCT <span>==</span> <span>0</span><span>))</span></span>    <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>2</span><span>))</span></span>
-        <span><span>((</span> i <span>%</span> $OCTSQU <span>==</span> <span>0</span><span>))</span></span> <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>20</span><span>))</span></span>
-<span>done</span>
-
-<span>exit</span> <span>$?</span>
-
-<span># Compare this script with the "pr-asc.sh" example.</span>
-<span># This one handles "unprintable" characters.</span>
-
-<span># Exercise:</span>
-<span># Rewrite this script to use decimal numbers, rather than octal.</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>例 T-2. 另一个 ASCII 表脚本</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># Script author: Joseph Steinhauser</span>
-<span># Lightly edited by ABS Guide author, but not commented.</span>
-<span># Used in ABS Guide with permission.</span>
-
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- File:  ascii.sh    Print ASCII chart, base 10/8/16         (JETS-2012)</span>
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
-<span>#--</span>
-<span>#-- This script prints out a summary of ASCII char codes from Zero to 127.</span>
-<span>#-- Numeric values may be printed in Base10, Octal, or Hex.</span>
-<span>#--</span>
-<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
-<span>#-- For more detail, man ascii . . .</span>
-<span>#-------------------------------------------------------------------------</span>
-
-<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
-   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
-   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   *<span>)</span> <span>Obase</span><span>=</span>Decimal
-<span>esac</span> <span># CODE is actually shorter than the chart!</span>
-
-<span>printf</span> <span>"<span title="\t">\t</span><span title="\t">\t</span>## <span>$Obase</span> ASCII Chart ##<span title="\n">\n</span><span title="\n">\n</span>"</span><span>;</span> <span>FM1</span><span>=</span><span>"|%0<span>${Numy<span>:-</span>3d}</span>"</span><span>;</span> <span>LD</span><span>=</span>-1
-
-<span>AB</span><span>=</span><span>"nul soh stx etx eot enq ack bel bs tab nl vt np cr so si dle"</span>
-<span>AD</span><span>=</span><span>"dc1 dc2 dc3 dc4 nak syn etb can em sub esc fs gs rs us sp"</span>
-
-<span>for</span> <span>TOK</span> <span>in</span> <span>$AB</span> <span>$AD</span><span>;</span> <span>do</span> ABR<span>[</span><span><span>$((</span>LD<span>+</span><span>=</span><span>1</span><span>))</span></span><span>]</span><span>=</span><span>$TOK</span><span>;</span> <span>done</span><span>;</span>
-ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
-
-<span>IDX</span><span>=</span><span>0</span>
-<span>while</span> <span>[</span> <span>$IDX</span> -le <span>127</span> <span>]</span> <span>&amp;&amp;</span> <span>CHR</span><span>=</span><span>"<span>${ABR<span>[</span>$IDX<span>]</span>}</span>"</span>
-   <span>do</span> <span><span>((</span>${#CHR}<span>))</span></span><span>&amp;&amp;</span> <span>FM2</span><span>=</span><span>'%-3s'</span><span>||</span> <span>FM2</span><span>=</span><span><span>`</span><span>printf</span> <span>'<span title="\\">\\</span><span title="\\">\\</span>%o  '</span> $IDX<span>`</span></span>
-      <span>printf</span> <span>"<span>$FM1</span> <span>$FM2</span>"</span> <span>"<span>$IDX</span>"</span> <span>$CHR</span><span>;</span> <span><span>((</span> <span>(</span>IDX<span>+</span><span>=</span><span>1</span><span>)</span><span>%</span><span>8</span><span>))</span></span><span>||</span><span>echo</span> <span>'|'</span>
-   <span>done</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>例 T-3. 第三个 ASCII 表脚本，使用 <em>awk</em></p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># ASCII table script, using awk.</span>
-<span># Author: Joseph Steinhauser</span>
-<span># Used in ABS Guide with permission.</span>
-
-
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- File:  ascii     Print ASCII chart, base 10/8/16         (JETS-2010)</span>
-<span>#-------------------------------------------------------------------------</span>
-<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
-<span>#--</span>
-<span>#-- This script prints a summary of ASCII char codes from Zero to 127.</span>
-<span>#-- Numeric values may be printed in Base10, Octal, or Hex (Base16).</span>
-<span>#--</span>
-<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
-<span>#-- For more detail, man ascii</span>
-<span>#-------------------------------------------------------------------------</span>
-
-<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
-
-<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
-   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
-   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
-   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
-   *<span>)</span> <span>Obase</span><span>=</span>Decimal
-<span>esac</span>
-<span>export</span> Obase   <span># CODE is actually shorter than the chart!</span>
-
-<span>awk</span> <span>'BEGIN{print "<span title="\n">\n</span><span title="\t">\t</span><span title="\t">\t</span>## "ENVIRON["Obase"]" ASCII Chart ##<span title="\n">\n</span>"
-           ab="soh,stx,etx,eot,enq,ack,bel,bs,tab,nl,vt,np,cr,so,si,dle,"
-           ad="dc1,dc2,dc3,dc4,nak,syn,etb,can,em,sub,esc,fs,gs,rs,us,sp"
-           split(ab ad,abr,",");abr[0]="nul";abr[127]="del";
-           fm1="|%0'</span>"<span>${Numy<span>:-</span> 4d}</span><span>"' %-3s"</span>
-           for<span>(</span>idx<span>=</span><span>0</span><span>;</span>idx<span>&lt;</span><span>128</span><span>;</span>idx++<span>)</span><span>{</span>fmt<span>=</span>fm1 <span>(</span>++colz%8?<span>""</span><span>:</span><span>"|<span title="\n">\n</span>"</span><span>)</span>
-           printf<span>(</span>fmt,idx,<span>(</span>idx <span>in</span> abr<span>)</span>?abr<span>[</span>idx<span>]</span>:sprintf<span>(</span><span>"%c"</span>,idx<span>))</span><span>}</span> <span>}</span>'
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">创建、复制、移动、删除</title>
     <id>https://clay-wangzhi.com/linux/basic/file/zsgc/</id>
     <link href="https://clay-wangzhi.com/linux/basic/file/zsgc/"/>
@@ -65835,5 +65685,155 @@ rmdir: logs: 目录非空
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">附录 T. ASCII 表</title>
+    <id>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</id>
+    <link href="https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="附录-t-ascii-表"> 附录 T. ASCII 表</h1>
+<p>传统上，这类书的附录会有一个 ASCII 表。但本书不会。取而代之的是这些生成一张完整 ASCII 表的简短脚本。</p>
+<p>例 T-1. 一个生成 ASCII 表的脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ascii.sh</span>
+<span># ver. 0.2, reldate 26 Aug 2008</span>
+<span># Patched by ABS Guide author.</span>
+
+<span># Original script by Sebastian Arming.</span>
+<span># Used with permission (thanks!).</span>
+
+<span>exec</span> <span>></span>ASCII.txt         <span>#  Save stdout to file,</span>
+                        <span>#+ as in the example scripts</span>
+                        <span>#+ reassign-stdout.sh and upperconv.sh.</span>
+
+<span>MAXNUM</span><span>=</span><span>256</span>
+<span><span>COLUMNS</span></span><span>=</span><span>5</span>
+<span>OCT</span><span>=</span><span>8</span>
+<span>OCTSQU</span><span>=</span><span>64</span>
+<span>LITTLESPACE</span><span>=</span>-3
+<span>BIGSPACE</span><span>=</span>-5
+
+<span>i</span><span>=</span><span>1</span> <span># Decimal counter</span>
+<span>o</span><span>=</span><span>1</span> <span># Octal counter</span>
+
+<span>while</span> <span>[</span> <span>"<span>$i</span>"</span> -lt <span>"<span>$MAXNUM</span>"</span> <span>]</span><span>;</span> <span>do</span>  <span># We don't have to count past 400 octal.</span>
+        <span>paddi</span><span>=</span><span>"    <span>$i</span>"</span>
+        <span>echo</span> -n <span>"<span>${paddi<span>:</span> $BIGSPACE}</span>  "</span>       <span># Column spacing.</span>
+        <span>paddo</span><span>=</span><span>"00<span>$o</span>"</span>
+<span>#       echo -ne "\\${paddo: $LITTLESPACE}"   # Original.</span>
+        <span>echo</span> -ne <span>"<span title="\\">\\</span>0<span>${paddo<span>:</span> $LITTLESPACE}</span>"</span>  <span># Fixup.</span>
+<span>#                   ^</span>
+        <span>echo</span> -n <span>"     "</span>
+        <span>if</span> <span><span>((</span> i <span>%</span> $COLUMNS <span>==</span> <span>0</span><span>))</span></span><span>;</span> <span>then</span>       <span># New line.</span>
+           <span>echo</span>
+        <span>fi</span>
+        <span><span>((</span>i<span>++</span><span>,</span> o<span>++</span><span>))</span></span>
+        <span># The octal notation for 8 is 10, and 64 decimal is 100 octal.</span>
+        <span><span>((</span> i <span>%</span> $OCT <span>==</span> <span>0</span><span>))</span></span>    <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>2</span><span>))</span></span>
+        <span><span>((</span> i <span>%</span> $OCTSQU <span>==</span> <span>0</span><span>))</span></span> <span>&amp;&amp;</span> <span><span>((</span>o<span>+</span><span>=</span><span>20</span><span>))</span></span>
+<span>done</span>
+
+<span>exit</span> <span>$?</span>
+
+<span># Compare this script with the "pr-asc.sh" example.</span>
+<span># This one handles "unprintable" characters.</span>
+
+<span># Exercise:</span>
+<span># Rewrite this script to use decimal numbers, rather than octal.</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br></div></div><p>例 T-2. 另一个 ASCII 表脚本</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># Script author: Joseph Steinhauser</span>
+<span># Lightly edited by ABS Guide author, but not commented.</span>
+<span># Used in ABS Guide with permission.</span>
+
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- File:  ascii.sh    Print ASCII chart, base 10/8/16         (JETS-2012)</span>
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
+<span>#--</span>
+<span>#-- This script prints out a summary of ASCII char codes from Zero to 127.</span>
+<span>#-- Numeric values may be printed in Base10, Octal, or Hex.</span>
+<span>#--</span>
+<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
+<span>#-- For more detail, man ascii . . .</span>
+<span>#-------------------------------------------------------------------------</span>
+
+<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
+   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
+   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   *<span>)</span> <span>Obase</span><span>=</span>Decimal
+<span>esac</span> <span># CODE is actually shorter than the chart!</span>
+
+<span>printf</span> <span>"<span title="\t">\t</span><span title="\t">\t</span>## <span>$Obase</span> ASCII Chart ##<span title="\n">\n</span><span title="\n">\n</span>"</span><span>;</span> <span>FM1</span><span>=</span><span>"|%0<span>${Numy<span>:-</span>3d}</span>"</span><span>;</span> <span>LD</span><span>=</span>-1
+
+<span>AB</span><span>=</span><span>"nul soh stx etx eot enq ack bel bs tab nl vt np cr so si dle"</span>
+<span>AD</span><span>=</span><span>"dc1 dc2 dc3 dc4 nak syn etb can em sub esc fs gs rs us sp"</span>
+
+<span>for</span> <span>TOK</span> <span>in</span> <span>$AB</span> <span>$AD</span><span>;</span> <span>do</span> ABR<span>[</span><span><span>$((</span>LD<span>+</span><span>=</span><span>1</span><span>))</span></span><span>]</span><span>=</span><span>$TOK</span><span>;</span> <span>done</span><span>;</span>
+ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
+
+<span>IDX</span><span>=</span><span>0</span>
+<span>while</span> <span>[</span> <span>$IDX</span> -le <span>127</span> <span>]</span> <span>&amp;&amp;</span> <span>CHR</span><span>=</span><span>"<span>${ABR<span>[</span>$IDX<span>]</span>}</span>"</span>
+   <span>do</span> <span><span>((</span>${#CHR}<span>))</span></span><span>&amp;&amp;</span> <span>FM2</span><span>=</span><span>'%-3s'</span><span>||</span> <span>FM2</span><span>=</span><span><span>`</span><span>printf</span> <span>'<span title="\\">\\</span><span title="\\">\\</span>%o  '</span> $IDX<span>`</span></span>
+      <span>printf</span> <span>"<span>$FM1</span> <span>$FM2</span>"</span> <span>"<span>$IDX</span>"</span> <span>$CHR</span><span>;</span> <span><span>((</span> <span>(</span>IDX<span>+</span><span>=</span><span>1</span><span>)</span><span>%</span><span>8</span><span>))</span></span><span>||</span><span>echo</span> <span>'|'</span>
+   <span>done</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div><p>例 T-3. 第三个 ASCII 表脚本，使用 <em>awk</em></p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># ASCII table script, using awk.</span>
+<span># Author: Joseph Steinhauser</span>
+<span># Used in ABS Guide with permission.</span>
+
+
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- File:  ascii     Print ASCII chart, base 10/8/16         (JETS-2010)</span>
+<span>#-------------------------------------------------------------------------</span>
+<span>#-- Usage: ascii [oct|dec|hex|help|8|10|16]</span>
+<span>#--</span>
+<span>#-- This script prints a summary of ASCII char codes from Zero to 127.</span>
+<span>#-- Numeric values may be printed in Base10, Octal, or Hex (Base16).</span>
+<span>#--</span>
+<span>#-- Format Based on: /usr/share/lib/pub/ascii with base-10 as default.</span>
+<span>#-- For more detail, man ascii</span>
+<span>#-------------------------------------------------------------------------</span>
+
+<span>[</span> -n <span>"<span>$BASH_VERSION</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>shopt</span> -s extglob
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+   oct<span>|</span><span>[</span>Oo<span>]</span>?<span>(</span><span>[</span>Cc<span>]</span><span>[</span>Tt<span>]</span><span>)</span><span>|</span><span>8</span><span>)</span>       <span>Obase</span><span>=</span>Octal<span>;</span>  <span>Numy</span><span>=</span>3o<span>;</span><span>;</span>
+   hex<span>|</span><span>[</span>Hh<span>]</span>?<span>(</span><span>[</span>Ee<span>]</span><span>[</span>Xx<span>]</span><span>)</span><span>|</span><span>16</span><span>|</span><span>[</span>Xx<span>]</span><span>)</span> <span>Obase</span><span>=</span>Hex<span>;</span>    <span>Numy</span><span>=</span>2X<span>;</span><span>;</span>
+   <span>help</span><span>|</span>?<span>(</span>-<span>)</span><span>[</span>h?<span>]</span><span>)</span>        <span>sed</span> -n <span>'2,/^[ ]*$/p'</span> <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   code<span>|</span><span>[</span>Cc<span>]</span><span>[</span>Oo<span>]</span><span>[</span>Dd<span>]</span><span>[</span>Ee<span>]</span><span>)</span>sed -n <span>'/case/,<span>$p</span>'</span>   <span>$0</span><span>;</span><span>exit</span><span>;</span><span>;</span>
+   *<span>)</span> <span>Obase</span><span>=</span>Decimal
+<span>esac</span>
+<span>export</span> Obase   <span># CODE is actually shorter than the chart!</span>
+
+<span>awk</span> <span>'BEGIN{print "<span title="\n">\n</span><span title="\t">\t</span><span title="\t">\t</span>## "ENVIRON["Obase"]" ASCII Chart ##<span title="\n">\n</span>"
+           ab="soh,stx,etx,eot,enq,ack,bel,bs,tab,nl,vt,np,cr,so,si,dle,"
+           ad="dc1,dc2,dc3,dc4,nak,syn,etb,can,em,sub,esc,fs,gs,rs,us,sp"
+           split(ab ad,abr,",");abr[0]="nul";abr[127]="del";
+           fm1="|%0'</span>"<span>${Numy<span>:-</span> 4d}</span><span>"' %-3s"</span>
+           for<span>(</span>idx<span>=</span><span>0</span><span>;</span>idx<span>&lt;</span><span>128</span><span>;</span>idx++<span>)</span><span>{</span>fmt<span>=</span>fm1 <span>(</span>++colz%8?<span>""</span><span>:</span><span>"|<span title="\n">\n</span>"</span><span>)</span>
+           printf<span>(</span>fmt,idx,<span>(</span>idx <span>in</span> abr<span>)</span>?abr<span>[</span>idx<span>]</span>:sprintf<span>(</span><span>"%c"</span>,idx<span>))</span><span>}</span> <span>}</span>'
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
   </entry>
 </feed>
