@@ -81,7 +81,7 @@ Python 虚拟环境就是利用这个特性构建的，在激活虚拟环境之�
 
 为了让开发这容易区分当前环境是否虚拟环境以及是那个虚拟环境，命令提示符前会加上特殊标记，例如:
 
- ![Python 虚拟环境](http://www.justdopython.com/assets/images/2020/05/venv/01.png)
+ ![Python 虚拟环境](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython01.png)
 
 ### 创建
 
@@ -170,11 +170,11 @@ VS Code 是个后起之秀，功能强大且具有丰富的插件资源，无疑
 
 同时按下 Ctrl+Shift+P, 在弹出的命令窗口中输入 “解析器”，然后在下拉列表中选择 “Python:选择解析器”，这里会缓存一些已经创建好的解析器，如果没有想要的，可以选择 “Enter interpreter path” 来选择解析器路径，即已经创建好的虚拟环境脚本文件夹中的 Python 程序，就可以创建一个新的解析器
 
- ![选择 Python 解析器](http://www.justdopython.com/assets/images/2020/05/venv/02.png)
+ ![选择 Python 解析器](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdoPython02.png)
 
 如果编辑的是 Python 代码文件，在状态栏中也可以选择和切换解释器，更为方便
 
- ![选择 Python 解析器](http://www.justdopython.com/assets/images/2020/05/venv/03.png)
+ ![选择 Python 解析器](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython03.png)
 
 ### Pycharm
 
@@ -182,7 +182,7 @@ Pycharm 应该是功能最好的 Python 开发工具，转为 Python 开发而�
 
 创建项目时，在项目创建对话框中，可以创建或者选择已经已有的解析器
 
- ![选择 Python 解析器](http://www.justdopython.com/assets/images/2020/05/venv/04.png)
+ ![选择 Python 解析器](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython04.png)
 
 选择创建新的解析器时，需要选择创建虚拟环境的工具，如 virtualenv；指定虚拟环境的目录；选择 Python 基础解析器，同 virtualenv 工具的 -p 参数的效果；以及是否要继承基础解析器的第三方库 和 是否将这个虚拟环境作为默认环境，即创建其他项目时默认选择
 

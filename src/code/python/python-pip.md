@@ -2,7 +2,7 @@
 category: Python
 ---
 
-# 1.4 pypi 配置国内镜像
+# 1.5 pypi 配置国内镜像
 
 > 转载自：Python | willseecloud | 看云
 

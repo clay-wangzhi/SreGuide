@@ -3,7 +3,7 @@ module.exports = [
   {
     title: "1 Python 简介",
     collapsable: false,
-    children: ["first", "codeSpecification", "python-virtualenv", "python-pip"]
+    children: ["first", "codeSpecification", "python-virtualenv", "vscode-python", "python-pip"]
   },
   {
     title: "2 Python 基础",
