@@ -81,7 +81,7 @@ def fact_iter(num, product):
 
 可以看到，`return fact_iter(num - 1, num * product)`仅返回递归函数本身，`num - 1`和`num * product`在函数调用前就会被计算，不影响函数调用。
 
-`fact(5)`对应的`fact_iter(5, 1)`的调用如下：
+`fact(5)`对应的`fact_iter(5, 1)` 的调用如下：
 
 ```
 ===> fact_iter(5, 1)
