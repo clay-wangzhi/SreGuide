@@ -6,8 +6,8 @@
     <link>https://clay-wangzhi.com/</link>
     <description>Keep Learning</description>
     <language>zh-CN</language>
-    <pubDate>Tue, 22 Jun 2021 08:48:00 GMT</pubDate>
-    <lastBuildDate>Tue, 22 Jun 2021 08:48:00 GMT</lastBuildDate>
+    <pubDate>Tue, 22 Jun 2021 08:57:04 GMT</pubDate>
+    <lastBuildDate>Tue, 22 Jun 2021 08:57:04 GMT</lastBuildDate>
     <generator>@mr-hope/vuepress-plugin-feed</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <copyright>Copyright by Clay</copyright>
@@ -13087,64 +13087,6 @@ d1 <span>=</span> <span>{</span><span>str</span><span>(</span>x<span>)</span><sp
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>5.2 匿名函数</title>
-      <link>https://clay-wangzhi.com/code/python/lambda/</link>
-      <guid>https://clay-wangzhi.com/code/python/lambda/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">5.2 匿名函数</source>
-      <category>Python</category>
-      <pubDate>Thu, 17 Jun 2021 09:06:45 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_5-2-匿名函数"> 5.2 匿名函数</h1>
-<p>Python 中，匿名函数也叫 lambda 表达式。</p>
-<p>匿名：隐藏名字，即没有名称</p>
-<p>匿名函数：没有名字的函数。</p>
-<p>函数没有名字该如何定义？函数没有名字如何调用？</p>
-<p><strong>Lambda 表达式</strong></p>
-<p>Python中，使用 Lambda 表达式构建匿名函数。</p>
-<div><pre><code><span>def</span> <span>foo</span><span>(</span>x<span>)</span><span>:</span>
-    <span>return</span> x <span>**</span> <span>2</span>
-<span>lambda</span> x<span>:</span> x <span>**</span> <span>2</span> <span># 定义</span>
-a <span>=</span> <span>(</span><span>lambda</span> x<span>:</span> x <span>**</span> <span>2</span><span>)</span><span>(</span><span>4</span><span>)</span> <span># 调用</span>
-<span>print</span><span>(</span>a<span>)</span>
-foo <span>=</span> <span>lambda</span> x<span>,</span>y<span>:</span> <span>(</span>x<span>+</span>y<span>)</span> <span>**</span> <span>2</span> <span># 定义函数</span>
-<span>print</span><span>(</span>foo<span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span><span>)</span>
-<span># 等价于</span>
-<span>def</span> <span>foo</span><span>(</span>x<span>,</span>y<span>)</span><span>:</span>
-    <span>return</span> <span>(</span>x<span>+</span>y<span>)</span> <span>**</span> <span>2</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ul>
-<li>使用 lambda 关键字定义匿名函数，格式为 lambda [参数列表]: 表达式</li>
-<li>参数列表不需要小括号。无参就不写参数</li>
-<li>冒号用来分割参数列表和表达式部分</li>
-<li>不需要使用return。表达式的值，就是匿名函数的返回值。表达式中不能出现等号</li>
-<li>Python的lambda表达式（匿名函数）只能写在一行上，也称为单行函数</li>
-</ul>
-<p>匿名函数往往用在为高阶函数传参时，使用 lambda 表达式，往往能简化代码</p>
-<div><pre><code><span># 返回常量的函数</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>:</span><span>3</span><span>)</span><span>(</span><span>)</span><span>)</span>
-
-<span># 加法匿名函数，带缺省值</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> y<span>=</span><span>3</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> y<span>=</span><span>3</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>,</span> <span>6</span><span>)</span><span>)</span>
-
-<span># keyword-only参数</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> <span>*</span><span>,</span> y<span>=</span><span>30</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>)</span><span>)</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> <span>*</span><span>,</span> y<span>=</span><span>30</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>,</span> y<span>=</span><span>10</span><span>)</span><span>)</span>
-
-<span># 可变参数</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>(</span>x <span>for</span> x <span>in</span> args<span>)</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 生成器</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>[</span>x<span>+</span><span>1</span> <span>for</span> x <span>in</span> args<span>]</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 列表</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>{</span>x<span>%</span><span>2</span> <span>for</span> x <span>in</span> args<span>}</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 集合</span>
-<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>{</span><span>str</span><span>(</span>x<span>)</span><span>:</span>x <span>for</span> x <span>in</span> args<span>}</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 字典</span>
-
-<span>print</span><span>(</span><span>dict</span><span>(</span><span>map</span><span>(</span><span>lambda</span> x<span>:</span> <span>(</span><span>chr</span><span>(</span><span>65</span><span>+</span>x<span>)</span><span>,</span> <span>10</span><span>-</span>x<span>)</span><span>,</span> <span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span><span>)</span> <span># 高阶函数，构建字典</span>
-
-d <span>=</span> <span>dict</span><span>(</span><span>map</span><span>(</span><span>lambda</span> x<span>:</span> <span>(</span><span>chr</span><span>(</span><span>65</span><span>+</span>x<span>)</span><span>,</span> <span>10</span><span>-</span>x<span>)</span><span>,</span> <span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 高阶函数</span>
-a <span>=</span> <span>sorted</span><span>(</span>d<span>.</span>items<span>(</span><span>)</span><span>,</span> key<span>=</span><span>lambda</span> x<span>:</span>x<span>[</span><span>1</span><span>]</span><span>)</span>
-<span>print</span><span>(</span>a<span>)</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>2.3.4 列表 list &amp; 元组 tuple</title>
       <link>https://clay-wangzhi.com/code/python/list-tuple-data/</link>
       <guid>https://clay-wangzhi.com/code/python/list-tuple-data/</guid>
@@ -13381,6 +13323,64 @@ t9 <span>=</span> <span>tuple</span><span>(</span><span>[</span><span>1</span><s
 <h3 id="增删改"> 增删改</h3>
 <p>元组元素的个数在初始化的时候已经定义好了，所以不能为元组增加元素、也不能从中删除元素、也不能修改元素的内容。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>5.2 匿名函数</title>
+      <link>https://clay-wangzhi.com/code/python/lambda/</link>
+      <guid>https://clay-wangzhi.com/code/python/lambda/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">5.2 匿名函数</source>
+      <category>Python</category>
+      <pubDate>Thu, 17 Jun 2021 09:06:45 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_5-2-匿名函数"> 5.2 匿名函数</h1>
+<p>Python 中，匿名函数也叫 lambda 表达式。</p>
+<p>匿名：隐藏名字，即没有名称</p>
+<p>匿名函数：没有名字的函数。</p>
+<p>函数没有名字该如何定义？函数没有名字如何调用？</p>
+<p><strong>Lambda 表达式</strong></p>
+<p>Python中，使用 Lambda 表达式构建匿名函数。</p>
+<div><pre><code><span>def</span> <span>foo</span><span>(</span>x<span>)</span><span>:</span>
+    <span>return</span> x <span>**</span> <span>2</span>
+<span>lambda</span> x<span>:</span> x <span>**</span> <span>2</span> <span># 定义</span>
+a <span>=</span> <span>(</span><span>lambda</span> x<span>:</span> x <span>**</span> <span>2</span><span>)</span><span>(</span><span>4</span><span>)</span> <span># 调用</span>
+<span>print</span><span>(</span>a<span>)</span>
+foo <span>=</span> <span>lambda</span> x<span>,</span>y<span>:</span> <span>(</span>x<span>+</span>y<span>)</span> <span>**</span> <span>2</span> <span># 定义函数</span>
+<span>print</span><span>(</span>foo<span>(</span><span>1</span><span>,</span> <span>2</span><span>)</span><span>)</span>
+<span># 等价于</span>
+<span>def</span> <span>foo</span><span>(</span>x<span>,</span>y<span>)</span><span>:</span>
+    <span>return</span> <span>(</span>x<span>+</span>y<span>)</span> <span>**</span> <span>2</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><ul>
+<li>使用 lambda 关键字定义匿名函数，格式为 lambda [参数列表]: 表达式</li>
+<li>参数列表不需要小括号。无参就不写参数</li>
+<li>冒号用来分割参数列表和表达式部分</li>
+<li>不需要使用return。表达式的值，就是匿名函数的返回值。表达式中不能出现等号</li>
+<li>Python的lambda表达式（匿名函数）只能写在一行上，也称为单行函数</li>
+</ul>
+<p>匿名函数往往用在为高阶函数传参时，使用 lambda 表达式，往往能简化代码</p>
+<div><pre><code><span># 返回常量的函数</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>:</span><span>3</span><span>)</span><span>(</span><span>)</span><span>)</span>
+
+<span># 加法匿名函数，带缺省值</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> y<span>=</span><span>3</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> y<span>=</span><span>3</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>,</span> <span>6</span><span>)</span><span>)</span>
+
+<span># keyword-only参数</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> <span>*</span><span>,</span> y<span>=</span><span>30</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>)</span><span>)</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> x<span>,</span> <span>*</span><span>,</span> y<span>=</span><span>30</span><span>:</span> x <span>+</span> y<span>)</span><span>(</span><span>5</span><span>,</span> y<span>=</span><span>10</span><span>)</span><span>)</span>
+
+<span># 可变参数</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>(</span>x <span>for</span> x <span>in</span> args<span>)</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 生成器</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>[</span>x<span>+</span><span>1</span> <span>for</span> x <span>in</span> args<span>]</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 列表</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>{</span>x<span>%</span><span>2</span> <span>for</span> x <span>in</span> args<span>}</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 集合</span>
+<span>print</span><span>(</span><span>(</span><span>lambda</span> <span>*</span>args<span>:</span> <span>{</span><span>str</span><span>(</span>x<span>)</span><span>:</span>x <span>for</span> x <span>in</span> args<span>}</span><span>)</span><span>(</span><span>*</span><span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 字典</span>
+
+<span>print</span><span>(</span><span>dict</span><span>(</span><span>map</span><span>(</span><span>lambda</span> x<span>:</span> <span>(</span><span>chr</span><span>(</span><span>65</span><span>+</span>x<span>)</span><span>,</span> <span>10</span><span>-</span>x<span>)</span><span>,</span> <span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span><span>)</span> <span># 高阶函数，构建字典</span>
+
+d <span>=</span> <span>dict</span><span>(</span><span>map</span><span>(</span><span>lambda</span> x<span>:</span> <span>(</span><span>chr</span><span>(</span><span>65</span><span>+</span>x<span>)</span><span>,</span> <span>10</span><span>-</span>x<span>)</span><span>,</span> <span>range</span><span>(</span><span>5</span><span>)</span><span>)</span><span>)</span> <span># 高阶函数</span>
+a <span>=</span> <span>sorted</span><span>(</span>d<span>.</span>items<span>(</span><span>)</span><span>,</span> key<span>=</span><span>lambda</span> x<span>:</span>x<span>[</span><span>1</span><span>]</span><span>)</span>
+<span>print</span><span>(</span>a<span>)</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>2.3.1 数值型</title>
@@ -18518,7 +18518,7 @@ def fact_iter(num, product):
     return fact_iter(num - 1, num * product)
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>可以看到，<code>return fact_iter(num - 1, num * product)</code>仅返回递归函数本身，<code>num - 1</code>和<code>num * product</code>在函数调用前就会被计算，不影响函数调用。</p>
-<p><code>fact(5)</code>对应的<code>fact_iter(5, 1)</code>的调用如下：</p>
+<p><code>fact(5)</code>对应的<code>fact_iter(5, 1)</code> 的调用如下：</p>
 <div><pre><code>===&gt; fact_iter(5, 1)
 ===&gt; fact_iter(4, 5)
 ===&gt; fact_iter(3, 20)
@@ -25682,32 +25682,6 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
 ]]></content:encoded>
     </item>
     <item>
-      <title>7.5 牛刀小试</title>
-      <link>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">7.5 牛刀小试</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
-<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
-<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> <span>$HOME</span>/.Xclients
-<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
-  <span>exec</span> /etc/X11/xinit/Xclients
-<span>else</span>
-    <span># 安全分支。尽管程序不会执行这个分支。</span>
-    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
-    xclock -geometry 100x100-5+5 <span>&amp;</span>
-    xterm -geometry 80x50-50+150 <span>&amp;</span>
-    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
-            netscape /usr/share/doc/HTML/index.html
-    <span>fi</span>
-<span>fi</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>第七章 测试</title>
       <link>https://clay-wangzhi.com/code/shell/part2/07_tests/</link>
       <guid>https://clay-wangzhi.com/code/shell/part2/07_tests/</guid>
@@ -26083,6 +26057,32 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
+    </item>
+    <item>
+      <title>7.5 牛刀小试</title>
+      <link>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part2/07_5_testing_your_knowledge_of_tests/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">7.5 牛刀小试</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_7-5-牛刀小试"> 7.5 牛刀小试</h1>
+<p>系统文件 <code>xinitrc</code> 可以用来启动软件 X Server。该文件包含了许多 <code>if/then</code> 测试结构。下面的代码摘录自较早版本的 <code>xinitrc</code>（大约在 Red Hat 7.1 版本）。</p>
+<div><pre><code><span>if</span> <span>[</span> -f <span>$HOME</span>/.Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> <span>$HOME</span>/.Xclients
+<span>elif</span> <span>[</span> -f /etc/X11/xinit/Xclients <span>]</span><span>;</span> <span>then</span>
+  <span>exec</span> /etc/X11/xinit/Xclients
+<span>else</span>
+    <span># 安全分支。尽管程序不会执行这个分支。</span>
+    <span># （我们在 Xclients 中也提供了相同的机制）增强程序可靠性。</span>
+    xclock -geometry 100x100-5+5 <span>&amp;</span>
+    xterm -geometry 80x50-50+150 <span>&amp;</span>
+    <span>if</span> <span>[</span> -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html <span>]</span><span>;</span> <span>then</span>
+            netscape /usr/share/doc/HTML/index.html
+    <span>fi</span>
+<span>fi</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>试着解释代码片段中的条件测试结构, 然后试着在 /etc/X11/xinit/xinitrc 查看最新版本，并且分析其中的 if/then 条件测试结构。为了更好的进行分析，你可能需要继续阅读后面章节中对 <a href="http://tldp.org/LDP/abs/html/textproc.html#GREPREF" target="_blank" rel="noopener noreferrer"><code>grep</code></a>，<a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer"><code>sed</code></a> 和 <a href="http://tldp.org/LDP/abs/html/regexp.html#REGEXREF" target="_blank" rel="noopener noreferrer">正则表达式</a> 的讨论。</p>
+]]></content:encoded>
     </item>
     <item>
       <title>8.2 数字常量</title>
@@ -30285,6 +30285,48 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
       <enclosure url="http://tldp.org/LDP/abs/images/note.gif" type="image/gif"/>
     </item>
     <item>
+      <title>11.2 嵌套循环</title>
+      <link>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</link>
+      <guid>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">11.2 嵌套循环</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+]]></content:encoded>
+    </item>
+    <item>
       <title>11.3 循环控制</title>
       <link>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</link>
       <guid>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</guid>
@@ -30477,48 +30519,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
 </section>
 ]]></content:encoded>
       <enclosure url="http://tldp.org/LDP/abs/images/caution.gif" type="image/gif"/>
-    </item>
-    <item>
-      <title>11.2 嵌套循环</title>
-      <link>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</link>
-      <guid>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">11.2 嵌套循环</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content:encoded>
     </item>
     <item>
       <title>11.4 测试与分支</title>
@@ -45212,155 +45212,6 @@ innodb  myisam  memory  引擎是决定数据存储的方式
 ]]></content:encoded>
     </item>
     <item>
-      <title>6 用户权限和访问控制</title>
-      <link>https://clay-wangzhi.com/db/mysql/user-contr/</link>
-      <guid>https://clay-wangzhi.com/db/mysql/user-contr/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6 用户权限和访问控制</source>
-      <category>MySQL</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-用户权限和访问控制"> 6 用户权限和访问控制</h1>
-<h2 id="_1-用户"> 1 用户</h2>
-<h3 id="_1-1-创建用户并设置密码"> 1.1 创建用户并设置密码</h3>
-<div><pre><code>create user aa@localhost identified by &#39;123&#39;;//本地用户
-create user aa@&#39;%&#39; identified by &#39;123&#39;; //其他远程用户
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_1-2-重命名用户"> 1.2 重命名用户</h3>
-<div><pre><code>rename user &#39;test3&#39;@&#39;%&#39; to &#39;test1&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_1-3-删除用户"> 1.3 删除用户</h3>
-<div><pre><code>drop user &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_2-权限"> 2 权限</h2>
-<h3 id="_2-1-授予权限"> 2.1 授予权限</h3>
-<div><pre><code>grant 权限 on 库.表 to 用户@主机 identified by &#39;密码&#39;；grant 权限 on 库.表 to 用户@主机 identified by &#39;密码&#39;；
-grant all on *.* to &#39;testUser&#39;@&#39;%&#39; identified by &#39;123&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h4 id="_2-1-1-查询、插入、更新、删除的权限"> 2.1.1 查询、插入、更新、删除的权限</h4>
-<div><pre><code>grant select on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  
-grant insert on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  #其中*第通配符，表示所有
-grant update on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-grant delete on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#总结成一条命令
-grant select,insert,update,delete on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="_2-1-2-创建和删除表、索引、视图、存储过程的权限"> 2.1.2 创建和删除表、索引、视图、存储过程的权限</h4>
-<div><pre><code>grant create on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  #其中*第通配符，表示所有
-grant alter on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-grant drop on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#总结成一条命令
-grant create,alter,drop on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#外键权限
-grant reference on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#索引权限
-grant index on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#视图权限
-grant create view on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-grant show view on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#存储过程权限
-grant create routine on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-grant alter routine on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-grant execute on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><h4 id="_2-1-3-指定用户管理数据库的权限"> 2.1.3 指定用户管理数据库的权限</h4>
-<div><pre><code>#仅管理testdb数据库
-grant all privileges on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-
-#管理所有数据库
-grant all privileges on *.* to &#39;testUser&#39;@&#39;%&#39;;
-#其中privileges关键字可省略
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="_2-2-权限的作用层次"> 2.2 权限的作用层次</h3>
-<h4 id="_2-2-1-作用在整个mysql服务器上"> 2.2.1 作用在整个MySQL服务器上</h4>
-<div><pre><code>grant all privileges on *.* to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_2-2-2-作用在单个数据库上"> 2.2.2 作用在单个数据库上</h4>
-<div><pre><code>grant all privileges on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_2-2-3-作用在单个数据表上"> 2.2.3 作用在单个数据表上</h4>
-<div><pre><code>grant all privileges on testdb.testTable to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_2-2-4-作用在单个数据表的若干个列上"> 2.2.4 作用在单个数据表的若干个列上</h4>
-<div><pre><code>grant select(id, name, home, phone) on testdb.testTable to &#39;testUser&#39;@&#39;%&#39;; #select可以改其他，字段根据实际修改
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_2-2-5-作用在存储过程、函数上"> 2.2.5 作用在存储过程、函数上</h4>
-<div><pre><code>grant execute on procedure testdb.tsetfunc to &#39;testUser&#39;@&#39;%&#39;;
-grant execute on function testdb.tsetfunc to &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-3-权限刷新"> 2.3 权限刷新</h3>
-<div><pre><code>flush privileges;
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_2-4-查看权限"> 2.4 查看权限</h3>
-<div><pre><code>#查看当前用户的权限
-show grants;
-
-#查看mysql中其他用户的权限
-show grants for &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="_2-5-移除权限"> 2.5 移除权限</h3>
-<div><pre><code>revoke 权限 on 库.表 from 用户@主机;
-revoke all on *.* from &#39;testUser&#39;@&#39;%&#39;;
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-6-mysql授权表"> 2.6 mysql授权表</h3>
-<p>mysql授权表共有5个表：user、db、host、tables_priv和columns_priv。</p>
-<h4 id="_2-6-1-user表"> 2.6.1 user表</h4>
-<p>user表列出可以连接服务器的用户及其口令，并且它指定他们有哪种全局（超级用户）权限。在user表启用的任何权限均是全局权限，并适用于所有数据库。</p>
-<h4 id="_2-6-2-db表"> 2.6.2 db表</h4>
-<p>db表列出数据库，用户有权限访问它们。在这里指定的权限适用于一个数据库中的所有表。</p>
-<h4 id="_2-6-2-host表"> 2.6.2 host表</h4>
-<p>host表与db表结合使用在一个较好层次上控制特定主机对数据库的访问权限，这可能比单独使用db好些。这个表不受GRANT和REVOKE语句的影响，所以，你可能发觉你根本不是用它。</p>
-<h4 id="_2-6-3-tables-priv表"> 2.6.3 tables_priv表</h4>
-<p>tables_priv表指定表级权限，在这里指定的一个权限适用于一个表的所有列。</p>
-<h4 id="_2-6-4-columns-priv表"> 2.6.4 columns_priv表</h4>
-<p>columns_priv表指定列级权限。这里指定的权限适用于一个表的特定列。</p>
-<h3 id="_2-7-注意事项"> 2.7 注意事项</h3>
-<p>grant, revoke 用户权限后，该用户只有重新连接 MySQL 数据库，权限才能生效。</p>
-<p>如果想让授权的用户，也可以将这些权限 grant 给其他用户，需要选项 <code>grant option</code></p>
-<div><pre><code>grant all on testdb.* to &#39;testUser&#39;@&#39;%&#39; with grant option;
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="_3-密码"> 3 密码</h2>
-<h3 id="_3-1-修改密码"> 3.1 修改密码</h3>
-<h4 id="_3-1-1-更新mysql-user表"> 3.1.1 更新mysql.user表</h4>
-<div><pre><code># mysql5.7之前
-update user set password=password(&#39;123456&#39;) where user=&#39;root&#39;;
-# mysql5.7之后
-update user set authentication_string=password(&#39;123456&#39;) where user=&#39;root&#39;;
-flush privileges;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="_3-1-2-用set-password命令"> 3.1.2 用set password命令</h4>
-<p>**语法：**set password for ‘用户名'@'登录地址'=password(‘密码')</p>
-<div><pre><code>set password for &#39;root&#39;@&#39;localhost&#39;=password(&#39;123456&#39;);
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_3-1-3-mysqladmin"> 3.1.3 mysqladmin</h4>
-<p>**语法：**mysqladmin -u用户名 -p旧的密码 password 新密码</p>
-<div><pre><code>mysqladmin -uroot -p123456 password 1234abcd
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="_3-2-忘记密码"> 3.2 忘记密码</h3>
-<h4 id="_3-2-1-跳过授权"> 3.2.1 跳过授权</h4>
-<p><code>vim /etc/my.cnf</code></p>
-<div><pre><code>[mysqld]
-skip-grant-tables
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h4 id="_3-2-2-重启服务"> 3.2.2 重启服务</h4>
-<div><pre><code>service mysqld restart
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="_3-2-3-修改密码"> 3.2.3 修改密码</h4>
-<p>此时在终端用mysql命令登录时不需要用户密码，然后按照修改密码的第一种方式将密码修改即可。</p>
-<h4 id="_3-2-4-还原登录权限跳过检查配置"> 3.2.4 还原登录权限跳过检查配置</h4>
-<p>将my.cnf中mysqld节点的skip-grant-tables配置删除，然后重新启动服务即可。</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://blog.csdn.net/a791693310/article/details/81083864</p>
-<p>https://www.jb51.net/article/87979.htm</p>
-</blockquote>
-]]></content:encoded>
-    </item>
-    <item>
       <title>4 视图、事务、索引、函数</title>
       <link>https://clay-wangzhi.com/db/mysql/view-func/</link>
       <guid>https://clay-wangzhi.com/db/mysql/view-func/</guid>
@@ -46312,6 +46163,155 @@ func main(){
 <div><pre><code>select stuaddress,count(stusex) 总人数, sum(stusex=&#39;男&#39;) 男,sum(stusex=&#39;女&#39;) 女 from stuinfo group by stuaddress
 </code></pre>
 <div><span>1</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>6 用户权限和访问控制</title>
+      <link>https://clay-wangzhi.com/db/mysql/user-contr/</link>
+      <guid>https://clay-wangzhi.com/db/mysql/user-contr/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6 用户权限和访问控制</source>
+      <category>MySQL</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-用户权限和访问控制"> 6 用户权限和访问控制</h1>
+<h2 id="_1-用户"> 1 用户</h2>
+<h3 id="_1-1-创建用户并设置密码"> 1.1 创建用户并设置密码</h3>
+<div><pre><code>create user aa@localhost identified by &#39;123&#39;;//本地用户
+create user aa@&#39;%&#39; identified by &#39;123&#39;; //其他远程用户
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_1-2-重命名用户"> 1.2 重命名用户</h3>
+<div><pre><code>rename user &#39;test3&#39;@&#39;%&#39; to &#39;test1&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_1-3-删除用户"> 1.3 删除用户</h3>
+<div><pre><code>drop user &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_2-权限"> 2 权限</h2>
+<h3 id="_2-1-授予权限"> 2.1 授予权限</h3>
+<div><pre><code>grant 权限 on 库.表 to 用户@主机 identified by &#39;密码&#39;；grant 权限 on 库.表 to 用户@主机 identified by &#39;密码&#39;；
+grant all on *.* to &#39;testUser&#39;@&#39;%&#39; identified by &#39;123&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="_2-1-1-查询、插入、更新、删除的权限"> 2.1.1 查询、插入、更新、删除的权限</h4>
+<div><pre><code>grant select on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  
+grant insert on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  #其中*第通配符，表示所有
+grant update on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+grant delete on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#总结成一条命令
+grant select,insert,update,delete on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h4 id="_2-1-2-创建和删除表、索引、视图、存储过程的权限"> 2.1.2 创建和删除表、索引、视图、存储过程的权限</h4>
+<div><pre><code>grant create on testdb.* to &#39;testUser&#39;@&#39;%&#39;;  #其中*第通配符，表示所有
+grant alter on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+grant drop on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#总结成一条命令
+grant create,alter,drop on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#外键权限
+grant reference on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#索引权限
+grant index on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#视图权限
+grant create view on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+grant show view on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#存储过程权限
+grant create routine on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+grant alter routine on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+grant execute on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br></div></div><h4 id="_2-1-3-指定用户管理数据库的权限"> 2.1.3 指定用户管理数据库的权限</h4>
+<div><pre><code>#仅管理testdb数据库
+grant all privileges on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+
+#管理所有数据库
+grant all privileges on *.* to &#39;testUser&#39;@&#39;%&#39;;
+#其中privileges关键字可省略
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h3 id="_2-2-权限的作用层次"> 2.2 权限的作用层次</h3>
+<h4 id="_2-2-1-作用在整个mysql服务器上"> 2.2.1 作用在整个MySQL服务器上</h4>
+<div><pre><code>grant all privileges on *.* to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_2-2-2-作用在单个数据库上"> 2.2.2 作用在单个数据库上</h4>
+<div><pre><code>grant all privileges on testdb.* to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_2-2-3-作用在单个数据表上"> 2.2.3 作用在单个数据表上</h4>
+<div><pre><code>grant all privileges on testdb.testTable to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_2-2-4-作用在单个数据表的若干个列上"> 2.2.4 作用在单个数据表的若干个列上</h4>
+<div><pre><code>grant select(id, name, home, phone) on testdb.testTable to &#39;testUser&#39;@&#39;%&#39;; #select可以改其他，字段根据实际修改
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_2-2-5-作用在存储过程、函数上"> 2.2.5 作用在存储过程、函数上</h4>
+<div><pre><code>grant execute on procedure testdb.tsetfunc to &#39;testUser&#39;@&#39;%&#39;;
+grant execute on function testdb.tsetfunc to &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-3-权限刷新"> 2.3 权限刷新</h3>
+<div><pre><code>flush privileges;
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_2-4-查看权限"> 2.4 查看权限</h3>
+<div><pre><code>#查看当前用户的权限
+show grants;
+
+#查看mysql中其他用户的权限
+show grants for &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h3 id="_2-5-移除权限"> 2.5 移除权限</h3>
+<div><pre><code>revoke 权限 on 库.表 from 用户@主机;
+revoke all on *.* from &#39;testUser&#39;@&#39;%&#39;;
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="_2-6-mysql授权表"> 2.6 mysql授权表</h3>
+<p>mysql授权表共有5个表：user、db、host、tables_priv和columns_priv。</p>
+<h4 id="_2-6-1-user表"> 2.6.1 user表</h4>
+<p>user表列出可以连接服务器的用户及其口令，并且它指定他们有哪种全局（超级用户）权限。在user表启用的任何权限均是全局权限，并适用于所有数据库。</p>
+<h4 id="_2-6-2-db表"> 2.6.2 db表</h4>
+<p>db表列出数据库，用户有权限访问它们。在这里指定的权限适用于一个数据库中的所有表。</p>
+<h4 id="_2-6-2-host表"> 2.6.2 host表</h4>
+<p>host表与db表结合使用在一个较好层次上控制特定主机对数据库的访问权限，这可能比单独使用db好些。这个表不受GRANT和REVOKE语句的影响，所以，你可能发觉你根本不是用它。</p>
+<h4 id="_2-6-3-tables-priv表"> 2.6.3 tables_priv表</h4>
+<p>tables_priv表指定表级权限，在这里指定的一个权限适用于一个表的所有列。</p>
+<h4 id="_2-6-4-columns-priv表"> 2.6.4 columns_priv表</h4>
+<p>columns_priv表指定列级权限。这里指定的权限适用于一个表的特定列。</p>
+<h3 id="_2-7-注意事项"> 2.7 注意事项</h3>
+<p>grant, revoke 用户权限后，该用户只有重新连接 MySQL 数据库，权限才能生效。</p>
+<p>如果想让授权的用户，也可以将这些权限 grant 给其他用户，需要选项 <code>grant option</code></p>
+<div><pre><code>grant all on testdb.* to &#39;testUser&#39;@&#39;%&#39; with grant option;
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="_3-密码"> 3 密码</h2>
+<h3 id="_3-1-修改密码"> 3.1 修改密码</h3>
+<h4 id="_3-1-1-更新mysql-user表"> 3.1.1 更新mysql.user表</h4>
+<div><pre><code># mysql5.7之前
+update user set password=password(&#39;123456&#39;) where user=&#39;root&#39;;
+# mysql5.7之后
+update user set authentication_string=password(&#39;123456&#39;) where user=&#39;root&#39;;
+flush privileges;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="_3-1-2-用set-password命令"> 3.1.2 用set password命令</h4>
+<p>**语法：**set password for ‘用户名'@'登录地址'=password(‘密码')</p>
+<div><pre><code>set password for &#39;root&#39;@&#39;localhost&#39;=password(&#39;123456&#39;);
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_3-1-3-mysqladmin"> 3.1.3 mysqladmin</h4>
+<p>**语法：**mysqladmin -u用户名 -p旧的密码 password 新密码</p>
+<div><pre><code>mysqladmin -uroot -p123456 password 1234abcd
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="_3-2-忘记密码"> 3.2 忘记密码</h3>
+<h4 id="_3-2-1-跳过授权"> 3.2.1 跳过授权</h4>
+<p><code>vim /etc/my.cnf</code></p>
+<div><pre><code>[mysqld]
+skip-grant-tables
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h4 id="_3-2-2-重启服务"> 3.2.2 重启服务</h4>
+<div><pre><code>service mysqld restart
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="_3-2-3-修改密码"> 3.2.3 修改密码</h4>
+<p>此时在终端用mysql命令登录时不需要用户密码，然后按照修改密码的第一种方式将密码修改即可。</p>
+<h4 id="_3-2-4-还原登录权限跳过检查配置"> 3.2.4 还原登录权限跳过检查配置</h4>
+<p>将my.cnf中mysqld节点的skip-grant-tables配置删除，然后重新启动服务即可。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://blog.csdn.net/a791693310/article/details/81083864</p>
+<p>https://www.jb51.net/article/87979.htm</p>
+</blockquote>
+]]></content:encoded>
     </item>
     <item>
       <title>hash类型</title>
@@ -49283,6 +49283,137 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div>]]></content:encoded>
     </item>
     <item>
+      <title>附录 F. I/O 与 I/O 重定向详细介绍</title>
+      <link>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</link>
+      <guid>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">附录 F. I/O 与 I/O 重定向详细介绍</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
+<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
+<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
+<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
+<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
+cat: standard output: Bad <span>file</span> descriptor
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
+<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
+<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
+<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+
+
+bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
+bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
+
+
+bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
+ <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+
+
+bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
+ <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
+<p>分析以下脚本。</p>
+<div><pre><code><span>#! /usr/bin/env bash</span>
+
+<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
+<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
+<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
+
+<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
+<span>(</span>
+ <span>(</span>
+  <span>(</span>
+   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
+   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
+
+   <span>echo</span> 1st, to stdout
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
+
+  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
+ <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
+<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
+
+<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
+
+
+<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
+<span># 祝你好运！</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>管道及I/O重定向</title>
+      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
+      <category>Linux</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
+<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
+<h3 id="输出重定向"> 输出重定向</h3>
+<p>输出重定向（覆盖）</p>
+<div><pre><code>date &gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
+<div><pre><code>date 1&gt;&gt; a.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>错误输出重定向</p>
+<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
+</code></pre>
+<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
+ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
+<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
+<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
+</code></pre>
+<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
+<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
+&gt; 11
+&gt; 22
+&gt; EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>创建、复制、移动、删除</title>
       <link>https://clay-wangzhi.com/linux/basic/file/zsgc/</link>
       <guid>https://clay-wangzhi.com/linux/basic/file/zsgc/</guid>
@@ -49888,41 +50019,24 @@ rmdir: logs: 目录非空
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>管道及I/O重定向</title>
-      <link>https://clay-wangzhi.com/linux/basic/i-o/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/i-o/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">管道及I/O重定向</source>
+      <title>网络管理</title>
+      <link>https://clay-wangzhi.com/linux/basic/inter/</link>
+      <guid>https://clay-wangzhi.com/linux/basic/inter/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">网络管理</source>
       <category>Linux</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="管道及i-o重定向"> 管道及I/O重定向</h1>
-<h2 id="标准输入、标准输出、标准错误"> 标准输入、标准输出、标准错误</h2>
-<h3 id="输出重定向"> 输出重定向</h3>
-<p>输出重定向（覆盖）</p>
-<div><pre><code>date &gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>输出重定向（追加）</p>
-<div><pre><code>date 1&gt;&gt; a.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>错误输出重定向</p>
-<div><pre><code>ls /home/ /aa &gt;&gt; a.txt 2&gt;b.txt
-</code></pre>
-<div><span>1</span><br></div></div><p>正确和错误都输入到相同位置</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; a.txt 
-ls /home/ /aa &gt; a.txt 2&gt;&amp;1 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>重定向到空设备/dev/null</p>
-<div><pre><code>ls /home/ /aa &amp;&gt; /dev/null
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="输入重定向"> 输入重定向</h3>
-<div><pre><code>grep &#39;root&#39; &lt; /etc/passwd
-</code></pre>
-<div><span>1</span><br></div></div><div><pre><code>mysql -uroot -p123 &lt; aa.sql
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="总和应用"> 总和应用</h3>
-<div><pre><code>cat &gt; a.txt &lt;&lt;EOF
-&gt; 11
-&gt; 22
-&gt; EOF
+      <content:encoded><![CDATA[<h1 id="网络管理"> 网络管理</h1>
+<h1 id="网络基础"> 网络基础</h1>
+<h2 id="常见的网络接口"> 常见的网络接口</h2>
+<p>eth0			以太网接口
+lo				本地环回接口<br>
+br0			桥接接口 （虚拟交换机）
+vnet0		    KVM虚拟机网卡接口</p>
+<h2 id="查看网络信息"> 查看网络信息</h2>
+<div><pre><code>ip addr //查看IP、掩码、MAC...
+ip addr show eth0 //只显示eth0的信息
+ip route //查看本机路由表
+cat /etc/resolv.conf //查看DNS
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
     </item>
@@ -50145,28 +50259,6 @@ root hard nofile 65536
 <p>转载链接：https://www.cnblogs.com/operationhome/p/11966041.html</p>
 </blockquote>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>网络管理</title>
-      <link>https://clay-wangzhi.com/linux/basic/inter/</link>
-      <guid>https://clay-wangzhi.com/linux/basic/inter/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">网络管理</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="网络管理"> 网络管理</h1>
-<h1 id="网络基础"> 网络基础</h1>
-<h2 id="常见的网络接口"> 常见的网络接口</h2>
-<p>eth0			以太网接口
-lo				本地环回接口<br>
-br0			桥接接口 （虚拟交换机）
-vnet0		    KVM虚拟机网卡接口</p>
-<h2 id="查看网络信息"> 查看网络信息</h2>
-<div><pre><code>ip addr //查看IP、掩码、MAC...
-ip addr show eth0 //只显示eth0的信息
-ip route //查看本机路由表
-cat /etc/resolv.conf //查看DNS
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>日志logrotate</title>
@@ -51275,6 +51367,192 @@ PRD/PROD production 产品/正式/生产</p>
 <p>test环境：测试环境，外部用户无法访问，专门给测试人员使用的，版本相对稳定。</p>
 <p>dev环境：开发环境，外部用户无法访问，开发人员使用，版本变动很大。</p>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>中文技术文档的写作规范</title>
+      <link>https://clay-wangzhi.com/linux/gainian/document-style-guide/</link>
+      <guid>https://clay-wangzhi.com/linux/gainian/document-style-guide/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">中文技术文档的写作规范</source>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="中文技术文档的写作规范"> 中文技术文档的写作规范</h1>
+<blockquote>
+<p>转载自：https://github.com/ruanyf/document-style-guide</p>
+</blockquote>
+<h2 id="标题"> 标题</h2>
+<h3 id="层级"> 层级</h3>
+<p>标题分为四级。</p>
+<ul>
+<li>一级标题：文章的标题</li>
+<li>二级标题：文章主要部分的大标题</li>
+<li>三级标题：二级标题下面一级的小标题</li>
+<li>四级标题：三级标题下面某一方面的小标题</li>
+</ul>
+<p>下面是示例。</p>
+<div><pre><code># 一级标题
+
+## 二级标题
+
+### 三级标题
+
+#### 四级标题
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="原则"> 原则</h3>
+<p>（1）一级标题下，不能直接出现三级标题。</p>
+<p>示例：下面的文章结构，缺少二级标题。</p>
+<div><pre><code># 一级标题
+
+### 三级标题
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（2）标题要避免孤立编号（即同级标题只有一个）。</p>
+<p>示例：下面的文章结构，<code>二级标题 A</code>只包含一个三级标题，完全可以省略<code>三级标题 A</code>。</p>
+<div><pre><code>## 二级标题 A
+
+### 三级标题 A
+
+## 二级标题 B
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>（3）下级标题不重复上一级标题的名字。</p>
+<p>示例：下面的文章结构，二级标题与下属的三级标题同名，建议避免。</p>
+<div><pre><code>## 概述
+
+### 概述
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（4）谨慎使用四级标题，尽量避免出现，保持层级的简单，防止出现过于复杂的章节。</p>
+<p>如果三级标题下有并列性的内容，建议只使用项目列表（Item list）。</p>
+<p>示例：下面的结构二要好于结构一。结构一适用的场景，主要是较长篇幅的内容。</p>
+<div><pre><code>结构一
+
+### 三级标题
+
+#### 四级标题 A
+
+#### 四级标题 B
+
+#### 四级标题 C
+
+结构二
+
+### 三级标题
+
+**（1）A**
+
+**（2）B**
+
+**（3）C**
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="文本"> 文本</h2>
+<h3 id="字间距"> 字间距</h3>
+<p>（1）全角中文字符与半角英文字符之间，应有一个半角空格。</p>
+<div><pre><code>错误：本文介绍如何快速启动Windows系统。
+
+正确：本文介绍如何快速启动 Windows 系统。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（2）全角中文字符与半角阿拉伯数字之间，有没有半角空格都可，但必须保证风格统一，不能两种风格混杂。</p>
+<div><pre><code>正确：2011年5月15日，我订购了5台笔记本电脑与10台平板电脑。
+
+正确：2011 年 5 月 15 日，我订购了 5 台笔记本电脑与 10 台平板电脑。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（4）半角英文字符和半角阿拉伯数字，与全角标点符号之间不留空格。</p>
+<div><pre><code>错误：他的电脑是 MacBook Air 。
+
+正确：他的电脑是 MacBook Air。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="句子"> 句子</h3>
+<p>（1）避免使用长句。</p>
+<p>不包含任何标点符号的单个句子，或者以逗号分隔的句子构件，长度尽量保持在 20 个字以内；20～29 个字的句子，可以接受；30～39 个字的句子，语义必须明确，才能接受；多于 40 个字的句子，任何情况下都不能接受。</p>
+<div><pre><code>错误：本产品适用于从由一台服务器进行动作控制的单一节点结构到由多台服务器进行动作控制的并行处理程序结构等多种体系结构。
+
+正确：本产品适用于多种体系结构。无论是由一台服务器（单一节点结构），还是由多台服务器（并行处理结构）进行动作控制，均可以使用本产品。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>逗号分割的长句，总长度不应该超过 100 字或者正文的 3 行。</p>
+<h2 id="段落"> 段落</h2>
+<h3 id="原则-2"> 原则</h3>
+<ul>
+<li>一个段落只能有一个主题，或一个中心句子。</li>
+<li>段落的中心句子放在段首，对全段内容进行概述。后面陈述的句子为核心句服务。</li>
+<li>一个段落的长度不能超过七行，最佳段落长度小于等于四行。</li>
+<li>段落的句子语气要使用陈述和肯定语气，避免使用感叹语气。</li>
+<li>段落之间使用一个空行隔开。</li>
+<li>段落开头不要留出空白字符。</li>
+</ul>
+<h3 id="引用"> 引用</h3>
+<p>如果是全篇转载，请在全文开头显著位置注明作者和出处，并链接至原文。</p>
+<div><pre><code>本文转载自 WikiQuote
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="标点符号"> 标点符号</h2>
+<h3 id="原则-3"> 原则</h3>
+<p>（1）中文语句的标点符号，均应该采取全角符号，这样可以与全角文字保持视觉的一致。</p>
+<p>（2）如果整句为英文，则该句使用英文/半角标点。</p>
+<h3 id="句号"> 句号</h3>
+<p>中文语句的结尾处应该用全角句号（<code>。</code>）。</p>
+<h3 id="括号"> 括号</h3>
+<p>（1）补充说明时，使用全角圆括号（<code>（）</code>），括号前后不加空格。</p>
+<div><pre><code>例句：请确认所有的连接（电缆和接插件）均安装牢固。
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="文档体系"> 文档体系</h2>
+<h3 id="结构"> 结构</h3>
+<p>软件手册是一部完整的书，建议采用下面的结构。</p>
+<ul>
+<li>
+<p><strong>简介</strong>（Introduction）： [必备] [文件] 提供对产品和文档本身的总体的、扼要的说明</p>
+</li>
+<li>
+<p><strong>快速上手</strong>（Getting Started）：[可选] [文件] 如何最快速地使用产品</p>
+</li>
+<li>
+<p>入门篇</p>
+<p>（Basics）： [必备] [目录] 又称”使用篇“，提供初级的使用教程</p>
+<ul>
+<li><strong>环境准备</strong>（Prerequisite）：[必备] [文件] 软件使用需要满足的前置条件</li>
+<li><strong>安装</strong>（Installation）：[可选] [文件] 软件的安装方法</li>
+<li><strong>设置</strong>（Configuration）：[必备] [文件] 软件的设置</li>
+</ul>
+</li>
+<li>
+<p><strong>进阶篇</strong>（Advanced)：[可选] [目录] 又称”开发篇“，提供中高级的开发教程</p>
+</li>
+<li>
+<p><strong>API</strong>（Reference）：[可选] [目录|文件] 软件 API 的逐一介绍</p>
+</li>
+<li>
+<p><strong>FAQ</strong>：[可选] [文件] 常见问题解答</p>
+</li>
+<li>
+<p>附录</p>
+<p>（Appendix）：[可选] [目录] 不属于教程本身、但对阅读教程有帮助的内容</p>
+<ul>
+<li><strong>Glossary</strong>：[可选] [文件] 名词解释</li>
+<li><strong>Recipes</strong>：[可选] [文件] 最佳实践</li>
+<li><strong>Troubleshooting</strong>：[可选] [文件] 故障处理</li>
+<li><strong>ChangeLog</strong>：[可选] [文件] 版本说明</li>
+<li><strong>Feedback</strong>：[可选] [文件] 反馈方式</li>
+</ul>
+</li>
+</ul>
+<p>下面是两个真实范例，可参考。</p>
+<ul>
+<li><a href="https://redux.js.org/introduction/getting-started" target="_blank" rel="noopener noreferrer">Redux 手册</a></li>
+<li><a href="http://flight-manual.atom.io/" target="_blank" rel="noopener noreferrer">Atom 手册</a></li>
+</ul>
+<h3 id="文件名"> 文件名</h3>
+<p>文档的文件名不得含有空格。</p>
+<p>文件名必须使用半角字符，不得使用全角字符。这也意味着，中文不能用于文件名。</p>
+<div><pre><code>错误： 名词解释.md
+
+正确： glossary.md
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件名建议只使用小写字母，不使用大写字母。</p>
+<div><pre><code>错误：TroubleShooting.md
+
+正确：troubleshooting.md 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>为了醒目，某些说明文件的文件名，可以使用大写字母，比如<code>README</code>、<code>LICENSE</code>。</p>
+<p>文件名包含多个单词时，单词之间建议使用半角的连词线（<code>-</code>）分隔。</p>
+<div><pre><code>不佳：advanced_usage.md
+
+正确：advanced-usage.md
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>centos7下时区问题</title>
@@ -54992,190 +55270,15 @@ bin/elasticsearch-plugin list
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1568097742808.png" type="image/png"/>
     </item>
     <item>
-      <title>中文技术文档的写作规范</title>
-      <link>https://clay-wangzhi.com/linux/gainian/document-style-guide/</link>
-      <guid>https://clay-wangzhi.com/linux/gainian/document-style-guide/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">中文技术文档的写作规范</source>
+      <title>ELK</title>
+      <link>https://clay-wangzhi.com/monitor/elk/</link>
+      <guid>https://clay-wangzhi.com/monitor/elk/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">ELK</source>
+      <category>监控</category>
       <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="中文技术文档的写作规范"> 中文技术文档的写作规范</h1>
-<blockquote>
-<p>转载自：https://github.com/ruanyf/document-style-guide</p>
-</blockquote>
-<h2 id="标题"> 标题</h2>
-<h3 id="层级"> 层级</h3>
-<p>标题分为四级。</p>
-<ul>
-<li>一级标题：文章的标题</li>
-<li>二级标题：文章主要部分的大标题</li>
-<li>三级标题：二级标题下面一级的小标题</li>
-<li>四级标题：三级标题下面某一方面的小标题</li>
-</ul>
-<p>下面是示例。</p>
-<div><pre><code># 一级标题
-
-## 二级标题
-
-### 三级标题
-
-#### 四级标题
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><h3 id="原则"> 原则</h3>
-<p>（1）一级标题下，不能直接出现三级标题。</p>
-<p>示例：下面的文章结构，缺少二级标题。</p>
-<div><pre><code># 一级标题
-
-### 三级标题
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（2）标题要避免孤立编号（即同级标题只有一个）。</p>
-<p>示例：下面的文章结构，<code>二级标题 A</code>只包含一个三级标题，完全可以省略<code>三级标题 A</code>。</p>
-<div><pre><code>## 二级标题 A
-
-### 三级标题 A
-
-## 二级标题 B
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>（3）下级标题不重复上一级标题的名字。</p>
-<p>示例：下面的文章结构，二级标题与下属的三级标题同名，建议避免。</p>
-<div><pre><code>## 概述
-
-### 概述
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（4）谨慎使用四级标题，尽量避免出现，保持层级的简单，防止出现过于复杂的章节。</p>
-<p>如果三级标题下有并列性的内容，建议只使用项目列表（Item list）。</p>
-<p>示例：下面的结构二要好于结构一。结构一适用的场景，主要是较长篇幅的内容。</p>
-<div><pre><code>结构一
-
-### 三级标题
-
-#### 四级标题 A
-
-#### 四级标题 B
-
-#### 四级标题 C
-
-结构二
-
-### 三级标题
-
-**（1）A**
-
-**（2）B**
-
-**（3）C**
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="文本"> 文本</h2>
-<h3 id="字间距"> 字间距</h3>
-<p>（1）全角中文字符与半角英文字符之间，应有一个半角空格。</p>
-<div><pre><code>错误：本文介绍如何快速启动Windows系统。
-
-正确：本文介绍如何快速启动 Windows 系统。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（2）全角中文字符与半角阿拉伯数字之间，有没有半角空格都可，但必须保证风格统一，不能两种风格混杂。</p>
-<div><pre><code>正确：2011年5月15日，我订购了5台笔记本电脑与10台平板电脑。
-
-正确：2011 年 5 月 15 日，我订购了 5 台笔记本电脑与 10 台平板电脑。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>（4）半角英文字符和半角阿拉伯数字，与全角标点符号之间不留空格。</p>
-<div><pre><code>错误：他的电脑是 MacBook Air 。
-
-正确：他的电脑是 MacBook Air。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="句子"> 句子</h3>
-<p>（1）避免使用长句。</p>
-<p>不包含任何标点符号的单个句子，或者以逗号分隔的句子构件，长度尽量保持在 20 个字以内；20～29 个字的句子，可以接受；30～39 个字的句子，语义必须明确，才能接受；多于 40 个字的句子，任何情况下都不能接受。</p>
-<div><pre><code>错误：本产品适用于从由一台服务器进行动作控制的单一节点结构到由多台服务器进行动作控制的并行处理程序结构等多种体系结构。
-
-正确：本产品适用于多种体系结构。无论是由一台服务器（单一节点结构），还是由多台服务器（并行处理结构）进行动作控制，均可以使用本产品。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>逗号分割的长句，总长度不应该超过 100 字或者正文的 3 行。</p>
-<h2 id="段落"> 段落</h2>
-<h3 id="原则-2"> 原则</h3>
-<ul>
-<li>一个段落只能有一个主题，或一个中心句子。</li>
-<li>段落的中心句子放在段首，对全段内容进行概述。后面陈述的句子为核心句服务。</li>
-<li>一个段落的长度不能超过七行，最佳段落长度小于等于四行。</li>
-<li>段落的句子语气要使用陈述和肯定语气，避免使用感叹语气。</li>
-<li>段落之间使用一个空行隔开。</li>
-<li>段落开头不要留出空白字符。</li>
-</ul>
-<h3 id="引用"> 引用</h3>
-<p>如果是全篇转载，请在全文开头显著位置注明作者和出处，并链接至原文。</p>
-<div><pre><code>本文转载自 WikiQuote
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="标点符号"> 标点符号</h2>
-<h3 id="原则-3"> 原则</h3>
-<p>（1）中文语句的标点符号，均应该采取全角符号，这样可以与全角文字保持视觉的一致。</p>
-<p>（2）如果整句为英文，则该句使用英文/半角标点。</p>
-<h3 id="句号"> 句号</h3>
-<p>中文语句的结尾处应该用全角句号（<code>。</code>）。</p>
-<h3 id="括号"> 括号</h3>
-<p>（1）补充说明时，使用全角圆括号（<code>（）</code>），括号前后不加空格。</p>
-<div><pre><code>例句：请确认所有的连接（电缆和接插件）均安装牢固。
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="文档体系"> 文档体系</h2>
-<h3 id="结构"> 结构</h3>
-<p>软件手册是一部完整的书，建议采用下面的结构。</p>
-<ul>
-<li>
-<p><strong>简介</strong>（Introduction）： [必备] [文件] 提供对产品和文档本身的总体的、扼要的说明</p>
-</li>
-<li>
-<p><strong>快速上手</strong>（Getting Started）：[可选] [文件] 如何最快速地使用产品</p>
-</li>
-<li>
-<p>入门篇</p>
-<p>（Basics）： [必备] [目录] 又称”使用篇“，提供初级的使用教程</p>
-<ul>
-<li><strong>环境准备</strong>（Prerequisite）：[必备] [文件] 软件使用需要满足的前置条件</li>
-<li><strong>安装</strong>（Installation）：[可选] [文件] 软件的安装方法</li>
-<li><strong>设置</strong>（Configuration）：[必备] [文件] 软件的设置</li>
-</ul>
-</li>
-<li>
-<p><strong>进阶篇</strong>（Advanced)：[可选] [目录] 又称”开发篇“，提供中高级的开发教程</p>
-</li>
-<li>
-<p><strong>API</strong>（Reference）：[可选] [目录|文件] 软件 API 的逐一介绍</p>
-</li>
-<li>
-<p><strong>FAQ</strong>：[可选] [文件] 常见问题解答</p>
-</li>
-<li>
-<p>附录</p>
-<p>（Appendix）：[可选] [目录] 不属于教程本身、但对阅读教程有帮助的内容</p>
-<ul>
-<li><strong>Glossary</strong>：[可选] [文件] 名词解释</li>
-<li><strong>Recipes</strong>：[可选] [文件] 最佳实践</li>
-<li><strong>Troubleshooting</strong>：[可选] [文件] 故障处理</li>
-<li><strong>ChangeLog</strong>：[可选] [文件] 版本说明</li>
-<li><strong>Feedback</strong>：[可选] [文件] 反馈方式</li>
-</ul>
-</li>
-</ul>
-<p>下面是两个真实范例，可参考。</p>
-<ul>
-<li><a href="https://redux.js.org/introduction/getting-started" target="_blank" rel="noopener noreferrer">Redux 手册</a></li>
-<li><a href="http://flight-manual.atom.io/" target="_blank" rel="noopener noreferrer">Atom 手册</a></li>
-</ul>
-<h3 id="文件名"> 文件名</h3>
-<p>文档的文件名不得含有空格。</p>
-<p>文件名必须使用半角字符，不得使用全角字符。这也意味着，中文不能用于文件名。</p>
-<div><pre><code>错误： 名词解释.md
-
-正确： glossary.md
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>文件名建议只使用小写字母，不使用大写字母。</p>
-<div><pre><code>错误：TroubleShooting.md
-
-正确：troubleshooting.md 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>为了醒目，某些说明文件的文件名，可以使用大写字母，比如<code>README</code>、<code>LICENSE</code>。</p>
-<p>文件名包含多个单词时，单词之间建议使用半角的连词线（<code>-</code>）分隔。</p>
-<div><pre><code>不佳：advanced_usage.md
-
-正确：advanced-usage.md
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="elk"> ELK</h1>
+<p>hello elk~</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Elasticsearch 简介及其发展历史</title>
@@ -55629,17 +55732,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" type="image/webp"/>
     </item>
     <item>
-      <title>ELK</title>
-      <link>https://clay-wangzhi.com/monitor/elk/</link>
-      <guid>https://clay-wangzhi.com/monitor/elk/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">ELK</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="elk"> ELK</h1>
-<p>hello elk~</p>
-]]></content:encoded>
-    </item>
-    <item>
       <title>PrometheusAlert</title>
       <link>https://clay-wangzhi.com/monitor/promethues-alerts/</link>
       <guid>https://clay-wangzhi.com/monitor/promethues-alerts/</guid>
@@ -55689,6 +55781,33 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 {{ end }}
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>6 常见问题</title>
+      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
+      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
+      <category>监控</category>
+      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
+<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
+<p>场景：因为使用了netstat -p参数。</p>
+<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
+<p>(Not all processes could be identified, non-owned process info
+will not be shown, you would have to be root to see it all.)
+解决方法 ：</p>
+<div><pre><code><span>chmod</span> +s /bin/netstat
+</code></pre>
+<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
+<blockquote>
+<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
+</blockquote>
+<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
+<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
+<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
+<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
+<p>最后重启相应的agent即可</p>
+]]></content:encoded>
     </item>
     <item>
       <title>1 zabbix4.4新功能</title>
@@ -55864,33 +55983,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 </li>
 </ul>
 <p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明</a>.</p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>6 常见问题</title>
-      <link>https://clay-wangzhi.com/monitor/zabbix/qa/</link>
-      <guid>https://clay-wangzhi.com/monitor/zabbix/qa/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">6 常见问题</source>
-      <category>监控</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_6-常见问题"> 6 常见问题</h1>
-<h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified"> Zabbix客户端日志出现(Not all processes could be identified）</h1>
-<p>场景：因为使用了netstat -p参数。</p>
-<p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
-<p>(Not all processes could be identified, non-owned process info
-will not be shown, you would have to be root to see it all.)
-解决方法 ：</p>
-<div><pre><code><span>chmod</span> +s /bin/netstat
-</code></pre>
-<div><span>1</span><br></div></div><p>chmod +s 是什么意思</p>
-<blockquote>
-<p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
-</blockquote>
-<h2 id="zabbix-server-log大量提示cannot-sen-list-of-active-checks-to-ip-host-hostname-not-found"> zabbix_server.log大量提示cannot sen list of active checks to &quot;IP&quot;:host [Hostname] not found</h2>
-<p>zabbix server 日志大量提示上图信息 原因是 zabbix_agent.conf配置文件中配置的HostName与zabbix的web界面配置的不同导致的</p>
-<p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
-<p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
-<p>最后重启相应的agent即可</p>
 ]]></content:encoded>
     </item>
     <item>
@@ -60643,129 +60735,6 @@ Trace complete.
 ]]></content:encoded>
     </item>
     <item>
-      <title>4. 内核参数优化</title>
-      <link>https://clay-wangzhi.com/web/nginx/core/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
-<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
-<p>文件内容如下：</p>
-<div><pre><code>net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 268435456
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.somaxconn = 262144
-net.core.netdev_max_backlog = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn_backlog = 30000
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 65536 4194304
-net.ipv4.tcp_mem = 524288 699050 1048576
-vm.swappiness = 0
-vm.min_free_kbytes = 65536
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
-<li>
-<p>net.core.somaxconn = 262144</p>
-<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
-</li>
-<li>
-<p>net.core.netdev_max_backlog = 262144</p>
-<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_orphans = 262144</p>
-<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
-<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
-<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
-这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
-<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
-<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_recycle = 0</p>
-<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
-<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
-当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
-会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_reuse = 1</p>
-<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syncookies = 1</p>
-<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
-假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
-这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
-正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
-设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
-开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
-如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
-<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
-该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
-实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syn_retries = 1</p>
-<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_synack_retries = 1</p>
-<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
-</li>
-<li>
-<p>net.ipv4.ip_local_port_range = 1024 65000</p>
-<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
-当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
-这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_fin_timeout = 30</p>
-<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_keepalive_time = 30</p>
-<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
-客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
-并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
-比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
-就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
-</li>
-</ul>
-]]></content:encoded>
-    </item>
-    <item>
       <title>3. nginx配置文件详解</title>
       <link>https://clay-wangzhi.com/web/nginx/config/</link>
       <guid>https://clay-wangzhi.com/web/nginx/config/</guid>
@@ -61186,6 +61155,129 @@ $document_uri ： 与$uri相同。
 <p>http://nginx.org/en/docs/http/ngx_http_core_module.html#variables</p>
 <p>http://nginx.org/en/docs/</p>
 </blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>4. 内核参数优化</title>
+      <link>https://clay-wangzhi.com/web/nginx/core/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/core/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">4. 内核参数优化</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
+<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>文件内容如下：</p>
+<div><pre><code>net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 268435456
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 30000
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_mem = 524288 699050 1048576
+vm.swappiness = 0
+vm.min_free_kbytes = 65536
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
+<li>
+<p>net.core.somaxconn = 262144</p>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
+</li>
+<li>
+<p>net.core.netdev_max_backlog = 262144</p>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_orphans = 262144</p>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
+<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
+这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
+<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
+<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_recycle = 0</p>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
+当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
+会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_reuse = 1</p>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syncookies = 1</p>
+<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
+假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
+这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
+正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
+设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
+开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
+如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
+<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
+该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
+实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syn_retries = 1</p>
+<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_synack_retries = 1</p>
+<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
+</li>
+<li>
+<p>net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
+当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
+这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_fin_timeout = 30</p>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_keepalive_time = 30</p>
+<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
+客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
+并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
+比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
+就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
+</li>
+</ul>
 ]]></content:encoded>
     </item>
     <item>
@@ -61935,6 +62027,169 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
 ]]></content:encoded>
     </item>
     <item>
+      <title>3.2 nginxHTTP块配置</title>
+      <link>https://clay-wangzhi.com/web/nginx/http/</link>
+      <guid>https://clay-wangzhi.com/web/nginx/http/</guid>
+      <source url="https://clay-wangzhi.com/rss.xml">3.2 nginxHTTP块配置</source>
+      <category>web中间件</category>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
+<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
+<div><pre><code><span>http</span> <span>{</span>
+    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+    <span>server</span> <span>{</span>
+        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>location</span> <span>{</span>
+            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
+        <span>}</span>
+        <span>location</span> <span>{</span>
+            <span>location</span> <span>{</span>
+                
+            <span>}</span>
+        <span>}</span>
+    <span>}</span>
+    <span>server</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
+<ul>
+<li>值指令：存储配置项的值
+<ul>
+<li>可以合并</li>
+<li>示例：root，access_log，gzip</li>
+</ul>
+</li>
+<li>动作类指令：指定行为
+<ul>
+<li>不可以合并</li>
+<li>示例：rewrite，proxy_pass</li>
+<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
+</ul>
+</li>
+</ul>
+<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
+<ul>
+<li>子配置不存在时，直接使用父配置块</li>
+<li>子配置存在时，直接覆盖父配置块</li>
+</ul>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>8080</span><span>;</span>
+    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
+    <span>location</span> <span>/</span>test <span>{</span>
+        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
+        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span>dlib <span>{</span>
+        <span>alias</span> dlib<span>/</span><span>;</span>
+    <span>}</span>
+    <span>location</span> <span>/</span> <span>{</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
+<h2 id="_4-正则表达式"> 4 正则表达式</h2>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
+<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
+<p>如何拿到真实的用户ip地址？</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
+<p>拿到真实用户ip后如何使用？</p>
+<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>
+<p>安装realip模块</p>
+<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
+</li>
+<li>
+<p>配置语法</p>
+<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
+set_real_ip_from 192.168.2.1;
+real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
+real_ip_recursive on; #递归的去除所配置中的可信IP。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
+</li>
+<li>
+<p>配置实例</p>
+<div><pre><code><span>location</span> <span>/</span> <span>{</span>
+    <span>root</span> html<span>/</span><span>;</span>
+    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
+    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
+    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
+    real_ip_recursive on<span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
+</ol>
+<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
+<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
+<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
+<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
+<div><pre><code><span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        
+    <span>}</span>
+    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
+    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span># 承接上面的location</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span># 放错误页面的目录路径。</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
+<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
+<div><pre><code><span>upstream</span> www <span>{</span>
+    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
+        <span>ip_hash</span><span>;</span>
+<span>}</span>
+<span>server</span> <span>{</span>
+    <span>listen</span> <span>80</span><span>;</span>
+    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
+    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
+    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
+    <span>location</span> <span>/</span> <span>{</span>
+        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
+            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
+        <span>}</span>
+        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
+        <span>proxy_intercept_errors</span> on<span>;</span>
+        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
+        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
+    <span>}</span>
+    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
+    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
+        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
+    <span>}</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
+<p>如果后端是php解析的，需要加一个变量</p>
+<p>在http段中加一个变量</p>
+<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>https://www.hi-linux.com/posts/53006.html</p>
+<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
+]]></content:encoded>
+      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" type="image/png"/>
+    </item>
+    <item>
       <title>3.4 nginxLOCATION块配置</title>
       <link>https://clay-wangzhi.com/web/nginx/location/</link>
       <guid>https://clay-wangzhi.com/web/nginx/location/</guid>
@@ -62153,169 +62408,6 @@ Reading: 6 Writing: 179 Waiting: 106
 </ul>
 ]]></content:encoded>
       <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nginx中location匹配流程图.png" type="image/png"/>
-    </item>
-    <item>
-      <title>3.2 nginxHTTP块配置</title>
-      <link>https://clay-wangzhi.com/web/nginx/http/</link>
-      <guid>https://clay-wangzhi.com/web/nginx/http/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">3.2 nginxHTTP块配置</source>
-      <category>web中间件</category>
-      <pubDate>Fri, 20 Mar 2020 00:00:00 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="_3-2-nginxhttp块配置"> 3.2 nginxHTTP块配置</h1>
-<h2 id="_1-配置块的嵌套"> 1 配置块的嵌套</h2>
-<div><pre><code><span>http</span> <span>{</span>
-    <span>upstream</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>split_clients</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>map</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>geo</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-    <span>server</span> <span>{</span>
-        <span>if</span> <span>(</span><span>)</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>location</span> <span>{</span>
-            <span>limit_except</span> <span>{</span><span>.</span><span>.</span><span>.</span><span>}</span>
-        <span>}</span>
-        <span>location</span> <span>{</span>
-            <span>location</span> <span>{</span>
-                
-            <span>}</span>
-        <span>}</span>
-    <span>}</span>
-    <span>server</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-指令的合并"> 2 指令的合并</h2>
-<ul>
-<li>值指令：存储配置项的值
-<ul>
-<li>可以合并</li>
-<li>示例：root，access_log，gzip</li>
-</ul>
-</li>
-<li>动作类指令：指定行为
-<ul>
-<li>不可以合并</li>
-<li>示例：rewrite，proxy_pass</li>
-<li>生效阶段：server_rewrite阶段，rewrite阶段，content阶段</li>
-</ul>
-</li>
-</ul>
-<p><strong>存储值的指令继承规则：向上覆盖</strong></p>
-<ul>
-<li>子配置不存在时，直接使用父配置块</li>
-<li>子配置存在时，直接覆盖父配置块</li>
-</ul>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>8080</span><span>;</span>
-    <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>access_log</span> logs<span>/</span>geek<span>.</span>access<span>.</span>log main<span>;</span>
-    <span>location</span> <span>/</span>test <span>{</span>
-        <span>root</span> <span>/</span>home<span>/</span>geek<span>/</span>nginx<span>/</span>test<span>;</span>
-        <span>access_log</span> logs<span>/</span>access<span>.</span>test<span>.</span>log main<span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span>dlib <span>{</span>
-        <span>alias</span> dlib<span>/</span><span>;</span>
-    <span>}</span>
-    <span>location</span> <span>/</span> <span>{</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br></div></div><h2 id="_3-http请求处理时的11个阶段"> 3 HTTP请求处理时的11个阶段</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095641772.png" alt="" /></p>
-<h2 id="_4-正则表达式"> 4 正则表达式</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317093833697.png" alt="" /></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317094000335.png" alt="" /></p>
-<h2 id="_5-提取用户真实ip"> 5 提取用户真实ip</h2>
-<p>如何拿到真实的用户ip地址？</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095930682.png" alt="" /></p>
-<p>拿到真实用户ip后如何使用？</p>
-<p>基于变量：如binary_remote_addr、remote_addr这样的变量，其值就为真实的IP！这样做连接限制（limit_conn模块）才有意义！</p>
-<p><strong>步骤</strong></p>
-<ol>
-<li>
-<p>安装realip模块</p>
-<p>realip是Nginx内置模块，需要在编译Nginx时加上<code>--with-http_realip_module</code>参数来启用它。</p>
-</li>
-<li>
-<p>配置语法</p>
-<div><pre><code>set_real_ip_from 192.168.1.0/24; #真实服务器上一级代理的IP地址或者IP段,可以写多行。
-set_real_ip_from 192.168.2.1;
-real_ip_header X-Forwarded-For;  #从哪个header头检索出要的IP地址。
-real_ip_recursive on; #递归的去除所配置中的可信IP。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这里详细讲下<code>real_ip_recursive</code>的用途：递归的去除所配置中的可信IP，排除set_real_ip_from里面出现的IP。如果出现了未出现这些IP段的IP，那么这个IP将被认为是用户的IP。</p>
-</li>
-<li>
-<p>配置实例</p>
-<div><pre><code><span>location</span> <span>/</span> <span>{</span>
-    <span>root</span> html<span>/</span><span>;</span>
-    <span>proxy_set_header</span> X<span>-</span>Forwarded<span>-</span>For <span>$proxy_add_x_forwarded_for</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.1</span><span>.0</span><span>/</span><span>24</span><span>;</span>
-    <span>set_real_ip_from</span> <span>192.168</span><span>.2</span><span>.1</span><span>;</span>
-    <span>real_ip_header</span> X<span>-</span>Forwarded<span>-</span>For<span>;</span>
-    real_ip_recursive on<span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div></li>
-</ol>
-<h2 id="_6-定义404错误页面"> 6 定义404错误页面</h2>
-<h3 id="_6-1-nginx自己的错误页面"> 6.1 Nginx自己的错误页面</h3>
-<p>Nginx访问一个静态的html 页面，当这个页面没有的时候，Nginx抛出404，那么如何返回给客户端404呢？</p>
-<p>看下面的配置，这种情况下不需要修改任何参数，就能实现这个功能。</p>
-<div><pre><code><span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html <span>index</span><span>.</span>htm<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        
-    <span>}</span>
-    <span># 定义错误页面码，如果出现相应的错误页面码，转发到那里。</span>
-    <span>error_page</span> <span>404</span> <span>403</span> <span>500</span> <span>502</span> <span>503</span> <span>504</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span># 承接上面的location</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span># 放错误页面的目录路径。</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><h3 id="_6-2-反向代理的错误页面"> 6.2 反向代理的错误页面</h3>
-<p>如果后台Tomcat处理报错抛出404，想把这个状态叫Nginx反馈给客户端或者重定向到某个连接，配置如下：</p>
-<div><pre><code><span>upstream</span> www <span>{</span>
-    <span>server</span> <span>192.168</span><span>.1</span><span>.201</span><span>:</span><span>8080</span> weight<span>=</span><span>20</span> max_fails<span>=</span><span>2</span> fail_timeout<span>=</span><span>30</span>s
-        <span>ip_hash</span><span>;</span>
-<span>}</span>
-<span>server</span> <span>{</span>
-    <span>listen</span> <span>80</span><span>;</span>
-    <span>server_name</span> www<span>.</span>test<span>.</span>com<span>;</span>
-    <span>root</span> <span>/</span>var<span>/</span>www<span>/</span>test<span>;</span>
-    <span>index</span> <span>index</span><span>.</span>html<span>;</span>
-    <span>location</span> <span>/</span> <span>{</span>
-        <span>if</span><span>(</span><span>$request_uri</span> <span>~</span><span>*</span> <span>'^/$'</span><span>)</span> <span>{</span>
-            <span>rewrite</span> <span>.</span><span>*</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>.</span>test2<span>.</span>com<span>/</span><span>index</span><span>.</span>html redirect<span>;</span>
-        <span>}</span>
-        <span># 关键参数：这个变量开启后，我们才能自定义错误页面，当后端返回404，nginx拦截错误，定义错误页面</span>
-        <span>proxy_intercept_errors</span> on<span>;</span>
-        <span>proxy_pass</span> <span>http</span><span>:</span><span>/</span><span>/</span>www<span>;</span>
-        <span>proxy_set_header</span> HOST <span>$host</span><span>;</span>
-    <span>}</span>
-    <span>error_page</span> <span>404</span> <span>/</span><span>404.</span>html<span>;</span>
-    <span>location</span> <span>=</span> <span>/</span><span>404.</span>html <span>{</span>
-        <span>root</span> <span>/</span>usr<span>/</span>share<span>/</span>nginx<span>/</span>html<span>;</span>
-    <span>}</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br></div></div><h3 id="_6-3-nginx解析php代码的错误页面"> 6.3 Nginx解析php代码的错误页面</h3>
-<p>如果后端是php解析的，需要加一个变量</p>
-<p>在http段中加一个变量</p>
-<p><code>fastcgi_intercept_errors on</code>就可以了。</p>
-<blockquote>
-<p>参考链接：</p>
-<p>https://www.hi-linux.com/posts/53006.html</p>
-<p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
-</blockquote>
-]]></content:encoded>
-      <enclosure url="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200317095602291.png" type="image/png"/>
     </item>
     <item>
       <title>3.5 nginx常用模块</title>
@@ -63530,98 +63622,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 <p>https://www.jianshu.com/p/8ad1009f927d</p>
 </blockquote>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>附录 F. I/O 与 I/O 重定向详细介绍</title>
-      <link>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</link>
-      <guid>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</guid>
-      <source url="https://clay-wangzhi.com/rss.xml">附录 F. I/O 与 I/O 重定向详细介绍</source>
-      <category>Linux</category>
-      <pubDate>Tue, 11 May 2021 03:54:51 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
-<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
-<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
-<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
-<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
-cat: standard output: Bad <span>file</span> descriptor
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
-<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
-<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
-<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
-bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
-
-
-bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
- <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
- <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
-<p>分析以下脚本。</p>
-<div><pre><code><span>#! /usr/bin/env bash</span>
-
-<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
-<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
-<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
-
-<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
-<span>(</span>
- <span>(</span>
-  <span>(</span>
-   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
-   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
-
-   <span>echo</span> 1st, to stdout
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
-
-  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
- <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
-<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
-
-<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
-
-
-<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
-<span># 祝你好运！</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content:encoded>
     </item>
     <item>
       <title>附录 T. ASCII 表</title>
