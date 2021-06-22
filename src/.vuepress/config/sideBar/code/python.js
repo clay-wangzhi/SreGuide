@@ -20,7 +20,7 @@ module.exports = [
   {
     title: "3 函数",
     collapsable: false,
-    children: ["python-function", "function-parameter", "action-scope"]
+    children: ["python-function", "function-parameter", "action-scope", "python-recursive-function"]
   },
   {
     title: "4 高级特性",
