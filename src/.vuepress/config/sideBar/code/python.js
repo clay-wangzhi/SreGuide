@@ -25,7 +25,7 @@ module.exports = [
   {
     title: "4 高级特性",
     collapsable: false,
-    children: ["python-linear-data-structure", "python-analytic-expre"]
+    children: ["python-linear-data-structure", "python-analytic-expre", "python-generator", "python-iterator"]
   },
   {
     title: "5 函数式编程",

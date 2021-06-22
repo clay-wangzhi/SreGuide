@@ -451,18 +451,6 @@ with 语法，会调用 with 后的对象的`__enter__`方法，如果有 as，�
 3. 权限验证
 在执行代码之前，做权限的验证，在` __enter__` 中处理
 
-### 生成器函数
-
-```python
-# 生成器函数 # 调用后返回什么呢？生成器对象（生成器表达式、生成器函数），惰性求值
-# 在一个函数定义中，出现了yield语句，此函数就是生成器函数
-def foo():
-	while True:
-		yield 1
-# 无限可迭代对象
-f = foo()
-```
-
 ### contextlib.contextmanager
 
 contextlib.contextmanager 它是一个装饰器实现上下文管理，装饰一个函数，而不用像类一样实现`__enter__` 和 `__exit__` 方法。

@@ -262,38 +262,3 @@ Python 程序结束时，所有对象销毁。
 | next      | next(iterable[,default]) | 取迭代器下一个元素<br/>如果已经取完，继续取抛StopIteration异常 |
 | reversed  | reversed(seq)            | 返回一个翻转元素的迭代器                                     |
 | enumerate | enumerate(seq, start=0)  | 迭代一个可迭代对象，返回一个迭代器<br/>每一个元素都是数字和元素构成的二元组 |
-
-迭代器
-
-* 特殊的对象，一定是可迭代对象，具备可迭代对象的特征
-* 通过 iter 方法把一个可迭代对象封装成迭代器
-* 通过 next 方法，迭代 迭代器对象
-* 生成器对象，就是迭代器对象。但是迭代器对象未必是生成器对象
-
-可迭代对象
-
-* 能够通过迭代一次次返回不同的元素的对象
-  * 所谓相同，不是指值是否相同，而是元素在容器中是否是同一个，例如列表中值可以重复的，['a', 'a']，虽然这个列表有2个元素，值一样，但是两个'a'是不同的元素
-* 可以迭代，但是未必有序，未必可索引
-* 可迭代对象有：list、tuple、string、bytes、bytearray、range、set、dict、生成器、迭代器等
-* 可以使用成员操作符in、not in
-  * 对于线性数据结构，in本质上是在遍历对象，时间复杂度为O(n)
-
-```python
-lst = [1, 3, 5, 7, 9]
-it = iter(lst) # 返回一个迭代器对象
-print(next(it)) # 1
-print(next(it)) # 3
-for i, x in enumerate(it, 2):
-    print(i, x)
-#2 5
-#3 7
-#4 9
-
-# print(next(it)) # StopIteration
-print()
-
-for x in reversed(lst):
-    print(x) # 9 7 5 3 1
-```
-
