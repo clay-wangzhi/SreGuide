@@ -112,19 +112,17 @@ pip install yapf
 
  ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118092715192-399355687.png)
 
-**step 2：**windows上安装openssh客户端，这里提供一个使用powershell安装的方法
+**step 2：**penssh客户端，这里提供一个使用powershell安装的方法
 
 首先，以管理员身份打开powershell
 
-然后，输入命令在线查询可获取的安装包 Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'
+然后，输入命令在线查询可获取的安装包 `Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'`
 
  ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118094734763-1541493353.png)
 
 最后，如果状态显示NotPresent的话，可以使用命令进行安装，命令为Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
 
 提示：随着 Windows 10 2018 年 4 月更新的发布，OpenSSH 客户端已正式推出并在 Windows 10 中默认安装。
-
- 
 
 **step 3：**准备一台centos虚拟机或者ubuntu虚拟机，确保虚拟机上的ssh server服务已经开启，并允许远程连接。比如我准备的是centos7虚拟机，IP地址为192.168.247.133
 
@@ -149,23 +147,23 @@ Host Centos7.5_python3
 
 每次连接远程服务器，打开项目都要输入一次密码，是否很烦？如果有人觉得烦的话，可以先在本地windows系统和远程服务器之间做好ssh免密登陆，然后在上面这个config文件中，在User配置下一行（缩进和User要一致），添加IdentityFile C:\Users\...\.ssh\id_rsa即可，其中IdentityFile参数后面跟的是windows上的rsa私钥文件。
 
-第六步：点击vscode左边栏的远程连接图标，如下：
+**step 6：**点击vscode左边栏的远程连接图标，如下：
 
  ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101908730-1174731395.png)
 
-第七步：点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：
+**step 7：**点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：
 
  ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118102152158-767875613.png)
 
 备注，如果vscode初次连接这台虚拟机的话，那么需要等待几分钟，因为vscode要做一些初始化工作。
 
-第八步：连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。
+**step 8：**连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。
 
 在打开的项目中新建文件，删除文件，修改文件等操作，不需要再次输入密码。
 
  ![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118103510878-1427529685.png)
 
-第九步：运行项目或测试脚本的方法
+**step 9：**运行项目或测试脚本的方法
 
 感觉这个功能，在一定程度上，都可以代替secure crt或xshell远程连接工具和ftp上传下载客户端了。很强大。
 
