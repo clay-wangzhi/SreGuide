@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-06-22T03:52:31.152Z</updated>
+  <updated>2021-06-22T05:52:35.696Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -22722,7 +22722,7 @@ _<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><sp
     <title type="html">1.4 使用 vscode 打造 python 开发环境</title>
     <id>https://clay-wangzhi.com/code/python/vscode-python/</id>
     <link href="https://clay-wangzhi.com/code/python/vscode-python/"/>
-    <updated>2021-06-22T03:51:27.000Z</updated>
+    <updated>2021-06-22T05:51:17.000Z</updated>
     <content type="html"><![CDATA[<h1 id="_1-4-使用-vscode-打造-python-开发环境"> 1.4 使用 vscode 打造 python 开发环境</h1>
 <h2 id="_1-软件准备"> 1 软件准备</h2>
 <p>既然是在 VS Code 中进行 Python 环境配置，在配置之前需要安装好 Python 和 VS Code。</p>
@@ -22782,9 +22782,9 @@ _<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><sp
 <p>这个还是很好用的，可以不需要在windows服务器上安装python执行环境了。而且，python中的一些与系统操作相关的模块，windows上安装起来也非常麻烦。</p>
 <p>**step 1：**按下快捷键Ctrl+Shift+X，进入插件管理页面，搜索并安装插件Remote Development</p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118092715192-399355687.png" alt="img" /></p>
-<p>**step 2：**windows上安装openssh客户端，这里提供一个使用powershell安装的方法</p>
+<p>**step 2：**penssh客户端，这里提供一个使用powershell安装的方法</p>
 <p>首先，以管理员身份打开powershell</p>
-<p>然后，输入命令在线查询可获取的安装包 Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'</p>
+<p>然后，输入命令在线查询可获取的安装包 <code>Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'</code></p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118094734763-1541493353.png" alt="img" /></p>
 <p>最后，如果状态显示NotPresent的话，可以使用命令进行安装，命令为Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0</p>
 <p>提示：随着 Windows 10 2018 年 4 月更新的发布，OpenSSH 客户端已正式推出并在 Windows 10 中默认安装。</p>
@@ -22801,15 +22801,15 @@ _<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><sp
 <p>备注：其中Host后面的名称，可以随便命名，HostName后面的IP地址是准备的虚拟机IP地址，Port后跟的是ssh server服务监听的端口号，默认是22，User后跟的是远程连接的用户名，我这里使用超级用户连接。</p>
 <p>这里补充一点：</p>
 <p>每次连接远程服务器，打开项目都要输入一次密码，是否很烦？如果有人觉得烦的话，可以先在本地windows系统和远程服务器之间做好ssh免密登陆，然后在上面这个config文件中，在User配置下一行（缩进和User要一致），添加IdentityFile C:\Users....ssh\id_rsa即可，其中IdentityFile参数后面跟的是windows上的rsa私钥文件。</p>
-<p>第六步：点击vscode左边栏的远程连接图标，如下：</p>
+<p>**step 6：**点击vscode左边栏的远程连接图标，如下：</p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101908730-1174731395.png" alt="img" /></p>
-<p>第七步：点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：</p>
+<p>**step 7：**点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：</p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118102152158-767875613.png" alt="img" /></p>
 <p>备注，如果vscode初次连接这台虚拟机的话，那么需要等待几分钟，因为vscode要做一些初始化工作。</p>
-<p>第八步：连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。</p>
+<p>**step 8：**连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。</p>
 <p>在打开的项目中新建文件，删除文件，修改文件等操作，不需要再次输入密码。</p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118103510878-1427529685.png" alt="img" /></p>
-<p>第九步：运行项目或测试脚本的方法</p>
+<p>**step 9：**运行项目或测试脚本的方法</p>
 <p>感觉这个功能，在一定程度上，都可以代替secure crt或xshell远程连接工具和ftp上传下载客户端了。很强大。</p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118104120944-788931545.png" alt="img" /></p>
 <p>补充：</p>
@@ -24246,6 +24246,77 @@ bash$ echo $variable1
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">第一章 为什么使用shell编程</title>
+    <id>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part1/01_shell_programming/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
+<blockquote>
+<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
+<p>—— Herbert Mayer</p>
+</blockquote>
+<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
+<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
+<blockquote>
+<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
+<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
+</blockquote>
+<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
+<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
+<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
+<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
+<ul>
+<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
+<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
+<li>有跨平台需求（使用C或者Java代替）</li>
+<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
+<li>影响系统全局的关键性任务</li>
+<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
+<li>项目包含有连锁依赖关系的组件</li>
+<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
+<li>需要使用多维数组</li>
+<li>需要使用如链表、树等数据结构</li>
+<li>需要产生或操作图像和图形用户接口（GUI）</li>
+<li>需要直接访问系统硬件或外部设备</li>
+<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
+<li>需要使用库或旧程序的接口</li>
+<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
+</ul>
+<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
+<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
+<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
+<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
+<blockquote>
+<p>His countenance was bold and bashed not.</p>
+<p>—— Edmund Spenser</p>
+</blockquote>
+<hr>
+<section>
+<ol>
+<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
+</li>
+<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
+</li>
+<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
+</li>
+<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
+</li>
+<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
+</li>
+</ol>
+</section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">4.2 变量赋值</title>
     <id>https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/</id>
     <link href="https://clay-wangzhi.com/code/shell/part2/04_2_variable_assignment/"/>
@@ -24325,89 +24396,6 @@ bash$ echo $variable1
 <span>arch</span><span>=</span><span><span>$(</span><span>uname</span> -m<span>)</span></span>
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">4.3 Bash变量是弱类型的</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
-<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
-<p>样例 4-4. 整数还是字符串？</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># int-or-string.sh</span>
-
-<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
-<span>let</span> <span>"a += 1"</span>
-<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
-<span>echo</span>                     <span># 依旧是整数。</span>
-
-
-<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
-                         <span># $b 变成了字符串。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
-
-<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
-<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
-<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
-
-<span>c</span><span>=</span>BB34
-<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
-<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
-                         <span># $d 变为了一个整数。</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
-<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
-<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
-<span>echo</span>
-
-
-<span># 如果是空值会怎样呢？</span>
-<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
-<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
-<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
-<span>echo</span>                     <span># 空值变为了一个整数。</span>
-
-<span># 如果时未声明的变量呢？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
-<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
-<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
-<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
-<span>#</span>
-<span># 然而……</span>
-<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
-<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
-<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
-<span>#</span>
-<span># 但是，仍旧……</span>
-<span>let</span> <span>"f /= 0"</span>
-<span>#   let: f /= 0: division by 0 (error token is "0")</span>
-<span># 预期之中。</span>
-
-
-<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
-<span># 但是不要做这种事情！</span>
-<span># 因为这可能会导致一些意外的后果。</span>
-
-
-<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
-
-<span>exit</span> <span>$?</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
-<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
-]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -24650,6 +24638,89 @@ $ <span>sh</span> shift-past.sh <span>1</span> <span>2</span> <span>3</span> <sp
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">4.3 Bash变量是弱类型的</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/04_3_bash_variables_are_untyped/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-3-bash变量是弱类型的"> 4.3 Bash变量是弱类型的</h1>
+<p>不同于许多其他编程语言，Bash 并不区分变量的类型。本质上说，<em>Bash 变量是字符串</em>，但在某些情况下，Bash 允许对变量进行算术运算和比较。决定因素则是变量值是否只含有数字。</p>
+<p>样例 4-4. 整数还是字符串？</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># int-or-string.sh</span>
+
+<span>a</span><span>=</span><span>2334</span>                   <span># 整数。</span>
+<span>let</span> <span>"a += 1"</span>
+<span>echo</span> <span>"a = <span>$a</span> "</span>           <span># a = 2335</span>
+<span>echo</span>                     <span># 依旧是整数。</span>
+
+
+<span>b</span><span>=</span><span>${a<span>/</span>23<span>/</span>BB}</span>             <span># 将 "23" 替换为 "BB"。</span>
+                         <span># $b 变成了字符串。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+<span>declare</span> -i b             <span># 将其声明为整数并没有什么卵用。</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = BB35</span>
+
+<span>let</span> <span>"b += 1"</span>             <span># BB35 + 1</span>
+<span>echo</span> <span>"b = <span>$b</span>"</span>            <span># b = 1</span>
+<span>echo</span>                     <span># Bash 认为字符串的"整数值"为0。</span>
+
+<span>c</span><span>=</span>BB34
+<span>echo</span> <span>"c = <span>$c</span>"</span>            <span># c = BB34</span>
+<span>d</span><span>=</span><span>${c<span>/</span>BB<span>/</span>23}</span>             <span># 将 "BB" 替换为 "23"。</span>
+                         <span># $d 变为了一个整数。</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2334</span>
+<span>let</span> <span>"d += 1"</span>             <span># 2334 + 1</span>
+<span>echo</span> <span>"d = <span>$d</span>"</span>            <span># d = 2335</span>
+<span>echo</span>
+
+
+<span># 如果是空值会怎样呢？</span>
+<span>e</span><span>=</span><span>''</span>                     <span># ...也可以是 e="" 或 e=</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e =</span>
+<span>let</span> <span>"e += 1"</span>             <span># 空值是否允许进行算术运算？</span>
+<span>echo</span> <span>"e = <span>$e</span>"</span>            <span># e = 1</span>
+<span>echo</span>                     <span># 空值变为了一个整数。</span>
+
+<span># 如果时未声明的变量呢？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f =</span>
+<span>let</span> <span>"f += 1"</span>             <span># 是否允许进行算术运算？</span>
+<span>echo</span> <span>"f = <span>$f</span>"</span>            <span># f = 1</span>
+<span>echo</span>                     <span># 未声明变量变为了一个整数。</span>
+<span>#</span>
+<span># 然而……</span>
+<span>let</span> <span>"f /= <span>$undecl_var</span>"</span>   <span># 可以除以0么？</span>
+<span>#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span># 语法错误！在这里 $undecl_var 并没有被设置为0！</span>
+<span>#</span>
+<span># 但是，仍旧……</span>
+<span>let</span> <span>"f /= 0"</span>
+<span>#   let: f /= 0: division by 0 (error token is "0")</span>
+<span># 预期之中。</span>
+
+
+<span># 在执行算术运算时，Bash 通常将其空值的整数值设为0。</span>
+<span># 但是不要做这种事情！</span>
+<span># 因为这可能会导致一些意外的后果。</span>
+
+
+<span># 结论：上面的结果都表明 Bash 中的变量是弱类型的。</span>
+
+<span>exit</span> <span>$?</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br></div></div><p>弱类型变量有利有弊。它可以使编程更加灵活、更加容易（给与你足够的想象空间）。但它也同样的容易造成一些小错误，容易养成粗心大意的编程习惯。</p>
+<p>为了减轻脚本持续跟踪变量类型的负担，Bash <em>不允许</em>变量声明。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -30316,6 +30387,55 @@ strip_leading_zero <span>(</span><span>)</span> <span>#  删除传入参数中�
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">11.2 嵌套循环</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
+<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
+<p>样例 11-20. 嵌套循环</p>
+<div><pre><code><span>#!/bin/bash</span>
+<span># nested-loop.sh: 嵌套 "for" 循环。</span>
+
+<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
+
+<span># 外层循环。</span>
+<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
+<span>do</span>
+  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
+  <span>echo</span> <span>"---------------------"</span>
+  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
+  
+  <span># =====================================</span>
+  <span># 内层循环。</span>
+  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
+  <span>do</span>
+    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
+    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
+  <span>done</span>
+  <span># 内层循环结束。</span>
+  <span># =====================================</span>
+  
+  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
+  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
+<span>done</span>
+<span># 外层循环结束。</span>
+
+<span>exit</span> <span>0</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">11.1 循环</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_1_loops/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_1_loops/"/>
@@ -31074,55 +31194,6 @@ efax -d <span>"<span>$MODEM_PORT</span>"</span>  -t <span>"T<span>$1</span>"</sp
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">11.2 嵌套循环</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_2_nested_loops/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_11-2-嵌套循环"> 11.2 嵌套循环</h1>
-<p>嵌套循环，顾名思义就是在循环里面还有循环。外层循环会不断的触发内层循环直到外层循环结束。当然，你仍然可以使用 <code>break</code> 可以终止外层或内层的循环。</p>
-<p>样例 11-20. 嵌套循环</p>
-<div><pre><code><span>#!/bin/bash</span>
-<span># nested-loop.sh: 嵌套 "for" 循环。</span>
-
-<span>outer</span><span>=</span><span>1</span>             <span># 设置外层循环计数器。</span>
-
-<span># 外层循环。</span>
-<span>for</span> <span>a</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span> 
-<span>do</span>
-  <span>echo</span> <span>"Pass <span>$outer</span> in outer loop."</span>
-  <span>echo</span> <span>"---------------------"</span>
-  <span>inner</span><span>=</span><span>1</span>           <span># 重设内层循环计数器。</span>
-  
-  <span># =====================================</span>
-  <span># 内层循环。</span>
-  <span>for</span> <span>b</span> <span>in</span> <span>1</span> <span>2</span> <span>3</span> <span>4</span> <span>5</span>
-  <span>do</span>
-    <span>echo</span> <span>"Pass <span>$inner</span> in inner loop."</span>
-    <span>let</span> <span>"inner+=1"</span>  <span># 增加内层循环计数器。</span>
-  <span>done</span>
-  <span># 内层循环结束。</span>
-  <span># =====================================</span>
-  
-  <span>let</span> <span>"outer+=1"</span>    <span># 增加外层循环计数器。</span>
-  <span>echo</span>              <span># 在每次外层循环输出中加入空行。</span>
-<span>done</span>
-<span># 外层循环结束。</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br></div></div><p>查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILELOOPREF" target="_blank" rel="noopener noreferrer">while 循环</a>。查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#EX68" target="_blank" rel="noopener noreferrer">样例 27-13</a> 详细了解嵌套 <a href="http://tldp.org/LDP/abs/html/loops1.html#UNTILLOOPREF" target="_blank" rel="noopener noreferrer">until 循环</a>。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">11.3 循环控制</title>
     <id>https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/11_3_loop_control/"/>
@@ -31736,35 +31807,6 @@ choice_of beans rice carrorts radishes rutabaga spinach
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">第十一章 循环与分支</title>
-    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
-<blockquote>
-<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
-<p>—— 《奥赛罗》，莎士比亚</p>
-</blockquote>
-<h3 id="本章目录"> 本章目录</h3>
-<ul>
-<li><a href="./11_1_loops.html">11.1 循环</a></li>
-<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
-<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
-<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
-</ul>
-<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">第十二章 命令替换</title>
     <id>https://clay-wangzhi.com/code/shell/part3/12_command_substitution/</id>
     <link href="https://clay-wangzhi.com/code/shell/part3/12_command_substitution/"/>
@@ -32145,6 +32187,35 @@ bash$ echo $(echo \\)
 <li><a href="http://tldp.org/LDP/abs/html/arrays.html#BUBBLE" target="_blank" rel="noopener noreferrer">样例 27-11</a></li>
 <li><a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#TREE" target="_blank" rel="noopener noreferrer">样例 A-16</a></li>
 </ol>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第十一章 循环与分支</title>
+    <id>https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part3/11_loops_and_branches/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第十一章-循环与分支"> 第十一章 循环与分支</h1>
+<blockquote>
+<p>奥赛罗夫人，您为什么把这句话说了又说呢？</p>
+<p>—— 《奥赛罗》，莎士比亚</p>
+</blockquote>
+<h3 id="本章目录"> 本章目录</h3>
+<ul>
+<li><a href="./11_1_loops.html">11.1 循环</a></li>
+<li><a href="./11_2_nested_loops.html">11.2 嵌套循环</a></li>
+<li><a href="./11_3_loop_control.html">11.3 循环控制</a></li>
+<li><a href="./11_4_testing_and_branching.html">11.4 测试与分支</a></li>
+</ul>
+<p>对代码块的处理是结构化和构建 shell 脚本的关键。循环与分支结构恰好提供了这样一种对代码块处理的工具。</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -46545,6 +46616,70 @@ skip-grant-tables
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">hash类型</title>
+    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
+    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
+<p>hash⽤于存储对象
+对象的结构为属性、值
+值的类型为string</p>
+<h2 id="增加、修改"> 增加、修改</h2>
+<ul>
+<li>设置单个属性</li>
+</ul>
+<div><pre><code>hset key field value
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>设置多个属性</li>
+</ul>
+<div><pre><code>hmset key field1 value1 field2 value2 ...
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
+<ul>
+<li>获取指定键所有的属性</li>
+</ul>
+<div><pre><code>hkeys key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取⼀个属性的值</li>
+</ul>
+<div><pre><code>hget key field
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取多个属性的值</li>
+</ul>
+<div><pre><code>hmget key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取所有属性的值</li>
+</ul>
+<div><pre><code>hvals key
+</code></pre>
+<div><span>1</span><br></div></div><ul>
+<li>获取一个hash有多少个属性</li>
+</ul>
+<div><pre><code>hlen key
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
+<ul>
+<li>删除整个hash键及值，使⽤del命令</li>
+<li>删除属性，属性对应的值会被⼀起删除</li>
+</ul>
+<div><pre><code>hdel key field1 field2 ...
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">4 视图、事务、索引、函数</title>
     <id>https://clay-wangzhi.com/db/mysql/view-func/</id>
     <link href="https://clay-wangzhi.com/db/mysql/view-func/"/>
@@ -47505,70 +47640,6 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">hash类型</title>
-    <id>https://clay-wangzhi.com/db/redis/operate/hash/</id>
-    <link href="https://clay-wangzhi.com/db/redis/operate/hash/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="hash类型"> hash类型</h1>
-<p>hash⽤于存储对象
-对象的结构为属性、值
-值的类型为string</p>
-<h2 id="增加、修改"> 增加、修改</h2>
-<ul>
-<li>设置单个属性</li>
-</ul>
-<div><pre><code>hset key field value
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>设置多个属性</li>
-</ul>
-<div><pre><code>hmset key field1 value1 field2 value2 ...
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="获取"> 获取</h2>
-<ul>
-<li>获取指定键所有的属性</li>
-</ul>
-<div><pre><code>hkeys key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取⼀个属性的值</li>
-</ul>
-<div><pre><code>hget key field
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取多个属性的值</li>
-</ul>
-<div><pre><code>hmget key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取所有属性的值</li>
-</ul>
-<div><pre><code>hvals key
-</code></pre>
-<div><span>1</span><br></div></div><ul>
-<li>获取一个hash有多少个属性</li>
-</ul>
-<div><pre><code>hlen key
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="删除"> 删除</h2>
-<ul>
-<li>删除整个hash键及值，使⽤del命令</li>
-<li>删除属性，属性对应的值会被⼀起删除</li>
-</ul>
-<div><pre><code>hdel key field1 field2 ...
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">键命令</title>
     <id>https://clay-wangzhi.com/db/redis/operate/key/</id>
     <link href="https://clay-wangzhi.com/db/redis/operate/key/"/>
@@ -48079,6 +48150,42 @@ func main(){
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">redis-dump方式导入导出数据</title>
+    <id>https://clay-wangzhi.com/db/redis/redis-dump/</id>
+    <link href="https://clay-wangzhi.com/db/redis/redis-dump/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h1>
+<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div><pre><code>gem install redis-dump -V
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
+<p>示例</p>
+<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
+<p>示例</p>
+<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
+</code></pre>
+<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div><pre><code>&lt; test1.json redis-load
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div><pre><code>&lt; test.json redis-load -n 
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Redis"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">redis5.0.4集群搭建</title>
     <id>https://clay-wangzhi.com/db/redis/</id>
     <link href="https://clay-wangzhi.com/db/redis/"/>
@@ -48332,42 +48439,6 @@ ERR Target instance replied with error: NOAUTH Authentication required.</li>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9844310.html" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/kevingrace/p/9844310.html</a></p>
 </blockquote>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Redis"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">redis-dump方式导入导出数据</title>
-    <id>https://clay-wangzhi.com/db/redis/redis-dump/</id>
-    <link href="https://clay-wangzhi.com/db/redis/redis-dump/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="redis-dump方式导入导出数据"> redis-dump方式导入导出数据</h1>
-<h3 id="安装redis-dump工具"> 安装redis-dump工具</h3>
-<p>安装ruby（略）,详见上一章节</p>
-<div><pre><code>gem install redis-dump -V
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导出"> 数据导出</h3>
-<p>示例</p>
-<div><pre><code>redis-dump -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39; &gt; test.json
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="数据导入"> 数据导入</h3>
-<p>示例</p>
-<div><pre><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a &#39;zykjdr#558996&#39;
-</code></pre>
-<div><span>1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
-<div><pre><code>&lt; test1.json redis-load
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
-<p>-n （以二进制形式导入）</p>
-<div><pre><code>&lt; test.json redis-load -n 
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -50415,77 +50486,6 @@ lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">第一章 为什么使用shell编程</title>
-    <id>https://clay-wangzhi.com/code/shell/part1/01_shell_programming/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part1/01_shell_programming/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第一章-为什么使用shell编程"> 第一章 为什么使用shell编程</h1>
-<blockquote>
-<p>没有任何一种程序设计语言是完美的，甚至没有一个最好的语言。只有在特定环境下适合的语言。</p>
-<p>—— Herbert Mayer</p>
-</blockquote>
-<p>无论你是否打算真正编写shell脚本，只要你想要在一定程度上熟悉系统管理，了解掌握shell脚本的相关知识都是非常有必要的。例如Linux系统在启动的时候会执行<code>/etc/rc.d</code>目录下的shell脚本来恢复系统配置和准备服务。详细了解这些启动脚本对分析系统行为大有益处，何况，你很有可能会去修改它们呢。</p>
-<p>编写shell脚本并不困难，shell脚本由许多小的部分组成，而其中只有数量相当少的与shell本身特性，操作和选项<sup></sup>有关的部分才需要去学习。Shell语法非常简单朴素，很像是在命令行中调用和连接工具，你只需遵循很少一部分的&quot;规则&quot;就可以了。大部分短小的脚本通常在第一次就可以正常工作，即使是一个稍长一些的脚本，调试起来也十分简单。</p>
-<blockquote>
-<p>在个人计算机发展的早期，BASIC语言让计算机专业人士能够在早期的微机上编写程序。几十年后，Bash脚本可以让所有仅对Linux或UNIX系统有初步了解的用户在现代计算机上做同样的事。</p>
-<p>我们现在已经可以做出一些又小又快的单板机，比如<a href="http://www.raspberrypi.org/" target="_blank" rel="noopener noreferrer">树莓派</a>。Bash脚本提供了一种发掘这些有趣设备潜力的方式。</p>
-</blockquote>
-<p>使用shell脚本构建一个复杂应用原型（prototype），不失为是一种虽有缺陷但非常快速的方式。在项目开发初期，使用脚本实现部分功能往往显得十分有用。在使用C/C++，Java，Perl或Python编写最终代码前，可以使用shell脚本测试，修补应用结构，提前发现重大缺陷。</p>
-<p>Shell脚本与经典的UINX哲学相似，将复杂的任务划分为简单的子任务，将组件与工具连接起来。许多人认为比起新一代功能强大、高度集成的语言，例如Perl，shell脚本至少是一种在美学上更加令人愉悦的解决问题的方式，Perl试图做到面面俱到，但你必须强迫自己改变思维方式适应它。</p>
-<p>Herbert Mayer曾说：“有用的语言需要数组、指针以及构建数据结构的通用机制”。如果依据这些标准，那shell脚本距“有用”还差得很远，甚至是“无用”的。</p>
-<h3 id="什么时候不应该使用shell脚本"> 什么时候不应该使用shell脚本</h3>
-<ul>
-<li>资源密集型的任务，尤其是对速度有要求（如排序、散列、递归<sup></sup>等）</li>
-<li>需要做大量的数学运算，例如浮点数运算，高精度运算或者复数运算（使用C++或FORTRAN代替）</li>
-<li>有跨平台需求（使用C或者Java代替）</li>
-<li>必须使用结构化编程的复杂应用（如变量类型检查、函数原型等）</li>
-<li>影响系统全局的关键性任务</li>
-<li>对安全性有高要求，需要保证系统的完整性以及阻止入侵、破解、恶意破坏</li>
-<li>项目包含有连锁依赖关系的组件</li>
-<li>需要大量的文件操作（Bash只能访问连续的文件，并且是以一种非常笨拙且低效的逐行访问的方式进行的）</li>
-<li>需要使用多维数组</li>
-<li>需要使用如链表、树等数据结构</li>
-<li>需要产生或操作图像和图形用户接口（GUI）</li>
-<li>需要直接访问系统硬件或外部设备</li>
-<li>需要使用端口或套接字输入输出端口（Socket I/O）</li>
-<li>需要使用库或旧程序的接口</li>
-<li>私有或闭源的项目（Shell脚本直接将源代码公开，所有人都可以看到）</li>
-</ul>
-<p>如果你的应用满足上述任意一条，你可以考虑使用更加强大的脚本语言，如Perl，Tcl，Python，Ruby等，或考虑使用编译型语言，如C，C++或Java等。即使如此，在开发阶段使用shell脚本建立应用原型也是十分有用的。</p>
-<p>我们接下来将使用Bash。Bash是&quot;Bourne-Again shell&quot;的首字母缩略词<sup></sup>，Bash来源于Stephen Bourne开发的Bourne shell（sh）。如今Bash已成为了大部分UNIX衍生版中shell脚本事实上的标准。本书所涉及的大部分概念在其他shell中也是适用的，例如Korn Shell，Bash从它当中继承了一部分的特性<sup></sup>；又如C Shell及其变体（需要注意的是，1993年10月Tom Christiansen在<a href="http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/" target="_blank" rel="noopener noreferrer">Usenet帖子</a>中指出，因C Shell内部固有的问题，不推荐使用C Shell编程）</p>
-<p>接下来的部分将是一些编写shell脚本的指导。这些指导很大程度上依赖于实例来阐述shell的特性。本书所有的例子都能够正常工作，并在尽可能的范围内进行过测试，其中的一部分已经运用在实际生产生活中。读者们可以使用这些在存档中的例子（文件名为<code>scriptname.sh</code>或<code>scriptname.bash</code>）<sup></sup>，赋予它们可执行权限（<code>chmod u+rx scriptname</code>），然后执行它们看看会发生什么。如果<a href="http://bash.deta.in/abs-guide-latest.tar.bz2" target="_blank" rel="noopener noreferrer">存档</a>不可用，读者朋友也可以从本书的HTML或者PDF版本中复制粘贴代码出来。需要注意的是，在部分例子中使用了一些暂时还未被解释的特性，这需要读者暂时跳过它们。</p>
-<p>除特别说明，本书所有例子均由<a href="mailto:thegrendel.abs@gmail.com">本书作者</a>编写。</p>
-<blockquote>
-<p>His countenance was bold and bashed not.</p>
-<p>—— Edmund Spenser</p>
-</blockquote>
-<hr>
-<section>
-<ol>
-<li id="footnote1"><p>这些操作和选项被称为内建命令（builtin），是shell的内部特征。 </p>
-</li>
-<li id="footnote2"><p>虽然递归可以在shell脚本中实现，但是它的效率很低且实现起来很复杂、不具有美感。 </p>
-</li>
-<li id="footnote3"><p>首字母缩略词是由每一个单词的首字母拼接而成的易读的代替短语。这不是一个好习惯，通常会引起一些不必要的麻烦。 </p>
-</li>
-<li id="footnote4"><p>ksh88中的许多特性，甚至一些ksh93的特性都被合并到Bash中了。 </p>
-</li>
-<li id="footnote5"><p>按照惯例，用户编写的Bourne shell脚本应该在文件名后加上<code>.sh</code>的扩展名。而那些系统脚本，比如在<code>/etc/rc.d</code>中的脚本通常不遵循这种规范。 </p>
-</li>
-</ol>
-</section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">打包、压缩</title>
     <id>https://clay-wangzhi.com/linux/basic/file/zip/</id>
     <link href="https://clay-wangzhi.com/linux/basic/file/zip/"/>
@@ -50681,645 +50681,103 @@ test6/log2012.log:       99.6% -- replaced with test6/log2012.log.gz
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">创建、复制、移动、删除</title>
-    <id>https://clay-wangzhi.com/linux/basic/file/zsgc/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/file/zsgc/"/>
+    <title type="html">附录 F. I/O 与 I/O 重定向详细介绍</title>
+    <id>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</id>
+    <link href="https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/"/>
     <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="创建、复制、移动、删除"> 创建、复制、移动、删除</h1>
-<h3 id="touch命令-创建文件"> touch命令（创建文件）</h3>
-<p>linux的touch命令不常用，一般在使用make的时候可能会用到，用来修改文件时间戳，或者新建一个不存在的文件。</p>
-<h4 id="语法"> 语法</h4>
-<p><code>touch(选项)(参数)</code></p>
-<p>选项</p>
-<div><pre><code>-a：或--time=atime或--time=access或--time=use  只更改存取时间；
--c：或--no-create  不建立任何文件；
--d：&lt;时间日期&gt; 使用指定的日期时间，而非现在的时间；
--f：此参数将忽略不予处理，仅负责解决BSD版本touch指令的兼容性问题；
--m：或--time=mtime或--time=modify  只更该变动时间；
--r：&lt;参考文件或目录&gt;  把指定文件或目录的日期时间，统统设成和参考文件或目录的日期时间相同；
--t：&lt;日期时间&gt;  使用指定的日期时间，而非现在的时间；
---help：在线帮助；
---version：显示版本信息。
+    <content type="html"><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
+<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
+<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
+<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
+<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
+cat: standard output: Bad <span>file</span> descriptor
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="功能"> 功能</h4>
-<p>touch命令参数可更改文档或目录的日期时间，包括存取时间和更改时间。</p>
-<h4 id="常用范例"> 常用范例</h4>
-<p>1）创建不存在的文件</p>
-<div><pre><code># touch log2012.log log2013.log
-# ll
--rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>如果log2014.log不存在，则不创建文件</p>
-<div><pre><code># touch -c log2014.log
-# ll
--rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>2）更新log.log的时间和log2012.log时间戳相同</p>
-<div><pre><code># ll
--rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-# touch -r log.log log2012.log 
-# ll
--rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）设定文件的时间戳</p>
-<div><pre><code># ll
--rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-# touch -t 201211142234.50 log.log
-# ll
--rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
--rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
--rw-r--r-- 1 root root    0 2012-11-14 log.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
-<p>-t  time 使用指定的时间值 time 作为指定文件相应时间戳记的新值．此处的 time规定为如下形式的十进制数:</p>
-<p>[[CC]YY]MMDDhhmm[.SS]</p>
-<p>这里，CC为年数中的前两位，即”世纪数”；YY为年数的后两位，即某世纪中的年数．如果不给出CC的值，则touch   将把年数CCYY限定在1969--2068之内．MM为月数，DD为天将把年数CCYY限定在1969--2068之内．MM为月数，DD为天数，hh 为小时数(几点)，mm为分钟数，SS为秒数．此处秒的设定范围是0--61，这样可以处理闰秒．这些数字组成的时间是环境变量TZ指定的时区中的一个时 间．由于系统的限制，早于1970年1月1日的时间是错误的。</p>
-<p>4）同时创建多个文件</p>
-<div><pre><code><span>touch</span> file<span>{</span><span>1</span><span>..</span><span>20</span><span>}</span>
-<span>touch</span> /home/<span>{</span>aa,bb<span>}</span>
-//<span>{</span><span>}</span>里面为集合
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="mkdir命令-创建目录"> mkdir命令（创建目录）</h3>
-<p>mkdir命令用来创建目录。该命令创建由<a href="http://man.linuxde.net/dirname" target="_blank" rel="noopener noreferrer">dirname</a>命名的目录。如果在目录名的前面没有加任何路径名，则在当前目录下创建由dirname指定的目录；如果给出了一个已经存在的路径，将会在该目录下创建一个指定的目录。在创建目录时，应保证新建的目录与它所在目录下的文件没有重名。</p>
-<h4 id="语法-2"> 语法</h4>
-<p><code>cd (选项) (参数)</code></p>
-<h4 id="选项"> 选项</h4>
-<div><pre><code>-Z：设置安全上下文，当使用SELinux时有效；
--m&lt;目标属性&gt;或--mode&lt;目标属性&gt;建立目录的同时设置目录的权限；
--p或--parents 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录；
--v, --verbose  每次创建新目录都显示信息
---version 显示版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="常用范例-2"> 常用范例</h4>
-<p>1）创建一个空目录</p>
-<div><pre><code>mkdir test1
-</code></pre>
-<div><span>1</span><br></div></div><p>2）递归创建多个目录</p>
-<div><pre><code>mkdir -p test2/test22
-</code></pre>
-<div><span>1</span><br></div></div><p>3）创建权限为777的目录</p>
-<div><pre><code>mkdir -m 777 test3
-</code></pre>
-<div><span>1</span><br></div></div><p>4）一个命令创建项目的目录结构</p>
-<div><pre><code>#mkdir -vp scf/{lib/,bin/,doc/{info,product},logs/{info,product},service/deploy/{info,product}}
-mkdir: 已创建目录 “scf”
-
-mkdir: 已创建目录 “scf/lib”
-
-mkdir: 已创建目录 “scf/bin”
-
-mkdir: 已创建目录 “scf/doc”
-
-mkdir: 已创建目录 “scf/doc/info”
-
-mkdir: 已创建目录 “scf/doc/product”
-
-mkdir: 已创建目录 “scf/logs”
-
-mkdir: 已创建目录 “scf/logs/info”
-
-mkdir: 已创建目录 “scf/logs/product”
-
-mkdir: 已创建目录 “scf/service”
-
-mkdir: 已创建目录 “scf/service/deploy”
-
-mkdir: 已创建目录 “scf/service/deploy/info”
-
-mkdir: 已创建目录 “scf/service/deploy/product”
-
-# tree scf/
-
-scf/
-
-|-- bin
-
-|-- doc
-
-|   |-- info
-
-|   `-- product
-
-|-- lib
-
-|-- logs
-
-|   |-- info
-
-|   `-- product
-
-`-- service
-
-   	 	`-- deploy
-
-  	    	|-- info
-
-        	`-- product
+<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
+<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
+<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
+<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
 
 
-12 directories, 0 files
+bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
+bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
+COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><h3 id="cp命令-复制"> cp命令（复制）</h3>
-<p>cp命令用来复制文件或者目录，是Linux系统中最常用的命令之一。一般情况下，shell会设置一个别名，在命令行下复制文件时，如果目标文件已经存在，就会询问是否覆盖，不管你是否使用-i参数。但是如果是在shell脚本中执行cp时，没有-i参数时不会询问是否覆盖。这说明命令行和shell脚本的执行方式有些不同。</p>
-<h4 id="语法-3"> 语法</h4>
-<p><code>cp(选项)(参数)</code></p>
-<h4 id="选项-2"> 选项</h4>
-<div><pre><code>-a：此参数的效果和同时指定&quot;-dpR&quot;参数相同；
--d：当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录；
--f：强行复制文件或目录，不论目标文件或目录是否已存在；
--i：覆盖既有文件之前先询问用户；
--l：对源文件建立硬连接，而非复制文件；
--p：保留源文件或目录的属性；
--R/r：递归处理，将指定目录下的所有文件与子目录一并处理；
--s：对源文件建立符号连接，而非复制文件；
--u：使用这项参数后只会在源文件的更改时间较目标文件更新时或是名称相互对应的目标文件并不存在时，才复制文件；
--S：在备份文件时，用指定的后缀“SUFFIX”代替文件的默认后缀；
--b：覆盖已存在的文件目标前将目标文件备份；
--v：详细显示命令执行的操作。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h4 id="参数"> 参数</h4>
-<ul>
-<li>源文件：制定源文件列表。默认情况下，cp命令不能复制目录，如果要复制目录，则必须使用<code>-R</code>选项；</li>
-<li>目标文件：指定目标文件。当“源文件”为多个文件时，要求“目标文件”为指定的目录。</li>
-</ul>
-<h4 id="常用范例-3"> 常用范例</h4>
-<p>1）复制单个文件到目标目录，文件在目标文件中不存在</p>
-<div><pre><code># cp log.log test5
-# ll
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-28 14:47 test3
-drwxr-xr-x 2 root root 4096 10-28 14:53 test5
-# cd test5
-# ll
--rw-r--r-- 1 root root 0 10-28 14:46 log5-1.log
--rw-r--r-- 1 root root 0 10-28 14:46 log5-2.log
--rw-r--r-- 1 root root 0 10-28 14:46 log5-3.log
--rw-r--r-- 1 root root 0 10-28 14:53 log.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
-<p>在没有带-a参数时，两个文件的时间是不一样的。在带了-a参数时，两个文件的时间是一致的。</p>
-<p>2）目标文件存在时，会询问是否覆盖</p>
-<div><pre><code># cp log.log test5
-cp：是否覆盖“test5/log.log”? n
-# cp -a log.log test5
-cp：是否覆盖“test5/log.log”? y
-# cd test5/
-# ll
--rw-r--r-- 1 root root 0 10-28 14:46 log5-1.log
--rw-r--r-- 1 root root 0 10-28 14:46 log5-2.log
--rw-r--r-- 1 root root 0 10-28 14:46 log5-3.log
--rw-r--r-- 1 root root 0 10-28 14:48 log.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
-<p>目标文件存在时，会询问是否覆盖。这是因为cp是cp -i的别名。目标文件存在时，即使加了-f标志，也还会询问是否覆盖。</p>
-<p>3）复制整个目录</p>
-<p>目标目录存在时：</p>
-<div><pre><code>#cp -a test3 test5 
-# ll
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-28 14:47 test3
-drwxr-xr-x 3 root root 4096 10-28 15:11 test5
-# cd test5/
-# ll
--rw-r--r-- 1 root root    0 10-28 14:46 log5-1.log
--rw-r--r-- 1 root root    0 10-28 14:46 log5-2.log
--rw-r--r-- 1 root root    0 10-28 14:46 log5-3.log
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-drwxrwxrwx 2 root root 4096 10-28 14:47 test3
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>目标目录不存在时：</p>
-<div><pre><code># cp -a test3 test4
-# ll
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-28 14:47 test3
-drwxrwxrwx 2 root root 4096 10-28 14:47 test4
-drwxr-xr-x 3 root root 4096 10-28 15:11 test5
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
-<p>注意目标目录存在与否结果是不一样的。目标目录存在时，整个源目录被复制到目标目录里面。</p>
-<p>4）复制的 log.log 建立一个链接到 log_link.log</p>
-<div><pre><code># cp -s log.log log_link.log
-# ll
-lrwxrwxrwx 1 root root    7 10-28 15:18 log_link.log -&gt; log.log
--rw-r--r-- 1 root root    0 10-28 14:48 log.log
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-28 14:47 test3
-drwxrwxrwx 2 root root 4096 10-28 14:47 test4
-drwxr-xr-x 3 root root 4096 10-28 15:11 test5
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>说明：</p>
-<p>那个 log_link.log 是由 -s 的参数造成的，建立的是一个『快捷方式』，所以您会看到在文件的最右边，会显示这个文件是『连结』到哪里去的！</p>
-<p>5）将文件file复制到目录<code>/usr/men/tmp</code>下，并改名为file1</p>
-<div><pre><code>cp file /usr/men/tmp/file1
-</code></pre>
-<div><span>1</span><br></div></div><p>6）将目录<code>/usr/men</code>下的所有文件及其子目录复制到目录<code>/usr/zh</code>中</p>
-<div><pre><code>cp -i /usr/men m*.c /usr/zh
-</code></pre>
-<div><span>1</span><br></div></div><p>我们在Linux下使用cp命令复制文件时候，有时候会需要覆盖一些同名文件，覆盖文件的时候都会有提示：需要不停的按Y来确定执行覆盖。文件数量不多还好，但是要是几百个估计按Y都要吐血了，于是折腾来半天总结了一个方法：</p>
-<div><pre><code>cp aaa/* /bbb
-复制目录aaa下所有到/bbb目录下，这时如果/bbb目录下有和aaa同名的文件，需要按Y来确认并且会略过aaa目录下的子目录。
 
-cp -r aaa/* /bbb
-这次依然需要按Y来确认操作，但是没有忽略子目录。
+bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
+ <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
 
-cp -r -a aaa/* /bbb
-依然需要按Y来确认操作，并且把aaa目录以及子目录和文件属性也传递到了/bbb。
 
-\cp -r -a aaa/* /bbb
-成功，没有提示按Y、传递了目录属性、没有略过目录。
+bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
+COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
+ <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
+ <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
+ <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="mv命令-移动"> mv命令（移动）</h3>
-<p><strong>mv命令</strong>用来对文件或目录重新命名，或者将文件从一个目录移到另一个目录中。source表示源文件或目录，target表示目标文件或目录。如果将一个文件移到一个已经存在的目标文件中，则目标文件的内容将被覆盖。</p>
-<p>mv命令可以用来将源文件移至一个目标文件中，或将一组文件移至一个目标目录中。源文件被移至目标文件有两种不同的结果：</p>
-<ol>
-<li>如果目标文件是到某一目录文件的路径，源文件会被移到此目录下，且文件名不变。</li>
-<li>如果目标文件不是目录文件，则源文件名（只能有一个）会变为此目标文件名，并覆盖己存在的同名文件。如果源文件和目标文件在同一个目录下，mv的作用就是改文件名。当目标文件是目录文件时，源文件或目录参数可以有多个，则所有的源文件都会被移至目标文件中。所有移到该目录下的文件都将保留以前的文件名。</li>
-</ol>
-<p>注意事项：mv与cp的结果不同，mv好像文件“搬家”，文件个数并未增加。而cp对文件进行复制，文件个数增加了。</p>
-<h4 id="语法-4"> 语法</h4>
-<p><code>mv(选项)(参数)</code></p>
-<h4 id="选项-3"> 选项</h4>
-<div><pre><code>--backup=&lt;备份模式&gt;：若需覆盖文件，则覆盖前先行备份；
--b：当文件存在时，覆盖前，为其创建一个备份；
--f：若目标文件或目录与现有的文件或目录重复，则直接覆盖现有的文件或目录；
--i：交互式操作，覆盖前先行询问用户，如果源文件与目标文件或目标目录中的文件同名，则询问用户是否覆盖目标文件。用户输入”y”，表示将覆盖目标文件；输入”n”，表示取消对源文件的移动。这样可以避免误将文件覆盖。
---strip-trailing-slashes：删除源文件中的斜杠“/”；
--S&lt;后缀&gt;：为备份文件指定后缀，而不使用默认的后缀；
--t:--target-directory=&lt;目录&gt;,指定源文件要移动到目标目录；
--u：当源文件比目标文件新或者目标文件不存在时，才执行移动操作。
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
+<p>分析以下脚本。</p>
+<div><pre><code><span>#! /usr/bin/env bash</span>
+
+<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
+<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
+<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
+
+<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
+<span>(</span>
+ <span>(</span>
+  <span>(</span>
+   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
+   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
+
+   <span>echo</span> 1st, to stdout
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
+   <span>sleep</span> <span>1</span>
+   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
+
+  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
+ <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
+<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
+
+<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
+
+
+<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
+<span># 祝你好运！</span>
+
+<span>exit</span> <span>0</span>
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h4 id="参数-2"> 参数</h4>
-<ul>
-<li>源文件：源文件列表。</li>
-<li>目标文件：如果“目标文件”是文件名则在移动文件的同时，将其改名为“目标文件”；如果“目标文件”是目录名则将源文件移动到“目标文件”下。</li>
-</ul>
-<h4 id="常用范例-4"> 常用范例</h4>
-<p>1）文件改名</p>
-<div><pre><code># ll
-总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-25 17:46 test3
-drwxr-xr-x 2 root root 4096 10-25 17:56 test4
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
--rw-r--r-- 1 root root   16 10-28 06:04 test.log
-# mv test.log test1.txt
-# ll
-总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
--rw-r--r-- 1 root root   16 10-28 06:04 test1.txt
-drwxrwxrwx 2 root root 4096 10-25 17:46 test3
-drwxr-xr-x 2 root root 4096 10-25 17:56 test4
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>2）移动文件</p>
-<div><pre><code># ll
-总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxrwxrwx 2 root root 4096 10-25 17:46 test3
-drwxr-xr-x 2 root root 4096 10-25 17:56 test4
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-# mv test1.txt test3
-# ll
-总计 16drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 2 root root 4096 10-28 06:09 test3
-drwxr-xr-x 2 root root 4096 10-25 17:56 test4
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-# cd test3
-# ll
-总计 4
--rw-r--r-- 1 root root 29 10-28 06:05 test1.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>3）将文件log1.txt,log2.txt,log3.txt移动到目录test3中</p>
-<div><pre><code># ll
-总计 28
--rw-r--r-- 1 root root    8 10-28 06:15 log1.txt
--rw-r--r-- 1 root root   12 10-28 06:15 log2.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log3.txt
-drwxrwxrwx 2 root root 4096 10-28 06:09 test3
-# mv log1.txt log2.txt log3.txt test3
-# ll
-总计 16drwxrwxrwx 2 root root 4096 10-28 06:18 test3
-# cd test3/
-# ll
-总计 16
--rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
--rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
--rw-r--r-- 1 root root 29 10-28 06:05 test1.txt
-# ll
-总计 20
--rw-r--r-- 1 root root    8 10-28 06:15 log1.txt
--rw-r--r-- 1 root root   12 10-28 06:15 log2.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log3.txt
-drwxr-xr-x 2 root root 4096 10-28 06:21 logs
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-# mv -t /opt/soft/test/test4/ log1.txt log2.txt 	log3.txt 
-]# cd ..
-# cd test4/
-# ll
-总计 12
--rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
--rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><p>4）将文件file1改名为file2，如果file2已经存在，则询问是否覆盖</p>
-<div><pre><code># ll
-总计 12
--rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
--rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
-# cat log1.txt 
-odfdfs
-# cat log2.txt 
-ererwerwer
-# mv -i log1.txt log2.txt 
-mv：是否覆盖“log2.txt”? y
-# cat log2.txt 
-odfdfs
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>5）将文件file1改名为file2，即使file2存在，也是直接覆盖掉</p>
-<div><pre><code># ll
-总计 8
--rw-r--r-- 1 root root  8 10-28 06:15 log2.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
-# cat log2.txt 
-odfdfs
-# cat log3
-cat: log3: 没有那个文件或目录
-# ll
-总计 8
--rw-r--r-- 1 root root  8 10-28 06:15 log2.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
-# cat log2.txt 
-odfdfs
-# cat log3.txt 
-dfosdfsdfdss
-# mv -f log3.txt log2.txt 
-# cat log2.txt 
-dfosdfsdfdss
-# ll
-总计 4
--rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>说明：</p>
-<p>log3.txt的内容直接覆盖了log2.txt内容，-f 这是个危险的选项，使用的时候一定要保持头脑清晰，一般情况下最好不用加上它。</p>
-<p>6）目录的移动</p>
-<div><pre><code>ll
--rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
-# ll
--rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
-# cd ..
-# ll
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 3 root root 4096 10-28 06:24 test3
-drwxr-xr-x 2 root root 4096 10-28 06:48 test4
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-# cd test3
-# ll
-drwxr-xr-x 2 root root 4096 10-28 06:21 logs
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-# cd ..
-# mv test4 test3
-# ll
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 4 root root 4096 10-28 06:54 test3
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-# cd test3/
-# ll
-drwxr-xr-x 2 root root 4096 10-28 06:21 log
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-28 06:48 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>说明：</p>
-<p>如果目录dir2不存在，将目录dir1改名为dir2；否则，将dir1移动到dir2中。</p>
-<p>7）移动当前文件夹下的所有文件到上一级目录</p>
-<div><pre><code># ll
--rw-r--r-- 1 root root 25 10-28 07:02 log1.txt
--rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
-# mv * ../
-# ll
-# cd ..
-# ll
--rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
-drwxr-xr-x 2 root root 4096 10-28 06:21 logs
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-28 07:02 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）把当前目录的一个子目录里的文件移动到另一个子目录里</p>
-<div><pre><code># ll
-drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxrwx 4 root root 4096 10-28 07:02 test3
-drwxr-xr-x 3 root root 4096 10-25 17:56 test5
-# cd test3
-# ll
--rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
-drwxr-xr-x 2 root root 4096 10-28 06:21 logs
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-28 07:02 test4
-# cd ..
-# mv test3/*.txt test5
-# cd test5
-# ll
--rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
-# 	cd ..
-# cd test3/
-# ll
-drwxr-xr-x 2 root root 4096 10-28 06:21 logs
-drwxr-xr-x 2 root root 4096 10-28 07:02 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>9）文件被覆盖前做简单备份，前面加参数-b</p>
-<div><pre><code># ll
--rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
-# mv log1.txt -b log2.txt
-mv：是否覆盖“log2.txt”? y
-# ll
--rw-r--r-- 1 root root   25 10-28 07:02 log2.txt
--rw-r--r-- 1 root root   13 10-28 06:16 log2.txt~
--rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
-drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
-<p>-b 不接受参数，mv会去读取环境变量VERSION_CONTROL来作为备份策略。</p>
-<p>--backup该选项指定如果目标文件存在时的动作，共有四种备份策略：</p>
-<p>1.CONTROL=none或off : 不备份。</p>
-<p>2.CONTROL=numbered或t：数字编号的备份</p>
-<p>3.CONTROL=existing或nil：如果存在以数字编号的备份，则继续编号备份m+1...n：</p>
-<p>执行mv操作前已存在以数字编号的文件log2.txt.<sub>1</sub>，那么再次执行将产生log2.txt<sub>2</sub>，以次类推。如果之前没有以数字编号的文件，则使用下面讲到的简单备份。</p>
-<p>4.CONTROL=simple或never：使用简单备份：在被覆盖前进行了简单备份，简单备份只能有一份，再次被覆盖时，简单备份也会被覆盖。</p>
-<h3 id="rm命令-删除"> rm命令（删除）</h3>
-<p>rm命令可以删除一个目录中的一个或多个文件或目录，也可以将某个目录及其下属的所有文件及其子目录均删除掉。对于链接文件，只是删除整个链接文件，而原有文件保持不变。</p>
-<p>rm是一个危险的命令，使用的时候要特别当心，尤其对于新手，否则整个系统就会毁在这个命令（比如在/（根目录）下执行rm * -rf）。所以，我们在执行rm之前最好先确认一下在哪个目录，到底要删除什么东西，操作时保持高度清醒的头脑。</p>
-<h4 id="语法-5"> 语法</h4>
-<p><code>rm (选项)(参数)</code></p>
-<h4 id="选项-4"> 选项</h4>
-<div><pre><code>-d：直接把欲删除的目录的硬连接数据删除成0，删除该目录；
--f：强制删除文件或目录；
--i：删除已有文件或目录之前先询问用户；
--r或-R：递归处理，将指定目录下的所有文件与子目录一并处理；
---preserve-root：不对根目录进行递归操作；
--v：显示指令的详细执行过程。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="参数-3"> 参数</h4>
-<p>文件：指定被删除的文件列表，如果参数中含有目录，则必须加上<code>-r</code>或者<code>-R</code>选项。</p>
-<h4 id="常用范例-5"> 常用范例</h4>
-<p>1）删除文件file，系统会先询问是否删除。</p>
-<div><pre><code># rm log.log 
-rm：是否删除 一般文件 “log.log”? y
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>输入rm log.log命令后，系统会询问是否删除，输入y后就会删除文件，不想删除则数据n。</p>
-<p>2）强行删除file，系统不再提示</p>
-<div><pre><code>rm -f log1.log
-</code></pre>
-<div><span>1</span><br></div></div><p>3）删除任何.log文件；删除前逐一询问确认</p>
-<div><pre><code>rm -i *.log
-</code></pre>
-<div><span>1</span><br></div></div><p>4）将 test1子目录及子目录中所有档案删除</p>
-<div><pre><code>rm -r test1
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="rmdir命令-删除空目录"> rmdir命令（删除空目录）</h3>
-<p>rmdir命令。rmdir是常用的命令，该命令的功能是删除空目录，一个目录被删除之前必须是空的。（注意，rm - r dir命令可代替rmdir，但是有很大危险性。）删除某目录时也必须具有对父目录的写权限。</p>
-<h4 id="语法-6"> 语法</h4>
-<p><code>rmdir(选项)(参数)</code></p>
-<h4 id="选项-5"> 选项</h4>
-<div><pre><code>-p或--parents：删除指定目录后，若该目录的上层目录已变成空目录，则将其一并删除；
---ignore-fail-on-non-empty：此选项使rmdir命令忽略由于删除非空目录时导致的错误信息；
--v或-verboes：显示命令的详细执行过程；
---help：显示命令的帮助信息；
---version：显示命令的版本信息。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="参数-4"> 参数</h4>
-<p>目录列表：要删除的空目录列表。当删除多个空目录时，目录名之间使用空格隔开。</p>
-<h4 id="常用范例-6"> 常用范例</h4>
-<p>1）rmdir 不能删除非空目录</p>
-<div><pre><code># tree
-.
-|-- bin
-|-- doc
-|   |-- info
-|   `-- product
-|-- lib
-|-- logs
-|   |-- info
-|   `-- product
-`-- service
-    `-- deploy
-        |-- info
-        `-- product
-12 directories, 0 files
-# rmdir doc
-rmdir: doc: 目录非空
-# rmdir doc/info
-# rmdir doc/product
-# tree
-.
-|-- bin
-|-- doc
-|-- lib
-|-- logs
-|   |-- info
-|   `-- product
-`-- service
-    `-- deploy
-        |-- info
-        `-- product
-10 directories, 0 files
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>2）rmdir -p 当子目录被删除后使它也成为空目录的话，则顺便一并删除</p>
-<div><pre><code># tree
-.
-|-- bin
-|-- doc
-|-- lib
-|-- logs
-|   `-- product
-`-- service
-    `-- deploy
-        |-- info
-        `-- product
-10 directories, 0 files
-# rmdir -p logs
-rmdir: logs: 目录非空
-# tree
-.
-|-- bin
-|-- doc
-|-- lib
-|-- logs
-|   `-- product
-`-- service
-    `-- deploy
-        |-- info
-        `-- product
-9 directories, 0 files
-# rmdir -p logs/product
-# tree
-.
-|-- bin
-|-- doc
-|-- lib
-`-- service
-`-- deploy
-        |-- info
-        `-- product
-7 directories, 0 files
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content>
     <author>
-      <name>Clay</name>
+      <name>LinuxStory</name>
     </author>
     <category term="Linux"/>
     <contributor>
-      <name>Clay</name>
+      <name>LinuxStory</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">网络管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/inter/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/inter/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="网络管理"> 网络管理</h1>
-<h1 id="网络基础"> 网络基础</h1>
-<h2 id="常见的网络接口"> 常见的网络接口</h2>
-<p>eth0			以太网接口
-lo				本地环回接口<br>
-br0			桥接接口 （虚拟交换机）
-vnet0		    KVM虚拟机网卡接口</p>
-<h2 id="查看网络信息"> 查看网络信息</h2>
-<div><pre><code>ip addr //查看IP、掩码、MAC...
-ip addr show eth0 //只显示eth0的信息
-ip route //查看本机路由表
-cat /etc/resolv.conf //查看DNS
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
+    <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
     <title type="html">管道及I/O重定向</title>
@@ -51355,6 +50813,35 @@ ls /home/ /aa &gt; a.txt 2&gt;&amp;1
 &gt; 11
 &gt; 22
 &gt; EOF
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">网络管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/inter/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/inter/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="网络管理"> 网络管理</h1>
+<h1 id="网络基础"> 网络基础</h1>
+<h2 id="常见的网络接口"> 常见的网络接口</h2>
+<p>eth0			以太网接口
+lo				本地环回接口<br>
+br0			桥接接口 （虚拟交换机）
+vnet0		    KVM虚拟机网卡接口</p>
+<h2 id="查看网络信息"> 查看网络信息</h2>
+<div><pre><code>ip addr //查看IP、掩码、MAC...
+ip addr show eth0 //只显示eth0的信息
+ip route //查看本机路由表
+cat /etc/resolv.conf //查看DNS
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content>
     <author>
@@ -58222,41 +57709,6 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">5 Redis监控模块</title>
-    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</id>
-    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
-<blockquote>
-<p>zabbix旧版本可以用，新版本建议用官方模板</p>
-</blockquote>
-<h2 id="模板导入"> 模板导入</h2>
-<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
-<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
-<h2 id="配置文件导入"> 配置文件导入</h2>
-<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
-<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
-<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
-<div><pre><code>chmod +s /usr/sbin/ss
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
-<p>修改完成后，重新启动zabbix客户端</p>
-<p>centos7下</p>
-<div><pre><code>systemctl restart zabbix-agent.service
-</code></pre>
-<div><span>1</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">4 MySQL监控模块</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-mysql/"/>
@@ -58404,6 +57856,41 @@ fi
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">5 Redis监控模块</title>
+    <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/</id>
+    <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-redis/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_5-redis监控模块"> 5 Redis监控模块</h1>
+<blockquote>
+<p>zabbix旧版本可以用，新版本建议用官方模板</p>
+</blockquote>
+<h2 id="模板导入"> 模板导入</h2>
+<p>打开“配置”--&gt;“模板”--&gt;&quot;导入&quot;</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis_daoru.png" alt="" /></p>
+<p>导入<code>zax_redis</code>文件夹下的<code>redis_templates_for_zbx_3.4.xml</code>文件</p>
+<h2 id="配置文件导入"> 配置文件导入</h2>
+<p>将<code>zax_redis</code>文件夹下的<code>userparameter_redis.conf</code>文件上传到redis服务器的<code>/etc/zabbix/zabbix_agentd.d</code>文件夹下，并根据实际情况修改<code>$HostIP</code>和<code>$Pass</code>。</p>
+<h2 id="增加ss命令权限"> 增加ss命令权限</h2>
+<p>因为zabbix-server端不是通过root用户进行获取数据，所以给ss命令提权</p>
+<div><pre><code>chmod +s /usr/sbin/ss
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="重启zabbix客户端"> 重启zabbix客户端</h2>
+<p>修改完成后，重新启动zabbix客户端</p>
+<p>centos7下</p>
+<div><pre><code>systemctl restart zabbix-agent.service
+</code></pre>
+<div><span>1</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">9 zookeeper集群监控</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-zookeeper/"/>
@@ -58476,6 +57963,51 @@ fi
       <name>Clay</name>
     </author>
     <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">phpldapadmin操作指导</title>
+    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
+    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
+<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
+<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
+<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
+<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
+<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
+<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
+<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
+<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
+<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
+<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
+<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
+<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
+<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
+<p>示例：</p>
+<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
+<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
+<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
+<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
+<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
+<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
+<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
+<p>示例如下。</p>
+<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
+<p>15.点击【Update Object】</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
     <contributor>
       <name>Clay</name>
     </contributor>
@@ -58723,51 +58255,6 @@ OK，到此openldap和phpldapadmin 就安装完成了</p>
 <p>openldap系列文章：</p>
 <p>https://www.ilanni.com/?tag=openldap</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">phpldapadmin操作指导</title>
-    <id>https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/</id>
-    <link href="https://clay-wangzhi.com/openldap/phpldapadmin%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="phpldapadmin操作指导"> phpldapadmin操作指导</h1>
-<h3 id="_1-在浏览器中打开http-ip-phpldapadmin"> 1.<strong><strong>在浏览器中打开</strong></strong>http://IP/phpldapadmin</h3>
-<h3 id="_2-点击【login】按钮-输入管理员密码。"> 2. 点击【Login】按钮，输入管理员密码。</h3>
-<p><img src="./images/1327931-20180831110424329-793110324.png" alt="img" /></p>
-<h3 id="_3-点击【创建新条目】"> 3.****点击【<strong><strong>创建新条目</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110429812-17489868.png" alt="img" /></p>
-<h3 id="_4-点击【generic-postfix-group】"> 4. 点击【<strong><strong>Generic: Postfix Group</strong></strong>】.</h3>
-<p><img src="./images/1327931-20180831110436692-1272423331.png" alt="img" /></p>
-<h3 id="_5-输入【users】-点击【创建对象】"> 5. 输入【Users】, 点击【<strong><strong>创建对象</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110503252-505929691.png" alt="img" /></p>
-<h3 id="_6-点击【提交】"> 6. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110509143-992814925.png" alt="img" /></p>
-<h3 id="_7-下一步添加用户-点击刚才所创建的组【users】"> 7. 下一步添加用户****，****点击刚才所创建的组【<strong><strong>u</strong></strong>sers】</h3>
-<h3 id="_8-点击【创建一个子条目】"> 8****. 点击【<strong><strong>创建一个子条目</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110516069-1260241219.png" alt="img" /></p>
-<h3 id="_9-点击【generic-user-account】按钮。"> 9****. 点击【Generic: User Account】按钮。</h3>
-<p><img src="./images/1327931-20180831110522490-1008013931.png" alt="img" /></p>
-<h3 id="_10-根据自己的情况-添加信息然后点击【创建对象】"> 10.<strong><strong>根据自己的情况，添加信息</strong></strong>然后点击【创建对象】</h3>
-<p>示例：</p>
-<p><img src="./images/1327931-20180831110530109-967678460.png" alt="img" /></p>
-<h3 id="_11-点击【提交】"> 11. 点击【<strong><strong>提交</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110540330-1343019554.png" alt="img" /></p>
-<h3 id="_12-点击新增的用户-点击右侧-【增加新的属性】"> 12.<strong><strong>点击</strong></strong>新增的用户，点击右侧****【<strong><strong>增加新的属性</strong></strong>】</h3>
-<p><img src="./images/1327931-20180831110546251-141798944.png" alt="img" /></p>
-<h3 id="_13-选择属性【email】"> 13.****选择属性【Email】</h3>
-<p><img src="./images/1327931-20180831110551737-1997743890.png" alt="img" /></p>
-<h3 id="_14-添好email地址"> 14. 添好Email地址</h3>
-<p>示例如下。</p>
-<p><img src="./images/1327931-20180831110557247-126754661.png" alt="img" /></p>
-<p>15.点击【Update Object】</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -60574,171 +60061,6 @@ misc_dynamic                                               #这个就很好用�
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（21）-find之xargs</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>在使用 find命令的-exec选项处理匹配到的文件时， find命令将所有匹配到的文件一起传递给exec执行。但有些系统对能够传递给exec的命令长度有限制，这样在find命令运行几分钟之后，就会出现溢出错误。错误信息通常是“参数列太长”或“参数列溢出”。这就是xargs命令的用处所在，特别是与find命令一起使用。</p>
-
-<p>find命令把匹配到的文件传递给xargs命令，而xargs命令每次只获取一部分文件而不是全部，不像-exec选项那样。这样它可以先处理最先获取的一部分文件，然后是下一批，并如此继续下去。</p>
-<p>在有些系统中，使用-exec选项会为处理每一个匹配到的文件而发起一个相应的进程，并非将匹配到的文件全部作为参数一次执行；这样在有些情况下就会出现进程过多，系统性能下降的问题，因而效率不高； 而使用xargs命令则只有一个进程。另外，在使用xargs命令时，究竟是一次获取所有的参数，还是分批取得参数，以及每一次获取参数的数目都会根据该命令的选项及系统内核中相应的可调参数来确定。</p>
-<p>使用实例：</p>
-<p>1） 查找系统中的每一个普通文件，然后使用xargs命令来测试它们分别属于哪类文件</p>
-<div><pre><code>#ll
-总计 312
--rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxrwx 2 root root   4096 11-12 19:32 test3
-drwxrwxrwx 2 root root   4096 11-12 19:32 test4
-# find . -type f -print | xargs file
-./log2014.log: empty
-./log2013.log: empty
-./log2012.log: ASCII text
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）在整个系统中查找内存信息转储文件(core dump) ，然后把结果保存到/tmp/core.log 文件中</p>
-<div><pre><code># find / -name &quot;core&quot; -print | xargs echo &quot;&quot; &gt;/tmp/core.log
-# cd /tmp
-# ll
-总计 16
--rw-r--r-- 1 root root 1524 11-12 22:29 core.log
-drwx------ 2 root root 4096 11-12 22:24 ssh-TzcZDx1766
-drwx------ 2 root root 4096 11-12 22:28 ssh-ykiRPk1815
-drwx------ 2 root root 4096 11-03 07:11 vmware-root
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>3）在当前目录下查找所有用户具有读、写和执行权限的文件，并收回相应的写权限</p>
-<div><pre><code># ll
-总计 312
--rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxrwx 2 root root   4096 11-12 19:32 test3
-drwxrwxrwx 2 root root   4096 11-12 19:32 test4
-# find . -perm -7 -print | xargs chmod o-w
-# ll
-总计 312
--rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxr-x 2 root root   4096 11-12 19:32 test3
-drwxrwxr-x 2 root root   4096 11-12 19:32 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>说明：</p>
-<p>执行命令后，文件夹scf、test3和test4的权限都发生改变</p>
-<p>4）用grep命令在所有的普通文件中搜索hostname这个词</p>
-<div><pre><code># find . -type f -print | xargs grep &quot;hostname&quot;
-./log2013.log:hostnamebaidu=baidu.com
-./log2013.log:hostnamesina=sina.com
-./log2013.log:hostnames=true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>5）用grep命令在当前目录下的所有普通文件中搜索hostnames这个词</p>
-<div><pre><code># find . -name \* -type f -print | xargs grep &quot;hostnames&quot;
-./log2013.log:hostnamesina=sina.com
-./log2013.log:hostnames=true
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>说明：</p>
-<p>注意，在上面的例子中， \用来取消find命令中的*在shell中的特殊含义。</p>
-<p>6）使用xargs执行mv</p>
-<div><pre><code># ll
-总计 316
--rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
--rw-r--r-- 1 root root     61 11-12 22:44 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxr-x 2 root root   4096 11-12 22:54 test3
-drwxrwxr-x 2 root root   4096 11-12 19:32 test4
-# cd test4/
-# ll
-总计 0[root@localhost test4]# cd ..
-# find . -name &quot;*.log&quot; | xargs -i mv {} test4
-# ll
-总计 12drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxr-x 2 root root 4096 11-13 05:50 test3
-drwxrwxr-x 2 root root 4096 11-13 05:50 test4
-# cd test4/
-# ll
-总计 304
--rw-r--r-- 1 root root 302108 11-12 22:54 log2012.log
--rw-r--r-- 1 root root     61 11-12 22:54 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:54 log2014.log
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>7）find后执行xargs提示xargs: argument line too long解决方法：</p>
-<div><pre><code>#find . -type f -atime +0 -print0 | xargs -0 -l1 -t rm -f
-rm -f 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>说明：</p>
-<p>-l1是一次处理一个；-t是处理之前打印出命令</p>
-<p>8）使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
-<div><pre><code># ll
-总计 12drwxr-xr-x 6 root root 4096 10-27 01:58 scf
-drwxrwxr-x 2 root root 4096 11-13 05:50 test3
-drwxrwxr-x 2 root root 4096 11-13 05:50 test4
-# cd test4
-# find . -name &quot;file&quot; | xargs -I [] cp [] ..
-# ll
-总计 304
--rw-r--r-- 1 root root 302108 11-12 22:54 log2012.log
--rw-r--r-- 1 root root     61 11-12 22:54 log2013.log
--rw-r--r-- 1 root root      0 11-12 22:54 log2014.log
-# cd ..
-# ll
-总计 316
--rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
--rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
--rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxr-x 2 root root   4096 11-13 05:50 test3
-drwxrwxr-x 2 root root   4096 11-13 05:50 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>说明：</p>
-<p>使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
-<p>9）xargs的-p参数的使用</p>
-<div><pre><code># ll
-总计 0
--rw-r--r-- 1 root root 0 11-13 06:06 log2015.log
-# cd ..
-# ll
-总计 316
--rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
--rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
--rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxr-x 2 root root   4096 11-13 06:06 test3
-drwxrwxr-x 2 root root   4096 11-13 05:50 test4
-# cd test3
-#  find . -name &quot;*.log&quot; | xargs -p -i mv {} ..
-mv ./log2015.log .. ?...y
-# ll
-总计 0
-# cd ..
-# ll
-总计 316
--rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
--rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
--rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
--rw-r--r-- 1 root root      0 11-13 06:06 log2015.log
-drwxr-xr-x 6 root root   4096 10-27 01:58 scf
-drwxrwxr-x 2 root root   4096 11-13 06:08 test3
-drwxrwxr-x 2 root root   4096 11-13 05:50 test4
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>说明：</p>
-<p>-p参数会提示让你确认是否执行后面的命令,y执行，n不执行。</p>
-<p>转载链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/11/15/2770888.html</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T18:50:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（29）-chown</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8829%EF%BC%89-chown/"/>
@@ -60964,6 +60286,171 @@ drwxr-xr-x 2 root mail   4096 11-30 08:39 test6
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:03:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（21）-find之xargs</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8821%EF%BC%89-find/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>在使用 find命令的-exec选项处理匹配到的文件时， find命令将所有匹配到的文件一起传递给exec执行。但有些系统对能够传递给exec的命令长度有限制，这样在find命令运行几分钟之后，就会出现溢出错误。错误信息通常是“参数列太长”或“参数列溢出”。这就是xargs命令的用处所在，特别是与find命令一起使用。</p>
+
+<p>find命令把匹配到的文件传递给xargs命令，而xargs命令每次只获取一部分文件而不是全部，不像-exec选项那样。这样它可以先处理最先获取的一部分文件，然后是下一批，并如此继续下去。</p>
+<p>在有些系统中，使用-exec选项会为处理每一个匹配到的文件而发起一个相应的进程，并非将匹配到的文件全部作为参数一次执行；这样在有些情况下就会出现进程过多，系统性能下降的问题，因而效率不高； 而使用xargs命令则只有一个进程。另外，在使用xargs命令时，究竟是一次获取所有的参数，还是分批取得参数，以及每一次获取参数的数目都会根据该命令的选项及系统内核中相应的可调参数来确定。</p>
+<p>使用实例：</p>
+<p>1） 查找系统中的每一个普通文件，然后使用xargs命令来测试它们分别属于哪类文件</p>
+<div><pre><code>#ll
+总计 312
+-rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxrwx 2 root root   4096 11-12 19:32 test3
+drwxrwxrwx 2 root root   4096 11-12 19:32 test4
+# find . -type f -print | xargs file
+./log2014.log: empty
+./log2013.log: empty
+./log2012.log: ASCII text
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>2）在整个系统中查找内存信息转储文件(core dump) ，然后把结果保存到/tmp/core.log 文件中</p>
+<div><pre><code># find / -name &quot;core&quot; -print | xargs echo &quot;&quot; &gt;/tmp/core.log
+# cd /tmp
+# ll
+总计 16
+-rw-r--r-- 1 root root 1524 11-12 22:29 core.log
+drwx------ 2 root root 4096 11-12 22:24 ssh-TzcZDx1766
+drwx------ 2 root root 4096 11-12 22:28 ssh-ykiRPk1815
+drwx------ 2 root root 4096 11-03 07:11 vmware-root
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>3）在当前目录下查找所有用户具有读、写和执行权限的文件，并收回相应的写权限</p>
+<div><pre><code># ll
+总计 312
+-rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxrwx 2 root root   4096 11-12 19:32 test3
+drwxrwxrwx 2 root root   4096 11-12 19:32 test4
+# find . -perm -7 -print | xargs chmod o-w
+# ll
+总计 312
+-rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxr-x 2 root root   4096 11-12 19:32 test3
+drwxrwxr-x 2 root root   4096 11-12 19:32 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br></div></div><p>说明：</p>
+<p>执行命令后，文件夹scf、test3和test4的权限都发生改变</p>
+<p>4）用grep命令在所有的普通文件中搜索hostname这个词</p>
+<div><pre><code># find . -type f -print | xargs grep &quot;hostname&quot;
+./log2013.log:hostnamebaidu=baidu.com
+./log2013.log:hostnamesina=sina.com
+./log2013.log:hostnames=true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>5）用grep命令在当前目录下的所有普通文件中搜索hostnames这个词</p>
+<div><pre><code># find . -name \* -type f -print | xargs grep &quot;hostnames&quot;
+./log2013.log:hostnamesina=sina.com
+./log2013.log:hostnames=true
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>说明：</p>
+<p>注意，在上面的例子中， \用来取消find命令中的*在shell中的特殊含义。</p>
+<p>6）使用xargs执行mv</p>
+<div><pre><code># ll
+总计 316
+-rw-r--r-- 1 root root 302108 11-03 06:19 log2012.log
+-rw-r--r-- 1 root root     61 11-12 22:44 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:25 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxr-x 2 root root   4096 11-12 22:54 test3
+drwxrwxr-x 2 root root   4096 11-12 19:32 test4
+# cd test4/
+# ll
+总计 0[root@localhost test4]# cd ..
+# find . -name &quot;*.log&quot; | xargs -i mv {} test4
+# ll
+总计 12drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxr-x 2 root root 4096 11-13 05:50 test3
+drwxrwxr-x 2 root root 4096 11-13 05:50 test4
+# cd test4/
+# ll
+总计 304
+-rw-r--r-- 1 root root 302108 11-12 22:54 log2012.log
+-rw-r--r-- 1 root root     61 11-12 22:54 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:54 log2014.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>7）find后执行xargs提示xargs: argument line too long解决方法：</p>
+<div><pre><code>#find . -type f -atime +0 -print0 | xargs -0 -l1 -t rm -f
+rm -f 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>说明：</p>
+<p>-l1是一次处理一个；-t是处理之前打印出命令</p>
+<p>8）使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+<div><pre><code># ll
+总计 12drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxr-x 2 root root 4096 11-13 05:50 test3
+drwxrwxr-x 2 root root 4096 11-13 05:50 test4
+# cd test4
+# find . -name &quot;file&quot; | xargs -I [] cp [] ..
+# ll
+总计 304
+-rw-r--r-- 1 root root 302108 11-12 22:54 log2012.log
+-rw-r--r-- 1 root root     61 11-12 22:54 log2013.log
+-rw-r--r-- 1 root root      0 11-12 22:54 log2014.log
+# cd ..
+# ll
+总计 316
+-rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
+-rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
+-rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxr-x 2 root root   4096 11-13 05:50 test3
+drwxrwxr-x 2 root root   4096 11-13 05:50 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>说明：</p>
+<p>使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+<p>9）xargs的-p参数的使用</p>
+<div><pre><code># ll
+总计 0
+-rw-r--r-- 1 root root 0 11-13 06:06 log2015.log
+# cd ..
+# ll
+总计 316
+-rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
+-rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
+-rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxr-x 2 root root   4096 11-13 06:06 test3
+drwxrwxr-x 2 root root   4096 11-13 05:50 test4
+# cd test3
+#  find . -name &quot;*.log&quot; | xargs -p -i mv {} ..
+mv ./log2015.log .. ?...y
+# ll
+总计 0
+# cd ..
+# ll
+总计 316
+-rw-r--r-- 1 root root 302108 11-13 06:03 log2012.log
+-rw-r--r-- 1 root root     61 11-13 06:03 log2013.log
+-rw-r--r-- 1 root root      0 11-13 06:03 log2014.log
+-rw-r--r-- 1 root root      0 11-13 06:06 log2015.log
+drwxr-xr-x 6 root root   4096 10-27 01:58 scf
+drwxrwxr-x 2 root root   4096 11-13 06:08 test3
+drwxrwxr-x 2 root root   4096 11-13 05:50 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><p>说明：</p>
+<p>-p参数会提示让你确认是否执行后面的命令,y执行，n不执行。</p>
+<p>转载链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/11/15/2770888.html</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T18:50:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -61792,6 +61279,175 @@ kmem_cache                  137    137   2688      1
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">每天一个linux命令（46）-iostat</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>iostat(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-c：仅显示CPU使用情况；
+-d：仅显示设备利用率；
+-k：显示状态以千字节每秒为单位，而不使用块每秒；
+-m：显示状态以兆字节每秒为单位；
+-p：仅显示块设备和所有被使用的其他分区的状态；
+-t：显示每个报告产生时的时间；
+-V：显示版号并退出；
+-x：显示扩展状态。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="参数"> 参数</h2>
+<ul>
+<li>
+<p>间隔时间：每次报告的间隔时间（秒）；</p>
+</li>
+<li>
+<p>次数：显示报告的次数。</p>
+</li>
+</ul>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）显示所有设备负载情况</p>
+<div><pre><code># iostat 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729274   43157304
+xvdb             30.95         7.62       686.84   57636578 5194927160
+dm-0             85.98         7.62       686.84   57635962 5194927160
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
+<p>cpu属性值说明：</p>
+<p>%user：CPU处在用户模式下的时间百分比。</p>
+<p>%nice：CPU处在带NICE值的用户模式下的时间百分比。</p>
+<p>%system：CPU处在系统模式下的时间百分比。</p>
+<p>%iowait：CPU等待输入输出完成时间的百分比。</p>
+<p>%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。</p>
+<p>%idle：CPU空闲时间百分比。</p>
+<p>备注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。</p>
+<p>2）定时显示所有信息</p>
+<div><pre><code>iostat 2 3
+</code></pre>
+<div><span>1</span><br></div></div><p>说明：</p>
+<p>每隔 2秒刷新显示，且显示3次</p>
+<p>3）显示指定磁盘信息</p>
+<div><pre><code># iostat -d xvda
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729290   43160264
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>4）显示tty和cpu信息</p>
+<div><pre><code># iostat -t
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+04/04/2018 02:25:52 PM
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+xvda              0.38         0.10         5.71     729290   43160960
+xvdb             30.95         7.62       686.87   57637978 5195407104
+dm-0             85.99         7.62       686.87   57637362 5195407104
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>5）以m为单位显示所有信息</p>
+<div><pre><code># iostat -m
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+Device:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn
+xvda              0.38         0.00         0.00        356      21075
+xvdb             30.95         0.00         0.34      28143    2536858
+dm-0             85.99         0.00         0.34      28143    2536858
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>6）查看TPS和吞吐量信息</p>
+<div><pre><code># iostat -d -k 1 1 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+xvda              0.38         0.05         2.85     364653   21581388
+xvdb             30.95         3.81       343.44   28819121 2597806052
+dm-0             85.99         3.81       343.44   28818813 2597806052
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
+<p>tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。</p>
+<p>kB_read/s：每秒从设备（drive expressed）读取的数据量；</p>
+<p>kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；</p>
+<p>kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；</p>
+<p>这些单位都为Kilobytes。</p>
+<p>7）查看设备使用率（%util）、响应时间（await）</p>
+<div><pre><code># iostat -d -x -k 1 1 
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+xvda              0.00     0.33    0.00    0.38     0.05     2.85    15.16     0.00    3.11    1.94    3.12   1.06   0.04
+xvdb              0.00    55.03    0.13   30.83     3.81   343.45    22.44     0.33   10.74    3.87   10.76   0.12   0.37
+dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0.33    3.89    3.88    3.89   0.04   0.37
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
+<p>rrqm/s：  每秒进行 merge 的读操作数目.即 delta(rmerge)/s</p>
+<p>wrqm/s： 每秒进行 merge 的写操作数目.即 delta(wmerge)/s</p>
+<p>r/s：  每秒完成的读 I/O 设备次数.即 delta(rio)/s</p>
+<p>w/s：  每秒完成的写 I/O 设备次数.即 delta(wio)/s</p>
+<p>rsec/s：  每秒读扇区数.即 delta(rsect)/s</p>
+<p>wsec/s： 每秒写扇区数.即 delta(wsect)/s</p>
+<p>rkB/s：  每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节.(需要计算)</p>
+<p>wkB/s：  每秒写K字节数.是 wsect/s 的一半.(需要计算)</p>
+<p>avgrq-sz：平均每次设备I/O操作的数据大小 (扇区).delta(rsect+wsect)/delta(rio+wio)</p>
+<p>avgqu-sz：平均I/O队列长度.即 delta(aveq)/s/1000 (因为aveq的单位为毫秒).</p>
+<p>await：  平均每次设备I/O操作的等待时间 (毫秒).即 delta(ruse+wuse)/delta(rio+wio)</p>
+<p>svctm： 平均每次设备I/O操作的服务时间 (毫秒).即 delta(use)/delta(rio+wio)</p>
+<p>%util： 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的，即 delta(use)/s/1000 (因为use的单位为毫秒)</p>
+<p>如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。</p>
+<p>idle小于70% IO压力就较大了，一般读取速度有较多的wait。</p>
+<p>同时可以结合vmstat 查看查看b参数(等待资源的进程数)和wa参数(IO等待所占用的CPU时间的百分比，高过30%时IO压力高)。</p>
+<p>另外 await 的参数也要多和 svctm 来参考。差的过高就一定有 IO 的问题。</p>
+<p>avgqu-sz 也是个做 IO 调优时需要注意的地方，这个就是直接每次操作的数据的大小，如果次数多，但数据拿的小的话，其实 IO 也会很小。如果数据拿的大，才IO 的数据会高。也可以通过 avgqu-sz × ( r/s or w/s ) = rsec/s or wsec/s。也就是讲，读定速度是这个来决定的。</p>
+<p>svctm 一般要小于 await (因为同时等待的请求的等待时间被重复计算了)，svctm 的大小一般和磁盘性能有关，CPU/内存的负荷也会对其有影响，请求过多也会间接导致 svctm 的增加。await 的大小一般取决于服务时间(svctm) 以及 I/O 队列的长度和 I/O 请求的发出模式。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明 I/O 队列太长，应用得到的响应时间变慢，如果响应时间超过了用户可以容许的范围，这时可以考虑更换更快的磁盘，调整内核 elevator 算法，优化应用，或者升级 CPU。</p>
+<p>队列长度(avgqu-sz)也可作为衡量系统 I/O 负荷的指标，但由于 avgqu-sz 是按照单位时间的平均值，所以不能反映瞬间的 I/O 洪水。</p>
+<p>​       形象的比喻：
+​       r/s+w/s 类似于交款人的总数
+​      平均队列长度(avgqu-sz)类似于单位时间里平均排队人的个数
+​      平均服务时间(svctm)类似于收银员的收款速度
+​      平均等待时间(await)类似于平均每人的等待时间
+​      平均I/O数据(avgrq-sz)类似于平均每人所买的东西多少
+​       I/O 操作率 (%util)类似于收款台前有人排队的时间比例
+​       设备IO操作:总IO(io)/s = r/s(读) +w/s(写) =1.46 + 25.28=26.74
+​      平均每次设备I/O操作只需要0.36毫秒完成,现在却需要10.57毫秒完成，因为发出的	请求太多(每秒26.74个)，假如请求时同时发出的，可以这样计算平均等待时间:
+​      平均等待时间=单个I/O服务器时间*(1+2+...+请求总数-1)/请求总数
+​       每秒发出的I/0请求很多,但是平均队列就4,表示这些请求比较均匀,大部分处理还是比较及时。</p>
+<p>8）查看cpu状态</p>
+<div><pre><code># iostat -c 1 3
+Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.81    0.03    0.16    0.04    0.07   98.90
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           2.29    0.13    0.38    0.00    0.13   97.07
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           4.32    0.00    0.51    0.13    0.00   95.04
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/28/2837345.html</p>
+<p>http://man.linuxde.net/iostat</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:17:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">每天一个linux命令（49）-lsof</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8849%EF%BC%89-lsof/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8849%EF%BC%89-lsof/"/>
@@ -62039,175 +61695,6 @@ sshd    24155 root txt    REG    8,2 409488 1027867 /usr/sbin/sshd
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:20:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">每天一个linux命令（46）-iostat</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8846%EF%BC%89-iostat/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>iostat(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-c：仅显示CPU使用情况；
--d：仅显示设备利用率；
--k：显示状态以千字节每秒为单位，而不使用块每秒；
--m：显示状态以兆字节每秒为单位；
--p：仅显示块设备和所有被使用的其他分区的状态；
--t：显示每个报告产生时的时间；
--V：显示版号并退出；
--x：显示扩展状态。
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h2 id="参数"> 参数</h2>
-<ul>
-<li>
-<p>间隔时间：每次报告的间隔时间（秒）；</p>
-</li>
-<li>
-<p>次数：显示报告的次数。</p>
-</li>
-</ul>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）显示所有设备负载情况</p>
-<div><pre><code># iostat 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729274   43157304
-xvdb             30.95         7.62       686.84   57636578 5194927160
-dm-0             85.98         7.62       686.84   57635962 5194927160
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
-<p>cpu属性值说明：</p>
-<p>%user：CPU处在用户模式下的时间百分比。</p>
-<p>%nice：CPU处在带NICE值的用户模式下的时间百分比。</p>
-<p>%system：CPU处在系统模式下的时间百分比。</p>
-<p>%iowait：CPU等待输入输出完成时间的百分比。</p>
-<p>%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。</p>
-<p>%idle：CPU空闲时间百分比。</p>
-<p>备注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。</p>
-<p>2）定时显示所有信息</p>
-<div><pre><code>iostat 2 3
-</code></pre>
-<div><span>1</span><br></div></div><p>说明：</p>
-<p>每隔 2秒刷新显示，且显示3次</p>
-<p>3）显示指定磁盘信息</p>
-<div><pre><code># iostat -d xvda
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729290   43160264
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>4）显示tty和cpu信息</p>
-<div><pre><code># iostat -t
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-04/04/2018 02:25:52 PM
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
-xvda              0.38         0.10         5.71     729290   43160960
-xvdb             30.95         7.62       686.87   57637978 5195407104
-dm-0             85.99         7.62       686.87   57637362 5195407104
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>5）以m为单位显示所有信息</p>
-<div><pre><code># iostat -m
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-Device:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn
-xvda              0.38         0.00         0.00        356      21075
-xvdb             30.95         0.00         0.34      28143    2536858
-dm-0             85.99         0.00         0.34      28143    2536858
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>6）查看TPS和吞吐量信息</p>
-<div><pre><code># iostat -d -k 1 1 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
-xvda              0.38         0.05         2.85     364653   21581388
-xvdb             30.95         3.81       343.44   28819121 2597806052
-dm-0             85.99         3.81       343.44   28818813 2597806052
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
-<p>tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。</p>
-<p>kB_read/s：每秒从设备（drive expressed）读取的数据量；</p>
-<p>kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；</p>
-<p>kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；</p>
-<p>这些单位都为Kilobytes。</p>
-<p>7）查看设备使用率（%util）、响应时间（await）</p>
-<div><pre><code># iostat -d -x -k 1 1 
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
-xvda              0.00     0.33    0.00    0.38     0.05     2.85    15.16     0.00    3.11    1.94    3.12   1.06   0.04
-xvdb              0.00    55.03    0.13   30.83     3.81   343.45    22.44     0.33   10.74    3.87   10.76   0.12   0.37
-dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0.33    3.89    3.88    3.89   0.04   0.37
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
-<p>rrqm/s：  每秒进行 merge 的读操作数目.即 delta(rmerge)/s</p>
-<p>wrqm/s： 每秒进行 merge 的写操作数目.即 delta(wmerge)/s</p>
-<p>r/s：  每秒完成的读 I/O 设备次数.即 delta(rio)/s</p>
-<p>w/s：  每秒完成的写 I/O 设备次数.即 delta(wio)/s</p>
-<p>rsec/s：  每秒读扇区数.即 delta(rsect)/s</p>
-<p>wsec/s： 每秒写扇区数.即 delta(wsect)/s</p>
-<p>rkB/s：  每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节.(需要计算)</p>
-<p>wkB/s：  每秒写K字节数.是 wsect/s 的一半.(需要计算)</p>
-<p>avgrq-sz：平均每次设备I/O操作的数据大小 (扇区).delta(rsect+wsect)/delta(rio+wio)</p>
-<p>avgqu-sz：平均I/O队列长度.即 delta(aveq)/s/1000 (因为aveq的单位为毫秒).</p>
-<p>await：  平均每次设备I/O操作的等待时间 (毫秒).即 delta(ruse+wuse)/delta(rio+wio)</p>
-<p>svctm： 平均每次设备I/O操作的服务时间 (毫秒).即 delta(use)/delta(rio+wio)</p>
-<p>%util： 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的，即 delta(use)/s/1000 (因为use的单位为毫秒)</p>
-<p>如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。</p>
-<p>idle小于70% IO压力就较大了，一般读取速度有较多的wait。</p>
-<p>同时可以结合vmstat 查看查看b参数(等待资源的进程数)和wa参数(IO等待所占用的CPU时间的百分比，高过30%时IO压力高)。</p>
-<p>另外 await 的参数也要多和 svctm 来参考。差的过高就一定有 IO 的问题。</p>
-<p>avgqu-sz 也是个做 IO 调优时需要注意的地方，这个就是直接每次操作的数据的大小，如果次数多，但数据拿的小的话，其实 IO 也会很小。如果数据拿的大，才IO 的数据会高。也可以通过 avgqu-sz × ( r/s or w/s ) = rsec/s or wsec/s。也就是讲，读定速度是这个来决定的。</p>
-<p>svctm 一般要小于 await (因为同时等待的请求的等待时间被重复计算了)，svctm 的大小一般和磁盘性能有关，CPU/内存的负荷也会对其有影响，请求过多也会间接导致 svctm 的增加。await 的大小一般取决于服务时间(svctm) 以及 I/O 队列的长度和 I/O 请求的发出模式。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明 I/O 队列太长，应用得到的响应时间变慢，如果响应时间超过了用户可以容许的范围，这时可以考虑更换更快的磁盘，调整内核 elevator 算法，优化应用，或者升级 CPU。</p>
-<p>队列长度(avgqu-sz)也可作为衡量系统 I/O 负荷的指标，但由于 avgqu-sz 是按照单位时间的平均值，所以不能反映瞬间的 I/O 洪水。</p>
-<p>​       形象的比喻：
-​       r/s+w/s 类似于交款人的总数
-​      平均队列长度(avgqu-sz)类似于单位时间里平均排队人的个数
-​      平均服务时间(svctm)类似于收银员的收款速度
-​      平均等待时间(await)类似于平均每人的等待时间
-​      平均I/O数据(avgrq-sz)类似于平均每人所买的东西多少
-​       I/O 操作率 (%util)类似于收款台前有人排队的时间比例
-​       设备IO操作:总IO(io)/s = r/s(读) +w/s(写) =1.46 + 25.28=26.74
-​      平均每次设备I/O操作只需要0.36毫秒完成,现在却需要10.57毫秒完成，因为发出的	请求太多(每秒26.74个)，假如请求时同时发出的，可以这样计算平均等待时间:
-​      平均等待时间=单个I/O服务器时间*(1+2+...+请求总数-1)/请求总数
-​       每秒发出的I/0请求很多,但是平均队列就4,表示这些请求比较均匀,大部分处理还是比较及时。</p>
-<p>8）查看cpu状态</p>
-<div><pre><code># iostat -c 1 3
-Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.81    0.03    0.16    0.04    0.07   98.90
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           2.29    0.13    0.38    0.00    0.13   97.07
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           4.32    0.00    0.51    0.13    0.00   95.04
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/28/2837345.html</p>
-<p>http://man.linuxde.net/iostat</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:17:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -63838,80 +63325,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.1 nginx全局块和events块配置</title>
-    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
-<h2 id="_1-example"> 1 example</h2>
-<div><pre><code><span># 运行Nginx进程的用户</span>
-<span>user</span> nginx<span>;</span>
-<span>worker_processes</span>  <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> auto<span>;</span>
-
-<span># 定义存储某类型的全局错误的日志位置</span>
-<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
-<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
-<span># 指定进程ID（pid）存放的路径 </span>
-<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
-<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
-<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
-
-<span>events</span> <span>{</span>
-    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
-    <span>use</span> epoll<span>;</span>
-    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
-    <span>worker_connections</span>  <span>20480</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
-<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
-<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
-<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
-<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
-<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
-<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
-<blockquote>
-<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
-</blockquote>
-<h3 id="_2-3-实例"> 2.3 实例</h3>
-<p><strong>2核CPU，开启2个进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
-<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
-<p>测试结束后，CPU内核的负载应该都同时降低。</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">3.2 nginxHTTP块配置</title>
     <id>https://clay-wangzhi.com/web/nginx/http/</id>
     <link href="https://clay-wangzhi.com/web/nginx/http/"/>
@@ -64068,6 +63481,80 @@ real_ip_recursive on; #递归的去除所配置中的可信IP。
 <p>参考链接：</p>
 <p>https://www.hi-linux.com/posts/53006.html</p>
 <p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">3.1 nginx全局块和events块配置</title>
+    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
+<h2 id="_1-example"> 1 example</h2>
+<div><pre><code><span># 运行Nginx进程的用户</span>
+<span>user</span> nginx<span>;</span>
+<span>worker_processes</span>  <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> auto<span>;</span>
+
+<span># 定义存储某类型的全局错误的日志位置</span>
+<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
+<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
+<span># 指定进程ID（pid）存放的路径 </span>
+<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
+<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
+<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
+
+<span>events</span> <span>{</span>
+    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
+    <span>use</span> epoll<span>;</span>
+    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
+    <span>worker_connections</span>  <span>20480</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
+<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
+<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
+<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
+<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
+<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
+<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
+<blockquote>
+<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
+</blockquote>
+<h3 id="_2-3-实例"> 2.3 实例</h3>
+<p><strong>2核CPU，开启2个进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
+<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
+<p>测试结束后，CPU内核的负载应该都同时降低。</p>
 </blockquote>
 ]]></content>
     <author>
@@ -65588,105 +65075,6 @@ iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">附录 F. I/O 与 I/O 重定向详细介绍</title>
-    <id>https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/</id>
-    <link href="https://clay-wangzhi.com/code/shell/appendix/F_io_and_redirection/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="附录-f-i-o-与-i-o-重定向详细介绍"> 附录 F. I/O 与 I/O 重定向详细介绍</h1>
-<p>一个指令会预期前三个文件描述符可用。第一个， <em>fd 0</em> (标准输入， <code>stdin</code>) 用于读取。其他两个 (<em>fd 1</em>, <code>stdout</code> 和 <em>fd 2</em>, <code>stderr</code>) 用于写入。</p>
-<p>每个指令都关联着一个 <code>stdin</code>, <code>stdout</code> 和 <code>stderr</code> 。<strong><code>ls 2&gt;&amp;1</code></strong> 意味着临时将 ls 的 <code>stderr</code> 连接到与 Shell 的 <code>stdout</code> 一样的「资源」。</p>
-<p>按照惯例，指令从 fd 0 (<code>stdin</code>) 读取输入，正常输出打印到 fd 1 (<code>stdin</code>)，错误输出打印到 fd 2 (<code>stderr</code>)。如果这三个文件描述符有一个没被打开，你可能会碰上问题：</p>
-<div><pre><code>bash$ <span>cat</span> /etc/passwd <span>>&amp;</span>-
-cat: standard output: Bad <span>file</span> descriptor
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>例如，当 <strong>xterm</strong> 运行，它首先自我初始化。在运行用户的 Shell 之前， <strong>xterm</strong> 会打开终端设备 (/dev/pts/<n> 或类似) 三次。</p>
-<p>此时 Bash 继承这三个文件描述符，且每个 Bash 运行的指令 (子进程) 因此继承它们，除非你重定向它们。重定向意味着重设一个文件描述符到另一个文件 (或者管道，或任何有权限的东西)。文件描述符可以本地重设 (对于一个指令、指令组、子 Shell、while / case / for 循环等)，或者，对余下的 Shell 会话全局重设 (通过 exec)。</p>
-<p><code>ls &gt; /dev/null</code> 意味着在其文件描述符 1 连接到 <code>/dev/null</code> 的情况下运行 <strong>ls</strong> 。</p>
-<div><pre><code>bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>363</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>363</span> bozo        2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>exec</span> <span><span>2</span>></span> /dev/null
-bash$ <span>lsof</span> -a -p <span>$$</span> -d0,1,2
-COMMAND PID     <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>bash</span>    <span>371</span> bozo        0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        1u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>bash</span>    <span>371</span> bozo        2w   CHR    <span>1,3</span>       <span>120</span> /dev/null
-
-
-bash$ <span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span>|</span> <span>cat</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>379</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>379</span> root    1w  FIFO    <span>0,0</span>      <span>7118</span> pipe
- <span>lsof</span>    <span>379</span> root    2u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
-
-
-bash$ <span>echo</span> <span>"<span><span>$(</span><span>bash</span> -c <span>'lsof -a -p <span>$$</span> -d0,1,2'</span> <span><span>2</span>></span><span>&amp;1</span><span>)</span></span>"</span>
-COMMAND PID <span>USER</span>   FD   TYPE DEVICE SIZE NODE NAME
- <span>lsof</span>    <span>426</span> root    0u   CHR  <span>136,1</span>         <span>3</span> /dev/pts/1
- <span>lsof</span>    <span>426</span> root    1w  FIFO    <span>0,0</span>      <span>7520</span> pipe
- <span>lsof</span>    <span>426</span> root    2w  FIFO    <span>0,0</span>      <span>7520</span> pipe
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br></div></div><h2 id="练习"> 练习</h2>
-<p>分析以下脚本。</p>
-<div><pre><code><span>#! /usr/bin/env bash</span>
-
-<span>mkfifo</span> /tmp/fifo1 /tmp/fifo2
-<span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO1: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo1 <span>&amp;</span> <span>exec</span> <span><span>7</span>></span> /tmp/fifo1
-<span>exec</span> <span><span>8</span>></span> <span>></span><span>(</span><span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD8: <span>$a</span>, to fd7"</span><span>;</span> <span>done</span> <span>></span><span>&amp;7</span><span>)</span>
-
-<span>exec</span> <span><span>3</span>></span><span>&amp;1</span>
-<span>(</span>
- <span>(</span>
-  <span>(</span>
-   <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FIFO2: <span>$a</span>"</span><span>;</span> <span>done</span> <span>&lt;</span> /tmp/fifo2 <span>|</span> <span>tee</span> /dev/stderr <span>\</span>
-   <span>|</span> <span>tee</span> /dev/fd/4 <span>|</span> <span>tee</span> /dev/fd/5 <span>|</span> <span>tee</span> /dev/fd/6 <span>></span><span>&amp;7</span> <span>&amp;</span> <span>exec</span> <span><span>3</span>></span> /tmp/fifo2
-
-   <span>echo</span> 1st, to stdout
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 2nd, to stderr <span>></span><span>&amp;2</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 3rd, to fd <span>3</span> <span>></span><span>&amp;3</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 4th, to fd <span>4</span> <span>></span><span>&amp;4</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 5th, to fd <span>5</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 6th, through a pipe <span>|</span> <span>sed</span> <span>'s/.*/PIPE: &amp;, to fd 5/'</span> <span>></span><span>&amp;5</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 7th, to fd <span>6</span> <span>></span><span>&amp;6</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 8th, to fd <span>7</span> <span>></span><span>&amp;7</span>
-   <span>sleep</span> <span>1</span>
-   <span>echo</span> 9th, to fd <span>8</span> <span>></span><span>&amp;8</span>
-
-  <span>)</span> <span><span>4</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span><span>3</span>>&amp;</span>- <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD4: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>5</span>>&amp;</span>- <span><span>6</span>>&amp;</span>-
- <span>)</span> <span><span>5</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD5: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>1</span>></span><span>&amp;3</span> <span><span>6</span>>&amp;</span>-
-<span>)</span> <span><span>6</span>></span><span>&amp;1</span> <span>></span><span>&amp;3</span> <span>|</span> <span>while</span> <span>read</span> a<span>;</span> <span>do</span> <span>echo</span> <span>"FD6: <span>$a</span>"</span><span>;</span> <span>done</span> <span><span>3</span>>&amp;</span>-
-
-<span>rm</span> -f /tmp/fifo1 /tmp/fifo2
-
-
-<span># 对每个指令和子 Shell，猜猜哪个 fd 指向什么。</span>
-<span># 祝你好运！</span>
-
-<span>exit</span> <span>0</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">附录 T. ASCII 表</title>
     <id>https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/</id>
     <link href="https://clay-wangzhi.com/code/shell/appendix/T_ascii_table/"/>
@@ -65835,5 +65223,617 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">创建、复制、移动、删除</title>
+    <id>https://clay-wangzhi.com/linux/basic/file/zsgc/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/file/zsgc/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="创建、复制、移动、删除"> 创建、复制、移动、删除</h1>
+<h3 id="touch命令-创建文件"> touch命令（创建文件）</h3>
+<p>linux的touch命令不常用，一般在使用make的时候可能会用到，用来修改文件时间戳，或者新建一个不存在的文件。</p>
+<h4 id="语法"> 语法</h4>
+<p><code>touch(选项)(参数)</code></p>
+<p>选项</p>
+<div><pre><code>-a：或--time=atime或--time=access或--time=use  只更改存取时间；
+-c：或--no-create  不建立任何文件；
+-d：&lt;时间日期&gt; 使用指定的日期时间，而非现在的时间；
+-f：此参数将忽略不予处理，仅负责解决BSD版本touch指令的兼容性问题；
+-m：或--time=mtime或--time=modify  只更该变动时间；
+-r：&lt;参考文件或目录&gt;  把指定文件或目录的日期时间，统统设成和参考文件或目录的日期时间相同；
+-t：&lt;日期时间&gt;  使用指定的日期时间，而非现在的时间；
+--help：在线帮助；
+--version：显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h4 id="功能"> 功能</h4>
+<p>touch命令参数可更改文档或目录的日期时间，包括存取时间和更改时间。</p>
+<h4 id="常用范例"> 常用范例</h4>
+<p>1）创建不存在的文件</p>
+<div><pre><code># touch log2012.log log2013.log
+# ll
+-rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>如果log2014.log不存在，则不创建文件</p>
+<div><pre><code># touch -c log2014.log
+# ll
+-rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>2）更新log.log的时间和log2012.log时间戳相同</p>
+<div><pre><code># ll
+-rw-r--r-- 1 root root    0 10-28 16:01 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+# touch -r log.log log2012.log 
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>3）设定文件的时间戳</p>
+<div><pre><code># ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+# touch -t 201211142234.50 log.log
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log2012.log
+-rw-r--r-- 1 root root    0 10-28 16:01 log2013.log
+-rw-r--r-- 1 root root    0 2012-11-14 log.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
+<p>-t  time 使用指定的时间值 time 作为指定文件相应时间戳记的新值．此处的 time规定为如下形式的十进制数:</p>
+<p>[[CC]YY]MMDDhhmm[.SS]</p>
+<p>这里，CC为年数中的前两位，即”世纪数”；YY为年数的后两位，即某世纪中的年数．如果不给出CC的值，则touch   将把年数CCYY限定在1969--2068之内．MM为月数，DD为天将把年数CCYY限定在1969--2068之内．MM为月数，DD为天数，hh 为小时数(几点)，mm为分钟数，SS为秒数．此处秒的设定范围是0--61，这样可以处理闰秒．这些数字组成的时间是环境变量TZ指定的时区中的一个时 间．由于系统的限制，早于1970年1月1日的时间是错误的。</p>
+<p>4）同时创建多个文件</p>
+<div><pre><code><span>touch</span> file<span>{</span><span>1</span><span>..</span><span>20</span><span>}</span>
+<span>touch</span> /home/<span>{</span>aa,bb<span>}</span>
+//<span>{</span><span>}</span>里面为集合
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h3 id="mkdir命令-创建目录"> mkdir命令（创建目录）</h3>
+<p>mkdir命令用来创建目录。该命令创建由<a href="http://man.linuxde.net/dirname" target="_blank" rel="noopener noreferrer">dirname</a>命名的目录。如果在目录名的前面没有加任何路径名，则在当前目录下创建由dirname指定的目录；如果给出了一个已经存在的路径，将会在该目录下创建一个指定的目录。在创建目录时，应保证新建的目录与它所在目录下的文件没有重名。</p>
+<h4 id="语法-2"> 语法</h4>
+<p><code>cd (选项) (参数)</code></p>
+<h4 id="选项"> 选项</h4>
+<div><pre><code>-Z：设置安全上下文，当使用SELinux时有效；
+-m&lt;目标属性&gt;或--mode&lt;目标属性&gt;建立目录的同时设置目录的权限；
+-p或--parents 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录；
+-v, --verbose  每次创建新目录都显示信息
+--version 显示版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="常用范例-2"> 常用范例</h4>
+<p>1）创建一个空目录</p>
+<div><pre><code>mkdir test1
+</code></pre>
+<div><span>1</span><br></div></div><p>2）递归创建多个目录</p>
+<div><pre><code>mkdir -p test2/test22
+</code></pre>
+<div><span>1</span><br></div></div><p>3）创建权限为777的目录</p>
+<div><pre><code>mkdir -m 777 test3
+</code></pre>
+<div><span>1</span><br></div></div><p>4）一个命令创建项目的目录结构</p>
+<div><pre><code>#mkdir -vp scf/{lib/,bin/,doc/{info,product},logs/{info,product},service/deploy/{info,product}}
+mkdir: 已创建目录 “scf”
+
+mkdir: 已创建目录 “scf/lib”
+
+mkdir: 已创建目录 “scf/bin”
+
+mkdir: 已创建目录 “scf/doc”
+
+mkdir: 已创建目录 “scf/doc/info”
+
+mkdir: 已创建目录 “scf/doc/product”
+
+mkdir: 已创建目录 “scf/logs”
+
+mkdir: 已创建目录 “scf/logs/info”
+
+mkdir: 已创建目录 “scf/logs/product”
+
+mkdir: 已创建目录 “scf/service”
+
+mkdir: 已创建目录 “scf/service/deploy”
+
+mkdir: 已创建目录 “scf/service/deploy/info”
+
+mkdir: 已创建目录 “scf/service/deploy/product”
+
+# tree scf/
+
+scf/
+
+|-- bin
+
+|-- doc
+
+|   |-- info
+
+|   `-- product
+
+|-- lib
+
+|-- logs
+
+|   |-- info
+
+|   `-- product
+
+`-- service
+
+   	 	`-- deploy
+
+  	    	|-- info
+
+        	`-- product
+
+
+12 directories, 0 files
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br></div></div><h3 id="cp命令-复制"> cp命令（复制）</h3>
+<p>cp命令用来复制文件或者目录，是Linux系统中最常用的命令之一。一般情况下，shell会设置一个别名，在命令行下复制文件时，如果目标文件已经存在，就会询问是否覆盖，不管你是否使用-i参数。但是如果是在shell脚本中执行cp时，没有-i参数时不会询问是否覆盖。这说明命令行和shell脚本的执行方式有些不同。</p>
+<h4 id="语法-3"> 语法</h4>
+<p><code>cp(选项)(参数)</code></p>
+<h4 id="选项-2"> 选项</h4>
+<div><pre><code>-a：此参数的效果和同时指定&quot;-dpR&quot;参数相同；
+-d：当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录；
+-f：强行复制文件或目录，不论目标文件或目录是否已存在；
+-i：覆盖既有文件之前先询问用户；
+-l：对源文件建立硬连接，而非复制文件；
+-p：保留源文件或目录的属性；
+-R/r：递归处理，将指定目录下的所有文件与子目录一并处理；
+-s：对源文件建立符号连接，而非复制文件；
+-u：使用这项参数后只会在源文件的更改时间较目标文件更新时或是名称相互对应的目标文件并不存在时，才复制文件；
+-S：在备份文件时，用指定的后缀“SUFFIX”代替文件的默认后缀；
+-b：覆盖已存在的文件目标前将目标文件备份；
+-v：详细显示命令执行的操作。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h4 id="参数"> 参数</h4>
+<ul>
+<li>源文件：制定源文件列表。默认情况下，cp命令不能复制目录，如果要复制目录，则必须使用<code>-R</code>选项；</li>
+<li>目标文件：指定目标文件。当“源文件”为多个文件时，要求“目标文件”为指定的目录。</li>
+</ul>
+<h4 id="常用范例-3"> 常用范例</h4>
+<p>1）复制单个文件到目标目录，文件在目标文件中不存在</p>
+<div><pre><code># cp log.log test5
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxr-xr-x 2 root root 4096 10-28 14:53 test5
+# cd test5
+# ll
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-1.log
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-2.log
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-3.log
+-rw-r--r-- 1 root root 0 10-28 14:53 log.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
+<p>在没有带-a参数时，两个文件的时间是不一样的。在带了-a参数时，两个文件的时间是一致的。</p>
+<p>2）目标文件存在时，会询问是否覆盖</p>
+<div><pre><code># cp log.log test5
+cp：是否覆盖“test5/log.log”? n
+# cp -a log.log test5
+cp：是否覆盖“test5/log.log”? y
+# cd test5/
+# ll
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-1.log
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-2.log
+-rw-r--r-- 1 root root 0 10-28 14:46 log5-3.log
+-rw-r--r-- 1 root root 0 10-28 14:48 log.log
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div><p>说明：</p>
+<p>目标文件存在时，会询问是否覆盖。这是因为cp是cp -i的别名。目标文件存在时，即使加了-f标志，也还会询问是否覆盖。</p>
+<p>3）复制整个目录</p>
+<p>目标目录存在时：</p>
+<div><pre><code>#cp -a test3 test5 
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxr-xr-x 3 root root 4096 10-28 15:11 test5
+# cd test5/
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:46 log5-1.log
+-rw-r--r-- 1 root root    0 10-28 14:46 log5-2.log
+-rw-r--r-- 1 root root    0 10-28 14:46 log5-3.log
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>目标目录不存在时：</p>
+<div><pre><code># cp -a test3 test4
+# ll
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxrwxrwx 2 root root 4096 10-28 14:47 test4
+drwxr-xr-x 3 root root 4096 10-28 15:11 test5
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>说明：</p>
+<p>注意目标目录存在与否结果是不一样的。目标目录存在时，整个源目录被复制到目标目录里面。</p>
+<p>4）复制的 log.log 建立一个链接到 log_link.log</p>
+<div><pre><code># cp -s log.log log_link.log
+# ll
+lrwxrwxrwx 1 root root    7 10-28 15:18 log_link.log -&gt; log.log
+-rw-r--r-- 1 root root    0 10-28 14:48 log.log
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxrwxrwx 2 root root 4096 10-28 14:47 test4
+drwxr-xr-x 3 root root 4096 10-28 15:11 test5
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><p>说明：</p>
+<p>那个 log_link.log 是由 -s 的参数造成的，建立的是一个『快捷方式』，所以您会看到在文件的最右边，会显示这个文件是『连结』到哪里去的！</p>
+<p>5）将文件file复制到目录<code>/usr/men/tmp</code>下，并改名为file1</p>
+<div><pre><code>cp file /usr/men/tmp/file1
+</code></pre>
+<div><span>1</span><br></div></div><p>6）将目录<code>/usr/men</code>下的所有文件及其子目录复制到目录<code>/usr/zh</code>中</p>
+<div><pre><code>cp -i /usr/men m*.c /usr/zh
+</code></pre>
+<div><span>1</span><br></div></div><p>我们在Linux下使用cp命令复制文件时候，有时候会需要覆盖一些同名文件，覆盖文件的时候都会有提示：需要不停的按Y来确定执行覆盖。文件数量不多还好，但是要是几百个估计按Y都要吐血了，于是折腾来半天总结了一个方法：</p>
+<div><pre><code>cp aaa/* /bbb
+复制目录aaa下所有到/bbb目录下，这时如果/bbb目录下有和aaa同名的文件，需要按Y来确认并且会略过aaa目录下的子目录。
+
+cp -r aaa/* /bbb
+这次依然需要按Y来确认操作，但是没有忽略子目录。
+
+cp -r -a aaa/* /bbb
+依然需要按Y来确认操作，并且把aaa目录以及子目录和文件属性也传递到了/bbb。
+
+\cp -r -a aaa/* /bbb
+成功，没有提示按Y、传递了目录属性、没有略过目录。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br></div></div><h3 id="mv命令-移动"> mv命令（移动）</h3>
+<p><strong>mv命令</strong>用来对文件或目录重新命名，或者将文件从一个目录移到另一个目录中。source表示源文件或目录，target表示目标文件或目录。如果将一个文件移到一个已经存在的目标文件中，则目标文件的内容将被覆盖。</p>
+<p>mv命令可以用来将源文件移至一个目标文件中，或将一组文件移至一个目标目录中。源文件被移至目标文件有两种不同的结果：</p>
+<ol>
+<li>如果目标文件是到某一目录文件的路径，源文件会被移到此目录下，且文件名不变。</li>
+<li>如果目标文件不是目录文件，则源文件名（只能有一个）会变为此目标文件名，并覆盖己存在的同名文件。如果源文件和目标文件在同一个目录下，mv的作用就是改文件名。当目标文件是目录文件时，源文件或目录参数可以有多个，则所有的源文件都会被移至目标文件中。所有移到该目录下的文件都将保留以前的文件名。</li>
+</ol>
+<p>注意事项：mv与cp的结果不同，mv好像文件“搬家”，文件个数并未增加。而cp对文件进行复制，文件个数增加了。</p>
+<h4 id="语法-4"> 语法</h4>
+<p><code>mv(选项)(参数)</code></p>
+<h4 id="选项-3"> 选项</h4>
+<div><pre><code>--backup=&lt;备份模式&gt;：若需覆盖文件，则覆盖前先行备份；
+-b：当文件存在时，覆盖前，为其创建一个备份；
+-f：若目标文件或目录与现有的文件或目录重复，则直接覆盖现有的文件或目录；
+-i：交互式操作，覆盖前先行询问用户，如果源文件与目标文件或目标目录中的文件同名，则询问用户是否覆盖目标文件。用户输入”y”，表示将覆盖目标文件；输入”n”，表示取消对源文件的移动。这样可以避免误将文件覆盖。
+--strip-trailing-slashes：删除源文件中的斜杠“/”；
+-S&lt;后缀&gt;：为备份文件指定后缀，而不使用默认的后缀；
+-t:--target-directory=&lt;目录&gt;,指定源文件要移动到目标目录；
+-u：当源文件比目标文件新或者目标文件不存在时，才执行移动操作。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br></div></div><h4 id="参数-2"> 参数</h4>
+<ul>
+<li>源文件：源文件列表。</li>
+<li>目标文件：如果“目标文件”是文件名则在移动文件的同时，将其改名为“目标文件”；如果“目标文件”是目录名则将源文件移动到“目标文件”下。</li>
+</ul>
+<h4 id="常用范例-4"> 常用范例</h4>
+<p>1）文件改名</p>
+<div><pre><code># ll
+总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+-rw-r--r-- 1 root root   16 10-28 06:04 test.log
+# mv test.log test1.txt
+# ll
+总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+-rw-r--r-- 1 root root   16 10-28 06:04 test1.txt
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>2）移动文件</p>
+<div><pre><code># ll
+总计 20drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+# mv test1.txt test3
+# ll
+总计 16drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 06:09 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+# cd test3
+# ll
+总计 4
+-rw-r--r-- 1 root root 29 10-28 06:05 test1.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br></div></div><p>3）将文件log1.txt,log2.txt,log3.txt移动到目录test3中</p>
+<div><pre><code># ll
+总计 28
+-rw-r--r-- 1 root root    8 10-28 06:15 log1.txt
+-rw-r--r-- 1 root root   12 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log3.txt
+drwxrwxrwx 2 root root 4096 10-28 06:09 test3
+# mv log1.txt log2.txt log3.txt test3
+# ll
+总计 16drwxrwxrwx 2 root root 4096 10-28 06:18 test3
+# cd test3/
+# ll
+总计 16
+-rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
+-rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
+-rw-r--r-- 1 root root 29 10-28 06:05 test1.txt
+# ll
+总计 20
+-rw-r--r-- 1 root root    8 10-28 06:15 log1.txt
+-rw-r--r-- 1 root root   12 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log3.txt
+drwxr-xr-x 2 root root 4096 10-28 06:21 logs
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+# mv -t /opt/soft/test/test4/ log1.txt log2.txt 	log3.txt 
+]# cd ..
+# cd test4/
+# ll
+总计 12
+-rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
+-rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br></div></div><p>4）将文件file1改名为file2，如果file2已经存在，则询问是否覆盖</p>
+<div><pre><code># ll
+总计 12
+-rw-r--r-- 1 root root  8 10-28 06:15 log1.txt
+-rw-r--r-- 1 root root 12 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
+# cat log1.txt 
+odfdfs
+# cat log2.txt 
+ererwerwer
+# mv -i log1.txt log2.txt 
+mv：是否覆盖“log2.txt”? y
+# cat log2.txt 
+odfdfs
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br></div></div><p>5）将文件file1改名为file2，即使file2存在，也是直接覆盖掉</p>
+<div><pre><code># ll
+总计 8
+-rw-r--r-- 1 root root  8 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
+# cat log2.txt 
+odfdfs
+# cat log3
+cat: log3: 没有那个文件或目录
+# ll
+总计 8
+-rw-r--r-- 1 root root  8 10-28 06:15 log2.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log3.txt
+# cat log2.txt 
+odfdfs
+# cat log3.txt 
+dfosdfsdfdss
+# mv -f log3.txt log2.txt 
+# cat log2.txt 
+dfosdfsdfdss
+# ll
+总计 4
+-rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br></div></div><p>说明：</p>
+<p>log3.txt的内容直接覆盖了log2.txt内容，-f 这是个危险的选项，使用的时候一定要保持头脑清晰，一般情况下最好不用加上它。</p>
+<p>6）目录的移动</p>
+<div><pre><code>ll
+-rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
+# ll
+-rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
+# cd ..
+# ll
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 3 root root 4096 10-28 06:24 test3
+drwxr-xr-x 2 root root 4096 10-28 06:48 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+# cd test3
+# ll
+drwxr-xr-x 2 root root 4096 10-28 06:21 logs
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+# cd ..
+# mv test4 test3
+# ll
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 4 root root 4096 10-28 06:54 test3
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+# cd test3/
+# ll
+drwxr-xr-x 2 root root 4096 10-28 06:21 log
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-28 06:48 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br></div></div><p>说明：</p>
+<p>如果目录dir2不存在，将目录dir1改名为dir2；否则，将dir1移动到dir2中。</p>
+<p>7）移动当前文件夹下的所有文件到上一级目录</p>
+<div><pre><code># ll
+-rw-r--r-- 1 root root 25 10-28 07:02 log1.txt
+-rw-r--r-- 1 root root 13 10-28 06:16 log2.txt
+# mv * ../
+# ll
+# cd ..
+# ll
+-rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
+drwxr-xr-x 2 root root 4096 10-28 06:21 logs
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-28 07:02 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>8）把当前目录的一个子目录里的文件移动到另一个子目录里</p>
+<div><pre><code># ll
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 4 root root 4096 10-28 07:02 test3
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+# cd test3
+# ll
+-rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
+drwxr-xr-x 2 root root 4096 10-28 06:21 logs
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-28 07:02 test4
+# cd ..
+# mv test3/*.txt test5
+# cd test5
+# ll
+-rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
+# 	cd ..
+# cd test3/
+# ll
+drwxr-xr-x 2 root root 4096 10-28 06:21 logs
+drwxr-xr-x 2 root root 4096 10-28 07:02 test4
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br></div></div><p>9）文件被覆盖前做简单备份，前面加参数-b</p>
+<div><pre><code># ll
+-rw-r--r-- 1 root root   25 10-28 07:02 log1.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log2.txt
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
+# mv log1.txt -b log2.txt
+mv：是否覆盖“log2.txt”? y
+# ll
+-rw-r--r-- 1 root root   25 10-28 07:02 log2.txt
+-rw-r--r-- 1 root root   13 10-28 06:16 log2.txt~
+-rw-r--r-- 1 root root   29 10-28 06:05 test1.txt
+drwxr-xr-x 2 root root 4096 10-25 17:56 test5-1
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><p>说明：</p>
+<p>-b 不接受参数，mv会去读取环境变量VERSION_CONTROL来作为备份策略。</p>
+<p>--backup该选项指定如果目标文件存在时的动作，共有四种备份策略：</p>
+<p>1.CONTROL=none或off : 不备份。</p>
+<p>2.CONTROL=numbered或t：数字编号的备份</p>
+<p>3.CONTROL=existing或nil：如果存在以数字编号的备份，则继续编号备份m+1...n：</p>
+<p>执行mv操作前已存在以数字编号的文件log2.txt.<sub>1</sub>，那么再次执行将产生log2.txt<sub>2</sub>，以次类推。如果之前没有以数字编号的文件，则使用下面讲到的简单备份。</p>
+<p>4.CONTROL=simple或never：使用简单备份：在被覆盖前进行了简单备份，简单备份只能有一份，再次被覆盖时，简单备份也会被覆盖。</p>
+<h3 id="rm命令-删除"> rm命令（删除）</h3>
+<p>rm命令可以删除一个目录中的一个或多个文件或目录，也可以将某个目录及其下属的所有文件及其子目录均删除掉。对于链接文件，只是删除整个链接文件，而原有文件保持不变。</p>
+<p>rm是一个危险的命令，使用的时候要特别当心，尤其对于新手，否则整个系统就会毁在这个命令（比如在/（根目录）下执行rm * -rf）。所以，我们在执行rm之前最好先确认一下在哪个目录，到底要删除什么东西，操作时保持高度清醒的头脑。</p>
+<h4 id="语法-5"> 语法</h4>
+<p><code>rm (选项)(参数)</code></p>
+<h4 id="选项-4"> 选项</h4>
+<div><pre><code>-d：直接把欲删除的目录的硬连接数据删除成0，删除该目录；
+-f：强制删除文件或目录；
+-i：删除已有文件或目录之前先询问用户；
+-r或-R：递归处理，将指定目录下的所有文件与子目录一并处理；
+--preserve-root：不对根目录进行递归操作；
+-v：显示指令的详细执行过程。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br></div></div><h4 id="参数-3"> 参数</h4>
+<p>文件：指定被删除的文件列表，如果参数中含有目录，则必须加上<code>-r</code>或者<code>-R</code>选项。</p>
+<h4 id="常用范例-5"> 常用范例</h4>
+<p>1）删除文件file，系统会先询问是否删除。</p>
+<div><pre><code># rm log.log 
+rm：是否删除 一般文件 “log.log”? y
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>输入rm log.log命令后，系统会询问是否删除，输入y后就会删除文件，不想删除则数据n。</p>
+<p>2）强行删除file，系统不再提示</p>
+<div><pre><code>rm -f log1.log
+</code></pre>
+<div><span>1</span><br></div></div><p>3）删除任何.log文件；删除前逐一询问确认</p>
+<div><pre><code>rm -i *.log
+</code></pre>
+<div><span>1</span><br></div></div><p>4）将 test1子目录及子目录中所有档案删除</p>
+<div><pre><code>rm -r test1
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="rmdir命令-删除空目录"> rmdir命令（删除空目录）</h3>
+<p>rmdir命令。rmdir是常用的命令，该命令的功能是删除空目录，一个目录被删除之前必须是空的。（注意，rm - r dir命令可代替rmdir，但是有很大危险性。）删除某目录时也必须具有对父目录的写权限。</p>
+<h4 id="语法-6"> 语法</h4>
+<p><code>rmdir(选项)(参数)</code></p>
+<h4 id="选项-5"> 选项</h4>
+<div><pre><code>-p或--parents：删除指定目录后，若该目录的上层目录已变成空目录，则将其一并删除；
+--ignore-fail-on-non-empty：此选项使rmdir命令忽略由于删除非空目录时导致的错误信息；
+-v或-verboes：显示命令的详细执行过程；
+--help：显示命令的帮助信息；
+--version：显示命令的版本信息。
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><h4 id="参数-4"> 参数</h4>
+<p>目录列表：要删除的空目录列表。当删除多个空目录时，目录名之间使用空格隔开。</p>
+<h4 id="常用范例-6"> 常用范例</h4>
+<p>1）rmdir 不能删除非空目录</p>
+<div><pre><code># tree
+.
+|-- bin
+|-- doc
+|   |-- info
+|   `-- product
+|-- lib
+|-- logs
+|   |-- info
+|   `-- product
+`-- service
+    `-- deploy
+        |-- info
+        `-- product
+12 directories, 0 files
+# rmdir doc
+rmdir: doc: 目录非空
+# rmdir doc/info
+# rmdir doc/product
+# tree
+.
+|-- bin
+|-- doc
+|-- lib
+|-- logs
+|   |-- info
+|   `-- product
+`-- service
+    `-- deploy
+        |-- info
+        `-- product
+10 directories, 0 files
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br></div></div><p>2）rmdir -p 当子目录被删除后使它也成为空目录的话，则顺便一并删除</p>
+<div><pre><code># tree
+.
+|-- bin
+|-- doc
+|-- lib
+|-- logs
+|   `-- product
+`-- service
+    `-- deploy
+        |-- info
+        `-- product
+10 directories, 0 files
+# rmdir -p logs
+rmdir: logs: 目录非空
+# tree
+.
+|-- bin
+|-- doc
+|-- lib
+|-- logs
+|   `-- product
+`-- service
+    `-- deploy
+        |-- info
+        `-- product
+9 directories, 0 files
+# rmdir -p logs/product
+# tree
+.
+|-- bin
+|-- doc
+|-- lib
+`-- service
+`-- deploy
+        |-- info
+        `-- product
+7 directories, 0 files
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
   </entry>
 </feed>
