@@ -51,6 +51,7 @@ module.exports = [
   },
   {
     title: "9 面向对象编程",
+    path: "python-oop",
     collapsable: false,
     children: ["python-oo-package", "access-control", "python-oo-inher-pol"]
   },
