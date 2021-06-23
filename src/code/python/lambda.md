@@ -2,7 +2,7 @@
 category: Python
 ---
 
-# 5.2 匿名函数
+# 5.3 匿名函数
 
 Python 中，匿名函数也叫 lambda 表达式。
 
