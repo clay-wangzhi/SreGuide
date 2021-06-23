@@ -2,7 +2,7 @@
 category: Python
 ---
 
-# 4.3 生成器
+# 3.3 生成器
 
 要创建一个generator，有很多种方法。
 

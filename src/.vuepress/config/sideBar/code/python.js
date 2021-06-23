@@ -18,14 +18,14 @@ module.exports = [
     ]
   },
   {
-    title: "3 函数",
-    collapsable: false,
-    children: ["python-function", "function-parameter", "action-scope", "python-recursive-function"]
-  },
-  {
-    title: "4 高级特性",
+    title: "3 高级特性",
     collapsable: false,
     children: ["python-linear-data-structure", "python-analytic-expre", "python-generator", "python-iterator"]
+  },
+  {
+    title: "4 函数",
+    collapsable: false,
+    children: ["python-function", "function-parameter", "action-scope", "python-recursive-function"]
   },
   {
     title: "5 函数式编程",
