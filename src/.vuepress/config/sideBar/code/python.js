@@ -31,7 +31,7 @@ module.exports = [
     title: "5 函数式编程",
     path: "func-prog",
     collapsable: false,
-    children: ["high-func", "lambda", "python-decorator"]
+    children: ["high-func", "python-return-function", "lambda", "python-decorator"]
   },
   {
     title: "6 模块",
