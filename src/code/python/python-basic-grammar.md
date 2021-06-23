@@ -49,6 +49,18 @@ category: Python
 4. 不能是 python 的关键字，例如 def、class 就不能作为标识符
 5. Python 是大小写敏感的
 
+[python3.9 中关键字](https://docs.python.org/3.9/reference/lexical_analysis.html#keywords)
+
+```
+False      await      else       import     pass
+None       break      except     in         raise
+True       class      finally    is         return
+and        continue   for        lambda     try
+as         def        from       nonlocal   while
+assert     del        global     not        with
+async      elif       if         or         yield
+```
+
 标识符约定：
 
 * 不允许使用中文，也不建议使用拼音

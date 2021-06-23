@@ -35,6 +35,7 @@ module.exports = [
   },
   {
     title: "6 模块",
+    path: "python-module",
     collapsable: false,
     children: ["python-module-install", "python-setup"]
   },
