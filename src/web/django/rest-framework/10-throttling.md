@@ -1,24 +1,15 @@
 ---
-layout: default
 title: 限流
-parent: Django REST Framework教程
-nav_order: 10
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 限流
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
 在前面的DRF系列教程中，我们以博客为例介绍了序列化器(Serializer), 并使用APIView和ModelViewSet开发了针对文章资源进行增删查改的完整API端点，并详细对权限、认证(含jwt认证)、分页和过滤进行了总结与演示。在本篇文章中我们将向你详细演示如何在Django REST Framework中对API请求进行限流(Throttle)。
-{: .fs-6 .fw-300 }
-
 
 ## 什么是限流(Throttle)?
+
 限流(Throttle)就是限制客户端对API 的调用频率，是API开发者必须要考虑的因素。比如个别客户端(比如爬虫程序)短时间发起大量请求，超过了服务器能够处理的能力，将会影响其它用户的正常使用。又或者某个接口占用数据库资源比较多，如果同一时间该接口被大量调用，服务器可能会陷入僵死状态。为了保证API服务的稳定性，并防止接口受到恶意用户的攻击，我们必须要对我们的API服务进行限流。
 
 DRF中限制对API的调用频率非常简便，它为我们主要提供了3个可插拔使用的限流类，分别是`AnonRateThrottle`, `UserRateThrottle`和`ScopeRateThrottle`类。

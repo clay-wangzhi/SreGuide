@@ -1,20 +1,11 @@
 ---
-layout: default
 title: 认证与权限
-parent: Django REST Framework教程
-nav_order: 5
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 认证与权限
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在前面教程中我们以博客为例，使用DRF开发了博客文章资源API，支持客户端以各种请求方式对文章资源进行增删查改。然而目前的 API 对谁可以新增、编辑或删除文章资源(Article)没有限制，我们本例中希望通过基本的认证(Authentication)与权限(Permission)来实现一些更实用的功能：
 
 - 只有经过身份验证的用户可以创建article文章(匿名用户不允许通过POST提交新文章)。

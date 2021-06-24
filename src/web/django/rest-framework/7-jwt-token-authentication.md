@@ -1,23 +1,13 @@
 ---
-layout: default
 title: JWT认证
-parent: Django REST Framework教程
-nav_order: 7
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 
 # JWT认证
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在前面的DRF系列文章中，我们介绍了DRF认证(authentication)的本质, 以及自带的几种认证方案，包括TokenAuthentication。然而JSON Web Token(JWT)是一种更新的使用token进行身份认证的标准。与DRF内置的TokenAuthentication方案不同，JWT身份验证不需要使用数据库来验证令牌, 而且可以轻松设置token失效期或刷新token, 是API开发中当前最流行的跨域认证解决方案。本文将详细介绍JWT认证的工作原理以及如何通过`djangorestframework-simplejwt` 这个第三方包轻松实现JWT认证。
-{: .fs-6 .fw-300 }
 
 如果有一篇文章我敢拍胸脯说，你今天可能用不到，但总有一天你会需要回过头来阅读它并使用它，那么我指的就是本文，强烈建议先收藏再阅读。其实网上已经有不少关于JWT的文章，大同小异。为了避免重复造轮子，本文将以翻译国外medium.com上的一篇神文为主 (原作：**Yunus Emre Cevik**）并辅以自己的解读，希望对你有所帮助(原文链接：https://medium.com/django-rest/django-rest-framework-jwt-authentication-94bee36f2af8)。
 

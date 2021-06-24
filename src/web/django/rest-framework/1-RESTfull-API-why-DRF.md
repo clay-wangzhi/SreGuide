@@ -1,20 +1,12 @@
 ---
-layout: default
 title: 为什么要学DRF和什么是REST API
-parent: Django REST Framework教程
-nav_order: 1
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 
 # 为什么要学习Django REST Framework (DRF), 什么是符合RESTful规范的API?
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
 Django的未来与Web开发未来发展趋势紧密相关。Django这种基于MVC开发模式的传统框架，非常适合开发基于PC的传统网站，因为它同时包括了后端的开发(逻辑层、数据库层) 和前端的开发(如模板语言、样式)。然而最近几年及未来几年更流行的开发模式肯定是前后端分离, Django也需要做出自己的改变来适应这种开发模式。现代网络应用Web APP或大型网站一般是一个后台，然后对应各种客户端(iOS, android, 浏览器)。由于客户端的开发语言与后台的开发语言经常不一样，这时需要后台能够提供可以跨平台跨语言的一种标准的资源或数据(如json或xml)供前后端沟通，这就是Web API(网络应用程序接口)的作用了。
 
 ## 为什么要学习Django REST Framework (DRF)？

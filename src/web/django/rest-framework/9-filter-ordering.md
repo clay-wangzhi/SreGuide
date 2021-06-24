@@ -1,23 +1,12 @@
 ---
-layout: default
 title: 过滤与排序
-parent: Django REST Framework教程
-nav_order: 9
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 过滤与排序
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在前面的DRF系列教程中，我们以博客为例介绍了序列化器(Serializer), 并使用基于类的视图APIView和ModelViewSet开发了针对文章资源进行增删查改的完整API端点，并详细对权限、认证(含jwt认证)和分页进行了总结与演示。在本篇文章中我们将向你演示如何在Django REST Framework中对分页结果进行进一步过滤和排序。
-{: .fs-6 .fw-300 }
-
 
 ## 前情回顾
 

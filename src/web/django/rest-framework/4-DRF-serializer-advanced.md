@@ -1,21 +1,12 @@
 ---
-layout: default
 title: 玩转序列化器
-parent: Django REST Framework教程
-nav_order: 4
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 玩转序列化器(Serializer)
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
 在前面的文章中我们以博客为例，自定义了一个简单的 `ArticleSerializer` 类, 并分别以函数视图(FBV)和基于类的视图(CBV)编写了博客文章列表资源和单篇文章资源的API。在本文中，我们将玩转DRF的序列化器，教你如何修改序列化器，控制序列化后响应数据的输出格式, 如何在反序列化时对客户端提供过来的数据进行验证(validation)以及如何动态加载或重写序列化器类自带的方法。
-{: .fs-6 .fw-300 }
 
 ## 准备工作
 

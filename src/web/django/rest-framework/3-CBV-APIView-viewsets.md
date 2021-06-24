@@ -1,25 +1,15 @@
 ---
-layout: default
 title: 基于类的视图和视图集
-parent: Django REST Framework教程
-nav_order: 3
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 基于类的视图APIView, GenericAPIView和视图集(ViewSet)
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在前面的教程中我们介绍了什么是符合RESTful规范的API接口，并以博客为例使用了基于函数的视图(FBV)编写了文章资源的API，并测试了对文章的增删改查。在本篇文章中，我们将使用基于类的视图(Class-based View, CBV)重写之前的接口。如果你还没有阅读前两篇文章，建议先阅读。
-{: .fs-6 .fw-300 }
-
 
 ## 为什么要使用基于类的视图(CBV)?
+
 一个中大型的Web项目代码量通常是非常大的，如果全部使用函数视图写，那么代码的复用率是非常低的。而使用类视图呢，就可以有效的提高代码复用，因为类是可以被继承的，可以拓展的。特别是将一些可以共用的功能抽象成Mixin类或基类后可以减少重复造轮子的工作。
 
 DRF推荐使用基于类的视图(CBV)来开发API, 并提供了4种开发CBV开发模式。

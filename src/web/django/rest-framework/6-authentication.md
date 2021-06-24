@@ -1,22 +1,12 @@
 ---
-layout: default
 title: 认证详解与Token认证
-parent: Django REST Framework教程
-nav_order: 6
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 认证详解与Token认证
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在前篇的开发博客API案例中，我们详细介绍了如何在DRF中使用权限，并通过自定义权限实现了只有经过身份验证的用户可以创建文章并且只有文章的所有者可以更新和删除文章资源。然而前篇文章中我们使用了Django默认的基于session的认证方式，实际前后端分离开发项目中后台更多采用的是token(令牌认证)。本文将详细介绍如何在DRF中使用不同的认证方案，并重点介绍如何使用DRF自带的token认证。
-{: .fs-6 .fw-300 }
 
 ## 什么是认证(Authentication)？
 

@@ -1,22 +1,12 @@
 ---
-layout: default
 title: 以DRF序列化器和函数视图开发API
-parent: Django REST Framework教程
-nav_order: 2
+author: 大江狗
+category: Django
+tags:
+  - DRF
 ---
 # 以博客为例使用DRF的序列化器和基于函数的视图开发API
-{: .no_toc }
-
-## 目录
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 在上篇文章中，我们已经介绍了为什么要学习DRF，什么是序列化以及什么是符合RESTful规范的Web API。在本篇文章中我们将以博客为例，使用DRF提供的序列化器(Serializers类)开发两个API接口并测试。
-{: .fs-6 .fw-300 }
 
 这两个API端点的简单描述如下所示 (注意：规范的API文档需要更多信息)。
 
