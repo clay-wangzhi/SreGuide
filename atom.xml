@@ -6,7 +6,7 @@
   <author>
     <name>Clay</name>
   </author>
-  <updated>2021-06-23T07:25:08.022Z</updated>
+  <updated>2021-06-24T05:56:10.313Z</updated>
   <generator>@mr-hope/vuepress-plugin-feed</generator>
   <link rel="self" href="https://clay-wangzhi.com/atom.xml"/>
   <link rel="alternate" href="https://clay-wangzhi.com/"/>
@@ -9308,6 +9308,58 @@ COMMIT
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Linux下配置jdk的环境变量</title>
+    <id>https://clay-wangzhi.com/build/centos-jdk/</id>
+    <link href="https://clay-wangzhi.com/build/centos-jdk/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux下配置jdk的环境变量"> Linux下配置jdk的环境变量</h1>
+<p>Hello everyone, let's learn jdk together！</p>
+<h3 id="yum安装"> yum安装</h3>
+<p>yum 查询可以安装的软件</p>
+<div><pre><code>yum list | grep jdk
+</code></pre>
+<div><span>1</span><br></div></div><p><img src="/images/jdk1.png" alt="" /></p>
+<p>根据需求选择版本进行安装</p>
+<div><pre><code>yum -y install java-1.8.0-openjdk* 
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="rpm安装"> rpm安装</h3>
+<p>jdk官网地址为：http://www.oracle.com</p>
+<p>各个版本的下载地址为：http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html   （网页会变，请自动百度，当前日期：2018-03-06）</p>
+<p>根据需求下载rpm版本  （必须有oracle账号进行登录）</p>
+<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm?AuthParam=1520474898_85357527f14068896db993a783a48e94
+rpm -ivh jdk-7u75-linux-x64.rpm\?AuthParam\=1520474898_85357527f14068896db993a783a48e94 
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><h3 id="压缩包安装"> 压缩包安装</h3>
+<p>我个人喜欢压缩包安装，灵活性较高</p>
+<p>根据需求下载压缩包版本</p>
+<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u76-b13/jdk-7u76-linux-x64.tar.gz?AuthParam=1520475252_b3af0149915380bf1a4a0a8d962893ca
+mv jdk-7u76-linux-x64.tar.gz\?AuthParam\=1520475252_b3af0149915380bf1a4a0a8d962893ca jdk-7u76-linux-x64.tar.gz
+tar -xvf jdk-7u76-linux-x64.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置环境变量</p>
+<div><pre><code># vim /etc/profile
+export JAVA_HOME=/opt/jdk1.7.0_76
+export JRE_HOME=/opt/jdk1.7.0_76/jre
+export CLASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+# source /etc/profile
+# java -version
+java version &quot;1.7.0_76&quot;
+Java(TM) SE Runtime Environment (build 1.7.0_76-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 24.76-b04, mixed mode)
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="常见服务的搭建"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">centos7下搭建shadowsocks</title>
     <id>https://clay-wangzhi.com/build/centos7-shadowsocks/</id>
     <link href="https://clay-wangzhi.com/build/centos7-shadowsocks/"/>
@@ -9404,58 +9456,6 @@ $ firewall-cmd --reload
 </code></pre>
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000010639190</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="常见服务的搭建"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Linux下配置jdk的环境变量</title>
-    <id>https://clay-wangzhi.com/build/centos-jdk/</id>
-    <link href="https://clay-wangzhi.com/build/centos-jdk/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux下配置jdk的环境变量"> Linux下配置jdk的环境变量</h1>
-<p>Hello everyone, let's learn jdk together！</p>
-<h3 id="yum安装"> yum安装</h3>
-<p>yum 查询可以安装的软件</p>
-<div><pre><code>yum list | grep jdk
-</code></pre>
-<div><span>1</span><br></div></div><p><img src="/images/jdk1.png" alt="" /></p>
-<p>根据需求选择版本进行安装</p>
-<div><pre><code>yum -y install java-1.8.0-openjdk* 
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="rpm安装"> rpm安装</h3>
-<p>jdk官网地址为：http://www.oracle.com</p>
-<p>各个版本的下载地址为：http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html   （网页会变，请自动百度，当前日期：2018-03-06）</p>
-<p>根据需求下载rpm版本  （必须有oracle账号进行登录）</p>
-<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm?AuthParam=1520474898_85357527f14068896db993a783a48e94
-rpm -ivh jdk-7u75-linux-x64.rpm\?AuthParam\=1520474898_85357527f14068896db993a783a48e94 
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><h3 id="压缩包安装"> 压缩包安装</h3>
-<p>我个人喜欢压缩包安装，灵活性较高</p>
-<p>根据需求下载压缩包版本</p>
-<div><pre><code>wget http://download.oracle.com/otn/java/jdk/7u76-b13/jdk-7u76-linux-x64.tar.gz?AuthParam=1520475252_b3af0149915380bf1a4a0a8d962893ca
-mv jdk-7u76-linux-x64.tar.gz\?AuthParam\=1520475252_b3af0149915380bf1a4a0a8d962893ca jdk-7u76-linux-x64.tar.gz
-tar -xvf jdk-7u76-linux-x64.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>配置环境变量</p>
-<div><pre><code># vim /etc/profile
-export JAVA_HOME=/opt/jdk1.7.0_76
-export JRE_HOME=/opt/jdk1.7.0_76/jre
-export CLASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib
-export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-# source /etc/profile
-# java -version
-java version &quot;1.7.0_76&quot;
-Java(TM) SE Runtime Environment (build 1.7.0_76-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.76-b04, mixed mode)
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -11024,6 +11024,25 @@ Connection closed by foreign host.
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">前端学习笔记</title>
+    <id>https://clay-wangzhi.com/code/frontend/</id>
+    <link href="https://clay-wangzhi.com/code/frontend/"/>
+    <updated>2021-05-31T06:50:38.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
+<h2 id="文章推荐"> 文章推荐</h2>
+<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="前端"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-30T09:17:19.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">命名</title>
     <id>https://clay-wangzhi.com/code/golang/4.1%20%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/</id>
     <link href="https://clay-wangzhi.com/code/golang/4.1%20%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/"/>
@@ -11242,25 +11261,6 @@ fmt.Printf(&quot;%c&quot;, x) // &quot;HELLO&quot; (one letter per iteration)
       <name>Clay</name>
     </contributor>
     <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">前端学习笔记</title>
-    <id>https://clay-wangzhi.com/code/frontend/</id>
-    <link href="https://clay-wangzhi.com/code/frontend/"/>
-    <updated>2021-05-31T06:50:38.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="前端学习笔记"> 前端学习笔记</h1>
-<h2 id="文章推荐"> 文章推荐</h2>
-<p><a href="https://github.com/qianguyihao/Web" target="_blank" rel="noopener noreferrer">Web前端学习笔记 | 千古壹号</a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="前端"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-30T09:17:19.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -23260,6 +23260,120 @@ s1 <span>=</span> <span>'www.baidu.edu'</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">1.4 使用 vscode 打造 python 开发环境</title>
+    <id>https://clay-wangzhi.com/code/python/vscode-python/</id>
+    <link href="https://clay-wangzhi.com/code/python/vscode-python/"/>
+    <updated>2021-06-22T05:51:17.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_1-4-使用-vscode-打造-python-开发环境"> 1.4 使用 vscode 打造 python 开发环境</h1>
+<h2 id="_1-软件准备"> 1 软件准备</h2>
+<p>既然是在 VS Code 中进行 Python 环境配置，在配置之前需要安装好 Python 和 VS Code。</p>
+<h3 id="_1-1-python-安装"> 1.1 Python 安装</h3>
+<p>关于 Python 的安装，可以从 <a href="https://www.python.org/downloads/release" target="_blank" rel="noopener noreferrer">Python 官网下载</a> Python 进行安装，也可以通过 <code>Anaconda</code> 来安装。</p>
+<p>注意区分64位还是32位的。</p>
+<p>安装python的时候，建议将python添加到path环境变量的复选框勾上。</p>
+<p><code>Anaconda</code> 是一个开源的 Python 发行版本，其包含了 <code>conda</code>、Python 等 100 多个科学包及其依赖项。</p>
+<p><code>Anaconda</code> 官方网站下载地址如下：</p>
+<p>https://www.anaconda.com/products/individual</p>
+<p>在 编写此文时，Anaconda 对应的 Python 版本是 Python 3.8，大家可以下载跟电脑系统对应的版本进行安装。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622103707557.png" alt="image-20210622103707557" /></p>
+<h3 id="_1-2-vs-code-安装"> 1.2 VS Code 安装</h3>
+<p>关于 VS Code 安装，在微软官方网站：https://code.visualstudio.com/ 提供免费下载，VS Code 支持 Windows , Linux , Mac OS 三种操作系统，建议去官方下载，不要在第三方软件下载网站下载，第三方软件下载站的猫腻太多了。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622103815924.png" alt="image-20210622103815924" /></p>
+<h2 id="_2-python-环境配置"> 2 Python 环境配置</h2>
+<h3 id="_2-1-安装-python-相关插件"> 2.1 安装 Python 相关插件</h3>
+<p><strong>Python插件</strong></p>
+<p>在 VS Code 中配置 Python 环境，第一个要安装的插件，就是 <code>Python</code> 插件。</p>
+<p><code>Python</code> 插件的全称是 <code>Python extension for Visual Studio Code</code>，它是一个 Visual Studio Code 扩展，具有对 Python 语言的丰富支持（对于该语言的所有受支持版本：&gt; = 3.6），包括诸如 IntelliSense，linting，调试，代码导航，代码格式，Jupyter Notebook 支持，重构，变量之类的功能资源管理器，测试资源管理器，代码段等等！</p>
+<p><strong>代码补全插件 Pylance</strong></p>
+<p><code>Pylance</code> 是微软推出的一个快速而且功能丰富的Python语言扩展。<code>Pylance</code> 于 2020年7月发布，目前在 VS Code 市场中，安装量已有 60多万，足见其关注度。</p>
+<p><code>Pylance</code> 主要有如下特性：</p>
+<ul>
+<li>Docstrings</li>
+<li>参数提示</li>
+<li>自动导入</li>
+<li>代码补全</li>
+<li>代码诊断</li>
+<li>引用和跳转</li>
+<li>代码大纲</li>
+<li>类型检查</li>
+<li>支持多工作区</li>
+<li>带有类型信息的签名帮助</li>
+<li>兼容 IntelliCode 和 Jupyter notebook</li>
+</ul>
+<p>需要运行 Python 程序时，可以在程序文件（<code>py文件</code>）里右键，选择 <code>Run Python File in Terminal</code> 来运行程序，或者 点击右上角的绿色三角形来运行程序。</p>
+<p><strong>Jupyter Notebook 支持插件 Jupyter</strong></p>
+<p>众所周知，python 代码，除了通常使用的 <code>.py</code> 文件外，对于数据科学而言, Jupyter Notebook 也是大家的重要选项，因此，VS Code 中也提供了 Jupyter Notebook 的支持插件，在 VS Code 扩展市场中的名称是 <code>Jupyter</code></p>
+<h3 id="_2-2-自动格式化代码配置"> 2.2 自动格式化代码配置</h3>
+<p>Yapf 是谷歌开源的一个用于格式化 Python 代码的工具，可以一键美化代码。支持两种规范：<code>PEP8</code> 和 <code>Google Style</code> 。</p>
+<p>在 VS Code 中使用 <code>yapf</code> 需要先安装该工具，步骤如下：</p>
+<p><strong>step 1：</strong> 打开终端,输入 &quot;pip install yapf&quot;, 安装 <code>yapf</code> ，如下：</p>
+<div><pre><code>pip <span>install</span> yapf
+</code></pre>
+<div><span>1</span><br></div></div><p><strong>step 2：</strong> 在设置中设置使用 <code>yapf</code>，具体设置过程如下：</p>
+<p>在 VS Code 左下角点击设置按钮，选择 “Settings”，如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111313843.png" alt="image-20210622111313843" /></p>
+<p>在下面界面的右上角点击箭头所示，转到 <code>settings.json</code></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111420975.png" alt="image-20210622111420975" /></p>
+<p>在 <code>settings.json</code> 里进行设置 &quot;python.formatting.provider&quot;: &quot;yapf&quot;， 图示如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111528360.png" alt="image-20210622111528360" /></p>
+<p><strong>step 3：</strong> 完成上述设置后，就可以对代码格式进行自动格式化了，快捷键是 Alt+Shift+F 。</p>
+<h2 id="_3-为项目运行时指定特定的python解释器"> 3 为项目运行时指定特定的python解释器</h2>
+<p><a href="https://clay-wangzhi.com/code/python/python-virtualenv/#visual-studio-code" target="_blank" rel="noopener noreferrer">详细配置</a></p>
+<h2 id="_4-vscode利用远程服务器环境调试项目"> 4 vscode利用远程服务器环境调试项目</h2>
+<p>这个还是很好用的，可以不需要在windows服务器上安装python执行环境了。而且，python中的一些与系统操作相关的模块，windows上安装起来也非常麻烦。</p>
+<p>**step 1：**按下快捷键Ctrl+Shift+X，进入插件管理页面，搜索并安装插件Remote Development</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118092715192-399355687.png" alt="img" /></p>
+<p>**step 2：**penssh客户端，这里提供一个使用powershell安装的方法</p>
+<p>首先，以管理员身份打开powershell</p>
+<p>然后，输入命令在线查询可获取的安装包 <code>Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'</code></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118094734763-1541493353.png" alt="img" /></p>
+<p>最后，如果状态显示NotPresent的话，可以使用命令进行安装，命令为Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0</p>
+<p>提示：随着 Windows 10 2018 年 4 月更新的发布，OpenSSH 客户端已正式推出并在 Windows 10 中默认安装。</p>
+<p>**step 3：**准备一台centos虚拟机或者ubuntu虚拟机，确保虚拟机上的ssh server服务已经开启，并允许远程连接。比如我准备的是centos7虚拟机，IP地址为192.168.247.133</p>
+<p>**step 4：**按下快捷键ctrl+shift+p 搜索Remote-SSH:Settings，在打开的页面中，点击Edit in settings.json，在其中添加&quot;remote.SSH.showLoginTerminal&quot;: true,如下图:</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118100720720-1004879806.png" alt="img" /></p>
+<p>**step 5：**点击左下角的绿色图标，选择Remote-SSH：Connect to Host 然后点击 Configure SSH Hosts 然后选择点第一个config，默认应该是一个空白的文件，在其中添加如下的配置：</p>
+<div><pre><code>Host Centos7.5_python3
+    HostName 192.168.247.133
+    Port 22
+    User root
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101524704-1699733717.png" alt="img" /></p>
+<p>备注：其中Host后面的名称，可以随便命名，HostName后面的IP地址是准备的虚拟机IP地址，Port后跟的是ssh server服务监听的端口号，默认是22，User后跟的是远程连接的用户名，我这里使用超级用户连接。</p>
+<p>这里补充一点：</p>
+<p>每次连接远程服务器，打开项目都要输入一次密码，是否很烦？如果有人觉得烦的话，可以先在本地windows系统和远程服务器之间做好ssh免密登陆，然后在上面这个config文件中，在User配置下一行（缩进和User要一致），添加IdentityFile C:\Users....ssh\id_rsa即可，其中IdentityFile参数后面跟的是windows上的rsa私钥文件。</p>
+<p>**step 6：**点击vscode左边栏的远程连接图标，如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101908730-1174731395.png" alt="img" /></p>
+<p>**step 7：**点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118102152158-767875613.png" alt="img" /></p>
+<p>备注，如果vscode初次连接这台虚拟机的话，那么需要等待几分钟，因为vscode要做一些初始化工作。</p>
+<p>**step 8：**连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。</p>
+<p>在打开的项目中新建文件，删除文件，修改文件等操作，不需要再次输入密码。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118103510878-1427529685.png" alt="img" /></p>
+<p>**step 9：**运行项目或测试脚本的方法</p>
+<p>感觉这个功能，在一定程度上，都可以代替secure crt或xshell远程连接工具和ftp上传下载客户端了。很强大。</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118104120944-788931545.png" alt="img" /></p>
+<p>补充：</p>
+<p>没有语法检查，代码自动提示和补全功能，开发真的是一个很难受的事情，那么怎么在远程服务器上使用这些功能呢？下面就是补全这一点的方法：</p>
+<p>首先：按下快捷键Ctrl+Shift+X，进入插件管理页面，搜索python，然后，点击Install in SSH:Centos7.5_python3，如下图：</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118114031066-1405256168.png" alt="img" /></p>
+<p>然后：在打开的项目中，生成launch.json和settings.json这两个配置文件，方法在最上面，和配置windows本地开发环境一样</p>
+<h2 id="参考链接"> 参考链接</h2>
+<ul>
+<li>https://www.cnblogs.com/DesignerA/p/11604200.html</li>
+<li>https://mp.weixin.qq.com/s/oOlPoCE0BKpmxADUXfCsQg</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-06-22T03:51:27.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">2.3 Python数据类型</title>
     <id>https://clay-wangzhi.com/code/python/type-of-data/</id>
     <link href="https://clay-wangzhi.com/code/python/type-of-data/"/>
@@ -23374,120 +23488,6 @@ _<span>,</span> <span>*</span>b<span>,</span> _ <span>=</span> <span>[</span><sp
       <name>Clay</name>
     </contributor>
     <published>2021-06-08T08:40:18.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">1.4 使用 vscode 打造 python 开发环境</title>
-    <id>https://clay-wangzhi.com/code/python/vscode-python/</id>
-    <link href="https://clay-wangzhi.com/code/python/vscode-python/"/>
-    <updated>2021-06-22T05:51:17.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_1-4-使用-vscode-打造-python-开发环境"> 1.4 使用 vscode 打造 python 开发环境</h1>
-<h2 id="_1-软件准备"> 1 软件准备</h2>
-<p>既然是在 VS Code 中进行 Python 环境配置，在配置之前需要安装好 Python 和 VS Code。</p>
-<h3 id="_1-1-python-安装"> 1.1 Python 安装</h3>
-<p>关于 Python 的安装，可以从 <a href="https://www.python.org/downloads/release" target="_blank" rel="noopener noreferrer">Python 官网下载</a> Python 进行安装，也可以通过 <code>Anaconda</code> 来安装。</p>
-<p>注意区分64位还是32位的。</p>
-<p>安装python的时候，建议将python添加到path环境变量的复选框勾上。</p>
-<p><code>Anaconda</code> 是一个开源的 Python 发行版本，其包含了 <code>conda</code>、Python 等 100 多个科学包及其依赖项。</p>
-<p><code>Anaconda</code> 官方网站下载地址如下：</p>
-<p>https://www.anaconda.com/products/individual</p>
-<p>在 编写此文时，Anaconda 对应的 Python 版本是 Python 3.8，大家可以下载跟电脑系统对应的版本进行安装。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622103707557.png" alt="image-20210622103707557" /></p>
-<h3 id="_1-2-vs-code-安装"> 1.2 VS Code 安装</h3>
-<p>关于 VS Code 安装，在微软官方网站：https://code.visualstudio.com/ 提供免费下载，VS Code 支持 Windows , Linux , Mac OS 三种操作系统，建议去官方下载，不要在第三方软件下载网站下载，第三方软件下载站的猫腻太多了。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622103815924.png" alt="image-20210622103815924" /></p>
-<h2 id="_2-python-环境配置"> 2 Python 环境配置</h2>
-<h3 id="_2-1-安装-python-相关插件"> 2.1 安装 Python 相关插件</h3>
-<p><strong>Python插件</strong></p>
-<p>在 VS Code 中配置 Python 环境，第一个要安装的插件，就是 <code>Python</code> 插件。</p>
-<p><code>Python</code> 插件的全称是 <code>Python extension for Visual Studio Code</code>，它是一个 Visual Studio Code 扩展，具有对 Python 语言的丰富支持（对于该语言的所有受支持版本：&gt; = 3.6），包括诸如 IntelliSense，linting，调试，代码导航，代码格式，Jupyter Notebook 支持，重构，变量之类的功能资源管理器，测试资源管理器，代码段等等！</p>
-<p><strong>代码补全插件 Pylance</strong></p>
-<p><code>Pylance</code> 是微软推出的一个快速而且功能丰富的Python语言扩展。<code>Pylance</code> 于 2020年7月发布，目前在 VS Code 市场中，安装量已有 60多万，足见其关注度。</p>
-<p><code>Pylance</code> 主要有如下特性：</p>
-<ul>
-<li>Docstrings</li>
-<li>参数提示</li>
-<li>自动导入</li>
-<li>代码补全</li>
-<li>代码诊断</li>
-<li>引用和跳转</li>
-<li>代码大纲</li>
-<li>类型检查</li>
-<li>支持多工作区</li>
-<li>带有类型信息的签名帮助</li>
-<li>兼容 IntelliCode 和 Jupyter notebook</li>
-</ul>
-<p>需要运行 Python 程序时，可以在程序文件（<code>py文件</code>）里右键，选择 <code>Run Python File in Terminal</code> 来运行程序，或者 点击右上角的绿色三角形来运行程序。</p>
-<p><strong>Jupyter Notebook 支持插件 Jupyter</strong></p>
-<p>众所周知，python 代码，除了通常使用的 <code>.py</code> 文件外，对于数据科学而言, Jupyter Notebook 也是大家的重要选项，因此，VS Code 中也提供了 Jupyter Notebook 的支持插件，在 VS Code 扩展市场中的名称是 <code>Jupyter</code></p>
-<h3 id="_2-2-自动格式化代码配置"> 2.2 自动格式化代码配置</h3>
-<p>Yapf 是谷歌开源的一个用于格式化 Python 代码的工具，可以一键美化代码。支持两种规范：<code>PEP8</code> 和 <code>Google Style</code> 。</p>
-<p>在 VS Code 中使用 <code>yapf</code> 需要先安装该工具，步骤如下：</p>
-<p><strong>step 1：</strong> 打开终端,输入 &quot;pip install yapf&quot;, 安装 <code>yapf</code> ，如下：</p>
-<div><pre><code>pip <span>install</span> yapf
-</code></pre>
-<div><span>1</span><br></div></div><p><strong>step 2：</strong> 在设置中设置使用 <code>yapf</code>，具体设置过程如下：</p>
-<p>在 VS Code 左下角点击设置按钮，选择 “Settings”，如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111313843.png" alt="image-20210622111313843" /></p>
-<p>在下面界面的右上角点击箭头所示，转到 <code>settings.json</code></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111420975.png" alt="image-20210622111420975" /></p>
-<p>在 <code>settings.json</code> 里进行设置 &quot;python.formatting.provider&quot;: &quot;yapf&quot;， 图示如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210622111528360.png" alt="image-20210622111528360" /></p>
-<p><strong>step 3：</strong> 完成上述设置后，就可以对代码格式进行自动格式化了，快捷键是 Alt+Shift+F 。</p>
-<h2 id="_3-为项目运行时指定特定的python解释器"> 3 为项目运行时指定特定的python解释器</h2>
-<p><a href="https://clay-wangzhi.com/code/python/python-virtualenv/#visual-studio-code" target="_blank" rel="noopener noreferrer">详细配置</a></p>
-<h2 id="_4-vscode利用远程服务器环境调试项目"> 4 vscode利用远程服务器环境调试项目</h2>
-<p>这个还是很好用的，可以不需要在windows服务器上安装python执行环境了。而且，python中的一些与系统操作相关的模块，windows上安装起来也非常麻烦。</p>
-<p>**step 1：**按下快捷键Ctrl+Shift+X，进入插件管理页面，搜索并安装插件Remote Development</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118092715192-399355687.png" alt="img" /></p>
-<p>**step 2：**penssh客户端，这里提供一个使用powershell安装的方法</p>
-<p>首先，以管理员身份打开powershell</p>
-<p>然后，输入命令在线查询可获取的安装包 <code>Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'</code></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118094734763-1541493353.png" alt="img" /></p>
-<p>最后，如果状态显示NotPresent的话，可以使用命令进行安装，命令为Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0</p>
-<p>提示：随着 Windows 10 2018 年 4 月更新的发布，OpenSSH 客户端已正式推出并在 Windows 10 中默认安装。</p>
-<p>**step 3：**准备一台centos虚拟机或者ubuntu虚拟机，确保虚拟机上的ssh server服务已经开启，并允许远程连接。比如我准备的是centos7虚拟机，IP地址为192.168.247.133</p>
-<p>**step 4：**按下快捷键ctrl+shift+p 搜索Remote-SSH:Settings，在打开的页面中，点击Edit in settings.json，在其中添加&quot;remote.SSH.showLoginTerminal&quot;: true,如下图:</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118100720720-1004879806.png" alt="img" /></p>
-<p>**step 5：**点击左下角的绿色图标，选择Remote-SSH：Connect to Host 然后点击 Configure SSH Hosts 然后选择点第一个config，默认应该是一个空白的文件，在其中添加如下的配置：</p>
-<div><pre><code>Host Centos7.5_python3
-    HostName 192.168.247.133
-    Port 22
-    User root
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101524704-1699733717.png" alt="img" /></p>
-<p>备注：其中Host后面的名称，可以随便命名，HostName后面的IP地址是准备的虚拟机IP地址，Port后跟的是ssh server服务监听的端口号，默认是22，User后跟的是远程连接的用户名，我这里使用超级用户连接。</p>
-<p>这里补充一点：</p>
-<p>每次连接远程服务器，打开项目都要输入一次密码，是否很烦？如果有人觉得烦的话，可以先在本地windows系统和远程服务器之间做好ssh免密登陆，然后在上面这个config文件中，在User配置下一行（缩进和User要一致），添加IdentityFile C:\Users....ssh\id_rsa即可，其中IdentityFile参数后面跟的是windows上的rsa私钥文件。</p>
-<p>**step 6：**点击vscode左边栏的远程连接图标，如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118101908730-1174731395.png" alt="img" /></p>
-<p>**step 7：**点击配置后的远程虚拟机名称旁边的那个按钮，输入密码进行登陆到服务器上，如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118102152158-767875613.png" alt="img" /></p>
-<p>备注，如果vscode初次连接这台虚拟机的话，那么需要等待几分钟，因为vscode要做一些初始化工作。</p>
-<p>**step 8：**连上虚拟机后，可以通过下图中标识的顺序打开远程服务器上的项目，当然每次打开项目都是需要再次输入密码的。这也是为了安全考虑。</p>
-<p>在打开的项目中新建文件，删除文件，修改文件等操作，不需要再次输入密码。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118103510878-1427529685.png" alt="img" /></p>
-<p>**step 9：**运行项目或测试脚本的方法</p>
-<p>感觉这个功能，在一定程度上，都可以代替secure crt或xshell远程连接工具和ftp上传下载客户端了。很强大。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118104120944-788931545.png" alt="img" /></p>
-<p>补充：</p>
-<p>没有语法检查，代码自动提示和补全功能，开发真的是一个很难受的事情，那么怎么在远程服务器上使用这些功能呢？下面就是补全这一点的方法：</p>
-<p>首先：按下快捷键Ctrl+Shift+X，进入插件管理页面，搜索python，然后，点击Install in SSH:Centos7.5_python3，如下图：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1809823-20191118114031066-1405256168.png" alt="img" /></p>
-<p>然后：在打开的项目中，生成launch.json和settings.json这两个配置文件，方法在最上面，和配置windows本地开发环境一样</p>
-<h2 id="参考链接"> 参考链接</h2>
-<ul>
-<li>https://www.cnblogs.com/DesignerA/p/11604200.html</li>
-<li>https://mp.weixin.qq.com/s/oOlPoCE0BKpmxADUXfCsQg</li>
-</ul>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-06-22T03:51:27.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -24029,39 +24029,6 @@ ABR<span>[</span><span>127</span><span>]</span><span>=</span>del
 </li>
 </ol>
 </section>
-]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">第一部分 初见Shell</title>
-    <id>https://clay-wangzhi.com/code/shell/part1/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part1/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="第一部分-初见shell"> 第一部分 初见Shell</h1>
-<blockquote>
-<p><em>脚本：文章；书面文档</em></p>
-<p><em>——韦伯斯特字典1913年版</em></p>
-</blockquote>
-<p>Shell是一种命令解释器，它不仅分离了用户层与操作系统内核，更是一门强大的编程语言。我们称为shell编写的程序为脚本（script）。脚本是一种易于使用的工具，它能够将系统调用、工具软件、实用程序（utility）和已编译的二进制文件联系在一起构建程序。实际上，shell脚本可以调用所有的UNIX命令、实用程序以及工具软件。如果你觉得这还不够，使用像<code>test</code>命令和循环结构这样的shell内建命令能够让脚本更加灵活强大。Shell脚本特别适合完成系统管理任务和那些不需要复杂结构性语言实现的重复工作。</p>
-<h3 id="内容目录"> 内容目录</h3>
-<ul>
-<li><a href="./01_shell_programming.html">1. 为什么使用shell编程</a></li>
-<li><a href="./02_starting_off_with_a_sha_bang.html">2. 和Sha-Bang（#!）一起出发</a>
-<ul>
-<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
-<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
-</ul>
-</li>
-</ul>
-<p>原著链接：http://tldp.org/LDP/abs/html/</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -25047,6 +25014,39 @@ $<span>'Control-M leaves cursor at beginning of this line. Press Enter. <span ti
 </li>
 </ol>
 </section>
+]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">第一部分 初见Shell</title>
+    <id>https://clay-wangzhi.com/code/shell/part1/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part1/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="第一部分-初见shell"> 第一部分 初见Shell</h1>
+<blockquote>
+<p><em>脚本：文章；书面文档</em></p>
+<p><em>——韦伯斯特字典1913年版</em></p>
+</blockquote>
+<p>Shell是一种命令解释器，它不仅分离了用户层与操作系统内核，更是一门强大的编程语言。我们称为shell编写的程序为脚本（script）。脚本是一种易于使用的工具，它能够将系统调用、工具软件、实用程序（utility）和已编译的二进制文件联系在一起构建程序。实际上，shell脚本可以调用所有的UNIX命令、实用程序以及工具软件。如果你觉得这还不够，使用像<code>test</code>命令和循环结构这样的shell内建命令能够让脚本更加灵活强大。Shell脚本特别适合完成系统管理任务和那些不需要复杂结构性语言实现的重复工作。</p>
+<h3 id="内容目录"> 内容目录</h3>
+<ul>
+<li><a href="./01_shell_programming.html">1. 为什么使用shell编程</a></li>
+<li><a href="./02_starting_off_with_a_sha_bang.html">2. 和Sha-Bang（#!）一起出发</a>
+<ul>
+<li><a href="./02_1_invoking_the_script.html">2.1 调用一个脚本</a></li>
+<li><a href="./02_2_preliminary_exercises.html">2.2 牛刀小试</a></li>
+</ul>
+</li>
+</ul>
+<p>原著链接：http://tldp.org/LDP/abs/html/</p>
 ]]></content>
     <author>
       <name>LinuxStory</name>
@@ -27379,90 +27379,6 @@ zcat <span>$1</span> <span>|</span> <span>more</span>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">8.2 数字常量</title>
-    <id>https://clay-wangzhi.com/code/shell/part2/08_2_numerical_constants/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part2/08_2_numerical_constants/"/>
-    <updated>2021-05-12T08:47:40.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-2-数字常量"> 8.2 数字常量</h1>
-<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
-带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
-内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
-<p><strong>样例 8-4. 数字常量的表示</strong></p>
-<div><pre><code>#!/bin/bash
-# numbers.sh: 不同进制数的表示
-
-# 十进制数: 默认
-let &quot;dec = 32&quot;
-echo &quot;decimal number = $dec&quot;             # 32
-# 一切正常。
-
-
-# 八进制数: 带前导&#39;0&#39;的数
-let &quot;oct = 032&quot;
-echo &quot;octal number = $oct&quot;               # 26
-# 结果以 十进制 打印输出了。
-# ------ ------ -----------
-
-
-# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
-let &quot;hex = 0x32&quot;
-echo &quot;hexadecimal number = $hex&quot;         # 50
-
-echo $((0x9abc))                         # 39612
-#     ^^      ^^   双圆括号进行表达式求值
-# 结果以十进制打印输出。
-
-
-
-# 其他进制数: BASE#NUMBER
-# BASE 范围:  2 - 64
-# NUMBER 必须以 BASE 规定的正确形式书写，如下:
-
-let &quot;bin = 2#111100111001101&quot;
-echo &quot;binary number = $bin&quot;              # 31181
-
-let &quot;b32 = 32#77&quot;
-echo &quot;base-32 number = $b32&quot;             # 231
-
-let &quot;b64 = 64#@_&quot;
-echo &quot;base-64 number = $b64&quot;             # 4031
-
-# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
-# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
-
-
-echo
-
-echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
-                                         # 1295 170 44822 3375
-
-#  重要提醒:
-#  ---------
-#  使用超出进制范围以外的符号会报错。
-
-let &quot;bad_oct = 081&quot;
-
-# (可能的) 报错信息:
-#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
-#              Octal numbers use only digits in the range 0 - 7.
-
-exit $?        # 退出码 = 1 (错误)
-
-# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
-
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">8.1 运算符</title>
     <id>https://clay-wangzhi.com/code/shell/part2/08_1_operators/</id>
     <link href="https://clay-wangzhi.com/code/shell/part2/08_1_operators/"/>
@@ -27816,6 +27732,90 @@ echo &quot;t2 = $t2    a = $a&quot;         # t2 = 5    a = 9
 </ol>
 </section>
 ]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
+    <title type="html">8.2 数字常量</title>
+    <id>https://clay-wangzhi.com/code/shell/part2/08_2_numerical_constants/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part2/08_2_numerical_constants/"/>
+    <updated>2021-05-12T08:47:40.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-2-数字常量"> 8.2 数字常量</h1>
+<p>通常情况下，shell脚本会把数字以十进制整数看待(base 10)，除非数字加了特殊的前缀或标记。
+带前缀0的数字是八进制数(base 8)；带前缀0x的数字是十六进制数(base 16)。
+内嵌 # 的数字会以 BASE#NUMBER 的方式进行求值（不能超出当前shell支持整数的范围）。</p>
+<p><strong>样例 8-4. 数字常量的表示</strong></p>
+<div><pre><code>#!/bin/bash
+# numbers.sh: 不同进制数的表示
+
+# 十进制数: 默认
+let &quot;dec = 32&quot;
+echo &quot;decimal number = $dec&quot;             # 32
+# 一切正常。
+
+
+# 八进制数: 带前导&#39;0&#39;的数
+let &quot;oct = 032&quot;
+echo &quot;octal number = $oct&quot;               # 26
+# 结果以 十进制 打印输出了。
+# ------ ------ -----------
+
+
+# 十六进制数: 带前导&#39;0x&#39;或&#39;0X&#39;的数
+let &quot;hex = 0x32&quot;
+echo &quot;hexadecimal number = $hex&quot;         # 50
+
+echo $((0x9abc))                         # 39612
+#     ^^      ^^   双圆括号进行表达式求值
+# 结果以十进制打印输出。
+
+
+
+# 其他进制数: BASE#NUMBER
+# BASE 范围:  2 - 64
+# NUMBER 必须以 BASE 规定的正确形式书写，如下:
+
+let &quot;bin = 2#111100111001101&quot;
+echo &quot;binary number = $bin&quot;              # 31181
+
+let &quot;b32 = 32#77&quot;
+echo &quot;base-32 number = $b32&quot;             # 231
+
+let &quot;b64 = 64#@_&quot;
+echo &quot;base-64 number = $b64&quot;             # 4031
+
+# 这种表示法只对进制范围(2 - 64)内的 ASCII 字符有效。
+# 10 数字 + 26 小写字母 + 26 大写字母 + @ + _
+
+
+echo
+
+echo $((36#zz)) $((2#10101010)) $((16#AF16)) $((53#1aA))
+                                         # 1295 170 44822 3375
+
+#  重要提醒:
+#  ---------
+#  使用超出进制范围以外的符号会报错。
+
+let &quot;bad_oct = 081&quot;
+
+# (可能的) 报错信息:
+#  bad_oct = 081: value too great for base (error token is &quot;081&quot;)
+#              Octal numbers use only digits in the range 0 - 7.
+
+exit $?        # 退出码 = 1 (错误)
+
+# 感谢 Rich Bartell 和 Stephane Chazelas 的说明。
+
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -34469,202 +34469,6 @@ awk 指令默认是使用 “EREs&quot;</p>
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
-    <title type="html">20.1 使用 exec</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
-<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
-<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
-<div><pre><code>#!/bin/bash
-# 使用 &#39;exec&#39; 重定向 标准输入 .
-
-
-exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
-                   # .
-
-exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
-
-read a1            # 读取文件 &quot;data-file&quot; 首行.
-read a2            # 读取文件 &quot;data-file&quot; 第二行
-
-echo
-echo &quot;Following lines read from file.&quot;
-echo &quot;-------------------------------&quot;
-echo $a1
-echo $a2
-
-echo; echo; echo
-
-exec 0&lt;&amp;6 6&lt;&amp;-
-#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
-#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
-#
-# &lt;&amp;6 6&lt;&amp;-    also works.
-
-echo -n &quot;Enter data  &quot;
-read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
-echo &quot;Input read from stdin.&quot;
-echo &quot;----------------------&quot;
-echo &quot;b1 = $b1&quot;
-
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
-<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
-<p>样例 20-2. 使用 exec 重定向标准输出</p>
-<div><pre><code>#!/bin/bash
-# reassign-stdout.sh
-
-LOGFILE=logfile.txt
-
-exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
-                    # 保存标准输出.
-
-exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
-
-# ----------------------------------------------------------- #
-# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
-
-echo -n &quot;Logfile: &quot;
-date
-echo &quot;-------------------------------------&quot;
-echo
-
-echo &quot;Output of \&quot;ls -al\&quot; command&quot;
-echo
-ls -al
-echo; echo
-echo &quot;Output of \&quot;df\&quot; command&quot;
-echo
-df
-
-# ----------------------------------------------------------- #
-
-exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
-
-echo
-echo &quot;== stdout now restored to default == &quot;
-echo
-ls -al
-echo
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
-<div><pre><code>#!/bin/bash
-# upperconv.sh
-# 转化指定的输入文件成大写.
-
-E_FILE_ACCESS=70
-E_WRONG_ARGS=71
-
-if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
-then
-  echo &quot;Can&#39;t read from input file!&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_FILE_ACCESS
-fi                   #  同样的错误退出
-                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
-
-if [ -z &quot;$2&quot; ]
-then
-  echo &quot;Need to specify output file.&quot;
-  echo &quot;Usage: $0 input-file output-file&quot;
-  exit $E_WRONG_ARGS
-fi
-
-
-exec 4&lt;&amp;0
-exec &lt; $1            # 将从输入文件读取.
-
-exec 7&gt;&amp;1
-exec &gt; $2            # 将写入输出文件.
-                     # 假定输出文件可写 (增加检测?).
-
-# -----------------------------------------------
-    cat - | tr a-z A-Z   # 转化大写.
-#   ^^^^^                # 读取标准输入.
-#           ^^^^^^^^^^   # 写到标准输出.
-# 然而标准输入和标准输出都会被重定向.
-# 注意 &#39;cat&#39; 可能会被遗漏.
-# -----------------------------------------------
-
-exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
-exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
-
-# 恢复后, 下面这行会预期从标准输出打印.
-echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
-<p>样例 20-4. 规避子 shell</p>
-<div><pre><code>#!/bin/bash
-# avoid-subshell.sh
-# Matthew Walker 的建议.
-
-Lines=0
-
-echo
-
-cat myfile.txt | while read line;
-                 do {
-                   echo $line
-                   (( Lines++ ));  #  递增变量的值趋近外层循环
-                                   #  使用子 shell 会有问题.
-                 }
-                 done
-
-echo &quot;Number of lines read = $Lines&quot;     # 0
-                                         # 报错!
-
-echo &quot;------------------------&quot;
-
-
-exec 3&lt;&gt; myfile.txt
-while read line &lt;&amp;3
-do {
-  echo &quot;$line&quot;
-  (( Lines++ ));                   #  递增变量的值趋近外层循环.
-                                   #  没有子 shell，就不会有问题.
-}
-done
-exec 3&gt;&amp;-
-
-echo &quot;Number of lines read = $Lines&quot;     # 8
-
-echo
-
-exit 0
-
-# 下面的行并不在脚本里.
-
-$ cat myfile.txt
-
-Line 1.
-Line 2.
-Line 3.
-Line 4.
-Line 5.
-Line 6.
-Line 7.
-Line 8.
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
     <title type="html">19 嵌入文档</title>
     <id>https://clay-wangzhi.com/code/shell/part5/19_here_documents/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/19_here_documents/"/>
@@ -35260,6 +35064,202 @@ EOF
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">20.1 使用 exec</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/20_1_use_exec/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_20-1-使用-exec"> 20.1 使用 exec</h1>
+<p>一个 <code>exec &lt; filename</code> 命令重定向了 <code>标准输入</code> 到一个文件。自此所有 <code>标准输入</code> 都来自该文件而不是默认来源(通常是键盘输入)。在使用 <a href="http://tldp.org/LDP/abs/html/sedawk.html#SEDREF" target="_blank" rel="noopener noreferrer">sed</a> 和 <a href="http://tldp.org/LDP/abs/html/awk.html#AWKREF" target="_blank" rel="noopener noreferrer">awk</a> 时候这种方式可以逐行读文件并逐行解析。</p>
+<p>样例 20-1. 使用 <code>exec</code> 重定向 标准输入</p>
+<div><pre><code>#!/bin/bash
+# 使用 &#39;exec&#39; 重定向 标准输入 .
+
+
+exec 6&lt;&amp;0          # 链接文件描述符 #6 到标准输入.
+                   # .
+
+exec &lt; data-file   # 标准输入被文件 &quot;data-file&quot; 替换
+
+read a1            # 读取文件 &quot;data-file&quot; 首行.
+read a2            # 读取文件 &quot;data-file&quot; 第二行
+
+echo
+echo &quot;Following lines read from file.&quot;
+echo &quot;-------------------------------&quot;
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0&lt;&amp;6 6&lt;&amp;-
+#  现在在之前保存的位置将从文件描述符 #6 将 标准输出 恢复.
+#+ 且关闭文件描述符 #6 ( 6&lt;&amp;- ) 让其他程序正常使用.
+#
+# &lt;&amp;6 6&lt;&amp;-    also works.
+
+echo -n &quot;Enter data  &quot;
+read b1  # 现在按预期的，从正常的标准输入 &quot;read&quot;.
+echo &quot;Input read from stdin.&quot;
+echo &quot;----------------------&quot;
+echo &quot;b1 = $b1&quot;
+
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br></div></div><p>同理, <code>exec &gt;filename</code> 重定向 标准输出 到指定文件. 他将所有的命令输出通常是 标准输出 重定向到指定的位置.</p>
+<p><code>exec N &gt; filename</code> 影响整个脚本或当前 shell。<a href="http://tldp.org/LDP/abs/html/special-chars.html#PROCESSIDREF" target="_blank" rel="noopener noreferrer">PID</a> 从重定向脚本或 shell 的那时候已经发生了改变. 然而 <code>N &gt; filename</code> 影响的就是新派生的进程，而不是整个脚本或 shell。</p>
+<p>样例 20-2. 使用 exec 重定向标准输出</p>
+<div><pre><code>#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6&gt;&amp;1           # 链接文件描述符 #6 到标准输出.
+                    # 保存标准输出.
+
+exec &gt; $LOGFILE     # 标准输出被文件 &quot;logfile.txt&quot; 替换.
+
+# ----------------------------------------------------------- #
+# 所有在这个块里的命令的输出都会发送到文件 $LOGFILE.
+
+echo -n &quot;Logfile: &quot;
+date
+echo &quot;-------------------------------------&quot;
+echo
+
+echo &quot;Output of \&quot;ls -al\&quot; command&quot;
+echo
+ls -al
+echo; echo
+echo &quot;Output of \&quot;df\&quot; command&quot;
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1&gt;&amp;6 6&gt;&amp;-      # 关闭文件描述符 #6 恢复 标准输出.
+
+echo
+echo &quot;== stdout now restored to default == &quot;
+echo
+ls -al
+echo
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br></div></div><p>样例 20-3. 用 exec 在一个脚本里同时重定向 标准输入 和 标准输出</p>
+<div><pre><code>#!/bin/bash
+# upperconv.sh
+# 转化指定的输入文件成大写.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r &quot;$1&quot; ]     # 指定的输入文件是否可读?
+then
+  echo &quot;Can&#39;t read from input file!&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_FILE_ACCESS
+fi                   #  同样的错误退出
+                     #+ 等同如果输入文件 ($1) 未指定 (为什么?).
+
+if [ -z &quot;$2&quot; ]
+then
+  echo &quot;Need to specify output file.&quot;
+  echo &quot;Usage: $0 input-file output-file&quot;
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4&lt;&amp;0
+exec &lt; $1            # 将从输入文件读取.
+
+exec 7&gt;&amp;1
+exec &gt; $2            # 将写入输出文件.
+                     # 假定输出文件可写 (增加检测?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # 转化大写.
+#   ^^^^^                # 读取标准输入.
+#           ^^^^^^^^^^   # 写到标准输出.
+# 然而标准输入和标准输出都会被重定向.
+# 注意 &#39;cat&#39; 可能会被遗漏.
+# -----------------------------------------------
+
+exec 1&gt;&amp;7 7&gt;&amp;-       # 恢复标准输出.
+exec 0&lt;&amp;4 4&lt;&amp;-       # 恢复标准输入.
+
+# 恢复后, 下面这行会预期从标准输出打印.
+echo &quot;File \&quot;$1\&quot; written to \&quot;$2\&quot; as uppercase conversion.&quot;
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br></div></div><p>I/O 重定向是种明智的规避 <a href="http://tldp.org/LDP/abs/html/subshells.html#PARVIS" target="_blank" rel="noopener noreferrer">inaccessible variables within a subshell</a> 问题的方法.</p>
+<p>样例 20-4. 规避子 shell</p>
+<div><pre><code>#!/bin/bash
+# avoid-subshell.sh
+# Matthew Walker 的建议.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  递增变量的值趋近外层循环
+                                   #  使用子 shell 会有问题.
+                 }
+                 done
+
+echo &quot;Number of lines read = $Lines&quot;     # 0
+                                         # 报错!
+
+echo &quot;------------------------&quot;
+
+
+exec 3&lt;&gt; myfile.txt
+while read line &lt;&amp;3
+do {
+  echo &quot;$line&quot;
+  (( Lines++ ));                   #  递增变量的值趋近外层循环.
+                                   #  没有子 shell，就不会有问题.
+}
+done
+exec 3&gt;&amp;-
+
+echo &quot;Number of lines read = $Lines&quot;     # 8
+
+echo
+
+exit 0
+
+# 下面的行并不在脚本里.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">20.2 重定向代码块</title>
     <id>https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/20_2_redirecting_code_blocks/"/>
@@ -35536,6 +35536,97 @@ echo &quot;$nr files totaling $totalSize bytes&quot;
     <rights>Copyright by LinuxStory</rights>
   </entry>
   <entry>
+    <title type="html">20.3 应用程序</title>
+    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
+    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
+<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
+<p>样例 20-12. 日志记录事件</p>
+<div><pre><code>#!/bin/bash
+# logevents.sh
+# 作者: Stephane Chazelas.
+# 用于 ABS 许可指南.
+
+# 事件记录到文件.
+# 必须 root 身份执行 (可以写入 /var/log).
+
+ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
+E_NOTROOT=67   # 非 root 会报错.
+
+
+if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
+then
+  echo &quot;Must be root to run this script.&quot;
+  exit $E_NOTROOT
+fi  
+
+
+FD_DEBUG1=3
+FD_DEBUG2=4
+FD_DEBUG3=5
+
+# === 取消下面两行注释来激活脚本. ===
+# LOG_EVENTS=1
+# LOG_VARS=1
+
+
+log()  # 时间和日期写入日志文件.
+{
+echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
+#     ^^^^^^^  命令替换
+                           # 见下文.
+}
+
+
+
+case $LOG_LEVEL in
+ 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
+ 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
+ 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
+ *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
+esac
+
+FD_LOGVARS=6
+if [[ $LOG_VARS ]]
+then exec 6&gt;&gt; /var/log/vars.log
+else exec 6&gt; /dev/null                     # 清空输出.
+fi
+
+FD_LOGEVENTS=7
+if [[ $LOG_EVENTS ]]
+then
+  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
+  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
+  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
+  log                                      # 写入时间和日期.
+else exec 7&gt; /dev/null                     # 清空输出.
+fi
+
+echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
+
+ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
+
+echo &quot;Done&quot;                                # 命令2 
+
+echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
+# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
+
+
+exit 0
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
+    <author>
+      <name>LinuxStory</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>LinuxStory</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by LinuxStory</rights>
+  </entry>
+  <entry>
     <title type="html">20 I/O 重定向</title>
     <id>https://clay-wangzhi.com/code/shell/part5/20_io_redirection/</id>
     <link href="https://clay-wangzhi.com/code/shell/part5/20_io_redirection/"/>
@@ -35722,97 +35813,6 @@ exec 3&gt;&amp;-                              # 现在关闭它.
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17894" target="_blank" rel="noopener noreferrer">[2]</a>	 <code>文件描述符</code> 仅仅是操作系统分配的一个可追踪的打开的文件号. 可以认为是一个简化的文件指针. 类似于 C 语言的 <code>文件句柄</code>.</p>
 <p><a href="http://tldp.org/LDP/abs/html/io-redirection.html#AEN17906" target="_blank" rel="noopener noreferrer">[3]</a>	当 bash 创建一个子进程的时候使用 <code>文件描述符 5</code> 会有问题. 例如 <a href="http://tldp.org/LDP/abs/html/internal.html#EXECREF" target="_blank" rel="noopener noreferrer">exec</a>, 子进程继承了文件描述符 5 (详情见 Chet Ramey's 归档的 e-mail, <a href="https://groups.google.com/forum/#!topic/gnu.bash.bug/E5Vdqv3tO1w" target="_blank" rel="noopener noreferrer">SUBJECT: RE: File descriptor 5 is held open</a>). 最好将这个文件描述符单独规避.</p>
 ]]></content>
-    <author>
-      <name>LinuxStory</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>LinuxStory</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by LinuxStory</rights>
-  </entry>
-  <entry>
-    <title type="html">20.3 应用程序</title>
-    <id>https://clay-wangzhi.com/code/shell/part5/20_3_applications/</id>
-    <link href="https://clay-wangzhi.com/code/shell/part5/20_3_applications/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_20-3-应用程序"> 20.3 应用程序</h1>
-<p>使用 I/O 重定向可以同时解析和固定命令输出的片段(see <a href="http://tldp.org/LDP/abs/html/internal.html#READREDIR" target="_blank" rel="noopener noreferrer">样例 15-7</a>). 这也使得可以生成报告和日志文件.</p>
-<p>样例 20-12. 日志记录事件</p>
-<div><pre><code>#!/bin/bash
-# logevents.sh
-# 作者: Stephane Chazelas.
-# 用于 ABS 许可指南.
-
-# 事件记录到文件.
-# 必须 root 身份执行 (可以写入 /var/log).
-
-ROOT_UID=0     # 只有 $UID 为 0 的用户具有 root 权限.
-E_NOTROOT=67   # 非 root 会报错.
-
-
-if [ &quot;$UID&quot; -ne &quot;$ROOT_UID&quot; ]
-then
-  echo &quot;Must be root to run this script.&quot;
-  exit $E_NOTROOT
-fi  
-
-
-FD_DEBUG1=3
-FD_DEBUG2=4
-FD_DEBUG3=5
-
-# === 取消下面两行注释来激活脚本. ===
-# LOG_EVENTS=1
-# LOG_VARS=1
-
-
-log()  # 时间和日期写入日志文件.
-{
-echo &quot;$(date)  $*&quot; &gt;&amp;7     # *追加* 日期到文件.
-#     ^^^^^^^  命令替换
-                           # 见下文.
-}
-
-
-
-case $LOG_LEVEL in
- 1) exec 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
- 2) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
- 3) exec 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
- *) exec 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
-esac
-
-FD_LOGVARS=6
-if [[ $LOG_VARS ]]
-then exec 6&gt;&gt; /var/log/vars.log
-else exec 6&gt; /dev/null                     # 清空输出.
-fi
-
-FD_LOGEVENTS=7
-if [[ $LOG_EVENTS ]]
-then
-  # exec 7 &gt;(exec gawk &#39;{print strftime(), $0}&#39; &gt;&gt; /var/log/event.log)
-  # 上述行在最近高于 bash 2.04 版本会失败，为什么?
-  exec 7&gt;&gt; /var/log/event.log              # 追加到 &quot;event.log&quot;.
-  log                                      # 写入时间和日期.
-else exec 7&gt; /dev/null                     # 清空输出.
-fi
-
-echo &quot;DEBUG3: beginning&quot; &gt;&amp;${FD_DEBUG3}
-
-ls -l &gt;&amp;5 2&gt;&amp;4                             # 命令1 &gt;&amp;5 2&gt;&amp;4
-
-echo &quot;Done&quot;                                # 命令2 
-
-echo &quot;sending mail&quot; &gt;&amp;${FD_LOGEVENTS}
-# 输出信息 &quot;sending mail&quot; 到文件描述符 #7.
-
-
-exit 0
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br></div></div>]]></content>
     <author>
       <name>LinuxStory</name>
     </author>
@@ -43680,6 +43680,81 @@ fdfs_upload_file /etc/fdfs/client.conf /tmp/favicon.png
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">8 AB复制</title>
+    <id>https://clay-wangzhi.com/db/mysql/ab-copy/</id>
+    <link href="https://clay-wangzhi.com/db/mysql/ab-copy/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_8-ab复制"> 8 AB复制</h1>
+<h2 id="mysql-ab简介"> MySQL AB简介</h2>
+<p>AB复制又称主从复制，实现的是数据同步。</p>
+<p>如果要做MySQL AB复制，数据库版本尽量保持一致。如果版本不一致，从服务器版本高于主服务器，但是版本不一致不能做双向复制。</p>
+<p>MySQL AB复制有什么好处呢？</p>
+<ul>
+<li>解决宕机带来的数据不一致，因为MySQL AB复制可以实时备份数据；</li>
+<li>减轻数据库服务器压力，多台服务器的性能一般比单台要好。但是MySQL AB复制不适用于大数据量，如果是大数据环境，推荐使用集群。</li>
+</ul>
+<p>​    MySQL复制（replication）是一个异步的复制，从一个MySQL实例（Master）复制到另一个MySQL（Slave）。实现整个主从复制，需要由Master服务器上的IO进程，和Slave服务器上的Sql进程和IO进程共同完成。</p>
+<h2 id="主从复制的过程"> 主从复制的过程</h2>
+<p>​    要实现主从复制，首先必须打开Master端的binary log(bin-log)功能，因为整个MySQL复制过程实际上就是Slave从Master端获取相应的二进制日志，然后再在自己slave端完全顺序的执行日志中所有记录的各种操作。
+主从复制的基本过程：
+​    1）MySQL Slave端的IO进程连接上Master，向Master请求指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；</p>
+<p>​    2）Master接收到来自Slave的IO进程的请求后，负责复制的IO进程根据Slave的请求信息，读取相应日志内容，返回给Slave的IO的进程。并将本次请求读到的bin-log文件名及位置一起返回给Slave端。</p>
+<p>​    3）Slave的IO进程接收到信息后，将接收到的日志内容依次添加Slave端的realy-log文件的最末端，并将读取到的Master端的bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我；”</p>
+<p>​    4）Slave的Sql进程监测到relay-log中新增了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。</p>
+<h3 id="主服务器操作"> 主服务器操作</h3>
+<h4 id="全备-并在从机恢复数据"> 全备，并在从机恢复数据</h4>
+<h4 id="开启binlog日志"> 开启binlog日志</h4>
+<div><pre><code>vim /etc/my.cnf
+[mysqld]
+log-bin = master
+log-bin-index = master
+server-id = 1
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code>service mysqld restart
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="授权从服务器"> 授权从服务器</h4>
+<p>授权从服务器，可以传输binlog日志</p>
+<div><pre><code>grant replication slave on *.* to slave@&#39;从服务器&#39; identified by &#39;123&#39;;
+</code></pre>
+<div><span>1</span><br></div></div><h3 id="从服务器操作"> 从服务器操作</h3>
+<h4 id="导入主服务器的数据"> 导入主服务器的数据</h4>
+<div><pre><code>mysql -u root &lt; all.sql
+</code></pre>
+<div><span>1</span><br></div></div><h4 id="改配置文件"> 改配置文件</h4>
+<div><pre><code>vim /etc/my.cnf
+[mysqld]
+server-id = 2
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h4 id="配置主服务器的信息"> 配置主服务器的信息</h4>
+<div><pre><code>&gt;stop slave;
+&gt;change master to
+-&gt; master_host = &#39;主服务器&#39;，
+-&gt;master_user = &#39;slave&#39;,
+-&gt;master_password = &#39;123&#39;,
+-&gt;master_port = 3306,
+-&gt;master_log_file = &#39;mysql-bin.000001&#39;,
+-&gt; master_log_pos=120;
+&gt;start slave;
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="校验"> 校验</h3>
+<div><pre><code>&gt; show slave status\G
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>表示成功</p>
+<p>​</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="MySQL"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">7 备份恢复</title>
     <id>https://clay-wangzhi.com/db/mysql/back/</id>
     <link href="https://clay-wangzhi.com/db/mysql/back/"/>
@@ -44440,81 +44515,6 @@ innobackupex会用子程序启动xtrabackup --log-stream 定向到临时文件�
 <p>https://www.cnblogs.com/huchong/p/10238515.html#_label1</p>
 <p>https://www.linuxidc.com/Linux/2019-01/156363.htm</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="MySQL"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">8 AB复制</title>
-    <id>https://clay-wangzhi.com/db/mysql/ab-copy/</id>
-    <link href="https://clay-wangzhi.com/db/mysql/ab-copy/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_8-ab复制"> 8 AB复制</h1>
-<h2 id="mysql-ab简介"> MySQL AB简介</h2>
-<p>AB复制又称主从复制，实现的是数据同步。</p>
-<p>如果要做MySQL AB复制，数据库版本尽量保持一致。如果版本不一致，从服务器版本高于主服务器，但是版本不一致不能做双向复制。</p>
-<p>MySQL AB复制有什么好处呢？</p>
-<ul>
-<li>解决宕机带来的数据不一致，因为MySQL AB复制可以实时备份数据；</li>
-<li>减轻数据库服务器压力，多台服务器的性能一般比单台要好。但是MySQL AB复制不适用于大数据量，如果是大数据环境，推荐使用集群。</li>
-</ul>
-<p>​    MySQL复制（replication）是一个异步的复制，从一个MySQL实例（Master）复制到另一个MySQL（Slave）。实现整个主从复制，需要由Master服务器上的IO进程，和Slave服务器上的Sql进程和IO进程共同完成。</p>
-<h2 id="主从复制的过程"> 主从复制的过程</h2>
-<p>​    要实现主从复制，首先必须打开Master端的binary log(bin-log)功能，因为整个MySQL复制过程实际上就是Slave从Master端获取相应的二进制日志，然后再在自己slave端完全顺序的执行日志中所有记录的各种操作。
-主从复制的基本过程：
-​    1）MySQL Slave端的IO进程连接上Master，向Master请求指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；</p>
-<p>​    2）Master接收到来自Slave的IO进程的请求后，负责复制的IO进程根据Slave的请求信息，读取相应日志内容，返回给Slave的IO的进程。并将本次请求读到的bin-log文件名及位置一起返回给Slave端。</p>
-<p>​    3）Slave的IO进程接收到信息后，将接收到的日志内容依次添加Slave端的realy-log文件的最末端，并将读取到的Master端的bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我；”</p>
-<p>​    4）Slave的Sql进程监测到relay-log中新增了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。</p>
-<h3 id="主服务器操作"> 主服务器操作</h3>
-<h4 id="全备-并在从机恢复数据"> 全备，并在从机恢复数据</h4>
-<h4 id="开启binlog日志"> 开启binlog日志</h4>
-<div><pre><code>vim /etc/my.cnf
-[mysqld]
-log-bin = master
-log-bin-index = master
-server-id = 1
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><div><pre><code>service mysqld restart
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="授权从服务器"> 授权从服务器</h4>
-<p>授权从服务器，可以传输binlog日志</p>
-<div><pre><code>grant replication slave on *.* to slave@&#39;从服务器&#39; identified by &#39;123&#39;;
-</code></pre>
-<div><span>1</span><br></div></div><h3 id="从服务器操作"> 从服务器操作</h3>
-<h4 id="导入主服务器的数据"> 导入主服务器的数据</h4>
-<div><pre><code>mysql -u root &lt; all.sql
-</code></pre>
-<div><span>1</span><br></div></div><h4 id="改配置文件"> 改配置文件</h4>
-<div><pre><code>vim /etc/my.cnf
-[mysqld]
-server-id = 2
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h4 id="配置主服务器的信息"> 配置主服务器的信息</h4>
-<div><pre><code>&gt;stop slave;
-&gt;change master to
--&gt; master_host = &#39;主服务器&#39;，
--&gt;master_user = &#39;slave&#39;,
--&gt;master_password = &#39;123&#39;,
--&gt;master_port = 3306,
--&gt;master_log_file = &#39;mysql-bin.000001&#39;,
--&gt; master_log_pos=120;
-&gt;start slave;
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><h3 id="校验"> 校验</h3>
-<div><pre><code>&gt; show slave status\G
-Slave_IO_Running: Yes
-Slave_SQL_Running: Yes
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><p>表示成功</p>
-<p>​</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -49673,59 +49673,6 @@ sudo redis-server /etc/redis/redis.conf //指定加载的配置文件
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Python 学习笔记</title>
-    <id>https://clay-wangzhi.com/code/python/</id>
-    <link href="https://clay-wangzhi.com/code/python/"/>
-    <updated>2021-06-08T07:36:45.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="python-学习笔记"> Python 学习笔记</h1>
-<h2 id="常用官网"> 常用官网</h2>
-<p><a href="https://docs.python.org/zh-cn/3/" target="_blank" rel="noopener noreferrer">官方文档</a> ⭐️</p>
-<h2 id="python-教程"> Python 教程</h2>
-<p><a href="https://clay-wangzhi.com/code/python/" target="_blank" rel="noopener noreferrer">Python 运维自动化 | 马哥教育</a> ⭐️</p>
-<p><a href="https://www.liaoxuefeng.com/wiki/1016959663602400" target="_blank" rel="noopener noreferrer">Python 教程 | 廖雪峰</a> ⭐️</p>
-<p><a href="https://github.com/jackfrued/Python-100-Days" target="_blank" rel="noopener noreferrer">Python - 100天从新手到大师 | 骆昊 | github</a> ⭐️</p>
-<p><a href="https://www.kancloud.cn/willseecloud/python/1904298" target="_blank" rel="noopener noreferrer">Python | willseecloud | 看云</a></p>
-<p><a href="https://github.com/TwoWater/Python" target="_blank" rel="noopener noreferrer">草根学 Python | TwoWater| github</a></p>
-<p><a href="http://www.pythondoc.com/pythontutorial3/index.html" target="_blank" rel="noopener noreferrer">Python 入门指南</a></p>
-<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="noopener noreferrer">Python Cookbook | 飞污熊</a></p>
-<h2 id="summary"> Summary</h2>
-<ul>
-<li><a href="./python-basic-grammar.html">01 Python基础语法</a></li>
-<li><a href="./python-linear-data-structure.html">02 线性数据结构</a></li>
-<li><a href="./python-ha-tables-analytic-expre.html">03 哈希表和解析式</a></li>
-<li><a href="./python-function.html">04 函数</a></li>
-<li><a href="./python-decorator.html">05 装饰器</a></li>
-<li><a href="./python-dir-file-pro.html">06 目录文件处理</a></li>
-<li><a href="./python-serialize.html">07 序列化和反序列化</a></li>
-<li><a href="./python-exception.html">08 异常处理</a></li>
-<li><a href="./python-oo-package.html">09 面向对象-封装</a></li>
-<li><a href="./python-oo-inher-pol.html">10 继承多态和Mixin</a></li>
-<li><a href="./python-magic.html">11 魔术方法</a></li>
-<li><a href="./python-thread.html">12 线程</a></li>
-<li><a href="./python-thread-sync.html">13 线程同步</a></li>
-<li><a href="./python-gil-multiprocessing.html">14 多进程</a></li>
-<li><a href="./python-tcp-pg.html">15 TCP 编程</a></li>
-<li><a href="./python-socketserver.html">16 SocketServer</a></li>
-<li><a href="./python-io-model.html">17 IO 模型</a></li>
-<li><a href="./python-instance.html">18 python实例</a></li>
-</ul>
-<h2 id="todo"> TODO</h2>
-<p>Django 相关</p>
-<p><a href="https://docs.djangoproject.com/zh-hans/" target="_blank" rel="noopener noreferrer">django</a> ⭐️</p>
-<p><a href="https://www.liujiangblog.com/course/django/" target="_blank" rel="noopener noreferrer">Django教程 | 刘江</a> ⭐️</p>
-<p><a href="https://pythondjango.cn/django/rest-framework-tutorials" target="_blank" rel="noopener noreferrer">Django REST Framework教程 | 大江狗</a> ⭐️</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Python"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">git的基本使用</title>
     <id>https://clay-wangzhi.com/git/git-basic/</id>
     <link href="https://clay-wangzhi.com/git/git-basic/"/>
@@ -50255,6 +50202,39 @@ $ <span>git</span> archive
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">常用知识</title>
+    <id>https://clay-wangzhi.com/linux/basic/common-kno/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/common-kno/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="常用知识"> 常用知识</h1>
+<p><strong>如何查看当前服务器内核的版本</strong></p>
+<div><pre><code>uname -r
+cat /proc/version
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>查看当前服务器 cpu 的 core(核心)数</strong></p>
+<div><pre><code># 总核数 = 物理CPU个数 X 每颗物理CPU的核数 
+# 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数
+# 查看物理CPU个数
+cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l
+# 查看每个物理CPU中core的个数(即核数)
+cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l
+查看CPU信息（型号）
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">计划任务</title>
     <id>https://clay-wangzhi.com/linux/basic/crontab/</id>
     <link href="https://clay-wangzhi.com/linux/basic/crontab/"/>
@@ -50462,39 +50442,6 @@ $ <span>git</span> archive
 <p>http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html</p>
 <p>http://man.linuxde.net/crontab</p>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">常用知识</title>
-    <id>https://clay-wangzhi.com/linux/basic/common-kno/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/common-kno/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="常用知识"> 常用知识</h1>
-<p><strong>如何查看当前服务器内核的版本</strong></p>
-<div><pre><code>uname -r
-cat /proc/version
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>查看当前服务器 cpu 的 core(核心)数</strong></p>
-<div><pre><code># 总核数 = 物理CPU个数 X 每颗物理CPU的核数 
-# 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数
-# 查看物理CPU个数
-cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l
-# 查看每个物理CPU中core的个数(即核数)
-cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq
-# 查看逻辑CPU的个数
-cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l
-查看CPU信息（型号）
-cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -52078,6 +52025,35 @@ ls /home/ /aa &gt; a.txt 2&gt;&amp;1
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">网络管理</title>
+    <id>https://clay-wangzhi.com/linux/basic/inter/</id>
+    <link href="https://clay-wangzhi.com/linux/basic/inter/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="网络管理"> 网络管理</h1>
+<h1 id="网络基础"> 网络基础</h1>
+<h2 id="常见的网络接口"> 常见的网络接口</h2>
+<p>eth0			以太网接口
+lo				本地环回接口<br>
+br0			桥接接口 （虚拟交换机）
+vnet0		    KVM虚拟机网卡接口</p>
+<h2 id="查看网络信息"> 查看网络信息</h2>
+<div><pre><code>ip addr //查看IP、掩码、MAC...
+ip addr show eth0 //只显示eth0的信息
+ip route //查看本机路由表
+cat /etc/resolv.conf //查看DNS
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">/etc/security/limits.conf 详解与配置</title>
     <id>https://clay-wangzhi.com/linux/basic/limit/</id>
     <link href="https://clay-wangzhi.com/linux/basic/limit/"/>
@@ -52294,35 +52270,6 @@ root hard nofile 65536
 <p>转载链接：https://www.cnblogs.com/operationhome/p/11966041.html</p>
 </blockquote>
 ]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">网络管理</title>
-    <id>https://clay-wangzhi.com/linux/basic/inter/</id>
-    <link href="https://clay-wangzhi.com/linux/basic/inter/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="网络管理"> 网络管理</h1>
-<h1 id="网络基础"> 网络基础</h1>
-<h2 id="常见的网络接口"> 常见的网络接口</h2>
-<p>eth0			以太网接口
-lo				本地环回接口<br>
-br0			桥接接口 （虚拟交换机）
-vnet0		    KVM虚拟机网卡接口</p>
-<h2 id="查看网络信息"> 查看网络信息</h2>
-<div><pre><code>ip addr //查看IP、掩码、MAC...
-ip addr show eth0 //只显示eth0的信息
-ip route //查看本机路由表
-cat /etc/resolv.conf //查看DNS
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div>]]></content>
     <author>
       <name>Clay</name>
     </author>
@@ -53467,6 +53414,35 @@ useradd aa -G wheel
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</title>
+    <id>https://clay-wangzhi.com/linux/gainian/dev-ops-env/</id>
+    <link href="https://clay-wangzhi.com/linux/gainian/dev-ops-env/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义"> DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</h1>
+<p>英文缩写 英文 中文
+DEV development 开发
+SIT System Integrate Test 系统整合测试（内测）
+UAT User Acceptance Test 用户验收测试
+PET Performance Evaluation Test 性能评估测试（压测）
+SIM simulation 仿真
+PRD/PROD production 产品/正式/生产</p>
+<p>今天给大家介绍一下开发过程中，四个环境以及各自的功能特点，四个环境分别是：pro、pre、test、dev环境，中文名字：生产环境、灰度环境、测试环境、开发环境，其实大家看英文应该就差不多可以看出来对应的是什么环境。</p>
+<p>环境介绍：</p>
+<p>pro环境：生产环境，面向外部用户的环境，连接上互联网即可访问的正式环境。</p>
+<p>pre环境：灰度环境，外部用户可以访问，但是服务器配置相对低，其它和生产一样。</p>
+<p>test环境：测试环境，外部用户无法访问，专门给测试人员使用的，版本相对稳定。</p>
+<p>dev环境：开发环境，外部用户无法访问，开发人员使用，版本变动很大。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">中文技术文档的写作规范</title>
     <id>https://clay-wangzhi.com/linux/gainian/document-style-guide/</id>
     <link href="https://clay-wangzhi.com/linux/gainian/document-style-guide/"/>
@@ -53660,35 +53636,6 @@ useradd aa -G wheel
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</title>
-    <id>https://clay-wangzhi.com/linux/gainian/dev-ops-env/</id>
-    <link href="https://clay-wangzhi.com/linux/gainian/dev-ops-env/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义"> DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</h1>
-<p>英文缩写 英文 中文
-DEV development 开发
-SIT System Integrate Test 系统整合测试（内测）
-UAT User Acceptance Test 用户验收测试
-PET Performance Evaluation Test 性能评估测试（压测）
-SIM simulation 仿真
-PRD/PROD production 产品/正式/生产</p>
-<p>今天给大家介绍一下开发过程中，四个环境以及各自的功能特点，四个环境分别是：pro、pre、test、dev环境，中文名字：生产环境、灰度环境、测试环境、开发环境，其实大家看英文应该就差不多可以看出来对应的是什么环境。</p>
-<p>环境介绍：</p>
-<p>pro环境：生产环境，面向外部用户的环境，连接上互联网即可访问的正式环境。</p>
-<p>pre环境：灰度环境，外部用户可以访问，但是服务器配置相对低，其它和生产一样。</p>
-<p>test环境：测试环境，外部用户无法访问，专门给测试人员使用的，版本相对稳定。</p>
-<p>dev环境：开发环境，外部用户无法访问，开发人员使用，版本变动很大。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">centos7下时区问题</title>
     <id>https://clay-wangzhi.com/linux/qa/centos-time/</id>
     <link href="https://clay-wangzhi.com/linux/qa/centos-time/"/>
@@ -53767,6 +53714,31 @@ make install
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
+    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
+    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
+<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
+<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
+<h2 id="预留空间"> 预留空间</h2>
+<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
+<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
+<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
+<h2 id="未统计到的文件"> 未统计到的文件</h2>
+<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Linux"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">mysql最大连接数的改变</title>
     <id>https://clay-wangzhi.com/linux/qa/mysql-max-con/</id>
     <link href="https://clay-wangzhi.com/linux/qa/mysql-max-con/"/>
@@ -53783,31 +53755,6 @@ mysql&gt;exit(退出)
 <div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><p>这种方式有个问题，就是设置的最大连接数只在mysql当前服务进程有效，一旦mysql重启，又会恢复到初始状态。因为mysql启动后的初始化工作是从其配置文件中读取数据的，而这种方式没有对其配置文件做更改。</p>
 <h3 id="修改配置文件"> 修改配置文件</h3>
 <p>这 种方式说来很简单，只要修改MySQL配置文件my.ini 或 my.cnf的参数max_connections，将其改为max_connections=1000，然后重启MySQL即可。</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="Linux"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">Linux，du、df统计的硬盘使用情况不一致问题</title>
-    <id>https://clay-wangzhi.com/linux/qa/du-df-diff/</id>
-    <link href="https://clay-wangzhi.com/linux/qa/du-df-diff/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="linux-du、df统计的硬盘使用情况不一致问题"> Linux，du、df统计的硬盘使用情况不一致问题</h1>
-<p>在运维Linux服务器时，会碰到需要查看硬盘空间的情况，这时候，通常会使用<code>df -lh</code>命令来检查每个挂载了文件系统的硬盘的总量和已使用量，或者，可以使用<code>du -sh [directory]</code>命令来统计某个目录下所有文件的空间占用。</p>
-<p>在使用<code>df、du</code>命令时，常常会遇到统计的硬盘使用情况不一致的问题。比如du统计根目录下文件总共大小为2G，而df判断挂载在根目录的硬盘已用空间达到了3G，20G甚至更多。发生这种情况，有以下三种原因：</p>
-<h2 id="预留空间"> 预留空间</h2>
-<p>为了预防紧急情况，linux ext文件系统会预留部分硬盘空间，具体预留的数值可以通过tune2fs -l [dev_name] | grep “Reserved block count”查看到（dev_name是设备名），这里预留的空间会被df计算到已用空间中，从而导致df和du统计不一致。如果需要调整预留空间大小，我们可以使用tune2fs -m [size][dev_name]来进行调整。</p>
-<h2 id="幻影文件-phantom-file"> 幻影文件（phantom file）</h2>
-<p>du是统计被文件系统记录到的每个文件的大小，然后进行累加得到的大小，这是通过文件系统获取到的。而df主要是从超级块（superblock）中读入硬盘使用信息，df获取到的是磁盘块被使用的情况。当一个文件被删除时，如果有别的进程正在使用它（占有句柄）， 这个文件将不会被du统计到，但是这个文件被占用的磁盘空间却依然会被df统计到。这些文件，以及正在使用这些文件的进程可以通过lsof | grep deleted查到。当进程停止或者被kill时，这些空间将被释放。</p>
-<h2 id="未统计到的文件"> 未统计到的文件</h2>
-<p>如果上面两种情况都排除了，但是数据还是不一致，那是怎么回事？这里隐藏着一种情况：当我们将一个目录挂在到一个新的设备（硬盘）上之前，如果这个目录里面已经有数据，那么这一部分数据不会被du感知，在文件系统中也看不到这些数据，但是这些数据又是确实占用了磁盘空间，是能够被df所统计到的。这时候通过du/df统计原设备的空间使用情况，就会发现df统计到的比du要多。遇到这样的情况时，使用fuser -km [directory]杀死占用该目录的所有进程（小心操作！），然后使用umount [directory]将该目录挂载的设备卸载，这时，目录里面原来已有的数据就会出现，我们将其删除之后，再重新挂载设备（mount -t [type][dev] [directory]）即可。</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -56572,6 +56519,166 @@ $ crontab -e
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">1.3 Python 虚拟环境</title>
+    <id>https://clay-wangzhi.com/code/python/python-virtualenv/</id>
+    <link href="https://clay-wangzhi.com/code/python/python-virtualenv/"/>
+    <updated>2021-06-22T03:51:27.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_1-3-python-虚拟环境"> 1.3 Python 虚拟环境</h1>
+<blockquote>
+<p>转载自：<a href="http://www.justdopython.com/2020/05/26/python-virtualenv/" target="_blank" rel="noopener noreferrer">Python 虚拟环境 看这一篇就够了 | Python 技术</a></p>
+</blockquote>
+<p>Python 之所以强大，除了语言本身的特性外，更重要的是拥有无所不及的第三方库。强大的软件库，让开发者将精力集中在业务上，而避免重复造轮子的浪费。但众多的软件库，形成了复杂的依赖关系，加上 Python2 和 Python3 旷日持久之争，对采用 Python 开发的项目造成了不少困扰，所以 Python 建议，通过<code>虚拟环境</code>工具为项目创建纯净的依赖环境，今天我们就来了解下 Python 虚拟环境</p>
+<h2 id="一些概念"> 一些概念</h2>
+<p>Python 虚拟环境，涉及到很多概念和工具，会对使用造成孔娆和障碍，所以我们先了解一些概念和与之相关的工具</p>
+<h3 id="python-版本"> python 版本</h3>
+<p>Python 版本指得是 Python 解析器本身的版本。由于 Python3 不能与 Python2 兼容，而且两大正营之争持续了很长时间，导致一些软件库需要设配两种版本的 Python，同时开发者可能需要在一个环境中，部署不同版本的 Python，对开发和维护造成了麻烦。因此出现了版本管理器 Pyenv，类似于 nodejs 的 nvm，可以创建出相互隔离的 Python 环境，并且可以方便的切换环境中的 Python 版本，但和 Python 虚拟环境关系不大</p>
+<h3 id="python-包库"> python 包库</h3>
+<p>包库或者叫软件源是 Python 第三方软件的库的集合，或者市场，可以发布、下载和管理软件包，其中 pypi (Python Package Index) https://pypi.org/ 是官方指定的软件包库，基于其上的 pip 工具就是从这里查找、下载安装软件包的。为了提高下载速度，世界上有很多 Pypi 的镜像服务器，在国内也有多个软件源，例如阿里的软件源是：http://mirrors.aliyun.com/pypi/simple/。 除此之外，还有其他软件源，如正对科学计算的 anaconda 的软件源 https://repo.anaconda.com/</p>
+<h3 id="python-包管理器"> python 包管理器</h3>
+<p>软件包源中的软件包数量巨大，版本多样，所以需要借助于软件源管理工具，例如 pip、conda、Pipenv、Poetry 等</p>
+<ul>
+<li>pip 是最常用的包管理工具，通过 <code>pip install &lt;packagename&gt;</code> 命令格式来安装软件包，使用的是 pypi 软件包源</li>
+<li>conda 多用作科学计算领域的包管理工具，功能丰富且强大，使用的软件包源是 Anaconda repository 和 Anaconda Cloud，conda 不仅支持 Python 软件包，还可以安装 C、C++ 、R 以及其他语言的二定制软件包。除了软件包管理外，还能提供相互隔离的软件环境。</li>
+<li>Pipenv 是 Kenneth Reitz 在2017年1月发布的Python依赖管理工具，现在由PyPA维护。Pipenv 会自动帮你管理虚拟环境和依赖文件，并且提供了一系列命令和选项来帮助你实现各种依赖和环境管理相关的操作</li>
+<li>Poetry 和 Pipenv 类似，是一个 Python 虚拟环境和依赖管理工具，另外它还提供了包管理功能，比如打包和发布。你可以把它看做是 Pipenv 和 Flit 这些工具的超集。它可以让你用 Poetry 来同时管理 Python 库和 Python 程序</li>
+</ul>
+<p>很多包管理工具不仅提供了基本的包管理功能，还提供了虚拟环境构建，程序管理的等功能</p>
+<h3 id="python-虚拟环境"> Python 虚拟环境</h3>
+<p>Python 应用经常需要使用一些包第三方包或者模块，有时需要依赖特定的包或者库的版本，所以不能有一个能适应所有 Python 应用的软件环境，很多时候不同的 Python 应用所依赖的版本是冲突的，满足了其中一个，另一个则无法运行，解决这一问题的方法是 虚拟环境。 虚拟环境是一个包含了特定 Python 解析器以及一些软件包的自包含目录，不同的应用程序可以使用不同的虚拟环境，从而解决了依赖冲突问题，而且虚拟环境中只需要安装应用相关的包或者模块，可以给部署提供便利</p>
+<h2 id="pyenv多版本"> pyenv多版本</h2>
+<p>官网 https://github.com/pyenv/pyenv</p>
+<p>快捷安装 https://github.com/pyenv/pyenv#the-automatic-installer</p>
+<div><pre><code><span># yum install git curl</span>
+python编译依赖如下
+<span># yum install gcc make patch gdbm-devel openssl-devel sqlite-devel readline-devel</span>
+zlib-devel bzip2-devel
+创建普通用户
+<span># useradd python</span>
+<span># su - python</span>
+在python用户下安装
+$ <span>curl</span> -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span>|</span> <span>bash</span>
+<span># 由于某些原因，浏览器可以访问，大家自行下载保存为shell脚本执行</span>
+<span># https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer</span>
+<span># 或者使用项目源码文件</span>
+<span># https://github.com/pyenv/pyenv-installer/blob/master/bin/pyenv-installer</span>
+<span># 以后更新pyenv使用</span>
+$ pyenv update
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><div><pre><code><span># 安装完，按照提示处理，把下面的脚本放到当前用户的.bashrc文件末尾</span>
+<span># the following to ~/.bashrc:</span>
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>"/home/python/.pyenv/bin:<span>$PATH</span>"</span>
+<span>eval</span> <span>"<span><span>$(</span>pyenv init -<span>)</span></span>"</span>
+<span>eval</span> <span>"<span><span>$(</span>pyenv virtualenv-init -<span>)</span></span>"</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>具体步骤，略</p>
+<h2 id="构建虚拟环境"> 构建虚拟环境</h2>
+<h3 id="原理"> 原理</h3>
+<p>虚拟环境并不是什么新技术，主要是利用了操作系统中环境变量以及进程间环境隔离的特性</p>
+<p>操作系统的环境变量可以为程序提供信息和做信息交换介质，进程可以共享操作系统中的环境变量，也可以为进程指定环境变量，其中 PATH 是很重要的环境变量，用于为操作系统和程序提供可执行文件的访问路径，例如写一个程序 a.exe，存放在 D:\MyProgram 中，在命令行中执行 a.exe ，会得到提示“ 无法找到程序 a.exe”，为了让系统找到，可以将 D:\MyProgram 路径加入到 PATH 环境变量中，当输入 a.exe 时，操作系统就会从 PATH 所提供的路径中逐个查找，这时就可以找到了。Linux 和 MacOS 具有相似的特性，甚至比 Windows 的功能更丰富。</p>
+<p>Python 虚拟环境就是利用这个特性构建的，在激活虚拟环境之时，激活脚本会将当前命令行程序的 PATH 修改为虚拟环境的，这样执行命令就会在被修改的 PATH 中查找，从而避免了原本 PATH 可以找到的命令，从而实现了 Python 环境的隔离。</p>
+<p>为了让开发这容易区分当前环境是否虚拟环境以及是那个虚拟环境，命令提示符前会加上特殊标记，例如:</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython01.png" alt="Python 虚拟环境" /></p>
+<h3 id="创建"> 创建</h3>
+<h4 id="virtualenv-工具"> virtualenv 工具</h4>
+<p>在 python3.3 之前，只能通过 virtualenv 创建虚拟环境，首先需要安装 virtualenv</p>
+<div><pre><code>pip install virtualenv 
+</code></pre>
+<div><span>1</span><br></div></div><p>安装完后，在当前目录下创建一个名为 myvenv 的虚拟环境:</p>
+<div><pre><code>virtualenv --no-site-packages myvenv 
+</code></pre>
+<div><span>1</span><br></div></div><p>参数 <code>--no-site-packages</code> 的意思是创建虚拟环境时，不复制主环境中安装的第三方包，也就是创建一个 “干净的” 虚拟环境</p>
+<p>virtualenv 还有很多参数，用于不同的使用场景，例如:</p>
+<ul>
+<li>-p: 用于指定 Python 解析器，就是安装好的 Python 应用程序，默认为当前环境中的 Python</li>
+<li>–no-pip：不需要安装 pip，默认为安装</li>
+<li>–clear：如果创建虚拟环境的目录已经有了其他虚拟环境，清楚重建</li>
+</ul>
+<h4 id="venv-模块"> venv 模块</h4>
+<p>Python3.3 之后，可以用模块 venv 代替 virtualenv 工具，好处时不用单独安装，3.3 及之后的版本，都可以通过安装好的 Python 来创建虚拟环境:</p>
+<div><pre><code>python -m venv myvenv 
+</code></pre>
+<div><span>1</span><br></div></div><p>可以在当前目录创建一个名为 myvenv 的虚拟环境</p>
+<p>venv 有些才参数，不过相比 virtualenv 少了些，这里简单介绍几个：</p>
+<ul>
+<li>–without-pip: 不需要安装 pip，默认为安装</li>
+<li>–clear：如果创建虚拟环境的目录已经有了其他虚拟环境，清楚重建</li>
+</ul>
+<p>因为 venv 是依附于一个 Python 解析器创建的，所以不需要指定 Python 解释器版本</p>
+<h3 id="激活"> 激活</h3>
+<p>虚拟环境创建好后，需要激活才能在当前命令行中使用，可以理解成将当前命令行环境中 PATH 变量的值替换掉</p>
+<p>通过 virtualenv 和 模块 venv 创建的虚拟环境，激活方式是一样的，即运行激活脚本</p>
+<ul>
+<li>
+<p>Windows 系统中，激活脚本路径是 <code>&lt;myvenv&gt;\Scripts\activate.bat</code>，如果是 powershell 命令行，脚本换成 <code>Activate.ps1</code> , 注意将 <code>&lt;myvenv&gt;</code> 换成你自己的虚拟环境目录</p>
+</li>
+<li>
+<p>Linux 系统中，激活脚本路径是 <code>&lt;myvenv&gt;/bin/activate</code>，默认脚本没有执行权限，要么设置脚本为可执行，要么用 <code>source</code> 命令执行，例如</p>
+<p><code>$ source myvenv/bin/activate</code></p>
+</li>
+</ul>
+<p>激活后，可以在命令行中看到虚拟环境标记，如上图</p>
+<p>打印 PATH，命令如下：</p>
+<p>Linux 下：</p>
+<div><pre><code>echo $PATH 
+</code></pre>
+<div><span>1</span><br></div></div><p>Windows 下</p>
+<div><pre><code>echo %PATH% 
+</code></pre>
+<div><span>1</span><br></div></div><p>可以看到创建的虚拟环境脚本目录被加载了最前面</p>
+<h3 id="退出"> 退出</h3>
+<p>退出虚拟环境很简单，只需要执行 <code>deactivate</code> 命令就行，这个命令也在虚拟环境的脚本目录下，因为激活时，将脚本目录设置到 PATH 中了，所以可以直接使用</p>
+<p>退出虚拟环境相当于将 PATH 恢复成原来的</p>
+<h2 id="与开发工具配合"> 与开发工具配合</h2>
+<p>虽然通过激活脚本，很容易切换到虚拟环境，但是在实际开发中，还是不够方便，而且现在很多开发工具，特别是提供 Python 解析环境的开发工具，都可以和虚拟环境配合，在开发过程中几乎无感，对开发工作是很大的帮助</p>
+<h3 id="visual-studio-code"> Visual Studio Code</h3>
+<p>VS Code 是个后起之秀，功能强大且具有丰富的插件资源，无疑是这两年发展最快的综合开发工具。现在的版本配置 Python 虚拟环境很简单，只需要选择一个 Python 解释器就好了</p>
+<p>同时按下 Ctrl+Shift+P, 在弹出的命令窗口中输入 “解析器”，然后在下拉列表中选择 “Python:选择解析器”，这里会缓存一些已经创建好的解析器，如果没有想要的，可以选择 “Enter interpreter path” 来选择解析器路径，即已经创建好的虚拟环境脚本文件夹中的 Python 程序，就可以创建一个新的解析器</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdoPython02.png" alt="选择 Python 解析器" /></p>
+<p>如果编辑的是 Python 代码文件，在状态栏中也可以选择和切换解释器，更为方便</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython03.png" alt="选择 Python 解析器" /></p>
+<h3 id="pycharm"> Pycharm</h3>
+<p>Pycharm 应该是功能最好的 Python 开发工具，转为 Python 开发而生，除了基本的开发功能外，还提供项目创建、打包、测试等丰富功能，有很大的市场占有率</p>
+<p>创建项目时，在项目创建对话框中，可以创建或者选择已经已有的解析器</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython04.png" alt="选择 Python 解析器" /></p>
+<p>选择创建新的解析器时，需要选择创建虚拟环境的工具，如 virtualenv；指定虚拟环境的目录；选择 Python 基础解析器，同 virtualenv 工具的 -p 参数的效果；以及是否要继承基础解析器的第三方库 和 是否将这个虚拟环境作为默认环境，即创建其他项目时默认选择</p>
+<p>如果选择已存在的解析器，和 VS Code 差不多，可以选择已经缓存的或者指定解析器的路径</p>
+<h2 id="部署虚拟环境"> 部署虚拟环境</h2>
+<p>之所以在开发时选择虚拟环境，除了避免库之间的冲突，还有重要的原因时方便部署，因为虚拟环境时独立的，仅包含了项目相关的依赖库，所以部署的效率更高，风险更小</p>
+<p>一般部署流程是：</p>
+<ol>
+<li>开发完成后，使用 <code>pip freeze &gt; requirements.txt</code> 命令将项目的库依赖导出，作为代码的一部分</li>
+<li>将代码上传到服务器</li>
+<li>在服务器上创建一个虚拟环境</li>
+<li>激活虚拟环境，执行 <code>pip install -r requirements.txt</code>，安装项目依赖</li>
+</ol>
+<p>怎么运行项目，需要看项目的具体情况</p>
+<ul>
+<li>Web 项目 Web 项目一般使用 Django、Flask 的 Web 开发的提供 Web 服务的项目，部署时需要一个 Web 容器，作为程序的运行环境，容器的配置中都有一个虚拟环境的设置，其实是指定 Python 解析器的路径，将其设置为虚拟环境的目录或者 Python 解析器就可以了，启动时就用使用虚拟环境，并与其他环境隔离。例如 uWSGI 配置文件中 home 参数是用来指定解析器的。</li>
+<li>服务类项目 服务类项目就是需要以服务的形式长时间运行的，例如之前介绍的 公交闹钟，或者一些定时爬虫之类的，对于 Linux 而言，当前主流的服务方式是 Systemd，是一种比 init 更先进的服务管理工具，在服务脚本中， 设置 ExecStart 执行命令为全路径的虚拟环境的 Python 解析器，服务启动时，使用独立的虚拟环境了。 Windows 服务，对于达成 EXE 包的，不需要配置虚拟环境，因为打包时已经考虑了环境问题了，如果时脚本运行的话，需要指定全路径的 Python 解析器</li>
+<li>单次运行项目 对于一些测试或者实验性质的项目，大多数情况下手动执行，只要在激活的虚拟环境下，或者用特定的 Python 解析器运行就好了，和在开发过程中运行区别不大</li>
+</ul>
+<h2 id="其他虚拟环境管理工具"> 其他虚拟环境管理工具</h2>
+<ul>
+<li>virtualenvwrapper： 是对 virtualenv 的一个封装，还有针对 vim 用户和 emacs 用户的 扩展，能支持 bash/ksh/zsh</li>
+<li>virtualenvwrapper-win： 针对 Windows batch shell 的 virtualenvwrapper</li>
+<li>pyenv： 用来解决这类问题。它可以安装、卸载、编译、管理多个 python 版本，并随时将其中一个设置为工作环境</li>
+<li>pyenv-win： 针对 Windows 的 pyenv</li>
+</ul>
+<p>有兴趣的话可以试用一下</p>
+<h2 id="总结"> 总结</h2>
+<p>今天主要了解了 Python 虚拟环境的相关概念和工具，并简单描述了实际工作中的一些使用方式，以便能在开发过程中使用。限于篇幅，没法就更多的内容详细展开，需要在实践中多试多用，Just DO It！</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="Python"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-06-08T07:36:45.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">在Docker容器中运行Elasticsearch，Kibana和Cerebro</title>
     <id>https://clay-wangzhi.com/monitor/elk/install/docker-elk/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/install/docker-elk/"/>
@@ -56686,52 +56793,6 @@ networks<span>:</span>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">Kibana的安装和界面快速浏览</title>
-    <id>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</id>
-    <link href="https://clay-wangzhi.com/monitor/elk/install/quick-browse/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
-<h2 id="安装运行"> 安装运行</h2>
-<p>下载地址：</p>
-<blockquote>
-<p>https://www.elastic.co/cn/downloads/kibana</p>
-</blockquote>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
-<p>解压并安装运行</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
-<h2 id="kibana-console"> Kibana Console</h2>
-<ul>
-<li>Dev Tool</li>
-<li>Search Profiler</li>
-<li>Help + 一些快捷键
-<ul>
-<li>cmd + / (查看API帮助文档)</li>
-<li>cmd + option + I</li>
-<li>cmd + option + 0</li>
-<li>cmd + option + shift + 0</li>
-</ul>
-</li>
-</ul>
-<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
-<p>常用命令</p>
-<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
-bin/kibana-plugin list
-bin/kibana remove
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
-<p>可以按照偏移量，和主机名进行排序</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="监控"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">Elasticsearch的安装和简单配置</title>
     <id>https://clay-wangzhi.com/monitor/elk/install/sample-install/</id>
     <link href="https://clay-wangzhi.com/monitor/elk/install/sample-install/"/>
@@ -56807,6 +56868,52 @@ bin/elasticsearch-plugin list
 </ul>
 </li>
 </ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="监控"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">Kibana的安装和界面快速浏览</title>
+    <id>https://clay-wangzhi.com/monitor/elk/install/quick-browse/</id>
+    <link href="https://clay-wangzhi.com/monitor/elk/install/quick-browse/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="kibana的安装和界面快速浏览"> Kibana的安装和界面快速浏览</h1>
+<h2 id="安装运行"> 安装运行</h2>
+<p>下载地址：</p>
+<blockquote>
+<p>https://www.elastic.co/cn/downloads/kibana</p>
+</blockquote>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761679082.png" alt="" /></p>
+<p>解压并安装运行</p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1567761719575.png" alt="" /></p>
+<h2 id="kibana-console"> Kibana Console</h2>
+<ul>
+<li>Dev Tool</li>
+<li>Search Profiler</li>
+<li>Help + 一些快捷键
+<ul>
+<li>cmd + / (查看API帮助文档)</li>
+<li>cmd + option + I</li>
+<li>cmd + option + 0</li>
+<li>cmd + option + shift + 0</li>
+</ul>
+</li>
+</ul>
+<h2 id="kibana-pulgins"> Kibana Pulgins</h2>
+<p>常用命令</p>
+<div><pre><code>bin/kibana-plugin <span>install</span> /usr/plugin_location
+bin/kibana-plugin list
+bin/kibana remove
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br></div></div><h2 id="用kibana解决日志时间乱序问题"> 用Kibana解决日志时间乱序问题</h2>
+<p>可以按照偏移量，和主机名进行排序</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -58896,13 +59003,15 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
     <title type="html">3 zabbix添加报警媒介</title>
     <id>https://clay-wangzhi.com/monitor/zabbix/zabbix-media/</id>
     <link href="https://clay-wangzhi.com/monitor/zabbix/zabbix-media/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
+    <updated>2021-06-24T05:55:08.000Z</updated>
     <content type="html"><![CDATA[<h1 id="_3-zabbix添加报警媒介"> 3 zabbix添加报警媒介</h1>
 <h2 id="zabbix添加报警媒介"> zabbix添加报警媒介</h2>
 <p>进入zabbix-web，点击Administrator--&gt;Media types--&gt;Create Media type</p>
 <h3 id="添加email报警"> 添加Email报警</h3>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103058976.png" alt="" /></p>
 <h3 id="添加钉钉报警"> 添加钉钉报警</h3>
+<p>推荐文章</p>
+<p><a href="https://mp.weixin.qq.com/s/MazDZsJlXtkZc_xICLKt7Q" target="_blank" rel="noopener noreferrer">Zabbix使用JavaScript配置Webhook发送告警通知</a></p>
 <p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png" alt="image-20200115103302741" /></p>
 <p>图中Script内容如下</p>
 <div><pre><code><span>try</span> <span>{</span>
@@ -58944,8 +59053,7 @@ delay <span>=</span> sys<span>.</span>argv<span>[</span><span>3</span><span>]</s
  
 <span>return</span> <span>JSON</span><span>.</span><span>stringify</span><span>(</span>result<span>)</span><span>;</span>
 </code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><p>这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！</p>
-<blockquote>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br></div></div><blockquote>
 <p>参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook</p>
 </blockquote>
 <p>添加完告警媒介，就可以给用户Administrator用户，添加这两个报警媒介了。</p>
@@ -59681,6 +59789,29 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">在线工具</title>
+    <id>https://clay-wangzhi.com/other/online-tools/</id>
+    <link href="https://clay-wangzhi.com/other/online-tools/"/>
+    <updated>2021-05-30T10:20:03.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="在线工具"> 在线工具</h1>
+<h2 id="画图工具"> 画图工具</h2>
+<p><a href="https://draw.io/" target="_blank" rel="noopener noreferrer">draw.io</a> ⭐️</p>
+<p><a href="https://www.processon.com/" target="_blank" rel="noopener noreferrer">ProcessOn</a></p>
+<h2 id="图标"> 图标</h2>
+<p><a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">Iconfont-阿里巴巴矢量图标库</a>  ⭐️</p>
+<h2 id="markdown-建站"> Markdown 建站</h2>
+<p><a href="https://vuepress-theme-hope.github.io/zh/" target="_blank" rel="noopener noreferrer">vuepress-theme-hope</a> ⭐️</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-30T10:02:15.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">curl方式执行shell脚本时如何传参</title>
     <id>https://clay-wangzhi.com/other/curl-bash/</id>
     <link href="https://clay-wangzhi.com/other/curl-bash/"/>
@@ -59867,29 +59998,6 @@ static u_char ngx_http_server_build_string[] = &quot;Server: unknow&quot;  CRLF;
       <name>Clay</name>
     </contributor>
     <published>2020-07-27T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">在线工具</title>
-    <id>https://clay-wangzhi.com/other/online-tools/</id>
-    <link href="https://clay-wangzhi.com/other/online-tools/"/>
-    <updated>2021-05-30T10:20:03.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="在线工具"> 在线工具</h1>
-<h2 id="画图工具"> 画图工具</h2>
-<p><a href="https://draw.io/" target="_blank" rel="noopener noreferrer">draw.io</a> ⭐️</p>
-<p><a href="https://www.processon.com/" target="_blank" rel="noopener noreferrer">ProcessOn</a></p>
-<h2 id="图标"> 图标</h2>
-<p><a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">Iconfont-阿里巴巴矢量图标库</a>  ⭐️</p>
-<h2 id="markdown-建站"> Markdown 建站</h2>
-<p><a href="https://vuepress-theme-hope.github.io/zh/" target="_blank" rel="noopener noreferrer">vuepress-theme-hope</a> ⭐️</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-30T10:02:15.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -60481,6 +60589,137 @@ nodes (check with CLUSTER NODES) or contains some key in database 0.
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">docker搭建redis集群</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>docker搭建redis集群</p>
+
+<h2 id="下载镜像"> 下载镜像</h2>
+<div><pre><code>docker pull redis
+</code></pre>
+<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
+<div><pre><code>mkdir /home/docker/redis/  
+wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
+cd /home/docker/redis/  
+sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
+<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
+docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
+<div><pre><code>redis-cli 
+127.0.0.1:6379&gt; info
+# Server
+redis_version:3.0.6
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:48bba53ba79f07ac
+redis_mode:standalone
+os:Linux 3.13.0-27-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.9.2
+process_id:1
+run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
+tcp_port:6379
+uptime_in_seconds:21554
+uptime_in_days:0
+hz:10
+lru_clock:10637013
+config_file:
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:1926248
+used_memory_human:1.84M
+used_memory_rss:4419584
+used_memory_peak:1963096
+used_memory_peak_human:1.87M
+used_memory_lua:36864
+mem_fragmentation_ratio:2.29
+mem_allocator:jemalloc-3.6.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1453456066
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+# Stats
+total_connections_received:5
+total_commands_processed:64476
+instantaneous_ops_per_sec:3
+total_net_input_bytes:2426080
+total_net_output_bytes:92455
+instantaneous_input_kbps:0.14
+instantaneous_output_kbps:0.02
+rejected_connections:0
+sync_full:3
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:222
+migrate_cached_sockets:0
+
+# Replication
+role:master
+connected_slaves:3
+slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
+slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
+slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
+master_repl_offset:30101
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:2
+repl_backlog_histlen:30100
+
+# CPU
+used_cpu_sys:7.37
+used_cpu_user:5.34
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2017-09-17T21:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">sed命令详解</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/shell-sed/"/>
@@ -60845,137 +61084,6 @@ sed -n &#39;2~2p&#39; test.txt  #偶数行
       <name>Clay</name>
     </contributor>
     <published>2017-09-24T21:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">docker搭建redis集群</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/blog-knowledge/Redis-2/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>docker搭建redis集群</p>
-
-<h2 id="下载镜像"> 下载镜像</h2>
-<div><pre><code>docker pull redis
-</code></pre>
-<div><span>1</span><br></div></div><h2 id="准备配置文件"> 准备配置文件</h2>
-<div><pre><code>mkdir /home/docker/redis/  
-wget https://raw.githubusercontent.com/antirez/redis/3.0/redis.conf -O /home/docker/redis/redis.conf
-cd /home/docker/redis/  
-sed -i &#39;s/# slaveof &lt;masterip&gt; &lt;masterport&gt;/slaveof redis-master 6379/g&#39; redis.conf  
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="启动redis容器"> 启动redis容器</h2>
-<div><pre><code>docker run --name redis-master -p 6379:6379 -d redis
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave1 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave2 -d redis redis-server /usr/local/etc/redis/redis.conf
-docker run --link redis-master:redis-master -v /home/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf --name redis-slave3 -d redis redis-server /usr/local/etc/redis/redis.conf 
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br></div></div><h2 id="查看redis集群"> 查看redis集群</h2>
-<div><pre><code>redis-cli 
-127.0.0.1:6379&gt; info
-# Server
-redis_version:3.0.6
-redis_git_sha1:00000000
-redis_git_dirty:0
-redis_build_id:48bba53ba79f07ac
-redis_mode:standalone
-os:Linux 3.13.0-27-generic x86_64
-arch_bits:64
-multiplexing_api:epoll
-gcc_version:4.9.2
-process_id:1
-run_id:6d552d47e50137b6ee40697d7254891aa5dbdb68
-tcp_port:6379
-uptime_in_seconds:21554
-uptime_in_days:0
-hz:10
-lru_clock:10637013
-config_file:
-
-# Clients
-connected_clients:1
-client_longest_output_list:0
-client_biggest_input_buf:0
-blocked_clients:0
-
-# Memory
-used_memory:1926248
-used_memory_human:1.84M
-used_memory_rss:4419584
-used_memory_peak:1963096
-used_memory_peak_human:1.87M
-used_memory_lua:36864
-mem_fragmentation_ratio:2.29
-mem_allocator:jemalloc-3.6.0
-
-# Persistence
-loading:0
-rdb_changes_since_last_save:0
-rdb_bgsave_in_progress:0
-rdb_last_save_time:1453456066
-rdb_last_bgsave_status:ok
-rdb_last_bgsave_time_sec:0
-rdb_current_bgsave_time_sec:-1
-aof_enabled:0
-aof_rewrite_in_progress:0
-aof_rewrite_scheduled:0
-aof_last_rewrite_time_sec:-1
-aof_current_rewrite_time_sec:-1
-aof_last_bgrewrite_status:ok
-aof_last_write_status:ok
-
-# Stats
-total_connections_received:5
-total_commands_processed:64476
-instantaneous_ops_per_sec:3
-total_net_input_bytes:2426080
-total_net_output_bytes:92455
-instantaneous_input_kbps:0.14
-instantaneous_output_kbps:0.02
-rejected_connections:0
-sync_full:3
-sync_partial_ok:0
-sync_partial_err:0
-expired_keys:0
-evicted_keys:0
-keyspace_hits:0
-keyspace_misses:0
-pubsub_channels:0
-pubsub_patterns:0
-latest_fork_usec:222
-migrate_cached_sockets:0
-
-# Replication
-role:master
-connected_slaves:3
-slave0:ip=172.17.0.2,port=6379,state=online,offset=30087,lag=1
-slave1:ip=172.17.0.3,port=6379,state=online,offset=30101,lag=0
-slave2:ip=172.17.0.4,port=6379,state=online,offset=30087,lag=1
-master_repl_offset:30101
-repl_backlog_active:1
-repl_backlog_size:1048576
-repl_backlog_first_byte_offset:2
-repl_backlog_histlen:30100
-
-# CPU
-used_cpu_sys:7.37
-used_cpu_user:5.34
-used_cpu_sys_children:0.00
-used_cpu_user_children:0.00
-
-# Cluster
-cluster_enabled:0
-
-# Keyspace
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br><span>35</span><br><span>36</span><br><span>37</span><br><span>38</span><br><span>39</span><br><span>40</span><br><span>41</span><br><span>42</span><br><span>43</span><br><span>44</span><br><span>45</span><br><span>46</span><br><span>47</span><br><span>48</span><br><span>49</span><br><span>50</span><br><span>51</span><br><span>52</span><br><span>53</span><br><span>54</span><br><span>55</span><br><span>56</span><br><span>57</span><br><span>58</span><br><span>59</span><br><span>60</span><br><span>61</span><br><span>62</span><br><span>63</span><br><span>64</span><br><span>65</span><br><span>66</span><br><span>67</span><br><span>68</span><br><span>69</span><br><span>70</span><br><span>71</span><br><span>72</span><br><span>73</span><br><span>74</span><br><span>75</span><br><span>76</span><br><span>77</span><br><span>78</span><br><span>79</span><br><span>80</span><br><span>81</span><br><span>82</span><br><span>83</span><br><span>84</span><br><span>85</span><br><span>86</span><br><span>87</span><br><span>88</span><br><span>89</span><br><span>90</span><br><span>91</span><br><span>92</span><br><span>93</span><br><span>94</span><br><span>95</span><br><span>96</span><br></div></div><p>转载链接：https://segmentfault.com/a/1190000004353368</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2017-09-17T21:00:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -62006,89 +62114,6 @@ patching file log2013.log
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">每天一个linux命令（42）-killall</title>
-    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</id>
-    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<p>Linux系统中的killall命令用于杀死指定名字的进程（kill processes by name）。我们可以使用kill命令杀死指定进程PID的进程，如果要找到我们需要杀死的进程，我们还需要在之前使用ps等命令再配合grep来查找进程，而killall把这两个过程合二为一，是一个很好用的命令。</p>
-
-<h2 id="语法"> 语法</h2>
-<p><code>killall(选项)(参数)</code></p>
-<h2 id="选项"> 选项</h2>
-<div><pre><code>-Z 只杀死拥有scontext 的进程
--e 要求匹配进程名称
--I 忽略小写
--g 杀死进程组而不是进程
--i 交互模式，杀死进程前先询问用户
--l 列出所有的已知信号名称
--q 不输出警告信息
--s 发送指定的信号
--v 报告信号是否成功发送
--w 等待进程死亡
---help 显示帮助信息
---version 显示版本显示
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h2 id="参数"> 参数</h2>
-<p>进程名称：指定要杀死的进程名称</p>
-<h2 id="常用实例"> 常用实例</h2>
-<p>1）杀死所有同名进程</p>
-<div><pre><code># ps -ef|grep vi
-root     17581 17398  0 17:51 pts/0    00:00:00 vi test.txt
-root     17640 17612  0 17:51 pts/2    00:00:00 vi test.log
-root     17642 17582  0 17:51 pts/1    00:00:00 grep vi
-# killall vi
-# ps -ef|grep vi
-root     17645 17582  0 17:52 pts/1    00:00:00 grep vi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）向进程发送指定信号</p>
-<div><pre><code># vi &amp; 
-[1] 17646[root@localhost ~]# killall -TERM vi
-[1]+  Stopped                 vi
-# vi &amp; 
-[2] 17648
-# ps -ef|grep vi
-root     17646 17582  0 17:54 pts/1    00:00:00 vi
-root     17648 17582  0 17:54 pts/1    00:00:00 vi
-root     17650 17582  0 17:55 pts/1    00:00:00 grep vi
-[2]+  Stopped                 vi
-# killall -TERM vi
-# ps -ef|grep vi
-root     17646 17582  0 17:54 pts/1    00:00:00 vi
-root     17648 17582  0 17:54 pts/1    00:00:00 vi
-root     17653 17582  0 17:55 pts/1    00:00:00 grep vi
-# killall -KILL vi
-[1]-  已杀死               vi
-[2]+  已杀死               vi
-# ps -ef|grep vi
-root     17656 17582  0 17:56 pts/1    00:00:00 grep vi
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>3）把所有的登录后的shell给杀掉</p>
-<div><pre><code># w
- 18:01:03 up 41 days, 18:53,  3 users,  load average: 0.00, 0.00, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/0    10.2.0.68        14:58    9:52   0.10s  0.10s -bash
-root     pts/1    10.2.0.68        17:51    0.00s  0.02s  0.00s w
-root     pts/2    10.2.0.68        17:51    9:24   0.01s  0.01s -bash
-# killall -9 bash
-# w
- 18:01:48 up 41 days, 18:54,  1 user,  load average: 0.07, 0.02, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/0    10.2.0.68        18:01    0.00s  0.01s  0.00s w
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
-<p>运行命令：killall -9 bash 后，所有bash都会被卡掉了，所以当前所有连接丢失了。需要重新连接并登录。</p>
-<p>参考链接：</p>
-<p>http://www.cnblogs.com/peida/archive/2012/12/21/2827366.html</p>
-<p>http://man.linuxde.net/killall</p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2018-07-27T19:13:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">每天一个linux命令（36）-date</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8836%EF%BC%89-date/"/>
@@ -62192,6 +62217,89 @@ echo $difference seconds.
       <name>Clay</name>
     </contributor>
     <published>2018-07-27T19:07:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">每天一个linux命令（42）-killall</title>
+    <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/</id>
+    <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/linux%E5%91%BD%E4%BB%A4/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4%EF%BC%8842%EF%BC%89-killall/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>Linux系统中的killall命令用于杀死指定名字的进程（kill processes by name）。我们可以使用kill命令杀死指定进程PID的进程，如果要找到我们需要杀死的进程，我们还需要在之前使用ps等命令再配合grep来查找进程，而killall把这两个过程合二为一，是一个很好用的命令。</p>
+
+<h2 id="语法"> 语法</h2>
+<p><code>killall(选项)(参数)</code></p>
+<h2 id="选项"> 选项</h2>
+<div><pre><code>-Z 只杀死拥有scontext 的进程
+-e 要求匹配进程名称
+-I 忽略小写
+-g 杀死进程组而不是进程
+-i 交互模式，杀死进程前先询问用户
+-l 列出所有的已知信号名称
+-q 不输出警告信息
+-s 发送指定的信号
+-v 报告信号是否成功发送
+-w 等待进程死亡
+--help 显示帮助信息
+--version 显示版本显示
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br></div></div><h2 id="参数"> 参数</h2>
+<p>进程名称：指定要杀死的进程名称</p>
+<h2 id="常用实例"> 常用实例</h2>
+<p>1）杀死所有同名进程</p>
+<div><pre><code># ps -ef|grep vi
+root     17581 17398  0 17:51 pts/0    00:00:00 vi test.txt
+root     17640 17612  0 17:51 pts/2    00:00:00 vi test.log
+root     17642 17582  0 17:51 pts/1    00:00:00 grep vi
+# killall vi
+# ps -ef|grep vi
+root     17645 17582  0 17:52 pts/1    00:00:00 grep vi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br></div></div><p>2）向进程发送指定信号</p>
+<div><pre><code># vi &amp; 
+[1] 17646[root@localhost ~]# killall -TERM vi
+[1]+  Stopped                 vi
+# vi &amp; 
+[2] 17648
+# ps -ef|grep vi
+root     17646 17582  0 17:54 pts/1    00:00:00 vi
+root     17648 17582  0 17:54 pts/1    00:00:00 vi
+root     17650 17582  0 17:55 pts/1    00:00:00 grep vi
+[2]+  Stopped                 vi
+# killall -TERM vi
+# ps -ef|grep vi
+root     17646 17582  0 17:54 pts/1    00:00:00 vi
+root     17648 17582  0 17:54 pts/1    00:00:00 vi
+root     17653 17582  0 17:55 pts/1    00:00:00 grep vi
+# killall -KILL vi
+[1]-  已杀死               vi
+[2]+  已杀死               vi
+# ps -ef|grep vi
+root     17656 17582  0 17:56 pts/1    00:00:00 grep vi
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br></div></div><p>3）把所有的登录后的shell给杀掉</p>
+<div><pre><code># w
+ 18:01:03 up 41 days, 18:53,  3 users,  load average: 0.00, 0.00, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    10.2.0.68        14:58    9:52   0.10s  0.10s -bash
+root     pts/1    10.2.0.68        17:51    0.00s  0.02s  0.00s w
+root     pts/2    10.2.0.68        17:51    9:24   0.01s  0.01s -bash
+# killall -9 bash
+# w
+ 18:01:48 up 41 days, 18:54,  1 user,  load average: 0.07, 0.02, 0.00USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    10.2.0.68        18:01    0.00s  0.01s  0.00s w
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br></div></div><p>说明：</p>
+<p>运行命令：killall -9 bash 后，所有bash都会被卡掉了，所以当前所有连接丢失了。需要重新连接并登录。</p>
+<p>参考链接：</p>
+<p>http://www.cnblogs.com/peida/archive/2012/12/21/2827366.html</p>
+<p>http://man.linuxde.net/killall</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2018-07-27T19:13:00.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
@@ -63262,22 +63370,6 @@ Trace complete.
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">博客主页</title>
-    <id>https://clay-wangzhi.com/</id>
-    <link href="https://clay-wangzhi.com/"/>
-    <updated>2021-06-07T12:39:36.000Z</updated>
-    <content type="html"><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2021-05-11T03:54:51.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">白天做运维，晚上搞副业赚钱</title>
     <id>https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/</id>
     <link href="https://clay-wangzhi.com/other/%E5%BE%85%E6%95%B4%E7%90%86/%E7%99%BD%E5%A4%A9%E5%81%9A%E8%BF%90%E7%BB%B4%EF%BC%8C%E6%99%9A%E4%B8%8A%E6%90%9E%E5%89%AF%E4%B8%9A%E8%B5%9A%E9%92%B1/"/>
@@ -63308,6 +63400,22 @@ Trace complete.
 <h2 id="_3-如何运营自己的公众号"> 3 如何运营自己的公众号？</h2>
 <h3 id="_3-1-取个好名字"> 3.1 取个好名字</h3>
 <p>要通俗易懂，而且全网ID最好统一，</p>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2021-05-11T03:54:51.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">博客主页</title>
+    <id>https://clay-wangzhi.com/</id>
+    <link href="https://clay-wangzhi.com/"/>
+    <updated>2021-06-07T12:39:36.000Z</updated>
+    <content type="html"><![CDATA[<p>相关配置文档请见 <a href="https://vuepress-theme-hope.github.io/zh/guide/layout/blog/" target="_blank" rel="noopener noreferrer">博客主页</a></p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -63737,136 +63845,6 @@ $document_uri ： 与$uri相同。
 <p>http://nginx.org/en/docs/http/ngx_http_core_module.html#variables</p>
 <p>http://nginx.org/en/docs/</p>
 </blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
-    <title type="html">4. 内核参数优化</title>
-    <id>https://clay-wangzhi.com/web/nginx/core/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/core/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
-<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
-<p>文件内容如下：</p>
-<div><pre><code>net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 268435456
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.somaxconn = 262144
-net.core.netdev_max_backlog = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn_backlog = 30000
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 65536 4194304
-net.ipv4.tcp_mem = 524288 699050 1048576
-vm.swappiness = 0
-vm.min_free_kbytes = 65536
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
-<li>
-<p>net.core.somaxconn = 262144</p>
-<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
-</li>
-<li>
-<p>net.core.netdev_max_backlog = 262144</p>
-<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_orphans = 262144</p>
-<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
-<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
-<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
-这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
-<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
-<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_recycle = 0</p>
-<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
-<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
-当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
-会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_tw_reuse = 1</p>
-<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syncookies = 1</p>
-<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
-假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
-这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
-正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
-设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
-开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
-如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
-<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
-该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
-实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_syn_retries = 1</p>
-<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_synack_retries = 1</p>
-<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
-</li>
-<li>
-<p>net.ipv4.ip_local_port_range = 1024 65000</p>
-<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
-当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
-这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_fin_timeout = 30</p>
-<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
-</li>
-<li>
-<p>net.ipv4.tcp_keepalive_time = 30</p>
-<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
-客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
-并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
-比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
-就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
-</li>
-</ul>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -64395,6 +64373,136 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">4. 内核参数优化</title>
+    <id>https://clay-wangzhi.com/web/nginx/core/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/core/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_4-内核参数优化"> 4. 内核参数优化</h1>
+<h2 id="linux内核参数优化-网络模块"> linux内核参数优化（网络模块）</h2>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>文件内容如下：</p>
+<div><pre><code>net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 268435456
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 30000
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_mem = 524288 699050 1048576
+vm.swappiness = 0
+vm.min_free_kbytes = 65536
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br><span>20</span><br><span>21</span><br><span>22</span><br><span>23</span><br><span>24</span><br><span>25</span><br><span>26</span><br><span>27</span><br><span>28</span><br><span>29</span><br><span>30</span><br><span>31</span><br><span>32</span><br><span>33</span><br><span>34</span><br></div></div><ul>
+<li>
+<p>net.core.somaxconn = 262144</p>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
+</li>
+<li>
+<p>net.core.netdev_max_backlog = 262144</p>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_orphans = 262144</p>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>对于tcp连接，服务端和客户端通信完后状态变为timewait，假如某台服务器非常忙，连接数特别多的话，那么这个timewait数量就会越来越大。</p>
+<p>毕竟它也是会占用一定的资源，所以应该有一个最大值，当超过这个值，系统就会删除最早的连接，这样始终保持在一个数量级。
+这个数值就是由net.ipv4.tcp_max_tw_buckets这个参数来决定的。</p>
+<p>CentOS7.6版本，默认为16384，可以使用sysctl -a |grep tw_buckets来查看它的值，可以适当把它调低，比如调整到6000，毕竟这个状态的连接太多也是会消耗资源的。</p>
+<p>但不要把它调到几十、几百这样，因为这种状态的tcp连接也是有用的，如果同样的客户端再次和服务端通信，就不用再次建立新的连接了，用这个旧的通道，省时省力。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_recycle = 0</p>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>实际上，net.ipv4.tcp_tw_recycle功能的开启，要需要net.ipv4.tcp_timestamps（一般系统默认是开启这个功能的）这个开关开启后才有效果；
+当tcp_tw_recycle 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！
+会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_tw_reuse = 1</p>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syncookies = 1</p>
+<p>tcp三次握手中，客户端向服务端发起syn请求，服务端收到后，也会向客户端发起syn请求同时连带ack确认，
+假如客户端发送请求后直接断开和服务端的连接，不接收服务端发起的这个请求，服务端会重试多次，
+这个重试的过程会持续一段时间（通常高于30s），当这种状态的连接数量非常大时，服务器会消耗很大的资源，从而造成瘫痪，
+正常的连接进不来，这种恶意的半连接行为其实叫做syn flood攻击。
+设置为1，是开启SYN Cookies，开启后可以避免发生上述的syn flood攻击。
+开启该参数后，服务端接收客户端的ack后，再向客户端发送ack+syn之前会要求client在短时间内回应一个序号，
+如果客户端不能提供序号或者提供的序号不对则认为该客户端不合法，于是不会发ack+syn给客户端，更涉及不到重试。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_max_syn_backlog = 30000</p>
+<p>该参数定义系统能接受的最大半连接状态的tcp连接数。客户端向服务端发送了syn包，服务端收到后，会记录一下，
+该参数决定最多能记录几个这样的连接。在CentOS7，默认是256，当有syn flood攻击时，这个数值太小则很容易导致服务器瘫痪，
+实际上此时服务器并没有消耗太多资源（cpu、内存等），所以可以适当调大它，比如调整到30000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_syn_retries = 1</p>
+<p>该参数适用于客户端，它定义发起syn的最大重试次数，默认为6，建议改为1。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_synack_retries = 1</p>
+<p>该参数适用于服务端，它定义发起syn+ack的最大重试次数，默认为5，建议改为1，可以适当预防syn flood攻击。</p>
+</li>
+<li>
+<p>net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>该参数定义端口范围，系统默认保留端口为1024及以下，以上部分为自定义端口。这个参数适用于客户端，
+当客户端和服务端建立连接时，比如说访问服务端的80端口，客户端随机开启了一个端口和服务端发起连接，
+这个参数定义随机端口的范围。默认为32768 61000，建议调整为1025 65000。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_fin_timeout = 30</p>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+</li>
+<li>
+<p>net.ipv4.tcp_keepalive_time = 30</p>
+<p>tcp连接状态里，有一个是established状态，只有在这个状态下，客户端和服务端才能通信。正常情况下，当通信完毕，
+客户端或服务端会告诉对方要关闭连接，此时状态就会变为timewait，如果客户端没有告诉服务端，
+并且服务端也没有告诉客户端关闭的话（例如，客户端那边断网了），此时需要该参数来判定。
+比如客户端已经断网了，但服务端上本次连接的状态依然是established，服务端为了确认客户端是否断网，
+就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
+</li>
+</ul>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">6.1 Nginx出现403 forbidden的三种原因</title>
     <id>https://clay-wangzhi.com/web/nginx/forbidden/</id>
     <link href="https://clay-wangzhi.com/web/nginx/forbidden/"/>
@@ -64577,80 +64685,6 @@ root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">3.1 nginx全局块和events块配置</title>
-    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
-    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
-<h2 id="_1-example"> 1 example</h2>
-<div><pre><code><span># 运行Nginx进程的用户</span>
-<span>user</span> nginx<span>;</span>
-<span>worker_processes</span>  <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> auto<span>;</span>
-
-<span># 定义存储某类型的全局错误的日志位置</span>
-<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
-<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
-<span># 指定进程ID（pid）存放的路径 </span>
-<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
-<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
-<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
-
-<span>events</span> <span>{</span>
-    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
-    <span>use</span> epoll<span>;</span>
-    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
-    <span>worker_connections</span>  <span>20480</span><span>;</span>
-<span>}</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
-<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
-<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
-<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
-<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
-<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
-<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
-<blockquote>
-<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
-</blockquote>
-<h3 id="_2-3-实例"> 2.3 实例</h3>
-<p><strong>2核CPU，开启2个进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
-<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
-<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><blockquote>
-<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
-<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
-<p>测试结束后，CPU内核的负载应该都同时降低。</p>
-</blockquote>
-]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-20T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">3.2 nginxHTTP块配置</title>
     <id>https://clay-wangzhi.com/web/nginx/http/</id>
     <link href="https://clay-wangzhi.com/web/nginx/http/"/>
@@ -64807,6 +64841,80 @@ real_ip_recursive on; #递归的去除所配置中的可信IP。
 <p>参考链接：</p>
 <p>https://www.hi-linux.com/posts/53006.html</p>
 <p>https://blog.csdn.net/lijunwyf/article/details/79611003</p>
+</blockquote>
+]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-20T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
+    <title type="html">3.1 nginx全局块和events块配置</title>
+    <id>https://clay-wangzhi.com/web/nginx/global-events/</id>
+    <link href="https://clay-wangzhi.com/web/nginx/global-events/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="_3-1-nginx全局块和events块配置"> 3.1 nginx全局块和events块配置</h1>
+<h2 id="_1-example"> 1 example</h2>
+<div><pre><code><span># 运行Nginx进程的用户</span>
+<span>user</span> nginx<span>;</span>
+<span>worker_processes</span>  <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> auto<span>;</span>
+
+<span># 定义存储某类型的全局错误的日志位置</span>
+<span># nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]</span>
+<span>error_log</span>  <span>/</span>var<span>/</span>log<span>/</span>nginx<span>/</span>error<span>.</span>log  error<span>;</span>
+<span># 指定进程ID（pid）存放的路径 </span>
+<span>pid</span>        <span>/</span>var<span>/</span>run<span>/</span>nginx<span>.</span><span>pid</span><span>;</span>
+<span># 一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</span>
+<span>worker_rlimit_nofile</span> <span>65535</span><span>;</span>
+
+<span>events</span> <span>{</span>
+    <span># 使用epoll的I/O模型，用这个模型来高效处理异步事件</span>
+    <span>use</span> epoll<span>;</span>
+    <span># 每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</span>
+    <span>worker_connections</span>  <span>20480</span><span>;</span>
+<span>}</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br><span>16</span><br><span>17</span><br><span>18</span><br><span>19</span><br></div></div><h2 id="_2-配置cpu参数"> 2 配置CPU参数</h2>
+<p>Nginx默认没有开启利用多核cpu，我们可以通过增加worker_cpu_affinity配置参数来充分利用多核cpu的性能。cpu是任务处理，计算最关键的资源，cpu核越多，性能就越好。</p>
+<h3 id="_2-1-nginx-worker-processes"> 2.1 nginx worker_processes</h3>
+<p>worker_processes最多开启8个，8个以上性能就不会再提升了，而且稳定性会变的更低，因此8个进程够用了；</p>
+<h3 id="_2-2-nginx-worker-cpu-affinity"> 2.2 nginx worker_cpu_affinity</h3>
+<p>cpu有多少个核？就有几位数，1代表内核开启，0代表内核关闭；</p>
+<p>例如：我有一个服务器是最低配，8核CPU，nginx配置信息则如下：</p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>00000001</span> <span>00000010</span> <span>00000100</span> <span>00001000</span> <span>00010000</span> <span>00100000</span> <span>01000000</span> <span>10000000</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>上面的配置表示：8核CPU，开启8个进程。</p>
+<blockquote>
+<p>我其实把<code>nginx worker_cpu_affinity</code>参数通常设置为<code>auto</code></p>
+</blockquote>
+<h3 id="_2-3-实例"> 2.3 实例</h3>
+<p><strong>2核CPU，开启2个进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启4进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>4</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>2核CPU，开启8进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>8</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span> <span>01</span> <span>10</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p><strong>8核CPU，开启2进程</strong></p>
+<div><pre><code><span>worker_processes</span> <span>2</span><span>;</span>
+<span>worker_cpu_affinity</span> <span>10101010</span> <span>01010101</span><span>;</span>
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><blockquote>
+<p>10101010表示开启了第2,4,6,8内核，01010101表示开始了1,3,5,7内核；</p>
+<p>如果多个CPU内核的利用率都相差不多，证明nginx己经成功的利用了多核CPU。</p>
+<p>测试结束后，CPU内核的负载应该都同时降低。</p>
 </blockquote>
 ]]></content>
     <author>
@@ -66013,64 +66121,6 @@ D -&gt; nginx将处理结果返回给客户端
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">tomcat简介</title>
-    <id>https://clay-wangzhi.com/web/tomcat/</id>
-    <link href="https://clay-wangzhi.com/web/tomcat/"/>
-    <updated>2021-05-11T03:54:51.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="tomcat简介"> tomcat简介</h1>
-<h2 id="tomcat学习笔记-一"> Tomcat学习笔记（一）</h2>
-<p>Hello everyone, let's learn tomcat together！</p>
-<h3 id="tomcat的开幕式"> Tomcat的开幕式</h3>
-<p>Tomcat以Java编写</p>
-<h4 id="安装tomcat"> 安装Tomcat</h4>
-<p>官网地址为：https://tomcat.apache.org</p>
-<p>各个版本的下载地址为：https://archive.apache.org/dist/tomcat/</p>
-<p>安装方式</p>
-<p>二进制文件（文件为tar.gz）</p>
-<div><pre><code>wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
-tar -xvf apache-tomcat-8.5.23.tar.gz
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div><p>需提前配置好jdk的环境变量，jdk配置详见上一章节</p>
-<h4 id="tomcat启动、停止、重启"> Tomcat启动、停止、重启</h4>
-<p>主要用到的脚本有</p>
-<p>catalina.sh、shutdown.sh、startup.sh、version.sh</p>
-<p><img src="./images/tomcat1.png" alt="" /></p>
-<p>catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等</p>
-<p>shutdown是停止tomcat脚本</p>
-<p>startup是启动tomcat脚本</p>
-<p>version是查看tomcat的版本信息</p>
-<ul>
-<li>
-<p>常用的catalina脚本启动参数</p>
-<p>config [server.xml file]	  指定另一个server.xml配置文件。默认是使用驻留在$CATALINA_BASE/conf目录中的server.xml</p>
-<p>help					输出命令行选项摘要表</p>
-<p>ebug					以调试模式启动tomcat</p>
-<p>tart					启动tomcat，并将标准输出与错误送至tomcat的日志文件</p>
-<p>top					停止tomcat</p>
-<p>ersion 					输出tomcat的版本信息</p>
-</li>
-</ul>
-<h4 id="安装后的测试"> 安装后的测试</h4>
-<p>当安装以及启动tomcat后，测试是否成功启动，可以访问网页进行测试，默认端口为8080</p>
-<p><img src="./images/tomcat2.png" alt="" /></p>
-<h3 id="配置tomcat"> 配置tomcat</h3>
-<h4 id="从8080改变端口号"> 从8080改变端口号</h4>
-<p>把机器上目的地为80端口的所有连接需重定向到8080端口的信息通知给内核。</p>
-<div><pre><code>iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
-iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
-</code></pre>
-<div><span>1</span><br><span>2</span><br></div></div>]]></content>
-    <author>
-      <name>Clay</name>
-    </author>
-    <category term="web中间件"/>
-    <contributor>
-      <name>Clay</name>
-    </contributor>
-    <published>2020-03-08T00:00:00.000Z</published>
-    <rights>Copyright by Clay</rights>
-  </entry>
-  <entry>
     <title type="html">生产环境中的tomcat配置</title>
     <id>https://clay-wangzhi.com/web/tomcat/prd/</id>
     <link href="https://clay-wangzhi.com/web/tomcat/prd/"/>
@@ -66261,6 +66311,64 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
+    <title type="html">tomcat简介</title>
+    <id>https://clay-wangzhi.com/web/tomcat/</id>
+    <link href="https://clay-wangzhi.com/web/tomcat/"/>
+    <updated>2021-05-11T03:54:51.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="tomcat简介"> tomcat简介</h1>
+<h2 id="tomcat学习笔记-一"> Tomcat学习笔记（一）</h2>
+<p>Hello everyone, let's learn tomcat together！</p>
+<h3 id="tomcat的开幕式"> Tomcat的开幕式</h3>
+<p>Tomcat以Java编写</p>
+<h4 id="安装tomcat"> 安装Tomcat</h4>
+<p>官网地址为：https://tomcat.apache.org</p>
+<p>各个版本的下载地址为：https://archive.apache.org/dist/tomcat/</p>
+<p>安装方式</p>
+<p>二进制文件（文件为tar.gz）</p>
+<div><pre><code>wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.tar.gz
+tar -xvf apache-tomcat-8.5.23.tar.gz
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div><p>需提前配置好jdk的环境变量，jdk配置详见上一章节</p>
+<h4 id="tomcat启动、停止、重启"> Tomcat启动、停止、重启</h4>
+<p>主要用到的脚本有</p>
+<p>catalina.sh、shutdown.sh、startup.sh、version.sh</p>
+<p><img src="./images/tomcat1.png" alt="" /></p>
+<p>catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等</p>
+<p>shutdown是停止tomcat脚本</p>
+<p>startup是启动tomcat脚本</p>
+<p>version是查看tomcat的版本信息</p>
+<ul>
+<li>
+<p>常用的catalina脚本启动参数</p>
+<p>config [server.xml file]	  指定另一个server.xml配置文件。默认是使用驻留在$CATALINA_BASE/conf目录中的server.xml</p>
+<p>help					输出命令行选项摘要表</p>
+<p>ebug					以调试模式启动tomcat</p>
+<p>tart					启动tomcat，并将标准输出与错误送至tomcat的日志文件</p>
+<p>top					停止tomcat</p>
+<p>ersion 					输出tomcat的版本信息</p>
+</li>
+</ul>
+<h4 id="安装后的测试"> 安装后的测试</h4>
+<p>当安装以及启动tomcat后，测试是否成功启动，可以访问网页进行测试，默认端口为8080</p>
+<p><img src="./images/tomcat2.png" alt="" /></p>
+<h3 id="配置tomcat"> 配置tomcat</h3>
+<h4 id="从8080改变端口号"> 从8080改变端口号</h4>
+<p>把机器上目的地为80端口的所有连接需重定向到8080端口的信息通知给内核。</p>
+<div><pre><code>iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
+iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
+</code></pre>
+<div><span>1</span><br><span>2</span><br></div></div>]]></content>
+    <author>
+      <name>Clay</name>
+    </author>
+    <category term="web中间件"/>
+    <contributor>
+      <name>Clay</name>
+    </contributor>
+    <published>2020-03-08T00:00:00.000Z</published>
+    <rights>Copyright by Clay</rights>
+  </entry>
+  <entry>
     <title type="html">Tomcat 错误代号及状态码</title>
     <id>https://clay-wangzhi.com/web/tomcat/status/</id>
     <link href="https://clay-wangzhi.com/web/tomcat/status/"/>
@@ -66327,154 +66435,47 @@ compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plai
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
-    <title type="html">1.3 Python 虚拟环境</title>
-    <id>https://clay-wangzhi.com/code/python/python-virtualenv/</id>
-    <link href="https://clay-wangzhi.com/code/python/python-virtualenv/"/>
-    <updated>2021-06-22T03:51:27.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="_1-3-python-虚拟环境"> 1.3 Python 虚拟环境</h1>
-<blockquote>
-<p>转载自：<a href="http://www.justdopython.com/2020/05/26/python-virtualenv/" target="_blank" rel="noopener noreferrer">Python 虚拟环境 看这一篇就够了 | Python 技术</a></p>
-</blockquote>
-<p>Python 之所以强大，除了语言本身的特性外，更重要的是拥有无所不及的第三方库。强大的软件库，让开发者将精力集中在业务上，而避免重复造轮子的浪费。但众多的软件库，形成了复杂的依赖关系，加上 Python2 和 Python3 旷日持久之争，对采用 Python 开发的项目造成了不少困扰，所以 Python 建议，通过<code>虚拟环境</code>工具为项目创建纯净的依赖环境，今天我们就来了解下 Python 虚拟环境</p>
-<h2 id="一些概念"> 一些概念</h2>
-<p>Python 虚拟环境，涉及到很多概念和工具，会对使用造成孔娆和障碍，所以我们先了解一些概念和与之相关的工具</p>
-<h3 id="python-版本"> python 版本</h3>
-<p>Python 版本指得是 Python 解析器本身的版本。由于 Python3 不能与 Python2 兼容，而且两大正营之争持续了很长时间，导致一些软件库需要设配两种版本的 Python，同时开发者可能需要在一个环境中，部署不同版本的 Python，对开发和维护造成了麻烦。因此出现了版本管理器 Pyenv，类似于 nodejs 的 nvm，可以创建出相互隔离的 Python 环境，并且可以方便的切换环境中的 Python 版本，但和 Python 虚拟环境关系不大</p>
-<h3 id="python-包库"> python 包库</h3>
-<p>包库或者叫软件源是 Python 第三方软件的库的集合，或者市场，可以发布、下载和管理软件包，其中 pypi (Python Package Index) https://pypi.org/ 是官方指定的软件包库，基于其上的 pip 工具就是从这里查找、下载安装软件包的。为了提高下载速度，世界上有很多 Pypi 的镜像服务器，在国内也有多个软件源，例如阿里的软件源是：http://mirrors.aliyun.com/pypi/simple/。 除此之外，还有其他软件源，如正对科学计算的 anaconda 的软件源 https://repo.anaconda.com/</p>
-<h3 id="python-包管理器"> python 包管理器</h3>
-<p>软件包源中的软件包数量巨大，版本多样，所以需要借助于软件源管理工具，例如 pip、conda、Pipenv、Poetry 等</p>
+    <title type="html">Python 学习笔记</title>
+    <id>https://clay-wangzhi.com/code/python/</id>
+    <link href="https://clay-wangzhi.com/code/python/"/>
+    <updated>2021-06-08T07:36:45.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="python-学习笔记"> Python 学习笔记</h1>
+<h2 id="常用官网"> 常用官网</h2>
+<p><a href="https://docs.python.org/zh-cn/3/" target="_blank" rel="noopener noreferrer">官方文档</a> ⭐️</p>
+<h2 id="python-教程"> Python 教程</h2>
+<p><a href="https://clay-wangzhi.com/code/python/" target="_blank" rel="noopener noreferrer">Python 运维自动化 | 马哥教育</a> ⭐️</p>
+<p><a href="https://www.liaoxuefeng.com/wiki/1016959663602400" target="_blank" rel="noopener noreferrer">Python 教程 | 廖雪峰</a> ⭐️</p>
+<p><a href="https://github.com/jackfrued/Python-100-Days" target="_blank" rel="noopener noreferrer">Python - 100天从新手到大师 | 骆昊 | github</a> ⭐️</p>
+<p><a href="https://www.kancloud.cn/willseecloud/python/1904298" target="_blank" rel="noopener noreferrer">Python | willseecloud | 看云</a></p>
+<p><a href="https://github.com/TwoWater/Python" target="_blank" rel="noopener noreferrer">草根学 Python | TwoWater| github</a></p>
+<p><a href="http://www.pythondoc.com/pythontutorial3/index.html" target="_blank" rel="noopener noreferrer">Python 入门指南</a></p>
+<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="noopener noreferrer">Python Cookbook | 飞污熊</a></p>
+<h2 id="summary"> Summary</h2>
 <ul>
-<li>pip 是最常用的包管理工具，通过 <code>pip install &lt;packagename&gt;</code> 命令格式来安装软件包，使用的是 pypi 软件包源</li>
-<li>conda 多用作科学计算领域的包管理工具，功能丰富且强大，使用的软件包源是 Anaconda repository 和 Anaconda Cloud，conda 不仅支持 Python 软件包，还可以安装 C、C++ 、R 以及其他语言的二定制软件包。除了软件包管理外，还能提供相互隔离的软件环境。</li>
-<li>Pipenv 是 Kenneth Reitz 在2017年1月发布的Python依赖管理工具，现在由PyPA维护。Pipenv 会自动帮你管理虚拟环境和依赖文件，并且提供了一系列命令和选项来帮助你实现各种依赖和环境管理相关的操作</li>
-<li>Poetry 和 Pipenv 类似，是一个 Python 虚拟环境和依赖管理工具，另外它还提供了包管理功能，比如打包和发布。你可以把它看做是 Pipenv 和 Flit 这些工具的超集。它可以让你用 Poetry 来同时管理 Python 库和 Python 程序</li>
+<li><a href="./python-basic-grammar.html">01 Python基础语法</a></li>
+<li><a href="./python-linear-data-structure.html">02 线性数据结构</a></li>
+<li><a href="./python-ha-tables-analytic-expre.html">03 哈希表和解析式</a></li>
+<li><a href="./python-function.html">04 函数</a></li>
+<li><a href="./python-decorator.html">05 装饰器</a></li>
+<li><a href="./python-dir-file-pro.html">06 目录文件处理</a></li>
+<li><a href="./python-serialize.html">07 序列化和反序列化</a></li>
+<li><a href="./python-exception.html">08 异常处理</a></li>
+<li><a href="./python-oo-package.html">09 面向对象-封装</a></li>
+<li><a href="./python-oo-inher-pol.html">10 继承多态和Mixin</a></li>
+<li><a href="./python-magic.html">11 魔术方法</a></li>
+<li><a href="./python-thread.html">12 线程</a></li>
+<li><a href="./python-thread-sync.html">13 线程同步</a></li>
+<li><a href="./python-gil-multiprocessing.html">14 多进程</a></li>
+<li><a href="./python-tcp-pg.html">15 TCP 编程</a></li>
+<li><a href="./python-socketserver.html">16 SocketServer</a></li>
+<li><a href="./python-io-model.html">17 IO 模型</a></li>
+<li><a href="./python-instance.html">18 python实例</a></li>
 </ul>
-<p>很多包管理工具不仅提供了基本的包管理功能，还提供了虚拟环境构建，程序管理的等功能</p>
-<h3 id="python-虚拟环境"> Python 虚拟环境</h3>
-<p>Python 应用经常需要使用一些包第三方包或者模块，有时需要依赖特定的包或者库的版本，所以不能有一个能适应所有 Python 应用的软件环境，很多时候不同的 Python 应用所依赖的版本是冲突的，满足了其中一个，另一个则无法运行，解决这一问题的方法是 虚拟环境。 虚拟环境是一个包含了特定 Python 解析器以及一些软件包的自包含目录，不同的应用程序可以使用不同的虚拟环境，从而解决了依赖冲突问题，而且虚拟环境中只需要安装应用相关的包或者模块，可以给部署提供便利</p>
-<h2 id="pyenv多版本"> pyenv多版本</h2>
-<p>官网 https://github.com/pyenv/pyenv</p>
-<p>快捷安装 https://github.com/pyenv/pyenv#the-automatic-installer</p>
-<div><pre><code><span># yum install git curl</span>
-python编译依赖如下
-<span># yum install gcc make patch gdbm-devel openssl-devel sqlite-devel readline-devel</span>
-zlib-devel bzip2-devel
-创建普通用户
-<span># useradd python</span>
-<span># su - python</span>
-在python用户下安装
-$ <span>curl</span> -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span>|</span> <span>bash</span>
-<span># 由于某些原因，浏览器可以访问，大家自行下载保存为shell脚本执行</span>
-<span># https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer</span>
-<span># 或者使用项目源码文件</span>
-<span># https://github.com/pyenv/pyenv-installer/blob/master/bin/pyenv-installer</span>
-<span># 以后更新pyenv使用</span>
-$ pyenv update
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br><span>6</span><br><span>7</span><br><span>8</span><br><span>9</span><br><span>10</span><br><span>11</span><br><span>12</span><br><span>13</span><br><span>14</span><br><span>15</span><br></div></div><div><pre><code><span># 安装完，按照提示处理，把下面的脚本放到当前用户的.bashrc文件末尾</span>
-<span># the following to ~/.bashrc:</span>
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>"/home/python/.pyenv/bin:<span>$PATH</span>"</span>
-<span>eval</span> <span>"<span><span>$(</span>pyenv init -<span>)</span></span>"</span>
-<span>eval</span> <span>"<span><span>$(</span>pyenv virtualenv-init -<span>)</span></span>"</span>
-</code></pre>
-<div><span>1</span><br><span>2</span><br><span>3</span><br><span>4</span><br><span>5</span><br></div></div><p>具体步骤，略</p>
-<h2 id="构建虚拟环境"> 构建虚拟环境</h2>
-<h3 id="原理"> 原理</h3>
-<p>虚拟环境并不是什么新技术，主要是利用了操作系统中环境变量以及进程间环境隔离的特性</p>
-<p>操作系统的环境变量可以为程序提供信息和做信息交换介质，进程可以共享操作系统中的环境变量，也可以为进程指定环境变量，其中 PATH 是很重要的环境变量，用于为操作系统和程序提供可执行文件的访问路径，例如写一个程序 a.exe，存放在 D:\MyProgram 中，在命令行中执行 a.exe ，会得到提示“ 无法找到程序 a.exe”，为了让系统找到，可以将 D:\MyProgram 路径加入到 PATH 环境变量中，当输入 a.exe 时，操作系统就会从 PATH 所提供的路径中逐个查找，这时就可以找到了。Linux 和 MacOS 具有相似的特性，甚至比 Windows 的功能更丰富。</p>
-<p>Python 虚拟环境就是利用这个特性构建的，在激活虚拟环境之时，激活脚本会将当前命令行程序的 PATH 修改为虚拟环境的，这样执行命令就会在被修改的 PATH 中查找，从而避免了原本 PATH 可以找到的命令，从而实现了 Python 环境的隔离。</p>
-<p>为了让开发这容易区分当前环境是否虚拟环境以及是那个虚拟环境，命令提示符前会加上特殊标记，例如:</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython01.png" alt="Python 虚拟环境" /></p>
-<h3 id="创建"> 创建</h3>
-<h4 id="virtualenv-工具"> virtualenv 工具</h4>
-<p>在 python3.3 之前，只能通过 virtualenv 创建虚拟环境，首先需要安装 virtualenv</p>
-<div><pre><code>pip install virtualenv 
-</code></pre>
-<div><span>1</span><br></div></div><p>安装完后，在当前目录下创建一个名为 myvenv 的虚拟环境:</p>
-<div><pre><code>virtualenv --no-site-packages myvenv 
-</code></pre>
-<div><span>1</span><br></div></div><p>参数 <code>--no-site-packages</code> 的意思是创建虚拟环境时，不复制主环境中安装的第三方包，也就是创建一个 “干净的” 虚拟环境</p>
-<p>virtualenv 还有很多参数，用于不同的使用场景，例如:</p>
-<ul>
-<li>-p: 用于指定 Python 解析器，就是安装好的 Python 应用程序，默认为当前环境中的 Python</li>
-<li>–no-pip：不需要安装 pip，默认为安装</li>
-<li>–clear：如果创建虚拟环境的目录已经有了其他虚拟环境，清楚重建</li>
-</ul>
-<h4 id="venv-模块"> venv 模块</h4>
-<p>Python3.3 之后，可以用模块 venv 代替 virtualenv 工具，好处时不用单独安装，3.3 及之后的版本，都可以通过安装好的 Python 来创建虚拟环境:</p>
-<div><pre><code>python -m venv myvenv 
-</code></pre>
-<div><span>1</span><br></div></div><p>可以在当前目录创建一个名为 myvenv 的虚拟环境</p>
-<p>venv 有些才参数，不过相比 virtualenv 少了些，这里简单介绍几个：</p>
-<ul>
-<li>–without-pip: 不需要安装 pip，默认为安装</li>
-<li>–clear：如果创建虚拟环境的目录已经有了其他虚拟环境，清楚重建</li>
-</ul>
-<p>因为 venv 是依附于一个 Python 解析器创建的，所以不需要指定 Python 解释器版本</p>
-<h3 id="激活"> 激活</h3>
-<p>虚拟环境创建好后，需要激活才能在当前命令行中使用，可以理解成将当前命令行环境中 PATH 变量的值替换掉</p>
-<p>通过 virtualenv 和 模块 venv 创建的虚拟环境，激活方式是一样的，即运行激活脚本</p>
-<ul>
-<li>
-<p>Windows 系统中，激活脚本路径是 <code>&lt;myvenv&gt;\Scripts\activate.bat</code>，如果是 powershell 命令行，脚本换成 <code>Activate.ps1</code> , 注意将 <code>&lt;myvenv&gt;</code> 换成你自己的虚拟环境目录</p>
-</li>
-<li>
-<p>Linux 系统中，激活脚本路径是 <code>&lt;myvenv&gt;/bin/activate</code>，默认脚本没有执行权限，要么设置脚本为可执行，要么用 <code>source</code> 命令执行，例如</p>
-<p><code>$ source myvenv/bin/activate</code></p>
-</li>
-</ul>
-<p>激活后，可以在命令行中看到虚拟环境标记，如上图</p>
-<p>打印 PATH，命令如下：</p>
-<p>Linux 下：</p>
-<div><pre><code>echo $PATH 
-</code></pre>
-<div><span>1</span><br></div></div><p>Windows 下</p>
-<div><pre><code>echo %PATH% 
-</code></pre>
-<div><span>1</span><br></div></div><p>可以看到创建的虚拟环境脚本目录被加载了最前面</p>
-<h3 id="退出"> 退出</h3>
-<p>退出虚拟环境很简单，只需要执行 <code>deactivate</code> 命令就行，这个命令也在虚拟环境的脚本目录下，因为激活时，将脚本目录设置到 PATH 中了，所以可以直接使用</p>
-<p>退出虚拟环境相当于将 PATH 恢复成原来的</p>
-<h2 id="与开发工具配合"> 与开发工具配合</h2>
-<p>虽然通过激活脚本，很容易切换到虚拟环境，但是在实际开发中，还是不够方便，而且现在很多开发工具，特别是提供 Python 解析环境的开发工具，都可以和虚拟环境配合，在开发过程中几乎无感，对开发工作是很大的帮助</p>
-<h3 id="visual-studio-code"> Visual Studio Code</h3>
-<p>VS Code 是个后起之秀，功能强大且具有丰富的插件资源，无疑是这两年发展最快的综合开发工具。现在的版本配置 Python 虚拟环境很简单，只需要选择一个 Python 解释器就好了</p>
-<p>同时按下 Ctrl+Shift+P, 在弹出的命令窗口中输入 “解析器”，然后在下拉列表中选择 “Python:选择解析器”，这里会缓存一些已经创建好的解析器，如果没有想要的，可以选择 “Enter interpreter path” 来选择解析器路径，即已经创建好的虚拟环境脚本文件夹中的 Python 程序，就可以创建一个新的解析器</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdoPython02.png" alt="选择 Python 解析器" /></p>
-<p>如果编辑的是 Python 代码文件，在状态栏中也可以选择和切换解释器，更为方便</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython03.png" alt="选择 Python 解析器" /></p>
-<h3 id="pycharm"> Pycharm</h3>
-<p>Pycharm 应该是功能最好的 Python 开发工具，转为 Python 开发而生，除了基本的开发功能外，还提供项目创建、打包、测试等丰富功能，有很大的市场占有率</p>
-<p>创建项目时，在项目创建对话框中，可以创建或者选择已经已有的解析器</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/justdopython04.png" alt="选择 Python 解析器" /></p>
-<p>选择创建新的解析器时，需要选择创建虚拟环境的工具，如 virtualenv；指定虚拟环境的目录；选择 Python 基础解析器，同 virtualenv 工具的 -p 参数的效果；以及是否要继承基础解析器的第三方库 和 是否将这个虚拟环境作为默认环境，即创建其他项目时默认选择</p>
-<p>如果选择已存在的解析器，和 VS Code 差不多，可以选择已经缓存的或者指定解析器的路径</p>
-<h2 id="部署虚拟环境"> 部署虚拟环境</h2>
-<p>之所以在开发时选择虚拟环境，除了避免库之间的冲突，还有重要的原因时方便部署，因为虚拟环境时独立的，仅包含了项目相关的依赖库，所以部署的效率更高，风险更小</p>
-<p>一般部署流程是：</p>
-<ol>
-<li>开发完成后，使用 <code>pip freeze &gt; requirements.txt</code> 命令将项目的库依赖导出，作为代码的一部分</li>
-<li>将代码上传到服务器</li>
-<li>在服务器上创建一个虚拟环境</li>
-<li>激活虚拟环境，执行 <code>pip install -r requirements.txt</code>，安装项目依赖</li>
-</ol>
-<p>怎么运行项目，需要看项目的具体情况</p>
-<ul>
-<li>Web 项目 Web 项目一般使用 Django、Flask 的 Web 开发的提供 Web 服务的项目，部署时需要一个 Web 容器，作为程序的运行环境，容器的配置中都有一个虚拟环境的设置，其实是指定 Python 解析器的路径，将其设置为虚拟环境的目录或者 Python 解析器就可以了，启动时就用使用虚拟环境，并与其他环境隔离。例如 uWSGI 配置文件中 home 参数是用来指定解析器的。</li>
-<li>服务类项目 服务类项目就是需要以服务的形式长时间运行的，例如之前介绍的 公交闹钟，或者一些定时爬虫之类的，对于 Linux 而言，当前主流的服务方式是 Systemd，是一种比 init 更先进的服务管理工具，在服务脚本中， 设置 ExecStart 执行命令为全路径的虚拟环境的 Python 解析器，服务启动时，使用独立的虚拟环境了。 Windows 服务，对于达成 EXE 包的，不需要配置虚拟环境，因为打包时已经考虑了环境问题了，如果时脚本运行的话，需要指定全路径的 Python 解析器</li>
-<li>单次运行项目 对于一些测试或者实验性质的项目，大多数情况下手动执行，只要在激活的虚拟环境下，或者用特定的 Python 解析器运行就好了，和在开发过程中运行区别不大</li>
-</ul>
-<h2 id="其他虚拟环境管理工具"> 其他虚拟环境管理工具</h2>
-<ul>
-<li>virtualenvwrapper： 是对 virtualenv 的一个封装，还有针对 vim 用户和 emacs 用户的 扩展，能支持 bash/ksh/zsh</li>
-<li>virtualenvwrapper-win： 针对 Windows batch shell 的 virtualenvwrapper</li>
-<li>pyenv： 用来解决这类问题。它可以安装、卸载、编译、管理多个 python 版本，并随时将其中一个设置为工作环境</li>
-<li>pyenv-win： 针对 Windows 的 pyenv</li>
-</ul>
-<p>有兴趣的话可以试用一下</p>
-<h2 id="总结"> 总结</h2>
-<p>今天主要了解了 Python 虚拟环境的相关概念和工具，并简单描述了实际工作中的一些使用方式，以便能在开发过程中使用。限于篇幅，没法就更多的内容详细展开，需要在实践中多试多用，Just DO It！</p>
+<h2 id="todo"> TODO</h2>
+<p>Django 相关</p>
+<p><a href="https://docs.djangoproject.com/zh-hans/" target="_blank" rel="noopener noreferrer">django</a> ⭐️</p>
+<p><a href="https://www.liujiangblog.com/course/django/" target="_blank" rel="noopener noreferrer">Django教程 | 刘江</a> ⭐️</p>
+<p><a href="https://pythondjango.cn/django/rest-framework-tutorials" target="_blank" rel="noopener noreferrer">Django REST Framework教程 | 大江狗</a> ⭐️</p>
 ]]></content>
     <author>
       <name>Clay</name>
@@ -66483,7 +66484,7 @@ $ pyenv update
     <contributor>
       <name>Clay</name>
     </contributor>
-    <published>2021-06-08T07:36:45.000Z</published>
+    <published>2021-05-11T03:54:51.000Z</published>
     <rights>Copyright by Clay</rights>
   </entry>
   <entry>
