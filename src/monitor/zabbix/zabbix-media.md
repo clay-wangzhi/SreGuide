@@ -16,6 +16,10 @@ tags:
 
 ### 添加钉钉报警
 
+推荐文章
+
+[Zabbix使用JavaScript配置Webhook发送告警通知](https://mp.weixin.qq.com/s/MazDZsJlXtkZc_xICLKt7Q)
+
 ![image-20200115103302741](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200115103302741.png)
 
 图中Script内容如下
@@ -60,8 +64,6 @@ try {
  
 return JSON.stringify(result);
 ```
-
-这个webhook添加钉钉报警，多亏了我的对象，香香大人，谢谢她！
 
 >参考官方文档：https://www.zabbix.com/documentation/current/manual/config/notifications/media/webhook
 
