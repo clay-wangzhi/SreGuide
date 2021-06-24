@@ -10,6 +10,7 @@ module.exports = {
     "/automate/ansible/": require("./automate/ansible"),
     "/automate/jenkins/": require("./automate/jenkins"),
     "/web/nginx/": require("./web/nginx"),
+    "/web/django/": require("./web/django"),
     "/monitor/zabbix/": require("./monitor/zabbix"),
     "/monitor/elk/": require("./monitor/elk"),
     "/db/mysql/": require("./db/mysql"),

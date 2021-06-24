@@ -53,6 +53,7 @@ module.exports = {
       items: [
         { text: "Nginx", icon: "nginx", link: "/web/nginx/" },
         { text: "Tomcat", icon: "tomcat", link: "/web/tomcat/" },
+        {text: "Django", icon: "django", link: "/web/django/"},
       ],
     },
     {
