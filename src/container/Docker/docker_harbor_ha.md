@@ -75,11 +75,11 @@ harbor官方默认提供主从复制的方案来解决镜像同步问题，通�
 
 | 软件           | 版本    |
 | -------------- | ------- |
-| Docker         | 19.03.8 |
-| docker-compose | 1.25.5  |
-| Harbor         | 1.10.2  |
+| Docker         | 20.10.7 |
+| docker-compose | 1.27.4  |
+| Harbor         | 2.2.3   |
 | Nginx          | 1.14.0  |
-| PostgreSQL     | 9.6.17  |
+| PostgreSQL     | 9.6.22  |
 | Redis          | 3.2.12  |
 
 - 演示环境网络
@@ -97,87 +97,73 @@ harbor官方默认提供主从复制的方案来解决镜像同步问题，通�
 
 ## 多实例共享后端存储 部署
 
-### Docker
+### 安装Docker和Docker Compose
 
-1）安装依赖包：
+1. 安装配置Docker
 
-```bash
-yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
-```
+   使用官方脚本安装 Docker
 
-2）官方一键脚本安装
+   ```bash
+   curl -fsSL "https://get.docker.com/" | bash -s -- --mirror Aliyun
+   ```
 
-```bash
-curl -fsSL get.docker.com -o get-docker.sh
-sh get-docker.sh --mirror Aliyun
-```
+   加载br_netfilter
 
-3）添加内核参数
+   ```bash
+   modprobe br_netfilter
+   ```
 
-```bash
-tee -a /etc/sysctl.conf <<-EOF
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-```
+   设置下系统内核参数
 
-将`net.ipv4.ip_forward`赋值为`1`
+   ```bash
+   cat<<EOF > /etc/sysctl.d/docker.conf
+   # 要求iptables不对bridge的数据进行处理
+   net.bridge.bridge-nf-call-ip6tables = 1
+   net.bridge.bridge-nf-call-iptables = 1
+   net.bridge.bridge-nf-call-arptables = 1
+   # 开启转发
+   net.ipv4.ip_forward = 1
+   EOF
+   sysctl -p /etc/sysctl.d/docker.conf
+   ```
 
-然后刷新内核参数
+   > :warning: 慎用`sysctl --system`命令，如果参数在不同文件中设置，会有优先级问题，目前看来`/etc/sysctl.conf`的优先级最高
 
-```
-sysctl -p
-```
+   配置docker镜像站
 
-4）修改Docker仓库为国内镜像站
+   ```bash
+   curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
+   ```
 
-```bash
-curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s https://pclhthp0.mirror.aliyuncs.com
-```
+   启动docker服务
 
-5）启动Docker
+   ```bash
+   systemctl enable docker && systemctl start docker
+   ```
 
-```bash
-systemctl enable docker && systemctl start docker
-```
+2. 安装配置Docker Compose
+
+   [compose](https://github.com/docker/compose/releases)是Docker提供的一个命令行工具，用来定义和运行由多个容器组成的应用。使用compose，我们可以通过YAML文件声明式的定义应用程序的各个服务，并由单个命令完成应用的创建和启动。
+
+   二进制方式 安装Docker Compose
+
+   ```bash
+   curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+   chmod +x /usr/local/bin/docker-compose
+   ```
 
 
+   配置bash补全命令，重新连接终端即生效
 
-### Compose
+   ```bash
+   curl -L https://raw.githubusercontent.com/docker/compose/1.27.4/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+   ```
 
-[compose](https://github.com/docker/compose/releases)是Docker提供的一个命令行工具，用来定义和运行由多个容器组成的应用。使用compose，我们可以通过YAML文件声明式的定义应用程序的各个服务，并由单个命令完成应用的创建和启动。
+   > 如果网络不可达，可先下载到本地，然后上传到内网ftp服务器上，进行下载，以下是笔者自己的内网ftp下载地址
 
-由于国内政策原因，可能在海外网站上下载文件速度较慢，建议下载本地后上传至服务器
-
-1）下载`docker-compose`并赋予可执行权限
-
-```bash
-# curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-# chmod +x /usr/local/bin/docker-compose
-```
-
-```bash
-cd /usr/local/bin
-scp 192.168.166.96:/usr/local/bin/docker-compose .
-```
-
-> 注意：由于我其他服务器已经存在，所以我直接拷贝了
-
-2）安装bash补全命令
-
-```bash
-# curl -L https://raw.githubusercontent.com/docker/compose/1.24.1/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
-```
-
-```
-scp 192.168.166.96:/etc/bash_completion.d/docker-compose /etc/bash_completion.d/
-```
-
-重新连接终端即生效
-
-> 注意：由于我其他服务器已经存在，所以我直接拷贝了
+   ```bash
+   curl -L ftp://192.168.166.21/docker-compose > /etc/bash_completion.d/docker-compose
+   ```
 
 ### NFS
 
@@ -319,26 +305,21 @@ psql -h 192.168.166.203 -p 5432 -U postgres
 
 1. 在postgresql所在服务器，先启动一套harbor环境
 
-简要步骤如下：
+   简要步骤如下：
 
-```
-# yum install -y yum-utils   device-mapper-persistent-data   lvm2
-# curl -fsSL get.docker.com -o get-docker.sh
-# sh get-docker.sh --mirror Aliyun
-#curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s https://pclhthp0.mirror.aliyuncs.com
-# systemctl enable docker && systemctl start docker
-# cd /usr/local/bin
-# scp 192.168.166.96:/usr/local/bin/docker-compose .
-# scp 192.168.166.96:/etc/bash_completion.d/docker-compose /etc/bash_completion.d/
-# cd ~
-# scp 192.168.166.96:/root/harbor-offline-installer-v1.10.2.tgz .
-# tar -xvf harbor-offline-installer-v1.10.2.tgz -C /usr/local/
-# cd /usr/local/harbor/
-# vim harbor.yml ###修改hostname: 192.168.166.203  ####注释掉https段即可
-# ./prepare 
-# ./install.sh 
-# docker-compose up -d
-```
+   ```shell
+   curl -fsSL "https://get.docker.com/" | bash -s -- --mirror Aliyun
+   systemctl enable docker && systemctl start docker
+   curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+   chmod +x /usr/local/bin/docker-compose
+   wget https://github.com/goharbor/harbor/releases/download/v2.2.3/harbor-offline-installer-v2.2.3.tgz
+   tar -xvf harbor-offline-installer-v2.2.3.tgz -C /usr/local/
+   cd /usr/local/harbor/
+   cp harbor.yml.tmpl harbor.yml
+   vim harbor.yml ###修改hostname: 192.168.166.203  ####注释掉https段即可
+   ./prepare
+   ./install.sh
+   ```
 
 2. 进入harbor-db容器导出相关表及数据
 
@@ -402,22 +383,22 @@ redis-cli
 
 1）下载
 
-```bash
-cd ~
-scp 192.168.166.96:/root/harbor-offline-installer-v1.10.2.tgz .
+```shell
+wget https://github.com/goharbor/harbor/releases/download/v2.2.3/harbor-offline-installer-v2.2.3.tgz
 ```
 
 2）解压
 
-```bash
-tar -xvf harbor-offline-installer-v1.10.2.tgz -C /usr/local/
+```shell
+tar -xvf harbor-offline-installer-v2.2.3.tgz -C /usr/local/
 ```
 
 3）修改配置文件
 
-```
-# cd /usr/local/harbor/
-# vim harbor.yml 
+```shell
+cd /usr/local/harbor/
+cp harbor.yml.tmpl harbor.yml
+vim harbor.yml
 ```
 
 修改的内容有
@@ -461,13 +442,6 @@ external_database:
     ssl_mode: disable
     max_idle_conns: 2
     max_open_conns: 0
-  clair:
-    host: 192.168.166.203
-    port: 5432
-    db_name: clair
-    username: postgres
-    password: postgres
-    ssl_mode: disable
   notary_signer:
     host: 192.168.166.203
     port: 5432
@@ -483,13 +457,14 @@ external_database:
     password: postgres
     ssl_mode: disable
 external_redis:
-  host: 192.168.166.245
-  port: 6379
+  host: 192.168.166.245:6379
   password:
   registry_db_index: 1
   jobservice_db_index: 2
   chartmuseum_db_index: 3
-  clair_db_index: 4
+  trivy_db_index: 5
+  idle_timeout_seconds: 30
+
 proxy:
   http_proxy:
   https_proxy:
@@ -497,7 +472,7 @@ proxy:
   components:
     - core
     - jobservice
-    - clair
+    - trivy
 ```
 
 4）生成harbor运行的必要文件（环境）以及`docker-compose.yml`文件；执行后会通过网络获取Docker Image，建议提前修改好国内镜像站加速。
@@ -512,18 +487,15 @@ proxy:
 ./install.sh 
 ```
 
+> :warning:  初识密码已存在 PostgreSQL 中，记得登录先 更改为复杂密码
+
 ### Nginx
 
-1）安装nginx
-
-安装可以参考https://wiki.clay-wangzhi.com/7-nginx/1.-chu-shi-nginx#4-bian-yi-an-zhuang-nginx
-
-这里我就不再详细讲了
+1）安装nginx（略）
 
 2）编写配置文件
 
 ```nginx
-# cat harbor.schengle.com.conf 
 upstream harbor {
     ip_hash;
     server 192.168.166.81:80;
@@ -536,7 +508,7 @@ server {
 }
 server {
     listen  443 ssl;
-    server_name harbor.schengle.com;
+    server_name xxx.xxx.com;
     
     ssl_certificate ***.crt;
     ssl_certificate_key ***.key;
@@ -545,7 +517,6 @@ server {
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        #proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto https;
         proxy_redirect off;
         proxy_ssl_verify off;
@@ -557,7 +528,6 @@ server {
     location /v2/ {
         proxy_pass http://harbor/v2/;
 		proxy_redirect default;
-        #proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -581,4 +551,4 @@ nginx -s reload
 >
 > https://juejin.im/post/5d973e246fb9a04dfa0963fb#heading-18
 >
-> https://mp.weixin.qq.com/s?__biz=MzU5Mzg4NTYyOA==&mid=2247483698&idx=1&sn=79db67ba94f7de4a681f5827b32495c3&chksm=fe08e1e1c97f68f79ce3c1de437d25a0262acdf6e50295d7b05f25fd9090c05ae17547f582c9&mpshare=1&scene=24&srcid=0426o4pE2rlbV9jiC0uU7bbf&sharer_sharetime=1587898963958&sharer_shareid=9b928482ebeb2f07e6828859301773b2&key=0c8b8599c39815a077ababf632218cf4dd47c3300ac756d5d1f91cab59a40607f01f1490e733f7642923a35122555c5af376a556d629fd23b6d57045ab998c4c8ef4c0069aaa95360699b46822a279da&ascene=1&uin=MjIyMjY5MjcyMg%3D%3D&devicetype=Windows+10&version=62080079&lang=zh_CN&exportkey=ATu2VmD5qWBN%2BODgGFu%2BLRg%3D&pass_ticket=UKe3uNkZN8oXGdb8m9nzjnYYPVa%2B6oSRKUVpiOMdQ%2BemAGGjU653K0yx2yLVIF6J
+> https://mp.weixin.qq.com/s/h2fXmKeQeAkKLjUhd8sUBg

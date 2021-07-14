@@ -204,9 +204,11 @@ $ helm delete prometheus-operator -n monitoring
 {{ end }}
 ```
 
-跑通 PrometheusAlert 后，修改 values.yaml 配置温江
+跑通 PrometheusAlert 后，修改 values.yaml 配置文件
 
 ![image-20210713205650167](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210713205650167.png)
+
+注释掉一个etcd alert rules `templates/prometheus/rules/etcd.yaml`和`templates/prometheus/rules-1.14/etcd.yaml`文件，不确定是误报还是bug，etcdHighNumberOfFailedGRPCRequests
 
 * 升级
 
