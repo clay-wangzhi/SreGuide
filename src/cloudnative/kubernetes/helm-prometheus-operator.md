@@ -67,7 +67,7 @@ cp values.yaml{,.bak}
 
   ![image-20200721112626079](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200721112626079.png)
 
-  ![image-20200721112701363](C:\Github\kubernetes-handbook\new_install\upload\image-20200721112701363.png)
+  ![image-20200721112701363](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200721112701363.png)
 
 * 修改Scheduler
 
@@ -75,7 +75,7 @@ cp values.yaml{,.bak}
 
 * 修改Proxy
 
-  ![image-20200721113147517](C:\Github\kubernetes-handbook\new_install\upload\image-20200721113147517.png)
+  ![image-20200721113147517](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-2020072111314751.png)
 
 * 暴露服务，将`grafana、prometheus、alertmanager`中service的暴露方式改为`NodePort`
 
