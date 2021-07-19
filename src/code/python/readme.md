@@ -1,4 +1,6 @@
 ---
+sticky: 53
+star: 53
 category: Python
 ---
 # Python 学习笔记
