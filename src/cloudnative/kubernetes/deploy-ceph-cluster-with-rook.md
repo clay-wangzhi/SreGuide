@@ -218,6 +218,88 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
   * 解决办法：
 
     因为自己编写了 pool 和 sc，直接 apply 官方的 rbd 目录里的 stoageclass.yaml
+  
+* 错误三
+
+  * 错误信息：
+
+    ```shell
+    $ ceph -s
+      cluster:
+        id:     f1731b79-1e9e-447e-9bc4-36b834c19582
+        health: HEALTH_WARN
+                mons are allowing insecure global_id reclaim
+    
+      services:
+        mon: 3 daemons, quorum bxpp-master-1,bxpp-worker-1,bxpp-worker-2 (age 25m)
+        mgr: bxpp-worker-1(active, since 17m), standbys: bxpp-master-1, bxpp-worker-2
+        mds: cephfs:1 {0=bxpp-master-1=up:active} 2 up:standby
+        osd: 3 osds: 3 up (since 16m), 3 in (since 16m)
+        rgw: 3 daemons active (bxpp-master-1.rgw0, bxpp-worker-1.rgw0, bxpp-worker-2.rgw0)
+    
+      task status:
+        scrub status:
+            mds.bxpp-master-1: idle
+    
+      data:
+        pools:   6 pools, 168 pgs
+        objects: 211 objects, 4.1 KiB
+        usage:   328 MiB used, 15 GiB / 15 GiB avail
+        pgs:     168 active+clean
+    ```
+
+  * 错误原因：低版本bug
+
+  * 解决办法：
+
+    升级版本
+
+    或者直接禁用掉此设置（测试环境可）
+
+    ```shell
+    ceph config set mon mon_warn_on_insecure_global_id_reclaim_allowed false
+    ceph config set mon auth_allow_insecure_global_id_reclaim false
+    ```
+
+* 错误四
+
+  * 错误信息：
+
+    ```shell
+    # ceph -s 
+      cluster:
+        id:     dd1a1ab2-0f34-4936-bc09-87bd40ef5ca0
+        health: HEALTH_WARN
+                Degraded data redundancy: 183/4019 objects degraded (4.553%), 15 pgs degraded, 16 pgs undersized
+     
+      services:
+        mon: 3 daemons, quorum k8s-01,k8s-02,k8s-03
+        mgr: k8s-01(active)
+        mds: cephfs-2/2/2 up  {0=k8s-01=up:active,1=k8s-03=up:active}, 1 up:standby
+        osd: 5 osds: 5 up, 5 in
+        rgw: 3 daemons active
+     
+      data:
+        pools:   6 pools, 288 pgs
+        objects: 1.92 k objects, 1020 MiB
+        usage:   7.5 GiB used, 342 GiB / 350 GiB avail
+        pgs:     183/4019 objects degraded (4.553%)
+                 272 active+clean
+                 15  active+undersized+degraded
+                 1   active+undersized
+    ```
+
+  * 错误原因：这个状态降级的集群可以正常读写数据，undersized是当前存活的PG副本数为2，小于副本数3.将其做此标记，表明存数据副本数不足。
+
+  * 解决办法：
+
+    设置存储池的副本数为2
+
+    ```shell
+    ceph osd  pool set default.rgw.log size 2
+    ```
+
+    
 
 ## 参考链接
 
@@ -228,4 +310,6 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 * [共享文件系统 | rook 官网](https://rook.io/docs/rook/v1.6/ceph-filesystem.html)
 * [Ceph Rook Install | shileizcc](https://wiki.shileizcc.com/confluence/display/CEPH/Ceph+Rook+Install)
 * [使用 Rook 快速搭建 Ceph 集群 | 阳明](https://www.qikqiak.com/post/deploy-ceph-cluster-with-rook/)
+* [Ceph问题处理 | dylanyang](https://dylanyang.top/post/2021/04/25/ceph%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/)
+* [ceph集群故障运维 | 大专栏](https://www.dazhuanlan.com/2019/08/29/5d66a8f505b40/)
 
