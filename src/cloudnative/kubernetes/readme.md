@@ -52,7 +52,7 @@ tags:
 
 [kubeasz](https://github.com/easzlab/kubeasz)
 
-[alibaba](https://github.com/alibaba)/[sealer](https://github.com/alibaba/sealer)
+[sealer](https://github.com/alibaba/sealer)
 
 
 
