@@ -7,4 +7,6 @@ module.exports = [
   "namespace-stuck-as-terminating-how-do-i-remove-it",
   "kubesphere-prometheus",
   "cni",
+  "taint-and-toleration",
+  "resource-requests-and-limits",
 ]
