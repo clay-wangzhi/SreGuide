@@ -1,3 +1,9 @@
+---
+category: 云原生
+tags:
+  - Kubernetes
+---
+
 # Kubernetes 污点 Taint 和容忍 Toleration
 
 > 转载自：[Kubernetes 污点 Taint 和容忍 Toleration | 超级小豆丁](http://www.mydlq.club/article/69/)
