@@ -1,0 +1,24 @@
+filebeat.inputs:
+- type: udp
+  enabled: true
+  host: "0.0.0.0:514"
+  fields:
+    type: h5ycgdljhd
+
+processors:
+  - decode_json_fields:
+      fields: ['message']
+      target: ""
+      overwrite_keys: true
+  - drop_fields:
+     fields: ["host.name"]
+     ignore_missing: false
+
+output.elasticsearch:
+  hosts: ["http://192.168.167.234:9200","http://192.168.167.175:9200","http://192.168.167.204:9200"]
+  indices:
+    - index: "h5-ycgdljhd"
+setup.ilm.enabled: true
+setup.ilm.policy_name: "h5-ycgdljhd"
+setup.ilm.rollover_alias: "h5-ycgdljhd"
+
