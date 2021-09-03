@@ -1,6 +1,7 @@
 module.exports = [
   "",
   "redis-slave",
+  "redis-sentinel",
   "server-client",
   {
     title: "数据库操作",
