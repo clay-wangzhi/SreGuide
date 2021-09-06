@@ -29,9 +29,71 @@ VRRP全称Virtual Router Redundancy Protocol，即[虚拟路由冗余协议](htt
 
 ## mysql主主搭建
 
-在主从的基础上，互换搭建一下就好了
+1. 下载二进制bin文件
 
-不详细介绍
+   ```bash
+   wget https://clay-wangzhi.com/mysql-download/mysql-boost-5.7.20-bin.tar.gz
+   mv mysql-boost-5.7.20-bin.tar.gz /opt/software/
+   ```
+
+2. 下载roles
+
+   ```bash
+   git clone -b dev-clay https://github.com/clay-wangzhi/Ansible-roles.git
+   cp -r Ansible-roles/mysql57/ /etc/ansible/roles/
+   ```
+
+3. 编写playbook执行
+
+   `cat /etc/ansible/playbooks/mysql_replication_ga.yml`
+
+   ```yaml
+   ---
+   - hosts: 172.xx.xx.47
+     roles:
+     - role: 'mysql57'
+       mysql57_port: '3306'
+       mysql57_replication_role: 'master'
+       mysql57_replication_user: {name: 'rep_47', password: '123456'}
+   
+   - hosts: 172.xx.xx.48
+     roles:
+     - role: 'mysql57'
+       mysql57_port: '3306'
+       mysql57_replication_role: 'master'
+       mysql57_replication_user: {name: 'rep_48', password: '123456'}
+   
+   
+   - hosts: 172.xx.xx.47
+     roles:
+     - role: 'mysql57'
+       mysql57_port: '3306'
+       mysql57_auto_increment_offset: '1'
+       mysql57_auto_increment_increment: '2'
+       mysql57_replication_role: 'slave' # 指定为slave角色
+       mysql57_replication_master: '172.xx.xx.48'
+       mysql57_replication_master_port: '3306'
+       mysql57_replication_user: {name: 'rep_48', password: '123456'}
+   
+   - hosts: 172.xx.xx.48
+     roles:
+     - role: 'mysql57'
+       mysql57_port: '3306'
+       mysql57_auto_increment_offset: '2'
+       mysql57_auto_increment_increment: '2'
+       mysql57_replication_role: 'slave' # 指定为slave角色
+       mysql57_replication_master: '172.xx.xx.47'
+       mysql57_replication_master_port: '3306'
+       mysql57_replication_user: {name: 'rep_47', password: '123456'}
+   ```
+
+   执行playbook
+
+   ```bash
+   ansible-playbook mysql_replication_ga.yml
+   ```
+
+   
 
 
 
