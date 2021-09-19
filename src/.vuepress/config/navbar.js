@@ -25,6 +25,7 @@ module.exports = {
       icon: "yunyuanshengpingtai",
       items: [
         { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
+        { text: "etcd", icon: "icon_etcd", link: "/cloudnative/etcd/" },
         { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
       ],
     },
@@ -45,6 +46,7 @@ module.exports = {
         { text: "Gitlab", icon: "gitlab", link: "/automate/gitlab/" },
         { text: "Jenkins", icon: "jenkins", link: "/automate/jenkins/" },
         { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
+        { text: "Jumpserver", icon: "server", link: "/automate/jumpserver/" },
       ],
     },
     {

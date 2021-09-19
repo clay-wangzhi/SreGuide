@@ -38,6 +38,8 @@ tags:
 
 [张馆长的博客](https://zhangguanzhang.github.io/)
 
+[徐亚松的博客](http://www.xuyasong.com/?page_id=1827)
+
 [YP小站](https://www.yp14.cn/tags/kubernetes/)
 
 

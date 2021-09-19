@@ -23,6 +23,12 @@ category: Linux
 
 
 
+## QA
+
+[Unix & Linux](https://unix.stackexchange.com/) :star:
+
+
+
 ## linux简介
 
 GNU/Linux 的历史
