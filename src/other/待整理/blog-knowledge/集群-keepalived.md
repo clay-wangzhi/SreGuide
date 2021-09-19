@@ -33,7 +33,7 @@ keepalived可提供vrrp以及health-check功能，可以只用它提供双机浮
 
 下图是keepalived的组件图
 
-![](/images/keepalived1.png)
+![](images/keepalived1.png)
 
 keepalived也是模块化设计，不同模块负责不同的功能，它主要有三个模块，分别是core、check和VRRP，其中：
 
