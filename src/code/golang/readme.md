@@ -20,5 +20,7 @@ category: Golang
 
 [Go入门指南](https://fuckcloudnative.io/the-way-to-go/) :star:
 
+[Go 语言设计与实现](https://draveness.me/golang/#go-语言设计与实现)
+
 
 
