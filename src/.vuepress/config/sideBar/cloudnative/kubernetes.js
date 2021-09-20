@@ -10,4 +10,5 @@ module.exports = [
   "taint-and-toleration",
   "resource-requests-and-limits",
   "k8s-w",
+  "nodelocaldns",
 ]

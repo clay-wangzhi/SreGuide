@@ -1,3 +1,4 @@
 module.exports = [
   "",
+  "etcd-first",
 ]

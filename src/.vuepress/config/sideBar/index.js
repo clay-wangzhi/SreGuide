@@ -13,6 +13,7 @@ module.exports = {
     "/automate/jenkins/": require("./automate/jenkins"),
     "/automate/jumpserver/": require("./automate/jumpserver"),
     "/web/nginx/": require("./web/nginx"),
+    "/web/tomcat/": require("./web/tomcat"),
     "/web/django/": require("./web/django"),
     "/monitor/zabbix/": require("./monitor/zabbix"),
     "/monitor/elk/": require("./monitor/elk"),

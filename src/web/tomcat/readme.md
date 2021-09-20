@@ -40,7 +40,7 @@ tar -xvf apache-tomcat-8.5.23.tar.gz
 
 catalina.sh、shutdown.sh、startup.sh、version.sh
 
-![](images/tomcat1.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/tomcat1.png)
 
 catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等
 
@@ -68,7 +68,7 @@ version是查看tomcat的版本信息
 
 当安装以及启动tomcat后，测试是否成功启动，可以访问网页进行测试，默认端口为8080
 
-![](images/tomcat2.png)
+![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/tomcat2.png)
 
 
 
