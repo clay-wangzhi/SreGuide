@@ -616,6 +616,12 @@ JinJa2 内置了50多个筛选器函数，Ansible 自身也扩展了一些方便
 
 详解；略
 
+> Qa: template error while templating string: no filter named 'failed'
+>
+> Using tests as filters was deprecated in Ansible 2.5 and removed in 2.9.  
+>
+> 可以将 | 替换为 is
+
 ### Ansible 扩展的 Filter
 
 #### 类型转换类筛选器
