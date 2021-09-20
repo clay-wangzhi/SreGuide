@@ -6,7 +6,7 @@ tags:
 
 # 如何在Docker容器中运行Docker [3种方法]
 
-> 转载自：[如何在Docker容器中运行Docker [3种方法]](https://cloud.tencent.com/developer/article/1697053)
+> 转载自：[如何在Docker容器中运行Docker 3种方法](https://cloud.tencent.com/developer/article/1697053)
 
 在本博客中，我将向您介绍在docker中运行docker所需的三种不同方法。
 
@@ -109,7 +109,7 @@ docker build -t test-image .
 
 ### **方法2：Docker In Docker**
 
-![dmeba6c1ss](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/dmeba6c1ss.png)![]()
+ ![dmeba6c1ss](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/dmeba6c1ss.png)
 
 此方法实际上在容器内部创建一个子容器。仅当您确实要在容器中包含容器和图像时才使用此方法。否则，我建议您使用第一种方法。为此，您只需要使用带有`dind`标签的官方docker镜像即可。该dind映像使用Docker所需的实用程序进行制作以在Docker容器中运行。
 
@@ -135,7 +135,7 @@ docker exec -it dind-test /bin/sh
 
 ### **方法3：使用Sysbox运行时的Docker中的Docker**
 
-![2pof19fepv](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2pof19fepv.png)![img]()
+ ![2pof19fepv](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2pof19fepv.png)
 
 方法1和2在安全方面有一些缺点，因为在特权模式下运行容器。Nestybox尝试通过使用sysbox Docker运行时来解决该问题。
 
