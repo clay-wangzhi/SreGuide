@@ -214,6 +214,18 @@ Pycharm 应该是功能最好的 Python 开发工具，转为 Python 开发而�
 
 有兴趣的话可以试用一下
 
+## 自动加载Python虚拟环境
+
+```shell
+git clone https://github.com/hyperupcall/autoenv.git ~/.autoenv
+echo 'source ~/.autoenv/activate.sh' >> ~/.bashrc
+source ~/.bashrc
+# 在需要切换虚拟环境目录下，添加 .env 配置文件，如
+cd xxx
+echo 'source /opt/python3.7.0/bin/activate' > .env
+source .env
+```
+
 ## 总结
 
 今天主要了解了 Python 虚拟环境的相关概念和工具，并简单描述了实际工作中的一些使用方式，以便能在开发过程中使用。限于篇幅，没法就更多的内容详细展开，需要在实践中多试多用，Just DO It！
