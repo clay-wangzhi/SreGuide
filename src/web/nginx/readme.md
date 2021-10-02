@@ -11,11 +11,13 @@ tags:
 
 ## 推荐教程
 
+[Nginx 极简教程 | dunwu](https://dunwu.github.io/nginx-tutorial/#/)
+
+[OpenResty 最佳实践 | moonbingbing](https://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
+
 [nginx核心知识150讲 | 陶辉 | 极客时间](https://github.com/russelltao/geektime-nginx) :star:
 
 > 以下笔记大部分出自以上教程
-
-
 
 ## 知识体系
 
