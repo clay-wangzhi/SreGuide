@@ -25,3 +25,13 @@ cat /proc/cpuinfo| grep "processor"| wc -l
 cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 ```
 
+**判断当前机器是虚拟机还是物理机**
+
+```bash
+dmidecode -s system-product-name
+VMware Virtual Platform  # 包含virtual字样，为虚拟机
+
+dmidecode -s system-product-name
+PowerEdge R730  # 不包含virtual字样，为物理机
+```
+
