@@ -25,6 +25,14 @@ category: Linux
 
 
 
+## 博客
+
+[CTC的运维学习笔记](https://www.yuque.com/xiaoqingxinchangbuda/dpbrtg)
+
+[LINUX-TUTORIAL](https://dunwu.github.io/linux-tutorial/)
+
+
+
 ## QA
 
 [Unix & Linux](https://unix.stackexchange.com/) :star:
