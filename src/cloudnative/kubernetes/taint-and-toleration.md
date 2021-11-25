@@ -8,6 +8,8 @@ tags:
 
 > 转载自：[Kubernetes 污点 Taint 和容忍 Toleration | 超级小豆丁](http://www.mydlq.club/article/69/)
 
+参考地址：[kubernetes 官方文档 Taint And Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+
 ## 一、介绍
 
 ​    在 Kubernetes 中，节点亲和性 `NodeAffinity` 是 Pod 上定义的一种属性，能够使 `Pod` 按我们的要求调度到某个节点上，而 `Taints`(污点) 则恰恰相反，它是 `Node` 上的一个属性，可以让 Pod 不能调度到带污点的节点上，甚至会对带污点节点上已有的 Pod 进行驱逐。当然，对应的 `Kubernetes` 可以给 `Pod` 设置 `Tolerations`(容忍) 属性来让 `Pod` 能够容忍节点上设置的污点，这样在调度时就会忽略节点上设置的污点，将 `Pod` 调度到该节点。一般时候 `Taints` 通常与 `Tolerations` 配合使用。
@@ -366,7 +368,7 @@ tolerations:
 
 ## 四、其它
 
-### 1、污染驱逐
+### 1、污点驱逐
 
 前面我们提到了污点的 `effect` 可以设置为 NoExecute，它会影响节点上已经运行的 Pod，如下所示：
 
@@ -417,3 +419,27 @@ tolerations:
 > # 也就是说会自动忽略下面这个命令，禁止调度的节点
 > kubectl cordon xxx
 > ```
+
+### 4、设置允许Pod调度到Master节点
+
+查看污点
+
+```bash
+# kubectl describe node st-kubernetes-master-3 | grep  Taints
+Taints:             node-role.kubernetes.io/master=true:NoSchedule
+```
+
+设置允许Pod调度到Master节点
+
+```bash
+# kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master-
+node/st-kubernetes-master-3 untainted
+```
+
+禁止pod调度到master节点
+
+```bash
+# kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master=true:NoSchedule
+node/st-kubernetes-master-3 tainted
+```
+
