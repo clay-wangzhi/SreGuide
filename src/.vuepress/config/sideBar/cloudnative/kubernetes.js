@@ -11,5 +11,6 @@ module.exports = [
   "resource-requests-and-limits",
   "k8s-w",
   "nodelocaldns",
-  "cordon-drain-delete"
+  "cordon-drain-delete",
+  "etcd-restore",
 ]
