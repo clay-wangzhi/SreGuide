@@ -4,9 +4,9 @@ tags:
   - Kubernetes
 ---
 
-> 转载自：[Node节点禁止调度（平滑维护）方式- cordon，drain，delete](https://cloud.tencent.com/developer/article/1796315)
-
 # Node节点禁止调度（平滑维护）方式 - cordon，drain，delete
+
+> 转载自：[Node节点禁止调度（平滑维护）方式- cordon，drain，delete](https://cloud.tencent.com/developer/article/1796315)
 
 cordon、drain和delete三个命令都会使node停止被调度，后期创建的pod不会继续被调度到该节点上，但操作的暴力程度却不一样。
 
