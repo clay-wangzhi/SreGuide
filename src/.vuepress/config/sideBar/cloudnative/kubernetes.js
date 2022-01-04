@@ -13,4 +13,5 @@ module.exports = [
   "nodelocaldns",
   "cordon-drain-delete",
   "etcd-restore",
+  "helm",
 ]
