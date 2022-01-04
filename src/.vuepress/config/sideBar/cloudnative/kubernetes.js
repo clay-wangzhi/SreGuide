@@ -14,4 +14,5 @@ module.exports = [
   "cordon-drain-delete",
   "etcd-restore",
   "helm",
+  "ingress-nginx",
 ]
