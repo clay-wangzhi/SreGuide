@@ -16,4 +16,5 @@ module.exports = [
   "helm",
   "ingress-nginx",
   "rancher-install",
+  "kube-prometheus-stack",
 ]
