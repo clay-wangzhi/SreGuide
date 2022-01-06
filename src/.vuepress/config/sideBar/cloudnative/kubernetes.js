@@ -15,4 +15,5 @@ module.exports = [
   "etcd-restore",
   "helm",
   "ingress-nginx",
+  "rancher-install",
 ]

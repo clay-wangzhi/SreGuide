@@ -1,3 +1,9 @@
+---
+category: 云原生
+tags:
+  - Kubernetes
+---
+
 # Ingress
 
 对外暴露集群服务
