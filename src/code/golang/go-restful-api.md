@@ -279,3 +279,41 @@ curl -X POST -d 'name=无尘' http://localhost:8080/users
 ```
 
 可以看到，新增用户成功，且返回了新增的用户及分配的 ID。
+
+## 使用gin接受post的json数据
+
+### 第一种
+
+```go
+func Login(c *gin.Context) {
+	json := make(map[string]interface{}) //注意该结构接受的内容
+	c.BindJSON(&json)
+	log.Printf("%v",&json)
+	c.JSON(http.StatusOK, gin.H{
+		"name": json["name"],
+		"password": json["password"],
+	})
+}
+```
+
+### 第二种
+
+```go
+type User struct {
+	Name string `json:"name"`
+	Password int64 `json:"password"`
+}
+func Login(c *gin.Context) {
+	json := User{}
+
+	c.BindJSON(&json)
+
+	log.Printf("%v",&json)
+	c.JSON(http.StatusOK, gin.H{
+		"name": json.Name,
+		"password": json.Password,
+
+	})
+}
+```
+
