@@ -22,7 +22,7 @@ type Member struct {
     name, email string
     gender, age int
 }
-复制代码
+
 ```
 
 上面的代码中，我们定义了一个包含5个字段的结构体，可以看到，相同类型`name`和`email`、`gender`和`age`在同一行中定义，但比较好的编程习惯是每一行只定义一个字段,如：
@@ -35,7 +35,7 @@ type Member struct {
     gender int
     age    int
 }
-复制代码
+
 ```
 
 当然，结构体也可以不包含任何字段，称为`空结构体`，struct{}表示一个空的结构体，注意，直接定义一个空的结构体并没有意义，但在并发编程中，channel之间的通讯，可以使用一个struct{}作为信号量。
@@ -43,7 +43,7 @@ type Member struct {
 ```
 ch := make(chan struct{})
 ch <- struct{}{}
-复制代码
+
 ```
 
 ## 使用
@@ -54,7 +54,7 @@ ch <- struct{}{}
 
 ```
 var m1 Member//所有字段均为空值
-复制代码
+
 ```
 
 > 使用字面量创建变量，这种使用方式，可以在大括号中为结构体的成员赋初始值，有两种赋初始值的方式，一种是按字段在结构体中的顺序赋值，下面代码中`m2`就是使用这种方式，这种方式要求所有的字段都必须赋值，因此如果字段太多，每个字段都要赋值，会很繁琐，另一种则使用字段名为指定字段赋值，如下面代码中变量`m3`的创建，使用这种方式，对于其他没有指定的字段，则使用该字段类型的零值作为初始化值。
@@ -62,7 +62,7 @@ var m1 Member//所有字段均为空值
 ```
 var m2 = Member{1,"小明","xiaoming@163.com",1,18} // 简短变量声明方式：m2 := Member{1,"小明","xiaoming@163.com",1,18}
 var m3 = Member{id:2,"name":"小红"}// 简短变量声明方式：m3 := Member{id:2,"name":"小红"}
-复制代码
+
 ```
 
 ### 访问字段
@@ -77,7 +77,7 @@ fmt.Println(m3.name)//输出：小花
 age := &m3.age
 *age = 20
 fmt.Println(m3.age)//20
-复制代码
+
 ```
 
 ### 指针结构体
@@ -95,7 +95,7 @@ m1.name = "小明"//错误用法，未初始化,m1为nil
 m1 = &Member{}
 m1.name = "小明"//初始化后，结构体指针指向某个结构体地址，才能访问字段，为字段赋值。 
 
-复制代码
+
 ```
 
 另外，使用Go内置new()函数，可以分配内存来初始化结构休，并返回分配的内存指针，因为已经初始化了，所以可以直接访问字段。
@@ -103,7 +103,7 @@ m1.name = "小明"//初始化后，结构体指针指向某个结构体地址，
 ```
 var m2 = new(Member)
 m2.name = "小红"
-复制代码
+
 ```
 
 我们知道，如果将结构体转给函数，只是复制结构体的副本，如果在函数内修改结构体字段值，外面的结构体并不会受影响，而如果将结构体指针传给函数，则在函数中使用指针对结构体所做的修改，都会影响到指针指向的结构体。
@@ -120,7 +120,7 @@ func Change(m1 Member,m2 *Member){
     m1.Name = "小明"
     m2.Name = "小红"
 }
-复制代码
+
 ```
 
 ## 可见性
@@ -144,7 +144,7 @@ package main
 fun main(){
     var m = member.Member{1,"小明","xiaoming@163.com",1,18}//会引发panic错误
 }
-复制代码
+
 ```
 
 因此，如果想在一个包中访问另一个包中结构体的字段，则必须是大写字母开头的变量，即可导出的变量，如：
@@ -157,7 +157,7 @@ type Member struct {
     Gender int
     Age    int
 }
-复制代码
+
 ```
 
 ## Tags
@@ -172,7 +172,7 @@ type Member struct {
     Gender int    `json:"gender,"`
     Age    int    `json:"age"`
 }
-复制代码
+
 ```
 
 上面例子演示的是使用encoding/json包编码或解码结构体时使用的Tag信息。
@@ -181,7 +181,7 @@ Tag由反引号括起来的一系列用空格分隔的key:"value"键值对组成
 
 ```
 Id int `json:"id" gorm:"AUTO_INCREMENT"`
-复制代码
+
 ```
 
 ## 特性
@@ -214,7 +214,7 @@ func setName(m Member,name string){//普通函数
 func (m Member)setName(name string){//绑定到Member结构体的方法
     m.Name = name
 }
-复制代码
+
 ```
 
 从上面的例子中，我们可以看出，通过`方法接收器`可以访问结构体的字段，这类似其他编程语言中的this关键词，但在Go语言中，只是一个变量名而已，我们可以任意命名`方法接收器`。
@@ -225,7 +225,7 @@ func (m Member)setName(name string){//绑定到Member结构体的方法
 m := Member{}
 m.setName("小明")
 fmt.Println(m.Name)//输出为空
-复制代码
+
 ```
 
 上面的代码中，我们会很奇怪，不是调用setName()方法设置了字段Name的值了吗？为什么还是输出为空呢？
@@ -240,7 +240,7 @@ func (m *Member)setName(name string){/将Member改为*Member
 m := Member{}
 m.setName("小明")
 fmt.Println(m.Name)//小明
-复制代码
+
 ```
 
 方法和字段一样，如果首字母为小写，则只允许在包内可见，在其他包中是无法访问的，因此，如果要在其他包中访问`setName`,则应该将方法名改为`SetName`。
@@ -292,7 +292,7 @@ func main() {
     c.a.Run()
 }
 
-复制代码
+
 ```
 
 可以看到，我们定义Cat结构体时，可以把Animal结构体作为Cat的字段。
@@ -318,7 +318,7 @@ func main(){
     lion.Run()
     fmt.Println(lion.Name)
 }
-复制代码
+
 ```
 
 通过上面例子，可以看到，通过匿名字段组合其他类型，而后访问匿名字段类型所带的方法和字段时，不需要使用叶子属性，非常方便。
