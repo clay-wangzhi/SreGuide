@@ -19,4 +19,5 @@ module.exports = [
   "kube-prometheus-stack",
   "quick-command",
   "kube-reserved",
+  "kubelet-pleg",
 ]
