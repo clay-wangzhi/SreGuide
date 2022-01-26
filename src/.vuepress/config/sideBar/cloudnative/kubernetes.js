@@ -17,4 +17,5 @@ module.exports = [
   "ingress-nginx",
   "rancher-install",
   "kube-prometheus-stack",
+  "quick-command",
 ]
