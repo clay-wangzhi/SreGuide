@@ -18,4 +18,5 @@ module.exports = [
   "rancher-install",
   "kube-prometheus-stack",
   "quick-command",
+  "kube-reserved",
 ]
