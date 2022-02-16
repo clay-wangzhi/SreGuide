@@ -20,8 +20,7 @@ mv linux-amd64/helm /usr/bin/
 设置补全命令
 
 ```bash
-helm completion bash
-# 将输出的文件拷贝到 ``/etc/bash_completion.d/helm.sh`` 文件中
+helm completion bash > /etc/bash_completion.d/helm.sh
 source /etc/bash_completion.d/helm.sh
 ```
 
