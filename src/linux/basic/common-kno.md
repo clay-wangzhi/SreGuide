@@ -35,3 +35,11 @@ dmidecode -s system-product-name
 PowerEdge R730  # 不包含virtual字样，为物理机
 ```
 
+**Linux删除软链接**
+
+```bash
+unlink
+rm -rf ./test_chk_ln
+# 注意目录后面不要跟 / ，会把目录下面的文件删掉
+```
+
