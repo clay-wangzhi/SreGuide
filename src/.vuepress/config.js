@@ -26,6 +26,11 @@ module.exports = config({
     logo: "/lufei.jpg",
     hostname: "https://clay-wangzhi.com",
 
+    algolia: {
+      apiKey: "cf43da1f35591b4990b69b07e96cc954",
+      indexName: "test",
+    },
+
     author: "Clay",
     repo: "https://github.com/clay-wangzhi/wiki",
 	  docsBranch: "master",
