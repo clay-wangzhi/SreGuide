@@ -27,9 +27,9 @@ module.exports = config({
     hostname: "https://clay-wangzhi.com",
 
     algolia: {
-      appId: "ZHF3VCGSSV",
-      apiKey: "dc7ae835e1fc8d7c19c6a5f28acbb5d0",
-      indexName: "blog",
+      appId: "7KISWN5OHG",
+      apiKey: "6c1bbe311321e4d1c0596978f5cabad9",
+      indexName: "clay-wangzhi",
     },
     searchPlaceholder: "搜索...",
 
