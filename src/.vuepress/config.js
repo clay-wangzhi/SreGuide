@@ -27,9 +27,11 @@ module.exports = config({
     hostname: "https://clay-wangzhi.com",
 
     algolia: {
-      apiKey: "cf43da1f35591b4990b69b07e96cc954",
-      indexName: "test",
+      appId: "ZHF3VCGSSV",
+      apiKey: "dc7ae835e1fc8d7c19c6a5f28acbb5d0",
+      indexName: "blog",
     },
+    searchPlaceholder: "搜索...",
 
     author: "Clay",
     repo: "https://github.com/clay-wangzhi/wiki",
