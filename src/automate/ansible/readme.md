@@ -30,7 +30,7 @@ tag:
 
 Hello Ansible~
 
-![](ansible-com-know.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/ansible-com-know.png)
 
 [详细的核心知识点 复习思维导图](https://clay-wangzhi.com/ansible-core-know.png)
 

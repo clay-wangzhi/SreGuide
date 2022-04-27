@@ -82,7 +82,7 @@ docker run -d --name confluence -p 10080:8090 --link postgresdb:db --user root:r
 docker ps # 列出运行的容器
 ```
 
-![](images/docker_ps.png)
+
 
 可以看到 wiki confluence已经启动
 

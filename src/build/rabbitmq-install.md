@@ -16,7 +16,7 @@ tag:
 
 这里下载的版本为21.2
 
-![](images/erlang.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/erlang.png)
 
 下载完后上传到服务器上，安装
 
@@ -28,7 +28,7 @@ yum -y install erlang-21.2-1.el7.centos.x86_64.rpm
 
 从官网下载rpm包并上传到服务器上。[官方下载链接](http://www.rabbitmq.com/install-rpm.html#install-monolithic-from-esl-repository)
 
-![](images/rabbitmq.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rabbitmq.png)
 
 导入签名
 
@@ -106,4 +106,4 @@ rabbitmqctl set_user_tags admin administrator
 
 访问页面，http://ip:15672
 
-![](images/rabbitmq_web.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rabbitmq_web.png)

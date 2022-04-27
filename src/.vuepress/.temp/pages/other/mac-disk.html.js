@@ -40,6 +40,13 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2022-04-27T15:33:00.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
         }
@@ -50,27 +57,32 @@ export const data = {
           "property": "article:tag",
           "content": "Mac"
         }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2022-04-27T15:33:00.000Z"
+        }
       ]
     ]
   },
   "excerpt": "",
   "headers": [],
+  "git": {
+    "createdTime": 1632274971000,
+    "updatedTime": 1651073580000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 2
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 1.37,
     "words": 410
   },
   "filePathRelative": "other/mac-disk.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

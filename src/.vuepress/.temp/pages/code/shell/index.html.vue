@@ -6,7 +6,7 @@
 <p><a href="https://gitter.im/Advanced-Bash-Scripting-Guide-in-Chinese/" target="_blank" rel="noopener noreferrer"><img src="https://badges.gitter.im/gitterHQ/gitter.png" alt="Gitter chat" loading="lazy"><ExternalLinkIcon/></a></p>
 <p>《高级Bash脚本编程指南》Revision 10中文版</p>
 <h2 id="知识体系" tabindex="-1"><a class="header-anchor" href="#知识体系" aria-hidden="true">#</a> 知识体系</h2>
-<p><img src="shell-com-know.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/shell-com-know.png" alt="" loading="lazy"></p>
 <p><a href="https://clay-wangzhi.com/advanced-bash.png" target="_blank" rel="noopener noreferrer">详细的核心知识点 复习思维导图<ExternalLinkIcon/></a></p>
 <h2 id="原著及早期翻译作品" tabindex="-1"><a class="header-anchor" href="#原著及早期翻译作品" aria-hidden="true">#</a> 原著及早期翻译作品</h2>
 <h3 id="原著" tabindex="-1"><a class="header-anchor" href="#原著" aria-hidden="true">#</a> 原著</h3>

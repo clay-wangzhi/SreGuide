@@ -1,5 +1,5 @@
 <template><h1 id="shell" tabindex="-1"><a class="header-anchor" href="#shell" aria-hidden="true">#</a> Shell</h1>
- <img src="images/shell.png" style="zoom:50%;" />
+ <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/shell.png" style="zoom:50%;" />
 <h2 id="青铜" tabindex="-1"><a class="header-anchor" href="#青铜" aria-hidden="true">#</a> 青铜</h2>
 <h3 id="什么时候使用shell" tabindex="-1"><a class="header-anchor" href="#什么时候使用shell" aria-hidden="true">#</a> 什么时候使用shell</h3>
 <ul>

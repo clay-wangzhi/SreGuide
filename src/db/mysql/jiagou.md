@@ -11,20 +11,20 @@ mysql架构分为三层：
 2. 核心层：查询解析，分析，优化，缓存，所有内建函数；存储过程，触发器，视图等
 3. 存储引擎层：存储和提取数据以及事务处理
 
-![](images/1.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1.png)
 
 ### 服务层
 
-​         ![](images/1-1581242308187.png)
+​         ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1-1581242308187.png)
 
 ### 核心层
 
-​         ![](images/1-1581242354457.png)
+​         ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1-1581242354457.png)
 
 ### 存储引擎层
 
-​         ![](images/1-1581242634333.png)
+​         ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1-1581242634333.png)
 
 ## 总图
 
-​         ![](images/1-1581242670762.png)
+​         ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1-1581242670762.png)

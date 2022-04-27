@@ -4,12 +4,12 @@
 <h2 id="安装erlang" tabindex="-1"><a class="header-anchor" href="#安装erlang" aria-hidden="true">#</a> 安装erlang</h2>
 <p>安装<a href="https://github.com/rabbitmq/erlang-rpm" target="_blank" rel="noopener noreferrer">erlang-rpm<ExternalLinkIcon/></a>包，该包经过RabbitMQ官方处理，去掉了一些无用的依赖，只保存运行RabbitMQ所需要的Erlang模块。</p>
 <p>这里下载的版本为21.2</p>
-<p><img src="images/erlang.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/erlang.png" alt="" loading="lazy"></p>
 <p>下载完后上传到服务器上，安装</p>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install erlang-21.2-1.el7.centos.x86_64.rpm
 </code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="安装rabbitmq" tabindex="-1"><a class="header-anchor" href="#安装rabbitmq" aria-hidden="true">#</a> 安装rabbitmq</h2>
 <p>从官网下载rpm包并上传到服务器上。<a href="http://www.rabbitmq.com/install-rpm.html#install-monolithic-from-esl-repository" target="_blank" rel="noopener noreferrer">官方下载链接<ExternalLinkIcon/></a></p>
-<p><img src="images/rabbitmq.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rabbitmq.png" alt="" loading="lazy"></p>
 <p>导入签名</p>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>rpm --import https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
 </code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>安装</p>
@@ -38,5 +38,5 @@ rabbitmqctl add_user admin admin
 </code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>赋予用户管理员角色</p>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>rabbitmqctl set_user_tags admin administrator
 </code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>访问页面，http://ip:15672</p>
-<p><img src="images/rabbitmq_web.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rabbitmq_web.png" alt="" loading="lazy"></p>
 </template>

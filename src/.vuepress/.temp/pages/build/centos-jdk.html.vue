@@ -3,7 +3,7 @@
 <h3 id="yum安装" tabindex="-1"><a class="header-anchor" href="#yum安装" aria-hidden="true">#</a> yum安装</h3>
 <p>yum 查询可以安装的软件</p>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum list | grep jdk
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="/images/jdk1.png" alt="" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/jdk1.png" alt="" loading="lazy"></p>
 <p>根据需求选择版本进行安装</p>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install java-1.8.0-openjdk* 
 </code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="rpm安装" tabindex="-1"><a class="header-anchor" href="#rpm安装" aria-hidden="true">#</a> rpm安装</h3>

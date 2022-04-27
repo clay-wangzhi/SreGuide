@@ -42,6 +42,13 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2021-10-02T00:47:38.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
         }
@@ -51,6 +58,13 @@ export const data = {
         {
           "property": "article:tag",
           "content": "技术博客"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2021-10-02T00:47:38.000Z"
         }
       ]
     ]
@@ -70,22 +84,25 @@ export const data = {
       "children": []
     }
   ],
+  "git": {
+    "createdTime": 1632041649000,
+    "updatedTime": 1633135658000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 3
+      },
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gamil.com",
+        "commits": 1
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 0.98,
     "words": 295
   },
   "filePathRelative": "other/blog.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

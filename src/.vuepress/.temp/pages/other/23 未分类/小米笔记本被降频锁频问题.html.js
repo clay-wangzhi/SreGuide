@@ -30,30 +30,42 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2021-09-19T08:54:09.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2021-09-19T08:54:09.000Z"
         }
       ]
     ]
   },
   "excerpt": "",
   "headers": [],
+  "git": {
+    "createdTime": 1632041649000,
+    "updatedTime": 1632041649000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 1
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 0.12,
     "words": 37
   },
   "filePathRelative": "other/23 未分类/小米笔记本被降频锁频问题.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

@@ -2,7 +2,7 @@
 
 ## 常问知识点
 
-![](tcp-three-four.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/tcp-three-four.png)
 
 ## 问题答案
 

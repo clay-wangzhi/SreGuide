@@ -40,6 +40,13 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2021-09-20T05:23:28.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
         }
@@ -49,6 +56,13 @@ export const data = {
         {
           "property": "article:tag",
           "content": "vim"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2021-09-20T05:23:28.000Z"
         }
       ]
     ]
@@ -68,22 +82,20 @@ export const data = {
       "children": []
     }
   ],
+  "git": {
+    "createdTime": 1632041649000,
+    "updatedTime": 1632115408000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 2
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 0.37,
     "words": 111
   },
   "filePathRelative": "other/vim.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

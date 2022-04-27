@@ -51,8 +51,7 @@ docker run -d --name confluence -p 10080:8090 --link postgresdb:db --user root:r
 <li>检查confluence是否启动</li>
 </ol>
 <div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>docker ps # 列出运行的容器
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="images/docker_ps.png" alt="" loading="lazy"></p>
-<p>可以看到 wiki confluence已经启动</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>可以看到 wiki confluence已经启动</p>
 <ol start="3">
 <li>访问http://IP:10080/ 就可以看到Confluence的配置页面</li>
 </ol>

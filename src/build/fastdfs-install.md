@@ -18,11 +18,11 @@ FastDFS：角色：跟踪服务器(Tracker Server)、存储服务器(Storage Ser
 2. Storage Server: 存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server（高可用），组内的storage server上的数据互为备份
 3. Client:客户端，上传下载数据的服务器
 
-![](images/fastdfs1.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs1.png)
 
 **FastDfs+nginx缓存高可用集群环境流程示意图：**
 
-![](images/fastdfs2.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs2.png)
 
 实验环境机器说明：
 

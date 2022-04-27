@@ -16,7 +16,7 @@ yum 查询可以安装的软件
 yum list | grep jdk
 ```
 
-![](/images/jdk1.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/jdk1.png)
 
 根据需求选择版本进行安装
 

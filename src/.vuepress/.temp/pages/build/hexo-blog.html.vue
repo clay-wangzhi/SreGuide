@@ -1,4 +1,4 @@
-<template><p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="images/blogchongjianfengmian.jpg" alt="" loading="lazy"></p>
+<template><p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/blogchongjianfengmian.jpg" alt="" loading="lazy"></p>
 <!--more-->
 <h2 id="hexo-github的搭建过程2" tabindex="-1"><a class="header-anchor" href="#hexo-github的搭建过程2" aria-hidden="true">#</a> hexo+github的搭建过程2</h2>
 <h3 id="准备安装软件" tabindex="-1"><a class="header-anchor" href="#准备安装软件" aria-hidden="true">#</a> 准备安装软件</h3>

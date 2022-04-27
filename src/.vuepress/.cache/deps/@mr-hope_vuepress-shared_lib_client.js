@@ -65,7 +65,7 @@ init_define_WALINE_LOCALES();
 init_define_DOCSEARCH_OPTIONS();
 init_define_EXTERNAL_LINK_ICON_LOCALES();
 import { useRouteLocale as o, usePageData as a } from "@vuepress/client";
-import "/Users/wangzhi4/Documents/github/vuepress-test/node_modules/@mr-hope/vuepress-shared/lib/client/styles/message.scss";
+import "/Users/wangzhi4/Documents/github/wiki/node_modules/@mr-hope/vuepress-shared/lib/client/styles/message.scss";
 var u;
 var c = { exports: {} };
 var f = c.exports = function() {

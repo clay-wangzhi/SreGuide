@@ -7,9 +7,9 @@
 <li>Storage Server: 存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server（高可用），组内的storage server上的数据互为备份</li>
 <li>Client:客户端，上传下载数据的服务器</li>
 </ol>
-<p><img src="images/fastdfs1.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs1.png" alt="" loading="lazy"></p>
 <p><strong>FastDfs+nginx缓存高可用集群环境流程示意图：</strong></p>
-<p><img src="images/fastdfs2.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs2.png" alt="" loading="lazy"></p>
 <p>实验环境机器说明：</p>
 <table>
 <thead>

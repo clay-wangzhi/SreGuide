@@ -23,7 +23,7 @@ tag:
 
 ## 知识体系
 
-![](shell-com-know.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/shell-com-know.png)
 
 [详细的核心知识点 复习思维导图](https://clay-wangzhi.com/advanced-bash.png)
 

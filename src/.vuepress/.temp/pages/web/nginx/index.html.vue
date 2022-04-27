@@ -8,7 +8,7 @@
 </blockquote>
 <h2 id="知识体系" tabindex="-1"><a class="header-anchor" href="#知识体系" aria-hidden="true">#</a> 知识体系</h2>
 <p>Hello Nginx~</p>
-<p><img src="nginx-com-know.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/nginx-com-know.png" alt="" loading="lazy"></p>
 <p><a href="https://clay-wangzhi.com/nginx-core-know.png" target="_blank" rel="noopener noreferrer">详细的核心知识点 复习思维导图<ExternalLinkIcon/></a></p>
 <h2 id="summary" tabindex="-1"><a class="header-anchor" href="#summary" aria-hidden="true">#</a> Summary</h2>
 <ul>

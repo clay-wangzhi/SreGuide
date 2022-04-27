@@ -46,6 +46,13 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2022-04-27T15:33:00.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
         }
@@ -62,6 +69,13 @@ export const data = {
         {
           "property": "article:published_time",
           "content": "2018-07-27T19:03:00.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2022-04-27T15:33:00.000Z"
         }
       ]
     ]
@@ -87,22 +101,20 @@ export const data = {
       "children": []
     }
   ],
+  "git": {
+    "createdTime": 1632041649000,
+    "updatedTime": 1651073580000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 2
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 2.77,
     "words": 832
   },
   "filePathRelative": "other/待整理/linux命令/每天一个linux命令（33）-du.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

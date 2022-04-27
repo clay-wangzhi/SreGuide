@@ -23,7 +23,7 @@ tag:
 
 Hello Nginx~
 
-![](nginx-com-know.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/nginx-com-know.png)
 
 [详细的核心知识点 复习思维导图](https://clay-wangzhi.com/nginx-core-know.png)
 

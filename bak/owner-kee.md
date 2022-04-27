@@ -15,7 +15,7 @@ VRRP全称Virtual Router Redundancy Protocol，即[虚拟路由冗余协议](htt
 
   Keepalived组件介绍
 
-![wKiom1gVgVqxP0nVAADi2pjRuog301.png](images/wKiom1gVgVqxP0nVAADi2pjRuog301.png)
+![wKiom1gVgVqxP0nVAADi2pjRuog301.png](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/wKiom1gVgVqxP0nVAADi2pjRuog301.png)
 
 * core：keepalived核心组件，主进程的启动和维护，全局配置等。
 

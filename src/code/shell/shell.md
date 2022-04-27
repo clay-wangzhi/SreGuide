@@ -1,6 +1,6 @@
 # Shell
 
- <img src="images/shell.png" style="zoom:50%;" />
+ <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/shell.png" style="zoom:50%;" />
 
 ## 青铜
 

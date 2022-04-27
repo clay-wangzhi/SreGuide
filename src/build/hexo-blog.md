@@ -6,7 +6,7 @@ date: 2016-06-06 14:00:00
 copyright: true
 ---
 
-​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。![](images/blogchongjianfengmian.jpg)
+​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/blogchongjianfengmian.jpg)
 
 <!--more-->
 

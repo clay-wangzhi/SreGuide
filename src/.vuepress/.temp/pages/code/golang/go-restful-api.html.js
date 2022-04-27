@@ -40,8 +40,22 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2022-01-14T03:19:29.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2022-01-14T03:19:29.000Z"
         }
       ]
     ]
@@ -180,22 +194,20 @@ export const data = {
       ]
     }
   ],
+  "git": {
+    "createdTime": 1642129427000,
+    "updatedTime": 1642130369000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 3
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 8.74,
     "words": 2623
   },
   "filePathRelative": "code/golang/go-restful-api.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }

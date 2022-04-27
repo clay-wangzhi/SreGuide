@@ -43,6 +43,13 @@ export const data = {
       [
         "meta",
         {
+          "property": "og:updated_time",
+          "content": "2022-04-27T15:33:00.000Z"
+        }
+      ],
+      [
+        "meta",
+        {
           "property": "og:locale",
           "content": "zh-CN"
         }
@@ -52,6 +59,13 @@ export const data = {
         {
           "property": "article:tag",
           "content": "Kubernetes"
+        }
+      ],
+      [
+        "meta",
+        {
+          "property": "article:modified_time",
+          "content": "2022-04-27T15:33:00.000Z"
         }
       ]
     ]
@@ -158,22 +172,20 @@ export const data = {
       ]
     }
   ],
+  "git": {
+    "createdTime": 1632041649000,
+    "updatedTime": 1651073580000,
+    "contributors": [
+      {
+        "name": "clay-wangzhi",
+        "email": "clay.wangzhi@gmail.com",
+        "commits": 3
+      }
+    ]
+  },
   "readingTime": {
     "minutes": 9.17,
     "words": 2752
   },
   "filePathRelative": "cloudnative/kubernetes/taint-and-toleration.md"
-}
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updatePageData) {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ data }) => {
-    __VUE_HMR_RUNTIME__.updatePageData(data)
-  })
 }
