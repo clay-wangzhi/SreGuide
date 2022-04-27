@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 # 4.2 变量赋值

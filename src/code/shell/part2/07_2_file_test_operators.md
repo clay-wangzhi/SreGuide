@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 # 7.2 文件测试操作

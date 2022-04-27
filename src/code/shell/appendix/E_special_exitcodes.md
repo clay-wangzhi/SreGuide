@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 退出代码 | 表意 | 示例 | 注释

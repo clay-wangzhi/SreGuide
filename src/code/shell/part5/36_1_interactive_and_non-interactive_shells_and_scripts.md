@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 # 36.1 交互和非交互shell以及脚本

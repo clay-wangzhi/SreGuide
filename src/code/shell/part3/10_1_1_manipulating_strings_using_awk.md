@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 # 10.1.1 使用 `awk` 处理字符串

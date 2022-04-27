@@ -1,7 +1,7 @@
 ---
-time: 2020-01-16
+date: 2020-01-16
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -32,9 +32,9 @@ Jenkins 项目产生两个发行线, 长期支持版本 (LTS) 和每周更新版
 
 ## 特点
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-91830c936e5fa651.webp)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/2399048-91830c936e5fa651.webp)
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2399048-0fa91d8b2c207c35.webp)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/2399048-0fa91d8b2c207c35.webp)
 
 - 易于安装，只要把jenkins.war部署到servlet容器，不需要数据库支持
 - 易于配置，所有配置都是通过其提供的web界面实现

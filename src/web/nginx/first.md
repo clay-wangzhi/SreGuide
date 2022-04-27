@@ -1,7 +1,7 @@
 ---
-time: 2020-03-20
+date: 2020-03-20
 category: web中间件
-tags:
+tag:
   - Nginx
 ---
 

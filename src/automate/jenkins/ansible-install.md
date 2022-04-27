@@ -1,7 +1,7 @@
 ---
-time: 2020-01-16
+date: 2020-01-16
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -34,5 +34,3 @@ Publish Over SSH
 DIngDIng
 git-parameter #选项参数增加，git-brach选项
 ```
-
-## 

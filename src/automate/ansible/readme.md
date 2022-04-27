@@ -1,9 +1,9 @@
 ---
 sticky: 51
 star: 51
-time: 2020-03-20
+date: 2020-03-20
 category: 自动化工具
-tags:
+tag:
   - Ansible
 ---
 # Ansible 学习笔记

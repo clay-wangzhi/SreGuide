@@ -1,7 +1,7 @@
 ---
-time: 2019-12-20
+date: 2019-12-20
 category: 自动化工具
-tags:
+tag:
   - Gitlab
 ---
 

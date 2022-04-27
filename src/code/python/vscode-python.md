@@ -1,6 +1,6 @@
 ---
 categroy: Python
-tags:
+tag:
   - vscode
 ---
 

@@ -1,10 +1,10 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
-## echo命令
+# echo命令
 
 * -e 使转义符生效 如:  解释\t \n含义
 * -n 不换行输出

@@ -1,7 +1,7 @@
 ---
 category: 监控
 date: 2020-06-02
-tags:
+tag:
   - grafana
 ---
 

@@ -1,16 +1,16 @@
 {
-  "name": "vuepress-theme-hope-project",
-  "version": "1.0.0",
-  "description": "个人博客",
+  "name": "clay",
+  "version": "2.0.0",
+  "description": "clay'blog",
   "license": "MIT",
   "scripts": {
-    "serve": "vuepress dev src",
-    "cleanServe": "vuepress dev src --no-cache",
-    "build": "vuepress build src",
-	"super:build": "node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build src"
+    "vite-build": "vuepress-vite build src",
+    "vite-serve": "vuepress-vite dev src",
+    "vite-clean-serve": "vuepress-vite dev src --clean-cache"
   },
   "devDependencies": {
-    "vuepress": "1.8.2",
-    "vuepress-theme-hope": "1.16.0"
+    "@vuepress/plugin-docsearch": "2.0.0-beta.38",
+    "vuepress-theme-hope": "2.0.0-beta.36",
+    "vuepress-vite": "2.0.0-beta.38"
   }
 }

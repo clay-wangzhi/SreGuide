@@ -1,7 +1,7 @@
 ---
-time: 2020-01-16
+date: 2020-01-16
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -117,7 +117,7 @@ $ tree .
 
 共享库创建完成后，我们需要让 Jenkins 知道这个共享库，我们可以从 Jenkins 的 Web 页面进行添加。在 Jenkins 首页 -> 系统管理 -> 系统配置，在 `Global Pipeline Libraries` 区域配置共享库：
 
-![Global Pipeline Libraries](https://bxdc-static.oss-cn-beijing.aliyuncs.com/images/20200520174843.png)Global Pipeline Libraries
+![Global Pipeline Libraries](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/20200520174843.png)Global Pipeline Libraries
 
 保存后即可使用配置共享库。接下来新建一个名为 `share-lib-demo` 的流水线项目，在 `Pipeline script` 区域添加如下代码：
 

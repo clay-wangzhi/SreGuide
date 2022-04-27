@@ -1,0 +1,2 @@
+<template><p>下载一个throttlestop，然后安装之后在最下面的BD prochot 选项勾掉不选 点击下面的turn on,解决限频问题</p>
+</template>

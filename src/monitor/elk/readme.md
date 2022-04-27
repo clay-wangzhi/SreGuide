@@ -1,6 +1,6 @@
 ---
 category: 监控
-tags:
+tag:
   - ELK
 ---
 # ELK

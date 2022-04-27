@@ -1,58 +1,55 @@
 ---
-blog: true
 home: true
 icon: home
-title: 博客主页
+title: 主页
 heroImage: /Kubernetes.svg
-heroText: IT外卖小哥
-tagline: Keep Learning
-bgImage: /bg.jpg
-project:
-  - type: link
-    name: linux-command
-    desc: Linux命令大全搜索工具
-    link: https://wangchujiang.com/linux-command/
+heroText: Keep Learning
+heroFullScreen: true
+tagline: 个人笔记，包涵 云原生、监控、自动化运维、Nginx 等相关知识点
+actions:
+  - text: 开始阅读
+    link: /zh/guide/
+    type: primary
 
-  - type: link
-    name: Docker — 从入门到实践
-    desc: 通过实际的DevOps实践，学习和理解Docker技术
-    link: https://vuepress.mirror.docker-practice.com/
+  - text: 配置 🛠
+    link: /zh/config/
 
-  - type: link
-    name: Go语言圣经（中文版）
-    desc: 个人强烈推荐的Go语言书籍
-    link: http://books.studygolang.com/gopl-zh/
+projects:
+  - icon: project
+    name: 项目名称
+    desc: 项目详细描述
+    link: https://你的项目链接
 
-  - type: project
-    name: ansible-roles
-    desc: 含有运维日常部署，应用发布，系统操作等等的 ansible role
-    link: https://github.com/clay-wangzhi/ansible-collection-devops
+  - icon: link
+    name: 链接名称
+    desc: 链接详细描述
+    link: https://链接地址
 
-  - type: book
-    name: 高级 Bash 脚本编程指南
-    link: /code/shell/
+  - icon: book
+    name: 书籍名称
+    desc: 书籍详细描述
+    link: https://你的书籍链接
 
-  - type: article
-    name: Python 学习笔记
-    link: /code/python/
+  - icon: article
+    name: 文章名称
+    desc: 文章详细描述
+    link: https://你的文章链接
 
-  - type: article
-    name: Nginx 学习笔记
-    link: /web/nginx/
+  - icon: friend
+    name: 伙伴名称
+    desc: 伙伴详细介绍
+    link: https://你的伙伴链接
 
-  - type: article
-    name: Ansible 学习笔记
-    link: /automate/ansible/
-  
-  - type: article
-    name: Jenkins 学习笔记
-    link: /automate/jenkins/
+  - icon: /logo.svg
+    name: 自定义项目
+    desc: 自定义详细介绍
+    link: https://你的自定义链接
 
-  - type: article
-    name: ELK 学习笔记
-    link: /monitor/elk/
-
-footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a> | <a href="/about/site/">关于网站</a>'
+footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a>'
 ---
 
-相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/zh/guide/layout/blog/)
+这是一个博客主页。
+
+要使用此布局，你应该在页面前端设置 `layout: Blog` 和 `home: true`。
+
+相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/v2/zh/guide/blog/home/)。

@@ -1,7 +1,7 @@
 ---
-time: 2020-01-16
+date: 2020-01-16
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -13,7 +13,7 @@ tags:
 
 现在我搭建了两台Jenkins来进行说明。IP分别为192.168.9.9和192.168.9.8，现在我在.10上创建一个job，如test，然后进行如下配置
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/g62phjjstk.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/g62phjjstk.jpeg)
 
 现在具体来看下如何将上面的配置的job从192.168.9.10的Jenkins上迁移到192.168.9.8的机器上。
 
@@ -21,11 +21,11 @@ tags:
 
 现在先介绍第一种方式，通过Job Import Plugin方式来进行job的迁移，这种方式比较方便，首先到新的Jenkins上，也就是192.168.9.8上，在192.168.9.8上插件管理里先安装下Job Import Plugin，如下所示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/jf3clczyv2.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/jf3clczyv2.jpeg)
 
 安装完后进入“Manage Jenkins” -> "Configure System"下，找到Job Import Pluguin配置的地方，进行如下设置：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/eug932owyp.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/eug932owyp.jpeg)
 
 **name**: 这个可以任意命名，这里我命名成要拷贝的Jenkins的IP
 
@@ -35,27 +35,27 @@ tags:
 
 设置完后点击保存下，回到Jenkins首页点击Job Import Plugin就可以进行Job的迁移了，如下所示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/uov6bpo6hk.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/uov6bpo6hk.jpeg)
 
 在Job Import Plugin界面，下拉选择刚才添加的配置，然后点击Query按钮就可以搜索出配置的Jenkins下的job了，然后选择需要的job进行迁移导入即可：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/v71i68ivlj.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/v71i68ivlj.jpeg)
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/o6jxwkuuba.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/o6jxwkuuba.jpeg)
 
 因为有时候旧的Jenkins上的插件新Jenkins上未必有，因此可以根据实际情况勾选是否需要安装必要的插件，如上面的截图所示，需不需要覆盖已有的job也根据实际情况勾选下。导入成功会有如下的提示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/sqfvrcd932.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/sqfvrcd932.jpeg)
 
 有了上面的提示后就可以会到新的Jenkins的首页，查看Job有没有成功进入，并进入导入的job查看设置有没有成功的复制过来，如下所示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/7j29p9rg9g.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/7j29p9rg9g.jpeg)
 
 可以看到job及其设置成功的被导入到新的job了。
 
 Job Import Pugin也支持多个job同时拷贝，如果旧的Job里有多个job，如上面的步骤里所示，query出来就有很多job可供选择，只需要勾选多个即可同时进行多个job的导入了。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/dg1ouhsl9j.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/dg1ouhsl9j.jpeg)
 
 ## **Jenkins CLI方式导入**
 
@@ -63,19 +63,19 @@ Job Import Pugin也支持多个job同时拷贝，如果旧的Job里有多个job�
 
 现到旧Jenkins下的Jenkins管理页面找到Jenkins CLI，如下所示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/2yywfzeqrj.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/2yywfzeqrj.jpeg)
 
 点击进入Jenkins CLI，可以看到Jenkins命令行接口提供很多命令可以用来进行Jenkins的相关操作，可以看到有提供了get-job这样一个命令，这个命令可以将job的定义导出到xml的格式到输出流，这样我们可以通过这个命令将旧Jenkins上的job导出到外部文件，然后还可以看到有另外一个命令create-job，这个命令可以根据已有的xml配置文件进行job创建，那我们可以根据从旧job导出的job配置文件做为输入进行job的创建了。
 
 首先在旧的Jenkins上的cli页面点击jenkins-cli.jar就可以下载这个jar到本地，如下所示：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/g1ltwl2a3o.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/g1ltwl2a3o.jpeg)
 
 接着点击下Jenkins右上角的账号，选择Configure，然后点击Show API Token，拷贝token，这个token可以用来进行配置导出的时候做为认证使用
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/u30td2vuwj.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/u30td2vuwj.jpeg)
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/yrwhwenjqe.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/yrwhwenjqe.jpeg)
 
 在jenkins-cli.jar下载的根目录下执行如下命令进行job导出，这里我新建了个job，命名为test4，现在执行下如下命令进行test4这个job配置的导出：
 
@@ -97,7 +97,7 @@ Job Import Pugin也支持多个job同时拷贝，如果旧的Job里有多个job�
 
 执行完上面的命令就可以看到test4.xml文件生成了
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/xf64g5cl00.jpeg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/xf64g5cl00.jpeg)
 
 接着在新的Jenkins下同样先下载下jenkins-cli.jar，然后将上面生成的test4.xml拷贝到新的Jenkins机器下，同样获取下新Jenkins登录账号的API Token和User ID，执行下如下命令就可以进行job导入了
 

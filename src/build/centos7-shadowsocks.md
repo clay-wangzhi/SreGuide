@@ -1,6 +1,6 @@
 ---
 category: 常见服务的搭建
-tags:
+tag:
   - shadowsocks
 ---
 

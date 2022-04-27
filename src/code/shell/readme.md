@@ -3,7 +3,7 @@ sticky: 60
 star: 60
 author: LinuxStory & Clay
 category: Linux
-tags:
+tag:
   - Bash
 ---
 

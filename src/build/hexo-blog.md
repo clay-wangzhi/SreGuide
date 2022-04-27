@@ -1,7 +1,7 @@
 ---
 title: hexo(next)+github博客的搭建
 tag: 博客
-categories: 常见服务的搭建
+category: 常见服务的搭建
 date: 2016-06-06 14:00:00
 copyright: true
 ---

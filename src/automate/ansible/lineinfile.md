@@ -1,11 +1,10 @@
 ---
-time: 2020-03-20
+date: 2020-03-20
 category: 自动化工具
-tags:
-  - Ansible
+tag: Ansible
 ---
 
-# 3.1 Ansible lineinfile模块详解
+# 3.2 Ansible lineinfile模块详解
 
 ## 1 简介
 

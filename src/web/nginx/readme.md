@@ -1,9 +1,9 @@
 ---
 sticky: 52
 star: 52
-time: 2020-03-20
+date: 2020-03-20
 category: web中间件
-tags:
+tag:
   - Nginx
 ---
 
@@ -11,11 +11,11 @@ tags:
 
 ## 推荐教程
 
+[nginx核心知识150讲 | 陶辉 | 极客时间](https://github.com/russelltao/geektime-nginx) :star:
+
 [Nginx 极简教程 | dunwu](https://dunwu.github.io/nginx-tutorial/#/)
 
 [OpenResty 最佳实践 | moonbingbing](https://moonbingbing.gitbooks.io/openresty-best-practices/content/index.html)
-
-[nginx核心知识150讲 | 陶辉 | 极客时间](https://github.com/russelltao/geektime-nginx) :star:
 
 > 以下笔记大部分出自以上教程
 

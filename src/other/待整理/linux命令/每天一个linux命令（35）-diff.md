@@ -1,7 +1,7 @@
 ---
 title: 每天一个linux命令（35）-diff
 tag: linux常用命令
-categories: Linux
+category: Linux
 date: 2018-07-27 19:05:00
 copyright: true
 ---

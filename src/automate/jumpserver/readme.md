@@ -1,6 +1,6 @@
 ---
 category: 自动化工具
-tags:
+tag:
   - jumpserver
 ---
 

@@ -1,13 +1,12 @@
 ---
-time: 2020-03-08
+date: 2020-03-08
 category: web中间件
-tags:
+tag:
   - Tomcat
 ---
 
-# tomcat简介
 
-## Tomcat学习笔记（一）
+# Tomcat 学习笔记
 
 
 
@@ -40,7 +39,7 @@ tar -xvf apache-tomcat-8.5.23.tar.gz
 
 catalina.sh、shutdown.sh、startup.sh、version.sh
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/tomcat1.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/tomcat1.png)
 
 catalina是tomcat的主要脚本，它会执行java命令以调用Tomcat的启动或停止等
 

@@ -1,6 +1,6 @@
 ---
 category: Python
-tags:
+tag:
   - 工作脚本
 ---
 

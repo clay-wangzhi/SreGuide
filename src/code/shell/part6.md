@@ -1,7 +1,7 @@
 ---
 author: Google
 category: Linux
-tags:
+tag:
   - Bash
   - 风格
 ---

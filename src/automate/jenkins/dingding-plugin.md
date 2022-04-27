@@ -1,6 +1,6 @@
 ---
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -24,7 +24,7 @@ tags:
 
    找到 Jenkins 首页 >> 系统管理 >> 钉钉，我的配置如下图
 
-   ![image-20210426164341273](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210426164341273.png)
+   ![image-20210426164341273](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20210426164341273.png)
 
    
 
@@ -113,7 +113,7 @@ def DingdingReq(RobotID, Status) {
 
 找到 Jenkins 首页 >> 系统管理 >> Global Pipeline Libraries，我的配置如下图
 
-![image-20210426171913350](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210426171913350.png)
+![image-20210426171913350](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20210426171913350.png)
 
 
 
@@ -166,7 +166,7 @@ pipeline {
 
  至此完成，构建效果如下图：
 
-![image-20210426172713667](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20210426172713667.png)
+![image-20210426172713667](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20210426172713667.png)
 
 
 

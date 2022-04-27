@@ -1,7 +1,7 @@
 ---
 author: LinuxStory
 category: Linux
-tags:
+tag:
   - Bash
 ---
 # 32 调试
@@ -95,7 +95,9 @@ rm *' '*
 ```
 
 总结一下这个问题脚本的症状:
->1. 由于"syntax error"(语法错误)使得脚本停止运行,2. 或者脚本能够运行, 但是并不是按照我们所期望的那样运行(逻辑错误). 
+>
+1. 由于"syntax error"(语法错误)使得脚本停止运行,
+2. 或者脚本能够运行, 但是并不是按照我们所期望的那样运行(逻辑错误). 
 3. 脚本能够按照我们所期望的那样运行, 但是有烦人的副作用(逻辑炸弹).
 
 
@@ -127,9 +129,12 @@ rm *' '*
 3. 设置选项-n -v -x
 
 	sh -n scriptname不会运行脚本, 只会检查脚本的语法错误. 这等价于把set -n或set -o noexec插入脚本中. 注意, 某些类型的语法错误不会被这种方式检查出来.
-		sh -v scriptname将会在运行脚本之前, 打印出每一个命令. 这等价于把set -v或set -o verbose插入到脚本中.
-		选项-n和-v可以同时使用. sh -nv scriptname将会给出详细的语法检查.
-		sh -x scriptname会打印出每个命令执行的结果, 但只使用缩写形式. 这等价于在脚本中插入set
+	
+	sh -v scriptname将会在运行脚本之前, 打印出每一个命令. 这等价于把set -v或set -o verbose插入到脚本中.
+	
+	选项-n和-v可以同时使用. sh -nv scriptname将会给出详细的语法检查.
+	
+	sh -x scriptname会打印出每个命令执行的结果, 但只使用缩写形式. 这等价于在脚本中插入set
 -x或set -o xtrace.
 
 	把set -u或set -o nounset插入到脚本中, 并运行它, 就会在每个试图使用未声明变量的地方给出一个unbound variable错误信息.

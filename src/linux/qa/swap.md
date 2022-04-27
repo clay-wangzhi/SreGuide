@@ -1,6 +1,6 @@
 ---
 category: Linux
-tags:
+tag:
   - 常见问题
 ---
 

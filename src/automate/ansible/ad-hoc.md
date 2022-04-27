@@ -1,11 +1,11 @@
 ---
-time: 2020-03-20
+date: 2020-03-20
 category: 自动化工具
-tags:
+tag:
   - Ansible
 ---
 
-# 3 Ansible Ad-hoc命令集
+# 3.1 Ansible Ad-hoc 常用命令集
 
 ## 1 Ad-hoc简介
 
@@ -16,11 +16,11 @@ Ad-Hoc（点对点模式）是指ansible下临时执行的一条命令，并且�
 一个ad-hoc命令的执行，需要按以下格式进行执行：
 
 ```sh
-ansible 主机或组 -m 模块名 -a '模块参数'  ansible参数
+ansible 主机或组 -m 模块名 -a '模块参数'  ansible参
 ```
 
 - 主机和组，是在/etc/ansible/hosts 里进行指定的部分，当然动态Inventory 使用的是脚本从外部应用里获取的主机；
-- 模块名，可以通过ansible-doc -l 查看目前安装的模块，默认不指定时，使用的是command模块，具体可以查看/etc/ansible/ansible.cfg 的“#module_name = command ” 部分，默认模块可以在该配置文件中进行修改；
+- 模块名，可以通过ansible-doc -l 看目前安装的模块，默认不指定时，使用的是command模块，具体可以查看/etc/ansible/ansible.cfg 的“#module_name = command ” 部分，默认模块可以在该配置文件中进行修改；
 - 模块参数，可以通过 “ansible-doc -s 模块名” 查看具体的用法及后面的参数；
 - ansible参数，可以通过ansible命令的帮助信息里查看到，这里有很多参数可以供选择，如是否需要输入密码、是否sudo等。
 

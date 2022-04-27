@@ -1,9 +1,9 @@
 ---
 sticky: 50
 star: 50
-time: 2020-01-16
+date: 2020-01-16
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -31,7 +31,7 @@ Jenkins 2.x 实践指南 | 翟之军
 
 ## 知识体系
 
-![](jenkins.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/jenkins.png)
 
 ## Summary
 

@@ -1,6 +1,6 @@
 ---
 category: 自动化工具
-tags:
+tag:
   - Jenkins
 ---
 
@@ -16,9 +16,9 @@ Command-line Pipeline Linter(https://jenkins.io/doc/book/pipeline/development/) 
 
 `Jenkins Pipeline Linter Connector` 的作用就是，把当前打开的文件推送到你的 Jenkins，然后在 VS Code 中显示校验结果。
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/example1.gif)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/example1.gif)
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/example2.gif)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/example2.gif)
 
 你可以在 VS Code 插件浏览器中或通过下面的地址找到该插件 https://marketplace.visualstudio.com/items?itemName=janjoerke.jenkins-pipeline-linter-connector 。
 
