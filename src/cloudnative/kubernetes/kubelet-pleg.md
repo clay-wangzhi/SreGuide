@@ -215,7 +215,7 @@ func (g *GenericPLEG) relist() {
 
 其中 `GetPods()` 函数的调用堆栈如下图所示：
 
- ![img](/Users/wangzhi4/Downloads/tmp/pleg-getpods.png)
+ ![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/pleg-getpods.png)
 
 相关的源代码如下：
 
