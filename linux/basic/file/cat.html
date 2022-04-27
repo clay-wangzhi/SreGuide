@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/linux/basic/file/cat.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="查看文件内容"><meta property="og:type" content="article"><meta property="og:updated_time" content="2021-05-11T03:54:51.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:modified_time" content="2021-05-11T03:54:51.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>查看文件内容 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.ac0f71d5.js"><link rel="modulepreload" href="/assets/cat.html.350cd514.js"><link rel="modulepreload" href="/assets/cat.html.5f46d700.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><a href="/linux/basic/file/cloudnative" class="nav-link" arialabel="云原生"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生<!----></a></div><div class="nav-item hide-in-mobile"><a href="/basic/" class="nav-link" arialabel="基础知识"><i class="icon iconfont icon-jichu"></i>基础知识<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="/linux/basic/" class="nav-link active" arialabel="Linux"><i class="icon iconfont icon-linux"></i>Linux<!----></a></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewbox="0 0 1024 1024" arialabelledby="auto" style="display:block;"><title id="auto" lang="en">auto icon</title><g fill="currentColor"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewbox="0 0 1024 1024" arialabelledby="dark" style="display:none;"><title id="dark" lang="en">dark icon</title><g fill="currentColor"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewbox="0 0 1024 1024" arialabelledby="light" style="display:none;"><title id="light" lang="en">light icon</title><g fill="currentColor"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></g></svg></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><p class="sidebar-heading active"><i class="icon iconfont icon-linux"></i><span class="title">Linux 学习笔记</span><!----></p><!--[--><!--[--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><p class="sidebar-heading active"><!----><span class="title">文件管理</span><!----></p><!--[--><!--[--><ul class="sidebar-links"><li><!--[--><a href="/linux/basic/file/file-type.html" class="nav-link sidebar-link sidebar-page" arialabel="查看文件类型"><!---->查看文件类型<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/file/file-detail.html" class="nav-link sidebar-link sidebar-page" arialabel="查看文件详细属性"><!---->查看文件详细属性<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/file/zsgc.html" class="nav-link sidebar-link sidebar-page" arialabel="创建、复制、移动、删除"><!---->创建、复制、移动、删除<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a aria-current="page" href="/linux/basic/file/cat.html" class="router-link-active router-link-exact-active nav-link active sidebar-link sidebar-page active" arialabel="查看文件内容"><!---->查看文件内容<!----></a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#cat命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="cat命令"><!---->cat命令<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#less命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="less命令"><!---->less命令<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#more命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="more命令"><!---->more命令<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#head命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="head命令"><!---->head命令<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#tail命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="tail命令"><!---->tail命令<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/linux/basic/file/cat.html#grep命令" class="router-link-active router-link-exact-active nav-link sidebar-link heading" arialabel="grep命令"><!---->grep命令<!----></a><ul class="sidebar-sub-headers"></ul></li></ul><!--]--></li><li><!--[--><a href="/linux/basic/file/zip.html" class="nav-link sidebar-link sidebar-page" arialabel="打包、压缩"><!---->打包、压缩<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li></ul><!--]--><!----><!--]--></section><!--]--></li><li><!--[--><a href="/linux/basic/ugo.html" class="nav-link sidebar-link sidebar-page" arialabel="基本权限 UGO"><!---->基本权限 UGO<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/crontab.html" class="nav-link sidebar-link sidebar-page" arialabel="计划任务"><!---->计划任务<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/user.html" class="nav-link sidebar-link sidebar-page" arialabel="用户管理"><!---->用户管理<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/process.html" class="nav-link sidebar-link sidebar-page" arialabel="进程管理"><!---->进程管理<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/i-o.html" class="nav-link sidebar-link sidebar-page" arialabel="管道及I/O重定向"><!---->管道及I/O重定向<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/rpm.html" class="nav-link sidebar-link sidebar-page" arialabel="软件包管理"><!---->软件包管理<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/inter.html" class="nav-link sidebar-link sidebar-page" arialabel="网络管理"><!---->网络管理<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/logrotate" class="nav-link sidebar-link sidebar-page" arialabel="/linux/basic/logrotate"><!---->/linux/basic/logrotate<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/limit.html" class="nav-link sidebar-link sidebar-page" arialabel="/etc/security/limits.conf 详解与配置"><!---->/etc/security/limits.conf 详解与配置<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/linux/basic/common-kno.html" class="nav-link sidebar-link sidebar-page" arialabel="常用知识"><!---->常用知识<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li></ul><!--]--><!----><!--]--></section><!--]--></li></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->查看文件内容</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2021年5月11日</span><meta property="datePublished" content="2021-05-11T03:54:51.000Z"></span><span class="category-info" arialabel="分类🌈" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category clickable" role="navigation">Linux</li><meta property="articleSection" content="Linux"></ul></span><!----><span class="reading-time-info" arialabel="阅读时间⌛" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 16 分钟</span><meta property="timeRequired" content="PT16M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#cat命令" class="router-link-active router-link-exact-active toc-link level3">cat命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#less命令" class="router-link-active router-link-exact-active toc-link level3">less命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#more命令" class="router-link-active router-link-exact-active toc-link level3">more命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#head命令" class="router-link-active router-link-exact-active toc-link level3">head命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#tail命令" class="router-link-active router-link-exact-active toc-link level3">tail命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/basic/file/cat.html#grep命令" class="router-link-active router-link-exact-active toc-link level3">grep命令</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="查看文件内容" tabindex="-1"><a class="header-anchor" href="#查看文件内容" aria-hidden="true">#</a> 查看文件内容</h1><h3 id="cat命令" tabindex="-1"><a class="header-anchor" href="#cat命令" aria-hidden="true">#</a> cat命令</h3><p>cat命令的用途是连接文件或标准输入并打印。这个命令常用来显示文件内容，或者将几个文件连接起来显示，或者从标准输入读取内容并显示，它常与重定向符号配合使用。</p><h4 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h4><p><code>cat(选项)(参数)</code></p><h4 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-A, --show-all           等价于 -vET
+-b, --number-nonblank    对非空输出行编号
+-e                       等价于 -vE
+-E, --show-ends          在每行结束处显示 $
+-n, --number     对输出的所有行编号,由1开始对所有输出的行数编号
+-s, --squeeze-blank  有连续两行以上的空白行，就代换为一行的空白行 
+-t                       与 -vT 等价
+-T, --show-tabs          将跳格字符显示为 ^I
+-u                       (被忽略)
+-v, --show-nonprinting   使用 ^ 和 M- 引用，除了 LFD 和 TAB 之外
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="功能" tabindex="-1"><a class="header-anchor" href="#功能" aria-hidden="true">#</a> 功能</h4><p>1.一次显示整个文件:cat filename</p><p>2.从键盘创建一个文件:cat &gt; filename 只能创建新文件,不能编辑已有文件.</p><p>3.将几个文件合并为一个文件:cat file1 file2 &gt; file</p><h4 id="常用范例" tabindex="-1"><a class="header-anchor" href="#常用范例" aria-hidden="true">#</a> 常用范例</h4><p>1）把 log2012.log 的文件内容加上行号后输入 log.log 这个文件里</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat log.log 
+[root@localhost test]# cat -n log2012.log &gt; log.log
+# cat -n log.log 
+     1  2012-01
+     2  2012-02
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>2）使用here doc来生成文件</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat &gt;log.txt &lt;&lt;EOF
+&gt; Hello
+&gt; World
+&gt; Linux
+&gt; PWD=$(pwd)
+&gt; EOF
+# ls -l log.txt 
+-rw-r--r-- 1 root root 37 10-28 17:07 log.txt
+# cat log.txt 
+Hello
+World
+Linux
+PWD=/opt/soft/test
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>说明：</p><p>注意粗体部分，here doc可以进行字符串替换。</p><p>备注：</p><p>tac (反向列示)</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># tac log.txt 
+PWD=/opt/soft/test
+Linux
+World
+Hello
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>说明：</p><p>tac 是将 cat 反写过来，所以他的功能就跟 cat 相反， cat 是由第一行到最后一行连续显示在萤幕上，而 tac 则是由最后一行到第一行反向在萤幕上显示出来！</p><h3 id="less命令" tabindex="-1"><a class="header-anchor" href="#less命令" aria-hidden="true">#</a> less命令</h3><p>less 工具也是对文件或其它输出进行分页显示的工具，应该说是linux正统查看文件内容的工具，功能极其强大。less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 [pageup][pagedown] 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p><h4 id="语法-1" tabindex="-1"><a class="header-anchor" href="#语法-1" aria-hidden="true">#</a> 语法</h4><p><code>less(选项)(参数)</code></p><h4 id="选项-1" tabindex="-1"><a class="header-anchor" href="#选项-1" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-b  &lt;缓冲区大小&gt; 设置缓冲区的大小
+-e  当文件显示结束后，自动离开
+-f  强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+-g  只标志最后搜索的关键词
+-i  忽略搜索时的大小写
+-m  显示类似more命令的百分比
+-N  显示每行的行号
+-o &lt;文件名&gt; 将less 输出的内容在指定文件中保存起来
+-Q  不使用警告音
+-s  显示连续空行为一行
+-S  行过长时间将超出部分舍弃
+-x &lt;数字&gt; 将“tab”键显示为规定的数字空格
+/字符串：向下搜索“字符串”的功能
+?字符串：向上搜索“字符串”的功能
+n：重复前一个搜索（与 / 或 ? 有关）
+N：反向重复前一个搜索（与 / 或 ? 有关）
+b  向后翻一页
+d  向后翻半页
+h  显示帮助界面
+Q  退出less 命令
+u  向前滚动半页
+y  向前滚动一行
+空格键 滚动一行
+回车键 滚动一页
+[pagedown]： 向下翻动一页
+[pageup]：   向上翻动一页
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h4 id="功能-1" tabindex="-1"><a class="header-anchor" href="#功能-1" aria-hidden="true">#</a> 功能</h4><p>less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p><h4 id="常用实例" tabindex="-1"><a class="header-anchor" href="#常用实例" aria-hidden="true">#</a> 常用实例</h4><p>1）ps查看进程信息并通过less分页显示</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ps -ef | less
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2 ) 查看命令历史使用记录并通过less分页显示</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>history | less
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>3）浏览多个文件</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>less log2013.log log2014.log
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>说明：</p><p>输入 ：n后，切换到 log2014.log</p><p>输入 ：p 后，切换到log2013.log</p><h4 id="附加备注" tabindex="-1"><a class="header-anchor" href="#附加备注" aria-hidden="true">#</a> 附加备注</h4><p>1.全屏导航</p><p>ctrl + F - 向前移动一屏</p><p>ctrl + B - 向后移动一屏</p><p>ctrl + D - 向前移动半屏</p><p>ctrl + U - 向后移动半屏</p><p>2.单行导航</p><p>j - 向前移动一行</p><p>k - 向后移动一行</p><p>3.其它导航</p><p>G - 移动到最后一行</p><p>g - 移动到第一行</p><p>q / ZZ - 退出 less 命令</p><p>4.其它有用的命令</p><p>v - 使用配置的编辑器编辑当前文件</p><p>h - 显示 less 的帮助文档</p><p>&amp;pattern - 仅显示匹配模式的行，而不是整个文件</p><p>5.标记导航</p><p>当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：</p><p>ma - 使用 a 标记文本的当前位置</p><p>&#39;a - 导航到标记 a 处</p><h3 id="more命令" tabindex="-1"><a class="header-anchor" href="#more命令" aria-hidden="true">#</a> more命令</h3><p>more命令，功能类似 cat ，cat命令是整个文件的内容从上到下显示在屏幕上。 more会以一页一页的显示方便使用者逐页阅读，而最基本的指令就是按空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示，而且还有搜寻字串的功能 。more命令从前向后读取文件，因此在启动时就加载整个文件。</p><h4 id="语法-2" tabindex="-1"><a class="header-anchor" href="#语法-2" aria-hidden="true">#</a> 语法</h4><p><code>more(语法)(参数)</code></p><h4 id="选项-2" tabindex="-1"><a class="header-anchor" href="#选项-2" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>+n      从笫n行开始显示
+-n       定义屏幕大小为n行
++/pattern 在每个档案显示前搜寻该字串（pattern），然后从该字串前两行之后开始显示  
+-c       从顶部清屏，然后显示
+-d       提示“Press space to continue，’q’ to quit（按空格键继续，按q键退出）”，禁用响铃功能
+-l        忽略Ctrl+l（换页）字符
+-p       通过清除窗口而不是滚屏来对文件进行换页，与-c选项相似
+-s       把连续的多个空行显示为一行
+-u       把文件内容中的下画线去掉
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="功能-2" tabindex="-1"><a class="header-anchor" href="#功能-2" aria-hidden="true">#</a> 功能</h4><p>more命令和cat的功能一样都是查看文件里的内容，但有所不同的是more可以按页来查看文件的内容，还支持直接跳转行等功能。</p><h4 id="常用操作命令" tabindex="-1"><a class="header-anchor" href="#常用操作命令" aria-hidden="true">#</a> 常用操作命令</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>Enter    向下n行，需要定义。默认为1行
+Ctrl+F   向下滚动一屏
+空格键  向下滚动一屏
+Ctrl+B  返回上一屏
+=       输出当前行的行号
+：f    输出文件名和当前行的行号
+V      调用vi编辑器
+!命令   调用Shell，并执行命令 
+q       退出more
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="常用范例-1" tabindex="-1"><a class="header-anchor" href="#常用范例-1" aria-hidden="true">#</a> 常用范例</h4><p>1）显示文件中从第3行起的内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat log2012.log 
+2012-01
+2012-02
+2012-03
+2012-04-day1
+2012-04-day2
+2012-04-day3
+# more +3 log2012.log 
+2012-03
+2012-04-day1
+2012-04-day2
+2012-04-day3
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>2）从文件中查找第一个出现&quot;day3&quot;字符串的行，并从该处前两行开始显示输出</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># more +/day3 log2012.log 
+...skipping
+2012-04-day1
+2012-04-day2
+2012-04-day3
+2012-05
+2012-05-day1
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>3）设定每屏显示行数</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># more -5 log2012.log 
+2012-01
+2012-02
+2012-03
+2012-04-day1
+2012-04-day2
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>4）列一个目录下的文件，由于内容太多，我们应该学会用more来分页显示。这得和管道 | 结合起来</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#  ls -l  | more -5
+总计 36
+-rw-r--r-- 1 root root  308 11-01 16:49 log2012.log
+-rw-r--r-- 1 root root   33 10-28 16:54 log2013.log
+-rw-r--r-- 1 root root  127 10-28 16:51 log2014.log
+lrwxrwxrwx 1 root root    7 10-28 15:18 log_link.log -&gt; log.log
+-rw-r--r-- 1 root root   25 10-28 17:02 log.log
+-rw-r--r-- 1 root root   37 10-28 17:07 log.txt
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxrwxrwx 2 root root 4096 10-28 14:47 test4
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>说明：</p><p>每页显示5个文件信息，按 Ctrl+F 或者 空格键 将会显示下5条文件信息。</p><h3 id="head命令" tabindex="-1"><a class="header-anchor" href="#head命令" aria-hidden="true">#</a> head命令</h3><p>head 与 tail 就像它的名字一样的浅显易懂，它是用来显示开头或结尾某个数量的文字区块，head 用来显示档案的开头至标准输出中，而 tail 想当然尔就是看档案的结尾。</p><h4 id="语法-3" tabindex="-1"><a class="header-anchor" href="#语法-3" aria-hidden="true">#</a> 语法</h4><p><code>head(选项)(参数)</code></p><h4 id="选项-3" tabindex="-1"><a class="header-anchor" href="#选项-3" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-n&lt;数字&gt;：指定显示头部内容的行数；
+-c&lt;字符数&gt;：指定显示头部内容的字符数；
+-v：总是显示文件名的头信息；
+-q：不显示文件名的头信息。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="功能-3" tabindex="-1"><a class="header-anchor" href="#功能-3" aria-hidden="true">#</a> 功能</h4><p>head 用来显示档案的开头至标准输出中，默认head命令打印其相应文件的开头10行。</p><h4 id="常用范例-2" tabindex="-1"><a class="header-anchor" href="#常用范例-2" aria-hidden="true">#</a> 常用范例</h4><p>1）显示文件的前n行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+# head -n 5 log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>2）显示文件前n个字节</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># head -c 20 log2014.log
+2014-01
+2014-02
+2014
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>3）文件的除了最后n个字节以外的内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># head -c -32 log2014.log
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>4）输出文件除了最后n行的全部内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># head -n -6 log2014.log
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="tail命令" tabindex="-1"><a class="header-anchor" href="#tail命令" aria-hidden="true">#</a> tail命令</h3><p>tail 命令从指定点开始将文件写到标准输出.使用tail命令的-f选项可以方便的查阅正在改变的日志文件,tail -f filename会把filename里最尾部的内容显示在屏幕上,并且不断刷新,使你看到最新的文件内容.</p><h4 id="语法-4" tabindex="-1"><a class="header-anchor" href="#语法-4" aria-hidden="true">#</a> 语法</h4><p><code>tail(选项)(参数)</code></p><h4 id="选项-4" tabindex="-1"><a class="header-anchor" href="#选项-4" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-f 循环读取
+-q 不显示处理信息
+-v 显示详细的处理信息
+-c&lt;数目&gt; 显示的字节数
+-n&lt;行数&gt; 显示行数
+--pid=PID 与-f合用,表示在进程ID,PID死掉之后结束. 
+-q, --quiet, --silent 从不输出给出文件名的首部 
+-s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒 
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h4 id="功能-4" tabindex="-1"><a class="header-anchor" href="#功能-4" aria-hidden="true">#</a> 功能</h4><p>用于显示指定文件末尾内容，不指定文件时，作为输入信息进行处理。常用查看日志文件。</p><h4 id="常用范例-3" tabindex="-1"><a class="header-anchor" href="#常用范例-3" aria-hidden="true">#</a> 常用范例</h4><p>1）显示文件末尾内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># tail -n 5 log2014.log 
+2014-09
+2014-10
+2014-11
+2014-12
+===========================
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>说明：</p><p>显示文件最后5行内容</p><p>2）循环查看文件内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ping 192.168.120.204 &gt; test.log &amp;
+# tail -f test.log 
+PING 192.168.120.204 (192.168.120.204) 56(84) bytes of data.
+64 bytes from 192.168.120.204: icmp_seq=1 ttl=64 time=0.038 ms
+64 bytes from 192.168.120.204: icmp_seq=2 ttl=64 time=0.036 ms
+64 bytes from 192.168.120.204: icmp_seq=3 ttl=64 time=0.033 ms
+64 bytes from 192.168.120.204: icmp_seq=4 ttl=64 time=0.027 ms
+64 bytes from 192.168.120.204: icmp_seq=5 ttl=64 time=0.032 ms
+64 bytes from 192.168.120.204: icmp_seq=6 ttl=64 time=0.026 ms
+64 bytes from 192.168.120.204: icmp_seq=7 ttl=64 time=0.030 ms
+64 bytes from 192.168.120.204: icmp_seq=8 ttl=64 time=0.029 ms
+64 bytes from 192.168.120.204: icmp_seq=9 ttl=64 time=0.044 ms
+64 bytes from 192.168.120.204: icmp_seq=10 ttl=64 time=0.033 ms
+64 bytes from 192.168.120.204: icmp_seq=11 ttl=64 time=0.027 ms
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>3）从第5行开始显示文件</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat log2014.log 
+2014-01
+2014-02
+2014-03
+2014-04
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+# tail -n +5 log2014.log
+2014-05
+2014-06
+2014-07
+2014-08
+2014-09
+2014-10
+2014-11
+2014-12
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><h3 id="grep命令" tabindex="-1"><a class="header-anchor" href="#grep命令" aria-hidden="true">#</a> grep命令</h3><p><strong>grep</strong>（global search regular expression(RE) and print out the line，全面搜索正则表达式并把行打印出来）是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p><p>grep可用于shell脚本，因为grep通过返回一个状态值来说明搜索的状态，如果模板搜索成功，则返回0，如果搜索不成功，则返回1，如果搜索的文件不存在，则返回2。我们利用这些返回值就可进行一些自动化的文本处理工作。</p><h4 id="选项-5" tabindex="-1"><a class="header-anchor" href="#选项-5" aria-hidden="true">#</a> 选项</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-a 不要忽略二进制数据。
+-A&lt;显示列数&gt; 除了显示符合范本样式的那一行之外，并显示该行之后的内容。
+-b 在显示符合范本样式的那一行之外，并显示该行之前的内容。
+-c 计算符合范本样式的列数。
+-C&lt;显示列数&gt;或-&lt;显示列数&gt;  除了显示符合范本样式的那一列之外，并显示该列之前后的内容。
+-d&lt;进行动作&gt; 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep命令将回报信息并停止动作。
+-e&lt;范本样式&gt; 指定字符串作为查找文件内容的范本样式。
+-E 将范本样式为延伸的普通表示法来使用，意味着使用能使用扩展正则表达式。
+-f&lt;范本文件&gt; 指定范本文件，其内容有一个或多个范本样式，让grep查找符合范本条件的文件内容，格式为每一列的范本样式。
+-F 将范本样式视为固定字符串的列表。
+-G 将范本样式视为普通的表示法来使用。
+-h 在显示符合范本样式的那一列之前，不标示该列所属的文件名称。
+-H 在显示符合范本样式的那一列之前，标示该列的文件名称。
+-i 忽略字符大小写的差别。
+-l 列出文件内容符合指定的范本样式的文件名称。
+-L 列出文件内容不符合指定的范本样式的文件名称。
+-n 在显示符合范本样式的那一列之前，标示出该列的编号。
+-q 不显示任何信息。
+-R/-r 此参数的效果和指定“-d recurse”参数相同。
+-s 不显示错误信息。
+-v 反转查找。
+-w 只显示全字符合的列。
+-x 只显示全列符合的列。
+-y 此参数效果跟“-i”相同。
+-o 只输出文件中匹配到的部分。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h4 id="规则表达式" tabindex="-1"><a class="header-anchor" href="#规则表达式" aria-hidden="true">#</a> 规则表达式</h4><p>grep的规则表达式:</p><p>^ #锚定行的开始 如：&#39;^grep&#39;匹配所有以grep开头的行。</p><p>$ #锚定行的结束 如：&#39;grep$&#39;匹配所有以grep结尾的行。</p><p>. #匹配一个非换行符的字符 如：&#39;gr.p&#39;匹配gr后接一个任意字符，然后是p。</p><ul><li>#匹配零个或多个先前字符 如：&#39;*grep&#39;匹配所有一个或多个空格后紧跟grep的行。</li></ul><p>.* #一起用代表任意字符。</p><p>[] #匹配一个指定范围内的字符，如&#39;[Gg]rep&#39;匹配Grep和grep。</p><p>[^] #匹配一个不在指定范围内的字符，如：&#39;[^A-FH-Z]rep&#39;匹配不包含A-F和H-Z的一个字母开头，紧跟rep的行。</p><p>(..) #标记匹配字符，如&#39;(love)&#39;，love被标记为1。</p><p>\&lt; #锚定单词的开始，如:&#39;&lt;grep&#39;匹配包含以grep开头的单词的行。</p><p>\&gt; #锚定单词的结束，如&#39;grep&gt;&#39;匹配包含以grep结尾的单词的行。</p><p>x{m} #重复字符x，m次，如：&#39;0{5}&#39;匹配包含5个o的行。</p><p>x{m,} #重复字符x,至少m次，如：&#39;o{5,}&#39;匹配至少有5个o的行。</p><p>x{m,n} #重复字符x，至少m次，不多于n次，如：&#39;o{5,10}&#39;匹配5--10个o的行。</p><p>\w #匹配文字和数字字符，也就是[A-Za-z0-9]，如：&#39;G\w*p&#39;匹配以G后跟零个或多个文字或数字字符，然后是p。</p><p>\W #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。</p><p>\b #单词锁定符，如: &#39;\bgrep\b&#39;只匹配grep。</p><p>POSIX字符:</p><p>为了在不同国家的字符编码中保持一至，POSIX(The Portable Operating System Interface)增加了特殊的字符类，如[:alnum:]是[A-Za-z0-9]的另一个写法。要把它们放到[]号内才能成为正则表达式，如[A- Za-z0-9]或[[:alnum:]]。在linux下的grep除fgrep外，都支持POSIX的字符类。</p><p>[:alnum:] #文字数字字符</p><p>[:alpha:] #文字字符</p><p>[:digit:] #数字字符</p><p>[:graph:] #非空字符（非空格、控制字符）</p><p>[:lower:] #小写字符</p><p>[:cntrl:] #控制字符</p><p>[:print:] #非空字符（包括空格）</p><p>[:punct:] #标点符号</p><p>[:space:] #所有空白字符（新行，空格，制表符）</p><p>[:upper:] #大写字符</p><p>[:xdigit:] #十六进制数字（0-9，a-f，A-F）</p><h4 id="常用实例-1" tabindex="-1"><a class="header-anchor" href="#常用实例-1" aria-hidden="true">#</a> 常用实例</h4><p>1）查找指定进程</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code> ps -ef|grep svn
+root 4943   1      0  Dec05 ?   00:00:00 svnserve -d -r /opt/svndata/grape/
+root 16867 16838  0 19:53 pts/0    00:00:00 grep svn
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>2）查找指定进程个数</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ps -ef|grep -c svn 
+2
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>3）从文件中读取关键词进行搜索</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt 
+hnlinux
+peida.cnblogs.com
+ubuntu
+ubuntu linux
+redhat
+Redhat
+linuxmint
+# cat test2.txt 
+linux
+Redhat
+# cat test.txt | grep -f test2.txt
+hnlinux
+ubuntu linux
+Redhat
+linuxmint
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>说明：</p><p>输出test.txt文件中含有从test2.txt文件中读取出的关键词的内容行</p><p>4）从文件中读取关键词进行搜索且显示行号</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt 
+hnlinux
+peida.cnblogs.com
+ubuntu
+ubuntu linux
+redhat
+Redhat
+linuxmint
+# cat test2.txt 
+linux
+Redhat
+# cat test.txt | grep -nf test2.txt
+1:hnlinux
+4:ubuntu linux
+6:Redhat
+7:linuxmint
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>说明：</p><p>输出test.txt文件中含有从test2.txt文件中读取出的关键词的内容行，并显示每一行的行号</p><p>5）从文件中查找关键词</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># grep &#39;linux&#39; test.txt 
+hnlinux
+ubuntu linux
+linuxmint
+# grep -n &#39;linux&#39; test.txt 
+1:hnlinux
+4:ubuntu linux
+7:linuxmint
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>6）从多个文件中查找关键词</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># grep -n &#39;linux&#39; test.txt test2.txt 
+test.txt:1:hnlinux
+test.txt:4:ubuntu linux
+test.txt:7:linuxmint
+test2.txt:1:linux
+# grep &#39;linux&#39; test.txt test2.txt 
+test.txt:hnlinux
+test.txt:ubuntu linux
+test.txt:linuxmint
+test2.txt:linux
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>说明：</p><p>多文件时，输出查询到的信息内容行时，会把文件的命名在行最前面输出并且加上&quot;:&quot;作为标示符</p><p>7）grep不显示本身进程</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ps aux|grep ssh
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0 
+root  16901  0.0  0.0  61180   764 pts/0  S+   20:31   0:00 grep ssh
+# ps aux|grep [s]sh
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0 
+# ps aux | grep ssh | grep -v &quot;grep&quot;
+root   2720  0.0  0.0  62656  1212 ?      Ss   Nov02   0:00 /usr/sbin/sshd
+root  16834  0.0  0.0  88088  3288 ?      Ss   19:53   0:00 sshd: root@pts/0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>8）找出已u开头的行内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep ^u
+ubuntu
+ubuntu linux
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>9）输出非u开头的行内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep ^[^u]
+hnlinux
+peida.cnblogs.com
+redhat
+Redhat
+linuxmint
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>10）输出以hat结尾的行内容</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep hat$
+redhat
+Redhat
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>11）查服务器ip地址所在行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ifconfig eth0|grep &quot;[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}&quot;
+          inet addr:192.168.120.204  Bcast:192.168.120.255  Mask:255.255.255.0
+# ifconfig eth0|grep -E &quot;([0-9]{1,3}\.){3}[0-9]&quot;
+          inet addr:192.168.120.204  Bcast:192.168.120.255  Mask:255.255.255.0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>12）显示包含ed或者at字符的内容行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># cat test.txt |grep -E &quot;peida|com&quot;
+peida.cnblogs.com
+# cat test.txt |grep -E &quot;ed|at&quot;
+redhat
+Redhat
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>13）显示当前目录下面以.txt 结尾的文件中的所有包含每个字符串至少有7个连续小写字符的字符串的行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># grep &#39;[a-z]\{7\}&#39; *.txt
+test.txt:hnlinux
+test.txt:peida.cnblogs.com
+test.txt:linuxmint
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>14）在多级目录中对文本进行递归搜索</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#grep &quot;text&quot; . -r -n   # .表示当前目录。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>15）显示过滤注释( # ; 开头) 和空行后的配置信息</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#  grep -Ev &quot;^$|^[#;]&quot; server.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>16）过滤/etc/passwd文件下，包含root的行，并过滤后两行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -A 2 root /etc/passwd
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>17）过滤/etc/passwd文件下，包含root的行，并过滤前两行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -B 2 root /etc/passwd
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>18）过滤/etc/passwd文件下，包含root的行，并过滤前后两行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -C 2 root /etc/passwd
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>18）过滤/etc/passwd文件下，包含root的行数</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -c root /etc/passwd
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>19)过滤/etc/passwd文件下，包含root的行，并打印行号</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -n root /etc/passwd
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>20）过滤/etc/下所有文件，包含root的行</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -r root /etc/
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>21)过滤/etc/下所有文件，包含root的行的文件名</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>grep -rl root /etc/
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/linux/basic/file/cat.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2021/5/11 03:54:51</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><nav class="page-nav"><a href="/linux/basic/file/zsgc.html" class="nav-link prev" arialabel="创建、复制、移动、删除"><div class="hint"><span class="arrow left"></span>上一页</div><div class="link"><!---->创建、复制、移动、删除</div></a><a href="/linux/basic/file/zip.html" class="nav-link next" arialabel="打包、压缩"><div class="hint">下一页<span class="arrow right"></span></div><div class="link">打包、压缩<!----></div></a></nav><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.ac0f71d5.js" defer></script>
+  </body>
+</html>

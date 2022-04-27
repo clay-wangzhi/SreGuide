@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/git/git-basic.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="git的基本使用"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-04-27T15:33:00.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:tag" content="Git"><meta property="article:modified_time" content="2022-04-27T15:33:00.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>git的基本使用 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.ac0f71d5.js"><link rel="modulepreload" href="/assets/git-basic.html.02936270.js"><link rel="modulepreload" href="/assets/git-basic.html.88801dc7.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container no-sidebar has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><a href="/git/cloudnative" class="nav-link" arialabel="云原生"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生<!----></a></div><div class="nav-item hide-in-mobile"><a href="/basic/" class="nav-link" arialabel="基础知识"><i class="icon iconfont icon-jichu"></i>基础知识<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="/linux/basic/" class="nav-link" arialabel="Linux"><i class="icon iconfont icon-linux"></i>Linux<!----></a></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewbox="0 0 1024 1024" arialabelledby="auto" style="display:block;"><title id="auto" lang="en">auto icon</title><g fill="currentColor"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewbox="0 0 1024 1024" arialabelledby="dark" style="display:none;"><title id="dark" lang="en">dark icon</title><g fill="currentColor"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewbox="0 0 1024 1024" arialabelledby="light" style="display:none;"><title id="light" lang="en">light icon</title><g fill="currentColor"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></g></svg></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->git的基本使用</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2021年5月11日</span><meta property="datePublished" content="2021-05-11T03:54:51.000Z"></span><!----><span arialabel="标签🏷" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewbox="0 0 1024 1024" arialabelledby="tag"><title id="tag" lang="en">tag icon</title><g fill="currentColor"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></g></svg><ul class="tags-wrapper"><li class="tag clickable" role="navigation">Git</li></ul><meta property="keywords" content="Git"></span><span class="reading-time-info" arialabel="阅读时间⌛" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 13 分钟</span><meta property="timeRequired" content="PT13M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#由来" class="router-link-active router-link-exact-active toc-link level2">由来</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#安装" class="router-link-active router-link-exact-active toc-link level2">安装</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#linux" class="router-link-active router-link-exact-active toc-link level3">Linux</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#windows" class="router-link-active router-link-exact-active toc-link level3">windows</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#mac" class="router-link-active router-link-exact-active toc-link level3">Mac</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#核心概念" class="router-link-active router-link-exact-active toc-link level2">核心概念</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#git-的基本工作流程" class="router-link-active router-link-exact-active toc-link level3">git 的基本工作流程</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#git-文件的生命周期" class="router-link-active router-link-exact-active toc-link level3">git 文件的生命周期</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#git-的三种状态" class="router-link-active router-link-exact-active toc-link level3">git 的三种状态</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#git-的文件分类" class="router-link-active router-link-exact-active toc-link level3">git 的文件分类</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#git基本操作" class="router-link-active router-link-exact-active toc-link level2">git基本操作</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#新建代码仓库" class="router-link-active router-link-exact-active toc-link level3">新建代码仓库</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#设置用户信息" class="router-link-active router-link-exact-active toc-link level3">设置用户信息</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#添加-删除文件" class="router-link-active router-link-exact-active toc-link level3">添加/删除文件</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#代码提交" class="router-link-active router-link-exact-active toc-link level3">代码提交</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#远程同步" class="router-link-active router-link-exact-active toc-link level3">远程同步</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#分支-标签" class="router-link-active router-link-exact-active toc-link level2">分支/标签</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#分支" class="router-link-active router-link-exact-active toc-link level3">分支</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#标签" class="router-link-active router-link-exact-active toc-link level3">标签</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#查看信息" class="router-link-active router-link-exact-active toc-link level2">查看信息</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#diff-比较" class="router-link-active router-link-exact-active toc-link level3">diff 比较</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#撤销" class="router-link-active router-link-exact-active toc-link level2">撤销</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#其他" class="router-link-active router-link-exact-active toc-link level2">其他</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/git/git-basic.html#参考链接" class="router-link-active router-link-exact-active toc-link level2">参考链接</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="git的基本使用" tabindex="-1"><a class="header-anchor" href="#git的基本使用" aria-hidden="true">#</a> git的基本使用</h1><h2 id="由来" tabindex="-1"><a class="header-anchor" href="#由来" aria-hidden="true">#</a> 由来</h2><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png" alt="git" loading="lazy"></p><blockquote><p>要不说人家是大佬呢，一言不合就自己写一个👍</p></blockquote><h2 id="安装" tabindex="-1"><a class="header-anchor" href="#安装" aria-hidden="true">#</a> 安装</h2><p>下载对应操作系统的 Git 客户端版本 https://git-scm.com/downloads</p><h3 id="linux" tabindex="-1"><a class="header-anchor" href="#linux" aria-hidden="true">#</a> Linux</h3><p>在<code>centos</code>上安装</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>$ yum <span class="token function">install</span> <span class="token function">git</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="windows" tabindex="-1"><a class="header-anchor" href="#windows" aria-hidden="true">#</a> windows</h3><p>下载对应的32位或者64位版本，点击安装即可</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>$ <span class="token function">git</span> --version <span class="token comment"># 查看版本号</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="mac" tabindex="-1"><a class="header-anchor" href="#mac" aria-hidden="true">#</a> Mac</h3><p>用<code>homebrew</code>命令安装</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>$ brew <span class="token function">install</span> <span class="token function">git</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="核心概念" tabindex="-1"><a class="header-anchor" href="#核心概念" aria-hidden="true">#</a> 核心概念</h2><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git基本流程.png" alt="git基本流程" loading="lazy"></p><table><thead><tr><th>名称</th><th>释义</th></tr></thead><tbody><tr><td>Workspace</td><td>工作区：<code>.git</code>文件所在的目录就是工作区，一般是项目的根目录</td></tr><tr><td>Index/Stage</td><td>暂存区：介于工作区和仓库区之间，暂存修改的</td></tr><tr><td>Repository</td><td>仓库区/本地仓库：git初始化后，会在当前目录生成一个<code>.git</code>目录，这就是版本库</td></tr><tr><td>Remote</td><td>远程仓库：网络上的另一个版本库，可以和本地库交互</td></tr></tbody></table><h3 id="git-的基本工作流程" tabindex="-1"><a class="header-anchor" href="#git-的基本工作流程" aria-hidden="true">#</a> git 的基本工作流程</h3><ol><li>在工作目录中修改文件。</li><li>暂存文件，将文件的快照放入暂存区域。</li><li>提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。</li></ol><h3 id="git-文件的生命周期" tabindex="-1"><a class="header-anchor" href="#git-文件的生命周期" aria-hidden="true">#</a> git 文件的生命周期</h3><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git文件的生命周期2.png" alt="git文件的生命周期2" loading="lazy"></p><ol><li><p>未追踪的文件（Untracked）在 <code>git add</code> 之后会变成已暂存（staged）状态。</p></li><li><p>未修改的文件（Unmodified）在被修改编辑之后会变成已修改（modified）状态。</p></li><li><p>已修改（modified）的文件在 <code>git add</code>之后会变成已暂存（staged）状态。</p></li><li><p>已暂存的文件（staged）在 <code>git commit</code> 之后会变成未修改（Unmodified）状态。</p></li><li><p>未修改的文件（Unmodified）在 <code>git rm</code> 之后会变成未跟踪（Untracked）状态(注意git rm会删除掉指定的文件)。</p></li></ol><h3 id="git-的三种状态" tabindex="-1"><a class="header-anchor" href="#git-的三种状态" aria-hidden="true">#</a> git 的三种状态</h3><ul><li>已修改（modified） 表示修改了文件，但还没保存到数据库中，目前在工作目录（Workspace）</li><li>已暂存（staged） 表示对一个已修改文件的当前版本做了标记，使之包含在下次提交的快照中，目前在暂存区域（Index）</li><li>已提交（committed） 表示数据已经安全的保存在本地仓库中，目前在本地仓库（Repository）</li></ul><h3 id="git-的文件分类" tabindex="-1"><a class="header-anchor" href="#git-的文件分类" aria-hidden="true">#</a> git 的文件分类</h3><ul><li>追踪的 Tracked，已经加入版本库中的文件</li><li>未追踪的 Untracked，未加入到版本库中的，未被管理的文件</li><li>忽略的 Ignored， git 不再关注的文件，例如一些临时文件</li></ul><p><strong><code>.gitignore</code>文件</strong></p><p>书写格式规范</p><ul><li>所有空行或者以 <code>＃</code> 开头的行都会被 Git 忽略。</li><li>可以使用标准的 glob 模式匹配。</li><li>匹配模式可以以（<code>/</code>）开头防止递归。</li><li>匹配模式可以以（<code>/</code>）结尾指定目录。</li><li>要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（<code>!</code>）取反。</li></ul><blockquote><p>详解参考 https://github.com/github/gitignore</p></blockquote><p><strong>glob模式</strong></p><p>所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。</p><p>星号（<code>*</code>）匹配零个或多个任意字符；</p><p><code>[abc]</code> 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；</p><p>问号（<code>?</code>）只匹配一个任意字符；</p><p>如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 <code>[0-9]</code> 表示匹配所有 0 到 9 的数字）;</p><p>使用两个星号（<code>*</code>) 表示匹配任意中间目录，比如<code>a/**/z</code> 可以匹配 <code>a/z</code>, <code>a/b/z</code> 或 <code>a/b/c/z</code>等。</p><h2 id="git基本操作" tabindex="-1"><a class="header-anchor" href="#git基本操作" aria-hidden="true">#</a> git基本操作</h2><h3 id="新建代码仓库" tabindex="-1"><a class="header-anchor" href="#新建代码仓库" aria-hidden="true">#</a> 新建代码仓库</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 在当前目录新建一个Git代码库</span>
+$ <span class="token function">git</span> init
+
+<span class="token comment"># 新建一个目录，将其初始化为Git代码库</span>
+$ <span class="token function">git</span> init <span class="token punctuation">[</span>project-name<span class="token punctuation">]</span>
+
+<span class="token comment"># 下载一个项目和它的整个代码历史</span>
+$ <span class="token function">git</span> clone <span class="token punctuation">[</span>url<span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="设置用户信息" tabindex="-1"><a class="header-anchor" href="#设置用户信息" aria-hidden="true">#</a> 设置用户信息</h3><p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下(全局配置)，也可以在项目目录下(项目配置)</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 设置提交代码时的用户信息</span>
+$ <span class="token function">git</span> config <span class="token punctuation">[</span>--global<span class="token punctuation">]</span> user.name <span class="token string">&quot;[name]&quot;</span>
+$ <span class="token function">git</span> config <span class="token punctuation">[</span>--global<span class="token punctuation">]</span> user.email <span class="token string">&quot;[email address]&quot;</span>
+
+<span class="token comment"># 显示当前的Git配置</span>
+$ <span class="token function">git</span> config --list
+
+<span class="token comment"># 编辑Git配置文件</span>
+$ <span class="token function">git</span> config -e <span class="token punctuation">[</span>--global<span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="添加-删除文件" tabindex="-1"><a class="header-anchor" href="#添加-删除文件" aria-hidden="true">#</a> 添加/删除文件</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 添加指定文件到暂存区</span>
+$ <span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>file1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.
+
+<span class="token comment"># 添加指定目录到暂存区，包括子目录</span>
+$ <span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>dir<span class="token punctuation">]</span>
+
+<span class="token comment"># 添加当前目录的所有文件到暂存区</span>
+$ <span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+
+<span class="token comment"># 删除工作区文件，并且将这次删除放入暂存区</span>
+$ <span class="token function">git</span> <span class="token function">rm</span> <span class="token punctuation">[</span>file1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.
+
+<span class="token comment"># 改名文件，并且将这个改名放入暂存区</span>
+$ <span class="token function">git</span> <span class="token function">mv</span> <span class="token punctuation">[</span>file-original<span class="token punctuation">]</span> <span class="token punctuation">[</span>file-renamed<span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><blockquote><p>⚠️ 这一步是把文件的当前变化增加到暂存区中，也就是以后这个文件那需要版本库来跟踪管理，注意这不是提交。</p></blockquote><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 将文件从暂存转成未暂存，从版本库中删除，但不删除工作目录的该文件，即文件恢复成不追踪的状态</span>
+$ <span class="token function">git</span> <span class="token function">rm</span> --cached <span class="token function">file</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="代码提交" tabindex="-1"><a class="header-anchor" href="#代码提交" aria-hidden="true">#</a> 代码提交</h3><p>git的提交分为两个步骤：</p><ol><li>暂存变更：add作用是把新文件或者文件新的改动添加到一个暂存区stage，也就是加入到index中</li><li>提交变更：commit提交的是暂存区中的改动，而不是物理文件目前的改动，提交到当前分支，默认是master</li></ol><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 提交暂存区到仓库区</span>
+$ <span class="token function">git</span> commit -m <span class="token punctuation">[</span>message<span class="token punctuation">]</span>
+
+<span class="token comment"># 提交暂存区的指定文件到仓库区</span>
+$ <span class="token function">git</span> commit <span class="token punctuation">[</span>file1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>. -m <span class="token punctuation">[</span>message<span class="token punctuation">]</span>
+
+<span class="token comment"># 提交工作区自上次commit之后的变化，直接到仓库区</span>
+$ <span class="token function">git</span> commit -a
+
+<span class="token comment"># 提交时显示所有diff信息</span>
+$ <span class="token function">git</span> commit -v
+
+<span class="token comment"># 将add和commit合为一步</span>
+$ <span class="token function">git</span> commit -am <span class="token string">&#39;message&#39;</span>
+
+<span class="token comment"># 使用一次新的commit，替代上一次提交</span>
+<span class="token comment"># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</span>
+$ <span class="token function">git</span> commit --amend -m <span class="token punctuation">[</span>message<span class="token punctuation">]</span>
+
+<span class="token comment"># 重做上一次commit，并包括指定文件的新变化</span>
+$ <span class="token function">git</span> commit --amend <span class="token punctuation">[</span>file1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h3 id="远程同步" tabindex="-1"><a class="header-anchor" href="#远程同步" aria-hidden="true">#</a> 远程同步</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 从远程仓库中抓取和拉取， 它并不会自动合并或修改你当前的工作，要手动合并入你的工作</span>
+$ <span class="token function">git</span> fetch <span class="token punctuation">[</span>remote<span class="token punctuation">]</span>
+
+<span class="token comment"># 列出所有远程仓库</span>
+$ <span class="token function">git</span> remote
+
+<span class="token comment"># 详细列出所有远程仓库</span>
+$ <span class="token function">git</span> remote -v
+
+<span class="token comment"># 显示某个远程仓库的信息</span>
+$ <span class="token function">git</span> remote show <span class="token punctuation">[</span>remote<span class="token punctuation">]</span>
+
+<span class="token comment"># 增加一个新的远程仓库，并命名</span>
+$ <span class="token function">git</span> remote <span class="token function">add</span> <span class="token punctuation">[</span>shortname<span class="token punctuation">]</span> <span class="token punctuation">[</span>url<span class="token punctuation">]</span>
+
+<span class="token comment"># 取回远程仓库的变化，并与本地分支合并</span>
+$ <span class="token function">git</span> pull  <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> <span class="token punctuation">[</span>branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 上传本地指定分支到远程仓库</span>
+<span class="token comment"># -u 第一次远程推送的时候加上，以后就可以不使用 -u 参数，可以 git push origin master,也可以 git push都使用默认</span>
+$ <span class="token function">git</span> push <span class="token punctuation">[</span>-u<span class="token punctuation">]</span> <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> <span class="token punctuation">[</span>branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 强行推送当前分支到远程仓库，即使有冲突</span>
+$ <span class="token function">git</span> push <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> --force
+
+<span class="token comment"># 推送所有分支到远程仓库</span>
+$ <span class="token function">git</span> push <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> --all
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><blockquote><p>远程版本库名<code>origin</code>，这是个习惯用法，将建立origin和后面url的映射，这些信息保存在<code>.git/config</code>文件的<code>[remote &quot;origin&quot;]</code>端中。</p></blockquote><p>分支</p><h2 id="分支-标签" tabindex="-1"><a class="header-anchor" href="#分支-标签" aria-hidden="true">#</a> 分支/标签</h2><h3 id="分支" tabindex="-1"><a class="header-anchor" href="#分支" aria-hidden="true">#</a> 分支</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 列出所有本地分支</span>
+$ <span class="token function">git</span> branch
+
+<span class="token comment"># 列出所有远程分支</span>
+$ <span class="token function">git</span> branch -r
+
+<span class="token comment"># 列出所有本地分支和远程分支</span>
+$ <span class="token function">git</span> branch -a
+
+<span class="token comment"># 新建一个分支，但依然停留在当前分支</span>
+$ <span class="token function">git</span> branch <span class="token punctuation">[</span>newbranch<span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个本地分支，并切换到该分支</span>
+<span class="token comment"># 等价于这两个命令合在一起 git branch newbranch; git checkout newbranch</span>
+$ <span class="token function">git</span> checkout -b <span class="token punctuation">[</span>newbranch<span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个分支，指向指定commit</span>
+$ <span class="token function">git</span> branch <span class="token punctuation">[</span>branch<span class="token punctuation">]</span> <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个分支，与指定的远程分支建立追踪关系</span>
+$ <span class="token function">git</span> branch --track <span class="token punctuation">[</span>branch<span class="token punctuation">]</span> <span class="token punctuation">[</span>remote-branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 切换到指定分支，并更新工作区</span>
+$ <span class="token function">git</span> checkout <span class="token punctuation">[</span>branch-name<span class="token punctuation">]</span>
+
+<span class="token comment"># 切换到上一个分支</span>
+$ <span class="token function">git</span> checkout -
+
+<span class="token comment"># 建立追踪关系，在现有分支与指定的远程分支之间</span>
+$ <span class="token function">git</span> branch --set-upstream <span class="token punctuation">[</span>branch<span class="token punctuation">]</span> <span class="token punctuation">[</span>remote-branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 合并指定分支到当前分支</span>
+$ <span class="token function">git</span> merge <span class="token punctuation">[</span>branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 选择一个commit，合并进当前分支</span>
+$ <span class="token function">git</span> cherry-pick <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 删除本地分支</span>
+$ <span class="token function">git</span> branch -d <span class="token punctuation">[</span>branch-name<span class="token punctuation">]</span>
+
+<span class="token comment"># 删除远程分支</span>
+$ <span class="token function">git</span> push origin --delete <span class="token punctuation">[</span>branch-name<span class="token punctuation">]</span>
+$ <span class="token function">git</span> branch -dr <span class="token punctuation">[</span>remote/branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 检出版本v2.0</span>
+$ <span class="token function">git</span> checkout v2.0
+
+<span class="token comment"># 从远程分支develop创建新本地分支devel并检出</span>
+$ <span class="token function">git</span> checkout -b devel origin/develop
+
+<span class="token comment"># 检出head版本的README文件（可用于修改错误回退）</span>
+$ <span class="token function">git</span> checkout -- README     
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br></div></div><h3 id="标签" tabindex="-1"><a class="header-anchor" href="#标签" aria-hidden="true">#</a> 标签</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 列出所有tag</span>
+$ <span class="token function">git</span> tag
+
+<span class="token comment"># 新建一个tag在当前commit</span>
+$ <span class="token function">git</span> tag <span class="token punctuation">[</span>tag<span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个tag在指定commit</span>
+$ <span class="token function">git</span> tag <span class="token punctuation">[</span>tag<span class="token punctuation">]</span> <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 删除本地tag</span>
+$ <span class="token function">git</span> tag -d <span class="token punctuation">[</span>tag<span class="token punctuation">]</span>
+
+<span class="token comment"># 删除远程tag</span>
+$ <span class="token function">git</span> push origin :refs/tags/<span class="token punctuation">[</span>tagName<span class="token punctuation">]</span>
+
+<span class="token comment"># 查看tag信息</span>
+$ <span class="token function">git</span> show <span class="token punctuation">[</span>tag<span class="token punctuation">]</span>
+
+<span class="token comment"># 提交指定tag</span>
+$ <span class="token function">git</span> push <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> <span class="token punctuation">[</span>tag<span class="token punctuation">]</span>
+
+<span class="token comment"># 提交所有tag</span>
+$ <span class="token function">git</span> push <span class="token punctuation">[</span>remote<span class="token punctuation">]</span> --tags
+
+<span class="token comment"># 新建一个分支，指向某个tag</span>
+$ <span class="token function">git</span> checkout -b <span class="token punctuation">[</span>branch<span class="token punctuation">]</span> <span class="token punctuation">[</span>tag<span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h2 id="查看信息" tabindex="-1"><a class="header-anchor" href="#查看信息" aria-hidden="true">#</a> 查看信息</h2><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 显示有变更的文件</span>
+$ <span class="token function">git</span> status
+
+<span class="token comment"># 显示指定文件是什么人在什么时间修改过</span>
+$ <span class="token function">git</span> blame <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示某次提交的元数据和内容变化</span>
+$ <span class="token function">git</span> show <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示某次提交发生变化的文件</span>
+$ <span class="token function">git</span> show --name-only <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示某次提交时，某个文件的内容</span>
+$ <span class="token function">git</span> show <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>:<span class="token punctuation">[</span>filename<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示当前分支的最近几次提交</span>
+$ <span class="token function">git</span> reflog
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="diff-比较" tabindex="-1"><a class="header-anchor" href="#diff-比较" aria-hidden="true">#</a> <code>diff</code> 比较</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 显示暂存区和工作区的差异</span>
+$ <span class="token function">git</span> <span class="token function">diff</span> <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示暂存区和上一个commit的差异</span>
+$ <span class="token function">git</span> <span class="token function">diff</span> --cached <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示工作区与当前分支最新commit之间的差异</span>
+$ <span class="token function">git</span> <span class="token function">diff</span> HEAD <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示两次提交之间的差异</span>
+$ <span class="token function">git</span> <span class="token function">diff</span> <span class="token punctuation">[</span>first-branch<span class="token punctuation">]</span><span class="token punctuation">..</span>.<span class="token punctuation">[</span>second-branch<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示今天你写了多少行代码</span>
+$ <span class="token function">git</span> <span class="token function">diff</span> --shortstat <span class="token string">&quot;@{0 day ago}&quot;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p><strong>HEAD</strong> HEAD 可以看做是一个游标，一般是指向当前分支最后一次提交。</p><p>HEAD 的值存储在<code>.git/HEAD</code>中。</p><table><thead><tr><th>表示</th><th>说明</th></tr></thead><tbody><tr><td>HEAD</td><td>指代最后一次 commit</td></tr><tr><td>HEAD^</td><td>指代上一次提交</td></tr><tr><td>HEAD^^</td><td>指代上上一次提交</td></tr><tr><td>HEAD~n</td><td>表示倒数第n次提交</td></tr></tbody></table><p><code>log</code> 提交历史</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 显示当前分支的版本历史</span>
+$ <span class="token function">git</span> log
+
+<span class="token comment"># 显示commit历史，以及每次commit发生变更的文件</span>
+$ <span class="token function">git</span> log --stat
+
+<span class="token comment"># 搜索提交历史，根据关键词</span>
+$ <span class="token function">git</span> log -S <span class="token punctuation">[</span>keyword<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示某个commit之后的所有变动，每个commit占据一行</span>
+$ <span class="token function">git</span> log <span class="token punctuation">[</span>tag<span class="token punctuation">]</span> HEAD --pretty<span class="token operator">=</span>format:%s
+
+<span class="token comment"># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</span>
+$ <span class="token function">git</span> log <span class="token punctuation">[</span>tag<span class="token punctuation">]</span> HEAD --grep feature
+
+<span class="token comment"># 显示某个文件的版本历史，包括文件改名</span>
+$ <span class="token function">git</span> log --follow <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+$ <span class="token function">git</span> whatchanged <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示指定文件相关的每一次diff</span>
+$ <span class="token function">git</span> log -p <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 显示过去5次提交</span>
+$ <span class="token function">git</span> log -5 --pretty --oneline
+
+<span class="token comment"># 显示所有提交过的用户，按提交次数排序</span>
+$ <span class="token function">git</span> shortlog -sn
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><h2 id="撤销" tabindex="-1"><a class="header-anchor" href="#撤销" aria-hidden="true">#</a> 撤销</h2><ul><li><p>checkout 检出</p><p>checkout 用于创建、切换分支，或恢复工作区文件。</p><p>注意，checkout 会重写工作区，这个命令还是有危险性的。</p></li><li><p>reset 重置</p><p>reset 操作，要慎重，用于版本回滚，再恢复，但也要慎重使用。</p></li><li><p>revert 撤销</p><p>revert 主要用在主分支上，保留信息。在工作分支上，可以采用 reset 。</p></li></ul><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 列出暂存区可以被检出的文件</span>
+$ <span class="token function">git</span> checkout
+
+<span class="token comment"># 恢复暂存区的指定文件到工作区</span>
+$ <span class="token function">git</span> checkout <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 恢复某个commit的指定文件到暂存区和工作区</span>
+$ <span class="token function">git</span> checkout <span class="token punctuation">[</span>commit<span class="token punctuation">]</span> <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 恢复暂存区的所有文件到工作区</span>
+$ <span class="token function">git</span> checkout <span class="token builtin class-name">.</span>
+
+<span class="token comment"># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</span>
+$ <span class="token function">git</span> reset <span class="token punctuation">[</span>file<span class="token punctuation">]</span>
+
+<span class="token comment"># 重置暂存区与工作区，与上一次commit保持一致</span>
+$ <span class="token function">git</span> reset --hard
+
+<span class="token comment"># 显示 commit 的信息，只要HEAD发生变化，就可以在这里看到</span>
+$ <span class="token function">git</span> reflog
+
+<span class="token comment"># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</span>
+$ <span class="token function">git</span> reset <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 重置当前 HEAD 为指定 commit，但保持暂存区和工作区不变</span>
+$ <span class="token function">git</span> reset --soft commit
+
+<span class="token comment"># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</span>
+$ <span class="token function">git</span> reset --hard <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</span>
+$ <span class="token function">git</span> reset --keep <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个commit，用来撤销指定commit</span>
+<span class="token comment"># 后者的所有变化都将被前者抵消，并且应用到当前分支</span>
+$ <span class="token function">git</span> revert <span class="token punctuation">[</span>commit<span class="token punctuation">]</span>
+
+<span class="token comment"># 暂时将未提交的变化移除，稍后再移入</span>
+$ <span class="token function">git</span> stash
+$ <span class="token function">git</span> stash pop
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><h2 id="其他" tabindex="-1"><a class="header-anchor" href="#其他" aria-hidden="true">#</a> 其他</h2><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">git</span> config --global color.ui <span class="token boolean">true</span>                         <span class="token comment"># git status等命令自动着色</span>
+<span class="token function">git</span> config --global color.status auto
+<span class="token function">git</span> config --global color.diff auto
+<span class="token function">git</span> config --global color.branch auto
+<span class="token function">git</span> config --global color.interactive auto
+<span class="token function">git</span> config --global --unset http.proxy                    <span class="token comment"># remove  proxy configuration on git</span>
+<span class="token function">git</span> clone git+ssh://git@192.168.53.168/VT.git             <span class="token comment"># clone远程仓库</span>
+<span class="token function">git</span> clone -b <span class="token operator">&lt;</span>指定分支名<span class="token operator">&gt;</span> <span class="token operator">&lt;</span>远程仓库地址<span class="token operator">&gt;</span>                      <span class="token comment"># clone远程指定 分支</span>
+<span class="token function">git</span> log -p -m
+<span class="token function">git</span> show dfb02e6e4f2f7b573337763e5c0013802e392818         <span class="token comment"># 显示某个提交的详细内容</span>
+<span class="token function">git</span> show dfb02                                            <span class="token comment"># 可只用commitid的前几位</span>
+<span class="token function">git</span> show HEAD                                             <span class="token comment"># 显示HEAD提交日志</span>
+<span class="token function">git</span> show HEAD^                                            <span class="token comment"># 显示HEAD的父（上一个版本）的提交日志 ^^为上两个版本 ^5为上5个版本</span>
+<span class="token function">git</span> tag -a v2.0 -m <span class="token string">&#39;xxx&#39;</span>                                  <span class="token comment"># 增加v2.0的tag</span>
+<span class="token function">git</span> show v2.0                                             <span class="token comment"># 显示v2.0的日志及详细内容</span>
+<span class="token function">git</span> log v2.0                                              <span class="token comment"># 显示v2.0的日志</span>
+<span class="token function">git</span> <span class="token function">diff</span> HEAD -- ./lib                                    <span class="token comment"># 比较与HEAD版本lib目录的差异</span>
+<span class="token function">git</span> <span class="token function">diff</span> origin/master<span class="token punctuation">..</span>master                            <span class="token comment"># 比较远程分支master上有本地分支master上没有的</span>
+<span class="token function">git</span> <span class="token function">diff</span> origin/master<span class="token punctuation">..</span>master --stat                     <span class="token comment"># 只显示差异的文件，不显示具体内容</span>
+<span class="token function">git</span> remote <span class="token function">add</span> origin git+ssh://git@192.168.53.168/VT.git <span class="token comment"># 增加远程定义（用于push/pull/fetch）</span>
+<span class="token function">git</span> branch --contains <span class="token number">50089</span>                               <span class="token comment"># 显示包含提交50089的分支</span>
+<span class="token function">git</span> branch --merged                                       <span class="token comment"># 显示所有已合并到当前分支的分支</span>
+<span class="token function">git</span> branch --no-merged                                    <span class="token comment"># 显示所有未合并到当前分支的分支</span>
+<span class="token function">git</span> branch -m master master_copy                          <span class="token comment"># 本地分支改名</span>
+<span class="token function">git</span> checkout -b master_copy                               <span class="token comment"># 从当前分支创建新分支master_copy并检出</span>
+<span class="token function">git</span> checkout -b master master_copy                        <span class="token comment"># 上面的完整版</span>
+<span class="token function">git</span> checkout features/performance                         <span class="token comment"># 检出已存在的features/performance分支</span>
+<span class="token function">git</span> checkout --track hotfixes/BJVEP933                    <span class="token comment"># 检出远程分支hotfixes/BJVEP933并创建本地跟踪分支</span>
+<span class="token function">git</span> checkout -b devel origin/develop                      <span class="token comment"># 从远程分支develop创建新本地分支devel并检出</span>
+<span class="token function">git</span> checkout -- README                                    <span class="token comment"># 检出head版本的README文件（可用于修改错误回退）</span>
+<span class="token function">git</span> merge origin/master                                   <span class="token comment"># 合并远程master分支至当前分支</span>
+<span class="token function">git</span> cherry-pick ff44785404a8e                             <span class="token comment"># 合并提交ff44785404a8e的修改</span>
+<span class="token function">git</span> push origin :hotfixes/BJVEP933                        <span class="token comment"># 删除远程仓库的hotfixes/BJVEP933分支</span>
+<span class="token function">git</span> fetch                                                 <span class="token comment"># 获取所有远程分支（不更新本地分支，另需merge）</span>
+<span class="token function">git</span> fetch --prune                                         <span class="token comment"># 获取所有原创分支并清除服务器上已删掉的分支</span>
+<span class="token function">git</span> <span class="token function">mv</span> README README2                                     <span class="token comment"># 重命名文件README为README2</span>
+<span class="token function">git</span> reset --hard HEAD                                     <span class="token comment"># 将当前版本重置为HEAD（通常用于merge失败回退）</span>
+<span class="token function">git</span> rebase
+<span class="token function">git</span> branch -d hotfixes/BJVEP933                           <span class="token comment"># 删除分支hotfixes/BJVEP933（本分支修改已合并到其他分支）</span>
+<span class="token function">git</span> branch -D hotfixes/BJVEP933                           <span class="token comment"># 强制删除分支hotfixes/BJVEP933</span>
+<span class="token function">git</span> ls-files                                              <span class="token comment"># 列出git index包含的文件</span>
+<span class="token function">git</span> show-branch                                           <span class="token comment"># 图示当前分支历史</span>
+<span class="token function">git</span> show-branch --all                                     <span class="token comment"># 图示所有分支历史</span>
+<span class="token function">git</span> whatchanged                                           <span class="token comment"># 显示提交历史对应的文件修改</span>
+<span class="token function">git</span> revert dfb02e6e4f2f7b573337763e5c0013802e392818       <span class="token comment"># 撤销提交dfb02e6e4f2f7b573337763e5c0013802e392818</span>
+<span class="token function">git</span> ls-tree HEAD                                          <span class="token comment"># 内部命令：显示某个git对象</span>
+<span class="token function">git</span> rev-parse v2.0                                        <span class="token comment"># 内部命令：显示某个ref对于的SHA1 HASH</span>
+<span class="token function">git</span> reflog                                                <span class="token comment"># 显示所有提交，包括孤立节点</span>
+<span class="token function">git</span> show HEAD@<span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">}</span>
+<span class="token function">git</span> show master@<span class="token punctuation">{</span>yesterday<span class="token punctuation">}</span>                               <span class="token comment"># 显示master分支昨天的状态</span>
+<span class="token function">git</span> log --pretty<span class="token operator">=</span>format:<span class="token string">&#39;%h %s&#39;</span> --graph                   <span class="token comment"># 图示提交日志</span>
+<span class="token function">git</span> show HEAD~3
+<span class="token function">git</span> show -s --pretty<span class="token operator">=</span>raw 2be7fcb476
+<span class="token function">git</span> stash                                                 <span class="token comment"># 暂存当前修改，将所有至为HEAD状态</span>
+<span class="token function">git</span> stash list                                            <span class="token comment"># 查看所有暂存</span>
+<span class="token function">git</span> stash show -p stash@<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span>                               <span class="token comment"># 参考第一次暂存</span>
+<span class="token function">git</span> stash apply stash@<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span>                                 <span class="token comment"># 应用第一次暂存</span>
+<span class="token function">git</span> <span class="token function">grep</span> <span class="token string">&quot;delete from&quot;</span>                                    <span class="token comment"># 文件中搜索文本“delete from”</span>
+<span class="token function">git</span> <span class="token function">grep</span> -e <span class="token string">&#39;#define&#39;</span> --and -e SORT_DIRENT
+<span class="token function">git</span> gc
+<span class="token function">git</span> <span class="token function">fsck</span>
+<span class="token comment"># 生成一个可供发布的压缩包</span>
+$ <span class="token function">git</span> archive
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><h2 id="参考链接" tabindex="-1"><a class="header-anchor" href="#参考链接" aria-hidden="true">#</a> 参考链接</h2><ul><li>杰哥的IT之旅：常用的 Git 命令清单</li><li>马哥教育：Git基本操作</li></ul><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/git/git-basic.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/4/27 15:33:00</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.ac0f71d5.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/cloudnative/kubernetes/nodelocaldns.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="Coredns+Nodelocaldns cache解决Coredns域名解析延迟"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-04-27T15:33:00.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:tag" content="Kubernetes"><meta property="article:modified_time" content="2022-04-27T15:33:00.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>Coredns+Nodelocaldns cache解决Coredns域名解析延迟 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.ac0f71d5.js"><link rel="modulepreload" href="/assets/nodelocaldns.html.2abb6b2d.js"><link rel="modulepreload" href="/assets/nodelocaldns.html.c28d64dc.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container no-sidebar has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><a href="/cloudnative/kubernetes/cloudnative" class="nav-link" arialabel="云原生"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生<!----></a></div><div class="nav-item hide-in-mobile"><a href="/basic/" class="nav-link" arialabel="基础知识"><i class="icon iconfont icon-jichu"></i>基础知识<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="/linux/basic/" class="nav-link" arialabel="Linux"><i class="icon iconfont icon-linux"></i>Linux<!----></a></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewbox="0 0 1024 1024" arialabelledby="auto" style="display:block;"><title id="auto" lang="en">auto icon</title><g fill="currentColor"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewbox="0 0 1024 1024" arialabelledby="dark" style="display:none;"><title id="dark" lang="en">dark icon</title><g fill="currentColor"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewbox="0 0 1024 1024" arialabelledby="light" style="display:none;"><title id="light" lang="en">light icon</title><g fill="currentColor"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></g></svg></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->Coredns+Nodelocaldns cache解决Coredns域名解析延迟</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2021年9月20日</span><meta property="datePublished" content="2021-09-20T06:31:07.000Z"></span><span class="category-info" arialabel="分类🌈" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category clickable" role="navigation">云原生</li><meta property="articleSection" content="云原生"></ul></span><span arialabel="标签🏷" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewbox="0 0 1024 1024" arialabelledby="tag"><title id="tag" lang="en">tag icon</title><g fill="currentColor"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></g></svg><ul class="tags-wrapper"><li class="tag clickable" role="navigation">Kubernetes</li></ul><meta property="keywords" content="Kubernetes"></span><span class="reading-time-info" arialabel="阅读时间⌛" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 17 分钟</span><meta property="timeRequired" content="PT17M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#背景" class="router-link-active router-link-exact-active toc-link level2">背景</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#服务是如何工作的" class="router-link-active router-link-exact-active toc-link level2">服务是如何工作的？</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#linux内核中的dnat" class="router-link-active router-link-exact-active toc-link level2">Linux内核中的DNAT</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#问题" class="router-link-active router-link-exact-active toc-link level2">问题</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#缓解措施" class="router-link-active router-link-exact-active toc-link level2">缓解措施</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#意见建议" class="router-link-active router-link-exact-active toc-link level2">意见建议</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#内核修复" class="router-link-active router-link-exact-active toc-link level2">内核修复</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#解决方案如下" class="router-link-active router-link-exact-active toc-link level2">解决方案如下：</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#在-kubernetes-集群中使用-nodelocal-dnscache" class="router-link-active router-link-exact-active toc-link level3">在 Kubernetes 集群中使用 NodeLocal DNSCache</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/cloudnative/kubernetes/nodelocaldns.html#在集群中运行-nodelocal-dnscache-有如下几个好处" class="router-link-active router-link-exact-active toc-link level3">在集群中运行 NodeLocal DNSCache 有如下几个好处：</a></li><!----><!--]--></ul><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="coredns-nodelocaldns-cache解决coredns域名解析延迟" tabindex="-1"><a class="header-anchor" href="#coredns-nodelocaldns-cache解决coredns域名解析延迟" aria-hidden="true">#</a> Coredns+Nodelocaldns cache解决Coredns域名解析延迟</h1><blockquote><p>转载自：<a href="https://blog.51cto.com/u_14143894/2515451" target="_blank" rel="noopener noreferrer">Coredns+Nodelocaldns cache解决Coredns域名解析延迟<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p></blockquote><p>目前18.6版本和之前的coredns都会出现超时5s的情况，那么为什么会出现coredns超时的情况发生？</p><h2 id="背景" tabindex="-1"><a class="header-anchor" href="#背景" aria-hidden="true">#</a> 背景</h2><p>在Kubernetes中，Pod访问DNS服务器（kube-dns）的最常见方法是通过服务抽象。 因此，在尝试解释问题之前，了解服务的工作原理以及因此在Linux内核中如何实现目标网络地址转换（DNAT）至关重要。</p><h2 id="服务是如何工作的" tabindex="-1"><a class="header-anchor" href="#服务是如何工作的" aria-hidden="true">#</a> 服务是如何工作的？</h2><p>在iptables模式下（默认情况下），每个服务的kube-proxy在主机网络名称空间的nat表中创建一些iptables规则。 让我们考虑在集群中具有两个DNS服务器实例的kube-dns服务。 相关规则如下：</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>(1) -A PREROUTING -m comment --comment &quot;kubernetes service portals&quot; -j KUBE-SERVICES
+&lt;...&gt;
+(2) -A KUBE-SERVICES -d 10.96.0.10/32 -p udp -m comment --comment &quot;kube-system/kube-dns:dns cluster IP&quot; -m udp --dport 53 -j KUBE-SVC-TCOU7JCQXEZGVUNU
+&lt;...&gt;
+(3) -A KUBE-SVC-TCOU7JCQXEZGVUNU -m comment --comment &quot;kube-system/kube-dns:dns&quot; -m statistic --mode random --probability 0.50000000000 -j KUBE-SEP-LLLB6FGXBLX6PZF7
+(4) -A KUBE-SVC-TCOU7JCQXEZGVUNU -m comment --comment &quot;kube-system/kube-dns:dns&quot; -j KUBE-SEP-LRVEW52VMYCOUSMZ
+&lt;...&gt;
+(5) -A KUBE-SEP-LLLB6FGXBLX6PZF7 -p udp -m comment --comment &quot;kube-system/kube-dns:dns&quot; -m udp -j DNAT --to-destination 10.32.0.6:53
+&lt;...&gt;
+(6) -A KUBE-SEP-LRVEW52VMYCOUSMZ -p udp -m comment --comment &quot;kube-system/kube-dns:dns&quot; -m udp -j DNAT --to-destination 10.32.0.7:53
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>在我们的示例中，每个Pod的/etc/resolv.conf中都有填充的名称服务器10.96.0.10条目。 因此，来自Pod的DNS查找请求将发送到10.96.0.10，它是kube-dns服务的ClusterIP（虚拟IP）。 由于（1），请求进入KUBE-SERVICE链，然后匹配规则（2）最后根据（3）随机值，跳转到（5）或（6）根据规则（ 负载平衡），将请求UDP数据包的目标IPv4地址修改为DNS服务器的“实际” IPv4地址。 这种修饰是由DNAT完成的。 10.32.0.6和10.32.0.7是Weave Net网络中Kubernetes DNS服务器容器的IPv4地址。</p><h2 id="linux内核中的dnat" tabindex="-1"><a class="header-anchor" href="#linux内核中的dnat" aria-hidden="true">#</a> Linux内核中的DNAT</h2><p>如上所示，服务（在iptables模式下）的基础是DNAT，它由内核执行。</p><p>DNAT的主要职责是同时更改传出数据包的目的地，答复数据包的源，并确保对所有后续数据包进行相同的修改。 后者严重依赖于连接跟踪机制，也称为conntrack，它被实现为内核模块。顾名思义，conntrack会跟踪系统中正在进行的网络连接。 以一种简化的方式，conntrack中的每个连接都由两个元组表示-一个元组用于原始请求（IP_CT_DIR_ORIGINAL），另一个元组用于答复（IP_CT_DIR_REPLY）。对于UDP，每个元组都由源IP地址，源端口以及目标IP地址和目标端口组成。答复元组包含存储在src字段中的目标的真实地址。 例如，如果IP地址为10.40.0.17的Pod向kube-dns的ClusterIP发送一个请求，该请求被转换为10.32.0.6，则将创建以下元组：</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>原始：src = 10.40.0.17 dst = 10.96.0.10 sport = 53378 dport = 53
+回复：src = 10.32.0.6 dst = 10.40.0.17 sport = 53 dport = 53378
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>通过具有这些条目，内核可以相应地修改任何相关数据包的目的地和源地址，而无需再次遍历DNAT规则。此外，它将知道如何修改回复以及应将回复发送给谁。 创建conntrack条目后，将首先对其进行确认。稍后，如果没有已确认的conntrack条目具有相同的原始元组或回复元组，则内核将尝试确认该条目。 conntrack创建和DNAT的简化流程如下所示：</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code> 
++---------------------------+     
+|                                         |      为一个给定的包创建一个conntrack，如果
+|    1. nf_conntrack_in       |     它并不存在;IP_CT_DIR_REPLY是
+|                                        |      反向的IP_CT_DIR_ORIGINAL元组，因此
++------------+--------------+    回复元组的src还没有改变。
+             |
+             v
++---------------------------+
+|                                          |
+|     2. ipt_do_table             |     找到一个匹配的DNAT规则。
+|                                          |
++------------+--------------+
+             |
+             v
++---------------------------+
+|                                        |      根据DNAT规则更新回复元组src部分
+|    3. get_unique_tuple    |     使其不被任何已经确认的连接使用。
+|                                        |     
++------------+--------------+
+             |
+             v
++---------------------------+
+|                                        |     
+|     4. nf_nat_packet        |      根据应答元组打乱数据包的目的端口和地址。
+|                                       |
++------------+--------------+
+             |
+             v
++----------------------------+
+|                                                |  如果没有与相同的原始元组或应答元组确认的连
+|  5. __nf_conntrack_confirm | 则确认连接道;
+|                                                |     
++----------------------------+     递增insert_failed计数器并删除数据包(如果在)。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><h2 id="问题" tabindex="-1"><a class="header-anchor" href="#问题" aria-hidden="true">#</a> 问题</h2><p>当从不同线程通过同一套接字同时发送两个UDP数据包时，会出现问题。 UDP是无连接协议，因此connect（2）syscall（与TCP相反）不会发送任何数据包，因此，在调用之后没有创建conntrack条目。 该条目仅在发送数据包时创建。这导致以下可能：</p><p>1、两个包都没有在1中找到一个确认的conntrack。nf_conntrack_in一步。为两个包创建具有相同元组的两个conntrack条目。 2、与上面的情况相同，但一个包的conntrack条目在另一个包调用3之前被确认。get_unique_tuple。另一个包通常在源端口更改后得到一个不同的应答元组。 3、与第一种情况相同，但是在步骤2中选择了具有不同端点的两个不同规则。ipt_do_table。</p><p>竞争的结果是相同的—其中一个包在步骤5中被丢弃。__nf_conntrack_confirm。</p><p>这正是在DNS情况下发生的情况。 GNU C库和musl libc都并行执行A和AAAA DNS查找。由于竞争，内核可能会丢弃其中一个UDP数据包，因此客户端通常会在5秒的超时后尝试重新发送它。</p><p>值得一提的是，这个问题不仅是针对Kubernetes的-任何并行发送UDP数据包的Linux多线程进程都容易出现这种竞争情况。</p><p>另外，即使您没有任何DNAT规则，第二场竞争也可能发生-加载nf_nat内核模块足以启用对get_unique_tuple的调用就足够了。</p><p>可以使用conntrack -S获得的insert_failed计数器可以很好地指示您是否遇到此问题。</p><h2 id="缓解措施" tabindex="-1"><a class="header-anchor" href="#缓解措施" aria-hidden="true">#</a> 缓解措施</h2><h2 id="意见建议" tabindex="-1"><a class="header-anchor" href="#意见建议" aria-hidden="true">#</a> 意见建议</h2><p>建议采取多种解决方法：禁用并行查找，禁用IPv6以避免AAAA查找，使用TCP进行查找，改为在Pod的解析器配置文件中设置DNS服务器的真实IP地址，等等。不幸的是，由于常用的容器基础映像Alpine Linux使用musl libc的限制，它们中的许多不起作用。 对于Weave Net用户来说似乎可靠的方法是使用tc延迟DNS数据包。</p><p>另外，您可能想知道在ipvs模式下的kube-proxy是否可以绕过这个问题。答案是否定的，因为conntrack也是在这种模式下启用的。此外，在使用rr调度程序时，可以在DNS流量较高的集群中轻松重现第3次竞争。</p><h2 id="内核修复" tabindex="-1"><a class="header-anchor" href="#内核修复" aria-hidden="true">#</a> 内核修复</h2><p>无论采用哪种解决方法，都决定在内核中修复根本原因。 结果是以下内核补丁：</p><p>1、 “ netfilter：nf_conntrack：解决冲突以匹配conntracks”修复了第一场比赛（被接受）。 2、 “ netfilter：nf_nat：返回相同的答复元组以匹配CT”修复了第二场比赛（等待复审）。</p><p>这两个补丁解决了仅运行一个DNS服务器实例的群集的问题，同时降低了其他实例的超时命中率。 为了在所有情况下完全消除问题，需要解决第三场竞争。一种可能的解决方法是在步骤5中将冲突的conntrack条目与来自同一套接字的不同目的地合并。__nf_conntrack_confirm。但是，这会使在该步骤中更改了目的地的数据包的先前iptables规则遍历的结果无效。 另一种可能的解决方案是在每个节点上运行DNS服务器实例，并按照我的同事的建议，通过Pod查询运行在本地节点上的DNS服务器。 结论 首先，我展示了“ DNS查找需要5秒”问题的基本细节，并揭示了罪魁祸首-Linux conntrack内核模块，它本质上是不受欢迎的。有关模块中也存在其他可能的问题</p><h2 id="解决方案如下" tabindex="-1"><a class="header-anchor" href="#解决方案如下" aria-hidden="true">#</a> 解决方案如下：</h2><p><strong>方案（一）：使用 TCP 协议发送 DNS 请求</strong> 通过resolv.conf的use-vc选项来开启 TCP 协议 测试 1、修改/etc/resolv.conf文件，在最后加入一行文本： options use-vc 2、此压测可根据下面测试的go文件进行测试，编译好后放进一个pod中，进行压测： #200个并发,持续30秒,记录超过5s的请求个数 ./dns -host {service}.{namespace} -c 200 -d 30 -l 5000</p><p><strong>方案（二）：避免相同五元组 DNS 请求的并发</strong> 通过resolv.conf的single-request-reopen和single-request选项来避免： single-request-reopen (glibc&gt;=2.9) 发送 A 类型请求和 AAAA 类型请求使用不同的源端口。这样两个请求在 conntrack 表中不占用同一个表项，从而避免冲突。 single-request (glibc&gt;=2.10) 避免并发，改为串行发送 A 类型和 AAAA 类型请求，没有了并发，从而也避免了冲突。</p><p>测试 single-request-reopen 修改/etc/resolv.conf文件，在最后加入一行文本： options single-request-reopen 此压测可根据下面测试的go文件进行测试，编译好后放进一个pod中，进行压测： #200个并发,持续30秒,记录超过5s的请求个数 ./dns -host {service}.{namespace} -c 200 -d 30 -l 5000</p><p>测试 single-request 修改/etc/resolv.conf文件，在最后加入一行文本： options single-request 此压测可根据下面测试的go文件进行测试，编译好后放进一个pod中，进行压测： #200个并发,持续30秒,记录超过5s的请求个数 ./dns -host {service}.{namespace} -c 200 -d 30 -l 5000</p><p>最后结果，如果你测试过，相信coredns的测试如果还是增加使用 TCP 协议发送 DNS 请求,还是避免相同五元组 DNS 请求的并发，都没有显著的解决coredns延迟的结果</p><p>那么其实 k8s 官方也意识到了这个问题比较常见，所以也给出了 coredns 以 cache 模式作为 daemonset 部署的解决方案</p><h3 id="在-kubernetes-集群中使用-nodelocal-dnscache" tabindex="-1"><a class="header-anchor" href="#在-kubernetes-集群中使用-nodelocal-dnscache" aria-hidden="true">#</a> 在 Kubernetes 集群中使用 NodeLocal DNSCache</h3><p>https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns/nodelocaldns</p><p>NodeLocal DNSCache 通过在集群节点上作为 DaemonSet 运行 dns 缓存代理来提高集群 DNS 性能。 在当今的体系结构中，处于 ClusterFirst DNS 模式的 Pod 可以连接到 kube-dns serviceIP 进行 DNS 查询。 通过 kube-proxy 添加的 iptables 规则将其转换为 kube-dns/CoreDNS 端点。 借助这种新架构，Pods 将可以访问在同一节点上运行的 dns 缓存代理，从而避免了 iptables DNAT 规则和连接跟踪。 本地缓存代理将查询 kube-dns 服务以获取集群主机名的缓存缺失（默认为 cluster.local 后缀），并有效解决5秒延迟问题</p><h3 id="在集群中运行-nodelocal-dnscache-有如下几个好处" tabindex="-1"><a class="header-anchor" href="#在集群中运行-nodelocal-dnscache-有如下几个好处" aria-hidden="true">#</a> 在集群中运行 NodeLocal DNSCache 有如下几个好处：</h3><p>如果本地没有 CoreDNS 实例，则具有最高 DNS QPS 的 Pod 可能必须到另一个节点进行解析，使用 NodeLocal DNSCache 后，拥有本地缓存将有助于改善延迟 跳过 iptables DNAT 和连接跟踪将有助于减少 conntrack 竞争并避免 UDP DNS 条目填满 conntrack 表。（常见的5s超时问题就是这个原因造成的） 从本地缓存代理到 kube-dns 服务的连接可以升级到 TCP，TCP conntrack 条目将在连接关闭时被删除，而 UDP 条目必须超时(默认 nf_conntrack_udp_timeout 是 30 秒) 将 DNS 查询从 UDP 升级到 TCP 将减少归因于丢弃的 UDP 数据包和 DNS 超时的尾部等待时间，通常长达 30 秒（3 次重试+ 10 秒超时）。 可以重新启用负缓存，从而减少对 kube-dns 服务的查询数量。</p><h4 id="架构图" tabindex="-1"><a class="header-anchor" href="#架构图" aria-hidden="true">#</a> 架构图</h4><p>启用 NodeLocal DNSCache 之后，这是 DNS 查询所遵循的路径： <img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/format,png.png" alt="Coredns+Nodelocaldns cache解决Coredns域名解析延迟" loading="lazy"></p><h4 id="环境检查" tabindex="-1"><a class="header-anchor" href="#环境检查" aria-hidden="true">#</a> 环境检查</h4><p>该资源清单文件中包含几个变量，其中： <strong>PILLAR</strong>DNS<strong>SERVER</strong> ：表示 kube-dns 这个 Service 的 ClusterIP，可以通过命令 kubectl get svc -n A | grep kube-dns | awk &#39;{ print $4 }&#39; 获取 <strong>PILLAR</strong>LOCAL<strong>DNS</strong>：表示 DNSCache 本地的 IP，默认为 169.254.20.10 <strong>PILLAR</strong>DNS<strong>DOMAIN</strong>：表示集群域，默认就是 cluster.local</p><p>另外还有两个参数 <strong>PILLAR</strong>CLUSTER<strong>DNS</strong> 和 <strong>PILLAR</strong>UPSTREAM<strong>SERVERS</strong>，这两个参数会通过镜像 1.15.6 版本以上的去进行配置，对应的值来源于 kube-dns 的 ConfigMap 和定制的 Upstream Server 配置。直接执行如下所示的命令即可安装：</p><p>运行nodelocaldns需要进行替换以下操作,如果下载过慢，可以直接使用下面的yaml来使用，需要替换的话，只有10.96.0.10，这个是kube-dns service的clusterIP</p><h4 id="开始部署" tabindex="-1"><a class="header-anchor" href="#开始部署" aria-hidden="true">#</a> 开始部署</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>wget -O nodelocaldns.yaml &quot;https://github.com/kubernetes/kubernetes/raw/master/cluster/addons/dns/nodelocaldns/nodelocaldns.yaml&quot; &amp;&amp; \
+sed -i &#39;s/k8s.gcr.io/zhaocheng172/g&#39; nodelocaldns.yaml &amp;&amp; \
+sed -i &#39;s/__PILLAR__DNS__SERVER__/10.96.0.10/g&#39; nodelocaldns.yaml &amp;&amp; \
+sed -i &#39;s/__PILLAR__LOCAL__DNS__/169.254.20.10/g&#39; nodelocaldns.yaml &amp;&amp; \
+sed -i &#39;s/__PILLAR__DNS__DOMAIN__/cluster.local/g&#39; nodelocaldns.yaml 
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>最终替换结果</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#Copyright 2018 The Kubernetes Authors.
+#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#http://www.apache.org/licenses/LICENSE-2.0
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+ 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: node-local-dns
+  namespace: kube-system
+  labels:
+    kubernetes.io/cluster-service: &quot;true&quot;
+    addonmanager.kubernetes.io/mode: Reconcile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-dns-upstream
+  namespace: kube-system
+  labels:
+    k8s-app: kube-dns
+    kubernetes.io/cluster-service: &quot;true&quot;
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/name: &quot;KubeDNSUpstream&quot;
+spec:
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 53
+  selector:
+    k8s-app: kube-dns
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-local-dns
+  namespace: kube-system
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+data:
+  Corefile: |
+    cluster.local:53 {
+        errors
+        cache {
+                success 9984 30
+                denial 9984 5
+        }
+        reload
+        loop
+        bind 169.254.20.10 10.96.0.10
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        health 169.254.20.10:8080
+        }
+    in-addr.arpa:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 169.254.20.10 10.96.0.10
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        }
+    ip6.arpa:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 169.254.20.10 10.96.0.10
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        }
+    .:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 169.254.20.10 10.96.0.10
+        forward . __PILLAR__UPSTREAM__SERVERS__ {
+                force_tcp
+        }
+        prometheus :9253
+        }
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-local-dns
+  namespace: kube-system
+  labels:
+    k8s-app: node-local-dns
+    kubernetes.io/cluster-service: &quot;true&quot;
+    addonmanager.kubernetes.io/mode: Reconcile
+spec:
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 10%
+  selector:
+    matchLabels:
+      k8s-app: node-local-dns
+  template:
+    metadata:
+      labels:
+        k8s-app: node-local-dns
+      annotations:
+        prometheus.io/port: &quot;9253&quot;
+        prometheus.io/scrape: &quot;true&quot;
+    spec:
+      priorityClassName: system-node-critical
+      serviceAccountName: node-local-dns
+      hostNetwork: true
+      dnsPolicy: Default  # Don&#39;t use cluster DNS.
+      tolerations:
+      - key: &quot;CriticalAddonsOnly&quot;
+        operator: &quot;Exists&quot;
+      - effect: &quot;NoExecute&quot;
+        operator: &quot;Exists&quot;
+      - effect: &quot;NoSchedule&quot;
+        operator: &quot;Exists&quot;
+      containers:
+      - name: node-cache
+        image: zhaocheng172/k8s-dns-node-cache:1.15.13
+        resources:
+          requests:
+            cpu: 25m
+            memory: 5Mi
+        args: [ &quot;-localip&quot;, &quot;169.254.20.10,10.96.0.10&quot;, &quot;-conf&quot;, &quot;/etc/Corefile&quot;, &quot;-upstreamsvc&quot;, &quot;kube-dns-upstream&quot; ]
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 53
+          name: dns
+          protocol: UDP
+        - containerPort: 53
+          name: dns-tcp
+          protocol: TCP
+        - containerPort: 9253
+          name: metrics
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            host: 169.254.20.10
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - mountPath: /run/xtables.lock
+          name: xtables-lock
+          readOnly: false
+        - name: config-volume
+          mountPath: /etc/coredns
+        - name: kube-dns-config
+          mountPath: /etc/kube-dns
+      volumes:
+      - name: xtables-lock
+        hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+      - name: kube-dns-config
+        configMap:
+          name: kube-dns
+          optional: true
+      - name: config-volume
+        configMap:
+          name: node-local-dns
+          items:
+            - key: Corefile
+              path: Corefile.base
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br><span class="line-number">163</span><br><span class="line-number">164</span><br><span class="line-number">165</span><br><span class="line-number">166</span><br><span class="line-number">167</span><br><span class="line-number">168</span><br><span class="line-number">169</span><br><span class="line-number">170</span><br><span class="line-number">171</span><br><span class="line-number">172</span><br><span class="line-number">173</span><br><span class="line-number">174</span><br><span class="line-number">175</span><br><span class="line-number">176</span><br><span class="line-number">177</span><br><span class="line-number">178</span><br><span class="line-number">179</span><br><span class="line-number">180</span><br><span class="line-number">181</span><br><span class="line-number">182</span><br><span class="line-number">183</span><br><span class="line-number">184</span><br><span class="line-number">185</span><br><span class="line-number">186</span><br></div></div><p>可以通过如下命令来查看对应的 Pod 是否已经启动成功：</p><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nodelocal1.png" alt="Coredns+Nodelocaldns cache解决Coredns域名解析延迟" loading="lazy"> 需要注意的是这里使用 DaemonSet 部署 node-local-dns 使用了 hostNetwork=true，会占用宿主机的 8080 端口，所以需要保证该端口未被占用。</p><p>另外我们还需要修改 kubelet 的 --cluster-dns 参数，将其指向 169.254.20.10，Daemonset 会在每个节点创建一个网卡来绑这个 IP，Pod 向本节点这个 IP 发 DNS 请求，缓存没有命中的时候才会再代理到上游集群 DNS 进行查询。</p><h4 id="两种方案测试nodelocaldns实效性" tabindex="-1"><a class="header-anchor" href="#两种方案测试nodelocaldns实效性" aria-hidden="true">#</a> 两种方案测试nodelocaldns实效性</h4><p>第一种就是定制一个pod，Kubernetes Pod dnsPolicy 可以针对每个Pod设置DNS的策略，通过PodSpec下的dnsPolicy字段可以指定相应的策略 这种方式可以直接启动一个pod，Pods将直接可以访问在同一节点上运行的 dns 缓存代理，从而避免了 iptables DNAT 规则和连接跟踪，但是这种对于整体集群来讲并不适合，只提高了当前pod的DNScache的命中率，这种适合定制一些dns策略</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web
+  name: web
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      dnsConfig:
+        nameservers:
+          - 169.254.20.10
+        searches:
+          - public.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
+        options:
+          - name: ndots
+            value: &quot;5&quot;
+      dnsPolicy: None
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><p>第二种如果对于集群来讲，需要全部生效 需要替换每个节点的clusterDNS的地址</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>clusterDNS:
+- 10.96.0.10
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>替换的话可以直接使用sed直接替换，另外需要所有节点替换并重启kubelet</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>sed -i &#39;s/10.96.0.10/169.254.20.10/g&#39; /var/lib/kubelet/config.yaml
+systemctl daemon-reload
+systemctl restart kubelet
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>待 node-local-dns 安装配置完成后，我们可以部署一个新的 Pod 来验证下：(test-node-local-dns.yaml)</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: test-node-local-dns
+spec:
+  containers:
+  - name: local-dns
+    image: busybox
+    command: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 60m&quot;]
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>直接部署：</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>$ kubectl apply -f test-node-local-dns.yaml
+$ kubectl exec -it test-node-local-dns /bin/sh
+/ # cat /etc/resolv.conf
+nameserver 169.254.20.10
+search default.svc.cluster.local svc.cluster.local cluster.local
+options ndots:5
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>需要注意 我们现在已经可以看到 nameserver 已经变成 169.254.20.10 了，当然对于之前的历史 Pod 要想使用 node-local-dns 则需要重建所有的pod</p><p>1、linux 中glibc的 resolver 的缺省超时时间是 5s，而导致超时的原因是内核conntrack模块的 bug。 2、DNS client (glibc 或 musl libc) 会并发请求 A 和 AAAA 记录，跟 DNS Server 通信自然会先 connect (建立 fd)，后面请求报文使用这个 fd 来发送，由于 UDP 是无状态协议， connect 时并不会发包，也就不会创建 conntrack 表项, 而并发请求的 A 和 AAAA 记录默认使用同一个 fd 发包，send 时各自发的包它们源 Port 相同(因为用的同一个 socket 发送)，当并发发包时，两个包都还没有被插入 conntrack 表项，所以 netfilter 会为它们分别创建 conntrack 表项，而集群内请求 kube-dns 或 coredns 都是访问的 CLUSTER-IP，报文最终会被 DNAT 成一个 endpoint 的 POD IP，当两个包恰好又被 DNAT 成同一个 POD IP 时，它们的五元组就相同了，在最终插入的时候后面那个包就会被丢掉，如果 dns 的 pod 副本只有一个实例的情况就很容易发生(始终被 DNAT 成同一个 POD IP)，现象就是 dns 请求超时，client 默认策略是等待 5s 自动重试，如果重试成功，我们看到的现象就是 dns 请求有 5s 的延时。</p><p>另外如果要想去跟踪 DNS 的解析过程的话可以去通过抓包来观察具体超时的最大时间。</p><p>测试coredns+nodelocaldns的效果 我们可以通过Go的一个测试用例来测试DNS的解析是否得到提升</p><p>首先安装一个Go的环境</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#wget   https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
+#tar -zxf go1.12.5.linux-amd64.tar.gz -C /usr/local
+#export PATH=$PATH:/usr/local/go/bin
+#go version
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>主要是要测试 dns 服务的性能，相当于压测工具只做域名解析的耗时时间</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>cat dns-test.go
+ 
+package main
+ 
+import (
+    &quot;context&quot;
+    &quot;flag&quot;
+    &quot;fmt&quot;
+    &quot;net&quot;
+    &quot;sync/atomic&quot;
+    &quot;time&quot;
+)
+ 
+var host string
+var connections int
+var duration int64
+var limit int64
+var timeoutCount int64
+ 
+func main() {
+    // os.Args = append(os.Args, &quot;-host&quot;, &quot;www.baidu.com&quot;, &quot;-c&quot;, &quot;200&quot;, &quot;-d&quot;, &quot;30&quot;, &quot;-l&quot;, &quot;5000&quot;)
+ 
+    flag.StringVar(&amp;host, &quot;host&quot;, &quot;&quot;, &quot;Resolve host&quot;)
+    flag.IntVar(&amp;connections, &quot;c&quot;, 100, &quot;Connections&quot;)
+    flag.Int64Var(&amp;duration, &quot;d&quot;, 0, &quot;Duration(s)&quot;)
+    flag.Int64Var(&amp;limit, &quot;l&quot;, 0, &quot;Limit(ms)&quot;)
+    flag.Parse()
+ 
+    var count int64 = 0
+    var errCount int64 = 0
+    pool := make(chan interface{}, connections)
+    exit := make(chan bool)
+    var (
+        min int64 = 0
+        max int64 = 0
+        sum int64 = 0
+    )
+ 
+    go func() {
+        time.Sleep(time.Second * time.Duration(duration))
+        exit &lt;- true
+    }()
+endD:
+    for {
+        select {
+        case pool &lt;- nil:
+            go func() {
+                defer func() {
+                    &lt;-pool
+                }()
+                resolver := &amp;net.Resolver{}
+                now := time.Now()
+                _, err := resolver.LookupIPAddr(context.Background(), host)
+                use := time.Since(now).Nanoseconds() / int64(time.Millisecond)
+                if min == 0 || use &lt; min {
+                    min = use
+                }
+                if use &gt; max {
+                    max = use
+                }
+                sum += use
+                if limit &gt; 0 &amp;&amp; use &gt;= limit {
+                    timeoutCount++
+                }
+                atomic.AddInt64(&amp;count, 1)
+                if err != nil {
+                    fmt.Println(err.Error())
+                    atomic.AddInt64(&amp;errCount, 1)
+                }
+            }()
+        case &lt;-exit:
+            break endD
+        }
+    }
+ 
+    fmt.Printf(&quot;request count：%d\nerror count：%d\n&quot;, count, errCount)
+    fmt.Printf(&quot;request time：min(%dms) max(%dms) avg(%dms) timeout(%dn)\n&quot;, min, max, sum/count, timeoutCount)
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br></div></div><p>直接go build，会有一个dns-test的二进制文件</p><p>将此文件放到pod里面 <code>#kubectl cp /root/dns-test web-7f5df76d5f-r76xx:/root -n kube-system</code> 下面来进行测试</p><p>进行压测 200个并发,持续30秒,记录超过5s的请求个数 /dns -host {service}.{namespace} -c 200 -d 30 -l 5000 结果如下： 1.14.3版本原生集群不加参数测试默认使用iptables性能方面可能不是那么好，不过已经没有5s延迟情况发生，最高耗时2.9s <img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nodelocal2.png" alt="Coredns+Nodelocaldns cache解决Coredns域名解析延迟" loading="lazy"></p><p>1.18.6原生集群不加参数测试 结论没有延迟操作最大耗时为0.5s，默认采用ipvs，效率非常高 <img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nodelocal3.png" alt="Coredns+Nodelocaldns cache解决Coredns域名解析延迟" loading="lazy"></p><p>最后总结： 通过测试结果得到以下结论 1.14.3集群使用coredns+nodelocaldns配合使用避免相同五元组 DNS 请求的并发，增加options single-request-reopen，最大耗时降低到2.25s左右，不会出现5s超时情况，效果最好 1.18.6集群使用coredns+nodelocaldns不加参数测试最大耗时降低到0.53s左右，效率明显提升，效果最好</p><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/cloudnative/kubernetes/nodelocaldns.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/4/27 15:33:00</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.ac0f71d5.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/code/shell/part5/32_Debugging.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="32 调试"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-04-27T15:33:00.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:author" content="LinuxStory"><meta property="article:tag" content="Bash"><meta property="article:modified_time" content="2022-04-27T15:33:00.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>32 调试 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.ac0f71d5.js"><link rel="modulepreload" href="/assets/32_Debugging.html.34e47796.js"><link rel="modulepreload" href="/assets/32_Debugging.html.dac9118f.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><a href="/code/shell/part5/cloudnative" class="nav-link" arialabel="云原生"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生<!----></a></div><div class="nav-item hide-in-mobile"><a href="/basic/" class="nav-link" arialabel="基础知识"><i class="icon iconfont icon-jichu"></i>基础知识<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link active" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="/linux/basic/" class="nav-link" arialabel="Linux"><i class="icon iconfont icon-linux"></i>Linux<!----></a></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewbox="0 0 1024 1024" arialabelledby="auto" style="display:block;"><title id="auto" lang="en">auto icon</title><g fill="currentColor"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewbox="0 0 1024 1024" arialabelledby="dark" style="display:none;"><title id="dark" lang="en">dark icon</title><g fill="currentColor"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></g></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewbox="0 0 1024 1024" arialabelledby="light" style="display:none;"><title id="light" lang="en">light icon</title><g fill="currentColor"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></g></svg></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><i class="icon iconfont icon-shell"></i><span class="title">高级 Bash 脚本编程指南</span><span class="arrow right"></span></button><!--[--><!--[--><!----><!--]--><!----><!--]--></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><i class="icon iconfont icon-python"></i><span class="title">Python 学习笔记</span><span class="arrow right"></span></button><!--[--><!--[--><!----><!--]--><!----><!--]--></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><i class="icon iconfont icon-golang"></i><span class="title">Golang 学习笔记</span><span class="arrow right"></span></button><!--[--><!--[--><!----><!--]--><!----><!--]--></section><!--]--></li><li><!--[--><a href="/code/frontend/" class="nav-link sidebar-link sidebar-page" arialabel="前端学习笔记"><i class="icon iconfont icon-vue"></i>前端学习笔记<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->32 调试</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><span class="author-item">LinuxStory</span></span><span property="author" content="LinuxStory"></span></span><!----><span class="date-info" arialabel="写作日期📅" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2021年5月11日</span><meta property="datePublished" content="2021-05-11T03:54:51.000Z"></span><span class="category-info" arialabel="分类🌈" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category clickable" role="navigation">Linux</li><meta property="articleSection" content="Linux"></ul></span><span arialabel="标签🏷" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewbox="0 0 1024 1024" arialabelledby="tag"><title id="tag" lang="en">tag icon</title><g fill="currentColor"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></g></svg><ul class="tags-wrapper"><li class="tag clickable" role="navigation">Bash</li></ul><meta property="keywords" content="Bash"></span><span class="reading-time-info" arialabel="阅读时间⌛" isoriginal="false" pageview="false" color="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 9 分钟</span><meta property="timeRequired" content="PT9M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="_32-调试" tabindex="-1"><a class="header-anchor" href="#_32-调试" aria-hidden="true">#</a> 32 调试</h1><blockquote class="blockquote-center"> 调试代码要比写代码困难两倍。因此，你写代码时越多的使用奇技淫巧（自做聪明），顾名思义，你越难以调试它。 --Brian Kernighan </blockquote><p>Bash shell中不包含内置的debug工具，甚至没有调试专用的命令和结构。当调试非功能脚本，产生语法错误或者有错别字时，往往是无用的错误提示消息。</p><p>例子 32-1. 一个错误脚本</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+# ex74.sh
+
+# 这是一个错误脚本，但是它错在哪？
+
+a=37
+
+if [$a -gt 27 ]
+then
+  echo $a
+fi  
+
+exit $?   # 0! 为什么?
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>脚本的输出:</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>./ex74.sh: [37: command not found
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>上边的脚本究竟哪错了(提示: 注意if的后边)</p><p>例子 32-2. 缺少关键字</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+# missing-keyword.sh
+# 这个脚本会提示什么错误信息？
+
+for a in 1 2 3
+do
+  echo &quot;$a&quot;
+# done     #所需关键字&#39;done&#39;在第8行被注释掉.
+
+exit 0     # 将不会在这退出!
+
+#在命令行执行完此脚本后
+输入：echo $?    
+输出：2
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>脚本的输出:</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>missing-keyword.sh: line 10: syntax error: unexpected end of file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>注意, 其实不必参考错误信息中指出的错误行号. 这行只不过是Bash解释器最终认定错误的地方. 出错信息在报告产生语法错误的行号时, 可能会忽略脚本的注释行. 如果脚本可以执行, 但并不如你所期望的那样工作, 怎么办? 通常情况下, 这都是由常见的逻辑错误所 产生的.</p><p>例子 32-3.</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+
+#  这个脚本应该删除在当前目录下所有文件名中含有空格的文件
+#  它不能正常运行，为什么？
+
+badname=`ls | grep &#39; &#39;`
+
+# Try this:
+# echo &quot;$badname&quot;
+
+rm &quot;$badname&quot;
+
+exit 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>可以通过把echo &quot;$badname&quot;行的注释符去掉，找出例子 29-3中的错误， 看一下echo出来的信息，是否按你期望的方式运行.</p><p>在这种特殊的情况下，rm &quot;<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>d</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mi mathvariant="normal">&quot;</mi><mtext>不能得到预期的结果，因为</mtext></mrow><annotation encoding="application/x-tex">badname&quot;不能得到预期的结果，因为</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">ba</span><span class="mord mathnormal">d</span><span class="mord mathnormal">nam</span><span class="mord mathnormal">e</span><span class="mord">&quot;</span><span class="mord cjk_fallback">不能得到预期的结果，因为</span></span></span></span>badname不应该加双引号。加上双引号会让rm只有一个参数(这就只能匹配一个文件名).一种不完善的解决办法是去掉<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>d</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mtext>外面的引号</mtext><mo separator="true">,</mo><mtext>并且重新设置</mtext></mrow><annotation encoding="application/x-tex">badname外 面的引号, 并且重新设置</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ba</span><span class="mord mathnormal">d</span><span class="mord mathnormal">nam</span><span class="mord mathnormal">e</span><span class="mord cjk_fallback">外面的引号</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord cjk_fallback">并且重新设置</span></span></span></span>IFS, 让<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>F</mi><mi>S</mi><mtext>只包含一个换行符</mtext><mo separator="true">,</mo><mi>I</mi><mi>F</mi><mi>S</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">IFS只包含一个换行符, IFS=</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.05764em;">FS</span><span class="mord cjk_fallback">只包含一个换行符</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.05764em;">FS</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span>&#39;\n&#39;. 但是, 下面这个方法更简单.</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># 删除包含空格的文件的正确方法.
+rm *\ *
+rm *&quot; &quot;*
+rm *&#39; &#39;*
+# 感谢. S.C.
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>总结一下这个问题脚本的症状:</p><blockquote></blockquote><ol><li>由于&quot;syntax error&quot;(语法错误)使得脚本停止运行,</li><li>或者脚本能够运行, 但是并不是按照我们所期望的那样运行(逻辑错误).</li><li>脚本能够按照我们所期望的那样运行, 但是有烦人的副作用(逻辑炸弹).</li></ol><p>如果想调试脚本, 可以用以下方式:</p><ol><li><p>echo语句可以放在脚本中存在疑问的位置上, 观察变量的值, 来了解脚本运行时的情况.</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>### debecho (debug-echo), by Stefano Falsetto ###
+### Will echo passed parameters only if DEBUG is set to a value. ###
+debecho () {
+	if [ ! -z &quot;$DEBUG&quot; ]; then
+ 		echo &quot;$1&quot; &gt;&amp;2
+ 		# ^^^ to stderr
+	fi
+}
+
+DEBUG=on
+Whatever=whatnot
+debecho $Whatever   # whatnot
+
+DEBUG=
+Whatever=notwhat
+debecho $Whatever   # (Will not echo.)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div></li><li><p>使用过滤器tee来检查临界点上的进程或数据流.</p></li><li><p>设置选项-n -v -x</p><p>sh -n scriptname不会运行脚本, 只会检查脚本的语法错误. 这等价于把set -n或set -o noexec插入脚本中. 注意, 某些类型的语法错误不会被这种方式检查出来.</p><p>sh -v scriptname将会在运行脚本之前, 打印出每一个命令. 这等价于把set -v或set -o verbose插入到脚本中.</p><p>选项-n和-v可以同时使用. sh -nv scriptname将会给出详细的语法检查.</p><p>sh -x scriptname会打印出每个命令执行的结果, 但只使用缩写形式. 这等价于在脚本中插入set -x或set -o xtrace.</p><p>把set -u或set -o nounset插入到脚本中, 并运行它, 就会在每个试图使用未声明变量的地方给出一个unbound variable错误信息.</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>set -u   # Or   set -o nounset
+
+# Setting a variable to null will not trigger the error/abort.
+# unset_var=
+
+echo $unset_var   # Unset (and undeclared) variable.
+echo &quot;Should not echo!&quot;
+
+#sh t2.sh
+#t2.sh: line 6: unset_var: unbound variable
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div></li><li><p>使用“断言”功能在脚本的关键点进行测试的变量或条件。 （这是从C借来的一个想法）</p><p>Example 32-4. Testing a condition with an assert</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+# assert.sh
+
+#######################################################################
+assert ()                 #  If condition false,
+{                         #+ exit from script
+                          #+ with appropriate error message.
+  E_PARAM_ERR=98
+  E_ASSERT_FAILED=99
+
+
+  if [ -z &quot;$2&quot; ]          #  Not enough parameters passed
+  then                    #+ to assert() function.
+    return $E_PARAM_ERR   #  No damage done.
+  fi
+
+  lineno=$2
+
+  if [ ! $1 ] 
+  then
+    echo &quot;Assertion failed:  \&quot;$1\&quot;&quot;
+    echo &quot;File \&quot;$0\&quot;, line $lineno&quot;    # Give name of file and line number.
+    exit $E_ASSERT_FAILED
+  # else
+  #   return
+  #   and continue executing the script.
+  fi  
+} # Insert a similar assert() function into a script you need to debug.    
+#######################################################################
+
+
+a=5
+b=4
+condition=&quot;$a -lt $b&quot;     #  Error message and exit from script.
+                          #  Try setting &quot;condition&quot; to something else
+                          #+ and see what happens.
+
+assert &quot;$condition&quot; $LINENO
+# The remainder of the script executes only if the &quot;assert&quot; does not fail.
+
+
+# Some commands.
+# Some more commands . . .
+echo &quot;This statement echoes only if the \&quot;assert\&quot; does not fail.&quot;
+# . . .
+# More commands . . .
+
+exit $?
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br></div></div></li><li><p>使用变量$LINENO和内建命令caller.</p></li><li><p>捕获exit返回值.</p><p>The exit command in a script triggers a signal 0, terminating the process, that is, the script itself. [1] It is often useful to trap the exit, forcing a &quot;printout&quot; of variables, for example. The trap must be the first command in the script.</p></li></ol><p>捕获信号</p><p>trap Specifies an action on receipt of a signal; also useful for debugging.</p><p>A signal is a message sent to a process, either by the kernel or another process, telling it to take some specified action (usually to terminate). For example, hitting a Control-C sends a user interrupt, an INT signal, to a running program.</p><p>A simple instance:</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>trap &#39;&#39; 2
+# Ignore interrupt 2 (Control-C), with no action specified. 
+	
+trap &#39;echo &quot;Control-C disabled.&quot;&#39; 2
+# Message when Control-C pressed.
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>Example 32-5. Trapping at exit</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+# Hunting variables with a trap.
+
+trap &#39;echo Variable Listing --- a = $a  b = $b&#39; EXIT
+#  EXIT is the name of the signal generated upon exit from a script.
+#
+#  The command specified by the &quot;trap&quot; doesn&#39;t execute until
+#+ the appropriate signal is sent.
+
+echo &quot;This prints before the \&quot;trap\&quot; --&quot;
+echo &quot;even though the script sees the \&quot;trap\&quot; first.&quot;
+echo
+
+a=39
+b=36
+
+exit 0
+
+
+#  Note that commenting out the &#39;exit&#39; command makes no difference,
+#+ since the script exits in any case after running out of commands.
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>Example 32-6. Cleaning up after Control-C</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>#!/bin/bash
+# logon.sh: A quick &#39;n dirty script to check whether you are on-line yet.
+
+umask 177  # Make sure temp files are not world readable.
+
+
+TRUE=1
+LOGFILE=/var/log/messages
+#  Note that $LOGFILE must be readable
+#+ (as root, chmod 644 /var/log/messages).
+TEMPFILE=temp.$$
+#  Create a &quot;unique&quot; temp file name, using process id of the script.
+#     Using &#39;mktemp&#39; is an alternative.
+#     For example:
+#     TEMPFILE=`mktemp temp.XXXXXX`
+KEYWORD=address
+#  At logon, the line &quot;remote IP address xxx.xxx.xxx.xxx&quot;
+#                      appended to /var/log/messages.
+ONLINE=22
+USER_INTERRUPT=13
+CHECK_LINES=100
+#  How many lines in log file to check.
+
+trap &#39;rm -f $TEMPFILE; exit $USER_INTERRUPT&#39; TERM INT
+#  Cleans up the temp file if script interrupted by control-c.
+
+echo
+
+while [ $TRUE ]  #Endless loop.
+do
+  tail -n $CHECK_LINES $LOGFILE&gt; $TEMPFILE
+  #  Saves last 100 lines of system log file as temp file.
+  #  Necessary, since newer kernels generate many log messages at log on.
+  search=`grep $KEYWORD $TEMPFILE`
+  #  Checks for presence of the &quot;IP address&quot; phrase,
+  #+ indicating a successful logon.
+
+  if [ ! -z &quot;$search&quot; ] #  Quotes necessary because of possible spaces.
+  then
+     echo &quot;On-line&quot;
+     rm -f $TEMPFILE    #  Clean up temp file.
+     exit $ONLINE
+  else
+     echo -n &quot;.&quot;        #  The -n option to echo suppresses newline,
+                        #+ so you get continuous rows of dots.
+  fi
+
+  sleep 1  
+done  
+
+
+#  Note: if you change the KEYWORD variable to &quot;Exit&quot;,
+#+ this script can be used while on-line
+#+ to check for an unexpected logoff.
+
+# Exercise: Change the script, per the above note,
+#           and prettify it.
+
+exit 0
+
+
+# Nick Drage suggests an alternate method:
+
+while true
+  do ifconfig ppp0 | grep UP 1&gt; /dev/null &amp;&amp; echo &quot;connected&quot; &amp;&amp; exit 0
+  echo -n &quot;.&quot;   # Prints dots (.....) until connected.
+  sleep 2
+done
+
+# Problem: Hitting Control-C to terminate this process may be insufficient.
+#+         (Dots may keep on echoing.)
+# Exercise: Fix this.
+
+
+
+# Stephane Chazelas has yet another alternative:
+
+CHECK_INTERVAL=1
+
+while ! tail -n 1 &quot;$LOGFILE&quot; | grep -q &quot;$KEYWORD&quot;
+do echo -n .
+   sleep $CHECK_INTERVAL
+done
+echo &quot;On-line&quot;
+
+# Exercise: Discuss the relative strengths and weaknesses
+#           of each of these various approaches.
+Example 32-7. A Simple Implementation of a Progress Bar
+
+#! /bin/bash
+# progress-bar2.sh
+# Author: Graham Ewart (with reformatting by ABS Guide author).
+# Used in ABS Guide with permission (thanks!).
+
+# Invoke this script with bash. It doesn&#39;t work with sh.
+
+interval=1
+long_interval=10
+
+{
+     trap &quot;exit&quot; SIGUSR1
+     sleep $interval; sleep $interval
+     while true
+     do
+       echo -n &#39;.&#39;     # Use dots.
+       sleep $interval
+     done; } &amp;         # Start a progress bar as a background process.
+
+pid=$!
+trap &quot;echo !; kill -USR1 $pid; wait $pid&quot;  EXIT        # To handle ^C.
+
+echo -n &#39;Long-running process &#39;
+sleep $long_interval
+echo &#39; Finished!&#39;
+
+kill -USR1 $pid
+wait $pid              # Stop the progress bar.
+trap EXIT
+
+exit $?
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br></div></div><p>Note The DEBUG argument to trap causes a specified action to execute after every command in a script. This permits tracing variables, for example.</p><p>Example 32-8. Tracing a variable</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>
+#!/bin/bash
+
+trap &#39;echo &quot;VARIABLE-TRACE&gt; \$variable = \&quot;$variable\&quot;&quot;&#39; DEBUG
+# Echoes the value of $variable after every command.
+
+variable=29; line=$LINENO
+
+echo &quot;  Just initialized \$variable to $variable in line number $line.&quot;
+
+let &quot;variable *= 3&quot;; line=$LINENO
+echo &quot;  Just multiplied \$variable by 3 in line number $line.&quot;
+
+exit 0
+
+#  The &quot;trap &#39;command1 . . . command2 . . .&#39; DEBUG&quot; construct is
+#+ more appropriate in the context of a complex script,
+#+ where inserting multiple &quot;echo $variable&quot; statements might be
+#+ awkward and time-consuming.
+
+# Thanks, Stephane Chazelas for the pointer.
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>Output of script:</p><p>VARIABLE-TRACE&gt; $variable = &quot;&quot; VARIABLE-TRACE&gt; $variable = &quot;29&quot; Just initialized $variable to 29. VARIABLE-TRACE&gt; $variable = &quot;29&quot; VARIABLE-TRACE&gt; $variable = &quot;87&quot; Just multiplied $variable by 3. VARIABLE-TRACE&gt; $variable = &quot;87&quot; Of course, the trap command has other uses aside from debugging, such as disabling certain keystrokes within a script (see Example A-43).</p><p>Example 32-9. Running multiple processes (on an SMP box)</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>
+#!/bin/bash
+# parent.sh
+# Running multiple processes on an SMP box.
+# Author: Tedman Eng
+
+#  This is the first of two scripts,
+#+ both of which must be present in the current working directory.
+
+
+
+
+LIMIT=$1         # Total number of process to start
+NUMPROC=4        # Number of concurrent threads (forks?)
+PROCID=1         # Starting Process ID
+echo &quot;My PID is $$&quot;
+
+function start_thread() {
+        if [ $PROCID -le $LIMIT ] ; then
+                ./child.sh $PROCID&amp;
+                let &quot;PROCID++&quot;
+        else
+           echo &quot;Limit reached.&quot;
+           wait
+           exit
+        fi
+}
+
+while [ &quot;$NUMPROC&quot; -gt 0 ]; do
+        start_thread;
+        let &quot;NUMPROC--&quot;
+done
+
+
+while true
+do
+
+trap &quot;start_thread&quot; SIGRTMIN
+
+done
+
+exit 0
+
+
+
+# ======== Second script follows ========
+
+
+#!/bin/bash
+# child.sh
+# Running multiple processes on an SMP box.
+# This script is called by parent.sh.
+# Author: Tedman Eng
+
+temp=$RANDOM
+index=$1
+shift
+let &quot;temp %= 5&quot;
+let &quot;temp += 4&quot;
+echo &quot;Starting $index  Time:$temp&quot; &quot;$@&quot;
+sleep ${temp}
+echo &quot;Ending $index&quot;
+kill -s SIGRTMIN $PPID
+
+exit 0
+
+
+# ======================= SCRIPT AUTHOR&#39;S NOTES ======================= #
+#  It&#39;s not completely bug free.
+#  I ran it with limit = 500 and after the first few hundred iterations,
+#+ one of the concurrent threads disappeared!
+#  Not sure if this is collisions from trap signals or something else.
+#  Once the trap is received, there&#39;s a brief moment while executing the
+#+ trap handler but before the next trap is set.  During this time, it may
+#+ be possible to miss a trap signal, thus miss spawning a child process.
+
+#  No doubt someone may spot the bug and will be writing 
+#+ . . . in the future.
+
+
+
+# ===================================================================== #
+
+
+
+# ----------------------------------------------------------------------#
+
+
+
+#################################################################
+# The following is the original script written by Vernia Damiano.
+# Unfortunately, it doesn&#39;t work properly.
+#################################################################
+
+#!/bin/bash
+
+#  Must call script with at least one integer parameter
+#+ (number of concurrent processes).
+#  All other parameters are passed through to the processes started.
+
+
+INDICE=8        # Total number of process to start
+TEMPO=5         # Maximum sleep time per process
+E_BADARGS=65    # No arg(s) passed to script.
+
+if [ $# -eq 0 ] # Check for at least one argument passed to script.
+then
+  echo &quot;Usage: `basename $0` number_of_processes [passed params]&quot;
+  exit $E_BADARGS
+fi
+
+NUMPROC=$1              # Number of concurrent process
+shift
+PARAMETRI=( &quot;$@&quot; )      # Parameters of each process
+
+function avvia() {
+         local temp
+         local index
+         temp=$RANDOM
+         index=$1
+         shift
+         let &quot;temp %= $TEMPO&quot;
+         let &quot;temp += 1&quot;
+         echo &quot;Starting $index Time:$temp&quot; &quot;$@&quot;
+         sleep ${temp}
+         echo &quot;Ending $index&quot;
+         kill -s SIGRTMIN $$
+}
+
+function parti() {
+         if [ $INDICE -gt 0 ] ; then
+              avvia $INDICE &quot;${PARAMETRI[@]}&quot; &amp;
+                let &quot;INDICE--&quot;
+         else
+                trap : SIGRTMIN
+         fi
+}
+
+trap parti SIGRTMIN
+
+while [ &quot;$NUMPROC&quot; -gt 0 ]; do
+         parti;
+         let &quot;NUMPROC--&quot;
+done
+
+wait
+trap - SIGRTMIN
+
+exit $?
+
+: &lt;&lt;SCRIPT_AUTHOR_COMMENTS
+I had the need to run a program, with specified options, on a number of
+different files, using a SMP machine. So I thought [I&#39;d] keep running
+a specified number of processes and start a new one each time . . . one
+of these terminates.
+
+The &quot;wait&quot; instruction does not help, since it waits for a given process
+or *all* process started in background. So I wrote [this] bash script
+that can do the job, using the &quot;trap&quot; instruction.
+  --Vernia Damiano
+SCRIPT_AUTHOR_COMMENTS
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br></div></div><p>Note trap &#39;&#39; SIGNAL (two adjacent apostrophes) disables SIGNAL for the remainder of the script. trap SIGNAL restores the functioning of SIGNAL once more. This is useful to protect a critical portion of a script from an undesirable interrupt.</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>trap &#39;&#39; 2  # Signal 2 is Control-C, now disabled.
+command
+command
+command
+trap 2     # Reenables Control-C
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/code/shell/part5/32_Debugging.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/4/27 15:33:00</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 LinuxStory</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.ac0f71d5.js" defer></script>
+  </body>
+</html>
