@@ -1,8 +1,0 @@
-<template><h1 id="_6-1-jenkins-关闭和重启的实现方式" tabindex="-1"><a class="header-anchor" href="#_6-1-jenkins-关闭和重启的实现方式" aria-hidden="true">#</a> 6.1 Jenkins 关闭和重启的实现方式</h1>
-<h2 id="关闭-jenkins" tabindex="-1"><a class="header-anchor" href="#关闭-jenkins" aria-hidden="true">#</a> 关闭 jenkins</h2>
-<p>只需要在访问jenkins服务器的网址url地址后加上exit。例如我jenkins的地址http://localhost:8080/，那么我只需要在浏览器地址栏上敲下<strong>http://localhost:8080/exit</strong> 网址就能关闭jenkins服务.</p>
-<h2 id="重启-jenkins" tabindex="-1"><a class="header-anchor" href="#重启-jenkins" aria-hidden="true">#</a> 重启 Jenkins</h2>
-<p><strong>http://localhost:8080/restart</strong></p>
-<h2 id="重新加载配置信息" tabindex="-1"><a class="header-anchor" href="#重新加载配置信息" aria-hidden="true">#</a> 重新加载配置信息</h2>
-<p><strong>http://localhost:8080/reload</strong></p>
-</template>
