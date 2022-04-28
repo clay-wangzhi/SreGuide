@@ -1,0 +1,14 @@
+import{_ as e,r as a,c as o,a as n,b as c,F as t,e as r,d as p,o as l}from"./app.250f2715.js";const i={},u=r(`<h1 id="docker-\u8BBE\u7F6E\u4EE3\u7406" tabindex="-1"><a class="header-anchor" href="#docker-\u8BBE\u7F6E\u4EE3\u7406" aria-hidden="true">#</a> Docker \u8BBE\u7F6E\u4EE3\u7406</h1><blockquote><p>\u8D77\u56E0\uFF1A\u7531\u4E8E\u6709\u4E9B\u56FD\u5916\u7684\u955C\u50CF\u62C9\u53D6\u4E0D\u4E0B\u6765\uFF0C\u6240\u4EE5\u8BBE\u7F6E\u7FFB\u5899\u4EE3\u7406\uFF0C\u4E0B\u8F7D\u6210\u529F\u540E\uFF0C\u518D\u5BFC\u51FA<code>docker save xx:tar -o xx.tar</code>\uFF0C\u4F20\u8F93\u5230\u9700\u8981\u7684\u8282\u70B9\u5BFC\u5165<code>docker load -i xx.tar</code></p></blockquote><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">## \u5148\u505C\u6B62Docker</span>
+systemctl stop <span class="token function">docker</span>
+
+<span class="token comment">## \u4FEE\u6539Docker\u914D\u7F6E\u6587\u4EF6</span>
+<span class="token function">vim</span> /lib/systemd/system/docker.service
+<span class="token comment">## \u5728 [Service] \u8282\u70B9\u4E0B\u9762\u65B0\u589E\u4EE3\u7406\u4FE1\u606F</span>
+<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token assign-left variable">Environment</span><span class="token operator">=</span><span class="token string">&quot;HTTP_PROXY=socks5://192.168.66.76:20080/&quot;</span> <span class="token string">&quot;HTTPS_PROXY=socks5://192.168.66.76:20080/&quot;</span>
+
+<span class="token comment">## \u91CD\u65B0\u52A0\u8F7DDocker\u5E76\u542F\u52A8 </span>
+systemctl daemon-reload
+systemctl restart <span class="token function">docker</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><blockquote><p>\u5176\u4E2D socks5 \u4E2D\u7684\u5730\u5740\uFF0C\u662F\u6211\u672C\u5730\u542F\u52A8\u7684\u4EE3\u7406\u670D\u52A1\u5730\u5740</p></blockquote><p>\u53C2\u8003\u94FE\u63A5\uFF1A</p>`,5),m={href:"https://www.cnblogs.com/HeCG95/p/12221683.html",target:"_blank",rel:"noopener noreferrer"},d=p("Docker\u8BBE\u7F6E\u4EE3\u7406");function k(b,_){const s=a("ExternalLinkIcon");return l(),o(t,null,[u,n("p",null,[n("a",m,[d,c(s)])])],64)}var x=e(i,[["render",k],["__file","docker-proxy.html.vue"]]);export{x as default};
