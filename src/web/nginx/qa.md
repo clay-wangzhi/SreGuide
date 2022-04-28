@@ -100,45 +100,66 @@ server {
 
 需要注意的是，此时需要将`error_page`指令语句写在最后，否则不能生效。
 
-## nginx出现403的原因
+## Nginx出现403 forbidden的三种原因
 
-### 缺少index.html
+引起`nginx 403 forbidden`通常是三种情况：一是缺少主页文件，二是权限问题，三是`SELinux`状态。
 
-缺少index.html或者index.php文件，就是配置文件中index index.html index.htm这行中的指定的文件
+### 缺少主页文件
 
-```
-server {  
-      listen       80;  
-      server_name  localhost;  
-      index  index.php index.html;  
-      root  /data/www/;
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+    index index.php index.html;
+    # index index.html index.htm;
+    root /clay/clay1/clay2/;
 }
 ```
 
-如果在/data/www/下面没有index.php,index.html的时候，直接文件，会报403 forbidden。
+如果在`/clay/clay1/clay2/`下面没有`index.php`或`index.html`的时候，直接文件，会报403 forbidden。
 
-### 权限问题
+> 当index文件问`index.html`时，index指令可以省略不写
 
-1）查看nginx的启动用户
+#### 权限问题
 
-```
+主要原因是`nginx`启动用户没有，查看主页文件的权限
+
+1）查看`nginx`启动用户
+
+```shell
 ps aux | grep "nginx: worker process" | grep -v "grep" | awk '{ print $1 }'
 ```
 
-`index`文件的权限，`nginx`启动用户要有读的权限，`index`所在的目录要有可以访问目录内容的权限（递归都要有，每一级）
+2）查看主页文件权限及递归查看主页文件所在目录权限
 
-如果nginx没有web目录的操作权限，也会出现403错误。上一级目录权限，有读的权限就行，不必要改为777
+* 主页文件，`nginx`启动用户要有`r`权限，读取文件内容的权限
 
-解决办法：修改web目录的读写权限，或者是把nginx的启动用户改成目录的所属用户，重启Nginx即可解决
+* 递归主页所在的目录，`nginx`启动用户要有`x`权限，可以访问目录的内容
 
+  > 递归目录在上述配置文件中是指`/clay/`、`/clay/clay1/`、`/clay/clay1/clay2/`这三个目录
+
+### `SELinux`为开启状态(enabled)
+
+1）查看当前`selinux`的状态
+
+```shell
+/usr/sbin/sestatus 
 ```
-chmod -R 777 /data
-chmod -R 777 /data/www/
+
+2）将`SELINUX=enforcing` 修改为 `SELINUX=disabled` 状态
+
+```shell
+vi /etc/selinux/config
+
+#SELINUX=enforcing
+SELINUX=disabled
 ```
 
-### SELinux设置问题
+3）重启生效
 
-设置为：`SELINUX=disabled`
+```shell
+reboot
+```
 
 ## 通过nginx实现蓝绿发布
 
@@ -390,5 +411,4 @@ CIDR值（表2）
  
 
 255.255.255.252       /30
-
 

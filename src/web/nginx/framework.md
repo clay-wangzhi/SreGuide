@@ -9,11 +9,11 @@ tag:
 
 ## 1 Nginx请求处理流程
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164648893.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164648893.png)
 
 ## 2 Nginx进程结构
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310164732720.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164732720.png)
 
 ## 3 Nginx进程管理：信号
 
@@ -59,7 +59,7 @@ tag:
 
 6）老worker进程关闭监听句柄，处理完当前连接后结束进程
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310170519124.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310170519124.png)
 
 ## 5 热升级流程
 
@@ -75,7 +75,7 @@ tag:
 
 6）回滚：向老master发送HUP，向新master发送QUIT
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310171424958.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310171424958.png)
 
 ## 6 worker进程：优雅的关闭
 
@@ -99,11 +99,11 @@ tag:
 * 链路层
 * 物理层
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172023302.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172023302.png)
 
 ### 7.2 TCP流与报文
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172138764.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172138764.png)
 
 ### 7.3 TCP协议与非阻塞接口
 
@@ -113,13 +113,13 @@ tag:
 * 写事件
   * Write写信息
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310172800752.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172800752.png)
 
 ## 8 Nginx事件循环
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173131875.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173131875.png)
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173315213.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173315213.png)
 
 ### 8.1 epoll
 
@@ -135,8 +135,8 @@ tag:
 
 创建，操作（添加/修改/删除），获取句柄，关闭
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310173757670.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173757670.png)
 
 ## 9 模块分类
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200310174353557.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310174353557.png)

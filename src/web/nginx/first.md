@@ -9,7 +9,7 @@ tag:
 
 ## 1 Nginx的三个主要应用场景
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200102212417067.png)
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200102212417067.png)
 
 三个主要应用场景为：
 
@@ -68,6 +68,10 @@ Web服务器、FTP服务器、企业关键应用服务器等关键应用服务�
 **fair**
 
 扩展的第三方模块`fair`则是从另一个角度来实现Nginx服务器负载均衡策略的。该模块将前端请求转发到一个最近负载最小的后台节点。Nginx通过后端节点对请求的响应时间来判断负载情况。响应时间短的节点负载相对就轻。得出判断结果后，Nginx就将前端请求转发到选中的负载最轻的节点。
+
+**least_conn**
+
+最少连接
 
 #### 1.1.2 Web缓存
 

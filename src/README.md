@@ -7,49 +7,56 @@ heroText: Keep Learning
 heroFullScreen: true
 tagline: 个人笔记，包涵 云原生、监控、自动化运维、Nginx 等相关知识点
 actions:
-  - text: 开始阅读
+  - text: 运维面试
     link: /zh/guide/
-    type: primary
+    type: default
 
-  - text: 配置 🛠
+  - text: 运维知识体系
     link: /zh/config/
-
-projects:
-  - icon: project
-    name: 项目名称
-    desc: 项目详细描述
-    link: https://你的项目链接
-
-  - icon: link
-    name: 链接名称
-    desc: 链接详细描述
-    link: https://链接地址
-
-  - icon: book
-    name: 书籍名称
-    desc: 书籍详细描述
-    link: https://你的书籍链接
-
-  - icon: article
-    name: 文章名称
-    desc: 文章详细描述
-    link: https://你的文章链接
-
-  - icon: friend
-    name: 伙伴名称
-    desc: 伙伴详细介绍
-    link: https://你的伙伴链接
-
-  - icon: /logo.svg
-    name: 自定义项目
-    desc: 自定义详细介绍
-    link: https://你的自定义链接
+    type: primary
 
 footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a>'
 ---
 
-这是一个博客主页。
+## 目录
 
-要使用此布局，你应该在页面前端设置 `layout: Blog` 和 `home: true`。
+- [运维学习路线](#运维学习路线) :+1:
+- [运维知识体系](#运维知识体系) :+1:
+- 云原生
+- 基础知识
+  - 操作系统学习笔记
+  - 计算机网络学习笔记
+  - Linux 运维学习笔记
+- 编程语言
+  - 高级 Bash 脚本编程指南
+  - Python 学习笔记
+  - Golang 学习笔记
+  - 前端学习笔记
+- 监控工具
+  - Prometheus 学习笔记
+  - Grafana
+  - ELK 学习笔记
+  - Zabbix 学习笔记
+- 自动化工具
+  - [Jenkins 学习笔记](automate/jenkins)
+  - [Ansible 学习笔记](automate/ansible)
+- Web 中间件
+  - [Nginx 学习笔记](web/nginx/)
+  - [Tomcat 学习笔记](web/tomcat/)
+- 数据库
+  - MySQL 学习笔记
+  - Redis 学习笔记
 
-相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/v2/zh/guide/blog/home/)。
+## 运维学习路线
+
+> 转载自：[Devops Roadmap](https://roadmap.sh/devops)
+
+ <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1.jpg" alt="1" style="zoom:50%;" />
+
+## 运维知识体系
+
+> 转载自：[新运维社区 | 赵舜东](https://www.unixhot.com/page/ops)
+
+ ![image-20220428175352479](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20220428175352479.png)
+
+![image-20220428175801348](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20220428175801348.png)

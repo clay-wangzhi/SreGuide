@@ -1,4 +1,5 @@
 ---
+icon: nginx
 sticky: 52
 star: 52
 date: 2020-03-20
@@ -42,4 +43,3 @@ Hello Nginx~
 * [4. 内核参数优化](core.md)
 * [5. 状态码](status.md)
 * [6. nginx的常见问题](qa.md)
-  * [6.1 Nginx出现403 forbidden的三种原因](forbidden.md)

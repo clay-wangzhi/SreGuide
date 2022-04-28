@@ -4,13 +4,22 @@ export default defineNavbarConfig([
   {
     text: "云原生",
     icon: "yunyuanshengpingtai",
-    link: "cloudnative"
+    children: [
+      { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
+      { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
+      { text: "etcd", icon: "icon_etcd", link: "/cloudnative/etcd/" },
+    ]
   },
   {
     text: "基础知识",
     icon: "jichu",
-    link: "/basic/"
+    children: [
+      { text: "操作系统", icon: "caozuoxitong", link: "/basic/system/" },
+      { text: "计算机网络", icon: "wangluo", link: "/basic/network/" },
+      { text: "Linux运维", icon: "linux", link: "/basic/linux/" },
+    ]
   },
+
   {
     text: "编程语言",
     icon: "code",
@@ -25,11 +34,11 @@ export default defineNavbarConfig([
     text: "监控工具",
     icon: "jiankong",
     children: [
-      { text: "Zabbix", icon: "zabbix1", link: "/monitor/zabbix/" },
-      { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
       { text: "Prometheus", icon: "prometheus", link: "/monitor/prometheus/" },
       { text: "Grafana", icon: "grafana", link: "/monitor/grafana/" },
-    ],      
+      { text: "ELK", icon: "elastic", link: "/monitor/elk/" },
+      { text: "Zabbix", icon: "zabbix1", link: "/monitor/zabbix/" },
+    ],
   },
   {
     text: "自动化工具",
@@ -55,5 +64,4 @@ export default defineNavbarConfig([
       { text: "Redis", icon: "redis", link: "/db/redis/" },
     ],
   },
-  { text: "Linux", icon: "linux", link: "/linux/basic/" },
 ]);

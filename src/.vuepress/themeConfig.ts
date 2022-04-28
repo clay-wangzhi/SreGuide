@@ -20,9 +20,9 @@ export default defineThemeConfig({
 
   docsBranch: "master",
 
-  pure: true,
+  // pure: true,
 
-  darkmode: "disable",
+  darkmode: "switch",
 
   // navbar
   navbar: navbar,
