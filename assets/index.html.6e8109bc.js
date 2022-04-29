@@ -1,1 +1,0 @@
-import{_ as e,c as n,o as t}from"./app.189b7edd.js";const c={};function o(r,_){return t(),n("p",null,"https://pythondjango.cn/")}var l=e(c,[["render",o],["__file","index.html.vue"]]);export{l as default};
