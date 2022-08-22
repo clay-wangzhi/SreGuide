@@ -7,7 +7,7 @@ tag:
 
 ## 由来
 
-![git](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git.png)
+![git](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/git.png)
 
 > 要不说人家是大佬呢，一言不合就自己写一个:+1:
 
@@ -41,7 +41,7 @@ $ brew install git
 
 ## 核心概念
 
-![git基本流程](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git基本流程.png)
+![git基本流程](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/git%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B.png)
 
 | 名称        | 释义                                                         |
 | ----------- | ------------------------------------------------------------ |
@@ -58,7 +58,7 @@ $ brew install git
 
 ### git 文件的生命周期
 
-![git文件的生命周期2](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/git文件的生命周期2.png)
+![git文件的生命周期2](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/git%E6%96%87%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F2.png)
 
 1. 未追踪的文件（Untracked）在 `git add` 之后会变成已暂存（staged）状态。
 
