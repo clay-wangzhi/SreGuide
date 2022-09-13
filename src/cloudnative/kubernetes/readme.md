@@ -19,6 +19,7 @@ tag:
 - [ Kubernetes教程 | kuboard](https://kuboard.cn/learning/)
 - [Kubernetes 学习笔记](https://www.huweihuang.com/kubernetes-notes/)
 - [Kubernetes部署策略](https://github.com/ContainerSolutions/k8s-deployment-strategies)
+- [roc云原生](https://imroc.cc/kubernetes/index.html)
 
 
 

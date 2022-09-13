@@ -35,7 +35,7 @@ category: MySQL
 
 #### 2.2.1 层次模型
 
- ![1536628336467](images/1536628336467.png)
+ ![1536628336467](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536628336467.png)
 
  缺点：
 
@@ -47,7 +47,7 @@ category: MySQL
 
 网状模型解决了层次数据的数据不完整的问题，但是没有解决层次模型的导航问题。
 
- ![1536628485678](images/1536628485678.png)
+ ![1536628485678](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536628485678.png)
 
 ### 2.3 第二代数据库：关系型数据库
 

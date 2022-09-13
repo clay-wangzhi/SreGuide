@@ -18,5 +18,6 @@ tag:
 
 [Awesome Prometheus alerts](https://awesome-prometheus-alerts.grep.to/)
 
+[promlabs](https://promlabs.com/promql-cheat-sheet/)
 
 
