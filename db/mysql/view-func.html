@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/db/mysql/view-func.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="4 视图、事务、索引、函数"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-09-13T08:35:17.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:modified_time" content="2022-09-13T08:35:17.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>4 视图、事务、索引、函数 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.4908d213.js"><link rel="modulepreload" href="/assets/view-func.html.a9d281a7.js"><link rel="modulepreload" href="/assets/view-func.html.03bf9aa4.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container no-sidebar has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="云原生"><span class="title"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/cloudnative/kubernetes/" class="nav-link" arialabel="Kubernetes"><i class="icon iconfont icon-kubernetes"></i>Kubernetes<!----></a></li><li class="dropdown-item"><a href="/cloudnative/docker/" class="nav-link" arialabel="Docker"><i class="icon iconfont icon-docker"></i>Docker<!----></a></li><li class="dropdown-item"><a href="/cloudnative/etcd/" class="nav-link" arialabel="etcd"><i class="icon iconfont icon-icon_etcd"></i>etcd<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="基础知识"><span class="title"><i class="icon iconfont icon-jichu"></i>基础知识</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/basic/system/" class="nav-link" arialabel="操作系统"><i class="icon iconfont icon-caozuoxitong"></i>操作系统<!----></a></li><li class="dropdown-item"><a href="/basic/network/" class="nav-link" arialabel="计算机网络"><i class="icon iconfont icon-wangluo"></i>计算机网络<!----></a></li><li class="dropdown-item"><a href="/basic/linux/" class="nav-link" arialabel="Linux运维"><i class="icon iconfont icon-linux"></i>Linux运维<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link active" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button class="outlook-button" tabindex="-1" ariahidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon outlook-icon" viewbox="0 0 1024 1024" arialabelledby="outlook"><title id="outlook" lang="en">outlook icon</title><g fill="currentColor"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4 38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32 51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0 102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2 6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4 0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2 9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224 419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4 470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0 22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6 12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128 505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2 16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8 86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4 80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6 6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></g></svg><div class="outlook-dropdown"><!----></div></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->4 视图、事务、索引、函数</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2022年9月13日</span><meta property="datePublished" content="2022-09-13T07:28:38.000Z"></span><span class="category-info" arialabel="分类🌈" data-balloon-pos="down" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category category3 clickable" role="navigation">MySQL</li><meta property="articleSection" content="MySQL"></ul></span><!----><span class="reading-time-info" arialabel="阅读时间⌛" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 17 分钟</span><meta property="timeRequired" content="PT17M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-视图【view】" class="router-link-active router-link-exact-active toc-link level2">1 视图【view】</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-1-创建视图" class="router-link-active router-link-exact-active toc-link level3">1.1 创建视图</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-2-使用视图" class="router-link-active router-link-exact-active toc-link level3">1.2 使用视图</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-3-查看视图的结构" class="router-link-active router-link-exact-active toc-link level3">1.3 查看视图的结构</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-4-查看创建视图的语法" class="router-link-active router-link-exact-active toc-link level3">1.4 查看创建视图的语法</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-5-显示所有视图" class="router-link-active router-link-exact-active toc-link level3">1.5 显示所有视图</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-6-更改视图" class="router-link-active router-link-exact-active toc-link level3">1.6 更改视图</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-7-删除视图" class="router-link-active router-link-exact-active toc-link level3">1.7 删除视图</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-8-视图的作用" class="router-link-active router-link-exact-active toc-link level3">1.8 视图的作用</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_1-9视图的算法" class="router-link-active router-link-exact-active toc-link level3">1.9	视图的算法</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_2-事务【transaction】" class="router-link-active router-link-exact-active toc-link level2">2 事务【transaction】</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_2-1-事务操作" class="router-link-active router-link-exact-active toc-link level3">2.1 事务操作</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_2-2-设置事务的回滚点" class="router-link-active router-link-exact-active toc-link level3">2.2 设置事务的回滚点</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_2-3-事务的特性-acid" class="router-link-active router-link-exact-active toc-link level3">2.3 事务的特性（ACID）</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-索引【index】" class="router-link-active router-link-exact-active toc-link level2">3 索引【index】</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-1索引的类型" class="router-link-active router-link-exact-active toc-link level3">3.1	索引的类型</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-2创建普通索引【create-index】" class="router-link-active router-link-exact-active toc-link level3">3.2	创建普通索引【create index】</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-3创建唯一索引" class="router-link-active router-link-exact-active toc-link level3">3.3	创建唯一索引</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-4删除索引" class="router-link-active router-link-exact-active toc-link level3">3.4	删除索引</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_3-5创建索引的指导原则" class="router-link-active router-link-exact-active toc-link level3">3.5	创建索引的指导原则</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-函数" class="router-link-active router-link-exact-active toc-link level2">4  函数</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-1-数字类" class="router-link-active router-link-exact-active toc-link level3">4.1  数字类</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-2-字符串类" class="router-link-active router-link-exact-active toc-link level3">4.2 字符串类</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-3-时间类" class="router-link-active router-link-exact-active toc-link level3">4.3 时间类</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-4-加密函数" class="router-link-active router-link-exact-active toc-link level3">4.4 加密函数</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_4-5-判断函数" class="router-link-active router-link-exact-active toc-link level3">4.5 判断函数</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_5-预处理" class="router-link-active router-link-exact-active toc-link level2">5  预处理</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-存储过程【procedure】" class="router-link-active router-link-exact-active toc-link level2">6 存储过程【procedure】</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-1-存储过程的优点" class="router-link-active router-link-exact-active toc-link level3">6.1 存储过程的优点</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-2创建存储过程" class="router-link-active router-link-exact-active toc-link level3">6.2	创建存储过程</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-3调用存储过程" class="router-link-active router-link-exact-active toc-link level3">6.3	调用存储过程</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-4删除存储过程" class="router-link-active router-link-exact-active toc-link level3">6.4	删除存储过程</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-5-查看存储过程的信息" class="router-link-active router-link-exact-active toc-link level3">6.5  查看存储过程的信息</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-6-显示所有的存储过程" class="router-link-active router-link-exact-active toc-link level3">6.6 显示所有的存储过程</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_6-7存储过程的参数" class="router-link-active router-link-exact-active toc-link level3">6.7	存储过程的参数</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_7-go连接mysql" class="router-link-active router-link-exact-active toc-link level2">7 GO连接MySQL</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_7-1-安装git" class="router-link-active router-link-exact-active toc-link level3">7.1  安装git</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_7-2-安装数据库驱动" class="router-link-active router-link-exact-active toc-link level3">7.2  安装数据库驱动</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_7-3-连接数据库" class="router-link-active router-link-exact-active toc-link level3">7.3  连接数据库</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/view-func.html#_8-例题" class="router-link-active router-link-exact-active toc-link level2">8  例题</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="_4-视图、事务、索引、函数" tabindex="-1"><a class="header-anchor" href="#_4-视图、事务、索引、函数" aria-hidden="true">#</a> 4 视图、事务、索引、函数</h1><h2 id="_1-视图【view】" tabindex="-1"><a class="header-anchor" href="#_1-视图【view】" aria-hidden="true">#</a> 1 视图【view】</h2><p>1、 视图是一张虚拟表，它表示一张表的部分或多张表的综合的结构。</p><p>2、 视图仅仅是表结构，没有表数据。视图的结构和数据建立在表的基础上。</p><h3 id="_1-1-创建视图" tabindex="-1"><a class="header-anchor" href="#_1-1-创建视图" aria-hidden="true">#</a> 1.1 创建视图</h3><p>语法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>create [or replace] view 视图的名称
+as
+	select语句;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create view vw_stu
+    -&gt; as
+    -&gt; select stuname,stusex,writtenexam,labexam from stuinfo inner join stumarks using(stuno);
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>多学一招：因为视图是一个表结构，所以创建视图后，会在数据库文件夹中多一个与视图名同名的.frm文件
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_1-2-使用视图" tabindex="-1"><a class="header-anchor" href="#_1-2-使用视图" aria-hidden="true">#</a> 1.2 使用视图</h3><p>视图是一张虚拟表，视图的用法和表的用法一样的</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select * from vw_stu;
++----------+--------+-------------+---------+
+| stuname  | stusex | writtenexam | labexam |
++----------+--------+-------------+---------+
+| 李斯文        | 女      |          80 |      58 |
+| 李文才        | 男       |          50 |      90 |
+| 欧阳俊雄        | 男       |          65 |      50 |
+| 张秋丽         | 男       |          77 |      82 |
+| 争青小子        | 男       |          56 |      48 |
++----------+--------+-------------+---------+
+
+mysql&gt; update vw_stu set writtenexam=88 where stuname=&#39;李斯文&#39;;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h3 id="_1-3-查看视图的结构" tabindex="-1"><a class="header-anchor" href="#_1-3-查看视图的结构" aria-hidden="true">#</a> 1.3 查看视图的结构</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>desc 视图名;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; desc vw_stu;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| stuname     | varchar(10) | NO   |     | NULL    |       |
+| stusex      | char(2)     | NO   |     | NULL    |       |
+| writtenexam | int(11)     | YES  |     | NULL    |       |
+| labexam     | int(11)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="_1-4-查看创建视图的语法" tabindex="-1"><a class="header-anchor" href="#_1-4-查看创建视图的语法" aria-hidden="true">#</a> 1.4 查看创建视图的语法</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>show create view 视图名
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537067071676.png" alt="1537067071676" loading="lazy"></p><h3 id="_1-5-显示所有视图" tabindex="-1"><a class="header-anchor" href="#_1-5-显示所有视图" aria-hidden="true">#</a> 1.5 显示所有视图</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code> #方法一：
+mysql&gt; show tables;
++------------------+
+| Tables_in_itcast |
++------------------+
+| stu              |
+| stuinfo          |
+| stumarks         |
+| t1               |
+| t2               |
+| vw_stu           |
+
+# 方法二
+mysql&gt; select table_name from information_schema.views;
++------------+
+| table_name |
++------------+
+| vw_stu     |
++------------+
+1 row in set (0.05 sec)
++------------------+
+
+#方法三
+mysql&gt; show table status where comment=&#39;view&#39; \G
+*************************** 1. row ***************************
+           Name: vw_stu
+         Engine: NULL
+        Version: NULL
+     Row_format: NULL
+           Rows: NULL
+ Avg_row_length: NULL
+    Data_length: NULL
+Max_data_length: NULL
+   Index_length: NULL
+      Data_free: NULL
+ Auto_increment: NULL
+    Create_time: NULL
+    Update_time: NULL
+     Check_time: NULL
+      Collation: NULL
+       Checksum: NULL
+ Create_options: NULL
+        Comment: VIEW
+1 row in set (0.00 sec)
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br></div></div><h3 id="_1-6-更改视图" tabindex="-1"><a class="header-anchor" href="#_1-6-更改视图" aria-hidden="true">#</a> 1.6 更改视图</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>alter view 视图名
+as
+	select 语句
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; alter view vw_stu
+    -&gt; as
+    -&gt; select * from stuinfo;
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_1-7-删除视图" tabindex="-1"><a class="header-anchor" href="#_1-7-删除视图" aria-hidden="true">#</a> 1.7 删除视图</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>drop view [if exists] 视图1,视图2,…
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; drop view vw_stu;
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="_1-8-视图的作用" tabindex="-1"><a class="header-anchor" href="#_1-8-视图的作用" aria-hidden="true">#</a> 1.8 视图的作用</h3><ol><li><p>筛选数据，防止未经许可访问敏感数据</p></li><li><p>隐藏表结构</p></li><li><p>降低SQL语句的复杂度</p></li></ol><h3 id="_1-9视图的算法" tabindex="-1"><a class="header-anchor" href="#_1-9视图的算法" aria-hidden="true">#</a> 1.9 视图的算法</h3><p>场景：找出语文成绩最高的男生和女生</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select * from (select * from stu order by ch desc) as t group by stusex;
++--------+----------+--------+--------+---------+------------+------+------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress | ch   | math |
++--------+----------+--------+--------+---------+------------+------+------+
+| s25321 | Tabm     | 女      |     23 |       9 | 河北          |   88 |   77 |
+| s25318 | 争青小子        | 男       |     26 |       6 | 天津           |   86 |   92 |
++--------+----------+--------+--------+---------+------------+------+------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>我们可以将子查询封装到视图中</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create view vw_stu
+    -&gt; as
+    -&gt; select * from stu order by ch desc;
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>可以将上面的子查询更改成视图，但是，结果和上面不一样</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select * from vw_stu group by stusex;
++--------+---------+--------+--------+---------+------------+------+------+
+| stuNo  | stuName | stuSex | stuAge | stuSeat | stuAddress | ch   | math |
++--------+---------+--------+--------+---------+------------+------+------+
+| s25301 | 张秋丽        | 男       |     18 |       1 | 北京           |   80 | NULL |
+| s25303 | 李斯文       | 女      |     22 |       2 | 北京           |   55 |   82 |
++--------+---------+--------+--------+---------+------------+------+------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>原因：这是因为视图的算法造成的</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>1. merge：合并算法，将视图的语句和外层的语句合并后在执行。
+2. temptable：临时表算法，将视图生成一个临时表，再执行外层语句
+3. undefined：未定义，MySQL到底用merge还是用temptable由MySQL决定，这是一个默认的算法，一般视图都会选择merge算法，因为merge效率高。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>解决：在创建视图的时候指定视图的算法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>create algorithm=temptable view 视图名
+as
+	select 语句
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>指定算法创建视图</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create algorithm=temptable view vw_stu
+    -&gt; as
+    -&gt;  select * from stu order by ch desc;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select * from vw_stu group by stusex;   # 结果是一致的
++--------+----------+--------+--------+---------+------------+------+------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress | ch   | math |
++--------+----------+--------+--------+---------+------------+------+------+
+| s25321 | Tabm     | 女      |     23 |       9 | 河北          |   88 |   77 |
+| s25318 | 争青小子        | 男       |     26 |       6 | 天津           |   86 |   92 |
++--------+----------+--------+--------+---------+------------+------+------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h2 id="_2-事务【transaction】" tabindex="-1"><a class="header-anchor" href="#_2-事务【transaction】" aria-hidden="true">#</a> 2 事务【transaction】</h2><ol><li>事务是一个不可分割的执行单元</li><li>事务作为一个整体要么一起执行，要么一起回滚</li></ol><p>插入测试数据</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table bank(
+    -&gt; cardid char(4) primary key,
+    -&gt; money int
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into bank values (&#39;1001&#39;,1000),(&#39;1002&#39;,100);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="_2-1-事务操作" tabindex="-1"><a class="header-anchor" href="#_2-1-事务操作" aria-hidden="true">#</a> 2.1 事务操作</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>开启事务：start transaction或begin [work]
+提交事务：commit
+回滚事务：rollback
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; delimiter //            # 更改定界符
+
+mysql&gt; start transaction;			# 开启事务
+    -&gt; update bank set money=money-100 where cardid=&#39;1001&#39;;
+    -&gt; update bank set money=money+100 where cardid=&#39;1002&#39;  //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; commit //   # 提交事务
+
+mysql&gt; rollback //  # 回滚事务
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>思考：事务什么时候产生？什么时候结束？
+答：开启的时候产生，提交事务或回滚事务都结束
+
+脚下留心：只有innodb和BDB才支持事务，myisam不支持事务。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_2-2-设置事务的回滚点" tabindex="-1"><a class="header-anchor" href="#_2-2-设置事务的回滚点" aria-hidden="true">#</a> 2.2 设置事务的回滚点</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>设置回滚点： savepoint 回滚点名
+回滚到回滚点： rollback to 回滚点
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt;  start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into bank values (&#39;1003&#39;,1000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; savepoint aa;    # 设置回滚点 aa
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into bank values (&#39;1004&#39;,500);
+Query OK, 1 row affected (0.00 sec)
+ 
+mysql&gt; savepoint bb;   # 设置回滚点bb
+Query OK, 0 rows affected (0.00 sec)
+ 
+mysql&gt; rollback to aa;    # 回滚到aa点
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; commit;    # 提交事务
+
+mysql&gt; select * from bank ;
++--------+-------+
+| cardid | money |
++--------+-------+
+| 1001   |   800 |
+| 1002   |   200 |
+| 1003   |  1000 |
++--------+-------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><h3 id="_2-3-事务的特性-acid" tabindex="-1"><a class="header-anchor" href="#_2-3-事务的特性-acid" aria-hidden="true">#</a> 2.3 事务的特性（ACID）</h3><ol><li>原子性（Atomicity）：事务是一个整体，不可以再分，要么一起执行，要么一起不执行。</li><li>一致性（Consistency）：事务完成时，数据必须处于一致的状态。</li><li>隔离性（Isolation）：每个事务都是相互隔离的</li><li>永久性（Durability）：事务完成后，对数据的修改是永久性的。</li></ol><h2 id="_3-索引【index】" tabindex="-1"><a class="header-anchor" href="#_3-索引【index】" aria-hidden="true">#</a> 3 索引【index】</h2><p>索引的优点：查询速度快</p><p>索引的缺点：</p><ol><li>增、删、改（数据操作语句）效率低了</li><li>索引占用空间</li></ol><h3 id="_3-1索引的类型" tabindex="-1"><a class="header-anchor" href="#_3-1索引的类型" aria-hidden="true">#</a> 3.1 索引的类型</h3><ol><li><p>普通索引</p></li><li><p>唯一索引（唯一键）</p></li><li><p>主键索引：只要主键就自动创建主键索引，不需要手动创建。</p></li><li><p>全文索引，搜索引擎使用，MySQL不支持中文的全文索引，我们通过sphinx去解决中文的全文索引。</p></li></ol><h3 id="_3-2创建普通索引【create-index】" tabindex="-1"><a class="header-anchor" href="#_3-2创建普通索引【create-index】" aria-hidden="true">#</a> 3.2 创建普通索引【create index】</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>create index [索引名] on 表名 （字段名）
+alter table 表名 add index [索引的名称] （列名）
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code># 创建索引方法一
+mysql&gt; create index ix_stuname on stuinfo(stuname);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+# 创建索引方法二
+mysql&gt; alter table stuinfo add index ix_address (stuaddress);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+# 创建表的时候就添加索引
+mysql&gt; create table emp(
+    -&gt; id int,
+    -&gt; name varchar(10),
+    -&gt; index ix_name (name)   # 创建索引
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="_3-3创建唯一索引" tabindex="-1"><a class="header-anchor" href="#_3-3创建唯一索引" aria-hidden="true">#</a> 3.3 创建唯一索引</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>语法一：create unique index 索引名 on 表名 （字段名）
+语法二：alter table 表名 add unqiue [index] [索引的名称] （列名）
+语法三：创建表的时候添加唯一索引，和创建唯一键是一样的。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code># 方法一：
+mysql&gt; create unique index UQ_stuname on stu(stuname);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+# 方法二：
+mysql&gt; alter table stu add unique UQ_address (stuaddress);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+# 方法三
+mysql&gt; create table stu2(
+    -&gt; id int,
+    -&gt; name varchar(20),
+    -&gt; unique UQ_name(name)
+    -&gt; );
+Query OK, 0 rows affected (0.01 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="_3-4删除索引" tabindex="-1"><a class="header-anchor" href="#_3-4删除索引" aria-hidden="true">#</a> 3.4 删除索引</h3><p>语法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>drop index 索引名 on 表名
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; drop index ix_stuname on stuinfo;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_3-5创建索引的指导原则" tabindex="-1"><a class="header-anchor" href="#_3-5创建索引的指导原则" aria-hidden="true">#</a> 3.5 创建索引的指导原则</h3><ol><li><p>该列用于频繁搜索</p></li><li><p>改列用于排序</p></li><li><p>公共字段要创建索引</p></li><li><p>如果表中的数据很少，不需要创建索引。MySQL搜索索引的时间比逐条搜索数据的时间要长。</p></li><li><p>如果一个字段上的数据只有几个不同的值，改字段不适合做索引，比如性别。</p></li></ol><h2 id="_4-函数" tabindex="-1"><a class="header-anchor" href="#_4-函数" aria-hidden="true">#</a> 4 函数</h2><h3 id="_4-1-数字类" tabindex="-1"><a class="header-anchor" href="#_4-1-数字类" aria-hidden="true">#</a> 4.1 数字类</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select rand();			# 生成随机数
++---------------------+
+| rand()              |
++---------------------+
+| 0.18474003969201822 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from stuinfo order by rand();   # 随机排序
+
+mysql&gt; select * from stuinfo order by rand() limit 2;    # 随机抽两个学生
++--------+----------+--------+--------+---------+------------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress |
++--------+----------+--------+--------+---------+------------+
+| s25305 | 诸葛丽丽         | 女      |     23 |       7 | 河南           |
+| s25304 | 欧阳俊雄        | 男       |     28 |       4 | 天津           |
++--------+----------+--------+--------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; select round(3.5);     #四舍五入
++------------+
+| round(3.5) |
++------------+
+|          4 |
++------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select ceil(3.1);	# 向上取整
++-----------+
+| ceil(3.1) |
++-----------+
+|         4 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql&gt; select floor(3.9);	# 向下取整
++------------+
+| floor(3.9) |
++------------+
+|          3 |
++------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select truncate(3.1415926,3);	# 截取数字
++-----------------------+
+| truncate(3.1415926,3) |
++-----------------------+
+|                 3.141 |
++-----------------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br></div></div><h3 id="_4-2-字符串类" tabindex="-1"><a class="header-anchor" href="#_4-2-字符串类" aria-hidden="true">#</a> 4.2 字符串类</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select ucase(&#39;i am a boy!&#39;);		# 转成大写
++----------------------+
+| ucase(&#39;i am a boy!&#39;) |
++----------------------+
+| I AM A BOY!          |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select lcase(&#39;I Am A Boy!&#39;);		#转成小写
++----------------------+
+| lcase(&#39;I Am A Boy!&#39;) |
++----------------------+
+| i am a boy!          |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select left(&#39;abcde&#39;,3);		# 从左边开始截取，截取3个
++-----------------+
+| left(&#39;abcde&#39;,3) |
++-----------------+
+| abc             |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select right(&#39;abcde&#39;,3);		# 从右边开始截取，截取3个
++------------------+
+| right(&#39;abcde&#39;,3) |
++------------------+
+| cde              |
++------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select substring(&#39;abcde&#39;,2,3);	#从第2个位置开始截取，截取3个【位置从1开始】
++------------------------+
+| substring(&#39;abcde&#39;,2,3) |
++------------------------+
+| bcd                    |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select concat(&#39;中国&#39;,&#39;上海&#39;);	# 字符串相连
++-----------------------+
+| concat(&#39;中国&#39;,&#39;上海&#39;)       |
++-----------------------+
+| 中国上海                    |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select concat(stuname,&#39;-&#39;,stusex) from stuinfo;  # 将表中的姓名和性别连接起来
++----------------------------+
+| concat(stuname,&#39;-&#39;,stusex) |
++----------------------------+
+| 张秋丽-男                          |
+| 李文才-男                         |
+| 李斯文-女                        |
+| 欧阳俊雄-男                         |
+| 诸葛丽丽-女                         |
+| 争青小子-男                         |
+| 梅超风-女                        |
++----------------------------+
+7 rows in set (0.00 sec)
+
+# coalesce(字段1，字段2)  如果字段1不为空就显示字段1，否则，显示字段2
+mysql&gt; select stuname,coalesce(writtenexam,&#39;缺考&#39;),coalesce(labexam,&#39;缺考&#39;) from stuinfo natural left join stumarks;   # 将考试成绩为空的显示为缺考
++----------+------------------------------+--------------------------+
+| stuname  | coalesce(writtenexam,&#39;缺考&#39;)    | coalesce(labexam,&#39;缺考&#39;)    |
++----------+------------------------------+--------------------------+
+| 张秋丽         | 77                           | 82                       |
+| 李文才        | 50                           | 90                       |
+| 李斯文        | 88                           | 58                       |
+| 欧阳俊雄        | 65                           | 50                       |
+| 诸葛丽丽         | 缺考                            | 缺考                        |
+| 争青小子        | 56                           | 48                       |
+| 梅超风        | 缺考                            | 缺考                        |
++----------+------------------------------+--------------------------+
+
+mysql&gt; select length(&#39;锄禾日当午&#39;);		# 字节长度
++----------------------+
+| length(&#39;锄禾日当午&#39;)          |
++----------------------+
+|                   10 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select char_length(&#39;锄禾日当午&#39;);		# 字符个数
++---------------------------+
+| char_length(&#39;锄禾日当午&#39;)          |
++---------------------------+
+|                         5 |
++---------------------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br></div></div><h3 id="_4-3-时间类" tabindex="-1"><a class="header-anchor" href="#_4-3-时间类" aria-hidden="true">#</a> 4.3 时间类</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select unix_timestamp();	#获取时间戳
++------------------+
+| unix_timestamp() |
++------------------+
+|       1537084508 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select from_unixtime(unix_timestamp());	# 将时间戳转成年-月-日 小时:分钟:秒的格式
++---------------------------------+
+| from_unixtime(unix_timestamp()) |
++---------------------------------+
+| 2018-09-16 15:55:56             |
++---------------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select now();		# 获取当前日期时间
++---------------------+
+| now()               |
++---------------------+
+| 2018-09-16 15:57:04 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select year(now()) 年,month(now()) 月, day(now()) 日,hour(now()) 小,minute(now()) 分钟,second(now()) 秒;
++------+------+------+------+------+------+
+| 年     | 月     | 日     | 小时   | 分钟     | 秒     |
++------+------+------+------+------+------+
+| 2018 |    9 |   16 |   15 |   59 |   14 |
++------+------+------+------+------+------+
+1 row in set (0.00 sec)
+
+mysql&gt; select dayname(now()) 星期,monthname(now()),dayofyear(now()) 本年的第几天;
++--------+------------------+--------------+
+| 星期       | monthname(now()) | 本年的第几天           |
++--------+------------------+--------------+
+| Sunday | September        |          259 |
++--------+------------------+--------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select datediff(now(),&#39;2008-8-8&#39;);	# 日期相减
++----------------------------+
+| datediff(now(),&#39;2008-8-8&#39;) |
++----------------------------+
+|                       3691 |
++----------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select convert(now(),date),convert(now(),time);	# 将now()转成日期和时间
++---------------------+---------------------+
+| convert(now(),date) | convert(now(),time) |
++---------------------+---------------------+
+| 2018-09-16          | 16:07:24            |
++---------------------+---------------------+
+
+mysql&gt; select cast(now() as date),cast(now() as time);   # 将now()转成日期和时间
++---------------------+---------------------+
+| cast(now() as date) | cast(now() as time) |
++---------------------+---------------------+
+| 2018-09-16          | 16:08:03            |
++---------------------+---------------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br></div></div><h3 id="_4-4-加密函数" tabindex="-1"><a class="header-anchor" href="#_4-4-加密函数" aria-hidden="true">#</a> 4.4 加密函数</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>+----------------------------------+------------------------------------------+
+| md5(&#39;root&#39;)                      | sha(&#39;root&#39;)                              |
++----------------------------------+------------------------------------------+
+| 63a9f0ea7bb98050796b649e85481845 | dc76e9f0c0006e8f919e0c515c66dbba3982f785 |
++----------------------------------+------------------------------------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="_4-5-判断函数" tabindex="-1"><a class="header-anchor" href="#_4-5-判断函数" aria-hidden="true">#</a> 4.5 判断函数</h3><p>语法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>if(表达式,值1,值2)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select if(10%2=0,&#39;偶数&#39;,&#39;奇数&#39;);
++--------------------------+
+| if(10%2=0,&#39;偶数&#39;,&#39;奇数&#39;)        |
++--------------------------+
+| 偶数                        |
++--------------------------+
+1 row in set (0.00 sec)
+
+# 语文和数学都超过60分才通过
+mysql&gt; select stuname,ch,math,if(ch&gt;=60 &amp;&amp; math&gt;=60,&#39;通过&#39;,&#39;不通过&#39;) &#39;是否通过&#39; from stu;
++----------+------+------+----------+
+| stuname  | ch   | math | 是否通过       |
++----------+------+------+----------+
+| 张秋丽         |   80 | NULL | 不通过        |
+| 李文才        |   77 |   76 | 通过        |
+| 李斯文        |   55 |   82 | 不通过        |
+| 欧阳俊雄        | NULL |   74 | 不通过        |
+| 诸葛丽丽         |   72 |   56 | 不通过        |
+| 争青小子        |   86 |   92 | 通过        |
+| 梅超风        |   74 |   67 | 通过        |
+| Tom      |   65 |   67 | 通过        |
+| Tabm     |   88 |   77 | 通过        |
++----------+------+------+----------+
+9 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h2 id="_5-预处理" tabindex="-1"><a class="header-anchor" href="#_5-预处理" aria-hidden="true">#</a> 5 预处理</h2><p>预编译一次，可以多次执行。用来解决一条SQL语句频繁执行的问题。</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>预处理语句：prepare 预处理名字 from ‘sql语句’
+执行预处理：execute 预处理名字 [using 变量]
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>例题一：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; prepare stmt from &#39;select * from stuinfo&#39;;	# 创建预处理
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql&gt; execute stmt;	# 执行预处理
++--------+----------+--------+--------+---------+------------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress |
++--------+----------+--------+--------+---------+------------+
+| s25301 | 张秋丽         | 男       |     18 |       1 | 北京           |
+| s25302 | 李文才        | 男       |     31 |       3 | 上海          |
+| s25303 | 李斯文        | 女      |     22 |       2 | 北京           |
+| s25304 | 欧阳俊雄        | 男       |     28 |       4 | 天津           |
+| s25305 | 诸葛丽丽         | 女      |     23 |       7 | 河南           |
+| s25318 | 争青小子        | 男       |     26 |       6 | 天津           |
+| s25319 | 梅超风        | 女      |     23 |       5 | 河北          |
++--------+----------+--------+--------+---------+------------+
+7 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>例题二：传递参数</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; delimiter // 
+mysql&gt; prepare stmt from &#39;select * from stuinfo where stuno=?&#39; // -- ?是位置占位符
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql&gt; set @id=&#39;s25301&#39;;       -- 变量以@开头，通过set给变量赋值
+    -&gt; execute stmt using @id //  -- 执行预处理，传递参数
+Query OK, 0 rows affected (0.00 sec)
+
++--------+---------+--------+--------+---------+------------+
+| stuNo  | stuName | stuSex | stuAge | stuSeat | stuAddress |
++--------+---------+--------+--------+---------+------------+
+| s25301 | 张秋丽        | 男       |     18 |       1 | 北京           |
++--------+---------+--------+--------+---------+------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>脚下留心：
+1、?是位置占位符
+2、变量以@开头
+3、通过set给变量赋值
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>例题三：传递多个参数</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; prepare stmt from &#39;select * from stuinfo where stusex=? and stuaddress=?&#39;  //
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql&gt; set @sex=&#39;男&#39;;
+    -&gt; set @addr=&#39;北京&#39;;
+    -&gt; execute stmt using @sex,@addr //
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
++--------+---------+--------+--------+---------+------------+
+| stuNo  | stuName | stuSex | stuAge | stuSeat | stuAddress |
++--------+---------+--------+--------+---------+------------+
+| s25301 | 张秋丽        | 男       |     18 |       1 | 北京           |
++--------+---------+--------+--------+---------+------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="_6-存储过程【procedure】" tabindex="-1"><a class="header-anchor" href="#_6-存储过程【procedure】" aria-hidden="true">#</a> 6 存储过程【procedure】</h2><h3 id="_6-1-存储过程的优点" tabindex="-1"><a class="header-anchor" href="#_6-1-存储过程的优点" aria-hidden="true">#</a> 6.1 存储过程的优点</h3><ol><li>存储过程可以减少网络流量</li><li>允许模块化设计</li><li>支持事务</li></ol><h3 id="_6-2创建存储过程" tabindex="-1"><a class="header-anchor" href="#_6-2创建存储过程" aria-hidden="true">#</a> 6.2 创建存储过程</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>create procedure 存储过程名(参数)
+begin
+	//sql语句
+end;
+
+脚下留心：由于过程中有很多SQL语句，每个语句的结束都要用（；）结束。默认情况下，分号既表示语句结束，又表示向服务器发送SQL语句。我们希望分号仅表示语句的结束，不要将SQL语句发送到服务器执行，通过delimiter来更改结束符。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; delimiter //
+mysql&gt; create procedure proc()     -- 创建存储过程
+    -&gt; begin
+    -&gt; select * from stuinfo;
+    -&gt; end //
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="_6-3调用存储过程" tabindex="-1"><a class="header-anchor" href="#_6-3调用存储过程" aria-hidden="true">#</a> 6.3 调用存储过程</h3><p>语法：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>call 存储过程名()
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; call proc() //     -- 调用存储过程
++--------+----------+--------+--------+---------+------------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress |
++--------+----------+--------+--------+---------+------------+
+| s25301 | 张秋丽         | 男       |     18 |       1 | 北京           |
+| s25302 | 李文才        | 男       |     31 |       3 | 上海          |
+| s25303 | 李斯文        | 女      |     22 |       2 | 北京           |
+| s25304 | 欧阳俊雄        | 男       |     28 |       4 | 天津           |
+| s25305 | 诸葛丽丽         | 女      |     23 |       7 | 河南           |
+| s25318 | 争青小子        | 男       |     26 |       6 | 天津           |
+| s25319 | 梅超风        | 女      |     23 |       5 | 河北          |
++--------+----------+--------+--------+---------+------------+
+7 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="_6-4删除存储过程" tabindex="-1"><a class="header-anchor" href="#_6-4删除存储过程" aria-hidden="true">#</a> 6.4 删除存储过程</h3><p>语法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>drop procedure [if exists] 存储过程名
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; drop procedure proc //    -- 删除存储过程
+Query OK, 0 rows affected (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="_6-5-查看存储过程的信息" tabindex="-1"><a class="header-anchor" href="#_6-5-查看存储过程的信息" aria-hidden="true">#</a> 6.5 查看存储过程的信息</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>show create procedure 存储过程名\G
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; show create procedure proc \G
+*************************** 1. row ***************************
+           Procedure: proc
+            sql_mode: STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+    Create Procedure: CREATE DEFINER=`root`@`localhost` PROCEDURE `proc`()
+begin
+select * from stuinfo;
+end
+character_set_client: gbk
+collation_connection: gbk_chinese_ci
+  Database Collation: utf8_general_ci
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h3 id="_6-6-显示所有的存储过程" tabindex="-1"><a class="header-anchor" href="#_6-6-显示所有的存储过程" aria-hidden="true">#</a> 6.6 显示所有的存储过程</h3><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; show procedure status \G
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_6-7存储过程的参数" tabindex="-1"><a class="header-anchor" href="#_6-7存储过程的参数" aria-hidden="true">#</a> 6.7 存储过程的参数</h3><p>存储过程的参数分为：输入参数（in）【默认】，输出参数（out），输入输出参数（inout）</p><p>存储过程不能使用return返回值，要返回值只能通过“输出参数”来向外传递值。</p><p>例题一：传递学号，获取对应的信息</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create procedure proc(in param varchar(10))   -- 输入参数
+    -&gt; select * from stuinfo where stuno=param //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; call proc(&#39;s25301&#39;) //
++--------+---------+--------+--------+---------+------------+
+| stuNo  | stuName | stuSex | stuAge | stuSeat | stuAddress |
++--------+---------+--------+--------+---------+------------+
+| s25301 | 张秋丽        | 男       |     18 |       1 | 北京           |
++--------+---------+--------+--------+---------+------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>例题二：查找同桌</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create procedure proc(name varchar(10))
+    -&gt; begin
+    -&gt; declare seat tinyint;   -- 声明局部变量
+    -&gt; select stuseat into seat from stuinfo where stuname=name;  -- 将座位号保存到变量中
+    -&gt; select * from stuinfo where stuseat=seat+1 or stuseat=seat-1;  -- 查找同桌
+    -&gt; end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; call proc(&#39;李文才&#39;) //
++--------+----------+--------+--------+---------+------------+
+| stuNo  | stuName  | stuSex | stuAge | stuSeat | stuAddress |
++--------+----------+--------+--------+---------+------------+
+| s25303 | 李斯文        | 女      |     22 |       2 | 北京           |
+| s25304 | 欧阳俊雄        | 男       |     28 |       4 | 天津           |
++--------+----------+--------+--------+---------+------------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>强调</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>1、通过declare关键字声明局部变量；全局变量@开头就可以了
+2、给变量赋值有两种方法
+	方法一：set 变量名=值
+	方法二：select 字段 into 变量 from 表 where 条件
+3、声明的变量不能与列名同名
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>例题三：输出参数</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create procedure proc(num int, out result int)  //out 表示输出参数
+    -&gt; begin
+    -&gt; set result=num*num;
+    -&gt; end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; call proc(10,@result) //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select @result //
++---------+
+| @result |
++---------+
+|     100 |
++---------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>例题四：输入输出参数</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create procedure proc(inout num int)  #  inout 表示是输入输出参数
+    -&gt; begin
+    -&gt; set num=num*num;
+    -&gt; end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; set @num=10;
+    -&gt; call proc(@num);
+    -&gt; select @num //
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
++------+
+| @num |
++------+
+|  100 |
++------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h2 id="_7-go连接mysql" tabindex="-1"><a class="header-anchor" href="#_7-go连接mysql" aria-hidden="true">#</a> 7 GO连接MySQL</h2><ol><li>因为Go语言没有提供任何官方数据库驱动，所以需要安装第三方函数库。</li><li>由于在github上安装，所以需要安装git软件，安装过程一直点击下一步即可。安装完成后需要配置环境变量</li></ol><h3 id="_7-1-安装git" tabindex="-1"><a class="header-anchor" href="#_7-1-安装git" aria-hidden="true">#</a> 7.1 安装git</h3><p>git软件</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537011074242.png" alt="1537011074242" loading="lazy"></p><p>安装完毕后，配置git的环境变量，这样可以使用<code>get</code>的指令</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537094210154.png" alt="1537094210154" loading="lazy"></p><h3 id="_7-2-安装数据库驱动" tabindex="-1"><a class="header-anchor" href="#_7-2-安装数据库驱动" aria-hidden="true">#</a> 7.2 安装数据库驱动</h3><p>设置GOPATH的环境变量，这样驱动才会下载到项目根目录中。</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537094342573.png" alt="1537094342573" loading="lazy">****</p><p>在cmd命令窗口中输入如下命令安装驱动</p><div class="language-go ext-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">go</span> get github<span class="token punctuation">.</span>com<span class="token operator">/</span><span class="token keyword">go</span><span class="token operator">-</span>sql<span class="token operator">-</span>driver<span class="token operator">/</span>mysql
+
+这一命令会从代码中获取驱动的具体代码，并将这些代码放置到包库中，当需要用到驱动的时候，编译器会把驱动代码与用户编写的代码一同编译。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>安装完毕后，会在GOPATH下看到下载的驱动</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537011722807.png" alt="1537011722807" loading="lazy"></p><h3 id="_7-3-连接数据库" tabindex="-1"><a class="header-anchor" href="#_7-3-连接数据库" aria-hidden="true">#</a> 7.3 连接数据库</h3><p>1、在src目录下创建demo.go文件，导入数据库驱动</p><div class="language-go ext-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">&quot;database/sql&quot;</span>
+	<span class="token boolean">_</span> <span class="token string">&quot;github.com/go-sql-driver/mysql&quot;</span>
+<span class="token punctuation">)</span>
+
+注意：程序在操作数据库的时候只需要用到database<span class="token operator">/</span>sql，而不需要直接使用数据库驱动，所以程序在导入数据库驱动的时候将这个包的名字设置成下划线。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>2、通过sql.open()连接数据库</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>sql.open(驱动名,数据源dsn)(*DB,err)
+
+数据源语法：&quot;用户名:密码@[连接方式](主机名:端口号)/数据库名&quot;
+
+注意：open()在执行时不会真正的与数据库进行连接，只是设置连接数据库需要的参数
+ping()方法才是连接数据库
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>3、执行SQL语句</p><p>​ 创建测试表</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table stu(
+    -&gt; id int primary key,
+    -&gt; name varchar(10)
+    -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>操作数据</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>package main
+
+import (
+	&quot;database/sql&quot;
+	_ &quot;github.com/go-sql-driver/mysql&quot;
+	&quot;fmt&quot;
+)
+
+func main(){
+	//&quot;用户名:密码@[连接方式](主机名:端口号)/数据库名&quot;
+	db,_:=sql.Open(&quot;mysql&quot;,&quot;root:root@(127.0.0.1:3306)/itcast&quot;) // 设置连接数据库的参数
+	defer db.Close()	//关闭数据库
+	err:=db.Ping()		//连接数据库
+	if err!=nil{
+		fmt.Println(&quot;数据库连接失败&quot;)
+		return
+	}
+
+	//操作一：执行数据操作语句
+	/*
+	sql:=&quot;insert into stu values (2,&#39;berry&#39;)&quot;
+	result,_:=db.Exec(sql)		//执行SQL语句
+	n,_:=result.RowsAffected();	//获取受影响的记录数
+	fmt.Println(&quot;受影响的记录数是&quot;,n)
+	*/
+
+	//操作二：执行预处理
+	/*
+	stu:=[2][2] string{{&quot;3&quot;,&quot;ketty&quot;},{&quot;4&quot;,&quot;rose&quot;}}
+	stmt,_:=db.Prepare(&quot;insert into stu values (?,?)&quot;)		//获取预处理语句对象
+	for _,s:=range stu{
+		stmt.Exec(s[0],s[1])			//调用预处理语句
+	}
+	*/
+
+	//操作三：单行查询
+	/*
+	var id,name string
+	rows:=db.QueryRow(&quot;select * from stu where id=4&quot;)   //获取一行数据
+	rows.Scan(&amp;id,&amp;name)		//将rows中的数据存到id,name中
+	fmt.Println(id,&quot;--&quot;,name)
+	*/
+
+	//操作四：多行查询
+	rows,_:=db.Query(&quot;select * from stu&quot;)		//获取所有数据
+	var id,name string
+	for rows.Next(){		//循环显示所有的数据
+		rows.Scan(&amp;id,&amp;name)
+		fmt.Println(id,&quot;--&quot;,name)
+	}
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div><h2 id="_8-例题" tabindex="-1"><a class="header-anchor" href="#_8-例题" aria-hidden="true">#</a> 8 例题</h2><p>1、 显示地区及每个地区参加考试的人数，并按人数降序排列。</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select stuaddress,count(writtenexam) c from stuinfo left join stumarks using(stuno) group by stuaddress order by c desc;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2、 显示有学生参加考试的地区</p><p>方法一：过滤</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select stuaddress,count(writtenexam) c from stuinfo left join stumarks using(stuno) group by stuaddress having c&gt;0;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>方法二：链接查询</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select distinct stuaddress c from stuinfo right join stumarks using(stuno) ;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>3、 显示男生和女生的人数</p><p>方法一：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select stusex,count() from stuinfo where stusex=&#39;男&#39; union select stusex,count() from stuinfo where stusex=&#39;女&#39;;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>方法二：</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select sum(stusex=&#39;男&#39;) 男,sum(stusex=&#39;女&#39;) 女 from stuinfo;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>4、 显示每个地区的男生和女生和总人数</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>select stuaddress,count(stusex) 总人数, sum(stusex=&#39;男&#39;) 男,sum(stusex=&#39;女&#39;) 女 from stuinfo group by stuaddress
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/db/mysql/view-func.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/9/13 08:35:17</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.4908d213.js" defer></script>
+  </body>
+</html>

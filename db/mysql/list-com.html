@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/db/mysql/list-com.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="2 列表类型和数据完整性"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-09-13T08:35:17.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:modified_time" content="2022-09-13T08:35:17.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>2 列表类型和数据完整性 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.4908d213.js"><link rel="modulepreload" href="/assets/list-com.html.d985484d.js"><link rel="modulepreload" href="/assets/list-com.html.b1004a94.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container no-sidebar has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="云原生"><span class="title"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/cloudnative/kubernetes/" class="nav-link" arialabel="Kubernetes"><i class="icon iconfont icon-kubernetes"></i>Kubernetes<!----></a></li><li class="dropdown-item"><a href="/cloudnative/docker/" class="nav-link" arialabel="Docker"><i class="icon iconfont icon-docker"></i>Docker<!----></a></li><li class="dropdown-item"><a href="/cloudnative/etcd/" class="nav-link" arialabel="etcd"><i class="icon iconfont icon-icon_etcd"></i>etcd<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="基础知识"><span class="title"><i class="icon iconfont icon-jichu"></i>基础知识</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/basic/system/" class="nav-link" arialabel="操作系统"><i class="icon iconfont icon-caozuoxitong"></i>操作系统<!----></a></li><li class="dropdown-item"><a href="/basic/network/" class="nav-link" arialabel="计算机网络"><i class="icon iconfont icon-wangluo"></i>计算机网络<!----></a></li><li class="dropdown-item"><a href="/basic/linux/" class="nav-link" arialabel="Linux运维"><i class="icon iconfont icon-linux"></i>Linux运维<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="监控工具"><span class="title"><i class="icon iconfont icon-jiankong"></i>监控工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="自动化工具"><span class="title"><i class="icon iconfont icon-devops"></i>自动化工具</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/automate/jenkins/" class="nav-link" arialabel="Jenkins"><i class="icon iconfont icon-jenkins"></i>Jenkins<!----></a></li><li class="dropdown-item"><a href="/automate/ansible/" class="nav-link" arialabel="Ansible"><i class="icon iconfont icon-ansible"></i>Ansible<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="web中间件"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>web中间件</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link active" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button class="outlook-button" tabindex="-1" ariahidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon outlook-icon" viewbox="0 0 1024 1024" arialabelledby="outlook"><title id="outlook" lang="en">outlook icon</title><g fill="currentColor"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4 38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32 51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0 102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2 6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4 0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2 9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224 419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4 470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0 22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6 12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128 505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2 16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8 86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4 80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6 6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></g></svg><div class="outlook-dropdown"><!----></div></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->2 列表类型和数据完整性</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2022年9月13日</span><meta property="datePublished" content="2022-09-13T07:28:38.000Z"></span><span class="category-info" arialabel="分类🌈" data-balloon-pos="down" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category category3 clickable" role="navigation">MySQL</li><meta property="articleSection" content="MySQL"></ul></span><!----><span class="reading-time-info" arialabel="阅读时间⌛" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 16 分钟</span><meta property="timeRequired" content="PT16M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-数据类型" class="router-link-active router-link-exact-active toc-link level2">1 数据类型</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-1-值类型" class="router-link-active router-link-exact-active toc-link level3">1.1 值类型</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-2-字符型" class="router-link-active router-link-exact-active toc-link level3">1.2 字符型</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-3-枚举-enum" class="router-link-active router-link-exact-active toc-link level3">1.3 枚举（enum）</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-4-集合-set" class="router-link-active router-link-exact-active toc-link level3">1.4 集合（set）</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-5-日期类型" class="router-link-active router-link-exact-active toc-link level3">1.5 日期类型</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-6-boolean" class="router-link-active router-link-exact-active toc-link level3">1.6 boolean</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_1-7-关于数据类型的思考题" class="router-link-active router-link-exact-active toc-link level3">1.7 关于数据类型的思考题</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-列属性" class="router-link-active router-link-exact-active toc-link level2">2 列属性</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-1-是否为空-null-not-null" class="router-link-active router-link-exact-active toc-link level3">2.1 是否为空(null | not null)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-2-默认值-default" class="router-link-active router-link-exact-active toc-link level3">2.2 默认值（default）</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-3-自动增长-auto-increment" class="router-link-active router-link-exact-active toc-link level3">2.3 自动增长（auto_increment）</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-4-主键-primary-key" class="router-link-active router-link-exact-active toc-link level3">2.4 主键（primary key）</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-5-唯一键" class="router-link-active router-link-exact-active toc-link level3">2.5 唯一键</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_2-6-备注-comment" class="router-link-active router-link-exact-active toc-link level3">2.6 备注（comment）</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_3-sql注释" class="router-link-active router-link-exact-active toc-link level2">3 SQL注释</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_4-数据完整性介绍" class="router-link-active router-link-exact-active toc-link level2">4 数据完整性介绍</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_4-1-保证实体完整性" class="router-link-active router-link-exact-active toc-link level3">4.1 保证实体完整性</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_4-2-保证域完整性" class="router-link-active router-link-exact-active toc-link level3">4.2 保证域完整性</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_4-3-保证引用完整性" class="router-link-active router-link-exact-active toc-link level3">4.3 保证引用完整性</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/db/mysql/list-com.html#_5-外键操作" class="router-link-active router-link-exact-active toc-link level2">5 外键操作</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="_2-列表类型和数据完整性" tabindex="-1"><a class="header-anchor" href="#_2-列表类型和数据完整性" aria-hidden="true">#</a> 2 列表类型和数据完整性</h1><h2 id="_1-数据类型" tabindex="-1"><a class="header-anchor" href="#_1-数据类型" aria-hidden="true">#</a> 1 数据类型</h2><h3 id="_1-1-值类型" tabindex="-1"><a class="header-anchor" href="#_1-1-值类型" aria-hidden="true">#</a> 1.1 值类型</h3><h4 id="_1-1-1-整型" tabindex="-1"><a class="header-anchor" href="#_1-1-1-整型" aria-hidden="true">#</a> 1.1.1 整型</h4><table><thead><tr><th style="text-align:center;">类型</th><th style="text-align:center;">字节</th><th style="text-align:center;">范围</th></tr></thead><tbody><tr><td style="text-align:center;">tinyint</td><td style="text-align:center;">1</td><td style="text-align:center;">-128~127</td></tr><tr><td style="text-align:center;">smallint</td><td style="text-align:center;">2</td><td style="text-align:center;">-32768~32767</td></tr><tr><td style="text-align:center;">mediumint</td><td style="text-align:center;">3</td><td style="text-align:center;">-8388608~8388607</td></tr><tr><td style="text-align:center;">int</td><td style="text-align:center;">4</td><td style="text-align:center;">-2<sup>31</sup>~2<sup>31</sup>-1</td></tr><tr><td style="text-align:center;">bigint</td><td style="text-align:center;">8</td><td style="text-align:center;">-2<sup>63</sup>~2<sup>63</sup>-1</td></tr></tbody></table><p>1、无符号整数（unsigned）：无符号数没有负数，正数部分是有符号的两倍。</p><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table stu(
+    -&gt; id smallint unsigned auto_increment primary key comment &#39;主键&#39;,
+    -&gt; age tinyint unsigned not null comment &#39;年龄&#39;,
+    -&gt; money bigint unsigned comment &#39;存款&#39;
+    -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; desc stu;
++-------+----------------------+------+-----+---------+----------------+
+| Field | Type                 | Null | Key | Default | Extra          |
++-------+----------------------+------+-----+---------+----------------+
+| id    | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
+| age   | tinyint(3) unsigned  | NO   |     | NULL    |                |
+| money | bigint(20) unsigned  | YES  |     | NULL    |                |
++-------+----------------------+------+-----+---------+----------------+
+3 rows in set, 3 warnings (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>2、整型支持显示宽度（最小的显示位数） 比如int(5)，如果数值的位数小于5位，前面加上前导0。比如输入12，显示00012；大于5位就不添加前导0。</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>脚下留心：必须结合zerofill才起作用
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table stu(
+    -&gt; id int(5),
+    -&gt; age int(5) zerofill   # 填充前导0
+    -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; desc stu;
++-------+--------------------------+------+-----+---------+-------+
+| Field | Type                     | Null | Key | Default | Extra |
++-------+--------------------------+------+-----+---------+-------+
+| id    | int(5)                   | YES  |     | NULL    |       |
+| age   | int(5) unsigned zerofill | YES  |     | NULL    |       |
++-------+--------------------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql&gt; insert into stu values (1,11);
+mysql&gt; insert into stu values (1111111,2222222);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select * from stu;
++---------+---------+
+| id      | age     |
++---------+---------+
+|       1 |   00011 |
+| 1111111 | 2222222 |    # 注意：age填充了前导0
++---------+---------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h4 id="_1-1-2-浮点型-保存近似值小数" tabindex="-1"><a class="header-anchor" href="#_1-1-2-浮点型-保存近似值小数" aria-hidden="true">#</a> 1.1.2 浮点型（保存近似值小数）</h4><table><thead><tr><th style="text-align:center;">浮点型</th><th style="text-align:center;">占用字节</th><th style="text-align:center;">范围</th></tr></thead><tbody><tr><td style="text-align:center;">float（单精度）</td><td style="text-align:center;">4</td><td style="text-align:center;">-3.4E+38~3.4E+38</td></tr><tr><td style="text-align:center;">double（双精度）</td><td style="text-align:center;">8</td><td style="text-align:center;">-1.8E+308~1.8E+308</td></tr></tbody></table><p>1、浮点数声明: float(M,D) double(M,D)</p><p>M：总位数</p><p>D：小数位数</p><p>例题；</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t1(
+    -&gt; num1 float(5,2),   #总位数是5，小数位数是2，那么整数位数是3，
+    -&gt; num2 double(4,1)
+    -&gt; );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql&gt; insert into t1 values (1.23,1.23); #如果精度超出了允许的范围，会四舍五入
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select * from t1;
++------+------+
+| num1 | num2 |
++------+------+
+| 1.23 |  1.2 |   #如果精度超出了允许的范围，会四舍五入
++------+------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>2、浮点的精度可能会丢失【精度指的是小数】</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536718268668.png" alt="1536718268668" loading="lazy"></p><h4 id="_1-1-3-定点数" tabindex="-1"><a class="header-anchor" href="#_1-1-3-定点数" aria-hidden="true">#</a> 1.1.3 定点数</h4><p>语法：<code>decimal(M,D)</code></p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t4(
+   -&gt; num decimal(20,19)
+   -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t4 values (1.1234567890123456789);
+Query OK, 1 row affected (0.01 sec)
+
+mysql&gt; select * from t4;
++-----------------------+
+| num                   |
++-----------------------+
+| 1.1234567890123456789 |
++-----------------------+
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>多学一招：
+1、定点数是变长的，大致每9个数字用4个字节来存储。定点数之所以能保存精确的小数，因为整数和小数是分开存储的。占用的资源比浮点数要多。
+2、定点数和浮点数都支持显示宽度和无符号数。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-2-字符型" tabindex="-1"><a class="header-anchor" href="#_1-2-字符型" aria-hidden="true">#</a> 1.2 字符型</h3><table><thead><tr><th style="text-align:center;">数据类型</th><th style="text-align:center;">描述</th><th style="text-align:center;">长度</th></tr></thead><tbody><tr><td style="text-align:center;">char(长度)</td><td style="text-align:center;">定长</td><td style="text-align:center;">最大255</td></tr><tr><td style="text-align:center;">varchar(长度)</td><td style="text-align:center;">变长</td><td style="text-align:center;">最大65535</td></tr><tr><td style="text-align:center;">tinytext</td><td style="text-align:center;">大段文本</td><td style="text-align:center;">2<sup>8</sup>-1=255</td></tr><tr><td style="text-align:center;">text</td><td style="text-align:center;">大段文本</td><td style="text-align:center;">2<sup>16</sup>-1=65535</td></tr><tr><td style="text-align:center;">mediumtext</td><td style="text-align:center;">大段文本</td><td style="text-align:center;">2<sup>24</sup>-1</td></tr><tr><td style="text-align:center;">longtext</td><td style="text-align:center;">大段文本</td><td style="text-align:center;">2<sup>32</sup>-1</td></tr></tbody></table><p>1、char(10)和varchar(10)的区别？</p><p>答：相同点：它们最多只能保存10个字符；</p><pre><code>    不同点：char不回收多余的字符，varchar会回收多余的字符。
+
+                    char效率高，浪费空间，varchar节省空间，效率比char低。
+</code></pre><p>2、char的最大长度是255。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536719919287.png" alt="1536719919287" loading="lazy"></p><p>3、varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720096028.png" alt="1536720096028" loading="lazy"></p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720113031.png" alt="1536720113031" loading="lazy"></p><p>4、一个记录的总长度不能超过65535个字节。</p><p>5、大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720763914.png" alt="1536720763914" loading="lazy"></p><h3 id="_1-3-枚举-enum" tabindex="-1"><a class="header-anchor" href="#_1-3-枚举-enum" aria-hidden="true">#</a> 1.3 枚举（enum）</h3><p>1、从集合中选择一个数据（单选）</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t8(
+   -&gt; name varchar(20),
+   -&gt; sex enum(&#39;男&#39;,&#39;女&#39;,&#39;保密&#39;)   # 枚举
+   -&gt; )charset=utf8;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; insert into t8 values (&#39;tom&#39;,&#39;男&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t8 values (&#39;berry&#39;,&#39;女&#39;);
+Query OK, 1 row affected (0.05 sec)
+
+mysql&gt; insert into t8 values (&#39;rose&#39;,&#39;未知&#39;);   # 报错，只能插入枚举值
+ERROR 1265 (01000): Data truncated for column &#39;sex&#39; at row 1
+mysql&gt; select * from t8;
++-------+------+
+| name  | sex  |
++-------+------+
+| tom   | 男     |
+| berry | 女    |
++-------+------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>2、MySQL的枚举类型是通过整数来管理的，第一个值是1，第二个值是2，以此类推。</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536721403493.png" alt="1536721403493" loading="lazy"></p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; select sex+0 from t8;
++-------+
+| sex+0 |
++-------+
+|     1 |
+|     2 |
++-------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>3、既然枚举在数据库内部存储的是整数，那么可以直接插入数字</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; insert into t8 values (&#39;rose&#39;,3);  # 可以直接插入数字
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select * from t8;
++-------+------+
+| name  | sex  |
++-------+------+
+| tom   | 男     |
+| berry | 女    |
+| rose  | 保密     |
++-------+------+
+3 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>枚举的优点：</p><p>1、 运行速度快（数字比字符串运算速度快）</p><p>2、 限制数据，保证数据完整性</p><p>3、 节省空间</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>思考：已知枚举占用2个字节，请问最多有多少个枚举值？
+
+答：2个字节=16位，可以保存数字（0-65535），枚举是从1开始，所以枚举最多可以有65535个枚举值。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-4-集合-set" tabindex="-1"><a class="header-anchor" href="#_1-4-集合-set" aria-hidden="true">#</a> 1.4 集合（set）</h3><p>从集合中选择一些数据（多选）</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t9(
+   -&gt; hobby set(&#39;爬山&#39;,&#39;读书&#39;,&#39;游泳&#39;,&#39;敲代码&#39;)
+   -&gt; );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql&gt; insert into t9 values (&#39;爬山&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t9 values (&#39;爬山,游泳&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t9 values (&#39;游泳,爬山&#39;);  # 插入顺序不一样，但是显示的顺序是一样的
+Query OK, 1 row affected (0.02 sec)
+
+mysql&gt; insert into t9 values (&#39;爬山,游泳,开车&#39;);  # 报错，插入集合中没有的选项会报错
+ERROR 1265 (01000): Data truncated for column &#39;hobby&#39; at row 1
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>每个集合的元素都分配一个固定的数字，分配的方式从左往右按2的0、1、2、…次方</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536723512843.png" alt="1536723512843" loading="lazy"></p><hr><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>思考：已知集合占用8个字节，最多可以表示几个选项？
+
+答：8个字节=64位，一个位表示1个选项，最多可以表示64个选项。
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-5-日期类型" tabindex="-1"><a class="header-anchor" href="#_1-5-日期类型" aria-hidden="true">#</a> 1.5 日期类型</h3><table><thead><tr><th style="text-align:center;">数据类型</th><th style="text-align:center;">描述</th></tr></thead><tbody><tr><td style="text-align:center;">datetime</td><td style="text-align:center;">日期时间，占用8个字节</td></tr><tr><td style="text-align:center;">date</td><td style="text-align:center;">日期 占用3个字节</td></tr><tr><td style="text-align:center;">time</td><td style="text-align:center;">时间 占用3个字节</td></tr><tr><td style="text-align:center;">timestamp</td><td style="text-align:center;">时间戳，占用4个字节</td></tr><tr><td style="text-align:center;">year</td><td style="text-align:center;">年份 占用1个字节</td></tr></tbody></table><h4 id="_1-5-1-datetime" tabindex="-1"><a class="header-anchor" href="#_1-5-1-datetime" aria-hidden="true">#</a> 1.5.1 datetime</h4><p>格式：年-月-日 小时:分钟:秒</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t10(
+   -&gt; field datetime
+   -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; insert into t10 values (&#39;2025-10-12 10:12:36&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t10 values (&#39;100-10-12 10:12:36&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t10 values (&#39;10000-10-12 10:12:36&#39;);  #datetime保存范围是：1~9999年
+ERROR 1292 (22007): Incorrect datetime value: &#39;10000-10-12 10:12:36&#39; for column &#39;field&#39; at row 1
+
+mysql&gt; select * from t10;
++---------------------+
+| field               |
++---------------------+
+| 2025-10-12 10:12:36 |
+| 0100-10-12 10:12:36 |
++---------------------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><h4 id="_1-5-2-date" tabindex="-1"><a class="header-anchor" href="#_1-5-2-date" aria-hidden="true">#</a> 1.5.2 date</h4><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t11(
+    -&gt; field date
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t11 values (&#39;2025-10-12&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select * from t11;
++------------+
+| field      |
++------------+
+| 2025-10-12 |
++------------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h4 id="_1-5-3-timestamp" tabindex="-1"><a class="header-anchor" href="#_1-5-3-timestamp" aria-hidden="true">#</a> 1.5.3 timestamp</h4><p>时间戳</p><p>timestamp类型和 datetime类型在表现上是一样的。他们的区别： datetime是从1到9999，而timestamp从1970年~2038年，2038年01月19日11:14:07秒以后就超出timestamp范围了。</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t12(
+    -&gt; field timestamp
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t12 values (&#39;1975-5-5 12:12:12&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t12 values (&#39;1969-5-5 12:12:12&#39;);   # 超出范围
+ERROR 1292 (22007): Incorrect datetime value: &#39;1969-5-5 12:12:12&#39; for column &#39;field&#39; at row 1
+mysql&gt; insert into t12 values (&#39;2038-1-19 11:14:07&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t12 values (&#39;2038-1-19 11:14:08&#39;);  # 超出范围
+ERROR 1292 (22007): Incorrect datetime value: &#39;2038-1-19 11:14:08&#39; for column &#39;field&#39; at row 1
+
+mysql&gt; select * from t12;
++---------------------+
+| field               |
++---------------------+
+| 1975-05-05 12:12:12 |
+| 2038-01-19 11:14:07 |
++---------------------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h4 id="_1-5-4-year" tabindex="-1"><a class="header-anchor" href="#_1-5-4-year" aria-hidden="true">#</a> 1.5.4 year</h4><p>因为只占用1个字节，最多只能表示255个年份，范围是1901-2155之间的年份</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t13(
+    -&gt; field year
+    -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; insert into t13 values (2025);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t13 values (1900);   # 超出范围
+ERROR 1264 (22003): Out of range value for column &#39;field&#39; at row 1
+mysql&gt; insert into t13 values (2155);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t13 values (2156);   # 超出范围
+ERROR 1264 (22003): Out of range value for column &#39;field&#39; at row 1
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h4 id="_1-5-5-time" tabindex="-1"><a class="header-anchor" href="#_1-5-5-time" aria-hidden="true">#</a> 1.5.5 time</h4><p>表示时间或时间间隔，范围是-838:59:59~838:59:59</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t14(
+   -&gt; field time
+   -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t14 values (&#39;12:12:12&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t14 values (&#39;212:12:12&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t14 values (&#39;838:59:59&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into t14 values (&#39;839:00:00&#39;);  # 操作范围
+ERROR 1292 (22007): Incorrect time value: &#39;839:00:00&#39; for column &#39;field&#39; at row 1
+mysql&gt;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>多学一招：time支持以天的方式插入</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; insert into t14 values (&#39;10 10:10:10&#39;);
+Query OK, 1 row affected (0.02 sec)
+
+mysql&gt; select * from t14;
++-----------+
+| field     |
++-----------+
+| 12:12:12  |
+| 212:12:12 |
+| 838:59:59 |
+| 250:10:10 |
++-----------+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h3 id="_1-6-boolean" tabindex="-1"><a class="header-anchor" href="#_1-6-boolean" aria-hidden="true">#</a> 1.6 boolean</h3><p>MySQL不支持boolean类型，true和false在数据库中对应1和0。</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t15(
+   -&gt; field boolean
+   -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t15 values (true),(false);   # true和false在数据库中对应1和0
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql&gt; select * from t15;
++-------+
+| field |
++-------+
+|     1 |
+|     0 |
++-------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="_1-7-关于数据类型的思考题" tabindex="-1"><a class="header-anchor" href="#_1-7-关于数据类型的思考题" aria-hidden="true">#</a> 1.7 关于数据类型的思考题</h3><ol><li><p>手机号码一般使用什么数据类型存储? char</p></li><li><p>电话号码使用什么数据类型 varchar</p></li><li><p>性别一般使用什么数据类型存储? char enum</p></li><li><p>学生年龄信息一般使用什么数据类型存储? tinyint</p></li><li><p>照片信息一般使用什么数据类型存储? binary</p></li><li><p>薪水一般使用什么数据类型存储? decimal</p></li></ol><p>多学一招：一个字段到底选数字还是字符，取决于有没有计算的可能，如果没有计算的可能即使是数字也要用字符类型，比如手机号、QQ号，…</p><h2 id="_2-列属性" tabindex="-1"><a class="header-anchor" href="#_2-列属性" aria-hidden="true">#</a> 2 列属性</h2><h3 id="_2-1-是否为空-null-not-null" tabindex="-1"><a class="header-anchor" href="#_2-1-是否为空-null-not-null" aria-hidden="true">#</a> 2.1 是否为空(null | not null)</h3><p>null：可以为空</p><p>not null：不可以为空</p><p>思考题</p><ol><li><p>学员姓名允许为空吗? 非空</p></li><li><p>家庭地址允许为空吗? 非空</p></li><li><p>电子邮件信息允许为空吗? 可以为空</p></li><li><p>考试成绩允许为空吗? 可以为空</p></li></ol><h3 id="_2-2-默认值-default" tabindex="-1"><a class="header-anchor" href="#_2-2-默认值-default" aria-hidden="true">#</a> 2.2 默认值（default）</h3><p>1、如果一个字段没有插入值，可以默认插入一个指定的值。</p><p>2、default关键字用来插入默认值</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t16(
+   -&gt; id int unsigned,
+   -&gt; addr varchar(20) not null default &#39;地址不详&#39;
+   -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; insert into t16 values (1,&#39;北京&#39;),(2,default);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql&gt; select * from t16;
++------+----------+
+| id   | addr     |
++------+----------+
+|    1 | 北京         |
+|    2 | 地址不详        |
++------+----------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="_2-3-自动增长-auto-increment" tabindex="-1"><a class="header-anchor" href="#_2-3-自动增长-auto-increment" aria-hidden="true">#</a> 2.3 自动增长（auto_increment）</h3><p>1、字段的值从1开始，每次递增1，特点就在字段中的数据不可能重复，适合为记录生成唯一的id</p><p>2、自动增长都是无符号整数。</p><p>3、在MySQL中，auto_increment必须是主键。但是主键不一定是自动增长的。</p><p>4、如果要给自动增长列插入数据，使用null关键字。</p><p>5、自动增长列上的数据被删除，默认情况下此记录的编号不再使用。</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536737314504.png" alt="1536737314504" loading="lazy"></p><h3 id="_2-4-主键-primary-key" tabindex="-1"><a class="header-anchor" href="#_2-4-主键-primary-key" aria-hidden="true">#</a> 2.4 主键（primary key）</h3><p>主键：唯一标识表中记录的一个或一组列</p><p>主键的特点：不能重复，不能为空</p><p>一个表只能有一个主键，主键可以有多个字段组成。</p><p>主键的作用：</p><p>1、 保证数据完整性</p><p>2、 加快查询速度</p><h4 id="_2-4-1-添加主键" tabindex="-1"><a class="header-anchor" href="#_2-4-1-添加主键" aria-hidden="true">#</a> 2.4.1 添加主键</h4><p>方法一：创建表的时候添加主键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t17(
+    -&gt; id varchar(5) primary key,   # 创建主键
+    -&gt; name varchar(10) not null
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t17 values (&#39;s2531&#39;,&#39;tom&#39;),(&#39;s2532&#39;,&#39;berry&#39;);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql&gt; select * from t17;
++-------+-------+
+| id    | name  |
++-------+-------+
+| s2531 | tom   |
+| s2532 | berry |
++-------+-------+
+2 rows in set (0.00 sec)
+
+# 如果插入主键相同数据会报错
+mysql&gt; insert into t17 values (&#39;s2531&#39;,&#39;tom&#39;);
+ERROR 1062 (23000): Duplicate entry &#39;s2531&#39; for key &#39;PRIMARY&#39;
+
+# 主键不能插入null值
+mysql&gt; insert into t17 values (null,&#39;tom&#39;);
+ERROR 1048 (23000): Column &#39;id&#39; cannot be null
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><p>方法二：创建表的时候添加主键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t18(
+    -&gt; id int,
+    -&gt; name varchar(10),
+    -&gt; primary key(id)
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; desc t18;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | NO   | PRI | 0       |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>方法三：更改表的时候添加主键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t20(
+    -&gt; id int,
+    -&gt; name varchar(10)
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; alter table t20 add primary key (id);   # 更改表添加主键
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql&gt; desc t20;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | NO   | PRI | 0       |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h4 id="_2-4-2-创建组合键" tabindex="-1"><a class="header-anchor" href="#_2-4-2-创建组合键" aria-hidden="true">#</a> 2.4.2 创建组合键</h4><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736467251.png" alt="1536736467251" loading="lazy"></p><h4 id="_2-4-3-查看主键" tabindex="-1"><a class="header-anchor" href="#_2-4-3-查看主键" aria-hidden="true">#</a> 2.4.3 查看主键</h4><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736627655.png" alt="1536736627655" loading="lazy"></p><h4 id="_2-4-4-删除主键" tabindex="-1"><a class="header-anchor" href="#_2-4-4-删除主键" aria-hidden="true">#</a> 2.4.4 删除主键</h4><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736700169.png" alt="1536736700169" loading="lazy"></p><h4 id="_2-4-5-选择主键的原则" tabindex="-1"><a class="header-anchor" href="#_2-4-5-选择主键的原则" aria-hidden="true">#</a> 2.4.5 选择主键的原则</h4><p>1、 最少性：尽量选择一个字段做主键</p><p>2、 稳定性：尽量选择更新少的列做主键</p><p>3、 尽量选择数字型的列做主键</p><h4 id="_2-4-6-主键思考题" tabindex="-1"><a class="header-anchor" href="#_2-4-6-主键思考题" aria-hidden="true">#</a> 2.4.6 主键思考题</h4><p>1、在主键列输入的数值，允许为空吗? 不可以</p><p>2、 一个表可以有多个主键吗? 不可以</p><p>3、 在一个学校数据库中，如果一个学校内允许重名的学员，但是一个班级内不允许学员重名，可以组合班级和姓名两个字段一起来作为主键吗？ 可以</p><p>4、 标识列（自动增长列）允许为字符数据类型吗？ 不可以</p><p>5、 表中没有合适的列作为主键怎么办？ 添加自动增加列</p><p>6、 如果标识列A的初始值为1，增长量为1，则输入三行数据以后，再删除两行，下次再输入数据行的时候，标识值从多少开始？ 从4开始</p><h3 id="_2-5-唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-唯一键" aria-hidden="true">#</a> 2.5 唯一键</h3><p>特点：</p><p>1、不能重复，可以为空</p><p>2、一个表可以有多个唯一键</p><p>作用：</p><p>1、 保证数据不能重复。保证数据完整性</p><p>2、 加快数据访问</p><h4 id="_2-5-1-添加唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-1-添加唯一键" aria-hidden="true">#</a> 2.5.1 添加唯一键</h4><p>方法一：创建表的时候添加唯一键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t22(
+   -&gt; id int primary key,
+   -&gt; name varchar(20) unique,    #通过unique添加唯一键
+   -&gt; addr varchar(100) unique
+   -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into t22 values (1,&#39;tom&#39;,&#39;上海&#39;);
+Query OK, 1 row affected (0.05 sec)
+
+mysql&gt; insert into t22 values (2,&#39;tom&#39;,&#39;北京&#39;);    #  name重复了，报错
+ERROR 1062 (23000): Duplicate entry &#39;tom&#39; for key &#39;name&#39;
+mysql&gt; insert into t22 values (2,&#39;berry&#39;,&#39;上海&#39;);   # addr重复了 
+ERROR 1062 (23000): Duplicate entry &#39;上海&#39; for key &#39;addr&#39;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>还有一种方法</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t26(
+    -&gt; id int,
+    -&gt; name varchar(20),
+    -&gt; addr varchar(20),
+    -&gt; primary key(id),
+    -&gt; unique (name),     # 添加唯一键
+    -&gt; unique (addr)
+    -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>方法二：修改表的时候添加唯一键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t23(
+    -&gt; id int primary key,
+    -&gt; name varchar(20)
+    -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; alter table t23 add unique (name);    #  添加一个唯一键
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>一次添加多个唯一键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t24(
+    -&gt; id int primary key,
+    -&gt; name varchar(20),
+    -&gt; addr varchar(20)
+    -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql&gt; alter table t24 add unique(name),add unique(addr);  
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>添加组合唯一键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t25(
+    -&gt; id int primary key,
+    -&gt; name varchar(20),
+    -&gt; addr varchar(20)
+    -&gt; );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql&gt; alter table t25 add unique(name,addr);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="_2-5-2-查看唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-2-查看唯一键" aria-hidden="true">#</a> 2.5.2 查看唯一键</h4><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; show create table t26\G;
+*************************** 1. row ***************************
+      Table: t26
+Create Table: CREATE TABLE `t26` (
+ `id` int(11) NOT NULL DEFAULT &#39;0&#39;,
+ `name` varchar(20) DEFAULT NULL,
+ `addr` varchar(20) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `name` (`name`),      # 唯一键
+ UNIQUE KEY `addr` (`addr`)       # 唯一键
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)
+
+mysql&gt; show create table t25\G;
+*************************** 1. row ***************************
+      Table: t25
+Create Table: CREATE TABLE `t25` (
+ `id` int(11) NOT NULL,
+ `name` varchar(20) DEFAULT NULL,
+ `addr` varchar(20) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `name` (`name`,`addr`)    # 组合唯一键
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>添加唯一键，给唯一键取名</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table t27(
+    -&gt; name varchar(20)
+    -&gt; );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql&gt; alter table t27 add unique UQ_name(name);
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql&gt; show create table t27\G
+*************************** 1. row ***************************
+       Table: t27
+Create Table: CREATE TABLE `t27` (
+  `name` varchar(20) DEFAULT NULL,
+  UNIQUE KEY `UQ_name` (`name`)    # 唯一键的名字是UQ_name
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h4 id="_2-5-3-删除唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-3-删除唯一键" aria-hidden="true">#</a> 2.5.3 删除唯一键</h4><p>通过唯一键的名字来删除唯一键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>alter table 表名 drop index 唯一键名称;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739081697.png" alt="1536739081697" loading="lazy"></p><p>问题：主键和唯一键的区别？</p><p>1、主键不能重复，不能为空，唯一键不能重复，可以为空</p><p>2、主键只有一个，唯一键可以有多个。</p><h3 id="_2-6-备注-comment" tabindex="-1"><a class="header-anchor" href="#_2-6-备注-comment" aria-hidden="true">#</a> 2.6 备注（comment）</h3><p>为了程序员之间的相互交流 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739540981.png" alt="1536739540981" loading="lazy"></p><h2 id="_3-sql注释" tabindex="-1"><a class="header-anchor" href="#_3-sql注释" aria-hidden="true">#</a> 3 SQL注释</h2><p>单行注释：--或#</p><p>多行注释：/* */</p><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739661909.png" alt="1536739661909" loading="lazy"></p><h2 id="_4-数据完整性介绍" tabindex="-1"><a class="header-anchor" href="#_4-数据完整性介绍" aria-hidden="true">#</a> 4 数据完整性介绍</h2><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739894901.png" alt="1536739894901" loading="lazy"></p><h3 id="_4-1-保证实体完整性" tabindex="-1"><a class="header-anchor" href="#_4-1-保证实体完整性" aria-hidden="true">#</a> 4.1 保证实体完整性</h3><p>1、 主键约束</p><p>2、 唯一约束</p><p>3、 自动增长列</p><h3 id="_4-2-保证域完整性" tabindex="-1"><a class="header-anchor" href="#_4-2-保证域完整性" aria-hidden="true">#</a> 4.2 保证域完整性</h3><p>1、 数据类型约束</p><p>2、 非空约束</p><p>3、 默认值约束</p><h3 id="_4-3-保证引用完整性" tabindex="-1"><a class="header-anchor" href="#_4-3-保证引用完整性" aria-hidden="true">#</a> 4.3 保证引用完整性</h3><p>1、外键约束：从表中的公共字段是主表的外键</p><h4 id="_4-3-1-主表和从表" tabindex="-1"><a class="header-anchor" href="#_4-3-1-主表和从表" aria-hidden="true">#</a> 4.3.1 主表和从表</h4><p>两个表建立关系（两个表只要有公共字段就有关系），一个表称为主表，一个表称为从表。</p><p>外键约束可以实现：</p><p>1、 主表中没有的从表中不允许插入</p><p>2、 从表中有的主表中不允许删除</p><p>3、 不能更改主表中的值而导致从表中的记录孤立存在。</p><p>4、 先删除从表，再删除主表</p><h4 id="_4-3-2-外键-foreign-key" tabindex="-1"><a class="header-anchor" href="#_4-3-2-外键-foreign-key" aria-hidden="true">#</a> 4.3.2 外键（foreign key）</h4><p>1、 外键：从表中的公共字段，公共字段的名字可以不一样，但是数据类型必须一样。</p><p>2、 外键约束用来保证引用完整性</p><h4 id="_4-3-3-添加外键" tabindex="-1"><a class="header-anchor" href="#_4-3-3-添加外键" aria-hidden="true">#</a> 4.3.3 添加外键</h4><p>方法一：创建表的时候添加外键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>create table stuinfo(
+   stuno char(4) primary key,
+   name varchar(10) not null
+);
+
+create table stumarks(
+   stuid char(4) primary key,
+   score tinyint unsigned,
+   foreign key (stuid) references stuinfo(stuno)
+);
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>方法二：修改表的时候添加外键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table stuinfo(
+    -&gt;  stuno char(4) primary key,
+    -&gt;  name varchar(10) not null
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; create table stumarks(
+    -&gt;  stuid char(4) primary key,
+    -&gt;  score tinyint unsigned
+    -&gt; );
+Query OK, 0 rows affected (0.06 sec)
+
+语法：  alter table 从表 add foreign key (从表的公共字段) references 主表(公共字段)
+
+mysql&gt; alter table stumarks add foreign key (stuid) references stuinfo(stuno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>脚下留心：要创建外键必须是innodb引擎，myisam不支持外键约束</p><h4 id="_4-3-4-查看外键" tabindex="-1"><a class="header-anchor" href="#_4-3-4-查看外键" aria-hidden="true">#</a> 4.3.4 查看外键</h4><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536742477588.png" alt="1536742477588" loading="lazy"></p><h4 id="_4-3-5-删除外键" tabindex="-1"><a class="header-anchor" href="#_4-3-5-删除外键" aria-hidden="true">#</a> 4.3.5 删除外键</h4><p>通过外键的名字删除外键</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>alter table 表名 drop foreign key 外键名;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; alter table stumarks drop foreign key stumarks_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="_5-外键操作" tabindex="-1"><a class="header-anchor" href="#_5-外键操作" aria-hidden="true">#</a> 5 外键操作</h2><p>1、 严格操作（前面讲的是严格操作）</p><p>2、 置空操作（set null）：如果主表记录删除或更新，从表置空</p><p>3、 级联操作（cascade）：如果主表记录删除或更新，从表级联</p><p>一般来说：主表删除的时候，从表置空操作，主表更新的时候，从表级联操作。</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>foreign key(外键) references 主表(关键字段)[主表删除是的动作][主表更新时候的动作]
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p><div class="language-mysql ext-mysql line-numbers-mode"><pre class="language-mysql"><code>mysql&gt; create table stuinfo(
+    -&gt; stuno char(4) primary key,
+    -&gt; name varchar(10) not null
+    -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; create table stumarks(
+    -&gt; stuid int auto_increment primary key,
+    -&gt; stuno char(4) ,
+    -&gt; score tinyint unsigned,
+    -&gt;  foreign key (stuno) references stuinfo(stuno) on delete set null on update cascade
+    -&gt; );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into stuinfo values (&#39;s101&#39;,&#39;tom&#39;);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; insert into stumarks values (null,&#39;s101&#39;,88);
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select * from stuinfo;
++-------+------+
+| stuno | name |
++-------+------+
+| s101  | tom  |
++-------+------+
+1 row in set (0.00 sec)
+
+mysql&gt; update stuinfo set stuno=&#39;s102&#39; where stuno=&#39;s101&#39;;   # 更新时级联
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql&gt; select * from stumarks;
++-------+-------+-------+
+| stuid | stuno | score |
++-------+-------+-------+
+|     1 | s102  |    88 |
++-------+-------+-------+
+1 row in set (0.00 sec)
+
+mysql&gt; delete from stuinfo where stuno=&#39;s102&#39;;    # 删除时置空
+Query OK, 1 row affected (0.02 sec)
+
+mysql&gt; select * from stumarks;
++-------+-------+-------+
+| stuid | stuno | score |
++-------+-------+-------+
+|     1 | NULL  |    88 |
++-------+-------+-------+
+1 row in set (0.00 sec)
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/db/mysql/list-com.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/9/13 08:35:17</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2022 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.4908d213.js" defer></script>
+  </body>
+</html>

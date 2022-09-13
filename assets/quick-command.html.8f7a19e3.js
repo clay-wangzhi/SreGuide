@@ -1,5 +1,0 @@
-import{_ as s,e}from"./app.200bae49.js";const n={},a=e(`<h1 id="\u5FEB\u6377\u547D\u4EE4" tabindex="-1"><a class="header-anchor" href="#\u5FEB\u6377\u547D\u4EE4" aria-hidden="true">#</a> \u5FEB\u6377\u547D\u4EE4</h1><ul><li><p>\u5FEB\u901F\u67E5\u627E k8s pod \u548C service \u7684 CIDR</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># Get Services IPs range</span>
-kubectl cluster-info dump <span class="token operator">|</span> <span class="token function">grep</span> -m <span class="token number">1</span> service-cluster-ip-range
-<span class="token comment"># Get Pods IPs range</span>
-kubectl cluster-info dump <span class="token operator">|</span> <span class="token function">grep</span> -m <span class="token number">1</span> cluster-cidr
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div></li></ul>`,2);function r(c,t){return a}var l=s(n,[["render",r],["__file","quick-command.html.vue"]]);export{l as default};
