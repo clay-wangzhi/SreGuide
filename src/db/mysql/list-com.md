@@ -112,7 +112,7 @@ mysql> select * from t1;
 
 2、浮点的精度可能会丢失【精度指的是小数】
 
-  ![1536718268668](images/1536718268668.png)
+  ![1536718268668](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536718268668.png)
 
 #### 1.1.3   定点数
 
@@ -161,15 +161,15 @@ mysql> select * from t4;
     
                         char效率高，浪费空间，varchar节省空间，效率比char低。
 
-2、char的最大长度是255。  ![1536719919287](images/1536719919287.png)
+2、char的最大长度是255。  ![1536719919287](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536719919287.png)
 
-3、varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关。 ![1536720096028](images/1536720096028.png)
+3、varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关。 ![1536720096028](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720096028.png)
 
- ![1536720113031](images/1536720113031.png)
+ ![1536720113031](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720113031.png)
 
  4、一个记录的总长度不能超过65535个字节。
 
- 5、大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。 ![1536720763914](images/1536720763914.png)
+ 5、大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。 ![1536720763914](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720763914.png)
 
 
 
@@ -203,7 +203,7 @@ mysql> select * from t8;
 
 2、MySQL的枚举类型是通过整数来管理的，第一个值是1，第二个值是2，以此类推。
 
-  ![1536721403493](images/1536721403493.png)
+  ![1536721403493](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536721403493.png)
 
 ```mysql
 mysql> select sex+0 from t8;
@@ -271,7 +271,7 @@ ERROR 1265 (01000): Data truncated for column 'hobby' at row 1
 
  每个集合的元素都分配一个固定的数字，分配的方式从左往右按2的0、1、2、…次方
 
- ![1536723512843](images/1536723512843.png)
+ ![1536723512843](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536723512843.png)
 
 ***
 
@@ -534,7 +534,7 @@ mysql> select * from t16;
 
 5、自动增长列上的数据被删除，默认情况下此记录的编号不再使用。
 
- ![1536737314504](images/1536737314504.png)
+ ![1536737314504](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536737314504.png)
 
 ### 2.4 主键（primary key）
 
@@ -628,15 +628,15 @@ mysql> desc t20;
 
 #### 2.4.2 创建组合键
 
- ![1536736467251](images/1536736467251.png)
+ ![1536736467251](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736467251.png)
 
 #### 2.4.3 查看主键
 
-  ![1536736627655](images/1536736627655.png)
+  ![1536736627655](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736627655.png)
 
 #### 2.4.4 删除主键
 
-  ![1536736700169](images/1536736700169.png)
+  ![1536736700169](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736700169.png)
 
 #### 2.4.5 选择主键的原则
 
@@ -814,7 +814,7 @@ Create Table: CREATE TABLE `t27` (
 alter table 表名 drop index 唯一键名称;
 ```
 
- ![1536739081697](images/1536739081697.png)
+ ![1536739081697](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739081697.png)
 
 
 
@@ -826,7 +826,7 @@ alter table 表名 drop index 唯一键名称;
 
 ### 2.6 备注（comment）
 
-为了程序员之间的相互交流  ![1536739540981](images/1536739540981.png)
+为了程序员之间的相互交流  ![1536739540981](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739540981.png)
 
 ## 3 SQL注释
 
@@ -834,13 +834,13 @@ alter table 表名 drop index 唯一键名称;
 
 多行注释：/*    */
 
- ![1536739661909](images/1536739661909.png)
+ ![1536739661909](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739661909.png)
 
 
 
 ## 4 数据完整性介绍
 
- ![1536739894901](images/1536739894901.png) 
+ ![1536739894901](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739894901.png) 
 
 ### 4.1 保证实体完整性
 
@@ -925,7 +925,7 @@ Records: 0  Duplicates: 0  Warnings: 0
 
 #### 4.3.4 查看外键
 
-  ![1536742477588](images/1536742477588.png)
+  ![1536742477588](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536742477588.png)
 
 
 

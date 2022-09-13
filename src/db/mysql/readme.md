@@ -57,7 +57,7 @@ category: MySQL
 
 2. 表与表之间通过公共字段来建立关系
 
-![1536628687644](images/1536628687644.png)
+![1536628687644](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536628687644.png)
 
 
 优点：解决了导航问题，并且数据完整性得到解决
@@ -97,11 +97,11 @@ category: MySQL
 -P 端口（port）
 ```
 
-![1536633424017](images/1536633424017.png)
+![1536633424017](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536633424017.png)
 
 ***
 
- ![1536633591923](images/1536633591923.png)
+ ![1536633591923](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536633591923.png)
 
 ```
 多学一招：如果MySQL服务器在本地，IP地址可以省略；如果MySQL服务器用的是3306端口，-P也是可以省略 
@@ -322,11 +322,11 @@ truncate table 表名;
 2.   xx.MYD  数据
 3.   xx.MYI   index信息
 
- ![1536654269605](images/1536654269605.png)
+ ![1536654269605](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536654269605.png)
 
 引擎是innodb,一个表对应一个表结构文件
 
- ![1536654519700](images/1536654519700.png)
+ ![1536654519700](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536654519700.png)
 
 go3.frm 表结构
 
@@ -342,4 +342,4 @@ show variables like 'character_set_%';
 
 ## 12 思维导图
 
-![](images/xmind.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/xmind.png)

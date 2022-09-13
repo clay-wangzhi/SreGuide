@@ -49,7 +49,7 @@ category: MySQL
 
 2、一对多 （多对一）
 
-3、多对多 ![1536975724695](images/1536975724695.png)
+3、多对多 ![1536975724695](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536975724695.png)
 
 
 
@@ -59,7 +59,7 @@ category: MySQL
 
 2、一对多和多对一是一样的
 
- ![1536976096582](images/1536976096582.png)
+ ![1536976096582](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536976096582.png)
 
 ***
 
@@ -77,7 +77,7 @@ category: MySQL
 
 1、主表中的一条记录对应从表中的一条记录
 
-  ![1536976513236](images/1536976513236.png)
+  ![1536976513236](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536976513236.png)
 
 如何实现一对一？
 
@@ -97,7 +97,7 @@ category: MySQL
 
 班级和讲师的关系
 
- ![1536977577667](images/1536977577667.png)
+ ![1536977577667](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536977577667.png)
 
 
 
@@ -113,7 +113,7 @@ category: MySQL
 
 ## 3 数据库设计的步骤
 
-  ![1536977906540](images/1536977906540.png)
+  ![1536977906540](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536977906540.png)
 
 
 
@@ -137,11 +137,11 @@ category: MySQL
 
 E-R图的语法
 
- ![1536978470142](images/1536978470142.png)
+ ![1536978470142](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536978470142.png)
 
 绘制E-R图
 
- ![1536978565499](images/1536978565499.png)
+ ![1536978565499](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536978565499.png)
 
  
 
@@ -171,11 +171,11 @@ BBS论坛的基本功能：
 
 3、标识对象的属性
 
- ![1536978271446](images/1536978271446.png)
+ ![1536978271446](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536978271446.png)
 
 4、建立关系，绘制E-R图
 
- ![1536978734804](images/1536978734804.png)
+ ![1536978734804](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536978734804.png)
 
 5、将E-R图转出表结构
 
@@ -189,15 +189,15 @@ Codd博士定义了6个范式来规范化数据库，范式由小到大来约束
 
 第一范式确保每个字段不可再分
 
-  ![1536979522448](images/1536979522448.png)
+  ![1536979522448](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536979522448.png)
 
 思考：如下表设计是否合理？
 
- ![1536979672041](images/1536979672041.png)
+ ![1536979672041](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536979672041.png)
 
 不合理。不满足第一范式，上课时间可以再分
 
- ![1536979718323](images/1536979718323.png)
+ ![1536979718323](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536979718323.png)
 
 
 
@@ -213,11 +213,11 @@ Codd博士定义了6个范式来规范化数据库，范式由小到大来约束
 
 一个表只能描述一件事
 
-  ![1536980482113](images/1536980482113.png)
+  ![1536980482113](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536980482113.png)
 
 思考：如下表设计是否合理？
 
- ![1536980574792](images/1536980574792.png)
+ ![1536980574792](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536980574792.png)
 
 
 
@@ -225,11 +225,11 @@ Codd博士定义了6个范式来规范化数据库，范式由小到大来约束
 
 在所有的非键字段中，不能有传递依赖
 
-  ![1536981861980](images/1536981861980.png)
+  ![1536981861980](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536981861980.png)
 
 下列设计是否满足第三范式？
 
-  ![1536982061259](images/1536982061259.png)
+  ![1536982061259](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536982061259.png)
 
 不满足，因为语文和数学确定了，总分就确定了。
 
@@ -251,11 +251,11 @@ Codd博士定义了6个范式来规范化数据库，范式由小到大来约束
 
 2、工资表
 
- ![1536982976983](images/1536982976983.png)
+ ![1536982976983](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536982976983.png)
 
 3、将工资表转成数据库表
 
- ![1536983011535](images/1536983011535.png)
+ ![1536983011535](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536983011535.png)
 
 4、这个表存在的问题
 
@@ -271,17 +271,17 @@ Codd博士定义了6个范式来规范化数据库，范式由小到大来约束
 	
 	第二步：这个表不是描述了一件事情
 
- ![1536983332419](images/1536983332419.png)
+ ![1536983332419](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536983332419.png)
 
 
 
 	第三步：是否满足第三范式
 
- ![1536983422611](images/1536983422611.png)
+ ![1536983422611](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536983422611.png)
 
 更改如下：
 
- ![1536983406042](images/1536983406042.png)
+ ![1536983406042](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536983406042.png)
 
  
 
@@ -647,7 +647,7 @@ mysql> select avg(stuage) as '年龄',stuaddress from stu group by stuaddress;
 2、查询字段是普通字段，只取第一个值
 ```
 
- ![1536999666442](images/1536999666442.png)
+ ![1536999666442](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536999666442.png)
 
 通过group_concat()函数将同一组的值连接起来显示
 
@@ -668,9 +668,9 @@ mysql> select group_concat(stuname),stusex from stu group by stusex;
 2、也是可以使用desc实现分组后的降序
 ```
 
- ![1536999889281](images/1536999889281.png)
+ ![1536999889281](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536999889281.png)
 
-  ![1536999987356](images/1536999987356.png)
+  ![1536999987356](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536999987356.png)
 
 多列分组
 
@@ -725,9 +725,9 @@ mysql> select * from stu having stusex='男';   # 从结果集中查找
 5 rows in set (0.00 sec)
 ```
 
-思考如下语句是否正确 ![1537001246956](images/1537001246956.png)
+思考如下语句是否正确 ![1537001246956](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537001246956.png)
 
-  ![1537001432304](images/1537001432304.png)
+  ![1537001432304](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537001432304.png)
 
 having和where的区别：
 
@@ -988,9 +988,9 @@ mysql> select i.stuno,stuname,stusex,writtenexam,labexam from stuinfo i,stumarks
 
 
 
-脚下留心：显示公共字段需要指定表名 ![1537061664763](images/1537061664763.png)
+脚下留心：显示公共字段需要指定表名 ![1537061664763](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537061664763.png)
 
- ![1537061715978](images/1537061715978.png)
+ ![1537061715978](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537061715978.png)
 
 ```
 思考：

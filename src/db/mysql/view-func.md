@@ -85,7 +85,7 @@ show create view 视图名
 
 例题
 
- ![1537067071676](images/1537067071676.png)
+ ![1537067071676](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537067071676.png)
 
 ### 1.5 显示所有视图
 
@@ -1009,17 +1009,17 @@ Query OK, 0 rows affected (0.00 sec)
 
 git软件
 
- ![1537011074242](images/1537011074242.png)
+ ![1537011074242](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537011074242.png)
 
 安装完毕后，配置git的环境变量，这样可以使用`get`的指令
 
- ![1537094210154](images/1537094210154.png)
+ ![1537094210154](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537094210154.png)
 
 ### 7.2  安装数据库驱动
 
 设置GOPATH的环境变量，这样驱动才会下载到项目根目录中。
 
- ![1537094342573](images/1537094342573.png)****
+ ![1537094342573](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537094342573.png)****
 
 在cmd命令窗口中输入如下命令安装驱动
 
@@ -1031,7 +1031,7 @@ go get github.com/go-sql-driver/mysql
 
 安装完毕后，会在GOPATH下看到下载的驱动
 
- ![1537011722807](images/1537011722807.png)
+ ![1537011722807](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1537011722807.png)
 
 
 
