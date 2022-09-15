@@ -5,7 +5,7 @@ title: 主页
 heroImage: /Kubernetes.svg
 heroText: Keep Learning
 heroFullScreen: true
-tagline: 个人笔记，包涵 云原生、监控、自动化运维、Nginx 等相关知识点
+tagline: 个人笔记，包涵 云原生、可观测性、自动化运维、Nginx 等相关知识点
 actions:
   - text: 运维面试
     link: /zh/guide/

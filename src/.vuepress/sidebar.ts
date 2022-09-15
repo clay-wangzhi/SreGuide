@@ -368,22 +368,33 @@ export const sidebarConfig = defineSidebarConfig({
         {
           text: "集群搭建",
           collapsable: false,
-          children: ["cicd", "first"]
+          children: ["kube-prometheus-stack", "ingress-nginx", "rancher-install", "helm", "deploy-ceph-cluster-with-rook",]
         },
         {
           text: "集群网络",
           collapsable: false,
-          children: ["cicd", "first"]
+          children: ["cni",]
         },
         {
           text: "运维手册",
           collapsable: false,
-          children: ["cicd", "first"]
+          children: ["etcd-backup-restore", "namespace-terminating",]
+        },
+        {
+          text: "最佳实践",
+          collapsable: false,
+          children: ["kube-reserved",]
         },
         {
           text: "故障排查",
           collapsable: false,
-          children: ["cicd", "first"]
+          children: ["delete-rancher-causing-node-disappear",]
+        },
+        "recommend",
+        {
+          text: "附录",
+          collapsable: false,
+          children: ["kubectl-cheatsheet",]
         },
       ],
     },

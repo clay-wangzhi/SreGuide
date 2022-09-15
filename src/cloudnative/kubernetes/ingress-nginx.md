@@ -4,7 +4,7 @@ tag:
   - Kubernetes
 ---
 
-# Ingress
+# ingress-nginx 安装配置
 
 对外暴露集群服务
 

@@ -4,7 +4,7 @@ tag:
   - Kubernetes
 ---
 
-# Helm 安装使用
+# Helm 安装配置
 
 ## 安装
 
