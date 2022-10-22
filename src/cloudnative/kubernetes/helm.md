@@ -25,3 +25,17 @@ helm completion bash
 source /etc/bash_completion.d/helm.sh
 ```
 
+## 常用命令
+
+```bash
+# 将 helm charts 转换为 yaml 文件 apply
+helm xxx xxx  --dry-run  | kubectl apply -f -
+helm template xxx xxx --output-dir .
+# helm 安装 charts 包时指定版本
+helm install xxx --version=xxx
+# 安装
+helm install xxx ./ -n xxx
+# 升级
+helm upgrade xxx ./ -n xxx
+```
+

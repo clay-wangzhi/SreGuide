@@ -22,7 +22,7 @@ kubectl create namespace cattle-system
 
 添加 TLS 密文
 
-> 下载nginx使用的key和pem到服务器，并重命名为 tls.xxx
+> 下载 nginx 使用的 key 和 pem 传到服务器，并重命名为 tls.xxx
 >
 > 使用openssl把pem证书转换为crt
 >

@@ -1,3 +1,9 @@
+---
+category: 云原生
+tag:
+  - Kubernetes
+---
+
 # 卸载 rancher 导致 node 被清空
 
 ## 问题描述

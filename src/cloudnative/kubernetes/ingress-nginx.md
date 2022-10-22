@@ -14,7 +14,7 @@ Ingress 其实就是从 Kuberenets 集群外部访问集群的一个入口，将
 
 Ingress Controller 可以理解为一个监听器，通过不断地监听 kube-apiserver，实时的感知后端 Service、Pod 的变化，当得到这些信息变化后，Ingress Controller 再结合 Ingress 的配置，更新反向代理负载均衡器，达到服务发现的作用。其实这点和服务发现工具 consul、 consul-template 非常类似。
 
-![ingress flow](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ingress-flow.png)
+![ingress flow](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/ingress-flow.png)
 
 现在可以供大家使用的 Ingress Controller 有很多，比如 traefik、nginx-controller、Kubernetes Ingress Controller for Kong、HAProxy Ingress controller，当然你也可以自己实现一个 Ingress Controller，现在普遍用得较多的是 traefik 和 nginx-controller，traefik 的性能较 nginx-controller 差，但是配置使用要简单许多，我们这里会重点给大家介绍 nginx-controller 以及 traefik 的使用。
 

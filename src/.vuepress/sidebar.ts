@@ -353,6 +353,11 @@ export const sidebarConfig = defineSidebarConfig({
         },
         "optimize",
         "qa",
+        {
+          text: "8 综合项目",
+          collapsable: false,
+          children: ["ansible-k8s",]
+        },
       ]
     },
   ],

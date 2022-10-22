@@ -6,6 +6,590 @@ tag:
 
 # python 实际工作中的实例
 
+## 让 windows 压测机 解析内网进行压测，避免占用外网带宽
+
+1）生成 hosts 解析文件，将解析文件分成 N 份，解析到不同的 内网ip
+
+`cat sync_xxx_hosts.py`
+
+```python
+#!/usr/bin/env python3
+import requests
+import json
+
+def get_hosts():
+    # 调用 api 获取所有 nginx 主机 ip 地址
+    try:
+        response = requests.get(
+            url="https://xxx/api/v1/appid/xxx/hosts",
+            headers={
+                "Authorization": "xxx",
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            data=json.dumps({}))
+        result = response.json()['data']['assets']
+        hosts = [host['ip'] for host in result]
+        return hosts
+
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')
+
+def send_request():
+    # 调用 api 获取域名列表
+    try:
+        response = requests.get(
+            url=
+            "xxx",
+            headers={
+                "Authorization": "xxx",
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            data=json.dumps({}))
+        result = response.json()['data']
+        prod_domain_list = [
+            domain['name'] for domain in result
+            if domain['lbcluster']['id'] == 1
+        ]
+        ext_website_domain_list = [
+            domain['name'] for domain in result
+            if domain['lbcluster']['id'] == 9
+        ]
+        # 通过域名获取不到的 域名列表，和nginx地址
+        xx_domain_list = [
+            'xxx.xxx.xx'
+        ]
+        ext_website_hosts = get_hosts()
+        for i in range(0, 8):
+            filename = f'/etc/ansible/files/hosts{i}'
+            with open(filename, 'w') as f:
+                for xx_domain in xx_domain_list:
+                    f.write('IP地址 ' + bi_domain + '\n')
+                for domain in prod_domain_list:
+                    f.write('IP地址 ' + domain + '\n')
+                for domain in ext_website_domain_list:
+                    host = ext_website_hosts[i]
+                    f.write(host + ' ' + domain + '\n')
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')
+
+
+if __name__ == '__main__':
+    send_request()
+```
+
+2）将 压测机 分为 N 组，生成 ansible 动态 Inventory
+
+`cat get_hosts.py`
+
+```python
+#!/usr/bin/env python3
+import requests
+import json
+import sys
+import math
+
+# 将一个列表分为 n 组
+def chunks(arr, m):
+    n = int(math.ceil(len(arr) / float(m)))
+    return [arr[i:i + n] for i in range(0, len(arr), n)]
+
+def send_request():
+    # 压测机的 appid 列表
+    appids = ['xxx', 'xxx', 'xxx', 'xxx']
+    hosts = []
+    for appid in appids:
+        try:
+            # 获取 appid 下 的主机列表
+            response = requests.get(
+                url=f'https://xxx.xx.xx/api/v1/appid/{appid}/hosts',
+                headers={
+                    "Authorization": "xxx",
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                data=json.dumps({}))
+            result = response.json()['data']['assets']
+            hosts = hosts + [host['ip'] for host in result]
+        except requests.exceptions.RequestException:
+            print('HTTP Request failed')
+    chunks_hosts = chunks(hosts, 8)
+    return chunks_hosts
+
+
+
+def group(hosts):
+    hostdata = {
+        'all': {
+            "hosts": sum(hosts, []),
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group0': {
+            "hosts": hosts[0],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group1': {
+            "hosts": hosts[1],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group2': {
+            "hosts": hosts[2],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group3': {
+            "hosts": hosts[3],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group4': {
+            "hosts": hosts[4],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group5': {
+            "hosts": hosts[5],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group6': {
+            "hosts": hosts[6],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        },
+        'group7': {
+            "hosts": hosts[7],
+            'vars': {
+                'ansible_ssh_port': 5985,
+                'ansible_connection': 'winrm',
+                'ansible_ssh_user': 'administrator',
+                'ansible_ssh_pass': 'xxx',
+                'ansible_winrm_server_cert_validation': 'ignore',
+                'ansible_winrm_transport': 'ntlm'
+            }
+        }
+    }
+    print(json.dumps(hostdata))
+
+
+def host(ip):
+    host_dict = {}
+    print(json.dumps(host_dict))
+
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2 and (sys.argv[1] == '--list'):
+        hosts = send_request()
+        group(hosts)
+    elif len(sys.argv) == 3 and sys.argv[1] == "--host":
+        host(sys.argv[2])
+    else:
+        print("Usage: %s --list or --host <hostname>" % sys.argv[0])
+        sys.exit(1)
+```
+
+3）编写 playbook , sync_win_hosts.yml
+
+```yaml
+---
+- hosts: group0
+  gather_facts: false
+  tasks:
+  - name: 同步hosts 文件到 windows 主机
+    win_copy:
+      src: /etc/ansible/files/hosts0
+      dest: C:\Windows\System32\drivers\etc\hosts
+
+- hosts: group1
+  gather_facts: false
+  tasks:
+  - name: 同步hosts 文件到 windows 主机
+    win_copy:
+      src: /etc/ansible/files/hosts1
+      dest: C:\Windows\System32\drivers\etc\hosts
+
+- hosts: group2
+  gather_facts: false
+  tasks:
+  - name: 同步hosts 文件到 windows 主机
+    win_copy:
+      src: /etc/ansible/files/hosts2
+      dest: C:\Windows\System32\drivers\etc\hosts
+# ...
+```
+
+4）添加计划任务，crontab -e
+
+```bash
+# 同步 hosts 到 压测机
+*/5 * * * * /home//code/xxx/sync_xxx_hosts.py >/dev/null 2>&1
+* * * * * /usr/local/bin/ansible-playbook -i /home/code/ansible/get_hosts.py /etc/ansible/sync_win_hosts.yml >/dev/null 2>&1
+```
+
+## 调用 alibabacloud_alidns 去操作 阿里云 dns 解析
+
+官网下载 样例， 添加 参数解析即可
+
+```python
+#!/home/clay/alibabacloud_alidns/bin/python
+
+import os
+import argparse
+import json
+
+from Tea.core import TeaCore
+from alibabacloud_alidns20150109 import client
+from alibabacloud_alidns20150109.client import Client as DNSClient
+from alibabacloud_tea_openapi import models as open_api_models
+from alibabacloud_alidns20150109 import models as dns_models
+from alibabacloud_tea_console.client import Client as ConsoleClient
+from alibabacloud_tea_util.client import Client as UtilClient
+
+
+def get_dns_client(
+    access_key_id: str,
+    access_key_secret: str,
+) -> DNSClient:
+    """
+    Init 初始化客户端
+    @param access_key_id:
+    @param access_key_secret:
+    @return: Client
+    @throws Exception
+    """
+    config = open_api_models.Config()
+    # 传AccessKey ID入config
+    config.access_key_id = access_key_id
+    config.access_key_secret = access_key_secret
+    config.region_id = 'cn-qingdao'
+    return DNSClient(config)
+
+def describe_domain_records(
+    client: DNSClient,
+    domain_name: str,
+) -> None:
+    """
+    DescribeDomainRecords 查询域名解析记录
+    @param client:          客户端
+    @param domain_name:      域名名称
+    @throws Exception
+    """
+    req = dns_models.DescribeDomainRecordsRequest()
+    req.domain_name = domain_name
+    req.page_size = 500
+    # req.type = "CNAME"
+    ConsoleClient.log(f'查询域名({domain_name})的解析记录(json)↓')
+    try:
+        resp = client.describe_domain_records(req)
+        ConsoleClient.log(UtilClient.to_jsonstring(TeaCore.to_map(resp)))
+    except Exception as error:
+        ConsoleClient.log(error.message)
+
+
+def add_domain_record(
+    client: DNSClient,
+    domain_name: str,
+    rr: str,
+    record_type: str,
+    value: str,
+) -> None:
+    """
+    AddDomainRecord  添加域名解析记录
+    @param client:            客户端
+    @param domain_name:        域名名称
+    @param rr:                主机记录
+    @param record_type:              记录类型(A/NS/MX/TXT/CNAME/SRV/AAAA/CAA/REDIRECT_URL/FORWARD_URL)
+    @param value:             记录值
+    @throws Exception
+    """
+    req = dns_models.AddDomainRecordRequest()
+    req.domain_name = domain_name
+    req.rr = rr
+    req.type = record_type
+    req.value = value
+    req.ttl = 60
+    try:
+        resp = client.add_domain_record(req)
+        ConsoleClient.log(f'添加域名解析记录的结果(json)↓')
+        ConsoleClient.log(UtilClient.to_jsonstring(TeaCore.to_map(resp)))
+    except Exception as error:
+        ConsoleClient.log(error)
+
+def get_domain_record_id_by_rr(
+    client: DNSClient,
+    domain_name: str,
+    rr: str,
+) -> str:
+    """
+    DescribeDomainRecords 查询域名解析的record_id
+    @param client:          客户端
+    @param domain_name:      域名名称
+    param rr:                主机记录
+    @throws Exception
+    """
+    req = dns_models.DescribeDomainRecordsRequest()
+    req.domain_name = domain_name
+    req.rrkey_word = rr
+    req.page_size = 500
+    ConsoleClient.log(f'查询域名({domain_name})的解析的record_id(json)↓')
+    try:
+        resp = client.describe_domain_records(req)
+        strinfo = UtilClient.to_jsonstring(TeaCore.to_map(resp))
+        dictinfo = json.loads(strinfo)
+        records = dictinfo['body']['DomainRecords']['Record']
+        for record in records:
+            if record['RR'] == rr:
+                return record['RecordId']
+        # return dictinfo['body']['DomainRecords']['Record'][0]['RecordId']
+    except Exception as error:
+        ConsoleClient.log(error)
+
+def get_domain_by_rr(
+    client: DNSClient,
+    domain_name: str,
+    rr: str,
+) -> str:
+    """
+    DescribeDomainRecords 查询域名解析的record_id
+    @param client:          客户端
+    @param domain_name:      域名名称
+    param rr:                主机记录
+    @throws Exception
+    """
+    req = dns_models.DescribeDomainRecordsRequest()
+    req.domain_name = domain_name
+    req.rrkey_word = rr
+    req.page_size = 500
+    ConsoleClient.log(f'查询域名({domain_name})的解析的record_id(json)↓')
+    try:
+        resp = client.describe_domain_records(req)
+        strinfo = UtilClient.to_jsonstring(TeaCore.to_map(resp))
+        dictinfo = json.loads(strinfo)
+        records = dictinfo['body']['DomainRecords']['Record']
+        for record in records:
+            if record['RR'] == rr:
+                if record['Type'] == "CNAME":
+                    print(f"\033[31m{record['RR']} {record['Type']} {record['Value']}\033[0m")
+                    return "cnameexists"
+                else:
+                    print(f"\033[31m{record['RR']} {record['Type']} {record['Value']}\033[0m")
+                break
+        else:
+            return "notexists"
+        # if dictinfo['body']['DomainRecords']['Record'][0]['Type'] == "CNAME":
+        #    print(f"\033[31m 解析记录已存在, 为 {dictinfo['body']['DomainRecords']['Record'][0]}\033[0m")
+        # #    print(f"\033[32m 开始禁用\033[0m")
+        #    print(f"\033[32m 开始删除\033[0m")
+        #    return "cnameexists"
+        # else:
+        #     print(f"\033[31m 解析记录已存在, 为 {dictinfo['body']['DomainRecords']['Record'][0]}\033[0m")
+    except Exception:
+        return "notexists"
+
+def update_domain_record(
+    client: DNSClient,
+    record_id: str,
+    rr: str,
+    record_type: str,
+    value: str,
+) -> None:
+    """
+    UpdateDomainRecord  更新域名解析记录
+    @param client:          客户端
+    @param record_id:        解析记录ID
+    @param rr:              主机记录
+    @param record_type:            记录类型(A/NS/MX/TXT/CNAME/SRV/AAAA/CAA/REDIRECT_URL/FORWARD_URL)
+    @param value:           记录值
+    @throws Exception
+    """
+    req = dns_models.UpdateDomainRecordRequest()
+    req.record_id = record_id
+    req.rr = rr
+    req.type = record_type
+    req.value = value
+    ConsoleClient.log(f'更新域名解析记录的结果(json)↓')
+    try:
+        resp = client.update_domain_record(req)
+        ConsoleClient.log(UtilClient.to_jsonstring(TeaCore.to_map(resp)))
+    except Exception as error:
+        ConsoleClient.log(error)
+
+def set_domain_record_status(
+    client: DNSClient,
+    record_id: str,
+    status: str,
+) -> None:
+    """
+    SetDomainRecordStatus  设置域名解析状态
+    @param client:      客户端
+    @param record_id:    解析记录ID
+    @param status:      解析状态(ENABLE/DISABLE)
+    @throws Exception
+    """
+    req = dns_models.SetDomainRecordStatusRequest()
+    req.record_id = record_id
+    req.status = status
+    ConsoleClient.log(f'设置域名解析状态的结果(json)↓')
+    try:
+        resp = client.set_domain_record_status(req)
+        ConsoleClient.log(UtilClient.to_jsonstring(TeaCore.to_map(resp)))
+    except Exception as error:
+        ConsoleClient.log(error)
+
+def delete_domain_record(
+    client: DNSClient,
+    record_id: str,
+) -> None:
+    """
+    DeleteDomainRecord  删除域名解析记录
+    @param client:         客户端
+    @param record_id:       解析记录ID
+    @throws Exception
+    """
+    req = dns_models.DeleteDomainRecordRequest()
+    req.record_id = record_id
+    ConsoleClient.log(f'删除域名解析记录的结(json)↓')
+    try:
+        resp = client.delete_domain_record(req)
+        ConsoleClient.log(UtilClient.to_jsonstring(TeaCore.to_map(resp)))
+    except Exception as error:
+        ConsoleClient.log(error)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Aliyun DNS control tools;
+
+        Example: \r\n
+
+        %(prog)s create tuhu.work
+        """
+    )
+    parser.add_argument(
+        'action', type=str,
+        # choices=("status", "create", "update", "enable", "disable", "delete"),
+        choices=("status", "create", "update", "enable", "disable"),
+        help="Action to run"
+    )
+    parser.add_argument(
+        "domain_name", type=str, default='xxx.xx', nargs="?",
+        choices=("xxx.xx", "xxx.xx", "xxx.xx"),
+        help="The domain to management"
+    )
+
+    args = parser.parse_args()
+    action = args.action
+    domain_name = args.domain_name
+
+    if domain_name == 'tuhu.work':
+        # tuhu.work
+        access_key_id = 'xxx'
+        access_key_secret = 'xxx'
+    elif domain_name == 'xxx.xx':
+        # tuhutest.cn
+        access_key_id = 'xxx'
+        access_key_secret = 'xxx'
+    elif domain_name == 'xxx.xx':
+        # clay 认证
+        access_key_id = 'xxx'
+        access_key_secret = 'xx'
+
+
+    # 初始化客户端
+    client = get_dns_client(access_key_id, access_key_secret)
+
+    if action == "create":
+        with open('list.txt') as f:
+            for line in f:
+                args = line.split(' ')
+                result = get_domain_by_rr(client, domain_name, args[0])
+                if result == "notexists":
+                    add_domain_record(client, domain_name, *args)
+                elif result == "cnameexists":
+                    record_id = get_domain_record_id_by_rr(client, domain_name, args[0])
+                    # set_domain_record_status(client, record_id, 'DISABLE')
+                    delete_domain_record(client, record_id)
+                    add_domain_record(client, domain_name, *args)
+        os._exit(0)
+    elif action == "update":
+        with open('list.txt') as f:
+            for line in f:
+                args = line.split(' ')
+                record_id = get_domain_record_id_by_rr(client, domain_name, args[0])
+                update_domain_record(client, record_id, *args)
+    elif action == "enable":
+        with open('list.txt') as f:
+            for line in f:
+                args = line.split(' ')
+                record_id = get_domain_record_id_by_rr(client, domain_name, args[0])
+                set_domain_record_status(client, record_id, 'ENABLE')
+    elif action == "disable":
+        with open('list.txt') as f:
+            for line in f:
+                args = line.split(' ')
+                record_id = get_domain_record_id_by_rr(client, domain_name, args[0])
+                set_domain_record_status(client, record_id, 'DISABLE')
+    # elif action == "delete":
+    #     with open('list.txt') as f:
+    #         for line in f:
+    #             args = line.split(' ')
+    #             record_id = get_domain_record_id_by_rr(client, domain_name, args[0])
+    #             delete_domain_record(client, record_id)
+    elif action == "status":
+        describe_domain_records(client, domain_name)
+```
+
+
+
 ## 调用zabbixAPI批量添加web监控
 
 起因：刚来一家公司，要求我添加web监控，800多个页面监控，手动一个个加，不得加死了，所以写了个python脚本，批量添加
