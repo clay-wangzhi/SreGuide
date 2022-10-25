@@ -138,8 +138,8 @@ diff -r old-apps/apps/applications/utils/kubernetes_util.py new-apps/apps/applic
 >
 >             if res.status_code == 200:
 >                 try:
->                     for pod in data:            # key: pod-name, 原始data结构：{"pod-name": {"Ns": "tuhutest", "Containers": {"c-name": "c-id"}}}
->                         ns = data[pod]["Ns"]    # ns == "tuhutest"
+>                     for pod in data:            # key: pod-name, 原始data结构：{"pod-name": {"Ns": "xxx", "Containers": {"c-name": "c-id"}}}
+>                         ns = data[pod]["Ns"]    # ns == "xxx"
 >                         if ns not in ctx:
 >                             ctx[ns] = []
 >                         containers = []

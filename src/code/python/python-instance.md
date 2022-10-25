@@ -511,7 +511,7 @@ if __name__ == '__main__':
 
         Example: \r\n
 
-        %(prog)s create tuhu.work
+        %(prog)s create xxx.xxx
         """
     )
     parser.add_argument(
@@ -530,12 +530,10 @@ if __name__ == '__main__':
     action = args.action
     domain_name = args.domain_name
 
-    if domain_name == 'tuhu.work':
-        # tuhu.work
+    if domain_name == 'xxx.xxx':
         access_key_id = 'xxx'
         access_key_secret = 'xxx'
     elif domain_name == 'xxx.xx':
-        # tuhutest.cn
         access_key_id = 'xxx'
         access_key_secret = 'xxx'
     elif domain_name == 'xxx.xx':
