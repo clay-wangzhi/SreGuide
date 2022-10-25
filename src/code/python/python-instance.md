@@ -794,7 +794,7 @@ new_branch = 'jxyz-csp-parent'
 
 def get_server_instance():
     jenkins_url = 'http://192.168.162.175:8080'
-    server = jenkins.Jenkins(jenkins_url, username='admin', password='sdqc#2019#cqds')
+    server = jenkins.Jenkins(jenkins_url, username='admin', password='xxx')
     return server
 
 
