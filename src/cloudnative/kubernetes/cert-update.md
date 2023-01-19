@@ -36,6 +36,7 @@ kubeadm alpha certs renew all
 4）重新生成配置文件
 
 ```bash
+rm -f /etc/kubernetes/*.conf
 kubeadm init phase kubeconfig all
 ```
 

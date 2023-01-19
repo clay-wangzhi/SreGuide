@@ -1,10 +1,10 @@
 ---
-category: 常见服务的搭建
+category: 云原生
 tag:
   - harbor
 ---
 
-# Harbor 高可用搭建
+# Harbor 高可用搭建(docker-compose)
 
 ## Harbor简介
 
@@ -24,17 +24,17 @@ Harbor支持安装在多个Registry节点的镜像资源复制，镜像全部保
 
 harbor官方默认提供主从复制的方案来解决镜像同步问题，通过复制的方式，我们可以实时将测试环境harbor仓库的镜像同步到生产环境harbor，类似于如下流程：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_CI.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_CI.png)
 
 在实际生产运维的中，往往需要把镜像发布到几十或上百台集群节点上。这时，单个Registry已经无法满足大量节点的下载需求，因此要配置多个Registry实例做负载均衡。手工维护多个Registry实例上的镜像，将是十分繁琐的事情。Harbor可以支持一主多从的镜像发布模式，可以解决大规模镜像发布的难题：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_ab.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_ab.png)
 
 只要往一台Harbor上发布，镜像就会像"仙女散花"般地同步到多个Registry中，高效可靠。
 
 如果是地域分布较广的集群，还可以采用层次型发布方式，比如从集团总部机房同步到分公司1机房，再从分公司1机房同步到分公司2机房：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_cl.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_cl.png)
 
 然而单靠主从同步，仍然解决不了harbor主节点的单点问题。
 
@@ -42,7 +42,7 @@ harbor官方默认提供主从复制的方案来解决镜像同步问题，通�
 
 所谓的双主复制其实就是复用主从同步实现两个harbor节点之间的双向同步，来保证数据的一致性，然后在两台harbor前端顶一个负载均衡器将进来的请求分流到不同的实例中去，只要有一个实例中有了新的镜像，就是自动的同步复制到另外的的实例中去，这样实现了负载均衡，也避免了单点故障，在一定程度上实现了Harbor的高可用性：
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_st.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_st-20221220221014983.png)
 
 这个方案有一个问题就是有可能两个Harbor实例中的数据不一致。假设如果一个实例A挂掉了，这个时候有新的镜像进来，那么新的镜像就会在另外一个实例B中，后面即使恢复了挂掉的A实例，Harbor实例B也不会自动去同步镜像，这样只能手动的先关掉Harbor实例B的复制策略，然后再开启复制策略，才能让实例B数据同步，让两个实例的数据一致。另外，这里还需要多吐槽一句：**在实际生产使用中，主从复制十分的不靠谱！！**所以这里**推荐使用下面要说的这种方案**。
 
@@ -54,11 +54,11 @@ harbor官方默认提供主从复制的方案来解决镜像同步问题，通�
 
 本次搭建以NFS作为共享存储存放Harbor相关data，并分离PostgreSQL与Redis为多个Harbor共同连接使用，使用Nginx做负载均衡。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_ha_r.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_ha_r.png)
 
 如果最终生产环境集群中服务器较多，依赖做完LB的Harbor也无法完全达到需求时，可以使用如下架构，部署下级Harbor节点从主节点同步镜像，然后再分发给生产服务器。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/harbor_ha_l.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/harbor_ha_l.png)
 
 这个方案在实际生产环境中部署需要考虑三个问题：
 

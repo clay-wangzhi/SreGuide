@@ -4,7 +4,7 @@ tag:
   - Kubernetes
 ---
 
-# Harbor 安装配置
+# Harbor 安装配置(k8s)
 
 ```bash
 # 下载 helm charts

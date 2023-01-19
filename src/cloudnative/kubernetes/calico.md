@@ -4,11 +4,52 @@ tag:
   - Kubernetes
 ---
 
-# Calico 安装配置
+# Calico
 
-> 选择与k8s 兼容的最新版本
+## 架构
+
+简单说一下 Calico 架构，Calico 是一个基于三层的数据中心网络方案，可作为 CNI 插件为运行于 Kubernetes 中的容器提供基于 TCP/IP 三层的网络通信方案，也可与 OpenStack 这种 IaaS 云架构集成，利用 BGP，IPIP 等协议为工作负载提供网络联通功能，能够提供高效可控的 VM、容器、物理机之间的通信。
+
+![图片](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640.jpeg)
+
+Calico的核心组件包括：
+
+*  Felix，Calico Agent，运行在每个容器宿主节点上，主要负责配置路由、ACL等信息来确保容器的联通状态；
+*  Etcd ，分布式的 Key/Value 存储，负责网络元数据一致性，确保 Calico 网络状态的准确性；
+* BGP Client(Bird) ，主要把 Felix 写入 Kernel 的路由信息分发到 Calico 网络，保证容器间的通信有效性；
+* BGP Route Reflector (简称：RR )，路由反射器，默认 Calico 工作在 node-mesh 模式，所有节点互相连接， node-mesh 模式在小规模部署时工作是没有问题的，当大规模部署时，连接数会非常大，消耗过多资源，利用 BGP RR ，可以避免这种情况的发生，通过一个或者多个 BGP RR 来完成集中式的路由分发，减少对网络资源的消耗以及提高 Calico 工作效率、稳定性。
+
+其中名词概念：
+
+* Endpoint                 *# 接入到Calico网络中的网卡称为Endpoint (这里即POD)*  
+* AS                       *# 网络自治系统，通过BGP协议与其它的AS交换路由信息 (自治网络拥有独立交换机、路由器等，可独立运转)* 
+* IBGP                     *# AS内部的BGP_Speaker，与相同AS的ibgp、ebgp交换路由信息* 
+* EBGP                     *# AS边界的BGP_Speaker，与相同AS的ibgp、以及不同AS的ebgp交换路由信息* 
+* BGP          # 端口 179，BIRD 建立TCP/179的连接
+
+> Bird 相关配置：[BIRD 与 BGP 的新手开场](https://soha.moe/post/bird-bgp-kickstart.html)
+
+## 网络模式
+
+### vxlan
+
+略，不走bgp
+
+### IPIP
+
+也走 bgp
+
+IPIP 需要内核模块 ipip.ko 使用命令查看内核是否加载IPIP模块lsmod | grep ipip ；使用命令modprobe ipip 加载
+
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/436EF78A6A0877DE5732F186CE1406A9.jpg)
+
+### BGP
+
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/F94A48ADC2A1721363C79FB990B94A85.jpg)
 
 ## 安装配置
+
+>  选择与k8s 兼容的最新版本
 
 1）下载 yaml 文件
 
@@ -180,4 +221,16 @@ kubectl apply -f servicemonitor.yaml
 
 删除旧的 BGPPeer  ，建立新的 bgppeer 即可，拿一台 node 节点 和所有其他 node 建联，然后 这台 node 再和交互机建联即可
 
+Node 跨网段时，调整 IPIP 封装策略为 `CrossSubnet`， 设置后发现 跨网段的node 中pod 到master 不通，ipip又改为 Never了
+
+> :warning: 同一组 rr  设置相同的 routeReflectorClusterID，要手动修改
+>
+> tips: nat 和 ipip mode 的改变，最终生效 再  calicoctl get ippools  、可以kubectl edit ippools.crd.projectcalico.org
+
 参考：https://rainwu.cn/archives/calico-rr-guide
+
+## 注意事项
+
+**路由黑洞问题**
+
+要解决路由黑洞问题问题，首先，除了对整个Calico 的IP Pool总量进行监控外，还需要对可用的IP Block进行监控，确保不会出现IP Block不够分的情况，或者或者IP地址Block借用的情况；
