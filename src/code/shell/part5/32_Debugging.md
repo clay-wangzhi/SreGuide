@@ -84,7 +84,7 @@ exit 0
 
 可以通过把echo "$badname"行的注释符去掉，找出例子 29-3中的错误， 看一下echo出来的信息，是否按你期望的方式运行.
 
-在这种特殊的情况下，rm "$badname"不能得到预期的结果，因为$badname不应该加双引号。加上双引号会让rm只有一个参数(这就只能匹配一个文件名).一种不完善的解决办法是去掉$badname外 面的引号, 并且重新设置$IFS, 让$IFS只包含一个换行符, IFS=$'\n'. 但是, 下面这个方法更简单.
+在这种特殊的情况下，`rm "$badname"`不能得到预期的结果，因为`$badname`不应该加双引号。加上双引号会让rm只有一个参数(这就只能匹配一个文件名).一种不完善的解决办法是去掉`$badname`外 面的引号, 并且重新设置`$IFS`, 让`$IFS`只包含一个换行符, `IFS=$'\n'`. 但是, 下面这个方法更简单.
 
 ```
 # 删除包含空格的文件的正确方法.
@@ -109,20 +109,21 @@ rm *' '*
 	### debecho (debug-echo), by Stefano Falsetto ###
 	### Will echo passed parameters only if DEBUG is set to a value. ###
 	debecho () {
-  		if [ ! -z "$DEBUG" ]; then
-     		echo "$1" >&2
-     		# ^^^ to stderr
-  		fi
-	}
 
-	DEBUG=on
-	Whatever=whatnot
-	debecho $Whatever   # whatnot
-	
-	DEBUG=
-	Whatever=notwhat
-	debecho $Whatever   # (Will not echo.)
-	```
+  		if [ ! -z "$DEBUG" ]; then
+  	 		echo "$1" >&2
+  	 		# ^^^ to stderr
+  		fi
+  	}
+  	
+  	DEBUG=on
+  	Whatever=whatnot
+  	debecho $Whatever   # whatnot
+  	
+  	DEBUG=
+  	Whatever=notwhat
+  	debecho $Whatever   # (Will not echo.)
+  	```
 
 
 2. 使用过滤器tee来检查临界点上的进程或数据流.
@@ -135,7 +136,7 @@ rm *' '*
 	选项-n和-v可以同时使用. sh -nv scriptname将会给出详细的语法检查.
 	
 	sh -x scriptname会打印出每个命令执行的结果, 但只使用缩写形式. 这等价于在脚本中插入set
--x或set -o xtrace.
+	-x或set -o xtrace.
 
 	把set -u或set -o nounset插入到脚本中, 并运行它, 就会在每个试图使用未声明变量的地方给出一个unbound variable错误信息.
 
@@ -599,4 +600,3 @@ command
 command
 trap 2     # Reenables Control-C
 ```
-	

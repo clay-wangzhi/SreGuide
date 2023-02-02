@@ -7,10 +7,8 @@ tag:
 # 使用 ansible 快速搭建 k8s 集群
 
 推荐：
-
-* kubeadm 安装用：[kubespray](https://github.com/kubernetes-sigs/kubespray)
-
-* 二进制安装用：[kubeasz](https://github.com/easzlab/kubeasz)
+- kubeadm 安装用：[kubespray](https://github.com/kubernetes-sigs/kubespray)
+- 二进制安装用：[kubeasz](https://github.com/easzlab/kubeasz)
 
 > 此安装方式参考上面两个项目创建，如果刚开始搭建，直接使用上面的安装方式即可，可根据实际情况微调
 
@@ -18,20 +16,7 @@ tag:
 
 ## 相关支持
 
-**支持 Linux 的版本**
-
-- **CentOS/RHEL** 7
-
-**支持的组件**
-
-- Core
-  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.18.10
-  - [etcd](https://github.com/coreos/etcd) v3.4.3
-  - [docker](https://www.docker.com/) v19.03.4
-- Network Plugin
-  - [calico](https://github.com/projectcalico/calico) v3.18.6
-- Application
-  - [coredns](https://github.com/coredns/coredns) v1.6.7
+相关版本信息 Centos7、k8s 1.18.10 、etcd 3.4.3 、docker 19.03.4、 calico 3.18.6、
 
 ## 快速开始
 

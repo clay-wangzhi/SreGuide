@@ -373,27 +373,57 @@ export const sidebarConfig = defineSidebarConfig({
         {
           text: "集群搭建",
           collapsable: false,
-          children: ["kube-prometheus-stack", "ingress-nginx", "rancher-install", "helm", "deploy-ceph-cluster-with-rook",]
+          children: ["k8s-install",]
+        },
+        {
+          text: "常见应用安装配置",
+          collapsable: false,
+          children: ["harbor", "docker-harbor-ha", "rancher-install", "helm"]
+        },
+        {
+          text: "容器运行时",
+          collapsable: false,
+          children: ["k8s-gpu", "kata"]
+        },
+        {
+          text: "存储",
+          collapsable: false,
+          children: ["longhorn", "deploy-ceph-cluster-with-rook"]
+        },
+        {
+          text: "服务发现与路由",
+          collapsable: false,
+          children: ["ingress-nginx",]
         },
         {
           text: "集群网络",
           collapsable: false,
-          children: ["cni",]
+          children: ["cni", "calico"]
+        },
+        {
+          text: "监控告警",
+          collapsable: false,
+          children: ["kube-prometheus-stack",]
+        },
+        {
+          text: "实用技巧",
+          collapsable: false,
+          // children: ["",]
         },
         {
           text: "运维手册",
           collapsable: false,
-          children: ["etcd-backup-restore", "namespace-terminating",]
+          children: ["etcd-backup-restore", "velero", "k8s-audit", "kernel-upgrade", "cert-update", "k8s-allocatable", "lxcfs"]
         },
         {
           text: "最佳实践",
           collapsable: false,
-          children: ["kube-reserved",]
+          children: ["kube-reserved", "sysbench", "numa"]
         },
         {
-          text: "故障排查",
+          text: "集群排障",
           collapsable: false,
-          children: ["delete-rancher-causing-node-disappear",]
+          children: ["namespace-terminating", "delete-rancher-causing-node-disappear", "lvs-health-check", "apiserver-tls"]
         },
         "recommend",
         {

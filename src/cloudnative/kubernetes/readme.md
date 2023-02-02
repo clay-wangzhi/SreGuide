@@ -10,20 +10,18 @@ tag:
 ## Summary
 
 - 集群搭建
-	- [使用 ansible 快速搭建 k8s 集群](k8s-install.md)
+  - [使用 ansible 快速搭建 k8s 集群](k8s-install.md)
 - 常见应用安装配置
   - [harbor 安装配置(k8s)](harbor.md)
   - [harbor 高可用安装(docker-compose)](docker-harbor-ha.md)
   - [rancher 安装配置](rancher-install.md)
   - [helm 安装配置](helm.md)
-
 - 容器运行时
   - [GPU 适配](k8s-gpu.md)
   - [Kata Container](kata.md)
 - 存储
   - [longhorn 安装配置](longhorn.md)
   - [使用 Rook 快速搭建 Ceph 集群](deploy-ceph-cluster-with-rook.md)
-
 - 服务发现与路由
   - [ingress-nginx 安装配置](ingress-nginx.md)
 - 集群网络

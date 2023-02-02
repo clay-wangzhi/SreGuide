@@ -423,7 +423,7 @@ echo; echo -n "Colors gone."
 echo ${colors[@]}		# 再次列出数组内容，内容为空。
 exit 0
 ```
-正如我们在前面的例子中所看到的，**${array_name[@]}**  或者  **${array_name[\*]}**  都与数组中的所有元素相关。同样的，为了计算数组的元素个数，可以使用 **${array_name[@]}**  或者  **${array_name[\*]}**  。 **${#array_name}**  是数组第一个元素的长度，也就是  **${array_name[0]}**  的长度（字符个数）。
+正如我们在前面的例子中所看到的，`${array_name[@]}`  或者  `${array_name[\*]}`  都与数组中的所有元素相关。同样的，为了计算数组的元素个数，可以使用 `${array_name[@]}`  或者  `${array_name[\*]}`  。 `${#array_name}`  是数组第一个元素的长度，也就是  `${array_name[0]}`  的长度（字符个数）。
 
 例子 27-7. 空数组与包含空元素的数组 
 ```
@@ -581,7 +581,7 @@ echo "Elements in array10:  ${array10[@]}"
 exit
 ```
 
-**${array_name[@]}** 和 **${array_name[\*]}** 的关系非常类似于 [$@ 和$*](http://tldp.org/LDP/abs/html/internalvariables.html#APPREF)。这种数组用法非常广泛。
+`${array_name[@]}` 和 `${array_name[\*]}` 的关系非常类似于 [`$@ 和$*`](http://tldp.org/LDP/abs/html/internalvariables.html#APPREF)。这种数组用法非常广泛。
 
 ```
 # 复制一个数组
