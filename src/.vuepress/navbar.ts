@@ -31,7 +31,7 @@ export default defineNavbarConfig([
     ]
   },
   {
-    text: "监控工具",
+    text: "可观测性",
     icon: "jiankong",
     children: [
       { text: "Prometheus", icon: "prometheus", link: "/monitor/prometheus/" },
@@ -41,15 +41,12 @@ export default defineNavbarConfig([
     ],
   },
   {
-    text: "自动化工具",
+    text: "devops",
     icon: "devops",
-    children: [
-      { text: "Jenkins", icon: "jenkins", link: "/automate/jenkins/" },
-      { text: "Ansible", icon: "ansible", link: "/automate/ansible/" },
-    ]
+    link: "/automate/"
   },
   {
-    text: "web中间件",
+    text: "负载均衡",
     icon: "webkuangjia",
     children: [
       { text: "Nginx", icon: "nginx", link: "/web/nginx/" },

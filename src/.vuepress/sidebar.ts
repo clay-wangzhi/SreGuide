@@ -284,7 +284,7 @@ export const sidebarConfig = defineSidebarConfig({
       icon: "jenkins",
       prefix: "jenkins/",
       link: "",
-      collapsable: false,
+      collapsable: true,
       children: [
         "",
         {
@@ -329,7 +329,7 @@ export const sidebarConfig = defineSidebarConfig({
       text: "Ansible",
       icon: "ansible",
       prefix: "ansible/",
-      collapsable: false,
+      collapsable: true,
       children: [
         "",
         "first",
