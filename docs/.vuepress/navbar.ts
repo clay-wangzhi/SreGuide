@@ -43,7 +43,7 @@ export default defineNavbarConfig([
   {
     text: "devops",
     icon: "devops",
-    link: "/automate/"
+    link: "/devops/"
   },
   {
     text: "负载均衡",

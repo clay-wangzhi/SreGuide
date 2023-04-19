@@ -278,7 +278,7 @@ export const sidebarConfig = defineSidebarConfig({
       link: "frontend/readme.md",
     }
   ],
-  "/automate/": [
+  "/devops/": [
     {
       text: "Jenkins",
       icon: "jenkins",
@@ -408,7 +408,7 @@ export const sidebarConfig = defineSidebarConfig({
         {
           text: "实用技巧",
           collapsable: true,
-          children: ["",]
+          children: ["kubectl-cheatsheet",]
         },
         {
           text: "运维手册",

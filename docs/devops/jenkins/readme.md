@@ -32,7 +32,25 @@ Jenkins 2.x 实践指南 | 翟之军
 
 ## 知识体系
 
-![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/jenkins.png)
+```mermaid
+graph LR
+1[jenkins]-->2.1[jenkins 简介]
+1-->2.2[安装]
+1-->2.3[使用]
+1-->2.4[流水线]
+1-->2.5[流水线集成]
+1-->2.6[管理维护]
+2.3-->权限管理
+2.3-->API的使用
+2.4-->流水线语法
+2.4-->Groovy
+2.4-->共享库
+2.4-->开发工具
+2.5-->构建工具
+2.5-->用户认证
+```
+
+
 
 ## Summary
 
