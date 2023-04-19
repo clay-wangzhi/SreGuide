@@ -1,0 +1,16 @@
+<template><h1 id="redis-dump方式导入导出数据" tabindex="-1"><a class="header-anchor" href="#redis-dump方式导入导出数据" aria-hidden="true">#</a> redis-dump方式导入导出数据</h1>
+<h3 id="安装redis-dump工具" tabindex="-1"><a class="header-anchor" href="#安装redis-dump工具" aria-hidden="true">#</a> 安装redis-dump工具</h3>
+<p>安装ruby（略）,详见上一章节</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>gem install redis-dump -V
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="数据导出" tabindex="-1"><a class="header-anchor" href="#数据导出" aria-hidden="true">#</a> 数据导出</h3>
+<p>示例</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>redis-dump -u 127.0.0.1:6379 -a 'zykjdr#558996' > test.json
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="数据导入" tabindex="-1"><a class="header-anchor" href="#数据导入" aria-hidden="true">#</a> 数据导入</h3>
+<p>示例</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt; test.json redis-load -u 127.0.0.1:6379 -a 'zykjdr#558996'
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>导入本机的6379端口，没有密码时，可以写成下面这样</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt; test1.json redis-load
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><strong>如果报错，请使用-n选项，使用请参考官方，请谨慎使用</strong>！</p>
+<p>-n （以二进制形式导入）</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt; test.json redis-load -n 
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div></template>

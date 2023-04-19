@@ -1,0 +1,387 @@
+<template><h1 id="_11-4-测试与分支" tabindex="-1"><a class="header-anchor" href="#_11-4-测试与分支" aria-hidden="true">#</a> 11.4 测试与分支</h1>
+<p><code>case</code> 和 <code>select</code> 结构并不属于循环结构，因为它们并没有反复执行代码块。但是和循环结构相似的是，它们会根据代码块顶部或尾部的条件控制程序流。</p>
+<p>下面介绍两种在代码块中控制程序流的方法：</p>
+<h3 id="case-in-esac" tabindex="-1"><a class="header-anchor" href="#case-in-esac" aria-hidden="true">#</a> <code>case (in)</code> / <code>esac</code></h3>
+<p>在 shell 脚本中，<code>case</code> 模拟了 C/C++ 语言中的 <code>switch</code>，可以根据条件跳转到其中一个分支。其相当于简写版的 <code>if/then/else</code> 语句。很适合用来创建菜单选项哟！</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">case</span> <span class="token string">"<span class="token variable">$variable</span>"</span> <span class="token keyword">in</span>
+  <span class="token string">"<span class="token variable">$condition1</span>"</span> <span class="token punctuation">)</span>
+    command<span class="token punctuation">..</span>.
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token string">"<span class="token variable">$condition2</span>"</span> <span class="token punctuation">)</span>
+    command<span class="token punctuation">..</span>.
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" loading="lazy"></p>
+<ul>
+<li>
+<p>对变量进行引用不是必须的，因为在这里不会进行字符分割。</p>
+</li>
+<li>
+<p>条件测试语句必须以右括号 ) 结束。<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1" /></sup></p>
+</li>
+<li>
+<p>每一段代码块都必须以双分号 ;; 结束。</p>
+</li>
+<li>
+<p>如果测试条件为真，其对应的代码块将被执行，而后整个 <code>case</code> 代码段结束执行。</p>
+</li>
+<li>
+<p><code>case</code> 代码段必须以 <code>esac</code> 结束（倒着拼写case）。</p>
+</li>
+</ul>
+</blockquote>
+<p>样例 11-25. 如何使用 <code>case</code></p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment"># 测试字符的种类。</span>
+
+<span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Hit a key, then hit return."</span>
+<span class="token builtin class-name">read</span> Keypress
+
+<span class="token keyword">case</span> <span class="token string">"<span class="token variable">$Keypress</span>"</span> <span class="token keyword">in</span>
+  <span class="token punctuation">[</span><span class="token punctuation">[</span>:lower:<span class="token punctuation">]</span><span class="token punctuation">]</span>   <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Lowercase letter"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">[</span><span class="token punctuation">[</span>:upper:<span class="token punctuation">]</span><span class="token punctuation">]</span>   <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Uppercase letter"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">[</span><span class="token number">0</span>-9<span class="token punctuation">]</span>         <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Digit"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  *             <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Punctuation, whitespace, or other"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span>      <span class="token comment">#  字符范围可以用[方括号]表示，也可以用 POSIX 形式的[[双方括号]]表示。</span>
+
+<span class="token comment"># 在这个例子的第一个版本中，用来测试是小写还是大写字符使用的是 [a-z] 和 [A-Z]。</span>
+<span class="token comment"># 这在一些特定的语言环境和 Linux 发行版中不起效。</span>
+<span class="token comment"># POSIX 形式具有更好的兼容性。</span>
+<span class="token comment"># 感谢 Frank Wang 指出这一点。</span>
+
+<span class="token comment"># 练习：</span>
+<span class="token comment"># -----</span>
+<span class="token comment"># 这个脚本接受一个单字符然后结束。</span>
+<span class="token comment"># 修改脚本，使得其可以循环接受输入，并且检测键入的每一个字符，直到键入 "X" 为止。</span>
+<span class="token comment"># 提示：将所有东西包在 "while" 中。</span>
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>样例 11-26. 使用 <code>case</code> 创建菜单</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token comment"># 简易的通讯录数据库</span>
+
+<span class="token function">clear</span> <span class="token comment"># 清屏。</span>
+
+<span class="token builtin class-name">echo</span> <span class="token string">"          Contact List"</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"          ------- ----"</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"Choose one of the following persons:"</span> 
+<span class="token builtin class-name">echo</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"[E]vans, Roland"</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"[J]ones, Mildred"</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"[S]mith, Julie"</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"[Z]ane, Morris"</span>
+<span class="token builtin class-name">echo</span>
+
+<span class="token builtin class-name">read</span> person
+
+<span class="token keyword">case</span> <span class="token string">"<span class="token variable">$person</span>"</span> <span class="token keyword">in</span>
+<span class="token comment"># 注意变量是被引用的。</span>
+
+  <span class="token string">"E"</span> <span class="token operator">|</span> <span class="token string">"e"</span> <span class="token punctuation">)</span>
+  <span class="token comment"># 同时接受大小写的输入。</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Roland Evans"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"4321 Flash Dr."</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Hardscrabble, CO 80753"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"(303) 734-9874"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"(303) 734-9892 fax"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"revans@zzy.net"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Business partner &amp; old friend"</span>
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token comment"># 注意用双分号结束这一个选项。</span>
+
+  <span class="token string">"J"</span> <span class="token operator">|</span> <span class="token string">"j"</span> <span class="token punctuation">)</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Mildred Jones"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"249 E. 7th St., Apt. 19"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"New York, NY 10009"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"(212) 533-2814"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"(212) 533-9972 fax"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"milliej@loisaida.com"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Ex-girlfriend"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Birthday: Feb. 11"</span>
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  
+  <span class="token comment"># Smith 和 Zane 的信息稍后添加。</span>
+
+  *         <span class="token punctuation">)</span>
+  <span class="token comment"># 缺省设置。</span>
+  <span class="token comment"># 空输入（直接键入回车）也是执行这一部分。</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Not yet in database."</span>
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  
+<span class="token keyword">esac</span>
+
+<span class="token builtin class-name">echo</span>
+
+<span class="token comment"># 练习：</span>
+<span class="token comment"># -----</span>
+<span class="token comment"># 修改脚本，使得其可以循环接受多次输入而不是只显示一个地址后终止脚本。</span>
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br></div></div><p>你可以用 <code>case</code> 来检测命令行参数。</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token keyword">case</span> <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token keyword">in</span>
+  <span class="token string">""</span><span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Usage: <span class="token variable">${0<span class="token operator">##</span>*<span class="token operator">/</span>}</span> &lt;filename>"</span><span class="token punctuation">;</span> <span class="token builtin class-name">exit</span> <span class="token variable">$E_PARAM</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+                      <span class="token comment"># 没有命令行参数，或者第一个参数为空。</span>
+                      <span class="token comment"># 注意 ${0##*/} 是参数替换 ${var##pattern} 的一种形式。</span>
+                      <span class="token comment"># 最后的结果是 $0.</span>
+  
+  -*<span class="token punctuation">)</span> <span class="token assign-left variable">FILENAME</span><span class="token operator">=</span>./<span class="token variable">$1</span><span class="token punctuation">;</span><span class="token punctuation">;</span> <span class="token comment">#  如果传入的参数以短横线开头，那么将其替换为 ./$1</span>
+                      <span class="token comment">#+ 以避免后续的命令将其解释为一个选项。</span>
+  
+  * <span class="token punctuation">)</span> <span class="token assign-left variable">FILENAME</span><span class="token operator">=</span><span class="token variable">$1</span><span class="token punctuation">;</span><span class="token punctuation">;</span>   <span class="token comment"># 否则赋值为 $1。</span>
+<span class="token keyword">esac</span>                  
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>下面是一个更加直观的处理命令行参数的例子：</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token variable">$#</span> -gt <span class="token number">0</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">do</span>    <span class="token comment"># 遍历完所有参数</span>
+  <span class="token keyword">case</span> <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token keyword">in</span>
+    -d<span class="token operator">|</span>--debug<span class="token punctuation">)</span>
+              <span class="token comment"># 检测是否是 "-d" 或者 "--debug"。</span>
+              <span class="token assign-left variable">DEBUG</span><span class="token operator">=</span><span class="token number">1</span>
+              <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    -c<span class="token operator">|</span>--conf<span class="token punctuation">)</span>
+              <span class="token assign-left variable">CONFFILE</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$2</span>"</span>
+              <span class="token builtin class-name">shift</span>
+              <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> -f <span class="token variable">$CONFFILE</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+                <span class="token builtin class-name">echo</span> <span class="token string">"Error: Supplied file doesn't exist!"</span>
+                <span class="token builtin class-name">exit</span> <span class="token variable">$E_CONFFILE</span>     <span class="token comment"># 找不到文件。</span>
+              <span class="token keyword">fi</span>
+              <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token keyword">esac</span>
+  <span class="token builtin class-name">shift</span>       <span class="token comment"># 检测下一个参数</span>
+<span class="token keyword">done</span>
+
+<span class="token comment"># 摘自 Stefano Falsetto 的 "Log2Rot" 脚本中 "rottlog" 包的一部分。</span>
+<span class="token comment"># 已授权使用。</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><p>样例 11-27. 使用命令替换生成 <code>case</code> 变量</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment"># case-cmd.sh: 使用命令替换生成 "case" 变量。</span>
+
+<span class="token keyword">case</span> <span class="token variable"><span class="token variable">$(</span> arch <span class="token variable">)</span></span> <span class="token keyword">in</span>   <span class="token comment"># $( arch ) 返回设备架构。</span>
+                    <span class="token comment"># 等价于 'uname -m"。</span>
+  i386 <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"80386-based machine"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  i486 <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"80486-based machine"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  i586 <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Pentium-based machine"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  i686 <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Pentium2+-based machine"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  *    <span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">"Other type of machine"</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span>
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>  
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p><code>case</code> 还可以用来做字符串模式匹配。</p>
+<p>样例 11-28. 简单的字符串匹配</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment"># match-string.sh: 使用 'case' 结构进行简单的字符串匹配。</span>
+
+<span class="token function-name function">match_string</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token comment"># 字符串精确匹配。</span>
+  <span class="token assign-left variable">MATCH</span><span class="token operator">=</span><span class="token number">0</span>
+  <span class="token assign-left variable">E_NOMATCH</span><span class="token operator">=</span><span class="token number">90</span>
+  <span class="token assign-left variable">PARAMS</span><span class="token operator">=</span><span class="token number">2</span>     <span class="token comment"># 需要2个参数。</span>
+  <span class="token assign-left variable">E_BAD_PARAMS</span><span class="token operator">=</span><span class="token number">91</span>
+  
+  <span class="token punctuation">[</span> <span class="token variable">$#</span> -eq <span class="token variable">$PARAMS</span> <span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token builtin class-name">return</span> <span class="token variable">$E_BAD_PARAMS</span>
+  
+  <span class="token keyword">case</span> <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token keyword">in</span>
+    <span class="token string">"<span class="token variable">$2</span>"</span><span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$MATCH</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+    *   <span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$E_NOMATCH</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token keyword">esac</span>
+  
+<span class="token punctuation">}</span>
+
+
+<span class="token assign-left variable">a</span><span class="token operator">=</span>one
+<span class="token assign-left variable">b</span><span class="token operator">=</span>two
+<span class="token assign-left variable">c</span><span class="token operator">=</span>three
+<span class="token assign-left variable">d</span><span class="token operator">=</span>two
+
+match_string <span class="token variable">$a</span>     <span class="token comment"># 参数个数不够</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$?</span>             <span class="token comment"># 91</span>
+
+match_string <span class="token variable">$a</span> <span class="token variable">$b</span>  <span class="token comment"># 匹配不到</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$?</span>             <span class="token comment"># 90</span>
+
+match_string <span class="token variable">$a</span> <span class="token variable">$d</span>  <span class="token comment"># 匹配成功</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$?</span>             <span class="token comment"># 0</span>
+
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><p>样例 11-29. 检查输入</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment"># isaplpha.sh: 使用 "case" 结构检查输入。</span>
+
+<span class="token assign-left variable">SUCCESS</span><span class="token operator">=</span><span class="token number">0</span>
+<span class="token assign-left variable">FAILURE</span><span class="token operator">=</span><span class="token number">1</span>   <span class="token comment">#  以前是FAILURE=-1,</span>
+            <span class="token comment">#+ 但现在 Bash 不允许返回负值。</span>
+
+isalpha <span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 测试字符串的第一个字符是否是字母。</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token punctuation">]</span>                <span class="token comment"># 检测是否传入参数。</span>
+<span class="token keyword">then</span>
+  <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span>
+<span class="token keyword">fi</span>
+
+<span class="token keyword">case</span> <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token keyword">in</span>
+  <span class="token punctuation">[</span>a-zA-Z<span class="token punctuation">]</span>*<span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$SUCCESS</span><span class="token punctuation">;</span><span class="token punctuation">;</span>  <span class="token comment"># 是否以字母形式开始？</span>
+  *        <span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span>
+<span class="token punctuation">}</span>             <span class="token comment"># 可以与 C 语言中的函数 "isalpha ()" 作比较。</span>
+
+
+isalpha2 <span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment"># 测试整个字符串是否都是字母。</span>
+<span class="token punctuation">{</span>
+  <span class="token punctuation">[</span> <span class="token variable">$#</span> -eq <span class="token number">1</span> <span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span>
+  
+  <span class="token keyword">case</span> <span class="token variable">$1</span> <span class="token keyword">in</span>
+  *<span class="token punctuation">[</span><span class="token operator">!</span>a-zA-Z<span class="token punctuation">]</span>*<span class="token operator">|</span><span class="token string">""</span><span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+               *<span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$SUCCESS</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token keyword">esac</span>
+<span class="token punctuation">}</span>
+
+isdigit <span class="token punctuation">(</span><span class="token punctuation">)</span>    <span class="token comment"># 测试整个字符串是否都是数字。</span>
+<span class="token punctuation">{</span>             <span class="token comment"># 换句话说，也就是测试是否是一个整型变量。</span>
+  <span class="token punctuation">[</span> <span class="token variable">$#</span> -eq <span class="token number">1</span> <span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span>
+  
+  <span class="token keyword">case</span> <span class="token variable">$1</span> <span class="token keyword">in</span>
+    *<span class="token punctuation">[</span><span class="token operator">!</span><span class="token number">0</span>-9<span class="token punctuation">]</span>*<span class="token operator">|</span><span class="token string">""</span><span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$FAILURE</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+              *<span class="token punctuation">)</span> <span class="token builtin class-name">return</span> <span class="token variable">$SUCCESS</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+  <span class="token keyword">esac</span>
+<span class="token punctuation">}</span>
+
+
+
+check_var <span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 包装后的 isalpha ()。</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> isalpha <span class="token string">"<span class="token variable">$@</span>"</span>
+<span class="token keyword">then</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> begins with an alpha character."</span>
+  <span class="token keyword">if</span> isalpha2 <span class="token string">"<span class="token variable">$@</span>"</span>
+  <span class="token keyword">then</span>        <span class="token comment"># 其实没必要检查第一个字符是不是字母。</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> contains only alpha characters."</span>
+  <span class="token keyword">else</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> contains at least one non-alpha character."</span>
+  <span class="token keyword">fi</span>
+<span class="token keyword">else</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> begins with a non-alpha character."</span>
+              <span class="token comment"># 如果没有传入参数同样同样返回“存在非字母”。</span>
+<span class="token keyword">fi</span>
+  
+<span class="token builtin class-name">echo</span>
+  
+<span class="token punctuation">}</span>
+
+digit_check <span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 包装后的 isdigit ()。</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> isdigit <span class="token string">"<span class="token variable">$@</span>"</span>
+<span class="token keyword">then</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> contains only digits [0 - 9]."</span>
+<span class="token keyword">else</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token entity" title="\&quot;">\"</span><span class="token variable">$*</span><span class="token entity" title="\&quot;">\"</span> has at least one non-digit character."</span>
+<span class="token keyword">fi</span>
+  
+<span class="token builtin class-name">echo</span>
+  
+<span class="token punctuation">}</span>
+
+
+<span class="token assign-left variable">a</span><span class="token operator">=</span>23skidoo
+<span class="token assign-left variable">b</span><span class="token operator">=</span>H3llo
+<span class="token assign-left variable">c</span><span class="token operator">=</span>-What?
+<span class="token assign-left variable">d</span><span class="token operator">=</span>What?
+<span class="token assign-left variable">e</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">echo</span> $b<span class="token variable">)</span></span>   <span class="token comment"># 命令替换。</span>
+<span class="token assign-left variable">f</span><span class="token operator">=</span>AbcDef
+<span class="token assign-left variable">g</span><span class="token operator">=</span><span class="token number">27234</span>
+<span class="token assign-left variable">h</span><span class="token operator">=</span>27a34
+<span class="token assign-left variable">i</span><span class="token operator">=</span><span class="token number">27.34</span>
+
+check_var <span class="token variable">$a</span>
+check_var <span class="token variable">$b</span>
+check_var <span class="token variable">$c</span>
+check_var <span class="token variable">$d</span>
+check_var <span class="token variable">$e</span>
+check_var <span class="token variable">$f</span>
+check_var     <span class="token comment"># 如果不传入参数会发送什么？</span>
+<span class="token comment">#</span>
+digit_check <span class="token variable">$g</span>
+digit_check <span class="token variable">$h</span>
+digit_check <span class="token variable">$i</span>
+
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>        <span class="token comment"># S.C. 改进了本脚本。</span>
+
+<span class="token comment"># 练习：</span>
+<span class="token comment"># -----</span>
+<span class="token comment"># 写一个函数 'isfloat ()' 来检测输入值是否是浮点数。</span>
+<span class="token comment"># 提示：可以参考函数 'isdigit ()'，在其中加入检测合法的小数点即可。</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br></div></div><h3 id="select" tabindex="-1"><a class="header-anchor" href="#select" aria-hidden="true">#</a> <code>select</code></h3>
+<p><code>select</code> 结构是学习自 Korn Shell。其同样可以用来构建菜单。</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">select</span> variable <span class="token punctuation">[</span>in list<span class="token punctuation">]</span>
+<span class="token keyword">do</span>
+ command<span class="token punctuation">..</span>.
+ <span class="token builtin class-name">break</span>
+<span class="token keyword">done</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>而效果则是终端会提示用户输入列表中的一个选项。注意，<code>select</code> 默认使用提示字串3（Prompt String 3，<code>$PS3</code>, 即#?），但同样可以被修改。</p>
+<p>样例 11-30. 使用 <code>select</code> 创建菜单</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token assign-left variable"><span class="token environment constant">PS3</span></span><span class="token operator">=</span><span class="token string">'Choose your favorite vegetable: '</span> <span class="token comment"># 设置提示字串。</span>
+                                       <span class="token comment"># 否则默认为 #?。</span>
+
+<span class="token builtin class-name">echo</span>
+
+<span class="token keyword">select</span> <span class="token for-or-select variable">vegetable</span> <span class="token keyword">in</span> <span class="token string">"beans"</span> <span class="token string">"carrots"</span> <span class="token string">"potatoes"</span> <span class="token string">"onions"</span> <span class="token string">"rutabagas"</span>
+<span class="token keyword">do</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Your favorite veggie is <span class="token variable">$vegetable</span>."</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Yuck!"</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">break</span>  <span class="token comment"># 如果没有 'break' 会发生什么？</span>
+<span class="token keyword">done</span>
+
+<span class="token builtin class-name">exit</span>
+
+<span class="token comment"># 练习:</span>
+<span class="token comment"># -----</span>
+<span class="token comment"># 修改脚本，使得其可以接受其他输入而不是 "select" 语句中所指定的。</span>
+<span class="token comment"># 例如，如果用户输入 "peas,"，那么脚本会通知用户 "Sorry. That is not on the menu."</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><p>如果 <em>in list</em> 被省略，那么 <code>select</code> 将会使用传入脚本的命令行参数（<code>$@</code>）或者传入函数的参数作为 <em>list</em>。</p>
+<p>可以与 <code>for variable [in list]</code> 中 <em>in list</em> 被省略的情况做比较。</p>
+<p>样例 11-31. 在函数中使用 <code>select</code> 创建菜单</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token assign-left variable"><span class="token environment constant">PS3</span></span><span class="token operator">=</span><span class="token string">'Choose your favorite vegetable: '</span>
+
+<span class="token builtin class-name">echo</span>
+
+<span class="token function-name function">choice_of</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">select</span> vegetable
+<span class="token comment"># [in list] 被省略，因此 'select' 将会使用传入函数的参数作为 list。</span>
+<span class="token keyword">do</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Your favorite veggie is <span class="token variable">$vegetable</span>."</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Yuck!"</span>
+  <span class="token builtin class-name">echo</span>
+  <span class="token builtin class-name">break</span>
+<span class="token keyword">done</span>
+<span class="token punctuation">}</span>
+
+choice_of beans rice carrorts radishes rutabaga spinach
+<span class="token comment">#         $1    $2   $3      $4       $5       $6</span>
+<span class="token comment">#         传入了函数 choice_of()</span>
+
+<span class="token builtin class-name">exit</span> <span class="token number">0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>还可以参照 <a href="http://tldp.org/LDP/abs/html/bashver2.html#RESISTOR" target="_blank" rel="noopener noreferrer">样例37-3<ExternalLinkIcon/></a>。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="footnote1" class="footnote-item"><p>在写匹配行的时候，可以在左边加上左括号 (，使整个结构看起来更加优雅。<pre>case $( arch ) in   # $( arch ) 返回设备架构。<br>  ( i386 ) echo &quot;80386-based machine&quot;;;<br># ^      ^<br>  ( i486 ) echo &quot;80486-based machine&quot;;;<br>  ( i586 ) echo &quot;Pentium-based machine&quot;;;<br>  ( i686 ) echo &quot;Pentium2+-based machine&quot;;;<br>  (    * ) echo &quot;Other type of machine&quot;;;<br>esac</pre> <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</template>
