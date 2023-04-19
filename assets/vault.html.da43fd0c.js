@@ -1,0 +1,30 @@
+import{_ as e,e as a}from"./app.89bc646c.js";const s={},n=a(`<h1 id="_5-5-\u4F7F\u7528vault\u914D\u7F6E\u52A0\u5BC6" tabindex="-1"><a class="header-anchor" href="#_5-5-\u4F7F\u7528vault\u914D\u7F6E\u52A0\u5BC6" aria-hidden="true">#</a> 5.5 \u4F7F\u7528vault\u914D\u7F6E\u52A0\u5BC6</h1><h2 id="_1-\u7B80\u4ECB" tabindex="-1"><a class="header-anchor" href="#_1-\u7B80\u4ECB" aria-hidden="true">#</a> 1 \u7B80\u4ECB</h2><p>\u5728\u4F7F\u7528ansible\u7684\u8FC7\u7A0B\u4E2D\uFF0C\u4E0D\u53EF\u907F\u514D\u7684\u4F1A\u5B58\u50A8\u4E00\u4E9B\u654F\u611F\u4FE1\u606F\uFF0C\u6BD4\u5982\u5728\u53D8\u91CF\u6587\u4EF6\u4E2D\u5B58\u50A8\u5E10\u53F7\u5BC6\u7801\u4FE1\u606F\u7B49\u3002</p><p>ansible\u901A\u8FC7ansible-vault\u547D\u4EE4\u884C\u5DE5\u5177\u6765\u63D0\u4F9B\u5BF9\u654F\u611F\u6587\u4EF6\u7684\u52A0\u5BC6\u548C\u89E3\u5BC6\u3002</p><p>ansible-vault\u53EF\u4EE5\u521B\u5EFA\u3001\u52A0\u5BC6\u3001\u89E3\u5BC6\u548C\u67E5\u770B\u6587\u4EF6\u3002\u5176\u53EF\u4EE5\u52A0\u5BC6\u4EFB\u4F55ansible\u4F7F\u7528\u7684\u6587\u4EF6\uFF0C\u5305\u62ECinventory\u6587\u4EF6\uFF0Cplaybook\u4E2D\u8C03\u7528\u7684\u53D8\u91CF\u6587\u4EF6\u7B49\u3002</p><h2 id="_2-ansible-vault\u5E38\u7528\u64CD\u4F5C" tabindex="-1"><a class="header-anchor" href="#_2-ansible-vault\u5E38\u7528\u64CD\u4F5C" aria-hidden="true">#</a> 2 Ansible-vault\u5E38\u7528\u64CD\u4F5C</h2><ol><li>\u521B\u5EFA\u52A0\u5BC6\u6587\u4EF6</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault create file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2"><li>\u7F16\u8F91\u52A0\u5BC6\u6587\u4EF6</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault edit file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="3"><li>\u91CD\u7F6E\u5BC6\u7801</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault rekey file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="4"><li>\u52A0\u5BC6\u5DF2\u6709\u6587\u4EF6</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault encrypt file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="5"><li>\u89E3\u5BC6\u6587\u4EF6</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault decrypt file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="6"><li>\u67E5\u770B\u6587\u4EF6</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ansible-vault view file
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="_3-ansible-vault\u914D\u7F6E\u793A\u4F8B" tabindex="-1"><a class="header-anchor" href="#_3-ansible-vault\u914D\u7F6E\u793A\u4F8B" aria-hidden="true">#</a> 3 Ansible-vault\u914D\u7F6E\u793A\u4F8B</h2><ol><li>\u521B\u5EFA\u4E00\u4E2Auser.yml\u7684\u53D8\u91CF\u6587\u4EF6\uFF0C\u5185\u5BB9\u5982\u4E0B:</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>username: &quot;user1&quot;
+pwhash: &quot;$1$GkTPu7we$ZZtdsLPIHkS.fmoVcn3v51&quot;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ol start="2"><li>\u52A0\u5BC6\u4E0A\u9762\u521B\u5EFA\u7684\u53D8\u91CF\u6587\u4EF6\uFF1A</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ansible-vault encrypt user.yml 
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ol start="3"><li>\u7F16\u5199playbook\u6587\u4EF6\u5982\u4E0B\uFF1A</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>- name: create user accounts for all our servers
+  hosts: test
+  become: True
+  remote_user: ansible
+  vars_files:
+    - user.yml
+  tasks:
+    - name: Creating user from user.yml
+      user:
+        name: &quot;{{ username }}&quot;
+        password: &quot;{{ pwhash }}&quot;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><ol start="4"><li>\u6267\u884Cplaybook</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code># ansible-playbook create_user.yml --ask-vault-pass
+Vault password: 
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>\u4E5F\u53EF\u4EE5\u901A\u8FC7\u5982\u4E0B\u64CD\u4F5C\u6267\u884Cplaybook\uFF1A</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>echo redhat &gt; vault-pass
+chmod 600 vault-pass
+
+ansible-playbook create_user.yml --vault-password-file=vault-pass
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div>`,29);function l(r,i){return n}var u=e(s,[["render",l],["__file","vault.html.vue"]]);export{u as default};
