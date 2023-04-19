@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.38" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://clay-wangzhi.com/devops/jenkins/pipeline-example.html"><meta property="og:site_name" content="SRE运维进阶之路"><meta property="og:title" content="4.7 pipeline 生产配置实例"><meta property="og:type" content="article"><meta property="og:updated_time" content="2023-04-19T13:50:36.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:tag" content="Jenkins"><meta property="article:modified_time" content="2023-04-19T13:50:36.000Z"><link rel="stylesheet" href="//at.alicdn.com/t/font_2541777_75xscujk71.css"><title>4.7 pipeline 生产配置实例 | SRE运维进阶之路</title><meta name="description" content="Keep Learning">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.13bf19b5.css">
+    <link rel="modulepreload" href="/assets/app.5b112942.js"><link rel="modulepreload" href="/assets/pipeline-example.html.4cf0bbc7.js"><link rel="modulepreload" href="/assets/pipeline-example.html.76eb72f2.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container no-sidebar has-toc sidebar-open"><!--[--><header class="navbar"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><a href="/" class="home-link"><img class="logo" src="/lufei.jpg" alt="SRE运维进阶之路"><!----><span class="site-name hide-in-pad">SRE运维进阶之路</span><!--[--><!----><!--]--></a><nav class="nav-links" style=""><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="云原生"><span class="title"><i class="icon iconfont icon-yunyuanshengpingtai"></i>云原生</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/cloudnative/kubernetes/" class="nav-link" arialabel="Kubernetes"><i class="icon iconfont icon-kubernetes"></i>Kubernetes<!----></a></li><li class="dropdown-item"><a href="/cloudnative/docker/" class="nav-link" arialabel="Docker"><i class="icon iconfont icon-docker"></i>Docker<!----></a></li><li class="dropdown-item"><a href="/cloudnative/etcd/" class="nav-link" arialabel="etcd"><i class="icon iconfont icon-icon_etcd"></i>etcd<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="基础知识"><span class="title"><i class="icon iconfont icon-jichu"></i>基础知识</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/basic/system/" class="nav-link" arialabel="操作系统"><i class="icon iconfont icon-caozuoxitong"></i>操作系统<!----></a></li><li class="dropdown-item"><a href="/basic/network/" class="nav-link" arialabel="计算机网络"><i class="icon iconfont icon-wangluo"></i>计算机网络<!----></a></li><li class="dropdown-item"><a href="/basic/linux/" class="nav-link" arialabel="Linux运维"><i class="icon iconfont icon-linux"></i>Linux运维<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="编程语言"><span class="title"><i class="icon iconfont icon-code"></i>编程语言</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/shell/" class="nav-link" arialabel="Shell"><i class="icon iconfont icon-shell"></i>Shell<!----></a></li><li class="dropdown-item"><a href="/code/python/" class="nav-link" arialabel="Python"><i class="icon iconfont icon-python"></i>Python<!----></a></li><li class="dropdown-item"><a href="/code/golang/" class="nav-link" arialabel="Golang"><i class="icon iconfont icon-golang"></i>Golang<!----></a></li><li class="dropdown-item"><a href="/code/frontend/" class="nav-link" arialabel="前端开发"><i class="icon iconfont icon-vue"></i>前端开发<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="可观测性"><span class="title"><i class="icon iconfont icon-jiankong"></i>可观测性</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/monitor/prometheus/" class="nav-link" arialabel="Prometheus"><i class="icon iconfont icon-prometheus"></i>Prometheus<!----></a></li><li class="dropdown-item"><a href="/monitor/grafana/" class="nav-link" arialabel="Grafana"><i class="icon iconfont icon-grafana"></i>Grafana<!----></a></li><li class="dropdown-item"><a href="/monitor/elk/" class="nav-link" arialabel="ELK"><i class="icon iconfont icon-elastic"></i>ELK<!----></a></li><li class="dropdown-item"><a href="/monitor/zabbix/" class="nav-link" arialabel="Zabbix"><i class="icon iconfont icon-zabbix1"></i>Zabbix<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="/automate/" class="nav-link" arialabel="devops"><i class="icon iconfont icon-devops"></i>devops<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="负载均衡"><span class="title"><i class="icon iconfont icon-webkuangjia"></i>负载均衡</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/web/nginx/" class="nav-link" arialabel="Nginx"><i class="icon iconfont icon-nginx"></i>Nginx<!----></a></li><li class="dropdown-item"><a href="/web/tomcat/" class="nav-link" arialabel="Tomcat"><i class="icon iconfont icon-tomcat"></i>Tomcat<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" arialabel="数据库"><span class="title"><i class="icon iconfont icon-shujuku"></i>数据库</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/db/mysql/" class="nav-link" arialabel="MySQL"><i class="icon iconfont icon-mysql"></i>MySQL<!----></a></li><li class="dropdown-item"><a href="/db/redis/" class="nav-link" arialabel="Redis"><i class="icon iconfont icon-redis"></i>Redis<!----></a></li></ul></button></div></div></nav><div class="nav-actions-wrapper"><!--[--><!----><!--]--><div class="nav-item"><!----></div><div class="nav-item"><a class="repo-link" href="https://github.com/clay-wangzhi/wiki" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" arialabelledby="github" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><title id="github" lang="en">github icon</title><g fill="currentColor"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></g></svg></a></div><div class="nav-item hide-in-mobile"><button class="outlook-button" tabindex="-1" ariahidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon outlook-icon" viewbox="0 0 1024 1024" arialabelledby="outlook"><title id="outlook" lang="en">outlook icon</title><g fill="currentColor"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4 38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32 51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0 102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2 6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4 0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2 9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224 419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4 470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0 22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6 12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128 505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2 16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8 86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4 80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6 6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></g></svg><div class="outlook-dropdown"><!----></div></button></div><div id="docsearch-container"></div><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button><!--[--><!----><!--]--></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->4.7 pipeline 生产配置实例</h1><div class="article-info"><span class="author-info" arialabel="作者🖊" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" arialabelledby="author"><title id="author" lang="en">author icon</title><g fill="currentColor"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></g></svg><span><a class="author-item" href="https://clay-wangzhi.com" target="_blank" rel="noopener noreferrer">Clay</a></span><span property="author" content="Clay"></span></span><!----><span class="date-info" arialabel="写作日期📅" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" arialabelledby="calendar"><title id="calendar" lang="en">calendar icon</title><g fill="currentColor"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></g></svg><span>2023年4月19日</span><meta property="datePublished" content="2023-04-19T13:50:36.000Z"></span><span class="category-info" arialabel="分类🌈" data-balloon-pos="down" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" arialabelledby="category"><title id="category" lang="en">category icon</title><g fill="currentColor"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></g></svg><ul class="categories-wrapper"><li class="category category8 clickable" role="navigation">自动化工具</li><meta property="articleSection" content="自动化工具"></ul></span><span arialabel="标签🏷" data-balloon-pos="down" isoriginal="false" pageview="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewbox="0 0 1024 1024" arialabelledby="tag"><title id="tag" lang="en">tag icon</title><g fill="currentColor"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></g></svg><ul class="tags-wrapper"><li class="tag tag5 clickable" role="navigation">Jenkins</li></ul><meta property="keywords" content="Jenkins"></span><span class="reading-time-info" arialabel="阅读时间⌛" data-balloon-pos="down" isoriginal="false" pageview="false" color="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" arialabelledby="timer"><title id="timer" lang="en">timer icon</title><g fill="currentColor"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></g></svg><span>大约 3 分钟</span><meta property="timeRequired" content="PT3M"></span></div><hr></div><div class="toc-place-holder"><aside id="toc-list"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/devops/jenkins/pipeline-example.html#pipeline配置java项目" class="router-link-active router-link-exact-active toc-link level2">pipeline配置java项目</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/devops/jenkins/pipeline-example.html#pipeline-配置前端项目" class="router-link-active router-link-exact-active toc-link level2">pipeline 配置前端项目</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/devops/jenkins/pipeline-example.html#局部变量的定义和传递" class="router-link-active router-link-exact-active toc-link level3">局部变量的定义和传递</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/devops/jenkins/pipeline-example.html#exit-code-stdout-and-stderr-返回值和输出" class="router-link-active router-link-exact-active toc-link level3">exit code, stdout and stderr 返回值和输出</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/devops/jenkins/pipeline-example.html#参考链接" class="router-link-active router-link-exact-active toc-link level2">参考链接</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><!--[--><h1 id="_4-7-pipeline-生产配置实例" tabindex="-1"><a class="header-anchor" href="#_4-7-pipeline-生产配置实例" aria-hidden="true">#</a> 4.7 pipeline 生产配置实例</h1><h2 id="pipeline配置java项目" tabindex="-1"><a class="header-anchor" href="#pipeline配置java项目" aria-hidden="true">#</a> pipeline配置java项目</h2><div class="language-groovy ext-groovy line-numbers-mode"><pre class="language-groovy"><code>pipeline <span class="token punctuation">{</span>
+    agent <span class="token punctuation">{</span> label <span class="token string">&#39;slave&#39;</span> <span class="token punctuation">}</span>
+    options <span class="token punctuation">{</span>
+        <span class="token function">timestamps</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token function">disableConcurrentBuilds</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token function">buildDiscarder</span><span class="token punctuation">(</span>
+            <span class="token function">logRotator</span><span class="token punctuation">(</span>
+                numToKeepStr<span class="token punctuation">:</span> <span class="token string">&#39;20&#39;</span><span class="token punctuation">,</span>
+                daysToKeepStr<span class="token punctuation">:</span> <span class="token string">&#39;30&#39;</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    parameters <span class="token punctuation">{</span>
+        <span class="token function">choice</span><span class="token punctuation">(</span>
+           name<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;DEPLOY_FLAG&quot;</span></span><span class="token punctuation">,</span>
+           choices<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&#39;deploy&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;rollback&#39;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           description<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;发布/回滚&quot;</span></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">/*=======================================常修改变量-start=======================================*/</span>
+    environment <span class="token punctuation">{</span>
+        gitUrl <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;git地址&quot;</span></span>
+        branchName <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;分支名称&quot;</span></span>
+        gitlabCredentialsId <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;认证凭证&quot;</span></span>
+        projectRunDir <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;项目运行目录&quot;</span></span>
+        jobName <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">env<span class="token punctuation">.</span>JOB_NAME</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+        serviceName <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;服务名称&quot;</span></span>
+        serviceType <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;jar&quot;</span></span>
+        runHosts <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;192.168.167.xx,192.168.167.xx&quot;</span></span>
+        rollbackVersion <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">&quot;&quot;</span></span>
+    <span class="token punctuation">}</span>
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Deploy&#39;</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                expression <span class="token punctuation">{</span> <span class="token keyword">return</span> params<span class="token punctuation">.</span>DEPLOY_FLAG <span class="token operator">==</span> <span class="token string">&#39;deploy&#39;</span> <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            stages <span class="token punctuation">{</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Pre Env&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    steps <span class="token punctuation">{</span>
+                        echo <span class="token interpolation-string"><span class="token string">&quot;======================================项目名称 = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">env<span class="token punctuation">.</span>JOB_NAME</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+                        echo <span class="token interpolation-string"><span class="token string">&quot;======================================项目 URL = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">gitUrl</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+                        echo <span class="token interpolation-string"><span class="token string">&quot;======================================项目分支 = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">branchName</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+                        echo <span class="token interpolation-string"><span class="token string">&quot;======================================当前编译版本号 = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">env<span class="token punctuation">.</span>BUILD_NUMBER</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Git Clone&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    steps <span class="token punctuation">{</span>
+                        git branch<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">branchName</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">,</span>
+                        credentialsId<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">gitlabCredentialsId</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">,</span>
+                        url<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">gitUrl</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Mvn Build&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    steps <span class="token punctuation">{</span>
+                        <span class="token function">withMaven</span><span class="token punctuation">(</span>jdk<span class="token punctuation">:</span> <span class="token string">&#39;jdk1.8&#39;</span><span class="token punctuation">,</span> maven<span class="token punctuation">:</span> <span class="token string">&#39;maven&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            sh <span class="token interpolation-string"><span class="token string">&quot;mvn clean package -Dmaven.test.skip=true -U -f </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">serviceName</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/pom.xml&quot;</span></span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Ansible Deploy&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    steps<span class="token punctuation">{</span>
+                        script <span class="token punctuation">{</span>
+                            sleep <span class="token number">5</span>
+                            <span class="token function">ansiColor</span><span class="token punctuation">(</span><span class="token string">&#39;xterm&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                ansiblePlaybook colorized<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> extras<span class="token punctuation">:</span> <span class="token string">&#39;-e &quot;directory=${projectRunDir}&quot; -e &quot;job=${jobName}&quot; -e &quot;service=${serviceName}&quot; -e &quot;type=${serviceType}&quot;&#39;</span><span class="token punctuation">,</span> installation<span class="token punctuation">:</span> <span class="token string">&#39;ansible&#39;</span><span class="token punctuation">,</span> inventory<span class="token punctuation">:</span> <span class="token string">&#39;/etc/ansible/hosts.yml&#39;</span><span class="token punctuation">,</span> limit<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">runHosts</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">,</span> playbook<span class="token punctuation">:</span> <span class="token string">&#39;/etc/ansible/playbook/deploy-jenkins.yml&#39;</span>                            
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>   
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">&#39;Rollback&#39;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                expression <span class="token punctuation">{</span> <span class="token keyword">return</span> params<span class="token punctuation">.</span>DEPLOY_FLAG <span class="token operator">==</span> <span class="token string">&#39;rollback&#39;</span> <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            steps<span class="token punctuation">{</span>
+                script <span class="token punctuation">{</span>
+                    rollbackVersion <span class="token operator">=</span> <span class="token function">input</span><span class="token punctuation">(</span>
+                        message<span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">&quot;请填写要回滚的版本&quot;</span></span><span class="token punctuation">,</span>
+                        parameters<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                            <span class="token function">string</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span><span class="token string">&#39;last_number&#39;</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">]</span>
+                    <span class="token punctuation">)</span>
+                    sh <span class="token interpolation-string"><span class="token string">&quot;&quot;&quot;
+                        echo &quot;正在回滚至就近第</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">rollbackVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">个版本&quot;
+                        ansible </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">runHosts</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> -m shell -a &quot;sh </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">projectRunDir</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/rollback.sh </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">rollbackVersion</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token expression">serviceName</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&quot;
+                    &quot;&quot;&quot;</span></span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    post <span class="token punctuation">{</span>
+        always <span class="token punctuation">{</span>
+            <span class="token function">deleteDir</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        success <span class="token punctuation">{</span>
+            echo <span class="token string">&#39;This task is successful!&#39;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br></div></div><h2 id="pipeline-配置前端项目" tabindex="-1"><a class="header-anchor" href="#pipeline-配置前端项目" aria-hidden="true">#</a> pipeline 配置前端项目</h2><p>vue</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>pipeline {
+    agent { label &#39;master&#39;}
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder(
+            logRotator(
+                numToKeepStr: &#39;20&#39;,
+                daysToKeepStr: &#39;30&#39;,
+            )
+        )
+    }
+
+    parameters {
+        choice(
+           name: &quot;DEPLOY_FLAG&quot;,
+           choices: [&#39;deploy&#39;, &#39;rollback&#39;],
+           description: &quot;发布/回滚&quot;
+        )
+    }
+
+    /*=======================================常修改变量-start=======================================*/
+
+    environment {
+        gitUrl = &quot;http://gitlab.schengle.com/driving-frontend/h5.git&quot;
+        branchName = &quot;master&quot;
+        gitlabCredentialsId = &quot;437c69b5-a874-4da6-8fe1-61e0275fdf0d&quot;
+        projectBuildDir = &quot;build&quot;
+        projectBuildPath = &quot;${env.WORKSPACE}/${projectBuildDir}/&quot;
+        nginxIp = &quot;192.168.16.141&quot;
+        nginxHtmlRoot = &quot;/tmp/${env.JOB_NAME}&quot;
+        owner = &quot;font&quot;
+        group = &quot;font&quot;
+        backupRootDir = &quot;/opt/backup&quot;
+        backupJob = &quot;${backupRootDir}/${env.JOB_NAME}&quot;
+        backupDir = &quot;${backupJob}/${env.BUILD_NUMBER}&quot;
+        rollbackVersion = &quot;&quot;
+    }
+
+    /*=======================================常修改变量-end=======================================*/
+
+    stages {
+        stage(&#39;Deploy&#39;) {
+            when {
+                expression { return params.DEPLOY_FLAG == &#39;deploy&#39; }
+            }
+            stages {
+                stage(&#39;Pre Env&#39;) {
+                    steps {
+                        echo &quot;======================================项目名称 = ${env.JOB_NAME}&quot;
+                        echo &quot;======================================项目 URL = ${gitUrl}&quot;
+                        echo &quot;======================================项目分支 = ${branchName}&quot;
+                        echo &quot;======================================当前编译版本号 = ${env.BUILD_NUMBER}&quot;
+                        echo &quot;======================================项目 Build 文件夹路径 = ${projectBuildPath}&quot;
+                        echo &quot;======================================项目 Nginx 的 ROOT 路径 = ${nginxHtmlRoot}&quot;
+                    }
+                }
+
+                stage(&#39;Git Clone&#39;) {
+                    steps {
+                        git branch: &quot;${branchName}&quot;,
+                        credentialsId: &quot;${gitlabCredentialsId}&quot;,
+                        url: &quot;${gitUrl}&quot;
+                    } 
+                }
+
+                stage(&#39;NPM Install&#39;) {
+                    steps {
+                        nodejs(&#39;nodejs&#39;) {
+                            sh &quot;npm install&quot;
+                        }
+                    }
+                }
+
+                stage(&#39;NPM Build&#39;) {
+                    steps {
+                        nodejs(&#39;nodejs&#39;) {
+                            sh &quot;npm run build&quot;
+                        }
+                    }
+                }
+
+                stage(&#39;Backup&#39;) {
+                    agent { label &#39;ansible&#39;}
+                    steps {
+                        script {
+                            try {
+                                isItBackupToday = sh (returnStatus: true, script:&#39;ansible ${nginxIp} -m shell -a &quot;ls -l --time-style=+%D ${backupJob} | grep $(date +%D)&quot;&#39;)
+                                if (isItBackupToday !=0){
+                                    try {
+                                        sh &#39;ansible ${nginxIp} -m file -a &quot;path=${backupDir} state=directory owner=${owner} group=${group}&quot;&#39;
+                                        sh &#39;ansible ${nginxIp} -m shell -a &quot;cp -a ${nginxHtmlRoot}/* ${backupDir}&quot;&#39;
+                                    }
+                                    catch (exc) {
+                                        echo &#39;Something failed!&#39;
+                                    }  
+                                }
+                            }
+                            catch (exc) {
+                                echo &#39;Something failed!&#39;
+                            }                             
+                        }
+                    }
+                }
+
+                stage(&#39;Nginx Deploy&#39;) {
+                    agent { label &#39;ansible&#39;}
+                    steps {
+                        sh &#39;ansible ${nginxIp} -m synchronize -a &quot;src=${projectBuildPath} dest=${nginxHtmlRoot} delete=yes&quot;&#39;
+                        sh &#39;ansible ${nginxIp} -m file -a &quot;path=${nginxHtmlRoot} owner=${owner} group=${group} recurse=yes&quot;&#39;
+                    }
+                }
+
+                stage(&#39;Tar Build&#39;) {
+                    steps {
+                        sh &quot;tar -zcf  ${env.JOB_NAME}.tar.gz ${projectBuildDir}&quot;
+                    }
+                }
+
+                stage(&#39;Archive Artifacts&#39;) {
+                    steps {
+                        archiveArtifacts &quot;${env.JOB_NAME}.tar.gz&quot;
+                    }
+                }
+            }
+        }
+
+        stage(&#39;Rollback&#39;) {
+            when {
+                expression { return params.DEPLOY_FLAG == &#39;rollback&#39; }
+            }
+            agent { label &#39;ansible&#39;}
+            steps{
+                script {
+                    sh &#39;ansible ${nginxIp} -m shell -a &quot;ls -l  ${backupJob}&quot; | grep -v &quot;CHANGED&quot;&#39;
+                    rollbackVersion = input(
+                        message: &quot;请填写要回滚的版本&quot;,
+                        parameters: [
+                            string(name:&#39;BUILD_NUMBER&#39;)
+                        ]
+                    )
+                    sh &#39;ansible ${nginxIp} -m file -a &quot;path=${nginxHtmlRoot} state=absent&quot;&#39;
+                    sh &#39;ansible ${nginxIp} -m file -a &quot;path=${nginxHtmlRoot} state=directory owner=${owner} group=${group}&quot;&#39;                    
+                    withEnv([&quot;rollbackVersion=${rollbackVersion}&quot;]){
+                        sh &#39;ansible ${nginxIp} -m shell -a &quot;cp -a  ${backupJob}/${rollbackVersion}/* ${nginxHtmlRoot}&quot;&#39;
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br></div></div><p>这个jenkinsfile中有保存 制品，</p><p>需要注意的是：制品的保存时间，和jenkins丢弃旧的构建参数，相同</p><h3 id="局部变量的定义和传递" tabindex="-1"><a class="header-anchor" href="#局部变量的定义和传递" aria-hidden="true">#</a> 局部变量的定义和传递</h3><p>自定义变量（局部）</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>def username = &#39;Jenkins&#39;
+echo &quot;Hello Mr.${username}&quot;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>环境变量（局部）</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>withEnv([&#39;MYTOOL_HOME=/usr/local/mytool&#39;]){
+    sh &#39;$MYTOOL_HOME/bin/start&#39;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="exit-code-stdout-and-stderr-返回值和输出" tabindex="-1"><a class="header-anchor" href="#exit-code-stdout-and-stderr-返回值和输出" aria-hidden="true">#</a> exit code, stdout and stderr 返回值和输出</h3><p>其做法是，把stdout定向到一个文件，sh 配置 returnStatus: true，它的返回是一个0或非0的整数，然后从文件读取stdout的内容。stderr同理可得。</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>def status = sh(returnStatus: true, script: &quot;git merge --no-edit $branches &gt; merge_output.txt&quot;)
+if (status != 0) {
+  currentBuild.result = &#39;FAILED&#39;
+  def output = readFile(&#39;merge_output.txt&#39;).trim()
+  slackSend channel: SLACK_CHANNEL, message: &quot;&lt;${env.JOB_URL}|${env.JOB_NAME}&gt; ran into an error merging the PR branches into the ${TARGET_BRANCH} branch:\n```\n${output}\n```\n&lt;${env.BUILD_URL}/console|See the full output&gt;&quot;, color: &#39;warning&#39;, tokenCredentialId: &#39;slack-token&#39;
+  error &#39;Merge conflict&#39;
+}
+sh &#39;rm merge_output.txt&#39;
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="参考链接" tabindex="-1"><a class="header-anchor" href="#参考链接" aria-hidden="true">#</a> 参考链接</h2><p><a href="https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/Jenkins-Install-And-Settings.md" target="_blank" rel="noopener noreferrer">Jenkins 安装和配置| judasn/Linux-Tutorial | github<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p><p><a href="https://blog.csdn.net/triThirty/article/details/91381502" target="_blank" rel="noopener noreferrer">jenkins pipeline 局部变量定义及传递 | triThirty | csdn<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p><p><a href="https://www.cnblogs.com/pekkle/p/9882927.html" target="_blank" rel="noopener noreferrer">Jenkins pipeline 中获取 exit code, stdout and stderr 返回值和输出 | pekkle | 博客园<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p><!--]--></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/clay-wangzhi/wiki/edit/master/src/devops/jenkins/pipeline-example.md" rel="noopener noreferrer" target="_blank" arialabel="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" arialabelledby="edit"><title id="edit" lang="en">edit icon</title><g fill="currentColor"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></g></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2023/4/19 13:50:36</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: clay.wangzhi@gmail.com">clay-wangzhi</span><!--]--><!--]--></div></footer><!----><!----><!----></main><!--]--><footer class="footer-wrapper"><div class="footer"><a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a></div><div class="copyright">Copyright © 2023 Clay</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.5b112942.js" defer></script>
+  </body>
+</html>

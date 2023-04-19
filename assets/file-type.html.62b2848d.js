@@ -1,0 +1,62 @@
+import{_ as n,e as a}from"./app.5b112942.js";const e={},s=a(`<h1 id="\u67E5\u770B\u6587\u4EF6\u7C7B\u578B" tabindex="-1"><a class="header-anchor" href="#\u67E5\u770B\u6587\u4EF6\u7C7B\u578B" aria-hidden="true">#</a> \u67E5\u770B\u6587\u4EF6\u7C7B\u578B</h1><h3 id="ls\u547D\u4EE4" tabindex="-1"><a class="header-anchor" href="#ls\u547D\u4EE4" aria-hidden="true">#</a> ls\u547D\u4EE4</h3><p>ls\u547D\u4EE4\u65F6linux\u4E0B\u6700\u5E38\u7528\u7684\u547D\u4EE4\u3002ls\u547D\u4EE4\u5C31\u662Flist\u7684\u7F29\u5199\uFF0C\u7F3A\u7701\u4E0Bls\u7528\u6765\u6253\u5370\u51FA\u5F53\u524D\u76EE\u5F55\u7684\u6E05\u5355\uFF0C\u5982\u679Cls\u6307\u5B9A\u5176\u4ED6\u76EE\u5F55\uFF0C\u90A3\u4E48\u5C31\u4F1A\u663E\u793A\u6307\u5B9A\u76EE\u5F55\u91CC\u7684\u6587\u4EF6\u53CA\u6587\u4EF6\u5939\u6E05\u5355\u3002</p><p>\u901A\u8FC7ls\u547D\u4EE4\u4E0D\u4EC5\u53EF\u4EE5\u67E5\u770Blinux\u6587\u4EF6\u5939\u5305\u542B\u7684\u6587\u4EF6\uFF0C\u800C\u4E14\u53EF\u4EE5\u67E5\u770B\u6587\u4EF6\u6743\u9650\uFF08\u5305\u62EC\u76EE\u5F55\u3001\u6587\u4EF6\u5939\u3001\u6587\u4EF6\u6743\u9650\uFF09\uFF0C\u67E5\u770B\u76EE\u5F55\u4FE1\u606F\u7B49\u7B49\u3002</p><h4 id="\u5E38\u7528\u9009\u9879" tabindex="-1"><a class="header-anchor" href="#\u5E38\u7528\u9009\u9879" aria-hidden="true">#</a> \u5E38\u7528\u9009\u9879</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-a\uFF1A\u663E\u793A\u6240\u6709\u6863\u6848\u53CA\u76EE\u5F55\uFF08ls\u5185\u5B9A\u5C06\u6863\u6848\u540D\u6216\u76EE\u5F55\u540D\u79F0\u4E3A\u201C.\u201D\u7684\u89C6\u4E3A\u5F71\u85CF\uFF0C\u4E0D\u4F1A\u5217\u51FA\uFF09\uFF1B
+-l\uFF1A\u4EE5\u957F\u683C\u5F0F\u663E\u793A\u76EE\u5F55\u4E0B\u7684\u5185\u5BB9\u5217\u8868\u3002\u8F93\u51FA\u7684\u4FE1\u606F\u4ECE\u5DE6\u5230\u53F3\u4F9D\u6B21\u5305\u62EC\u6587\u4EF6\u540D\uFF0C\u6587\u4EF6\u7C7B\u578B\u3001\u6743\u9650\u6A21\u5F0F\u3001\u786C\u8FDE\u63A5\u6570\u3001\u6240\u6709\u8005\u3001\u7EC4\u3001\u6587\u4EF6\u5927\u5C0F\u548C\u6587\u4EF6\u7684\u6700\u540E\u4FEE\u6539\u65F6\u95F4\u7B49\uFF1B
+-h:\u2013human-readable \u4EE5\u5BB9\u6613\u7406\u89E3\u7684\u683C\u5F0F\u5217\u51FA\u6587\u4EF6\u5927\u5C0F (\u4F8B\u5982 1K 234M 2G);
+-s\uFF1A\u663E\u793A\u6587\u4EF6\u548C\u76EE\u5F55\u7684\u5927\u5C0F\uFF0C\u4EE5\u533A\u5757\u4E3A\u5355\u4F4D\uFF1B
+-t\uFF1A\u7528\u6587\u4EF6\u548C\u76EE\u5F55\u7684\u66F4\u6539\u65F6\u95F4\u6392\u5E8F\uFF1B
+-r\uFF1A\u4EE5\u6587\u4EF6\u540D\u53CD\u5E8F\u6392\u5217\u5E76\u8F93\u51FA\u76EE\u5F55\u5185\u5BB9\u5217\u8868\uFF1B
+-d\uFF1A\u4EC5\u663E\u793A\u76EE\u5F55\u540D\uFF0C\u800C\u4E0D\u663E\u793A\u76EE\u5F55\u4E0B\u7684\u5185\u5BB9\u5217\u8868\u3002\u663E\u793A\u7B26\u53F7\u94FE\u63A5\u6587\u4EF6\u672C\u8EAB\uFF0C\u800C\u4E0D\u663E\u793A\u5176\u6240\u6307\u5411\u7684\u76EE\u5F55\u5217\u8868\uFF1B
+-R\uFF1A\u9012\u5F52\u5904\u7406\uFF0C\u5C06\u6307\u5B9A\u76EE\u5F55\u4E0B\u7684\u6240\u6709\u6587\u4EF6\u53CA\u5B50\u76EE\u5F55\u4E00\u5E76\u5904\u7406\uFF1B
+--color[=WHEN]\uFF1A\u4F7F\u7528\u4E0D\u540C\u7684\u989C\u8272\u9AD8\u4EAE\u663E\u793A\u4E0D\u540C\u7C7B\u578B\u7684\u3002
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="\u5E38\u7528\u8303\u4F8B" tabindex="-1"><a class="header-anchor" href="#\u5E38\u7528\u8303\u4F8B" aria-hidden="true">#</a> \u5E38\u7528\u8303\u4F8B</h4><ol><li>\u5217\u51FA/opt\u6587\u4EF6\u5939\u4E0B\u7684\u6240\u6709\u6587\u4EF6\u548C\u76EE\u5F55\u7684\u8BE6\u7EC6\u8D44\u6599</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ls -lR /opt/
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>\u8F93\u51FA\u7ED3\u679C\u4E3A\uFF1A</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>/opt/:
+total 124188
+-rw-r--r-- 1 root root 127163815 Aug 25 06:10 go1.11.linux-amd64.tar.gz
+-rw-r--r-- 1 root root      1003 Sep 11 14:16 setup.sh
+drwxr-xr-x 1 root root       512 Jan 28 22:17 test
+
+/opt/test:
+total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ol start="2"><li>\u5217\u51FA\u5F53\u524D\u76EE\u5F55\u4E2D\u6240\u6709\u4EE5\u201Ct\u201D\u5F00\u5934\u7684\u76EE\u5F55\u7684\u8BE6\u7EC6\u5185\u5BB9\uFF0C\u53EF\u4EE5\u4F7F\u7528\u5982\u4E0B\u547D\u4EE4\uFF1A</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ls -l t*
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>\u8F93\u51FA\u7ED3\u679C\u4E3A\uFF1A</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>total 0
+-rw-r--r-- 1 root root 0 Jan 28 22:17 test.txt
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ol start="3"><li>\u5217\u51FA\u76EE\u524D\u5DE5\u4F5C\u76EE\u5F55\u4E0B\u6240\u6709\u540D\u79F0\u662Fs \u5F00\u5934\u7684\u6863\u6848\uFF0C\u8D8A\u65B0\u7684\u6392\u8D8A\u540E\u9762\uFF0C\u53EF\u4EE5\u4F7F\u7528\u5982\u4E0B\u547D\u4EE4\uFF1A</li></ol><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>ls -ltr s*
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>\u8F93\u51FA\u7ED3\u679C\u4E3A\uFF1A</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-rw-r--r-- 1 root root 1003 Sep 11 14:16 setup.sh
+-rw-r--r-- 1 root root    0 Jan 28 22:21 s.txt
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h4 id="\u989C\u8272" tabindex="-1"><a class="header-anchor" href="#\u989C\u8272" aria-hidden="true">#</a> \u989C\u8272</h4><p>\u84DD\u8272\u2014\u2013\u76EE\u5F55</p><p>\u7EFF\u8272\u2014\u2013\u53EF\u6267\u884C\u6587\u4EF6</p><p>\u767D\u8272\u2014\u2013\u4E00\u822C\u6027\u6587\u4EF6\uFF0C\u5982\u6587\u672C\u6587\u4EF6\uFF0C\u914D\u7F6E\u6587\u4EF6\u7B49</p><p>\u7EA2\u8272\u2014\u2013\u538B\u7F29\u6587\u4EF6\u6216\u5F52\u6863\u6587\u4EF6</p><p>\u6D45\u84DD\u8272\u2014-\u94FE\u63A5\u6587\u4EF6</p><p>\u7EA2\u8272\u95EA\u70C1\u2014-\u94FE\u63A5\u6587\u4EF6\u5B58\u5728\u95EE\u9898</p><p>\u9EC4\u8272\u2014\u2013\u8BBE\u5907\u6587\u4EF6</p><p>\u9752\u9EC4\u8272\u2014-\u7BA1\u9053\u6587\u4EF6</p><h3 id="file\u547D\u4EE4" tabindex="-1"><a class="header-anchor" href="#file\u547D\u4EE4" aria-hidden="true">#</a> file\u547D\u4EE4</h3><p>\u7528\u6765\u63A2\u6D4B\u7ED9\u5B9A\u6587\u4EF6\u7684\u7C7B\u578B\u3002</p><h4 id="\u8865\u5145\u8BF4\u660E" tabindex="-1"><a class="header-anchor" href="#\u8865\u5145\u8BF4\u660E" aria-hidden="true">#</a> \u8865\u5145\u8BF4\u660E</h4><p><strong>file\u547D\u4EE4</strong> \u7528\u6765\u63A2\u6D4B\u7ED9\u5B9A\u6587\u4EF6\u7684\u7C7B\u578B\u3002file\u547D\u4EE4\u5BF9\u6587\u4EF6\u7684\u68C0\u67E5\u5206\u4E3A\u6587\u4EF6\u7CFB\u7EDF\u3001\u9B54\u6CD5\u5E7B\u6570\u68C0\u67E5\u548C\u8BED\u8A00\u68C0\u67E53\u4E2A\u8FC7\u7A0B\u3002</p><h4 id="\u8BED\u6CD5" tabindex="-1"><a class="header-anchor" href="#\u8BED\u6CD5" aria-hidden="true">#</a> \u8BED\u6CD5</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>file(\u9009\u9879)(\u53C2\u6570)
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="\u9009\u9879" tabindex="-1"><a class="header-anchor" href="#\u9009\u9879" aria-hidden="true">#</a> \u9009\u9879</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>-b\uFF1A\u5217\u51FA\u8FA8\u8BC6\u7ED3\u679C\u65F6\uFF0C\u4E0D\u663E\u793A\u6587\u4EF6\u540D\u79F0\uFF1B
+-c\uFF1A\u8BE6\u7EC6\u663E\u793A\u6307\u4EE4\u6267\u884C\u8FC7\u7A0B\uFF0C\u4FBF\u4E8E\u6392\u9519\u6216\u5206\u6790\u7A0B\u5E8F\u6267\u884C\u7684\u60C5\u5F62\uFF1B
+-f&lt;\u540D\u79F0\u6587\u4EF6&gt;\uFF1A\u6307\u5B9A\u540D\u79F0\u6587\u4EF6\uFF0C\u5176\u5185\u5BB9\u6709\u4E00\u4E2A\u6216\u591A\u4E2A\u6587\u4EF6\u540D\u79F0\u65F6\uFF0C\u8BA9file\u4F9D\u5E8F\u8FA8\u8BC6\u8FD9\u4E9B\u6587\u4EF6\uFF0C\u683C\u5F0F\u4E3A\u6BCF\u5217\u4E00\u4E2A\u6587\u4EF6\u540D\u79F0\uFF1B
+-L\uFF1A\u76F4\u63A5\u663E\u793A\u7B26\u53F7\u8FDE\u63A5\u6240\u6307\u5411\u7684\u6587\u4EF6\u7C7B\u522B\uFF1B
+-m&lt;\u9B54\u6CD5\u6570\u5B57\u6587\u4EF6&gt;\uFF1A\u6307\u5B9A\u9B54\u6CD5\u6570\u5B57\u6587\u4EF6\uFF1B
+-v\uFF1A\u663E\u793A\u7248\u672C\u4FE1\u606F\uFF1B
+-z\uFF1A\u5C1D\u8BD5\u53BB\u89E3\u8BFB\u538B\u7F29\u6587\u4EF6\u7684\u5185\u5BB9\u3002
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h4 id="\u53C2\u6570" tabindex="-1"><a class="header-anchor" href="#\u53C2\u6570" aria-hidden="true">#</a> \u53C2\u6570</h4><p>\u6587\u4EF6\uFF1A\u8981\u786E\u5B9A\u7C7B\u578B\u7684\u6587\u4EF6\u5217\u8868\uFF0C\u591A\u4E2A\u6587\u4EF6\u4E4B\u95F4\u4F7F\u7528\u7A7A\u683C\u5206\u5F00\uFF0C\u53EF\u4EE5\u4F7F\u7528shell\u901A\u914D\u7B26\u5339\u914D\u591A\u4E2A\u6587\u4EF6\u3002</p><h4 id="\u5B9E\u4F8B" tabindex="-1"><a class="header-anchor" href="#\u5B9E\u4F8B" aria-hidden="true">#</a> \u5B9E\u4F8B</h4><p>\u663E\u793A\u6587\u4EF6\u7C7B\u578B</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>[root@localhost ~]# file install.log
+install.log: UTF-8 Unicode text
+
+[root@localhost ~]# file -b install.log      &lt;== \u4E0D\u663E\u793A\u6587\u4EF6\u540D\u79F0
+UTF-8 Unicode text
+
+[root@localhost ~]# file -i install.log      &lt;== \u663E\u793AMIME\u7C7B\u522B\u3002
+install.log: text/plain; charset=utf-8
+
+[root@localhost ~]# file -b -i install.log
+text/plain; charset=utf-8
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>\u663E\u793A\u7B26\u53F7\u94FE\u63A5\u7684\u6587\u4EF6\u7C7B\u578B</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>[root@localhost ~]# ls -l /var/mail
+lrwxrwxrwx 1 root root 10 08-13 00:11 /var/mail -&gt; spool/mail
+
+[root@localhost ~]# file /var/mail
+/var/mail: symbolic link to \`spool/mail&#39;
+
+[root@localhost ~]# file -L /var/mail
+/var/mail: directory
+
+[root@localhost ~]# file /var/spool/mail
+/var/spool/mail: directory
+
+[root@localhost ~]# file -L /var/spool/mail
+/var/spool/mail: directory
+
+</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div>`,43);function l(r,i){return s}var p=n(e,[["render",l],["__file","file-type.html.vue"]]);export{p as default};
