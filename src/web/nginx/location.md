@@ -21,7 +21,7 @@ tag:
 
 > 我们暂且把非正则匹配和普通匹配称为前缀匹配
 
-![nginx中location匹配流程图](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/nginx中location匹配流程图.png)
+![nginx中location匹配流程图](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/nginx%E4%B8%ADlocation%E5%8C%B9%E9%85%8D%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
 
 ## 1 匹配模式优先级
 

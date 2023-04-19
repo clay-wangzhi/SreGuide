@@ -12,15 +12,15 @@ tag: 写作排版
 
 这是一款任务管理工具，类似于敏捷开发中看板，我们可以快速管理任务。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637678-850065086.jpg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080637678-850065086-20230204231815839.jpg)
 
 日常工作我只要想到一个 **idea**，就会第一时间先记录到 **idea** 列表中。这里千万不要高估自己的记忆力，如果想到了，感觉记录下来。以前上午灵光一现想到一个 **idea**，准备晚上写一下，然后晚上就想不起来。。。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637826-836232793.jpg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080637826-836232793.jpg)
 
 前期准备时，可以将收集到的资料，素材，全部放到具体卡片中。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080637970-706620287.jpg)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080637970-706620287.jpg)
 
 当我们开始写作后，拖动到下一个列表，完成之后，再拖到下一个列表，这样写作任务非常清晰。
 
@@ -40,7 +40,7 @@ tag: 写作排版
 
 * 安装成功界面
 
-![image-20200730102149683](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102149683.png)
+![image-20200730102149683](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200730102149683.png)
 
 
 
@@ -48,11 +48,11 @@ tag: 写作排版
 
 > 注意：安装`gitee-uploader 1.1.2`插件，必须要先安装`node.js`才能安装插件，我这里安装的是`gitee 2.0.2`
 
-![image-20200730102308996](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102308996.png)
+![image-20200730102308996](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200730102308996.png)
 
 * 建立gitee码云图床库，就是在码云新建一个仓库，步骤：
 
-![image-20200323195546145](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323195546145.png)
+![image-20200323195546145](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200323195546145.png)
 
 - 接下来配置PicGO，安装Gitee插件成功，就会出现Gitee图床栏目：
 
@@ -65,21 +65,21 @@ path：路径，一般写上img
 message：可以不用写
 ```
 
-![image-20200730102607452](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200730102607452.png)
+![image-20200730102607452](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200730102607452.png)
 
 * 设置PicGo开机自启
 
-![image-20200716205307568](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200716205307568.png)
+![image-20200716205307568](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200716205307568.png)
 
 * 配置Typora，点击 文件，偏好设置，选择图像，设置PicGo二进制文件的路径：
 
-![image-20200323201738802](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323201738802.png)
+![image-20200323201738802](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200323201738802.png)
 
 - Typora使用下面这个url跟PicGo连接的，所以PicGo的设置也要对应，默认一般就是。
 
-![img](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipicgo.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/ipicgo.png)
 
-![image-20200323204010678](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/ipcigo2.png)
+![image-20200323204010678](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/ipcigo2.png)
 
 - 不过PicGo的Server监听端口会经常变动（比如电脑重启后）,就需要修改不然Typora图片也会上传失败。
 
@@ -89,7 +89,7 @@ message：可以不用写
 
 生成比较精美的代码图片，不用担心一些网站不支持代码格式。
 
-![1419561-20200403080639617-2113865405](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080639617-2113865405.jpg)
+![1419561-20200403080639617-2113865405](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080639617-2113865405.jpg)
 
 另外 **carbon** 还有 IDEA，vscode 等插件，安装之后，可以快速使用。
 
@@ -109,9 +109,9 @@ http://md.aclickall.com/
 
 https://mdnice.com/
 
-![1419561-20200403080640489-1946118352](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640489-1946118352.jpg)
+![1419561-20200403080640489-1946118352](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080640489-1946118352.jpg)
 
-![1419561-20200403080640732-64891255](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/1419561-20200403080640732-64891255.jpg)
+![1419561-20200403080640732-64891255](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1419561-20200403080640732-64891255.jpg)
 
 ### 其他博客平台
 
