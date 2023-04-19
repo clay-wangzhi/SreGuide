@@ -4,7 +4,7 @@ tag:
   - Kubernetes
 ---
 
-# 利用LXCFS提升容器资源可见性
+# 利用 LXCFS 提升容器资源可见性
 
 ## 背景
 

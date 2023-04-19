@@ -35,7 +35,7 @@ https://github.com/prometheus-operator/kube-prometheus
 - `PrometheusRule`
 - `AlertmanagerConfig`
 
-
+这里面我们用的最多的三个 crd 就是 PodMonitor、ServiceMonitor、PrometheusRule
 
 ### Prometheus
 
@@ -127,7 +127,7 @@ spec:
 
 https://github.com/prometheus-community/helm-charts
 
-### Helm 安装配置
+### Helm 获取压缩包
 
 添加 helm repo
 
@@ -136,6 +136,8 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 ```
 
 下拉压缩包
+
+> :warning:  kube-prometheus-stack 版本请根据 k8s 版本具体选择，否则会出现不兼容问题
 
 ```bash
 helm pull prometheus-community/kube-prometheus-stack --version 23.3.2
@@ -146,6 +148,8 @@ cd kube-prometheus-stack/
 ### Prometheus 安装配置
 
 为 prometheus 创建 Namespace
+
+> ns 为 cattle-prometheus 的原因，是方便 rancher 收集 做可视化，如无需求，可自定义 ns
 
 ```bash
 kubectl create namespace cattle-prometheus
@@ -181,11 +185,14 @@ helm install monitoring -n cattle-prometheus  --set kubeEtcd.serviceMonitor.sche
 
 在 node 上下拉镜像
 
-由于镜像在国外`kube-state-metrics:v2.2.4`、`kube-webhook-certgen:v1.0`，我拉取下来放到 内部harbor上
+由于镜像在国外`kube-state-metrics:v2.2.4`、`kube-webhook-certgen:v1.0`，我拉取下来放到 国内可达的仓库地址
 
 #### etcd http 模式
 
-将 --listen-metrics-urls= 值 改为 http://ip:2381
+将 --listen-metrics-urls= 值 改为 [http://ip:2381](http://ip:2381/)，要新增，不要修改127.0.0.1，实例
+
+\# - --listen-metrics-urls=[http://127.0.0.1:2381](http://127.0.0.1:2381/)
+\- --listen-metrics-urls=[http://127.0.0.1:2381,https://10.100.142.163:2381](http://127.0.0.1:2381%2Chttps/)
 
 部署
 
@@ -201,63 +208,59 @@ kubectl -n cattle-prometheus get secrets monitoring-grafana -o jsonpath="{.data.
 
 ## 三、配置报警
 
-altermanager 配置 告警 的 webhook
+为了统一发送告警的位置，建议 k8s 外部搭建 alertmanager 高可用集群，告警组分类，应该按照 appid 的维度进行告警，告警规则应该关联上 appid 的标签
 
-新建`alertmanager.yaml`
+在 prometheus 所在的 namespace 下创建 alertmanager 的外部服务
+
+创建外部服务映射到 k8s:
 
 ```yaml
-global:
-  resolve_timeout: 5m
-  http_config:
-    follow_redirects: true
-  smtp_hello: localhost
-  smtp_require_tls: true
-route:
-  receiver: "null"
-  group_by:
-  - alertname
-  - xxx_deploy_appid
-  - label_xxx_deploy_appid
-  routes:
-  - receiver: xxx-service
-    continue: true
-  - receiver: alertsnitch
-    continue: false
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 12h
-inhibit_rules:
-- source_match:
-    severity: critical
-  target_match:
-    severity: warning
-  equal:
-  - alertname
-  - instance
-receivers:
-- name: alertsnitch
-  webhook_configs:
-  - send_resolved: true
-    http_config:
-      follow_redirects: true
-    url: http://alertsnitch.ad.xxx.cn/webhook
-    max_alerts: 0
-- name: "null"
-- name: xxx-service
-  webhook_configs:
-  - send_resolved: true
-    http_config:
-      follow_redirects: true
-    url: http://xxx-service.xx.cn/api/v1/monitor/alarm/send_prometheus
-    max_alerts: 0
-templates:
-- /data/alertmanager/*.tmpl
+kind: Service
+apiVersion: v1
+metadata:
+  name: alertmanager-ext
+  namespace: cattle-prometheus
+spec:
+  ports:
+  - name: web
+    port: 9093
+ 
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: alertmanager-ext
+  namespace: cattle-prometheus
+subsets:
+  - addresses:
+      - ip: xx
+      - ip: xx
+    ports:
+      - name: web
+        port: 9093
 ```
 
-```bash
-kubectl delete secret alertmanager-monitoring-kube-prometheus-alertmanager -n cattle-prometheus && kubectl create secret generic alertmanager-monitoring-kube-prometheus-alertmanager -n cattle-prometheus --from-file=alertmanager.yaml
-kubectl delete secret alertmanager-monitoring-kube-prometheus-alertmanager-generated -n cattle-prometheus && kubectl create secret generic alertmanager-monitoring-kube-prometheus-alertmanager-generated -n cattle-prometheus --from-file=alertmanager.yaml
+修改prometheus使用的AlertManger
+
+`kubectl  -n cattle-prometheus edit prometheus monitoring-kube-prometheus-prometheus`
+
+```yaml
+spec:
+  alerting:
+    alertmanagers:
+    - apiVersion: v2
+      name: alertmanager-ext
+      namespace: cattle-prometheus
+      pathPrefix: /
+      port: web
 ```
+
+**prometheus-alert-history 可以用开源项目 alertsnitch**
+
+## 四、问题处理
+
+1. controller-manager ，scheduler targes 收集异常
+   可以注释 manifest 中的 --port=0 参数
 
 ## 参考链接
 

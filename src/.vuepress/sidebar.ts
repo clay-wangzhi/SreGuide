@@ -408,7 +408,7 @@ export const sidebarConfig = defineSidebarConfig({
         {
           text: "实用技巧",
           collapsable: false,
-          // children: ["",]
+          children: ["",]
         },
         {
           text: "运维手册",
