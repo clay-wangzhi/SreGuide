@@ -19,17 +19,17 @@ tag:
 
 ## 推荐教程
 
+[ansible wiki | leops](https://ansible.leops.cn/) :star:
+
 [ansible | breezey | csdn](https://www.cnblogs.com/breezey/tag/ansible/) :star: 
 
-[一步到位玩透 Ansible | 骏马金龙 | 51cto](https://blog.51cto.com/cloumn/detail/83) :star:
-
-> 以下笔记大多数整理自以上两篇教程
+[一步到位玩透 Ansible | 骏马金龙](https://www.junmajinlong.com/ansible/index/) :star:
 
 
 
 ## 知识体系
 
-Hello Ansible~
+
 
 ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/ansible-com-know.png)
 

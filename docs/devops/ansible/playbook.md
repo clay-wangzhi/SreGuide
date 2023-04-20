@@ -146,6 +146,8 @@ PLAY RECAP *********************************************************************
 playbook: manage_apache.yml
 ```
 
+> Todo: 测试使用 ansible-lint
+
 ### 4.3 测试运行playbook
 
 通过-C选项可以测试playbook的执行情况，但不会真的执行：
