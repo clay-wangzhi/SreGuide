@@ -15,7 +15,7 @@ actions:
     link: /zh/config/
     type: primary
 
-footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号:冀ICP备2021007336号</a>'
+footer: '<a href="http://beian.miit.gov.cn/" target="_blank">冀ICP备2021007336号</a>|主题: <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a>'
 ---
 
 ## 目录
