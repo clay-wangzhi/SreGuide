@@ -8,11 +8,11 @@ heroFullScreen: true
 tagline: 专注于SRE运维、云原生、可观测性、devops、负载均衡等技术
 actions:
   - text: 开始阅读
-    link: /zh/guide/
+    link: /cloudnative/kubernetes/
     type: primary
 
-  - text: SRE运维知识体系
-    link: /zh/config/
+  - text: SRE RoadMap
+    link: /#sre-roadmap
     type: default
 
 footer: '<a href="http://beian.miit.gov.cn/" target="_blank">冀ICP备2021007336号</a>|主题: <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a>'
