@@ -1,15 +1,15 @@
-<template><h1 id="_12-mysql锁等待" tabindex="-1"><a class="header-anchor" href="#_12-mysql锁等待" aria-hidden="true">#</a> 12 MySQL锁等待</h1>
+<template><div><h1 id="_12-mysql锁等待" tabindex="-1"><a class="header-anchor" href="#_12-mysql锁等待" aria-hidden="true">#</a> 12 MySQL锁等待</h1>
 <h2 id="_1-锁等待模拟" tabindex="-1"><a class="header-anchor" href="#_1-锁等待模拟" aria-hidden="true">#</a> 1 锁等待模拟</h2>
 <p>创建数据库</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>create database clay_test default charset utf8 collate utf8_general_ci;
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>create database clay_test default charset utf8 collate utf8_general_ci;
 use clay_test
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>创建表</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>插入数据</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>insert into t1 values(1, 'clay');
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>取消自动提交</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>创建表</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>create table t1(id int, name varchar(20)) engine=innodb default charset=utf8;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>插入数据</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>insert into t1 values(1, 'clay');
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>取消自动提交</p>
 <p>则当执行语句commit或者rollback执行提交事务或者回滚</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>set autocommit=0;
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>set autocommit=0;
 Query OK, 0 rows affected (0.00 sec)
 
 mysql&gt; show variables like 'autocommit';
@@ -19,13 +19,13 @@ mysql&gt; show variables like 'autocommit';
 | autocommit    | OFF   |
 +---------------+-------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>更新第一条插入的数据</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>update t1 set name='hello' where id=1;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>新开一个终端，也更新第一条数据</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>update t1 set name='world' where id=1;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="_2-监控锁状态" tabindex="-1"><a class="header-anchor" href="#_2-监控锁状态" aria-hidden="true">#</a> 2 监控锁状态</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>更新第一条插入的数据</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>update t1 set name='hello' where id=1;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>新开一个终端，也更新第一条数据</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>update t1 set name='world' where id=1;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="_2-监控锁状态" tabindex="-1"><a class="header-anchor" href="#_2-监控锁状态" aria-hidden="true">#</a> 2 监控锁状态</h2>
 <h3 id="_2-1-查看有无锁等待" tabindex="-1"><a class="header-anchor" href="#_2-1-查看有无锁等待" aria-hidden="true">#</a> 2.1 查看有无锁等待</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; show status like '%innodb_row_lock%';
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; show status like '%innodb_row_lock%';
 +-------------------------------+---------+
 | Variable_name                 | Value   |
 +-------------------------------+---------+
@@ -36,14 +36,14 @@ mysql&gt; show variables like 'autocommit';
 | Innodb_row_lock_waits         | 51      |
 +-------------------------------+---------+
 5 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>Innodb_row_lock_current_waits 表示当前所等待的数量</li>
 <li>Innodb_row_lock_waits 表示历史发生锁等待的数量</li>
 </ul>
 <p>查看哪个表的打开数量大于0</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>show open tables where in_use&gt;0;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了" tabindex="-1"><a class="header-anchor" href="#_2-2-查看哪个事务在等待-被阻塞了" aria-hidden="true">#</a> 2.2 查看哪个事务在等待（被阻塞了）</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_trx where trx_state='lock wait' \G;
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>show open tables where in_use&gt;0;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_2-2-查看哪个事务在等待-被阻塞了" tabindex="-1"><a class="header-anchor" href="#_2-2-查看哪个事务在等待-被阻塞了" aria-hidden="true">#</a> 2.2 查看哪个事务在等待（被阻塞了）</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_trx where trx_state='lock wait' \G;
 *************************** 1. row ***************************
                     trx_id: 2502
                  trx_state: LOCK WAIT
@@ -70,8 +70,8 @@ trx_last_foreign_key_error: NULL
           trx_is_read_only: 0
 trx_autocommit_non_locking: 0
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h3 id="_2-3-查看索源" tabindex="-1"><a class="header-anchor" href="#_2-3-查看索源" aria-hidden="true">#</a> 2.3 查看索源</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_lock_waits;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-3-查看索源" tabindex="-1"><a class="header-anchor" href="#_2-3-查看索源" aria-hidden="true">#</a> 2.3 查看索源</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_lock_waits;
 +-------------------+-------------------+-----------------+------------------+
 | requesting_trx_id | requested_lock_id | blocking_trx_id | blocking_lock_id |
 +-------------------+-------------------+-----------------+------------------+
@@ -87,8 +87,8 @@ select * from information_schema.innodb_locks;
 | 2491:9:3:2 | 2491        | X         | RECORD    | `clay_test`.`t1` | GEN_CLUST_INDEX |          9 |         3 |        2 | 0x000000000212 |
 +------------+-------------+-----------+-----------+------------------+-----------------+------------+-----------+----------+----------------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><h3 id="_2-4-找到锁源的sql语句" tabindex="-1"><a class="header-anchor" href="#_2-4-找到锁源的sql语句" aria-hidden="true">#</a> 2.4 找到锁源的SQL语句</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_trx where trx_id='2491' \G;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-4-找到锁源的sql语句" tabindex="-1"><a class="header-anchor" href="#_2-4-找到锁源的sql语句" aria-hidden="true">#</a> 2.4 找到锁源的SQL语句</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; select * from information_schema.innodb_trx where trx_id='2491' \G;
 *************************** 1. row ***************************
                     trx_id: 2491
                  trx_state: RUNNING
@@ -115,7 +115,9 @@ trx_last_foreign_key_error: NULL
           trx_is_read_only: 0
 trx_autocommit_non_locking: 0
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h2 id="_3-杀掉进程" tabindex="-1"><a class="header-anchor" href="#_3-杀掉进程" aria-hidden="true">#</a> 3 杀掉进程</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_3-杀掉进程" tabindex="-1"><a class="header-anchor" href="#_3-杀掉进程" aria-hidden="true">#</a> 3 杀掉进程</h2>
 <p>线程ID（trx_mysql_thread_id）</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; kill 37;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div></template>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; kill 37;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></div></template>
+
+

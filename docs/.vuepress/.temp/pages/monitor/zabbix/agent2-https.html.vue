@@ -1,4 +1,4 @@
-<template><h1 id="使用zabbix-agent2自定义插件获取https证书过期时间" tabindex="-1"><a class="header-anchor" href="#使用zabbix-agent2自定义插件获取https证书过期时间" aria-hidden="true">#</a> 使用zabbix-agent2自定义插件获取https证书过期时间</h1>
+<template><div><h1 id="使用zabbix-agent2自定义插件获取https证书过期时间" tabindex="-1"><a class="header-anchor" href="#使用zabbix-agent2自定义插件获取https证书过期时间" aria-hidden="true">#</a> 使用zabbix-agent2自定义插件获取https证书过期时间</h1>
 <blockquote>
 <p>转载自: <a href="https://mp.weixin.qq.com/s/Sw0WubPH7luEY_kaVsoPkg" target="_blank" rel="noopener noreferrer">公众号运维开发故事 | wanger<ExternalLinkIcon/></a></p>
 </blockquote>
@@ -8,27 +8,27 @@
 <h2 id="zabbix-agent2自定义https-expire插件" tabindex="-1"><a class="header-anchor" href="#zabbix-agent2自定义https-expire插件" aria-hidden="true">#</a> zabbix-agent2自定义https_expire插件</h2>
 <p>之前介绍过如何<a href="https://mp.weixin.qq.com/s?__biz=MzI3NTQ1ODEyMQ==&amp;mid=2247489848&amp;idx=2&amp;sn=7be7f66ba2c4dcc1e9c2c410dffea6d1&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">使用自定义插件来实现对mqtt的监控<ExternalLinkIcon/></a>，只不过当时使用的Watcher接口来将新数据主动push给server端，这次将通过实现Exporter接口来采集数据，再次提供官方文档和Zabbix认证专家米宏翻译的<a href="https://mp.weixin.qq.com/s?__biz=MzI3NTQ1ODEyMQ==&amp;mid=2247485564&amp;idx=2&amp;sn=e736e1c8f2dbb444bc0b9fbf786b75d5&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">官方博文<ExternalLinkIcon/></a>。</p>
 <p>这里我再介绍一下自定义插件的一些标准规范</p>
-<p>１.　插件必须导入<code>zabbix.com/pkg/plugin</code>软件包。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>import "zabbix.com/pkg/plugin"
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2.　插件必须定义结构并嵌入该<code>plugin.Base</code>结构。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>type Plugin struct {
+<p>１.　插件必须导入<code v-pre>zabbix.com/pkg/plugin</code>软件包。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>import "zabbix.com/pkg/plugin"
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>2.　插件必须定义结构并嵌入该<code v-pre>plugin.Base</code>结构。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>type Plugin struct {
     plugin.Base
 }
 var impl Plugin
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>3.　一个插件必须实现一个或多个插件接口。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider) (result interface{}, err error) {
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>3.　一个插件必须实现一个或多个插件接口。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider) (result interface{}, err error) {
     if len(params) > 0 {
         p.Debugf("received %d parameters while expected none", len(params))
         return nil, errors.New("Too many parameters")
     }
     return time.Now().Format(time.RFC3339)
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>4.　插件必须在初始化期间注册自己。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>func init() {
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>4.　插件必须在初始化期间注册自己。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>func init() {
     plugin.RegisterMetrics(&amp;impl, "Time", "system.time", "Returns time string in RFC 3999 format.")
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>ssl_expire代码不多，插件由尼古拉·拖拉基斯基·王二编写，完整代码可以去github查看</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>func (p *Plugin) Configure(global *plugin.GlobalOptions, options interface{}) {
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>ssl_expire代码不多，插件由尼古拉·拖拉基斯基·王二编写，完整代码可以去github查看</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>func (p *Plugin) Configure(global *plugin.GlobalOptions, options interface{}) {
  if err = conf.Unmarshal(options, &amp;p.options); err != nil {
   p.Errf("cannot unmarshal configuration options: %s", err)
  }
@@ -101,15 +101,15 @@ func init() {
  plugin.RegisterMetrics(&amp;impl, pluginName,
   "https_expire", "Returns the number of days between the HTTPS certificate expiration time and the current date.")
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br></div></div><h2 id="下载zabbix-agent2源码并将自定义插件编译" tabindex="-1"><a class="header-anchor" href="#下载zabbix-agent2源码并将自定义插件编译" aria-hidden="true">#</a> 下载zabbix agent2源码并将自定义插件编译</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum install golang
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="下载zabbix-agent2源码并将自定义插件编译" tabindex="-1"><a class="header-anchor" href="#下载zabbix-agent2源码并将自定义插件编译" aria-hidden="true">#</a> 下载zabbix agent2源码并将自定义插件编译</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum install golang
 git clone https://git.zabbix.com/scm/zbx/zabbix.git --depth 1 zabbix-agent2
 cd zabbix-agent2
 git submodule add https://github.com/cxf210/ssl_expire.git src/go/plugins/https_expire
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="导入https-expire插件" tabindex="-1"><a class="header-anchor" href="#导入https-expire插件" aria-hidden="true">#</a> 导入https_expire插件</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>vi src/go/plugins/plugins_linux.go
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>添加最后一行</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>        _ "zabbix.com/plugins/ceph"
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="导入https-expire插件" tabindex="-1"><a class="header-anchor" href="#导入https-expire插件" aria-hidden="true">#</a> 导入https_expire插件</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>vi src/go/plugins/plugins_linux.go
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>添加最后一行</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>        _ "zabbix.com/plugins/ceph"
         _ "zabbix.com/plugins/docker"
         _ "zabbix.com/plugins/kernel"
         _ "zabbix.com/plugins/log"
@@ -121,8 +121,8 @@ git submodule add https://github.com/cxf210/ssl_expire.git src/go/plugins/https_
         _ "zabbix.com/plugins/net/tcp"
         ...
         _ "zabbix.com/plugins/https_expire"
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h2 id="编译安装zabbix-agent2" tabindex="-1"><a class="header-anchor" href="#编译安装zabbix-agent2" aria-hidden="true">#</a> 编译安装zabbix agent2</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum install automake autoconf pcre* -y
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="编译安装zabbix-agent2" tabindex="-1"><a class="header-anchor" href="#编译安装zabbix-agent2" aria-hidden="true">#</a> 编译安装zabbix agent2</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum install automake autoconf pcre* -y
 ./bootstrap.sh 
 pushd . 
 cd src/go/ 
@@ -130,9 +130,9 @@ go mod vendor
 popd 
 ./configure --enable-agent2 --enable-static 
 make install
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="编辑配置文件" tabindex="-1"><a class="header-anchor" href="#编辑配置文件" aria-hidden="true">#</a> 编辑配置文件</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="编辑配置文件" tabindex="-1"><a class="header-anchor" href="#编辑配置文件" aria-hidden="true">#</a> 编辑配置文件</h2>
 <p>这里我调整了日志级别，方便前台调试 可选参数 Plugins.Https_expire.Timeout = 5</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>egrep -v "^$|^#" conf/zabbix_agent2.conf  
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>egrep -v "^$|^#" conf/zabbix_agent2.conf  
 LogType=console
 LogFile=/tmp/zabbix_agent2.log
 DebugLevel=4
@@ -140,20 +140,22 @@ Server=172.17.0.5
 Plugins.Https_expire.Timeout=5
 Hostname=node2
 ControlSocket=/tmp/agent.sock
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="启动zabbix-agent2" tabindex="-1"><a class="header-anchor" href="#启动zabbix-agent2" aria-hidden="true">#</a> 启动Zabbix_agent2</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /root/zabbix_agent/src/go/bin
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="启动zabbix-agent2" tabindex="-1"><a class="header-anchor" href="#启动zabbix-agent2" aria-hidden="true">#</a> 启动Zabbix_agent2</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /root/zabbix_agent/src/go/bin
 zabbix_agent2 -c conf/zabbix_agent2.conf
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent21.png" alt="图片" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent21.png" alt="图片"></p>
 <h2 id="zabbix创建监控项" tabindex="-1"><a class="header-anchor" href="#zabbix创建监控项" aria-hidden="true">#</a> Zabbix创建监控项</h2>
 <p>键值示例如下</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>https_expire["www.xyzabbix.cn"]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>或</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>https_expire["https://www.xyzabbix.cn"]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent22.png" alt="图片" loading="lazy"></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>https_expire["www.xyzabbix.cn"]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>或</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>https_expire["https://www.xyzabbix.cn"]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent22.png" alt="图片"></p>
 <p>查看最新数据，这个证书还有四十天过期</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent23.png" alt="图片" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent23.png" alt="图片"></p>
 <p>我是用的阿里云ssl证书，可以看到确实离过期时间还有四十天，今天是2021.3.7</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent24.png" alt="图片" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent24.png" alt="图片"></p>
 <p>可以创建一个触发器，在还有一个月的时候发送报警通知。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent25.png" alt="图片" loading="lazy"></p>
-</template>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/agent25.png" alt="图片"></p>
+</div></template>
+
+

@@ -1,4 +1,4 @@
-<template><h1 id="python-学习笔记" tabindex="-1"><a class="header-anchor" href="#python-学习笔记" aria-hidden="true">#</a> Python 学习笔记</h1>
+<template><div><h1 id="python-学习笔记" tabindex="-1"><a class="header-anchor" href="#python-学习笔记" aria-hidden="true">#</a> Python 学习笔记</h1>
 <h2 id="常用官网" tabindex="-1"><a class="header-anchor" href="#常用官网" aria-hidden="true">#</a> 常用官网</h2>
 <p><a href="https://docs.python.org/zh-cn/3/" target="_blank" rel="noopener noreferrer">官方文档<ExternalLinkIcon/></a> ⭐</p>
 <h2 id="python-教程" tabindex="-1"><a class="header-anchor" href="#python-教程" aria-hidden="true">#</a> Python 教程</h2>
@@ -35,4 +35,6 @@
 <p><a href="https://docs.djangoproject.com/zh-hans/" target="_blank" rel="noopener noreferrer">django<ExternalLinkIcon/></a> ⭐</p>
 <p><a href="https://www.liujiangblog.com/course/django/" target="_blank" rel="noopener noreferrer">Django教程 | 刘江<ExternalLinkIcon/></a> ⭐</p>
 <p><a href="https://pythondjango.cn/django/rest-framework-tutorials" target="_blank" rel="noopener noreferrer">Django REST Framework教程 | 大江狗<ExternalLinkIcon/></a> ⭐</p>
-</template>
+</div></template>
+
+

@@ -1,4 +1,4 @@
-<template><blockquote>
+<template><div><blockquote>
 <p>转载自： <a href="https://developer.aliyun.com/learning/course/572/detail/7866?accounttraceid=2703db7b0eea4ec5a775b5aaaca87dd5vtsl" target="_blank" rel="noopener noreferrer">理解CNI和CNI插件 | 阿里云原生<ExternalLinkIcon/></a></p>
 </blockquote>
 <h1 id="cni" tabindex="-1"><a class="header-anchor" href="#cni" aria-hidden="true">#</a> CNI</h1>
@@ -15,7 +15,7 @@
 <li>上步执行完之后，Pod 的网络就配置完成了。</li>
 </ol>
 <p>具体的流程如下图所示：</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351154-fa1f252a-61b8-48b9-a95f-092f9a48392d-20221122160459021.png" alt="img" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351154-fa1f252a-61b8-48b9-a95f-092f9a48392d-20221122160459021.png" alt="img"></p>
 <p>在集群里面创建一个 Pod 的时候，首先会通过 apiserver 将 Pod 的配置写入。apiserver 的一些管控组件（比如 Scheduler）会调度到某个具体的节点上去。Kubelet 监听到这个 Pod 的创建之后，会在本地进行一些创建的操作。当执行到创建网络这一步骤时，首先它会读取刚才我们所说的配置目录中的配置文件，配置文件里面会声明所使用的是哪一个插件，然后去执行具体的 CNI 插件的二进制文件，再由 CNI 插件进入 Pod 的网络空间去配置 Pod 的网络。配置完成之后，Kuberlet 也就完成了整个 Pod 的创建过程，这个 Pod 就在线了。</p>
 <h2 id="哪个-cni-插件适合我" tabindex="-1"><a class="header-anchor" href="#哪个-cni-插件适合我" aria-hidden="true">#</a> 哪个 CNI 插件适合我</h2>
 <p>通常来说，CNI 插件可以分为三种：Overlay、路由及 Underlay。</p>
@@ -24,7 +24,7 @@
 <li>overlay：flannel vxlan、calico ipip</li>
 <li>路由模式：calico bpg、flannel host-gw</li>
 </ul>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351147-0fabc723-8d47-4c85-98ab-1da2f88c5fd1-20221122155052943-20221122160459692.png" alt="img" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351147-0fabc723-8d47-4c85-98ab-1da2f88c5fd1-20221122155052943-20221122160459692.png" alt="img"></p>
 <ul>
 <li>
 <p><strong>Overlay 模式</strong>的典型特征是容器独立于主机的 IP 段，这个 IP 段进行跨主机网络通信时是通过在主机之间创建隧道的方式，将整个容器网段的包全都封装成底层的物理网络中主机之间的包。该方式的好处在于它不依赖于底层网络；</p>
@@ -39,5 +39,7 @@
 <blockquote>
 <p>专家说：路由模式其实属于 Underlay 模式的一种特例</p>
 </blockquote>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351164-abd9e024-8ce1-4f07-8f79-1ab2b2e4b989-20221122160500229.png" alt="img" loading="lazy"></p>
-</template>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351164-abd9e024-8ce1-4f07-8f79-1ab2b2e4b989-20221122160500229.png" alt="img"></p>
+</div></template>
+
+

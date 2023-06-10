@@ -1,4 +1,4 @@
-<template><p>subprocess模块允许你去创建一个新的进程让其执行另外的程序，并与它进行通信，获取标准的输入、标准输</p>
+<template><div><p>subprocess模块允许你去创建一个新的进程让其执行另外的程序，并与它进行通信，获取标准的输入、标准输</p>
 <p>出、标准错误以及返回码等。(使用这个模块之前先导入import subprocess)。</p>
 <p>subprocess模块打算来替代几个过时的模块和函数，比如： os.system, os.spawn*, os.popen*, popen2.*命令。</p>
 <p>让我们来看一下subprocess 有哪些不同的函数.</p>
@@ -7,10 +7,10 @@
 <p>我们可以用数组作为参数运行命令,也可以用字符串作为参数运行命令(通过设置参数shell=True)</p>
 <p>注意,参数shell默认为False</p>
 <p>我们用subprocess.call()来做一个查看文件的例子:</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"ls"</span><span class="token punctuation">,</span> <span class="token string">"-a"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>将上边的例子,把shell设置为True,就可以使用字符串了:</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token string">"ls -a"</span><span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="subprocess-call" tabindex="-1"><a class="header-anchor" href="#subprocess-call" aria-hidden="true">#</a> subprocess.call()</h3>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"ls"</span><span class="token punctuation">,</span> <span class="token string">"-a"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>将上边的例子,把shell设置为True,就可以使用字符串了:</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token string">"ls -a"</span><span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="subprocess-call" tabindex="-1"><a class="header-anchor" href="#subprocess-call" aria-hidden="true">#</a> subprocess.call()</h3>
 <p>父进程等待子进程完成</p>
 <p>返回退出信息(returncode，相当于Linux exit code)</p>
 <h3 id="subprocess-check-call" tabindex="-1"><a class="header-anchor" href="#subprocess-check-call" aria-hidden="true">#</a> subprocess.check_call()</h3>
@@ -24,7 +24,7 @@
 <p>检查退出信息，如果returncode不为0，则举出错误subprocess.CalledProcessError，该对象包含有returncode</p>
 <p>属性和output属性，output属性为标准输出的输出结果，可用try…except…来检查。</p>
 <p>这三个函数的使用方法相类似，下面来以subprocess.call()举例说明:</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> subprocess
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> subprocess
 
 <span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     retcode <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token string">"df -h"</span><span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
@@ -32,31 +32,31 @@
 
 <span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
     main<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="subprocess-popen" tabindex="-1"><a class="header-anchor" href="#subprocess-popen" aria-hidden="true">#</a> subprocess.Popen()</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="subprocess-popen" tabindex="-1"><a class="header-anchor" href="#subprocess-popen" aria-hidden="true">#</a> subprocess.Popen()</h2>
 <p>class Popen(args, bufsize=0, executable=None, stdin=None, stdout=None, stderr=None, preexec_fn=None, close_fds=False, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0)</p>
 <p>实际上，上面的几个函数都是基于Popen()的封装(wrapper)。这些封装的目的在于让我们容易使用子进程。当我</p>
 <p>们想要更个性化我们的需求的时候，就要转向Popen类，该类生成的对象用来代表子进程。</p>
 <p>与上面的封装不同，Popen对象创建后，主程序不会自动等待子进程完成。我们必须调用对象的wait()方法，父进</p>
 <p>程才会等待 (也就是阻塞block)，举例：</p>
 <p>代码如下:</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>>>> import subprocess
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>>>> import subprocess
 >>> child = subprocess.Popen(['ping','-c','4','www.baidu.com'])
 >>> print('parent process')
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>import subprocess
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>import subprocess
 child = subprocess.Popen(['ping','-c','4','www.baidu.com'])
 print('parent process')
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>从运行结果中看到，父进程在开启子进程之后并没有等待child的完成，而是直接运行print。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从运行结果中看到，父进程在开启子进程之后并没有等待child的完成，而是直接运行print。</p>
 <p>对比等待的情况:</p>
 <p>代码如下:</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>>>> import subprocess
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>>>> import subprocess
 >>> child = subprocess.Popen('ping -c 4 www.baidu.com',shell=True)
 >>> child.wait()
 >>> print('parent process')
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>import subprocess
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>import subprocess
 child = subprocess.Popen('ping -c 4 www.baidu.com',shell=True)
 child.wait()
 print('parent process')
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>从运行结果中看到，父进程在开启子进程之后并等待child的完成后，再运行print。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从运行结果中看到，父进程在开启子进程之后并等待child的完成后，再运行print。</p>
 <p>此外，你还可以在父进程中对子进程进行其它操作，比如我们上面例子中的child对象:代码如下:</p>
 <ul>
 <li>child.poll() # 检查子进程状态</li>
@@ -76,7 +76,7 @@ print('parent process')
 <p>可以在Popen()建立子进程的时候改变标准输入、标准输出和标准错误，并可以利用subprocess.PIPE将多个子进</p>
 <p>程的输入和输出连接在一起，构成管道(pipe)，如下2个例子：</p>
 <p>代码如下:</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>>>> import subprocess
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>>>> import subprocess
 >>> child1 = subprocess.Popen(["ls","-l"], stdout=subprocess.PIPE)
 >>> print child1.stdout.read(),
 >>> #或者child1.communicate()
@@ -85,7 +85,7 @@ print('parent process')
 >>> child2 = subprocess.Popen(["grep","0:0"],stdin=child1.stdout, stdout=subprocess.PIPE)
 >>> out = child2.communicate()
 >>> print(out)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>subprocess.PIPE实际上为文本流提供一个缓存区。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>subprocess.PIPE实际上为文本流提供一个缓存区。</p>
 <p>child1的stdout将文本输出到缓存区，随后child2的stdin从该PIPE中将文本读取走。</p>
 <p>child2的输出文本也被存放在PIPE中，直到communicate()方法从PIPE中读取出PIPE中的文本。</p>
 <blockquote>
@@ -101,4 +101,6 @@ print('parent process')
 <blockquote>
 <p>转载链接：https://blog.csdn.net/qq_34765864/article/details/91517246</p>
 </blockquote>
-</template>
+</div></template>
+
+

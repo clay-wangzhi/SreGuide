@@ -1,4 +1,4 @@
-<template><h1 id="并发" tabindex="-1"><a class="header-anchor" href="#并发" aria-hidden="true">#</a> 并发</h1>
+<template><div><h1 id="并发" tabindex="-1"><a class="header-anchor" href="#并发" aria-hidden="true">#</a> 并发</h1>
 <p><strong>并发和并行区别</strong></p>
 <p>并行，parallel
 同时做某些事，可以互不干扰的同一个时刻做几件事</p>
@@ -23,4 +23,6 @@
 线程就是省份，同一个进程内的线程可以共享进程的资源，每一个线程拥有自己独立的堆栈。</p>
 <p><strong>python 中的进程和线程</strong></p>
 <p>运行程序会启动一个解释器进程，线程共享一个解释器进程。</p>
-</template>
+</div></template>
+
+

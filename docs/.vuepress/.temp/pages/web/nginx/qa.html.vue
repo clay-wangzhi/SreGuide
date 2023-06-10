@@ -1,11 +1,11 @@
-<template><h1 id="_6-nginx的常见问题" tabindex="-1"><a class="header-anchor" href="#_6-nginx的常见问题" aria-hidden="true">#</a> 6. nginx的常见问题</h1>
+<template><div><h1 id="_6-nginx的常见问题" tabindex="-1"><a class="header-anchor" href="#_6-nginx的常见问题" aria-hidden="true">#</a> 6. nginx的常见问题</h1>
 <h2 id="nginx前面有多个反向代理时-proxy的正确设置" tabindex="-1"><a class="header-anchor" href="#nginx前面有多个反向代理时-proxy的正确设置" aria-hidden="true">#</a> nginx前面有多个反向代理时，proxy的正确设置</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#proxy_redirect off;
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#proxy_redirect off;
 #proxy_set_header Host $host
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>注释掉这两行，让它使用默认配置</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>注释掉这两行，让它使用默认配置</p>
 <h2 id="nginx解决跨域问题" tabindex="-1"><a class="header-anchor" href="#nginx解决跨域问题" aria-hidden="true">#</a> nginx解决跨域问题</h2>
 <p>在nginx.conf中编辑</p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
         <span class="token directive"><span class="token keyword">location</span> /</span> <span class="token punctuation">{</span>
             <span class="token directive"><span class="token keyword">root</span>   html</span><span class="token punctuation">;</span>
             <span class="token directive"><span class="token keyword">index</span>  index.html index.htm</span><span class="token punctuation">;</span>
@@ -13,13 +13,13 @@
             <span class="token directive"><span class="token keyword">add_header</span> <span class="token string">'Access-Control-Allow-Origin'</span> <span class="token string">'*'</span></span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
  <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="从http跳转到https" tabindex="-1"><a class="header-anchor" href="#从http跳转到https" aria-hidden="true">#</a> 从http跳转到https</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="从http跳转到https" tabindex="-1"><a class="header-anchor" href="#从http跳转到https" aria-hidden="true">#</a> 从http跳转到https</h2>
 <p>项目前期使用http，后期为了安全方面的考虑，启用了https。
 项目架构：前端使用nginx作为多个tomcat实例的反向代理和负载均衡。
 实际上只需要在nginx上启用https即可，使客户端与nginx之后使用https方式通信，而nginx与tomcat之间依然以http方式通信。</p>
 <p>现在需要将之前客户端所有的http请求全部都自动重定向为https，只需要在nginx上添加相应配置即可。</p>
 <h3 id="使用rewrite指令" tabindex="-1"><a class="header-anchor" href="#使用rewrite指令" aria-hidden="true">#</a> 使用rewrite指令</h3>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
     <span class="token directive"><span class="token keyword">listen</span> <span class="token number">80</span></span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server_name</span> domain.com</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">rewrite</span> ^(.*) https://<span class="token variable">$server_name</span><span class="token variable">$1</span> permanent</span><span class="token punctuation">;</span>
@@ -32,9 +32,9 @@
     <span class="token directive"><span class="token keyword">ssl_certificate_key</span> /etc/nginx/ssl/domain.com.crt</span><span class="token punctuation">;</span>
     <span class="token comment"># other</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
 <h3 id="使用return指令" tabindex="-1"><a class="header-anchor" href="#使用return指令" aria-hidden="true">#</a> 使用return指令</h3>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
     <span class="token directive"><span class="token keyword">listen</span> <span class="token number">80</span></span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server_name</span> domain.com</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">return</span> <span class="token number">301</span> https://<span class="token variable">$server_name</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
@@ -47,10 +47,10 @@
     <span class="token directive"><span class="token keyword">ssl_certificate_key</span> /etc/nginx/ssl/domain.com.crt</span><span class="token punctuation">;</span>
     <span class="token comment"># other</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果此时nginx作为Tomcat的前端反向代理的话，需要将相应配置放在配置ssl的server块中。</p>
 <h3 id="使用error-page指令" tabindex="-1"><a class="header-anchor" href="#使用error-page指令" aria-hidden="true">#</a> 使用error_page指令</h3>
 <p>只允许HTTP来访问时，用HTTP访问会让Nginx报497错误，然后利用error_page将链接重定向至HTTPS上。</p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
     <span class="token directive"><span class="token keyword">listen</span> <span class="token number">80</span></span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">listen</span> <span class="token number">443</span> ssl</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server_name</span> domain.com</span><span class="token punctuation">;</span>
@@ -60,55 +60,55 @@
     <span class="token comment"># other</span>
     <span class="token directive"><span class="token keyword">error_page</span> <span class="token number">497</span> https://<span class="token variable">$server_name</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
-<p>需要注意的是，此时需要将<code>error_page</code>指令语句写在最后，否则不能生效。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>使用error_page指令时，将http和https的监听配置写在同一个server块中，对应的其他配置也需要在该server配置块中完成。</p>
+<p>需要注意的是，此时需要将<code v-pre>error_page</code>指令语句写在最后，否则不能生效。</p>
 <h2 id="nginx出现403-forbidden的三种原因" tabindex="-1"><a class="header-anchor" href="#nginx出现403-forbidden的三种原因" aria-hidden="true">#</a> Nginx出现403 forbidden的三种原因</h2>
-<p>引起<code>nginx 403 forbidden</code>通常是三种情况：一是缺少主页文件，二是权限问题，三是<code>SELinux</code>状态。</p>
+<p>引起<code v-pre>nginx 403 forbidden</code>通常是三种情况：一是缺少主页文件，二是权限问题，三是<code v-pre>SELinux</code>状态。</p>
 <h3 id="缺少主页文件" tabindex="-1"><a class="header-anchor" href="#缺少主页文件" aria-hidden="true">#</a> 缺少主页文件</h3>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">{</span>
     <span class="token directive"><span class="token keyword">listen</span> <span class="token number">80</span></span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server_name</span> localhost</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">index</span> index.php index.html</span><span class="token punctuation">;</span>
     <span class="token comment"># index index.html index.htm;</span>
     <span class="token directive"><span class="token keyword">root</span> /clay/clay1/clay2/</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>如果在<code>/clay/clay1/clay2/</code>下面没有<code>index.php</code>或<code>index.html</code>的时候，直接文件，会报403 forbidden。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果在<code v-pre>/clay/clay1/clay2/</code>下面没有<code v-pre>index.php</code>或<code v-pre>index.html</code>的时候，直接文件，会报403 forbidden。</p>
 <blockquote>
-<p>当index文件问<code>index.html</code>时，index指令可以省略不写</p>
+<p>当index文件问<code v-pre>index.html</code>时，index指令可以省略不写</p>
 </blockquote>
 <h4 id="权限问题" tabindex="-1"><a class="header-anchor" href="#权限问题" aria-hidden="true">#</a> 权限问题</h4>
-<p>主要原因是<code>nginx</code>启动用户没有，查看主页文件的权限</p>
-<p>1）查看<code>nginx</code>启动用户</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"nginx: worker process"</span> <span class="token operator">|</span> <span class="token function">grep</span> -v <span class="token string">"grep"</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{ print $1 }'</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2）查看主页文件权限及递归查看主页文件所在目录权限</p>
+<p>主要原因是<code v-pre>nginx</code>启动用户没有，查看主页文件的权限</p>
+<p>1）查看<code v-pre>nginx</code>启动用户</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"nginx: worker process"</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> <span class="token string">"grep"</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{ print $1 }'</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>2）查看主页文件权限及递归查看主页文件所在目录权限</p>
 <ul>
 <li>
-<p>主页文件，<code>nginx</code>启动用户要有<code>r</code>权限，读取文件内容的权限</p>
+<p>主页文件，<code v-pre>nginx</code>启动用户要有<code v-pre>r</code>权限，读取文件内容的权限</p>
 </li>
 <li>
-<p>递归主页所在的目录，<code>nginx</code>启动用户要有<code>x</code>权限，可以访问目录的内容</p>
+<p>递归主页所在的目录，<code v-pre>nginx</code>启动用户要有<code v-pre>x</code>权限，可以访问目录的内容</p>
 <blockquote>
-<p>递归目录在上述配置文件中是指<code>/clay/</code>、<code>/clay/clay1/</code>、<code>/clay/clay1/clay2/</code>这三个目录</p>
+<p>递归目录在上述配置文件中是指<code v-pre>/clay/</code>、<code v-pre>/clay/clay1/</code>、<code v-pre>/clay/clay1/clay2/</code>这三个目录</p>
 </blockquote>
 </li>
 </ul>
-<h3 id="selinux为开启状态-enabled" tabindex="-1"><a class="header-anchor" href="#selinux为开启状态-enabled" aria-hidden="true">#</a> <code>SELinux</code>为开启状态(enabled)</h3>
-<p>1）查看当前<code>selinux</code>的状态</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>/usr/sbin/sestatus 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2）将<code>SELINUX=enforcing</code> 修改为 <code>SELINUX=disabled</code> 状态</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">vi</span> /etc/selinux/config
+<h3 id="selinux为开启状态-enabled" tabindex="-1"><a class="header-anchor" href="#selinux为开启状态-enabled" aria-hidden="true">#</a> <code v-pre>SELinux</code>为开启状态(enabled)</h3>
+<p>1）查看当前<code v-pre>selinux</code>的状态</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>/usr/sbin/sestatus 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>2）将<code v-pre>SELINUX=enforcing</code> 修改为 <code v-pre>SELINUX=disabled</code> 状态</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">vi</span> /etc/selinux/config
 
 <span class="token comment">#SELINUX=enforcing</span>
 <span class="token assign-left variable">SELINUX</span><span class="token operator">=</span>disabled
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>3）重启生效</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">reboot</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="通过nginx实现蓝绿发布" tabindex="-1"><a class="header-anchor" href="#通过nginx实现蓝绿发布" aria-hidden="true">#</a> 通过nginx实现蓝绿发布</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>3）重启生效</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">reboot</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="通过nginx实现蓝绿发布" tabindex="-1"><a class="header-anchor" href="#通过nginx实现蓝绿发布" aria-hidden="true">#</a> 通过nginx实现蓝绿发布</h2>
 <p>样例</p>
-<p><code>nginx.conf</code>通过两个子配置文件来实现</p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code>include conf.d/v1.conf
+<p><code v-pre>nginx.conf</code>通过两个子配置文件来实现</p>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code>include conf.d/v1.conf
 <span class="token comment">#include conf.d/v2.conf</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p><code>v1.conf</code></p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">upstream</span> app_v1</span> <span class="token punctuation">{</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>v1.conf</code></p>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">upstream</span> app_v1</span> <span class="token punctuation">{</span>
 	<span class="token directive"><span class="token keyword">server</span> 192.168.1.2:8080</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server</span> 192.168.1.3:8080</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -125,8 +125,8 @@
         <span class="token directive"><span class="token keyword">proxy_pass</span> http://<span class="token variable">$group</span></span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p><code>v2.conf</code></p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">upstream</span> app_v1</span> <span class="token punctuation">{</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>v2.conf</code></p>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">upstream</span> app_v1</span> <span class="token punctuation">{</span>
 	<span class="token directive"><span class="token keyword">server</span> 192.168.1.2:8080</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">server</span> 192.168.1.3:8080</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -143,13 +143,13 @@
         <span class="token directive"><span class="token keyword">proxy_pass</span> http://<span class="token variable">$group</span></span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>有的时候还是结合cookie进行使用</p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">if</span> (<span class="token variable">$http_cookie</span> ~* <span class="token string">"version=V1"</span>)</span> <span class="token punctuation">{</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>有的时候还是结合cookie进行使用</p>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">if</span> (<span class="token variable">$http_cookie</span> ~* <span class="token string">"version=V1"</span>)</span> <span class="token punctuation">{</span>
 	<span class="token directive"><span class="token keyword">set</span> <span class="token variable">$group</span> app_v1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析" tabindex="-1"><a class="header-anchor" href="#nginx-allow-多个ip-ipv4的网段表示方法解析" aria-hidden="true">#</a> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
-<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx<ExternalLinkIcon/></a>模块名<code>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="nginx-allow-多个ip-ipv4的网段表示方法解析" tabindex="-1"><a class="header-anchor" href="#nginx-allow-多个ip-ipv4的网段表示方法解析" aria-hidden="true">#</a> nginx allow 多个ip &amp; ipv4的网段表示方法解析</h2>
+<p>单看<a href="http://www.ttlsa.com/nginx/" target="_blank" rel="noopener noreferrer">nginx<ExternalLinkIcon/></a>模块名<code v-pre>ngx_http_access_module</code>,很多人一定很陌生，但是deny和allow相比没一个人不知道的，实际上deny和allow指令属于ngx_http_access_module.我们想控制某个uri或者一个路径不让人访问，在nginx就得靠它了。</p>
 <p>nginx的访问控制模块语法很简单，至少比apache好理解，apache的allow和deny的顺序让很多初学者抓头.好了具体看下这个插件的使用方法吧。</p>
 <h3 id="_1、安装模块" tabindex="-1"><a class="header-anchor" href="#_1、安装模块" aria-hidden="true">#</a> 1、安装模块</h3>
 <p>这个模块内置在了nginx中，除非你安装中使用了--without-http_access_module。如果你还没安装过nginx，那么请参考下ttlsa之前写的<a href="http://www.ttlsa.com/html/1548.html" target="_blank" rel="noopener noreferrer">nginx安装<ExternalLinkIcon/></a>.</p>
@@ -218,4 +218,6 @@ ip段：10.0.0.1-10.255.255.255    的表示方法：10.0.0.0/8</p>
 <p>255.255.255.240       /28</p>
 <p>255.255.255.248       /29</p>
 <p>255.255.255.252       /30</p>
-</template>
+</div></template>
+
+

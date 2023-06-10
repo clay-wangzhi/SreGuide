@@ -1,4 +1,4 @@
-<template><h1 id="_2-3-5-集合-set-字典-dict" tabindex="-1"><a class="header-anchor" href="#_2-3-5-集合-set-字典-dict" aria-hidden="true">#</a> 2.3.5 集合 set &amp; 字典 dict</h1>
+<template><div><h1 id="_2-3-5-集合-set-字典-dict" tabindex="-1"><a class="header-anchor" href="#_2-3-5-集合-set-字典-dict" aria-hidden="true">#</a> 2.3.5 集合 set &amp; 字典 dict</h1>
 <h2 id="集合-set" tabindex="-1"><a class="header-anchor" href="#集合-set" aria-hidden="true">#</a> 集合 set</h2>
 <p>集合，简称集。由任意个元素构成的集体。高级语言都实现了这个非常重要的数据结构类型。</p>
 <p>Python中，它是可变的、无序的、不重复的元素的集合。</p>
@@ -7,7 +7,7 @@
 <li>set() -&gt; new empty set object</li>
 <li>set(iterable) -&gt; new set object</li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>s1 <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>s1 <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 s2 <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 s3 <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># 报错</span>
 s4 <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token string">'abcdabcd'</span><span class="token punctuation">)</span>
@@ -15,7 +15,7 @@ s5 <span class="token operator">=</span> <span class="token punctuation">{</span
 s6 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">}</span>
 s7 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
 s8 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">}</span> <span class="token comment">#  报错</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="元素性质" tabindex="-1"><a class="header-anchor" href="#元素性质" aria-hidden="true">#</a> 元素性质</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="元素性质" tabindex="-1"><a class="header-anchor" href="#元素性质" aria-hidden="true">#</a> 元素性质</h3>
 <ul>
 <li>去重：在集合中，所有元素必须相异</li>
 <li>无序：因为无序，所以不可索引</li>
@@ -42,10 +42,10 @@ s8 <span class="token operator">=</span> <span class="token punctuation">{</span
 </ul>
 </li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>s <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>s <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 s<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 s<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="删除" tabindex="-1"><a class="header-anchor" href="#删除" aria-hidden="true">#</a> 删除</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="删除" tabindex="-1"><a class="header-anchor" href="#删除" aria-hidden="true">#</a> 删除</h3>
 <ul>
 <li>
 <p>remove(elem)</p>
@@ -75,13 +75,13 @@ s<span class="token punctuation">.</span>update<span class="token punctuation">(
 </ul>
 </li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>s <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>s <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 s<span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
 <span class="token comment">#s.remove(11) # KeyError为什么</span>
 s<span class="token punctuation">.</span>discard<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span>
 s<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>
 s<span class="token punctuation">.</span>clear<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="修改" tabindex="-1"><a class="header-anchor" href="#修改" aria-hidden="true">#</a> 修改</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="修改" tabindex="-1"><a class="header-anchor" href="#修改" aria-hidden="true">#</a> 修改</h3>
 <p>集合类型没有修改。因为元素唯一。如果元素能够加入到集合中，说明它和别的元素不一样。</p>
 <p>所谓修改，其实就是把当前元素改成一个完全不同的元素，就是删除加入新元素。</p>
 <h3 id="索引" tabindex="-1"><a class="header-anchor" href="#索引" aria-hidden="true">#</a> 索引</h3>
@@ -89,9 +89,9 @@ s<span class="token punctuation">.</span>clear<span class="token punctuation">(<
 <h3 id="遍历" tabindex="-1"><a class="header-anchor" href="#遍历" aria-hidden="true">#</a> 遍历</h3>
 <p>只要是容器，都可以遍历元素。但是效率都是O(n)</p>
 <h3 id="成员运算符-in" tabindex="-1"><a class="header-anchor" href="#成员运算符-in" aria-hidden="true">#</a> 成员运算符 in</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token keyword">in</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>上面2句代码，分别在列表和集合中搜索元素。如果列表和集合的元素都有100万个，谁的效率高？ 集合效率高</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>上面2句代码，分别在列表和集合中搜索元素。如果列表和集合的元素都有100万个，谁的效率高？ 集合效率高</p>
 <p>set、dict 使用 hash 表实现，内部使用 hash 值作为 key，时间复杂度为 O(1)，查询时间和数据规模无关，不会随着数据规模增大而搜索性能下降。</p>
 <h3 id="集合概念" tabindex="-1"><a class="header-anchor" href="#集合概念" aria-hidden="true">#</a> 集合概念</h3>
 <ul>
@@ -118,49 +118,49 @@ s<span class="token punctuation">.</span>clear<span class="token punctuation">(<
 <p>将两个集合A和B的所有的元素合并到一起，组成的集合称作集合A与集合B的并集</p>
 <ul>
 <li>union(*others) 返回和多个集合合并后的新的集合</li>
-<li><code>|</code> 运算符重载，等同 union</li>
+<li><code v-pre>|</code> 运算符重载，等同 union</li>
 <li>update(*others) 和多个集合合并，就地修改</li>
-<li><code>|=</code> 等同update</li>
+<li><code v-pre>|=</code> 等同update</li>
 </ul>
 <p><strong>交集</strong></p>
 <p>集合A和B，由所有属于A且属于B的元素组成的集合</p>
 <ul>
 <li>intersection(*others) 返回和多个集合的交集</li>
-<li><code>&amp;</code> 等同 intersection</li>
-<li><code>intersection_update(*others)</code> 获取和多个集合的交集，并就地修改</li>
-<li><code>&amp;=</code> 等同 intersection_update</li>
+<li><code v-pre>&amp;</code> 等同 intersection</li>
+<li><code v-pre>intersection_update(*others)</code> 获取和多个集合的交集，并就地修改</li>
+<li><code v-pre>&amp;=</code> 等同 intersection_update</li>
 </ul>
 <p><strong>差集</strong></p>
 <p>集合A和B，由所有属于A且不属于B的元素组成的集合</p>
 <ul>
 <li>
-<p><code>difference(*others)</code> 返回和多个集合的差集</p>
+<p><code v-pre>difference(*others)</code> 返回和多个集合的差集</p>
 </li>
 <li>
-<p><code>-</code> 等同difference</p>
+<p><code v-pre>-</code> 等同difference</p>
 </li>
 <li>
-<p><code>difference_update(*others) </code>获取和多个集合的差集并就地修改</p>
+<p><code v-pre>difference_update(*others) </code>获取和多个集合的差集并就地修改</p>
 </li>
 <li>
-<p><code>-=</code> 等同difference_update</p>
+<p><code v-pre>-=</code> 等同difference_update</p>
 </li>
 </ul>
 <p><strong>对称差集</strong></p>
 <p>集合A和B，由所有不属于A和B的交集元素组成的集合，记作（A-B）∪（B-A）</p>
 <ul>
-<li><code>symmetric_differece(other) </code>返回和另一个集合的对称差集</li>
-<li><code>^</code> 等同symmetric_differece</li>
-<li><code>symmetric_differece_update(other)</code> 获取和另一个集合的对称差集并就地修改</li>
-<li><code>^=</code> 等同symmetric_differece_update</li>
+<li><code v-pre>symmetric_differece(other) </code>返回和另一个集合的对称差集</li>
+<li><code v-pre>^</code> 等同symmetric_differece</li>
+<li><code v-pre>symmetric_differece_update(other)</code> 获取和另一个集合的对称差集并就地修改</li>
+<li><code v-pre>^=</code> 等同symmetric_differece_update</li>
 </ul>
 <p><strong>其它集合运算</strong></p>
 <ul>
-<li><code>issubset(other)、&lt;=</code> 判断当前集合是否是另一个集合的子集</li>
-<li><code>set1 &lt; set2</code> 判断set1是否是set2的真子集</li>
-<li><code>issuperset(other)、&gt;=</code> 判断当前集合是否是other的超集</li>
-<li><code>set1 &gt; set2</code> 判断set1是否是set2的真超集</li>
-<li><code>isdisjoint(other)</code> 当前集合和另一个集合没有交集，没有交集，返回True</li>
+<li><code v-pre>issubset(other)、&lt;=</code> 判断当前集合是否是另一个集合的子集</li>
+<li><code v-pre>set1 &lt; set2</code> 判断set1是否是set2的真子集</li>
+<li><code v-pre>issuperset(other)、&gt;=</code> 判断当前集合是否是other的超集</li>
+<li><code v-pre>set1 &gt; set2</code> 判断set1是否是set2的真超集</li>
+<li><code v-pre>isdisjoint(other)</code> 当前集合和另一个集合没有交集，没有交集，返回True</li>
 </ul>
 <h2 id="字典-dict" tabindex="-1"><a class="header-anchor" href="#字典-dict" aria-hidden="true">#</a> 字典 dict</h2>
 <p>Dict 即 Dictionary，也称为 mapping。</p>
@@ -169,21 +169,21 @@ value)组成的二元组。</p>
 <p>字典是可变的、无序的、key 不重复的 key-value 键值对集合。</p>
 <h3 id="初始化-1" tabindex="-1"><a class="header-anchor" href="#初始化-1" aria-hidden="true">#</a> 初始化</h3>
 <ul>
-<li><code>dict(**kwargs)</code> 使用 name=value 对初始化一个字典</li>
-<li><code>dict(iterable, **kwarg)</code> 使用可迭代对象和name=value对构造字典，不过可迭代对象的元素必须是一个二元结构</li>
-<li><code>dict(mapping, **kwarg)</code> 使用一个字典构建另一个字典</li>
+<li><code v-pre>dict(**kwargs)</code> 使用 name=value 对初始化一个字典</li>
+<li><code v-pre>dict(iterable, **kwarg)</code> 使用可迭代对象和name=value对构造字典，不过可迭代对象的元素必须是一个二元结构</li>
+<li><code v-pre>dict(mapping, **kwarg)</code> 使用一个字典构建另一个字典</li>
 </ul>
 <p>字典的初始化方法都非常常用，都需要会用</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>d1 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>d1 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 d2 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 d3 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>a<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">200</span><span class="token punctuation">)</span>
 d4 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>d3<span class="token punctuation">)</span> <span class="token comment"># 构造另外一个字典</span>
 d5 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>d4<span class="token punctuation">,</span> a<span class="token operator">=</span><span class="token number">300</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token number">400</span><span class="token punctuation">)</span>
 d6 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'abc'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">300</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token number">400</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 类方法dict.fromkeys(iterable, value)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 类方法dict.fromkeys(iterable, value)</span>
 d <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">.</span>fromkeys<span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 d <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">.</span>fromkeys<span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="元素访问" tabindex="-1"><a class="header-anchor" href="#元素访问" aria-hidden="true">#</a> 元素访问</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="元素访问" tabindex="-1"><a class="header-anchor" href="#元素访问" aria-hidden="true">#</a> 元素访问</h3>
 <ul>
 <li>d[key]
 <ul>
@@ -222,12 +222,12 @@ d <span class="token operator">=</span> <span class="token builtin">dict</span><
 </ul>
 </li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 d<span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
 d<span class="token punctuation">.</span>update<span class="token punctuation">(</span>red<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
 d<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 错误格式</span>
 d<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'red'</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="删除-1" tabindex="-1"><a class="header-anchor" href="#删除-1" aria-hidden="true">#</a> 删除</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="删除-1" tabindex="-1"><a class="header-anchor" href="#删除-1" aria-hidden="true">#</a> 删除</h3>
 <ul>
 <li>pop(key[, default])
 <ul>
@@ -250,20 +250,20 @@ d<span class="token punctuation">.</span>update<span class="token punctuation">(
 </ul>
 <h3 id="遍历-1" tabindex="-1"><a class="header-anchor" href="#遍历-1" aria-hidden="true">#</a> 遍历</h3>
 <p>1、遍历 Key</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">for</span> k <span class="token keyword">in</span> d<span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">for</span> k <span class="token keyword">in</span> d<span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span>
     
 <span class="token keyword">for</span> k <span class="token keyword">in</span> d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>2、遍历Value</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">for</span> v <span class="token keyword">in</span> d<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2、遍历Value</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">for</span> v <span class="token keyword">in</span> d<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
     
 <span class="token keyword">for</span> k <span class="token keyword">in</span> d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>get<span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>3、遍历Item</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">for</span> item <span class="token keyword">in</span> d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>3、遍历Item</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">for</span> item <span class="token keyword">in</span> d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> item<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
     
@@ -275,7 +275,7 @@ d<span class="token punctuation">.</span>update<span class="token punctuation">(
     
 <span class="token keyword">for</span> _<span class="token punctuation">,</span>v <span class="token keyword">in</span> d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>Python3 中，keys、values、items方法返回一个类似一个生成器的可迭代对象</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Python3 中，keys、values、items方法返回一个类似一个生成器的可迭代对象</p>
 <ul>
 <li>Dictionary view对象，可以使用len()、iter()、in操作</li>
 <li>字典的entry的动态的视图，字典变化，视图将反映出这些变化</li>
@@ -283,18 +283,18 @@ d<span class="token punctuation">.</span>update<span class="token punctuation">(
 </ul>
 <p>Python2 中，上面的方法会返回一个新的列表，立即占据新的内存空间。所以 Python2 建议使用 iterkeys、itervalues、iteritems 版本，返回一个迭代器，而不是返回一个copy</p>
 <h3 id="遍历与删除" tabindex="-1"><a class="header-anchor" href="#遍历与删除" aria-hidden="true">#</a> 遍历与删除</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 错误的做法</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 错误的做法</span>
 d <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
 <span class="token keyword">for</span> k<span class="token punctuation">,</span>v <span class="token keyword">in</span> d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在使用keys、values、items方法遍历的时候，不可以改变字典的size</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在使用keys、values、items方法遍历的时候，不可以改变字典的size</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>popitem<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     
 <span class="token keyword">while</span> d<span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>popitem<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>上面的 while 循环虽然可以移除字典元素，但是很少使用，不如直接 clear。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># for 循环正确删除</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面的 while 循环虽然可以移除字典元素，但是很少使用，不如直接 clear。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># for 循环正确删除</span>
 d <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
 keys <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
 <span class="token keyword">for</span> k<span class="token punctuation">,</span>v <span class="token keyword">in</span> d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -302,14 +302,14 @@ keys <span class="token operator">=</span> <span class="token punctuation">[</sp
     
 <span class="token keyword">for</span> k <span class="token keyword">in</span> keys<span class="token punctuation">:</span>
 	d<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>k<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="key" tabindex="-1"><a class="header-anchor" href="#key" aria-hidden="true">#</a> key</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="key" tabindex="-1"><a class="header-anchor" href="#key" aria-hidden="true">#</a> key</h3>
 <p>字典的 key 和 set 的元素要求一致</p>
 <ul>
 <li>set 的元素可以就是看做 key，set 可以看做 dict 的简化版</li>
 <li>hashable 可哈希才可以作为 key，可以使用 hash() 测试</li>
 <li>使用key访问，就如同列表使用index访问一样，时间复杂度都是O(1)，这也是最好的访问元素的方式</li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>d <span class="token operator">=</span> <span class="token punctuation">{</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>d <span class="token operator">=</span> <span class="token punctuation">{</span>
     <span class="token number">1</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token number">2.0</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
     <span class="token string">"abc"</span> <span class="token punctuation">:</span> <span class="token boolean">None</span><span class="token punctuation">,</span>
@@ -318,6 +318,8 @@ keys <span class="token operator">=</span> <span class="token punctuation">[</sp
 <span class="token punctuation">}</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="有序性" tabindex="-1"><a class="header-anchor" href="#有序性" aria-hidden="true">#</a> 有序性</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="有序性" tabindex="-1"><a class="header-anchor" href="#有序性" aria-hidden="true">#</a> 有序性</h3>
 <p>后续补充</p>
-</template>
+</div></template>
+
+

@@ -1,4 +1,4 @@
-<template><h1 id="_1-zabbix4-4新功能" tabindex="-1"><a class="header-anchor" href="#_1-zabbix4-4新功能" aria-hidden="true">#</a> 1 zabbix4.4新功能</h1>
+<template><div><h1 id="_1-zabbix4-4新功能" tabindex="-1"><a class="header-anchor" href="#_1-zabbix4-4新功能" aria-hidden="true">#</a> 1 zabbix4.4新功能</h1>
 <p>探索Zabbix4.4新功能</p>
 <blockquote>
 <p>https://www.zabbix.com/cn/whats_new_4_4</p>
@@ -165,4 +165,6 @@
 </li>
 </ul>
 <p>还有更多新功能! 有关新功能的完整列表，请参阅<a href="https://www.zabbix.com/rn/rn4.4.0" target="_blank" rel="noopener noreferrer">发布说明<ExternalLinkIcon/></a>.</p>
-</template>
+</div></template>
+
+

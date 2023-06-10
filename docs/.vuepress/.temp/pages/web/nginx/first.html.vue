@@ -1,6 +1,6 @@
-<template><h1 id="_1-初识nginx" tabindex="-1"><a class="header-anchor" href="#_1-初识nginx" aria-hidden="true">#</a> 1. 初识Nginx</h1>
+<template><div><h1 id="_1-初识nginx" tabindex="-1"><a class="header-anchor" href="#_1-初识nginx" aria-hidden="true">#</a> 1. 初识Nginx</h1>
 <h2 id="_1-nginx的三个主要应用场景" tabindex="-1"><a class="header-anchor" href="#_1-nginx的三个主要应用场景" aria-hidden="true">#</a> 1 Nginx的三个主要应用场景</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200102212417067.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200102212417067.png" alt=""></p>
 <p>三个主要应用场景为：</p>
 <ul>
 <li>静态资源服务（通过本地文件系统提供服务）</li>
@@ -40,13 +40,13 @@
 <p>加权轮询策略，顾名思义，就是在基本的轮询策略上考虑各后端节点接受请求的权重，指定各后端节点被轮询到的几率。</p>
 <p>加权轮询策略主要用于后端节点不均的情况。根据后端节点性能的实际情况，我们可以在Nginx服务器的配置文件中调整权值，使得整个网络对前端请求达到最佳的响应能力。</p>
 <p><strong>IP hash</strong></p>
-<p><code>IP hash</code>策略，是将前端的访问<code>IP</code>进行<code>hash</code>操作，然后根据<code>hash</code>结果将请求分配给不同的后端节点。</p>
+<p><code v-pre>IP hash</code>策略，是将前端的访问<code v-pre>IP</code>进行<code v-pre>hash</code>操作，然后根据<code v-pre>hash</code>结果将请求分配给不同的后端节点。</p>
 <p>事实上，这种策略可以看作是一种特殊的轮询策略。</p>
 <p>通过Nginx的实现，每个前端访问IP会固定访问一个后端节点。这样做的好处是避免考虑前端用户的session在后端多个节点上共享的问题。</p>
 <p><strong>url hash</strong></p>
-<p>扩展策略中的<code>url hash</code>在形式上和<code>IP hash</code>相近，不同之处在于，<code>IP hash</code>策略是对前端访问IP进行了hash操作，而<code>url hash</code>策略是对前端请求的<code>url</code>进行了<code>hash</code>操作。<code>url hash</code>策略的优点在于，如果后端有缓存服务器，它能够高缓存效率，同时也解决了<code>session</code>的问题；但其缺点是，如果后端节点出现异常，它不能自动排除该节点。后端节点出现异常会导致Nginx服务器返回503错误。</p>
+<p>扩展策略中的<code v-pre>url hash</code>在形式上和<code v-pre>IP hash</code>相近，不同之处在于，<code v-pre>IP hash</code>策略是对前端访问IP进行了hash操作，而<code v-pre>url hash</code>策略是对前端请求的<code v-pre>url</code>进行了<code v-pre>hash</code>操作。<code v-pre>url hash</code>策略的优点在于，如果后端有缓存服务器，它能够高缓存效率，同时也解决了<code v-pre>session</code>的问题；但其缺点是，如果后端节点出现异常，它不能自动排除该节点。后端节点出现异常会导致Nginx服务器返回503错误。</p>
 <p><strong>fair</strong></p>
-<p>扩展的第三方模块<code>fair</code>则是从另一个角度来实现Nginx服务器负载均衡策略的。该模块将前端请求转发到一个最近负载最小的后台节点。Nginx通过后端节点对请求的响应时间来判断负载情况。响应时间短的节点负载相对就轻。得出判断结果后，Nginx就将前端请求转发到选中的负载最轻的节点。</p>
+<p>扩展的第三方模块<code v-pre>fair</code>则是从另一个角度来实现Nginx服务器负载均衡策略的。该模块将前端请求转发到一个最近负载最小的后台节点。Nginx通过后端节点对请求的响应时间来判断负载情况。响应时间短的节点负载相对就轻。得出判断结果后，Nginx就将前端请求转发到选中的负载最轻的节点。</p>
 <p><strong>least_conn</strong></p>
 <p>最少连接</p>
 <h4 id="_1-1-2-web缓存" tabindex="-1"><a class="header-anchor" href="#_1-1-2-web缓存" aria-hidden="true">#</a> 1.1.2 Web缓存</h4>
@@ -88,17 +88,17 @@
 <li>由各模块源码编译出的一个文件</li>
 </ul>
 </li>
-<li><code>nginx.conf</code>配置文件
+<li><code v-pre>nginx.conf</code>配置文件
 <ul>
-<li>控制<code>nginx</code>的行为</li>
+<li>控制<code v-pre>nginx</code>的行为</li>
 </ul>
 </li>
-<li><code>access.log</code>访问日志
+<li><code v-pre>access.log</code>访问日志
 <ul>
 <li>记录每一条http请求信息</li>
 </ul>
 </li>
-<li><code>error.log</code>错误日志
+<li><code v-pre>error.log</code>错误日志
 <ul>
 <li>定位问题</li>
 </ul>
@@ -110,14 +110,14 @@
 <p>nginx下载地址：http://nginx.org/download/</p>
 <p>在官网找最新稳定版使用：http://nginx.org/en/download.html</p>
 </blockquote>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /opt
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /opt
 wget http://nginx.org/download/nginx-1.16.1.tar.gz
 tar -xvf nginx-1.16.1.tar.gz
 cd nginx-1.16.1/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_4-2-介绍各目录" tabindex="-1"><a class="header-anchor" href="#_4-2-介绍各目录" aria-hidden="true">#</a> 4.2 介绍各目录</h3>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># ls</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_4-2-介绍各目录" tabindex="-1"><a class="header-anchor" href="#_4-2-介绍各目录" aria-hidden="true">#</a> 4.2 介绍各目录</h3>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># ls</span>
 auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  <span class="token function">man</span>  README  src
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>auto：包含了很多会在执行configure进行编译配置时调用的检测代码。</p>
 </li>
@@ -137,9 +137,9 @@ auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  <span class=
 <p>contrib：网友贡献的一些有用脚本（对我来说，里面的vim设置很有用，README中有使用方法）。</p>
 <ul>
 <li>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>把contrib/vim下的文件移入~/.vim目录下，让vim识别nginx的配置文件节点；
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>把contrib/vim下的文件移入~/.vim目录下，让vim识别nginx的配置文件节点；
 cp -r contrib/vim/* ~/.vim
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div></li>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></li>
 </ul>
 </li>
 <li>
@@ -165,16 +165,16 @@ cp -r contrib/vim/* ~/.vim
 <p>rewrite模块需要pcre库</p>
 <p>ssl功能需要openssl库</p>
 </blockquote>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install gcc gcc-c++ make zlib-devel pcre-devel openssl-devel
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>然后运行<code>configure</code>文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># ./configure --help
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum -y install gcc gcc-c++ make zlib-devel pcre-devel openssl-devel
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后运行<code v-pre>configure</code>文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># ./configure --help
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li>--prefix ：指定安装目录</li>
 <li>--with：新增模块</li>
 <li>--without：删除默认模块</li>
 </ul>
 <p>运行期中与路径相关的各种参数</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>--prefix=PATH                        #指向安装目录
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>--prefix=PATH                        #指向安装目录
 --sbin-path=PATH                     #指向（执行）程序文件（nginx）
 --conf-path=PATH                     #指向配置文件（nginx.conf）
 --error-log-path=PATH                #指向错误日志目录
@@ -221,10 +221,10 @@ cp -r contrib/vim/* ~/.vim
 --with-perl_modules_path=            #设定perl模块路径
 --with-perl=                         #设定perl库文件路径
 --with-debug                         #启用debug日志
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br></div></div><p>安装额外的echo模块</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /opt
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>安装额外的echo模块</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /opt
 git clone https://github.com/openresty/echo-nginx-module
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>./configure \
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>./configure \
 --prefix=/etc/nginx \
 --sbin-path=/usr/sbin/nginx \
 --conf-path=/etc/nginx/nginx.conf \
@@ -268,27 +268,27 @@ git clone https://github.com/openresty/echo-nginx-module
 --with-ld-opt='-Wl,-z,relro -Wl,-z,now -pie' \
 --add-module=/opt/echo-nginx-module
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><p>执行完后，会生成<code>objs</code>目录</p>
-<p>目录下的关键文件<code>ngx_modules.c</code>，它决定了我们编译nginx时，哪些模块会被编译进nginx</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>执行完后，会生成<code v-pre>objs</code>目录</p>
+<p>目录下的关键文件<code v-pre>ngx_modules.c</code>，它决定了我们编译nginx时，哪些模块会被编译进nginx</p>
 <h3 id="_4-4-中间件介绍" tabindex="-1"><a class="header-anchor" href="#_4-4-中间件介绍" aria-hidden="true">#</a> 4.4 中间件介绍</h3>
-<p>中间件放在<code>objs/src</code>目下</p>
+<p>中间件放在<code v-pre>objs/src</code>目下</p>
 <h3 id="_4-5-编译" tabindex="-1"><a class="header-anchor" href="#_4-5-编译" aria-hidden="true">#</a> 4.5 编译</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>make -j 4
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>make -j 4
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li>-j 参数，指定编译时的CPU数量，可加快编译速度</li>
 </ul>
-<p>执行完后，在<code>objs</code>目录下生成二进制可执行文件</p>
+<p>执行完后，在<code v-pre>objs</code>目录下生成二进制可执行文件</p>
 <blockquote>
-<p>注意：如何这时，我们是升级nginx，现在就不需要<code>make install</code>了</p>
+<p>注意：如何这时，我们是升级nginx，现在就不需要<code v-pre>make install</code>了</p>
 </blockquote>
 <h3 id="_4-6-安装" tabindex="-1"><a class="header-anchor" href="#_4-6-安装" aria-hidden="true">#</a> 4.6 安装</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>make install
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>执行完成后，会在<code>--prefix</code>目录下生成四个目录，我这里是<code>/home/clay</code>目录下</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>make install
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>执行完成后，会在<code v-pre>--prefix</code>目录下生成四个目录，我这里是<code v-pre>/home/clay</code>目录下</p>
 <ul>
 <li>conf： 配置文件目录</li>
 <li>html：默认的静态页面存放目录</li>
 <li>logs：默认access和error  log存放目录</li>
-<li>sbin：二进制可执行文件<code>nginx</code>存放目录</li>
+<li>sbin：二进制可执行文件<code v-pre>nginx</code>存放目录</li>
 </ul>
 <blockquote>
 <p>安装nginx，个人还是推荐yum源安装（里面自动包含了日志切割等）</p>
@@ -297,15 +297,15 @@ git clone https://github.com/openresty/echo-nginx-module
 <h2 id="_5-nginx配置语法" tabindex="-1"><a class="header-anchor" href="#_5-nginx配置语法" aria-hidden="true">#</a> 5 Nginx配置语法</h2>
 <ol>
 <li>配置文件由指令与指令块构成</li>
-<li>每条指令以<code>;</code>分号结尾，指令与参数见以空格符号分隔</li>
-<li>指令块以<code>{ }</code>大括号将多条指令组织在一起</li>
-<li><code>include</code>语句允许组合多个配置文件以提升可维护性</li>
-<li>使用<code>#</code>符号添加注释，提高可读性</li>
-<li>使用<code>$</code>符号，使用变量</li>
+<li>每条指令以<code v-pre>;</code>分号结尾，指令与参数见以空格符号分隔</li>
+<li>指令块以<code v-pre>{ }</code>大括号将多条指令组织在一起</li>
+<li><code v-pre>include</code>语句允许组合多个配置文件以提升可维护性</li>
+<li>使用<code v-pre>#</code>符号添加注释，提高可读性</li>
+<li>使用<code v-pre>$</code>符号，使用变量</li>
 <li>部分指令的参数支持正则表达式</li>
 </ol>
 <p><strong>Example</strong></p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">http</span></span> <span class="token punctuation">{</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">http</span></span> <span class="token punctuation">{</span>
     <span class="token directive"><span class="token keyword">include</span> mime.types</span><span class="token punctuation">;</span>
     <span class="token directive"><span class="token keyword">upstream</span> thwp</span> <span class="token punctuation">{</span>
         <span class="token directive"><span class="token keyword">server</span> 127.0.0.1:8080</span><span class="token punctuation">;</span>
@@ -323,7 +323,7 @@ git clone https://github.com/openresty/echo-nginx-module
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="_5-1-配置参数" tabindex="-1"><a class="header-anchor" href="#_5-1-配置参数" aria-hidden="true">#</a> 5.1 配置参数</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-1-配置参数" tabindex="-1"><a class="header-anchor" href="#_5-1-配置参数" aria-hidden="true">#</a> 5.1 配置参数</h3>
 <h4 id="_5-1-1-时间单位" tabindex="-1"><a class="header-anchor" href="#_5-1-1-时间单位" aria-hidden="true">#</a> 5.1.1 时间单位</h4>
 <ul>
 <li>ms：milliseconds</li>
@@ -344,7 +344,7 @@ git clone https://github.com/openresty/echo-nginx-module
 </ul>
 <h2 id="_6-nginx配置文件结构" tabindex="-1"><a class="header-anchor" href="#_6-nginx配置文件结构" aria-hidden="true">#</a> 6 Nginx配置文件结构</h2>
 <p>nginx配置文件如下：</p>
-<div class="language-nginx ext-nginx line-numbers-mode"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">user</span> nginx</span><span class="token punctuation">;</span>
+<div class="language-nginx line-numbers-mode" data-ext="nginx"><pre v-pre class="language-nginx"><code><span class="token directive"><span class="token keyword">user</span> nginx</span><span class="token punctuation">;</span>
 <span class="token directive"><span class="token keyword">worker_processes</span> auto</span><span class="token punctuation">;</span>
 <span class="token directive"><span class="token keyword">error_log</span> /var/log/nginx/error.log</span><span class="token punctuation">;</span>
 <span class="token directive"><span class="token keyword">pid</span> /run/nginx.pid</span><span class="token punctuation">;</span>
@@ -381,11 +381,11 @@ git clone https://github.com/openresty/echo-nginx-module
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br></div></div><h3 id="_6-1-基本结构" tabindex="-1"><a class="header-anchor" href="#_6-1-基本结构" aria-hidden="true">#</a> 6.1 基本结构</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_6-1-基本结构" tabindex="-1"><a class="header-anchor" href="#_6-1-基本结构" aria-hidden="true">#</a> 6.1 基本结构</h3>
 <ol>
 <li>全局块</li>
-<li><code>events</code>块</li>
-<li><code>http</code>块</li>
+<li><code v-pre>events</code>块</li>
+<li><code v-pre>http</code>块</li>
 </ol>
 <p>在http块中，又包含http全局块、多个server块。</p>
 <p>每个server块中，可以包含server全局块和多个location块。</p>
@@ -413,68 +413,70 @@ git clone https://github.com/openresty/echo-nginx-module
 <p>每个server块中可以包含多个location块。从严格意义上说，location其实是server块的一个指令，只是由于其在整个Nginx配置文档中起着重要的作用，而且Nginx服务器在许多功能上的灵活性往往在location指令的配置中体现出来。</p>
 <h2 id="_7-nginx命令行" tabindex="-1"><a class="header-anchor" href="#_7-nginx命令行" aria-hidden="true">#</a> 7 Nginx命令行</h2>
 <ol>
-<li>格式：<code>nginx -s reload</code></li>
-<li>帮助：<code>-?</code> <code>-h</code></li>
-<li>使用指定的配置位置：<code>-c</code></li>
-<li>指定配置指令：<code>-g</code></li>
-<li>指定运行目录：<code>-p</code></li>
-<li>发送信号：<code>-s</code>
+<li>格式：<code v-pre>nginx -s reload</code></li>
+<li>帮助：<code v-pre>-?</code> <code v-pre>-h</code></li>
+<li>使用指定的配置位置：<code v-pre>-c</code></li>
+<li>指定配置指令：<code v-pre>-g</code></li>
+<li>指定运行目录：<code v-pre>-p</code></li>
+<li>发送信号：<code v-pre>-s</code>
 <ul>
-<li>立刻停止服务：<code>stop</code></li>
-<li>优雅的停止服务：<code>quit</code></li>
-<li>重载配置文件：<code>reload</code></li>
-<li>重新开始记录日志文件：<code>reopen</code></li>
+<li>立刻停止服务：<code v-pre>stop</code></li>
+<li>优雅的停止服务：<code v-pre>quit</code></li>
+<li>重载配置文件：<code v-pre>reload</code></li>
+<li>重新开始记录日志文件：<code v-pre>reopen</code></li>
 </ul>
 </li>
-<li>测试配置文件是否有语法错误：<code>-t</code> <code>-T</code></li>
-<li>打印<code>nginx</code>的版本信息、编译信息：<code>-v</code> <code>-V</code></li>
+<li>测试配置文件是否有语法错误：<code v-pre>-t</code> <code v-pre>-T</code></li>
+<li>打印<code v-pre>nginx</code>的版本信息、编译信息：<code v-pre>-v</code> <code v-pre>-V</code></li>
 </ol>
 <h3 id="_7-1-重载配置文件" tabindex="-1"><a class="header-anchor" href="#_7-1-重载配置文件" aria-hidden="true">#</a> 7.1 重载配置文件</h3>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>nginx -s reload
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_7-2-热部署" tabindex="-1"><a class="header-anchor" href="#_7-2-热部署" aria-hidden="true">#</a> 7.2  热部署</h3>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>nginx <span class="token parameter variable">-s</span> reload
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_7-2-热部署" tabindex="-1"><a class="header-anchor" href="#_7-2-热部署" aria-hidden="true">#</a> 7.2  热部署</h3>
 <p>只是更换二进制文件</p>
 <ol>
 <li>备份旧的nginx文件</li>
 </ol>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /home/clay/sbin/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /home/clay/sbin/
 cp nginx nginx.old
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>2）将新的编译好的二进制文件，替换掉现在正在运行的二进制文件</p>
-<p>首先重新编译出一个<code>nginx</code>二进制可执行文件，<code>./configure</code>然后<code>make</code>，千万不要<code>make install</code>，执行那<code>make</code>就可以了</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /opt/nginx-1.16.1/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>2）将新的编译好的二进制文件，替换掉现在正在运行的二进制文件</p>
+<p>首先重新编译出一个<code v-pre>nginx</code>二进制可执行文件，<code v-pre>./configure</code>然后<code v-pre>make</code>，千万不要<code v-pre>make install</code>，执行那<code v-pre>make</code>就可以了</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /opt/nginx-1.16.1/
 cp -f objs/nginx /home/clay/sbin/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>3）给master进程发送<code>USR2</code>信号</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># ps -ef|grep nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>3）给master进程发送<code v-pre>USR2</code>信号</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># ps -ef|grep nginx
 root      6159 57006  0 11:18 pts/0    00:00:00 grep --color=auto nginx
 root     63076     1  0 09:46 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
 nobody   63103 63076  0 09:46 ?        00:00:00 nginx: worker process
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># kill -USR2 63076
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># ps -ef|grep nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># kill -USR2 63076
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># ps -ef|grep nginx
 root      6216 63076  0 11:19 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
 nobody    6217  6216  0 11:19 ?        00:00:00 nginx: worker process
 root      6225 57006  0 11:19 pts/0    00:00:00 grep --color=auto nginx
 root     63076     1  0 09:46 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
 nobody   63103 63076  0 09:46 ?        00:00:00 nginx: worker process
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># netstat -nplt| grep 80
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># netstat -nplt| grep 80
 tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      6216/nginx: master  
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>4）关闭旧的woker进程，<code>kill -WINCH</code>旧的master进程号</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># kill -WINCH 63076
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>4）关闭旧的woker进程，<code v-pre>kill -WINCH</code>旧的master进程号</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># kill -WINCH 63076
 # ps -ef|grep nginx
 root      6216 63076  0 11:19 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
 nobody    6217  6216  0 11:19 ?        00:00:00 nginx: worker process
 root      6842 57006  0 11:28 pts/0    00:00:00 grep --color=auto nginx
 root     63076     1  0 09:46 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>5）关闭旧的master进程，<code>kill -QUIT</code>旧的master进程号</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># kill -QUIT 63076
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>5）关闭旧的master进程，<code v-pre>kill -QUIT</code>旧的master进程号</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># kill -QUIT 63076
 # ps -ef|grep nginx
 root      6216     1  0 11:19 ?        00:00:00 nginx: master process /home/clay/sbin/nginx
 nobody    6217  6216  0 11:19 ?        00:00:00 nginx: worker process
 root      6947 57006  0 11:30 pts/0    00:00:00 grep --color=auto nginx
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="_7-3-切割日志文件" tabindex="-1"><a class="header-anchor" href="#_7-3-切割日志文件" aria-hidden="true">#</a> 7.3 切割日志文件</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_7-3-切割日志文件" tabindex="-1"><a class="header-anchor" href="#_7-3-切割日志文件" aria-hidden="true">#</a> 7.3 切割日志文件</h3>
 <p>1）mv掉原来的日志</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mv access.log access.log.bak
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2）重新打开日志文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>nginx -s reopen
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><strong>简单说明一下：</strong></p>
-<p>1、在没有执行kill -USR1 <code>cat ${pid_path}</code>之前，即便已经对文件执行了mv命令也只是改变了文件的名称，nginx还是会向新命名的文件” access.log.20161024”中照常写入日志数据。原因在于linux系统中，内核是根据文件描述符来找文件的</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mv access.log access.log.bak
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>2）重新打开日志文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>nginx -s reopen
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>简单说明一下：</strong></p>
+<p>1、在没有执行kill -USR1 <code v-pre>cat ${pid_path}</code>之前，即便已经对文件执行了mv命令也只是改变了文件的名称，nginx还是会向新命名的文件” access.log.20161024”中照常写入日志数据。原因在于linux系统中，内核是根据文件描述符来找文件的</p>
 <p>2、USR1是自定义信号，也就是进程编写者自己确定收到这个信号该干什么。而在nginx中它自己编写了代码当接到USR1信号的时候让nginx重新打开日志文件（重新打开的日志就是配置文件中设置的位置和名称）。</p>
-</template>
+</div></template>
+
+

@@ -1,14 +1,14 @@
-<template><h1 id="_2-zabbix借助ansible安装" tabindex="-1"><a class="header-anchor" href="#_2-zabbix借助ansible安装" aria-hidden="true">#</a> 2 zabbix借助ansible安装</h1>
+<template><div><h1 id="_2-zabbix借助ansible安装" tabindex="-1"><a class="header-anchor" href="#_2-zabbix借助ansible安装" aria-hidden="true">#</a> 2 zabbix借助ansible安装</h1>
 <h2 id="zabbix-server安装" tabindex="-1"><a class="header-anchor" href="#zabbix-server安装" aria-hidden="true">#</a> zabbix-server安装</h2>
 <ol>
 <li>下载roles</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-server
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-server
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="2">
 <li>编写playbook</li>
 </ol>
-<p><code>vim new-zabbix-server.yml</code></p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>---
+<p><code v-pre>vim new-zabbix-server.yml</code></p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>---
 - hosts: zabbix-server
   become: <span class="token function">yes</span>
   vars:
@@ -57,11 +57,11 @@
     - role: geerlingguy.apache
     - role: dj-wasabi.zabbix-server
     - role: dj-wasabi.zabbix-web
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br></div></div><ol start="3">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>安装zabbix-server</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-server.yml
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="4">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ansible-playbook <span class="token parameter variable">-i</span> inventory/zabbix.yml new-zabbix-server.yml
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="4">
 <li>
 <p>优化</p>
 <p>优化磁盘，去除atime</p>
@@ -75,12 +75,12 @@
 <ol>
 <li>下载roles</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-proxy
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-proxy
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="2">
 <li>编写playbook</li>
 </ol>
-<p><code>vim new-zabbix-proxy.yml</code></p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>---
+<p><code v-pre>vim new-zabbix-proxy.yml</code></p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>---
 - hosts: zabbix-proxy
   become: <span class="token function">yes</span>
   vars:
@@ -115,11 +115,11 @@
   roles:
     - role: geerlingguy.mysql
     - role: dj-wasabi.zabbix-proxy
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br></div></div><ol start="3">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>安装zabbix-proxy</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>ansible-playbook -i inventory/zabbix.yml new-zabbix-proxy.yml
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="4">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ansible-playbook <span class="token parameter variable">-i</span> inventory/zabbix.yml new-zabbix-proxy.yml
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="4">
 <li>
 <p>将zabbix-proxy添加到zabbix-server中</p>
 <ol>
@@ -130,7 +130,7 @@
 <p>) 填写Proxy name为主机名称，Proxy mode为Active，然后Add。</p>
 <blockquote>
 <p>过几十秒，看看proxy是否添加成功，查看proxy和server日志，如无成功，将proxy和server端重启一下；</p>
-<p>proxy name一定要和配置文件中<code>/etc/zabbix/zabbix_proxy.conf</code>的<code>Hostname</code>一致。</p>
+<p>proxy name一定要和配置文件中<code v-pre>/etc/zabbix/zabbix_proxy.conf</code>的<code v-pre>Hostname</code>一致。</p>
 </blockquote>
 </li>
 </ol>
@@ -140,12 +140,12 @@
 <ol>
 <li>下载roles</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-agent
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ansible-galaxy <span class="token function">install</span> dj-wasabi.zabbix-agent
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="2">
 <li>编写playbook</li>
 </ol>
-<p><code>vim new-zabbix-agent.yml</code></p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>---
+<p><code v-pre>vim new-zabbix-agent.yml</code></p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>---
 - hosts: zabbix-server
   vars:
     zabbix_version: <span class="token number">4.4</span>
@@ -211,7 +211,7 @@
       - Template OS Linux by Zabbix agent active
   roles:
     - role: dj-wasabi.zabbix-agent
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br></div></div><ol start="3">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>
 <p>修改roles，添加tags</p>
 <p>由于添加监控的主机数以千计，所以必须ansible执行playbook时，必须跳过不必要的判断，这样能大大减少playbook的执行时间，提高执行效率。</p>
@@ -219,8 +219,8 @@
 </ol>
 <ul>
 <li>
-<p>修改<code>/dj-wasabi.zabbix-agent/tasks/main.yml</code>，给每个操作系统添加tags，例如</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>- name: "Install the correct repository"
+<p>修改<code v-pre>/dj-wasabi.zabbix-agent/tasks/main.yml</code>，给每个操作系统添加tags，例如</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>- name: "Install the correct repository"
   include: "Debian.yml"
   when:
     - zabbix_agent_os_family == "Debian"
@@ -231,19 +231,19 @@
     - config
     - service
     - debian
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
 <p>最后的debian是新增的。</p>
 </blockquote>
 </li>
 <li>
-<p>修改<code>dj-wasabi.zabbix-agent/tasks/Linux.yml</code>，给DOcker增加tags，如下：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>- name: "Install the Docker container"
+<p>修改<code v-pre>dj-wasabi.zabbix-agent/tasks/Linux.yml</code>，给DOcker增加tags，如下：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>- name: "Install the Docker container"
   include: Docker.yml
   when:
     - zabbix_agent_docker | bool
   tags:
     - docker
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
 <p>最后两行是新增的。</p>
 </blockquote>
 </li>
@@ -251,8 +251,8 @@
 <ol start="4">
 <li>安装</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code> ansible-playbook -i inventory/zabbix.yml new-zabbix-agent.yml -l <span class="token number">192.168</span>.163.150 --skip-tags <span class="token string">"sangoma,debian,suse,windows,docker"</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><blockquote>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code> ansible-playbook <span class="token parameter variable">-i</span> inventory/zabbix.yml new-zabbix-agent.yml <span class="token parameter variable">-l</span> <span class="token number">192.168</span>.163.150 --skip-tags <span class="token string">"sangoma,debian,suse,windows,docker"</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><blockquote>
 <p>每次新增zabbix-agent，最后安装完成，重启一下zabbix-proxy，这样proxy会尽快发现agent节点</p>
 </blockquote>
 <ol start="5">
@@ -268,4 +268,6 @@
 <p>主动式的缺点，主机宕机，知道的时间不及时，好像是30分钟。</p>
 </li>
 </ol>
-</template>
+</div></template>
+
+

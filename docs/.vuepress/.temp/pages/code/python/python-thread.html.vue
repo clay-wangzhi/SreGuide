@@ -1,4 +1,4 @@
-<template><h1 id="_10-2-多线程" tabindex="-1"><a class="header-anchor" href="#_10-2-多线程" aria-hidden="true">#</a> 10.2 多线程</h1>
+<template><div><h1 id="_10-2-多线程" tabindex="-1"><a class="header-anchor" href="#_10-2-多线程" aria-hidden="true">#</a> 10.2 多线程</h1>
 <h2 id="线程的状态" tabindex="-1"><a class="header-anchor" href="#线程的状态" aria-hidden="true">#</a> 线程的状态</h2>
 <ul>
 <li>就绪（Ready）：线程能够运行，但在等待被调度。可能线程刚刚创建启动，或刚刚从阻塞中恢复，或者被其他线程抢占</li>
@@ -6,7 +6,7 @@
 <li>阻塞（Blocked）：线程等待外部事件发生而无法运行，如 I/O 操作</li>
 <li>终止（Terminated）：线程完成，或退出，或被取消</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/thread.png" alt="thread" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/thread.png" alt="thread"></p>
 <h2 id="python的线程开发" tabindex="-1"><a class="header-anchor" href="#python的线程开发" aria-hidden="true">#</a> Python的线程开发</h2>
 <p>Python 的线程开发使用标准库 threading。</p>
 <p>进程靠线程执行代码，至少有一个<strong>主线程</strong>，其它线程是工作线程。
@@ -14,9 +14,9 @@
 <p>父线程：如果线程A中启动了一个线程B，A就是B的父线程。
 子线程：B就是A的子线程。</p>
 <h3 id="thread类" tabindex="-1"><a class="header-anchor" href="#thread类" aria-hidden="true">#</a> Thread类</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 签名</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 签名</span>
 <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> group<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> target<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> kwargs<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">,</span> daemon<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><table>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><table>
 <thead>
 <tr>
 <th>参数名</th>
@@ -43,7 +43,7 @@
 </tbody>
 </table>
 <h3 id="线程启动" tabindex="-1"><a class="header-anchor" href="#线程启动" aria-hidden="true">#</a> 线程启动</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 
 <span class="token comment"># 最简单的线程程序</span>
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -52,12 +52,12 @@
     
 t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'worker'</span><span class="token punctuation">)</span> <span class="token comment"># 线程对象</span>
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 启动</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>通过threading.Thread创建一个线程对象，target是目标函数，可以使用name为线程指定名称。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>通过threading.Thread创建一个线程对象，target是目标函数，可以使用name为线程指定名称。
 但是线程没有启动，需要调用start方法。</p>
 <p>线程之所以执行函数，是因为线程中就是要执行代码的，而最简单的代码封装就是函数，所以还是函数调用。
 函数执行完，线程也就退出了。
 那么，如果不让线程退出，或者让线程一直工作怎么办呢？</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -68,11 +68,11 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
     
 t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'worker'</span><span class="token punctuation">)</span> <span class="token comment"># 线程对象</span>
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 启动</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h3 id="线程退出" tabindex="-1"><a class="header-anchor" href="#线程退出" aria-hidden="true">#</a> 线程退出</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="线程退出" tabindex="-1"><a class="header-anchor" href="#线程退出" aria-hidden="true">#</a> 线程退出</h3>
 <p>Python没有提供线程退出的方法，线程在下面情况时退出
 1、线程函数内语句执行完毕
 2、线程函数中抛出未处理的异常</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -88,9 +88,9 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
 t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'worker'</span><span class="token punctuation">)</span>
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'='</span> <span class="token operator">*</span> <span class="token number">30</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>Python的线程没有优先级、没有线程组的概念，也不能被销毁、停止、挂起，那也就没有恢复、中断了。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Python的线程没有优先级、没有线程组的概念，也不能被销毁、停止、挂起，那也就没有恢复、中断了。</p>
 <h3 id="线程的传参" tabindex="-1"><a class="header-anchor" href="#线程的传参" aria-hidden="true">#</a> 线程的传参</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -106,7 +106,7 @@ time<span class="token punctuation">.</span>sleep<span class="token punctuation"
 
 t3 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>add<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'add'</span><span class="token punctuation">,</span> kwargs<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'x'</span><span class="token punctuation">:</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">:</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
 t3<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>线程传参和函数传参没什么区别，本质上就是函数传参。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>线程传参和函数传参没什么区别，本质上就是函数传参。</p>
 <h3 id="threading-的属性和方法" tabindex="-1"><a class="header-anchor" href="#threading-的属性和方法" aria-hidden="true">#</a> threading 的属性和方法</h3>
 <table>
 <thead>
@@ -139,7 +139,7 @@ t3<span class="token punctuation">.</span>start<span class="token punctuation">(
 </tbody>
 </table>
 <p>active_count、enumerate 方法返回的值还包括主线程。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">showtreadinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -159,7 +159,7 @@ showtreadinfo<span class="token punctuation">(</span><span class="token punctuat
 time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 启动</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'===end==='</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h3 id="thread-实例的属性和方法" tabindex="-1"><a class="header-anchor" href="#thread-实例的属性和方法" aria-hidden="true">#</a> Thread 实例的属性和方法</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="thread-实例的属性和方法" tabindex="-1"><a class="header-anchor" href="#thread-实例的属性和方法" aria-hidden="true">#</a> Thread 实例的属性和方法</h3>
 <table>
 <thead>
 <tr>
@@ -183,7 +183,7 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
 </tbody>
 </table>
 <p>注意：线程的name这是一个名称，可以重复；ID必须唯一，但可以在线程退出后再利用。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -206,7 +206,7 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
     <span class="token keyword">if</span> <span class="token keyword">not</span> t<span class="token punctuation">.</span>is_alive<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'{} restart'</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span>
         t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 线程重启？？ 报错 线程只可以启动一次</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><table>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><table>
 <thead>
 <tr>
 <th>名称</th>
@@ -226,7 +226,7 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
 </table>
 <p>为了演示，派生一个Thread的子类</p>
 <p><strong>start  方法</strong></p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -256,8 +256,8 @@ i am working
 i am working
 i am working
 finished
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p><strong>run 方法</strong></p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>run 方法</strong></p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -287,11 +287,11 @@ i am working
 i am working
 i am working
 finished
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p>start() 方法会调用 run() 方法，而 run() 方法可以运行函数。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>start() 方法会调用 run() 方法，而 run() 方法可以运行函数。
 这两个方法看似功能重复了，这么看来留一个方法就可以了。是这样吗？</p>
 <p><strong>start和run的区别</strong></p>
 <p>在线程函数中，增加打印线程的名字的语句，看看能看到什么信息。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -313,11 +313,11 @@ finished
 t <span class="token operator">=</span> MyThread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'worker'</span><span class="token punctuation">)</span>
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token comment"># t.run() # 分别执行start或者run方法</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><p>使用start方法启动线程，启动了一个新的线程，名字叫做worker运行。但是使用run方法的，并没有启动新的线程，就是在主线程中调用了一个普通的函数而已。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>使用start方法启动线程，启动了一个新的线程，名字叫做worker运行。但是使用run方法的，并没有启动新的线程，就是在主线程中调用了一个普通的函数而已。</p>
 <p>因此，启动线程请使用start方法，且对于这个线程来说，start方法只能调用一次。（设置_started属性实现）</p>
 <h2 id="多线程" tabindex="-1"><a class="header-anchor" href="#多线程" aria-hidden="true">#</a> 多线程</h2>
 <p>顾名思义，多个线程，一个进程中如果有多个线程运行，就是多线程，实现一种并发。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -340,8 +340,8 @@ t1 <span class="token operator">=</span> MyThread<span class="token punctuation"
 t2 <span class="token operator">=</span> MyThread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">'worker2'</span><span class="token punctuation">)</span>
 t1<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 t2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><p>可以看到 worker1 和 worker2 交替执行，改成 run 方法试试看</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以看到 worker1 和 worker2 交替执行，改成 run 方法试试看</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -366,7 +366,7 @@ t2 <span class="token operator">=</span> MyThread<span class="token punctuation"
 <span class="token comment"># t2.start()</span>
 t1<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">)</span>
 t2<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>没有开新的线程，这就是普通函数调用，所以执行完 t1.run() ，然后执行 t2.run() ，这里就不是多线程。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>没有开新的线程，这就是普通函数调用，所以执行完 t1.run() ，然后执行 t2.run() ，这里就不是多线程。
 当使用 start 方法启动线程后，进程内有多个活动的线程并行的工作，就是多线程。</p>
 <p>一个进程中至少有一个线程，并作为程序的入口，这个线程就是主线程。
 一个进程至少有一个主线程。
@@ -377,17 +377,17 @@ t2<span class="token punctuation">.</span>run<span class="token punctuation">(</
 <h2 id="deamon-线程" tabindex="-1"><a class="header-anchor" href="#deamon-线程" aria-hidden="true">#</a> deamon 线程</h2>
 <p>注：有人翻译成后台线程，也有人翻译成守护线程。</p>
 <p>Python中，构造线程的时候，可以设置daemon属性，这个属性必须在start方法前设置好。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 源码Thread的__init__方法中</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 源码Thread的__init__方法中</span>
 <span class="token keyword">if</span> daemon <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
 	self<span class="token punctuation">.</span>_daemonic <span class="token operator">=</span> daemon <span class="token comment"># 用户设定bool值</span>
 <span class="token keyword">else</span><span class="token punctuation">:</span>
 	self<span class="token punctuation">.</span>_daemonic <span class="token operator">=</span> current_thread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>daemon
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>线程daemon属性，如果设定就是用户的设置，否则就取当前线程的daemon值。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>线程daemon属性，如果设定就是用户的设置，否则就取当前线程的daemon值。
 主线程是non-daemon线程，即daemon = False。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">_MainThread</span><span class="token punctuation">(</span>Thread<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">_MainThread</span><span class="token punctuation">(</span>Thread<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
     	Thread<span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"MainThread"</span><span class="token punctuation">,</span> daemon<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
 <span class="token keyword">import</span> threading
 
 <span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -400,7 +400,7 @@ t <span class="token operator">=</span> threading<span class="token punctuation"
 t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Main Thread Exits'</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>发现线程t依然执行，主线程已经执行完，但是一直等着线程 t。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>发现线程t依然执行，主线程已经执行完，但是一直等着线程 t。
 修改为  t = threading.Thread(target=foo, daemon=True)  试一试，结果程序立即结束了，进程根本没有等daemon 线程t。</p>
 <table>
 <thead>
@@ -425,7 +425,7 @@ t<span class="token punctuation">.</span>start<span class="token punctuation">(<
 </tbody>
 </table>
 <p>看一个例子，，看看主线程何时结束 daemon 线程</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
 <span class="token keyword">import</span> threading
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> timeout<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -440,7 +440,7 @@ t2 <span class="token operator">=</span> threading<span class="token punctuation
 t2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Main Thread Exits'</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>上例说明，如果除主线程之外还有 non-daemon 线程的时候，主线程退出时，进程也不会杀掉所有 daemon 线程，直到所有 non-daemon 线程全部结束，如果还有 daemon 线程，主线程需要退出（主线程退出也可以理解为最后一个non-daemon线程也要退出了），进程会结束所有 daemon 线程，程序退出。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例说明，如果除主线程之外还有 non-daemon 线程的时候，主线程退出时，进程也不会杀掉所有 daemon 线程，直到所有 non-daemon 线程全部结束，如果还有 daemon 线程，主线程需要退出（主线程退出也可以理解为最后一个non-daemon线程也要退出了），进程会结束所有 daemon 线程，程序退出。</p>
 <p><strong>总结</strong></p>
 <ul>
 <li>线程具有一个daemon属性，可以手动设置为True或False，也可以不设置，则取默认值None</li>
@@ -451,7 +451,7 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
 </ul>
 <h2 id="join-方法" tabindex="-1"><a class="header-anchor" href="#join-方法" aria-hidden="true">#</a> join 方法</h2>
 <p>先看一个简单的例子，看看效果</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
 <span class="token keyword">import</span> threading
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> timeout<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -463,8 +463,8 @@ t1<span class="token punctuation">.</span>start<span class="token punctuation">(
 t1<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment"># 设置join，取消join对比一下</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Main Thread Exits'</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>使用了 join 方法后，当前线程阻塞了，daemon 线程执行完了，主线程才退出了。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>使用了 join 方法后，当前线程阻塞了，daemon 线程执行完了，主线程才退出了。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> time
 <span class="token keyword">import</span> threading
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> timeout<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -479,7 +479,7 @@ t1<span class="token punctuation">.</span>join<span class="token punctuation">(<
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'~~~~~~~~~~~'</span><span class="token punctuation">)</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Main Thread Exits'</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><code>join(timeout=None)</code></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>join(timeout=None)</code></p>
 <ul>
 <li>join 方法是线程的标准方法之一</li>
 <li>一个线程中调用另一个线程的 join 方法，调用者将被阻塞，直到被调用线程终止，或阻塞超时</li>
@@ -498,7 +498,7 @@ t1<span class="token punctuation">.</span>join<span class="token punctuation">(<
 比如，开启一个线程定时判断WEB服务是否正常工作，主线程退出，工作线程也没有必须存在了，应该随着主线程退出一起退出。这种daemon线程一旦创建，就可以忘记它了，只用关心主线程什么时候退出就行了。</p>
 <p>daemon线程，简化了程序员手动关闭线程的工作。</p>
 <h2 id="threading-local-类" tabindex="-1"><a class="header-anchor" href="#threading-local-类" aria-hidden="true">#</a> threading.local 类</h2>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -510,10 +510,10 @@ t1<span class="token punctuation">.</span>join<span class="token punctuation">(<
     
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>上例使用多线程，每个线程完成不同的计算任务。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例使用多线程，每个线程完成不同的计算任务。
 x是局部变量，可以看出每一个线程的x是独立的，互不干扰的，为什么？</p>
 <p>能否改造成使用全局变量完成？</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
@@ -532,10 +532,10 @@ global_data <span class="token operator">=</span> A<span class="token punctuatio
 
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>上例虽然使用了全局对象，但是线程之间互相干扰，导致了不期望的结果。<strong>线程不安全</strong>。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例虽然使用了全局对象，但是线程之间互相干扰，导致了不期望的结果。<strong>线程不安全</strong>。</p>
 <p>能不能既使用全局对象，还能保持每个线程使用不同的数据呢？</p>
 <p>python 提供 threading.local 类，将这个类实例化得到一个全局对象，但是不同的线程使用这个对象存储的数据其他线程看不见。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
 
 <span class="token comment"># 全局对象</span>
@@ -550,9 +550,9 @@ global_data <span class="token operator">=</span> threading<span class="token pu
 
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>结果显示和使用局部变量的效果一样。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>结果显示和使用局部变量的效果一样。</p>
 <p>再看 threading.local 的例子</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 
 X <span class="token operator">=</span> <span class="token string">'abc'</span>
 global_data <span class="token operator">=</span> threading<span class="token punctuation">.</span>local<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 注意这个对象所处的线程</span>
@@ -568,16 +568,18 @@ global_data<span class="token punctuation">.</span>x <span class="token operator
 worker<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 普通函数调用</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'-'</span> <span class="token operator">*</span> <span class="token number">30</span><span class="token punctuation">)</span>
 threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 启动一个线程</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>从运行结果来看，另起一个线程打印 global_data.x 出错了。</p>
-<p><code>AttributeError: '_thread._local' object has no attribute 'x'</code></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从运行结果来看，另起一个线程打印 global_data.x 出错了。</p>
+<p><code v-pre>AttributeError: '_thread._local' object has no attribute 'x'</code></p>
 <p>但是，global_data 打印没有出错，说明看到 global_data，但是 global_data 中的 x 看不到，这个 x 不能跨线程。
 threading.local类构建了一个大字典，存放所有线程相关的字典，定义如下：
-<code>{ id(Thread) -&gt; (ref(Thread), thread-local dict) }</code></p>
+<code v-pre>{ id(Thread) -&gt; (ref(Thread), thread-local dict) }</code></p>
 <p>每一线程实例的 id 为 key，元组为 value。</p>
 <p>value中2部分为，线程对象引用，每个线程自己的字典。</p>
 <blockquote>
 <p>本质</p>
-<p>运行时，threading.local 实例处在不同的线程中，就从大字典中找到当前线程相关键值对中的字典，覆盖threading.local 实例的 <code>__dict__</code> 。</p>
+<p>运行时，threading.local 实例处在不同的线程中，就从大字典中找到当前线程相关键值对中的字典，覆盖threading.local 实例的 <code v-pre>__dict__</code> 。</p>
 <p>这样就可以在不同的线程中，安全地使用线程独有的数据，做到了线程间数据隔离，如同本地变量一样安全。</p>
 </blockquote>
-</template>
+</div></template>
+
+

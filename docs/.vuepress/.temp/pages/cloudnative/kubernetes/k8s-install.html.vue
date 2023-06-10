@@ -1,4 +1,4 @@
-<template><h1 id="使用-ansible-快速搭建-k8s-集群" tabindex="-1"><a class="header-anchor" href="#使用-ansible-快速搭建-k8s-集群" aria-hidden="true">#</a> 使用 ansible 快速搭建 k8s 集群</h1>
+<template><div><h1 id="使用-ansible-快速搭建-k8s-集群" tabindex="-1"><a class="header-anchor" href="#使用-ansible-快速搭建-k8s-集群" aria-hidden="true">#</a> 使用 ansible 快速搭建 k8s 集群</h1>
 <p>推荐：</p>
 <ul>
 <li>kubeadm 安装用：<a href="https://github.com/kubernetes-sigs/kubespray" target="_blank" rel="noopener noreferrer">kubespray<ExternalLinkIcon/></a></li>
@@ -11,14 +11,14 @@
 <h2 id="相关支持" tabindex="-1"><a class="header-anchor" href="#相关支持" aria-hidden="true">#</a> 相关支持</h2>
 <p>相关版本信息 Centos7、k8s 1.18.10 、etcd 3.4.3 、docker 19.03.4、 calico 3.18.6、</p>
 <h2 id="快速开始" tabindex="-1"><a class="header-anchor" href="#快速开始" aria-hidden="true">#</a> 快速开始</h2>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 更换 yum 源，如果本来就是国内源，无需更换</span>
-<span class="token function">curl</span> -fsSL <span class="token string">"https://gitee.com/clay-wangzhi/shell/raw/master/repo_replace.sh"</span> <span class="token operator">|</span> <span class="token function">bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># 更换 yum 源，如果本来就是国内源，无需更换</span>
+<span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> <span class="token string">"https://gitee.com/clay-wangzhi/shell/raw/master/repo_replace.sh"</span> <span class="token operator">|</span> <span class="token function">bash</span>
 
 <span class="token comment"># 安装 python3</span>
-yum -y <span class="token function">install</span> python3
+yum <span class="token parameter variable">-y</span> <span class="token function">install</span> python3
 
 <span class="token comment"># Install dependencies from ``requirements.txt``</span>
-pip3 <span class="token function">install</span> -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+pip3 <span class="token function">install</span> <span class="token parameter variable">-r</span> requirements.txt <span class="token parameter variable">-i</span> https://mirrors.aliyun.com/pypi/simple/
 
 <span class="token builtin class-name">cd</span> ansible-collection-k8s
 <span class="token comment"># 根据实际情况修改 主机列表 ``inventory/hosts``、全局变量 ``group_vars/all.yml``</span>
@@ -30,7 +30,7 @@ ansible-playbook 03-ha.yml
 ansible-playbook 04-master.yml
 ansible-playbook 05-calico.yml
 ansible-playbook 06-node.yml
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h2 id="roles-介绍" tabindex="-1"><a class="header-anchor" href="#roles-介绍" aria-hidden="true">#</a> Roles 介绍</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="roles-介绍" tabindex="-1"><a class="header-anchor" href="#roles-介绍" aria-hidden="true">#</a> Roles 介绍</h2>
 <h3 id="preinstall-安装前准备" tabindex="-1"><a class="header-anchor" href="#preinstall-安装前准备" aria-hidden="true">#</a> preinstall：安装前准备</h3>
 <ul>
 <li>关闭 swap 分区</li>
@@ -63,11 +63,11 @@ ansible-playbook 06-node.yml
 <li>下载 kube-apiserver、kube-controller-manager、kube-scheduler、kube-proxy、pause、etcd、coredns 等镜像</li>
 <li>启动 kubelet 服务</li>
 <li>配置 kubeadm-config.yml 初始化配置文件</li>
-<li>使用<code>kubeadm init</code> 进行初始化</li>
+<li>使用<code v-pre>kubeadm init</code> 进行初始化</li>
 <li>master1 生产certificate key</li>
-<li>其余master 使用 <code>kubeadm join</code> 加入master集群</li>
+<li>其余master 使用 <code v-pre>kubeadm join</code> 加入master集群</li>
 </ul>
-<h3 id="ha-使用-haproxy-keepalived-实现master高可用-负载均衡" tabindex="-1"><a class="header-anchor" href="#ha-使用-haproxy-keepalived-实现master高可用-负载均衡" aria-hidden="true">#</a> ha：使用 <code>haproxy + keepalived</code> 实现master高可用，负载均衡</h3>
+<h3 id="ha-使用-haproxy-keepalived-实现master高可用-负载均衡" tabindex="-1"><a class="header-anchor" href="#ha-使用-haproxy-keepalived-实现master高可用-负载均衡" aria-hidden="true">#</a> ha：使用 <code v-pre>haproxy + keepalived</code> 实现master高可用，负载均衡</h3>
 <blockquote>
 <p>先申请vip</p>
 </blockquote>
@@ -93,6 +93,8 @@ ansible-playbook 06-node.yml
 </ul>
 <h3 id="node-安装-node" tabindex="-1"><a class="header-anchor" href="#node-安装-node" aria-hidden="true">#</a> node：安装 node</h3>
 <ul>
-<li>步骤和 master 2，3 安装类似，下镜像，生产凭证，<code>kubeadm join</code></li>
+<li>步骤和 master 2，3 安装类似，下镜像，生产凭证，<code v-pre>kubeadm join</code></li>
 </ul>
-</template>
+</div></template>
+
+

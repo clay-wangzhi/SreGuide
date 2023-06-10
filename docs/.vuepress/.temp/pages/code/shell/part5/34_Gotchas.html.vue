@@ -1,4 +1,4 @@
-<template><h1 id="第34章-陷阱" tabindex="-1"><a class="header-anchor" href="#第34章-陷阱" aria-hidden="true">#</a> 第34章 陷阱</h1>
+<template><div><h1 id="第34章-陷阱" tabindex="-1"><a class="header-anchor" href="#第34章-陷阱" aria-hidden="true">#</a> 第34章 陷阱</h1>
 <blockquote>
 <p>Turandot: Gli enigmi sono tre, la morte una!
 Caleph: No, no! Gli enigmi sono tre, una la vita!</p>
@@ -10,7 +10,7 @@ Caleph: No, no! Gli enigmi sono tre, una la vita!</p>
 <ul>
 <li>将保留字或特殊字符声明为变量名。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token assign-left variable">case</span><span class="token operator">=</span>value0       <span class="token comment"># 引发错误。</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token assign-left variable">case</span><span class="token operator">=</span>value0       <span class="token comment"># 引发错误。</span>
 <span class="token assign-left variable">23skidoo</span><span class="token operator">=</span>value1   <span class="token comment"># 也会引发错误。</span>
 <span class="token comment"># 以数字开头的变量名是被shell保留使用的。</span>
 <span class="token comment"># 试试_23skidoo=value1。以下划线开头的变量名就没问题.</span>
@@ -22,10 +22,10 @@ Caleph: No, no! Gli enigmi sono tre, una la vita!</p>
 
 xyz<span class="token punctuation">((</span><span class="token operator">!</span>*<span class="token operator">=</span>value2    <span class="token comment"># 引起严重的错误。</span>
 <span class="token comment"># Bash3.0之后，标点不能出现在变量名中。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>使用连字符或其他保留字符来做变量名（或函数名）。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>var-1<span class="token operator">=</span><span class="token number">23</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>var-1<span class="token operator">=</span><span class="token number">23</span>
 <span class="token comment"># 用 'var_1 代替。</span>
 
 function-whatever <span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment"># 错误</span>
@@ -35,10 +35,10 @@ function-whatever <span class="token punctuation">(</span><span class="token pun
 <span class="token comment"># Bash3.0之后，标点不能出现在函数名中。</span>
 function.whatever <span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment"># 错误</span>
 <span class="token comment"># 用 ‘functionWhatever ()’ 代替。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>让变量名与函数名相同。 这会使得脚本的可读性变得很差。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function-name function">do_something</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function-name function">do_something</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"This function does something with <span class="token entity" title="\&quot;">\"</span><span class="token variable">$1</span><span class="token entity" title="\&quot;">\"</span>."</span>
 <span class="token punctuation">}</span>
@@ -48,30 +48,30 @@ function.whatever <span class="token punctuation">(</span><span class="token pun
 do_something do_something
 
 <span class="token comment"># 这么做是合法的，但会让人混淆。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>不合时宜的使用[空白符][1]。与其他编程语言相比，Bash非常讲究空白符的使用。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>var1 <span class="token operator">=</span> <span class="token number">23</span>   <span class="token comment"># ‘var1=23’才是正确的。</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>var1 <span class="token operator">=</span> <span class="token number">23</span>   <span class="token comment"># ‘var1=23’才是正确的。</span>
 <span class="token comment"># 对于上边这一行来说，Bash会把“var1”当作命令来执行，</span>
 <span class="token comment"># “=”和“23”会被看作“命令”“var1”的参数。</span>
 	
 <span class="token builtin class-name">let</span> c <span class="token operator">=</span> <span class="token variable">$a</span> - <span class="token variable">$b</span>   <span class="token comment"># ‘let c=$a-$b’或‘let "c = $a - $b"’才是正确的。</span>
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$a</span> -le <span class="token number">5</span><span class="token punctuation">]</span>    <span class="token comment"># if [ $a -le 5 ]   是正确的。</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$a</span> <span class="token parameter variable">-le</span> <span class="token number">5</span><span class="token punctuation">]</span>    <span class="token comment"># if [ $a -le 5 ]   是正确的。</span>
 <span class="token comment">#           ^^      if [ "$a" -le 5 ]   这么写更好。</span>
                   <span class="token comment"># [[ $a -le 5 ]] 也行。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>在[大括号包含的代码块][2]中，最后一条命令没有以[分号][3]结尾。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token punctuation">{</span> <span class="token function">ls</span> -l<span class="token punctuation">;</span> <span class="token function">df</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Done."</span> <span class="token punctuation">}</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token punctuation">{</span> <span class="token function">ls</span> -l<span class="token punctuation">;</span> <span class="token function">df</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Done."</span> <span class="token punctuation">}</span>
 <span class="token comment"># bash: syntax error: unexpected end of file</span>
 
 <span class="token punctuation">{</span> <span class="token function">ls</span> -l<span class="token punctuation">;</span> <span class="token function">df</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Done."</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 <span class="token comment">#                        ^     ### 最后的这条命令必须以分号结尾。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>假定未被初始化的变量（赋值前的变量）被“清0”。事实上，未初始化的变量值为“null”，而不是0。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token builtin class-name">echo</span> <span class="token string">"uninitialized_var = <span class="token variable">$uninitialized_var</span>"</span>
 <span class="token comment"># uninitialized_var =</span>
@@ -79,17 +79,17 @@ do_something do_something
 <span class="token comment"># 但是 . . .</span>
 <span class="token comment"># if $BASH_VERSION ≥ 4.2; then</span>
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token operator">!</span> -v uninitialized_var <span class="token punctuation">]</span><span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-v</span> uninitialized_var <span class="token punctuation">]</span><span class="token punctuation">]</span>
 <span class="token keyword">then</span>
   <span class="token assign-left variable">uninitialized_var</span><span class="token operator">=</span><span class="token number">0</span>   <span class="token comment"># Initialize it to zero!</span>
 <span class="token keyword">fi</span>
 
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>混淆测试符号=和-ep。请记住，=用于比较字符变量，而-ep用来比较整数。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> <span class="token operator">=</span> <span class="token number">273</span> <span class="token punctuation">]</span>      <span class="token comment"># $a是整数还是字符串？</span>
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> -eq <span class="token number">273</span> <span class="token punctuation">]</span>    <span class="token comment"># $a为整数。</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> <span class="token operator">=</span> <span class="token number">273</span> <span class="token punctuation">]</span>      <span class="token comment"># $a是整数还是字符串？</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> <span class="token parameter variable">-eq</span> <span class="token number">273</span> <span class="token punctuation">]</span>    <span class="token comment"># $a为整数。</span>
 
 <span class="token comment"># 有些情况下，即使你混用-ep和=，也不会产生错误的结果。</span>
 <span class="token comment"># 然而 . . .</span>
@@ -109,16 +109,16 @@ do_something do_something
 
 <span class="token comment"># 类似的， 如果对非整数值使用“-ep”的话，就会产生问题。</span>
 	   
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> -eq <span class="token number">273.0</span> <span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> <span class="token parameter variable">-eq</span> <span class="token number">273.0</span> <span class="token punctuation">]</span>
 <span class="token keyword">then</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"a = <span class="token variable">$a</span>"</span>
 <span class="token keyword">fi</span>  <span class="token comment"># 产生了错误消息而退出。</span>
 <span class="token comment"># test.sh: [: 273.0: integer expression expected</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>误用了[字符串比较][4]操作符。</li>
 </ul>
 <p>样例 34-1. 数字比较与字符串比较并不相同</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># bad-op.sh: 尝试一下对整数使用字符串比较。</span>
 
 <span class="token builtin class-name">echo</span>
@@ -129,7 +129,7 @@ do_something do_something
 
 <span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$number</span>"</span> <span class="token operator">&lt;</span> <span class="token number">5</span> <span class="token punctuation">]</span>    <span class="token comment"># 错！应该是:  while [ "$number" -lt 5 ]</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$number</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$number</span> "</span>
   <span class="token builtin class-name">let</span> <span class="token string">"number += 1"</span>
 <span class="token keyword">done</span>  
 <span class="token comment">#  如果试图运行这个错误的脚本，就会得到一个错误信息:</span>
@@ -141,7 +141,7 @@ do_something do_something
 
 <span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$number</span>"</span> <span class="token punctuation">\</span><span class="token operator">&lt;</span> <span class="token number">5</span> <span class="token punctuation">]</span>    <span class="token comment">#  1 2 3 4</span>
 <span class="token keyword">do</span>                          <span class="token comment">#</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$number</span> "</span>        <span class="token comment">#  看起来好像可以工作，但是 . . .</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$number</span> "</span>        <span class="token comment">#  看起来好像可以工作，但是 . . .</span>
   <span class="token builtin class-name">let</span> <span class="token string">"number += 1"</span>         <span class="token comment">#+ 事实上是比较ASCII码，</span>
   <span class="token keyword">done</span>                      <span class="token comment">#+ 而不是整数比较。</span>
 
@@ -162,12 +162,12 @@ do_something do_something
 <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>试图用[let][5]来设置字符串变量。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token builtin class-name">let</span> <span class="token string">"a = hello, you"</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token builtin class-name">let</span> <span class="token string">"a = hello, you"</span>
 <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$a</span>"</span>   <span class="token comment"># 0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>有时候在“test”中括号（[ ]）结构里的变量需要被引用起来（双引号）。如果不这么做的话，可能会引起不可预料的结果。请参考[例子 7-6][6]，[例子 16-5][7]，[例子 9-6][8]。</p>
 </li>
@@ -181,17 +181,17 @@ do_something do_something
 <p>试图使用-作为作为重定向操作符（事实上它不是），通常都会导致令人不快的结果。</p>
 </li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>command1 <span class="token operator"><span class="token file-descriptor important">2</span>></span> - <span class="token operator">|</span> command2
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>command1 <span class="token operator"><span class="token file-descriptor important">2</span>></span> - <span class="token operator">|</span> command2
 <span class="token comment"># 试图将command1的错误输出重定向到一个管道中 . . .</span>
 <span class="token comment"># . . . 不会工作。</span>
 
 command1 <span class="token operator"><span class="token file-descriptor important">2</span>>&amp;</span> - <span class="token operator">|</span> command2  <span class="token comment"># 也没效果。</span>
 
 感谢，S.C。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>使用[Bash 2.0或更高版本][11]的功能，可以在产生错误信息的时候，引发修复动作。但是比较老的Linux机器默认安装的可能是Bash 1.XX。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token assign-left variable">minimum_version</span><span class="token operator">=</span><span class="token number">2</span>
 <span class="token comment"># 因为Chet Ramey经常给Bash添加一些新的特征，</span>
@@ -206,7 +206,7 @@ command1 <span class="token operator"><span class="token file-descriptor importa
 <span class="token keyword">fi</span>
 
 <span class="token punctuation">..</span>.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>在非Linux机器上的[Bourne shell][12]脚本( <strong>#!/bin/sh</strong> )中使用Bash特有的功能，[可能会引起不可预料的行为][13]。Linux系统通常都会把<strong>bash</strong>别名化为<strong>sh</strong>，但是在一般的UNIX机器上却不一定会这么做。</p>
 </li>
@@ -220,14 +220,14 @@ command1 <span class="token operator"><span class="token file-descriptor importa
 <p>[算术表达式的退出状态][20]不等同于一个错误代码。</p>
 </li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token assign-left variable">var</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> <span class="token variable"><span class="token punctuation">((</span><span class="token operator">--</span>var<span class="token punctuation">))</span></span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">echo</span> <span class="token variable">$var</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token assign-left variable">var</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> <span class="token variable"><span class="token punctuation">((</span><span class="token operator">--</span>var<span class="token punctuation">))</span></span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">echo</span> <span class="token variable">$var</span>
 <span class="token comment">#        ^^^^^^^^^ 在这里，这个与列表返回错误代码1而终止。</span>
 <span class="token comment">#                     不会打印$var的值！</span>
 <span class="token builtin class-name">echo</span> <span class="token variable">$?</span>   <span class="token comment"># 1</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>一个带有DOS风格换行符(\r\n)的脚本将会运行失败，因为**#!/bin/bash\r\n<strong>是不合法的，与我们所期望的</strong>#!/bin/bash\n**不同，解决办法就是将这个脚本转换为UNIX风格的换行符。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token builtin class-name">echo</span> <span class="token string">"Here"</span>
 
@@ -241,7 +241,7 @@ unix2dos <span class="token variable">$0</span>    <span class="token comment">#
 <span class="token builtin class-name">echo</span> <span class="token string">"There"</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>以**#!/bin/sh<strong>开头的Bash脚本，不能在完整的Bash兼容模式下运行。某些Bash特定的功能可能会被禁用。如果脚本需要完整的访问所有Bash专有扩展，那么它需要使用</strong>#!/bin/bash**作为开头。</p>
 </li>
@@ -252,7 +252,7 @@ unix2dos <span class="token variable">$0</span>    <span class="token comment">#
 <p>在一个[输出被捕获][23]的函数中放置了不止一个echo语句。</p>
 </li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function-name function">add2</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function-name function">add2</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"Whatever ... "</span>   <span class="token comment"># 删掉zhehan</span>
   <span class="token builtin class-name">let</span> <span class="token string">"retval = <span class="token variable">$1</span> + <span class="token variable">$2</span>"</span>
@@ -267,16 +267,16 @@ unix2dos <span class="token variable">$0</span>    <span class="token comment">#
 <span class="token comment">#   55</span>
 
 <span class="token comment">#        这些echo连在一起了。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>这是[行不通][24]的。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>这是[行不通][24]的。</p>
 <ul>
 <li>脚本不能将变量export到它的[父进程]<a href="%E5%8D%B3%E8%B0%83%E7%94%A8%E8%BF%99%E4%B8%AA%E8%84%9A%E6%9C%AC%E7%9A%84shell">25</a>，或父进程的环境中。就好比我们在生物学中所学到的那样，子进程只会继承父进程, 反过来则不行。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token assign-left variable">WHATEVER</span><span class="token operator">=</span>/home/bozo
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token assign-left variable">WHATEVER</span><span class="token operator">=</span>/home/bozo
 <span class="token builtin class-name">export</span> WHATEVER
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>bash$ <span class="token builtin class-name">echo</span> <span class="token variable">$WHATEVER</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>bash$ <span class="token builtin class-name">echo</span> <span class="token variable">$WHATEVER</span>
 bash$
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>可以确定的是，即使回到命令行提示符，变量$WHATEVER仍然没有被设置。</p>
 </li>
@@ -285,7 +285,7 @@ bash$
 </li>
 </ul>
 <p>样例 34-2. 子shell缺陷</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># 子shell中的变量缺陷。</span>
 
 <span class="token assign-left variable">outer_variable</span><span class="token operator">=</span>outer
@@ -319,11 +319,11 @@ bash$
 
 <span class="token comment"># 如果你去掉第19和第20行的注释会怎样？</span>
 <span class="token comment"># 会产生不同的结果吗？</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>将echo的输出通过[管道][27]传递给[read][28]命令可能会产生不可预料的结果。在这种情况下，read命令的行为就好像它在子shell中运行一样。可以使用[set][29]命令来代替(就好像[例子15-18][30]一样)。</li>
 </ul>
 <p>样例 34-3. 将echo的输出通过管道传递给read命令</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment">#  badread.sh:</span>
 <span class="token comment">#  尝试使用'echo'和'read'命令</span>
 <span class="token comment">#+ 非交互的给变量赋值。</span>
@@ -386,14 +386,14 @@ bash$
 <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><p>事实上，也正如Anthony Richardson指出的那样，通过管道将输出传递到任何循环中, 都会引起类似的问题。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 循环的管道问题。</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>事实上，也正如Anthony Richardson指出的那样，通过管道将输出传递到任何循环中, 都会引起类似的问题。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># 循环的管道问题。</span>
 <span class="token comment">#  这个例子由Anthony Richardson编写，</span>
 <span class="token comment">#+ 由Wilbert Berendsen补遗。</span>
 
 
 <span class="token assign-left variable">foundone</span><span class="token operator">=</span>false
-<span class="token function">find</span> <span class="token environment constant">$HOME</span> -type f -atime +30 -size 100k <span class="token operator">|</span>
+<span class="token function">find</span> <span class="token environment constant">$HOME</span> <span class="token parameter variable">-type</span> f <span class="token parameter variable">-atime</span> +30 <span class="token parameter variable">-size</span> 100k <span class="token operator">|</span>
 <span class="token keyword">while</span> <span class="token boolean">true</span>
 <span class="token keyword">do</span>
    <span class="token builtin class-name">read</span> f
@@ -417,7 +417,7 @@ bash$
 <span class="token comment"># =====================现在，下边是正确的方法:=================</span>
 
 <span class="token assign-left variable">foundone</span><span class="token operator">=</span>false
-<span class="token keyword">for</span> <span class="token for-or-select variable">f</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">find</span> <span class="token environment constant">$HOME</span> -type f -atime +30 -size 100k<span class="token variable">)</span></span>  <span class="token comment"># 这里没使用管道。</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">f</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">find</span> <span class="token environment constant">$HOME</span> <span class="token parameter variable">-type</span> f <span class="token parameter variable">-atime</span> +30 <span class="token parameter variable">-size</span> 100k<span class="token variable">)</span></span>  <span class="token comment"># 这里没使用管道。</span>
 <span class="token keyword">do</span>
    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$f</span> is over 100KB and has not been accessed in over 30 days"</span>
    <span class="token builtin class-name">echo</span> <span class="token string">"Consider moving the file to archives."</span>
@@ -435,7 +435,7 @@ bash$
 <span class="token comment">#+ 这样一来，它们就能在相同的子shell中共享了。</span>
 <span class="token comment">#  感谢，W.B。</span>
 
-<span class="token function">find</span> <span class="token environment constant">$HOME</span> -type f -atime +30 -size 100k <span class="token operator">|</span> <span class="token punctuation">{</span>
+<span class="token function">find</span> <span class="token environment constant">$HOME</span> <span class="token parameter variable">-type</span> f <span class="token parameter variable">-atime</span> +30 <span class="token parameter variable">-size</span> 100k <span class="token operator">|</span> <span class="token punctuation">{</span>
      <span class="token assign-left variable">foundone</span><span class="token operator">=</span>false
      <span class="token keyword">while</span> <span class="token builtin class-name">read</span> f
      <span class="token keyword">do</span>
@@ -449,17 +449,17 @@ bash$
        <span class="token builtin class-name">echo</span> <span class="token string">"No files need archiving."</span>
      <span class="token keyword">fi</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>一个相关的问题：当你尝试将tail -f的stdout通过管道传递给[grep][31]时，会产生问题。</li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">tail</span> -f /var/log/messages <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"<span class="token variable">$ERROR_MSG</span>"</span> <span class="token operator">>></span> error.log
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">tail</span> <span class="token parameter variable">-f</span> /var/log/messages <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"<span class="token variable">$ERROR_MSG</span>"</span> <span class="token operator">>></span> error.log
 <span class="token comment">#  “error.log”文件将不会写入任何东西。</span>
 <span class="token comment">#  正如Samuli Kaipiainen指出的那样，</span>
 <span class="token comment">#+ 这一结果是从grep的缓冲区输出的。</span>
 <span class="token comment">#  解决的办法就是把“--line-buffered”参数添加到grep中。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
-<p>在脚本中使用“suid”命令是非常危险的，因为这会危及系统安全。<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1" /></sup></p>
+<p>在脚本中使用“suid”命令是非常危险的，因为这会危及系统安全。<a href="%E5%9C%A8Linux%E5%92%8C%E7%BB%9D%E5%A4%A7%E5%A4%9A%E6%95%B0%E7%9A%84UNIX%E6%9C%BA%E5%99%A8%E4%B8%8A%EF%BC%8C%E7%BB%99%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AE%5Bsuid%5D%5B36%5D%E6%9D%83%E9%99%90%E6%98%AF%E6%B2%A1%E7%94%A8%E7%9A%84%E3%80%82">^suid</a></p>
 </li>
 <li>
 <p>使用shell脚本来编写CGI程序是值得商榷的。因为Shell脚本的变量不是“类型安全”的，当CGI被关联的时候，可能会产生令人不快的行为。此外，它还很难抵挡住“破解的考验”。</p>
@@ -521,11 +521,6 @@ bash$
 [36]: http://tldp.org/LDP/abs/html/fto.html#SUIDREF</p>
 </blockquote>
 <h4 id="注意事项" tabindex="-1"><a class="header-anchor" href="#注意事项" aria-hidden="true">#</a> 注意事项</h4>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>在Linux和绝大多数的UNIX机器上，给脚本设置[suid][36]权限是没用的。 <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</template>
+</div></template>
+
+

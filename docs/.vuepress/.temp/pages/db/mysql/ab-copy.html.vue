@@ -1,4 +1,4 @@
-<template><h1 id="_8-ab复制" tabindex="-1"><a class="header-anchor" href="#_8-ab复制" aria-hidden="true">#</a> 8 AB复制</h1>
+<template><div><h1 id="_8-ab复制" tabindex="-1"><a class="header-anchor" href="#_8-ab复制" aria-hidden="true">#</a> 8 AB复制</h1>
 <h2 id="mysql-ab简介" tabindex="-1"><a class="header-anchor" href="#mysql-ab简介" aria-hidden="true">#</a> MySQL AB简介</h2>
 <p>AB复制又称主从复制，实现的是数据同步。</p>
 <p>如果要做MySQL AB复制，数据库版本尽量保持一致。如果版本不一致，从服务器版本高于主服务器，但是版本不一致不能做双向复制。</p>
@@ -18,24 +18,24 @@
 <h3 id="主服务器操作" tabindex="-1"><a class="header-anchor" href="#主服务器操作" aria-hidden="true">#</a> 主服务器操作</h3>
 <h4 id="全备-并在从机恢复数据" tabindex="-1"><a class="header-anchor" href="#全备-并在从机恢复数据" aria-hidden="true">#</a> 全备，并在从机恢复数据</h4>
 <h4 id="开启binlog日志" tabindex="-1"><a class="header-anchor" href="#开启binlog日志" aria-hidden="true">#</a> 开启binlog日志</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>vim /etc/my.cnf
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>vim /etc/my.cnf
 [mysqld]
 log-bin = master
 log-bin-index = master
 server-id = 1
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>service mysqld restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="授权从服务器" tabindex="-1"><a class="header-anchor" href="#授权从服务器" aria-hidden="true">#</a> 授权从服务器</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>service mysqld restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="授权从服务器" tabindex="-1"><a class="header-anchor" href="#授权从服务器" aria-hidden="true">#</a> 授权从服务器</h4>
 <p>授权从服务器，可以传输binlog日志</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>grant replication slave on *.* to slave@'从服务器' identified by '123';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="从服务器操作" tabindex="-1"><a class="header-anchor" href="#从服务器操作" aria-hidden="true">#</a> 从服务器操作</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>grant replication slave on *.* to slave@'从服务器' identified by '123';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="从服务器操作" tabindex="-1"><a class="header-anchor" href="#从服务器操作" aria-hidden="true">#</a> 从服务器操作</h3>
 <h4 id="导入主服务器的数据" tabindex="-1"><a class="header-anchor" href="#导入主服务器的数据" aria-hidden="true">#</a> 导入主服务器的数据</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql -u root &lt; all.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="改配置文件" tabindex="-1"><a class="header-anchor" href="#改配置文件" aria-hidden="true">#</a> 改配置文件</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>vim /etc/my.cnf
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql -u root &lt; all.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="改配置文件" tabindex="-1"><a class="header-anchor" href="#改配置文件" aria-hidden="true">#</a> 改配置文件</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>vim /etc/my.cnf
 [mysqld]
 server-id = 2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="配置主服务器的信息" tabindex="-1"><a class="header-anchor" href="#配置主服务器的信息" aria-hidden="true">#</a> 配置主服务器的信息</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>>stop slave;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="配置主服务器的信息" tabindex="-1"><a class="header-anchor" href="#配置主服务器的信息" aria-hidden="true">#</a> 配置主服务器的信息</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>>stop slave;
 >change master to
 -> master_host = '主服务器'，
 ->master_user = 'slave',
@@ -44,10 +44,12 @@ server-id = 2
 ->master_log_file = 'mysql-bin.000001',
 -> master_log_pos=120;
 >start slave;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="校验" tabindex="-1"><a class="header-anchor" href="#校验" aria-hidden="true">#</a> 校验</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>> show slave status\G
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="校验" tabindex="-1"><a class="header-anchor" href="#校验" aria-hidden="true">#</a> 校验</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>> show slave status\G
 Slave_IO_Running: Yes
 Slave_SQL_Running: Yes
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>表示成功</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>表示成功</p>
 <p>​</p>
-</template>
+</div></template>
+
+

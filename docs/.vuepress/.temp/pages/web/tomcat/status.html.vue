@@ -1,6 +1,6 @@
-<template><h1 id="tomcat-错误代号及状态码" tabindex="-1"><a class="header-anchor" href="#tomcat-错误代号及状态码" aria-hidden="true">#</a> Tomcat 错误代号及状态码</h1>
+<template><div><h1 id="tomcat-错误代号及状态码" tabindex="-1"><a class="header-anchor" href="#tomcat-错误代号及状态码" aria-hidden="true">#</a> Tomcat 错误代号及状态码</h1>
 <p>状态代码  状态信息  含义</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>100  Continue  初始的请求已经接受，客户应当继续发送请求的其余部分。（HTTP 1.1新）
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>100  Continue  初始的请求已经接受，客户应当继续发送请求的其余部分。（HTTP 1.1新）
  101  Switching Protocols  服务器将遵从客户的请求转换到另外一种协议（HTTP 1.1新）
  200  OK  一切正常，对GET和POST请求的应答文档跟在后面。
  201  Created  服务器已经创建了文档，Location头给出了它的URL。
@@ -43,8 +43,10 @@
  503  Service Unavailable  服务器由于维护或者负载过重未能应答。例如，Servlet可能在数据库连接池已满的情况下返回503。服务器返回503时可以提供一个Retry-After头。
  504  Gateway Timeout  由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答。（HTTP 1.1新）
  505  HTTP Version Not Supported  服务器不支持请求中所指明的HTTP版本。（HTTP 1.1新）
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br></div></div><blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
 <p>转载链接：</p>
 <p>https://www.jianshu.com/p/8ad1009f927d</p>
 </blockquote>
-</template>
+</div></template>
+
+

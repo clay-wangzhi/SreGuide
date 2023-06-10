@@ -1,4 +1,4 @@
-<template><h1 id="_4-2-函数参数" tabindex="-1"><a class="header-anchor" href="#_4-2-函数参数" aria-hidden="true">#</a> 4.2 函数参数</h1>
+<template><div><h1 id="_4-2-函数参数" tabindex="-1"><a class="header-anchor" href="#_4-2-函数参数" aria-hidden="true">#</a> 4.2 函数参数</h1>
 <p>函数在定义是要定义好形式参数，调用时也提供足够的实际参数，一般来说，形参和实参个数要一致（可变参数除外）。</p>
 <h2 id="实参传参方式" tabindex="-1"><a class="header-anchor" href="#实参传参方式" aria-hidden="true">#</a> 实参传参方式</h2>
 <p>1、位置传参</p>
@@ -19,7 +19,7 @@
 </ul>
 <h3 id="可变参数" tabindex="-1"><a class="header-anchor" href="#可变参数" aria-hidden="true">#</a> 可变参数</h3>
 <p>需求：写一个函数，可以对多个数累加求和</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">sum</span><span class="token punctuation">(</span>iterable<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">sum</span><span class="token punctuation">(</span>iterable<span class="token punctuation">)</span><span class="token punctuation">:</span>
 	s <span class="token operator">=</span> <span class="token number">0</span>
 	<span class="token keyword">for</span> x <span class="token keyword">in</span> iterable<span class="token punctuation">:</span>
 		s <span class="token operator">+=</span> x
@@ -27,9 +27,9 @@
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>上例，传入可迭代对象，并累加每一个元素。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例，传入可迭代对象，并累加每一个元素。</p>
 <p>也可以使用可变参数完成上面的函数。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token operator">*</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token operator">*</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token builtin">sum</span> <span class="token operator">=</span> <span class="token number">0</span>
 	<span class="token keyword">for</span> x <span class="token keyword">in</span> nums<span class="token punctuation">:</span>
 		<span class="token builtin">sum</span> <span class="token operator">+=</span> x
@@ -37,7 +37,7 @@
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>1、可变位置参数</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>1、可变位置参数</p>
 <ul>
 <li>在形参前使用 * 表示该形参是可变位置参数，可以接受多个实参</li>
 <li>它将收集来的实参组织到一个 tuple 中</li>
@@ -61,11 +61,11 @@
 <p>keyword-only参数，言下之意就是这个参数必须采用关键字传参。</p>
 <h3 id="positional-only参数" tabindex="-1"><a class="header-anchor" href="#positional-only参数" aria-hidden="true">#</a> positional-only参数</h3>
 <p>Python 3.8 开始，增加了最后一种形参类型的定义：Positional-only参数。（2019年10月发布3.8.0）</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">fn</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token operator">/</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">fn</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token operator">/</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
 fn<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
 fn<span class="token punctuation">(</span>a<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token comment"># 错误，仅位置参数，不可以使用关键字传参</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="参数规则" tabindex="-1"><a class="header-anchor" href="#参数规则" aria-hidden="true">#</a> 参数规则</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="参数规则" tabindex="-1"><a class="header-anchor" href="#参数规则" aria-hidden="true">#</a> 参数规则</h3>
 <p>参数列表参数一般顺序是：positional-only参数、普通参数、缺省参数、可变位置参数、keyword-only参数（可带缺省值）、可变关键字参数。
 注意：</p>
 <ul>
@@ -83,4 +83,6 @@ fn<span class="token punctuation">(</span>a<span class="token operator">=</span>
 <li>使用 ** 解构成关键字传参</li>
 <li>提取出来的元素数目要和参数的要求匹配</li>
 </ul>
-</template>
+</div></template>
+
+

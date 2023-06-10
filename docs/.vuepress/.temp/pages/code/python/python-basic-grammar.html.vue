@@ -1,10 +1,10 @@
-<template><h1 id="_2-1-python基础语法" tabindex="-1"><a class="header-anchor" href="#_2-1-python基础语法" aria-hidden="true">#</a> 2.1 Python基础语法</h1>
+<template><div><h1 id="_2-1-python基础语法" tabindex="-1"><a class="header-anchor" href="#_2-1-python基础语法" aria-hidden="true">#</a> 2.1 Python基础语法</h1>
 <h2 id="数字" tabindex="-1"><a class="header-anchor" href="#数字" aria-hidden="true">#</a> 数字</h2>
 <ul>
 <li>
-<p>整数<code>int</code></p>
+<p>整数<code v-pre>int</code></p>
 <ul>
-<li><code>Python3</code>开始不再区分 long 、int ，long 被重命名为int，所以只有 int 类型了</li>
+<li><code v-pre>Python3</code>开始不再区分 long 、int ，long 被重命名为int，所以只有 int 类型了</li>
 <li>进制表示：
 <ul>
 <li>十进制10</li>
@@ -38,8 +38,8 @@
 </ul>
 <h2 id="转义序列" tabindex="-1"><a class="header-anchor" href="#转义序列" aria-hidden="true">#</a> 转义序列</h2>
 <ul>
-<li><code>\\</code> <code>\t</code> <code>\r</code> <code>\n</code> <code>\'</code> <code>\&quot;</code></li>
-<li>上面每一个转义字符只代表一个字符，例如<code>\t</code>显示时占了4个字符位置，但是它是一个字符</li>
+<li><code v-pre>\\</code> <code v-pre>\t</code> <code v-pre>\r</code> <code v-pre>\n</code> <code v-pre>\'</code> <code v-pre>\&quot;</code></li>
+<li>上面每一个转义字符只代表一个字符，例如<code v-pre>\t</code>显示时占了4个字符位置，但是它是一个字符</li>
 <li>前缀 r，把里面的所有字符当普通字符对待，则转义字符就不转义了</li>
 </ul>
 <p>转义：让字符不再是它当前的意义，例如 \t，t 就不是当前意义字符 t 了，而是被 \ 转成了 tab 键</p>
@@ -58,14 +58,14 @@
 <li>Python 是大小写敏感的</li>
 </ol>
 <p><a href="https://docs.python.org/3.9/reference/lexical_analysis.html#keywords" target="_blank" rel="noopener noreferrer">python3.9 中关键字<ExternalLinkIcon/></a></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>False      await      else       import     pass
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>False      await      else       import     pass
 None       break      except     in         raise
 True       class      finally    is         return
 and        continue   for        lambda     try
 as         def        from       nonlocal   while
 assert     del        global     not        with
 async      elif       if         or         yield
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>标识符约定：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>标识符约定：</p>
 <ul>
 <li>不允许使用中文，也不建议使用拼音</li>
 <li>不要使用歧义单词，例如class_</li>
@@ -138,7 +138,7 @@ async      elif       if         or         yield
 </tr>
 </tbody>
 </table>
-<p>False 等价布尔值，相当于<code>bool(value)</code></p>
+<p>False 等价布尔值，相当于<code v-pre>bool(value)</code></p>
 <ul>
 <li>空容器
 <ul>
@@ -153,11 +153,11 @@ async      elif       if         or         yield
 <li>0</li>
 </ul>
 <h2 id="逻辑运算真值表" tabindex="-1"><a class="header-anchor" href="#逻辑运算真值表" aria-hidden="true">#</a> 逻辑运算真值表</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/log_op.png" alt="log_ope" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/log_op.png" alt="log_ope"></p>
 <h2 id="运算符-operator" tabindex="-1"><a class="header-anchor" href="#运算符-operator" aria-hidden="true">#</a> 运算符 Operator</h2>
 <p><strong>算数运算符</strong></p>
 <p>+、-、*、/、//向下取整整除、%取模、**幂</p>
-<p>注：在<code>Python2</code>中/和//都是整除。</p>
+<p>注：在<code v-pre>Python2</code>中/和//都是整除。</p>
 <p><strong>位运算符</strong></p>
 <p>&amp;位与、|位或、^异或、&lt;&lt;左移、&gt;&gt;右移</p>
 <p>~按位取反，包括符号位</p>
@@ -251,7 +251,7 @@ False
 </tr>
 </tbody>
 </table>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span>sep<span class="token operator">=</span><span class="token string">'\n'</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">'***'</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span>sep<span class="token operator">=</span><span class="token string">'\n'</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">'***'</span><span class="token punctuation">)</span>
 
 <span class="token builtin">type</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># 返回的是类型，不是字符串</span>
 <span class="token builtin">type</span><span class="token punctuation">(</span><span class="token string">'abc'</span><span class="token punctuation">)</span> <span class="token comment"># 返回的是类型，不是字符串</span>
@@ -261,4 +261,6 @@ False
 
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">isinstance</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">isinstance</span><span class="token punctuation">(</span><span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># True</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

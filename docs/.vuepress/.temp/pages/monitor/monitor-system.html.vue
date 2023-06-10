@@ -1,6 +1,6 @@
-<template><h1 id="聊透监控体系" tabindex="-1"><a class="header-anchor" href="#聊透监控体系" aria-hidden="true">#</a> 聊透监控体系</h1>
+<template><div><h1 id="聊透监控体系" tabindex="-1"><a class="header-anchor" href="#聊透监控体系" aria-hidden="true">#</a> 聊透监控体系</h1>
 <p>经济高速发展的今天，我们处于信息大爆炸的时代。随着经济发展，信息借助互联网的力量在全球自由地流动，于是就催生了各种各样的服务平台和软件系统。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057066348.webp" alt="img"></p>
 <p>由于业务的多样性，这些平台和系统也变得异常的复杂。如何对其进行监控和维护是我们 IT 人需要面对的重要问题。就在这样一个纷繁复杂地环境下，监控系统粉墨登场了。</p>
 <p>今天，我们会对 IT 监控系统进行介绍，包括其功能，分类，分层；同时也会介绍几款流行的监控平台。</p>
 <h2 id="监控系统的功能" tabindex="-1"><a class="header-anchor" href="#监控系统的功能" aria-hidden="true">#</a> 监控系统的功能</h2>
@@ -10,7 +10,7 @@
 <li>系统出现瓶颈了，CPU 占用持续升高，内存不足，磁盘被写满；网络请求突增，超出网关承受的压力。</li>
 </ul>
 <p>以上这些问题一旦发生，会对我们的业务产生巨大的影响。因此，每个公司或者 IT 团队都会针对此类情况建立自己的 IT 监控系统。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057079481.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057079481.webp" alt="img"></p>
 <p>监控系统工作流程图</p>
 <p>其功能包括：</p>
 <ul>
@@ -30,12 +30,12 @@
 <li><strong>调用链类</strong></li>
 <li><strong>度量类</strong></li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/quan.jpg" alt="" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/quan.jpg" alt=""></p>
 <h3 id="日志类-logging" tabindex="-1"><a class="header-anchor" href="#日志类-logging" aria-hidden="true">#</a> 日志类(Logging)</h3>
 <p>通常我们在系统和业务级别上加入一些日志代码，记录一些日志信息，方便我们在发现问题的时候查找。</p>
 <p>这些信息会与事件做相关，例如：用户登录，下订单，用户浏览某件商品，一小时以内的网关流量，用户平均响应时间等等。</p>
 <p>这类以日志的记录和查询的解决方案比较多。比如 ELK 方案（Elasticsearch+Logstash+Kibana），使用ELK（Elasticsearch、Logstash、Kibana）+Kafka/Redis/RabbitMQ 来搭建一个日志系统。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057091787.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057091787.webp" alt="img"></p>
 <p>ELK 结合 Redis/Kafka/RabbitMQ 实现日志类监控</p>
 <p>程序内部通过 Spring AOP 记录日志，Beats 收集日志文件，然后用 Kafka/Redis/RabbitMQ 将其发送给 Logstash，Logstash 再将日志写入 Elasticsearch。</p>
 <p>最后，使用 Kibana 将存放在 Elasticsearch 中的日志数据显示出来，形式可以是实时数据图表。</p>
@@ -43,7 +43,7 @@
 <p>对于服务较多的系统，特别是微服务系统。一次服务的调用有可能涉及到多个服务。A 调用 B，B 又要调用 C，好像一个链条一样，形成了服务调用链。</p>
 <p>调用链就是记录一个请求经过所有服务的过程。请求从开始进入服务，经过不同的服务节点后，再返回给客户端，通过调用链参数来追踪全链路行为。从而知道请求在哪个环节出了故障，系统的瓶颈在哪儿。</p>
 <p>调用链监控的实现原理如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057103643.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057103643.webp" alt="img"></p>
 <p>Java 代码运行原理图</p>
 <p>在介绍这种方式之前，我们先来复习一下 Java 代码运行的原理。通常我们会把 Java 源代码，通过“Java 编译器”编译成 Class 文件。再把这个 Class 的字节码文件装载到“类装载器”中进行字节码的验证。</p>
 <p>最后，把验证过后的字节码发送到“Java 解释器”和“及时编译器”交给“Java 运行系统”运行。</p>
@@ -52,7 +52,7 @@
 <p>例如：添加计时语句，用于记录方法耗时。将方法耗时存入处理器，利用栈先特性（先进后出）处理方法调用顺序。</p>
 <p>每当请求处理结束后，将耗时方法和入参 map 输出到文件中，然后根据 map 中相应参数，区分出耗时业务。</p>
 <p>最后将相应耗时文件取下来，转化为 xml 格式并进行解析，通过浏览器将代码分层结构展示出来。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057113936.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057113936.webp" alt="img"></p>
 <p>Java 探针工具原理图</p>
 <p>备注：ASM 是一个 Java 字节码操纵框架，它可以动态生成类或者增强既有类的功能。</p>
 <p>ASM 可以直接产生二进制 Class 文件，可以在类被载入 Java 虚拟机之前改变类行为。</p>
@@ -61,7 +61,7 @@
 <p><strong>②拦截请求</strong></p>
 <p>获取每次请求服务中的信息来实现跟踪的。这里以 Zipkin+Slueth 为例说明其原理。</p>
 <p>Sleuth 提供链路追踪。由于一个请求会涉及到多个服务的互相调用，而这种调用往往成链式结构，经过多次层层调用以后请求才会返回。常常使用 Sleuth 追踪整个调用过程，方便理清服务间的调用关系。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057123079.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057123079.webp" alt="img"></p>
 <p>Sleuth 服务调用追踪图例</p>
 <p>每次请求都会生成一个 Trace ID，如上图所示这个 Trace ID 在整个 Request 和 Response 过程中都会保持一致，不论经过了多少个服务。这是为了方便记录一次调用的整个生命周期。</p>
 <p>再看每次请求的时候都会有一个 Span ID，这里的 Span 是 Sleuth 服务跟踪的最小单元，每经过一个服务，每次 Request 和 Response 这个值都会有所不同，这是为了区分不同的调用动作。</p>
@@ -74,7 +74,7 @@
 </ul>
 <p>实际上 Sleuth 就是通过上述方式把每次请求记录一个统一的 Trace ID，每个请求的详细步骤记作 Span ID。</p>
 <p>每次发起请求或者接受请求的状态分别记录成 Server Received，Client Sent，Server Sent，Client Received 四种状态来完成这个服务调用链路的跟踪的。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057133775.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057133775.webp" alt="img"></p>
 <p>在调用服务的链路上每个被调用的服务节点都会通过 Parent ID 来记录发起调用服务的 Span ID，由于 Span ID 是唯一确认最小服务单元的，所以知道了 Parent 的 Span ID 也就知道了谁调用自己了。</p>
 <h3 id="度量类-metrics" tabindex="-1"><a class="header-anchor" href="#度量类-metrics" aria-hidden="true">#</a> 度量类(Metrics)</h3>
 <p>实现了时序数据库（TimeSeriesData，TSD）的监控方案。实际上就是记录一串以时间为维度的数据，然后再通过聚合运算，查看指标数据和指标趋势。说白了，就是描述某个被测主体在一段时间内的测量值变化（度量）。</p>
@@ -87,7 +87,7 @@
 <li>“Tag”作为维度列，表示监控数据的属性。</li>
 <li>“Field”作为指标列，作为测量值，也就是测量的结果。</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057144929.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057144929.webp" alt="img"></p>
 <p>时序数据库数据模型图例</p>
 <p>时序数据库的存储原理，关系型数据库存储采用的是 B tree，虽然降低了数据查询的磁盘寻道时间，但是无法解决大量数据写入时的磁盘效率。</p>
 <p>由于监控系统的应用场景，经常会遇到大批量的数据写入，所以我们会选择 LSMtree（Log Structured Merge Tree）存储时序数据库。</p>
@@ -98,7 +98,7 @@
 <li>不可修改的 immutable memtable 文件（内存中）</li>
 <li>磁盘上的 SStable文件（Sorted String Table），有序字符串表，这个有序的字符串就是数据的key。SStable 一共有七层（L0 到 L6）。下一层的总大小限制是上一层的 10 倍。</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057158151.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057158151.webp" alt="img"></p>
 <p>LSMtree LevelDB 存储示意图</p>
 <p>LSMtree 写入流程：</p>
 <ul>
@@ -111,7 +111,7 @@
 </ul>
 <h2 id="监控系统的分层" tabindex="-1"><a class="header-anchor" href="#监控系统的分层" aria-hidden="true">#</a> 监控系统的分层</h2>
 <p>谈完了监控系统的分类，再来聊聊监控系统的分层。用户请求到数据返回，经历系统中的层层关卡。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057169317.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1579057169317.webp" alt="img"></p>
 <p>一般我们将监控系统分为五层来考虑，当然也有人分成三层，大致的意思都差不多，仅供参考：</p>
 <ul>
 <li><strong>客户端监控</strong>，用户行为信息，业务返回码，客户端性能，运营商，版本，操作系统等。</li>
@@ -141,7 +141,7 @@
 <li>Server 负责接受 Agent 的数据，进行保存或者告警。</li>
 <li>Proxy 负责代理 Server 收集 Agent 传输的数据，并且转发给 Server。Proxy 是安装在被监控的服务器上的，用来和 Server 端进行通信，从而传输数据。</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/zabbix.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/zabbix.webp" alt="img"></p>
 <p>Zabbix 部署模式</p>
 <p>Zabbix 的数据采集，主要有两种模式：Server 主动拉取数据和 Agent 主动上报数据。</p>
 <p>以 Server 拉取数据为例，用户在 Web-portal 中，设置需要监控的机器，配置监控项，告警策略。Zabbix-Server 会根据策略主动获取 Agent 的数据，然后存储到 MySQL 中。</p>
@@ -169,7 +169,7 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <li><strong>Alertmanager</strong>，从 Prometheus Server 端接收到 Alerts 后，会对数据进行处理。例如：去重，分组，然后根据规则，发出报警。</li>
 <li><strong>Web UI</strong>，Prometheus Server 内置的 Express Browser UI，通过 PromQL 实现数据的查询以及可视化。</li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/prome.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/prome.webp" alt="img"></p>
 <p>Prometheus 架构图</p>
 <p>说完了 Prometheus 的组件，再来看看 Prometheus 的架构：</p>
 <ul>
@@ -179,7 +179,7 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <li>WebUI/Grafana/APIclients，可以借助 PromQL 对监控数据进行查询。</li>
 </ul>
 <p>最后将两个工具进行比较如下：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/za-pr-duibi.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/za-pr-duibi.webp" alt="img"></p>
 <p>Zabbix 和 Prometheus 比较图</p>
 <p>从上面的比较可以看出：</p>
 <ul>
@@ -188,7 +188,7 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <li>对于监控物理机或者监控环境相对稳定的情况，Zabbix 有明显优势。如果监控场景多是云环境的话，推荐使用 Prometheus。</li>
 </ul>
 <h2 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640.webp" alt="img"></p>
 <p>监控系统思维导图</p>
 <p>监控系统对 IT 系统运维意义重大，从状态监控到收集/分析数据，到故障报警，以及问题解决，最后归档报表，协助运维复盘。</p>
 <p>监控系统分为三大类，日志类，调用链类，度量类，他们有各自的特点，且应用场景各不相同。</p>
@@ -200,4 +200,6 @@ Exporter 将监控数据采集的端点，通过 HTTP 的形式暴露给 Prometh
 <p>来源：本文转自公众号”51CTO技术栈“，经平台授权转载。</p>
 <p>参考其他链接：https://blog.csdn.net/javaforwork/article/details/101093901</p>
 </blockquote>
-</template>
+</div></template>
+
+

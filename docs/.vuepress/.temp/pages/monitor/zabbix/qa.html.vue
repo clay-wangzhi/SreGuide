@@ -1,12 +1,12 @@
-<template><h1 id="_6-常见问题" tabindex="-1"><a class="header-anchor" href="#_6-常见问题" aria-hidden="true">#</a> 6 常见问题</h1>
+<template><div><h1 id="_6-常见问题" tabindex="-1"><a class="header-anchor" href="#_6-常见问题" aria-hidden="true">#</a> 6 常见问题</h1>
 <h1 id="zabbix客户端日志出现-not-all-processes-could-be-identified" tabindex="-1"><a class="header-anchor" href="#zabbix客户端日志出现-not-all-processes-could-be-identified" aria-hidden="true">#</a> Zabbix客户端日志出现(Not all processes could be identified）</h1>
 <p>场景：因为使用了netstat -p参数。</p>
 <p>权限问题，zabbix_agentd是zabbix用户启动的，默认不能执行netstat -p等命令，导致从服务器取到的自动发现脚本为空</p>
 <p>(Not all processes could be identified, non-owned process info
 will not be shown, you would have to be root to see it all.)
 解决方法 ：</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">chmod</span> +s /bin/netstat
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>chmod +s 是什么意思</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">chmod</span> +s /bin/netstat
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>chmod +s 是什么意思</p>
 <blockquote>
 <p>为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。</p>
 </blockquote>
@@ -15,4 +15,6 @@ will not be shown, you would have to be root to see it all.)
 <p>zabbix_agent.conf里尽量不使用HostnameItem=system.hostname此项去自动获取主机名</p>
 <p>尽量使用HostName指定一个主机名，然后web界面配置相同即可</p>
 <p>最后重启相应的agent即可</p>
-</template>
+</div></template>
+
+

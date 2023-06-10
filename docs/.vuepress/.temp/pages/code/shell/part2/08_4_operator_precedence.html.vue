@@ -1,5 +1,5 @@
-<template><h1 id="_8-4-运算符优先级" tabindex="-1"><a class="header-anchor" href="#_8-4-运算符优先级" aria-hidden="true">#</a> 8.4 运算符优先级</h1>
-<p>在脚本中，运算执行的顺序被称为<em>优先级</em>: 高优先级的操作会比低优先级的操作先执行。<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1" /></sup></p>
+<template><div><h1 id="_8-4-运算符优先级" tabindex="-1"><a class="header-anchor" href="#_8-4-运算符优先级" aria-hidden="true">#</a> 8.4 运算符优先级</h1>
+<p>在脚本中，运算执行的顺序被称为<em>优先级</em>: 高优先级的操作会比低优先级的操作先执行。<a href="Precedence(%E4%BC%98%E5%85%88%E7%BA%A7)%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%8C%E4%B8%8Epriority%E5%90%AB%E4%B9%89%E7%9B%B8%E8%BF%91%E3%80%82">^1</a></p>
 <p><strong>表 8-1. 运算符优先级(从高到低)</strong></p>
 <table>
 <thead>
@@ -158,8 +158,8 @@
 <li>复合逻辑运算符，&amp;&amp;, ||, -a, -o 优先级较低</li>
 <li>优先级相同的操作按<em>从左至右</em>顺序求值</li>
 </ul>
-<p>现在，让我们利用运算符优先级的知识来分析一下<em>Fedora Core Linux</em>中的<code>/etc/init.d/functions</code>文件。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>while [ -n "$remaining" -a "$retry" -gt 0 ]; do
+<p>现在，让我们利用运算符优先级的知识来分析一下<em>Fedora Core Linux</em>中的<code v-pre>/etc/init.d/functions</code>文件。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>while [ -n "$remaining" -a "$retry" -gt 0 ]; do
 
 # 初看之下很恐怖...
 
@@ -200,19 +200,14 @@ if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
 #  ${NOLOCALE:-} 是一个参数扩展式，看起来有点多余。
 #  但是, 如果 $NOLOCALE 没有提前声明, 它会被设成null，
 #  在某些情况下，这会有点问题。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="tip" loading="lazy">为了避免在复杂比较运算中的错误，可以把运算分散到几个括号结构中。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>if [ "$v1" -gt "$v2"  -o  "$v1" -lt "$v2"  -a  -e "$filename" ]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/tip.gif" alt="tip">为了避免在复杂比较运算中的错误，可以把运算分散到几个括号结构中。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>if [ "$v1" -gt "$v2"  -o  "$v1" -lt "$v2"  -a  -e "$filename" ]
 # 这样写不清晰...
 
 if [[ "$v1" -gt "$v2" ]] || [[ "$v1" -lt "$v2" ]] &amp;&amp; [[ -e "$filename" ]]
 # 好多了 -- 把逻辑判断分散到多个组之中
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div></blockquote>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>Precedence(优先级)，根据上下文，与priority含义相近。 <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></blockquote>
+</div></template>
+
+

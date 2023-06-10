@@ -1,4 +1,4 @@
-<template><h1 id="echo命令" tabindex="-1"><a class="header-anchor" href="#echo命令" aria-hidden="true">#</a> echo命令</h1>
+<template><div><h1 id="echo命令" tabindex="-1"><a class="header-anchor" href="#echo命令" aria-hidden="true">#</a> echo命令</h1>
 <ul>
 <li>-e 使转义符生效 如:  解释\t \n含义</li>
 <li>-n 不换行输出</li>
@@ -21,4 +21,6 @@
 <p>echo -e “\033[45;37m 紫底白字 \033[0m”</p>
 <p>echo -e “\033[46;37m 天蓝底白字 \033[0m”</p>
 <p>echo -e “\033[47;30m 白底黑字 \033[0m”</p>
-</template>
+</div></template>
+
+

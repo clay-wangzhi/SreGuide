@@ -1,4 +1,4 @@
-<template><p>虽然从底层而言，所有的数据都是由比特组成，但计算机一般操作的是固定大小的数，如整数、浮点数、比特数组、内存地址等。
+<template><div><p>虽然从底层而言，所有的数据都是由比特组成，但计算机一般操作的是固定大小的数，如整数、浮点数、比特数组、内存地址等。
 <strong>Go语言将数据类型分为四类：基础类型、复合类型、引用类型和接口类型</strong>。</p>
 <table>
 <thead>
@@ -51,4 +51,6 @@
 </li>
 <li><RouterLink to="/code/golang/%E5%87%BD%E6%95%B0.html">函数</RouterLink></li>
 </ul>
-</template>
+</div></template>
+
+

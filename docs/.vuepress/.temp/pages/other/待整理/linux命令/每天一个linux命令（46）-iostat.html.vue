@@ -1,9 +1,9 @@
-<template><p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
+<template><div><p>Linux系统中的 iostat是I/O statistics（输入/输出统计）的缩写，iostat工具将对系统的磁盘操作活动进行监视。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。iostat属于sysstat软件包。可以用yum install sysstat 直接安装。</p>
 <!--more-->
 <h2 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h2>
-<p><code>iostat(选项)(参数)</code></p>
+<p><code v-pre>iostat(选项)(参数)</code></p>
 <h2 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-c：仅显示CPU使用情况；
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-c：仅显示CPU使用情况；
 -d：仅显示设备利用率；
 -k：显示状态以千字节每秒为单位，而不使用块每秒；
 -m：显示状态以兆字节每秒为单位；
@@ -11,7 +11,7 @@
 -t：显示每个报告产生时的时间；
 -V：显示版号并退出；
 -x：显示扩展状态。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
 <ul>
 <li>
 <p>间隔时间：每次报告的间隔时间（秒）；</p>
@@ -22,7 +22,7 @@
 </ul>
 <h2 id="常用实例" tabindex="-1"><a class="header-anchor" href="#常用实例" aria-hidden="true">#</a> 常用实例</h2>
 <p>1）显示所有设备负载情况</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat 
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -32,7 +32,7 @@ Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
 xvda              0.38         0.10         5.71     729274   43157304
 xvdb             30.95         7.62       686.84   57636578 5194927160
 dm-0             85.98         7.62       686.84   57635962 5194927160
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>cpu属性值说明：</p>
 <p>%user：CPU处在用户模式下的时间百分比。</p>
 <p>%nice：CPU处在带NICE值的用户模式下的时间百分比。</p>
@@ -42,17 +42,17 @@ dm-0             85.98         7.62       686.84   57635962 5194927160
 <p>%idle：CPU空闲时间百分比。</p>
 <p>备注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。</p>
 <p>2）定时显示所有信息</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>iostat 2 3
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>说明：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>iostat 2 3
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>说明：</p>
 <p>每隔 2秒刷新显示，且显示3次</p>
 <p>3）显示指定磁盘信息</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -d xvda
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -d xvda
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
 xvda              0.38         0.10         5.71     729290   43160264
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>4）显示tty和cpu信息</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -t
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>4）显示tty和cpu信息</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -t
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 04/04/2018 02:25:52 PM
@@ -63,8 +63,8 @@ Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
 xvda              0.38         0.10         5.71     729290   43160960
 xvdb             30.95         7.62       686.87   57637978 5195407104
 dm-0             85.99         7.62       686.87   57637362 5195407104
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>5）以m为单位显示所有信息</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -m
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>5）以m为单位显示所有信息</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -m
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -74,29 +74,29 @@ Device:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn
 xvda              0.38         0.00         0.00        356      21075
 xvdb             30.95         0.00         0.34      28143    2536858
 dm-0             85.99         0.00         0.34      28143    2536858
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>6）查看TPS和吞吐量信息</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -d -k 1 1 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>6）查看TPS和吞吐量信息</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -d -k 1 1 
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
 xvda              0.38         0.05         2.85     364653   21581388
 xvdb             30.95         3.81       343.44   28819121 2597806052
 dm-0             85.99         3.81       343.44   28818813 2597806052
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。</p>
 <p>kB_read/s：每秒从设备（drive expressed）读取的数据量；</p>
 <p>kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；</p>
 <p>kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；</p>
 <p>这些单位都为Kilobytes。</p>
 <p>7）查看设备使用率（%util）、响应时间（await）</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -d -x -k 1 1 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -d -x -k 1 1 
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 xvda              0.00     0.33    0.00    0.38     0.05     2.85    15.16     0.00    3.11    1.94    3.12   1.06   0.04
 xvdb              0.00    55.03    0.13   30.83     3.81   343.45    22.44     0.33   10.74    3.87   10.76   0.12   0.37
 dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0.33    3.89    3.88    3.89   0.04   0.37
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>rrqm/s：  每秒进行 merge 的读操作数目.即 delta(rmerge)/s</p>
 <p>wrqm/s： 每秒进行 merge 的写操作数目.即 delta(wmerge)/s</p>
 <p>r/s：  每秒完成的读 I/O 设备次数.即 delta(rio)/s</p>
@@ -129,7 +129,7 @@ dm-0              0.00     0.00    0.13   85.86     3.81   343.45     8.08     0
 ​      平均等待时间=单个I/O服务器时间*(1+2+...+请求总数-1)/请求总数
 ​       每秒发出的I/0请求很多,但是平均队列就4,表示这些请求比较均匀,大部分处理还是比较及时。</p>
 <p>8）查看cpu状态</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># iostat -c 1 3
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># iostat -c 1 3
 Linux 2.6.32-696.10.2.el6.x86_64 (dzh-hw-bj3219)        04/04/2018      _x86_64_        (8 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -140,7 +140,9 @@ avg-cpu:  %user   %nice %system %iowait  %steal   %idle
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
            4.32    0.00    0.51    0.13    0.00   95.04
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>参考链接：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2012/12/28/2837345.html</p>
 <p>http://man.linuxde.net/iostat</p>
-</template>
+</div></template>
+
+

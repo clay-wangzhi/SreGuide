@@ -1,4 +1,4 @@
-<template><h1 id="_17-io-模型" tabindex="-1"><a class="header-anchor" href="#_17-io-模型" aria-hidden="true">#</a> 17 IO 模型</h1>
+<template><div><h1 id="_17-io-模型" tabindex="-1"><a class="header-anchor" href="#_17-io-模型" aria-hidden="true">#</a> 17 IO 模型</h1>
 <h2 id="重要概念" tabindex="-1"><a class="header-anchor" href="#重要概念" aria-hidden="true">#</a> 重要概念</h2>
 <h3 id="同步、异步" tabindex="-1"><a class="header-anchor" href="#同步、异步" aria-hidden="true">#</a> 同步、异步</h3>
 <p>函数或方法被调用的时候，调用者是否得到<strong>最终结果</strong>的。
@@ -31,13 +31,13 @@
 <h2 id="同步-io-模型" tabindex="-1"><a class="header-anchor" href="#同步-io-模型" aria-hidden="true">#</a> 同步 IO 模型</h2>
 <p>同步IO模型包括 阻塞IO、非阻塞IO、IO多路复用</p>
 <h3 id="阻塞-io" tabindex="-1"><a class="header-anchor" href="#阻塞-io" aria-hidden="true">#</a> 阻塞 IO</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" alt="block_io" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/block_io.png" alt="block_io"></p>
 <h3 id="非阻塞-io" tabindex="-1"><a class="header-anchor" href="#非阻塞-io" aria-hidden="true">#</a> 非阻塞 IO</h3>
 <p>进程调用 recvfrom 操作，如果 IO 设备没有准备好，立即返回 ERROR，进程不阻塞。用户可以再次发起系统调用（可以轮询），如果内核已经准备好，就阻塞，然后复制数据到用户空间。</p>
 <p>第一阶段数据没有准备好，可以先忙别的，等会再来看看。检查数据是否准备好了的过程是非阻塞的。</p>
 <p>第二阶段是阻塞的，即内核空间和用户空间之间复制数据是阻塞的。</p>
 <p>淘米、蒸饭我不阻塞等，反复来询问，一直没有拿到饭。盛饭过程我等着你装好饭，但是要等到盛好饭才算完事，这是同步的，结果就是盛好饭。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/unblock-io.png" alt="unblock-io" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/unblock-io.png" alt="unblock-io"></p>
 <h3 id="io多路复用" tabindex="-1"><a class="header-anchor" href="#io多路复用" aria-hidden="true">#</a> IO多路复用</h3>
 <p>也称 Event-driven IO。</p>
 <p>所谓 IO 多路复用，就是同时监控多个 IO，有一个准备好了，就不需要等了开始处理，提高了同时处理 IO 的能力。
@@ -50,7 +50,7 @@ Mac平台有kqueue，Windows有iocp。</p>
 epoll是有菜准备好了，大师傅喊你去几号窗口直接打菜，不用自己找菜了。</p>
 <p>一般情况下，select 最多能监听1024个 fd（可以修改），但是由于select采用轮询的方式，当管理的 IO 多了，每次都要遍历全部fd，效率低下。
 epoll 没有管理的 fd 的上限，且是回调机制，不需遍历，效率很高。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-more-road.png" alt="io-more-road" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-more-road.png" alt="io-more-road"></p>
 <h3 id="信号驱动io" tabindex="-1"><a class="header-anchor" href="#信号驱动io" aria-hidden="true">#</a> 信号驱动IO</h3>
 <p>进程在 IO 访问时，先通过 sigaction 系统调用，提交一个信号处理函数，立即返回。进程不阻塞。</p>
 <p>当内核准备好数据后，产生一个 SIGIO 信号并投递给信号处理函数。可以在此函数中调用 recvfrom 函数
@@ -60,7 +60,7 @@ epoll 没有管理的 fd 的上限，且是回调机制，不需遍历，效率�
 <p>举例，来打饭，跟大师傅说饭好了叫你，饭菜准备好了，窗口服务员把饭盛好了打电话叫你。两阶段都是异步的。在整个过程中，进程都可以忙别的，等好了才过来。
 举例，今天不想出去到饭店吃饭了，点外卖，饭菜在饭店做好了（第一阶段），快递员从饭店送到你家门口（第二阶段）。
 Linux 的 aio 的系统调用，内核从版本2.6开始支持</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-async.png" alt="io-async" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/io-async.png" alt="io-async"></p>
 <p>前4个都是同步 IO，因为核心操作 recv 函数调用时，进程阻塞直到拿到最终结果为止。</p>
 <p>而异步 IO 进程全程不阻塞。</p>
 <h2 id="python-中-io多路复用" tabindex="-1"><a class="header-anchor" href="#python-中-io多路复用" aria-hidden="true">#</a> Python 中 IO多路复用</h2>
@@ -82,16 +82,16 @@ epoll 使用事件通知机制，使用回调机制提高效率。
 select/poll 还要从内核空间复制消息到用户空间，而 epoll 通过内核空间和用户空间共享一块内存来减少复制。</p>
 <p><strong>selectors 库</strong></p>
 <p>3.4 版本提供 selectors 库，高级 IO 复用库。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>类层次结构︰
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>类层次结构︰
 BaseSelector
 +-- SelectSelector  实现select
 +-- PollSelector   实现poll
 +-- EpollSelector   实现epoll
 +-- DevpollSelector  实现devpoll
 +-- KqueueSelector  实现kqueue
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>selectors.DefaultSelector 返回当前平台最有效、性能最高的实现。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>selectors.DefaultSelector 返回当前平台最有效、性能最高的实现。</p>
 <p>但是，由于没有实现 Windows 下的 IOCP，所以，Windows 下只能退化为 select。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 在selects模块源码最下面有如下代码</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 在selects模块源码最下面有如下代码</span>
 <span class="token comment"># Choose the best implementation, roughly:</span>
 <span class="token comment">#    epoll|kqueue|devpoll > poll > select.</span>
 <span class="token comment"># select() also can't accept a FD > FD_SETSIZE (usually around 1024)</span>
@@ -105,11 +105,11 @@ BaseSelector
     DefaultSelector <span class="token operator">=</span> PollSelector
 <span class="token keyword">else</span><span class="token punctuation">:</span>
     DefaultSelector <span class="token operator">=</span> SelectSelector
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>事件注册</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">SelectSelector</span><span class="token punctuation">(</span>_BaseSelectorImpl<span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>事件注册</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">SelectSelector</span><span class="token punctuation">(</span>_BaseSelectorImpl<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token triple-quoted-string string">"""Select-based selector."""</span>
     <span class="token keyword">def</span> <span class="token function">register</span><span class="token punctuation">(</span>fileobj<span class="token punctuation">,</span> events<span class="token punctuation">,</span> data<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> SelectorKey<span class="token punctuation">:</span> <span class="token keyword">pass</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>为 selector 注册一个文件对象，监视它的 IO 事件。返回 <strong>SelectKey</strong> 对象。</li>
 <li>fileobj 被监视文件对象，例如socket对象</li>
 <li>events 事件，该文件对象必须等待的事件</li>
@@ -142,7 +142,7 @@ BaseSelector
 </ol>
 <p><strong>练习：IO 多路复用 TCP Server</strong></p>
 <p>完成一个 TCP Server，能够接受客户端请求并回应客户端消息。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> selectors
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> selectors
 <span class="token keyword">import</span> threading
 <span class="token keyword">import</span> socket
 <span class="token keyword">import</span> time
@@ -185,8 +185,8 @@ logging<span class="token punctuation">.</span>info<span class="token punctuatio
         <span class="token comment"># key.data => accept; key.fileobj => sock</span>
         callback <span class="token operator">=</span> key<span class="token punctuation">.</span>data
         callback<span class="token punctuation">(</span>key<span class="token punctuation">.</span>fileobj<span class="token punctuation">,</span> mask<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br></div></div><p>上面的代码完成了 Server socket 的读事件的监听。注意，select() 方法会阻塞到监控的对象的等待的事件有发生（监听的读或者写就绪）。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> selectors
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面的代码完成了 Server socket 的读事件的监听。注意，select() 方法会阻塞到监控的对象的等待的事件有发生（监听的读或者写就绪）。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> selectors
 <span class="token keyword">import</span> threading
 <span class="token keyword">import</span> socket
 <span class="token keyword">import</span> time
@@ -244,4 +244,6 @@ logging<span class="token punctuation">.</span>info<span class="token punctuatio
 
 
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

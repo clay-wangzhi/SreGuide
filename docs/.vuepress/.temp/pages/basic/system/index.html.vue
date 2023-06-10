@@ -1,4 +1,4 @@
-<template><h1 id="操作系统学习笔记" tabindex="-1"><a class="header-anchor" href="#操作系统学习笔记" aria-hidden="true">#</a> 操作系统学习笔记</h1>
+<template><div><h1 id="操作系统学习笔记" tabindex="-1"><a class="header-anchor" href="#操作系统学习笔记" aria-hidden="true">#</a> 操作系统学习笔记</h1>
 <h2 id="文章推荐" tabindex="-1"><a class="header-anchor" href="#文章推荐" aria-hidden="true">#</a> 文章推荐</h2>
 <ul>
 <li>图解系统 PDF | 小林coding ⭐</li>
@@ -10,4 +10,6 @@
 <p>任何需要人工操作的事情都只会延长恢复时间。一个可以自动恢复的系统即使有更多的故障发生，也要比事事都需要人工干预的系统可用性更高。</p>
 <p>变更管理的最佳实践是使用自动化来完成以下几个项目：采用渐进式发布机制、迅速而准确地检测到问题的发生、当出现问题时，安全迅速地回退改动。</p>
 <p>监控系统的4个黄金指标分别是延迟、流量、错误和饱和度。</p>
-</template>
+</div></template>
+
+

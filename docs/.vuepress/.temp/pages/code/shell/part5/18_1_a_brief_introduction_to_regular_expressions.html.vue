@@ -1,4 +1,4 @@
-<template><h1 id="_18-1-正则表达式简介" tabindex="-1"><a class="header-anchor" href="#_18-1-正则表达式简介" aria-hidden="true">#</a> 18.1 正则表达式简介</h1>
+<template><div><h1 id="_18-1-正则表达式简介" tabindex="-1"><a class="header-anchor" href="#_18-1-正则表达式简介" aria-hidden="true">#</a> 18.1 正则表达式简介</h1>
 <p>正则表达式是一系列的字符串。这些包含超过其字面含义的字符串被称之为元字符。例如，一个符号前面的引用符代表一个人的言语能力，或者按照上面的说法，代表着meta-meaning<a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]<ExternalLinkIcon/></a>。正则表达式是一组字符串和（或者）一组匹配（特定的）模式的元字符。</p>
 <p>一个正则表达式包含下面的一个或多个选项：</p>
 <ul>
@@ -31,7 +31,7 @@
 &quot;[c-n]&quot;匹配c到n之间的任意一个字符<br>
 &quot;[B-Pk-y]&quot;匹配B到P和k到y之间任意一个字符<br>
 &quot;[a-z0-9]&quot;匹配任意一个小写字符和任意一个数字<br>
-&quot;[<sup>b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;</sup>&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
+&quot;[^b-d]&quot;匹配任意一个不在b到d之间的字符。这是一个很好的例子，展示了&quot;^&quot;的匹配了正则表达式的反义（类似在其他环境下的&quot;!&quot;符号所起的作用）<br>
 组合一连串的用方括号括起来的字符能匹配非常多的词组模式。&quot;[Yy][Ee][Ss]&quot;匹配yes、Yes、YES、yEs等等。&quot;[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]&quot;匹配任何一个社会保险号</p>
 </li>
 <li>
@@ -44,7 +44,7 @@
 &quot;&lt;the&gt;&quot;匹配词组&quot;the&quot;，而不是词组&quot;them,&quot; &quot;there,&quot; &quot;other,&quot;等等</p>
 </li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>bash$ <span class="token function">cat</span> textfile
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>bash$ <span class="token function">cat</span> textfile
 This is line <span class="token number">1</span>, of <span class="token function">which</span> there is only one instance.
  This is the only instance of line <span class="token number">2</span>.
  This is line <span class="token number">3</span>, another line.
@@ -59,8 +59,8 @@ This is line <span class="token number">1</span>, of <span class="token function
 
 bash$ <span class="token function">grep</span> <span class="token string">'\&lt;the\>'</span> textfile
 This is the only instance of line <span class="token number">2</span>.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>测试文件: tstfile                          <span class="token comment"># No match.</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>唯一判断一个特定的正则表达式是否有效的方法就是测试它。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>测试文件: tstfile                          <span class="token comment"># No match.</span>
                                             <span class="token comment"># No match.</span>
 运行 <span class="token function">grep</span> <span class="token string">"1133*"</span>  tstfile                  <span class="token comment"># Match.</span>
                                             <span class="token comment"># No match.</span>
@@ -73,19 +73,19 @@ This line contains the number <span class="token number">113312</span>.       <s
 This line contains the number <span class="token number">1112</span>.         <span class="token comment"># No match.</span>
 This line contains the number <span class="token number">113312312</span>.    <span class="token comment"># Match.</span>
 This line contains no numbers at all.       <span class="token comment"># No match.</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>bash$ <span class="token function">grep</span> <span class="token string">"1133*"</span> tstfile
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>bash$ <span class="token function">grep</span> <span class="token string">"1133*"</span> tstfile
 Run   <span class="token function">grep</span> <span class="token string">"1133*"</span>  on this file.           <span class="token comment"># Match.</span>
  This line contains the number <span class="token number">113</span>.          <span class="token comment"># Match.</span>
  This line contains the number <span class="token number">1133</span>.         <span class="token comment"># Match.</span>
  This line contains the number <span class="token number">113312</span>.       <span class="token comment"># Match.</span>
  This line contains the number <span class="token number">113312312</span>.    <span class="token comment"># Match.</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>注解</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注解</p>
 <p><a href="http://tldp.org/LDP/abs/html/x17129.html#FTN.AEN17134" target="_blank" rel="noopener noreferrer">[1]<ExternalLinkIcon/></a> 元意义指的是一个词组或者表达式在更高层次的抽象上的意义。例如，正则表达式的字面意思就是所有人接受其用法的普通表达式。元意义则完全不同，正如在本章最终讨论的那样。
 <a href="http://tldp.org/LDP/abs/html/x17129.html#AEN17189" target="_blank" rel="noopener noreferrer">[2]<ExternalLinkIcon/></a>
 Since sed, awk, and grep process single lines, there will usually not be a newline to match. In those cases where there is a newline in a multiple line expression, the dot will match the newline.</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
-<span class="token function">sed</span> -e <span class="token string">'N;s/.*/[&amp;]/'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOF<span class="token bash punctuation">   <span class="token comment"># Here Document</span></span>
+<span class="token function">sed</span> <span class="token parameter variable">-e</span> <span class="token string">'N;s/.*/[&amp;]/'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOF<span class="token bash punctuation">   <span class="token comment"># Here Document</span></span>
 line1
 line2
 EOF</span>
@@ -109,4 +109,6 @@ EOF</span>
 <span class="token comment"># Thanks, S.C.</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

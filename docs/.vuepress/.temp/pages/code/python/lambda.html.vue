@@ -1,11 +1,11 @@
-<template><h1 id="_5-3-匿名函数" tabindex="-1"><a class="header-anchor" href="#_5-3-匿名函数" aria-hidden="true">#</a> 5.3 匿名函数</h1>
+<template><div><h1 id="_5-3-匿名函数" tabindex="-1"><a class="header-anchor" href="#_5-3-匿名函数" aria-hidden="true">#</a> 5.3 匿名函数</h1>
 <p>Python 中，匿名函数也叫 lambda 表达式。</p>
 <p>匿名：隐藏名字，即没有名称</p>
 <p>匿名函数：没有名字的函数。</p>
 <p>函数没有名字该如何定义？函数没有名字如何调用？</p>
 <p><strong>Lambda 表达式</strong></p>
 <p>Python中，使用 Lambda 表达式构建匿名函数。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">return</span> x <span class="token operator">**</span> <span class="token number">2</span>
 <span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x <span class="token operator">**</span> <span class="token number">2</span> <span class="token comment"># 定义</span>
 a <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x <span class="token operator">**</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token comment"># 调用</span>
@@ -15,7 +15,7 @@ foo <span class="token operator">=</span> <span class="token keyword">lambda</sp
 <span class="token comment"># 等价于</span>
 <span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span>x<span class="token operator">+</span>y<span class="token punctuation">)</span> <span class="token operator">**</span> <span class="token number">2</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>使用 lambda 关键字定义匿名函数，格式为 lambda [参数列表]: 表达式</li>
 <li>参数列表不需要小括号。无参就不写参数</li>
 <li>冒号用来分割参数列表和表达式部分</li>
@@ -23,7 +23,7 @@ foo <span class="token operator">=</span> <span class="token keyword">lambda</sp
 <li>Python的lambda表达式（匿名函数）只能写在一行上，也称为单行函数</li>
 </ul>
 <p>匿名函数往往用在为高阶函数传参时，使用 lambda 表达式，往往能简化代码</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 返回常量的函数</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 返回常量的函数</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> <span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
 <span class="token comment"># 加法匿名函数，带缺省值</span>
@@ -45,4 +45,6 @@ foo <span class="token operator">=</span> <span class="token keyword">lambda</sp
 d <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token operator">+</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token operator">-</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 高阶函数</span>
 a <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span>x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

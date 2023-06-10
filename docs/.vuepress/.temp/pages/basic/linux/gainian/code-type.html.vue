@@ -1,4 +1,4 @@
-<template><h1 id="编程语言的分类" tabindex="-1"><a class="header-anchor" href="#编程语言的分类" aria-hidden="true">#</a> 编程语言的分类</h1>
+<template><div><h1 id="编程语言的分类" tabindex="-1"><a class="header-anchor" href="#编程语言的分类" aria-hidden="true">#</a> 编程语言的分类</h1>
 <p>编程语言的分类可以从三个角度出发：</p>
 <h2 id="编译型和解释型" tabindex="-1"><a class="header-anchor" href="#编译型和解释型" aria-hidden="true">#</a> 编译型和解释型</h2>
 <h3 id="编译型" tabindex="-1"><a class="header-anchor" href="#编译型" aria-hidden="true">#</a> 编译型</h3>
@@ -7,30 +7,30 @@
 <li>优点：执行速度很快</li>
 <li>缺点：开发效率低，不能跨平台</li>
 </ul>
-<p>常见语言有<code>C\C++</code>、<code>Go</code>等</p>
+<p>常见语言有<code v-pre>C\C++</code>、<code v-pre>Go</code>等</p>
 <h3 id="解释型" tabindex="-1"><a class="header-anchor" href="#解释型" aria-hidden="true">#</a> 解释型</h3>
 <p>只在运行时才一条一条的解释成机器语言给计算机执行。</p>
 <ul>
 <li>优点：开发效率高，跨平台</li>
 <li>缺点：运行速度慢</li>
 </ul>
-<p>常见语言有<code>Python</code>、<code>PHP</code>、<code>JavaScript</code></p>
+<p>常见语言有<code v-pre>Python</code>、<code v-pre>PHP</code>、<code v-pre>JavaScript</code></p>
 <h3 id="混合型" tabindex="-1"><a class="header-anchor" href="#混合型" aria-hidden="true">#</a> 混合型</h3>
-<p>常见语言有<code>JAVA</code>、<code>C#</code></p>
+<p>常见语言有<code v-pre>JAVA</code>、<code v-pre>C#</code></p>
 <h2 id="静态语言和动态语言" tabindex="-1"><a class="header-anchor" href="#静态语言和动态语言" aria-hidden="true">#</a> 静态语言和动态语言</h2>
 <h3 id="动态语言" tabindex="-1"><a class="header-anchor" href="#动态语言" aria-hidden="true">#</a> 动态语言</h3>
 <p>即数据类型是在运行期间检查的，写程序时不用给变量指定数据类型，当你第一次赋值给变量时，就在内部记录下了数据类型。</p>
-<p>常见语言有<code>Python</code>、<code>Ruby</code>、<code>JavaScript</code></p>
+<p>常见语言有<code v-pre>Python</code>、<code v-pre>Ruby</code>、<code v-pre>JavaScript</code></p>
 <h3 id="静态语言" tabindex="-1"><a class="header-anchor" href="#静态语言" aria-hidden="true">#</a> 静态语言</h3>
 <p>即数据类型是在编译期间检查的，写程序时声明所有变量的数据类型。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Go</code></p>
+<p>常见语言有<code v-pre>JAVA</code>、<code v-pre>C\C++</code>、<code v-pre>Go</code></p>
 <h2 id="强类型语言和弱类型语言" tabindex="-1"><a class="header-anchor" href="#强类型语言和弱类型语言" aria-hidden="true">#</a> 强类型语言和弱类型语言</h2>
 <h3 id="强类型语言-类型安全" tabindex="-1"><a class="header-anchor" href="#强类型语言-类型安全" aria-hidden="true">#</a> 强类型语言（类型安全）</h3>
 <p>强制数据类型定义的语言，即一旦一个变量被指定了某个数据类型，如果不经过强制转换，那么它就永远是这个数据类型了。</p>
-<p>常见语言有<code>JAVA</code>、<code>C\C++</code>、<code>Python</code>、<code>Go</code>。</p>
+<p>常见语言有<code v-pre>JAVA</code>、<code v-pre>C\C++</code>、<code v-pre>Python</code>、<code v-pre>Go</code>。</p>
 <h3 id="弱类型语言" tabindex="-1"><a class="header-anchor" href="#弱类型语言" aria-hidden="true">#</a> 弱类型语言</h3>
 <p>一个变量可以赋不同数据类型的值。</p>
-<p>常见语言有<code>JavaScript</code></p>
+<p>常见语言有<code v-pre>JavaScript</code></p>
 <h2 id="结论" tabindex="-1"><a class="header-anchor" href="#结论" aria-hidden="true">#</a> 结论</h2>
 <h3 id="python" tabindex="-1"><a class="header-anchor" href="#python" aria-hidden="true">#</a> Python</h3>
 <p>Python是一门动态解释型的强类型定义语言</p>
@@ -46,4 +46,6 @@
 <blockquote>
 <p>https://www.cnblogs.com/sunbr/p/11214498.html</p>
 </blockquote>
-</template>
+</div></template>
+
+

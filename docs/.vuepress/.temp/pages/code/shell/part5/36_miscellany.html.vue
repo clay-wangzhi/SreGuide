@@ -1,4 +1,4 @@
-<template><h1 id="第36章-杂项" tabindex="-1"><a class="header-anchor" href="#第36章-杂项" aria-hidden="true">#</a> 第36章 杂项</h1>
+<template><div><h1 id="第36章-杂项" tabindex="-1"><a class="header-anchor" href="#第36章-杂项" aria-hidden="true">#</a> 第36章 杂项</h1>
 <blockquote>
 <p>Nobody really knows what the Bourne shell's grammar is. Even examination of the source code is little help.
 ——Tom Duff</p>
@@ -16,4 +16,6 @@
 <li><RouterLink to="/code/shell/part5/36_9_portability_issues.html">36.9 可移植性问题</RouterLink></li>
 <li><RouterLink to="/code/shell/part5/36_10_shell_scripting_under_windows.html">36.10 Windows系统下的脚本</RouterLink></li>
 </ul>
-</template>
+</div></template>
+
+

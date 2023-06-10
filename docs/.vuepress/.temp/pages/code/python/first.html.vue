@@ -1,4 +1,4 @@
-<template><h1 id="_1-1-初识python" tabindex="-1"><a class="header-anchor" href="#_1-1-初识python" aria-hidden="true">#</a> 1.1 初识Python</h1>
+<template><div><h1 id="_1-1-初识python" tabindex="-1"><a class="header-anchor" href="#_1-1-初识python" aria-hidden="true">#</a> 1.1 初识Python</h1>
 <blockquote>
 <p>转载自：Python - 100天从新手到大师 | 骆昊</p>
 </blockquote>
@@ -39,28 +39,28 @@
 </thead>
 <tbody>
 <tr>
-<td><code>CPython</code></td>
+<td><code v-pre>CPython</code></td>
 <td>官方，C 语言开发，最广泛的 Python 解释器</td>
 </tr>
 <tr>
-<td><code>IPython</code></td>
-<td>一个交互式、功能增强的<code>CPython</code></td>
+<td><code v-pre>IPython</code></td>
+<td>一个交互式、功能增强的<code v-pre>CPython</code></td>
 </tr>
 <tr>
-<td><code>PyPy</code></td>
-<td>Python 语言写的 Python 解释器，<code>JIT</code>技术，动态编译 Python 代码</td>
+<td><code v-pre>PyPy</code></td>
+<td>Python 语言写的 Python 解释器，<code v-pre>JIT</code>技术，动态编译 Python 代码</td>
 </tr>
 <tr>
-<td><code>Jython</code></td>
-<td>Python 的源代码编译成 Java 的字节码，跑在<code>JVM</code>上</td>
+<td><code v-pre>Jython</code></td>
+<td>Python 的源代码编译成 Java 的字节码，跑在<code v-pre>JVM</code>上</td>
 </tr>
 <tr>
-<td><code>IronPython</code></td>
-<td>与<code>Jytho</code>n类似，运行在<code>.Net</code>平台上的解释器，Python 代码被编译成<code>.Net</code>的字节码</td>
+<td><code v-pre>IronPython</code></td>
+<td>与<code v-pre>Jytho</code>n类似，运行在<code v-pre>.Net</code>平台上的解释器，Python 代码被编译成<code v-pre>.Net</code>的字节码</td>
 </tr>
 <tr>
-<td><code>stackless</code></td>
-<td>Python的增强版本解释器，不使用<code>CPython</code>的 C 的栈，采用微线程概念编程，并发编程</td>
+<td><code v-pre>stackless</code></td>
+<td>Python的增强版本解释器，不使用<code v-pre>CPython</code>的 C 的栈，采用微线程概念编程，并发编程</td>
 </tr>
 </tbody>
 </table>
@@ -74,52 +74,54 @@
 <ol>
 <li>安装依赖库（因为没有这些依赖库可能在源代码构件安装时因为缺失底层依赖库而失败）。</li>
 </ol>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>yum -y install wget gcc zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2">
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>yum -y install wget gcc zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="2">
 <li>下载Python源代码并解压缩到指定目录。</li>
 </ol>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>wget https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tar.xz
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>wget https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tar.xz
 xz -d Python-3.7.6.tar.xz
 tar -xvf Python-3.7.6.tar
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><ol start="3">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>切换至Python源代码目录并执行下面的命令进行配置和安装。</li>
 </ol>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>cd Python-3.7.6
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>cd Python-3.7.6
 ./configure --prefix=/usr/local/python37 --enable-optimizations
 make &amp;&amp; make install
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><ol start="4">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
 <li>修改用户主目录下名为.bash_profile的文件，配置PATH环境变量并使其生效。</li>
 </ol>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>cd ~
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>cd ~
 vim .bash_profile
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code># ... 此处省略上面的代码 ...
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code># ... 此处省略上面的代码 ...
 
 export PATH=$PATH:/usr/local/python37/bin
 
 # ... 此处省略下面的代码 ...
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ol start="5">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="5">
 <li>激活环境变量。</li>
 </ol>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>source .bash_profile
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="macos环境" tabindex="-1"><a class="header-anchor" href="#macos环境" aria-hidden="true">#</a> macOS环境</h3>
-<p>macOS也自带了Python 2.x版本，可以通过<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站<ExternalLinkIcon/></a>提供的安装文件（pkg文件）安装Python 3.x的版本。默认安装完成后，可以通过在终端执行<code>python</code>命令来启动2.x版本的Python解释器，启动3.x版本的Python解释器需要执行<code>python3</code>命令。</p>
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>source .bash_profile
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="macos环境" tabindex="-1"><a class="header-anchor" href="#macos环境" aria-hidden="true">#</a> macOS环境</h3>
+<p>macOS也自带了Python 2.x版本，可以通过<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">Python的官方网站<ExternalLinkIcon/></a>提供的安装文件（pkg文件）安装Python 3.x的版本。默认安装完成后，可以通过在终端执行<code v-pre>python</code>命令来启动2.x版本的Python解释器，启动3.x版本的Python解释器需要执行<code v-pre>python3</code>命令。</p>
 <h2 id="运行python程序" tabindex="-1"><a class="header-anchor" href="#运行python程序" aria-hidden="true">#</a> 运行Python程序</h2>
 <h3 id="确认python的版本" tabindex="-1"><a class="header-anchor" href="#确认python的版本" aria-hidden="true">#</a> 确认Python的版本</h3>
 <p>可以Windows的命令行提示符中键入下面的命令。</p>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>python --version
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>在Linux或macOS系统的终端中键入下面的命令。</p>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>python3 --version
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>当然也可以先输入<code>python</code>或<code>python3</code>进入交互式环境，再执行以下的代码检查Python的版本。</p>
-<div class="language-Python ext-Python line-numbers-mode"><pre v-pre class="language-Python"><code>import sys
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>python --version
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>在Linux或macOS系统的终端中键入下面的命令。</p>
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>python3 --version
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>当然也可以先输入<code v-pre>python</code>或<code v-pre>python3</code>进入交互式环境，再执行以下的代码检查Python的版本。</p>
+<div class="language-Python line-numbers-mode" data-ext="Python"><pre v-pre class="language-Python"><code>import sys
 
 print(sys.version_info)
 print(sys.version)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="编写python源代码" tabindex="-1"><a class="header-anchor" href="#编写python源代码" aria-hidden="true">#</a> 编写Python源代码</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="编写python源代码" tabindex="-1"><a class="header-anchor" href="#编写python源代码" aria-hidden="true">#</a> 编写Python源代码</h3>
 <p>可以用文本编辑工具（推荐使用<a href="https://www.sublimetext.com/" target="_blank" rel="noopener noreferrer">Sublime<ExternalLinkIcon/></a>、<a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Code<ExternalLinkIcon/></a>等高级文本编辑工具）编写Python源代码并用py作为后缀名保存该文件，代码内容如下所示。</p>
-<div class="language-Python ext-Python line-numbers-mode"><pre v-pre class="language-Python"><code>print('hello, world!')
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="运行程序" tabindex="-1"><a class="header-anchor" href="#运行程序" aria-hidden="true">#</a> 运行程序</h3>
+<div class="language-Python line-numbers-mode" data-ext="Python"><pre v-pre class="language-Python"><code>print('hello, world!')
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="运行程序" tabindex="-1"><a class="header-anchor" href="#运行程序" aria-hidden="true">#</a> 运行程序</h3>
 <p>切换到源代码所在的目录并执行下面的命令，看看屏幕上是否输出了&quot;hello, world!&quot;。</p>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>python hello.py
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>或</p>
-<div class="language-Shell ext-Shell line-numbers-mode"><pre v-pre class="language-Shell"><code>python3 hello.py
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div></template>
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>python hello.py
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>或</p>
+<div class="language-Shell line-numbers-mode" data-ext="Shell"><pre v-pre class="language-Shell"><code>python3 hello.py
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></div></template>
+
+

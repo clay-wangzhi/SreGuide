@@ -1,12 +1,12 @@
-<template><h1 id="为-k8s-node-配置资源预留" tabindex="-1"><a class="header-anchor" href="#为-k8s-node-配置资源预留" aria-hidden="true">#</a> 为 k8s node 配置资源预留</h1>
+<template><div><h1 id="为-k8s-node-配置资源预留" tabindex="-1"><a class="header-anchor" href="#为-k8s-node-配置资源预留" aria-hidden="true">#</a> 为 k8s node 配置资源预留</h1>
 <h2 id="背景" tabindex="-1"><a class="header-anchor" href="#背景" aria-hidden="true">#</a> 背景</h2>
 <p>如果某些pod 没有设置资源限制，导致 node 节点 负载过高，进而导入 kubelet 和 apiserver 的心跳出现问题，节点就会 Not Ready</p>
 <p>Not Ready 的 节点 开始驱逐应用，当没有资源限制的应用跑到其他 节点，其他节点也会产生连锁反应，load 高，心跳失败，Not Ready，进而导致整个集群的雪崩</p>
 <p>所以现在设置资源预留：防止 某些 pod 将 cpu 跑满，进而 kubelet 和 apiserver 心跳失败，出现 Not Ready 现象</p>
 <h2 id="具体操作步骤" tabindex="-1"><a class="header-anchor" href="#具体操作步骤" aria-hidden="true">#</a> 具体操作步骤</h2>
 <p>在 kubelet yaml 文件中 追加以下内容，然后重启 kubelet</p>
-<p><code>vim /var/lib/kubelet/config.yaml</code></p>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">enforceNodeAllocatable</span><span class="token punctuation">:</span>  <span class="token comment"># 配置资源预留</span>
+<p><code v-pre>vim /var/lib/kubelet/config.yaml</code></p>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">enforceNodeAllocatable</span><span class="token punctuation">:</span>  <span class="token comment"># 配置资源预留</span>
 <span class="token punctuation">-</span> pods
 <span class="token key atrule">kubeReserved</span><span class="token punctuation">:</span>  <span class="token comment"># 配置 kube 资源预留</span>
   <span class="token key atrule">cpu</span><span class="token punctuation">:</span> 1000m
@@ -17,5 +17,7 @@
 <span class="token key atrule">evictionHard</span><span class="token punctuation">:</span>  <span class="token comment"># 配置硬驱逐阈值</span>
   <span class="token key atrule">memory.available</span><span class="token punctuation">:</span> <span class="token string">"5%"</span>
   <span class="token key atrule">nodefs.available</span><span class="token punctuation">:</span> <span class="token string">"10%"</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>systemctl restart kubelet
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>systemctl restart kubelet
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></div></template>
+
+

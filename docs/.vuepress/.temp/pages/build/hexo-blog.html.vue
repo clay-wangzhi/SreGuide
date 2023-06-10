@@ -1,4 +1,4 @@
-<template><p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/blogchongjianfengmian.jpg" alt="" loading="lazy"></p>
+<template><div><p>​	本文主要讲解博客的搭建过程，next主题优化，next配置文件详解等。<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/blogchongjianfengmian.jpg" alt=""></p>
 <!--more-->
 <h2 id="hexo-github的搭建过程2" tabindex="-1"><a class="header-anchor" href="#hexo-github的搭建过程2" aria-hidden="true">#</a> hexo+github的搭建过程2</h2>
 <h3 id="准备安装软件" tabindex="-1"><a class="header-anchor" href="#准备安装软件" aria-hidden="true">#</a> 准备安装软件</h3>
@@ -16,64 +16,64 @@
 <p>其他的可以选择添加一些描述也可以选择默认什么也不添加 ，点击creat repository</p>
 <h4 id="配置ssh-keys" tabindex="-1"><a class="header-anchor" href="#配置ssh-keys" aria-hidden="true">#</a> 配置SSH keys</h4>
 <p>运行git bash</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ ssh-keygen -t rsa -C <span class="token string">"邮件地址@youremail.com"</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-C</span> <span class="token string">"邮件地址@youremail.com"</span>
 Generating public/private rsa key pair.
 Enter <span class="token function">file</span> <span class="token keyword">in</span> <span class="token function">which</span> to save the key <span class="token punctuation">(</span>/Users/your_user_directory/.ssh/id_rsa<span class="token punctuation">)</span>:<span class="token operator">&lt;</span>回车就好<span class="token operator">></span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>【提示1】这里的邮箱地址，输入注册 Github 的邮箱地址；</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>【提示1】这里的邮箱地址，输入注册 Github 的邮箱地址；</p>
 <p>【提示2】「-C」的是大写的「C」</p>
 <p>然后系统会要你输入密码：</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>Enter passphrase <span class="token punctuation">(</span>empty <span class="token keyword">for</span> no passphrase<span class="token punctuation">)</span>:<span class="token operator">&lt;</span>设置密码<span class="token operator">></span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>Enter passphrase <span class="token punctuation">(</span>empty <span class="token keyword">for</span> no passphrase<span class="token punctuation">)</span>:<span class="token operator">&lt;</span>设置密码<span class="token operator">></span>
 Enter same passphrase again:<span class="token operator">&lt;</span>再次输入密码<span class="token operator">></span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
 <p>注意：输入密码的时候没有输入痕迹的，不要以为什么也没有输入。</p>
 <h4 id="添加ssh-key到github" tabindex="-1"><a class="header-anchor" href="#添加ssh-key到github" aria-hidden="true">#</a> 添加SSH Key到GitHub</h4>
 <p>在本地文件夹找到id_rsa.pub文件，.ssh文件夹里记事本打开这个文件复制全部内容到github相应位。</p>
 <p><strong>测试</strong></p>
 <p>打开git bash，输入以下代码</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">ssh</span> -T git@github.com
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>如何返回值中有successfully字段代表配置成功了。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">ssh</span> <span class="token parameter variable">-T</span> git@github.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>如何返回值中有successfully字段代表配置成功了。</p>
 <h4 id="设置用户信息" tabindex="-1"><a class="header-anchor" href="#设置用户信息" aria-hidden="true">#</a> 设置用户信息</h4>
 <p>打开git bash，完善个人信息</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">git</span> config --global user.name <span class="token string">"user"</span> //输入注册时的username
-$ <span class="token function">git</span> config --global user.email  <span class="token string">"email"</span> //填写注册邮箱
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="搭建hexo博客" tabindex="-1"><a class="header-anchor" href="#搭建hexo博客" aria-hidden="true">#</a> 搭建hexo博客</h3>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">git</span> config <span class="token parameter variable">--global</span> user.name <span class="token string">"user"</span> //输入注册时的username
+$ <span class="token function">git</span> config <span class="token parameter variable">--global</span> user.email  <span class="token string">"email"</span> //填写注册邮箱
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="搭建hexo博客" tabindex="-1"><a class="header-anchor" href="#搭建hexo博客" aria-hidden="true">#</a> 搭建hexo博客</h3>
 <p>利用npm命令安装hexo</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>$ npm install -g hexo
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>$ npm install -g hexo
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li><strong>创建独立博客项目文件夹</strong></li>
 </ul>
 <p>安装完成后，关掉前面那个 Git Bash 窗口。在本地创建一个与 Repository 中博客项目同名的文件夹（如E:\username.github.io）在文件夹上点击鼠标右键，选择 Git bash here；</p>
 <p>【提示】在进行博客搭建工作时，每次使用命令都要在E:\username.github.io目录下。</p>
 <p>执行下面的指令，Hexo 就会自动在 E:\username.github.io文件夹建立独立博客所需要的所有文件啦！</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ hexo init
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ hexo init
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li><strong>安装依赖包</strong></li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li><strong>确保git部署</strong></li>
 </ul>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git <span class="token parameter variable">--save</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li><strong>本地查看</strong></li>
 </ul>
 <p>现在已经搭建好本地的 Hexo 博客了，执行完下面的命令就可以到浏览器输入 localhost:4000 查看到啦</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ hexo g
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ hexo g
 $ hexo s
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>hexo g 每次进行相应改动都要hexo g 生成一下</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>hexo g 每次进行相应改动都要hexo g 生成一下</p>
 <p>hexo s 启动服务预览</p>
 <p>执行完 hexo init 命令后会给一个默认的主题：landscape</p>
 <p>你可以到官网找你喜欢的主题进行下载 <a href="https://hexo.io/themes/" target="_blank" rel="noopener noreferrer">hexo themes<ExternalLinkIcon/></a> <a href="https://www.zhihu.com/question/24422335/answer/46357100" target="_blank" rel="noopener noreferrer">知乎：有哪些好看的 Hexo 主题？<ExternalLinkIcon/></a></p>
 <p>找到它所在的 Github Repository （怎么找，我喜欢的那个，恰好博主放了他的github地址）</p>
 <p>找到之后通过git命令下载</p>
 <p>在主题的repository点击clone 复制一下那个地址</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">git</span> clone https://github.com/theme-next/hexo-theme-next themes/next
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="next主题使用及优化" tabindex="-1"><a class="header-anchor" href="#next主题使用及优化" aria-hidden="true">#</a> next主题使用及优化</h2>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">git</span> clone https://github.com/theme-next/hexo-theme-next themes/next
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="next主题使用及优化" tabindex="-1"><a class="header-anchor" href="#next主题使用及优化" aria-hidden="true">#</a> next主题使用及优化</h2>
 <h3 id="启用主题" tabindex="-1"><a class="header-anchor" href="#启用主题" aria-hidden="true">#</a> 启用主题</h3>
-<p>与所有 Hexo 主题启用的模式一样。 当 克隆/下载 完成后，打开 站点配置文件， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>。</p>
+<p>与所有 Hexo 主题启用的模式一样。 当 克隆/下载 完成后，打开 站点配置文件， 找到 <code v-pre>theme</code> 字段，并将其值更改为 <code v-pre>next</code>。</p>
 <p>启用 NexT 主题</p>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">theme</span><span class="token punctuation">:</span> next
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>到此，NexT 主题安装完成。下一步我们将验证主题是否正确启用。在切换主题之后、验证之前， 我们最好使用 <code>hexo clean</code> 来清除 Hexo 的缓存。</p>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">theme</span><span class="token punctuation">:</span> next
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>到此，NexT 主题安装完成。下一步我们将验证主题是否正确启用。在切换主题之后、验证之前， 我们最好使用 <code v-pre>hexo clean</code> 来清除 Hexo 的缓存。</p>
 <h3 id="选择-scheme" tabindex="-1"><a class="header-anchor" href="#选择-scheme" aria-hidden="true">#</a> 选择 Scheme</h3>
 <p>Scheme 是 NexT 提供的一种特性，借助于 Scheme，NexT 为你提供多种不同的外观。同时，几乎所有的配置都可以 在 Scheme 之间共用。目前 NexT 支持三种 Scheme，他们是：</p>
 <ul>
@@ -81,41 +81,41 @@ $ hexo s
 <li>Mist - Muse 的紧凑版本，整洁有序的单栏外观</li>
 <li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
 </ul>
-<p>Scheme 的切换通过更改 主题配置文件，搜索 scheme 关键字。 你会看到有三行 scheme 的配置，将你需用启用的 scheme 前面注释 <code>#</code> 去除即可。</p>
+<p>Scheme 的切换通过更改 主题配置文件，搜索 scheme 关键字。 你会看到有三行 scheme 的配置，将你需用启用的 scheme 前面注释 <code v-pre>#</code> 去除即可。</p>
 <p>选择 Pisces Scheme</p>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token comment">#scheme: Muse</span>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token comment">#scheme: Muse</span>
 <span class="token comment">#scheme: Mist</span>
 <span class="token key atrule">scheme</span><span class="token punctuation">:</span> Pisces
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="设置-语言" tabindex="-1"><a class="header-anchor" href="#设置-语言" aria-hidden="true">#</a> 设置 语言</h3>
-<p>编辑 站点配置文件， 将 <code>language</code> 设置成你所需要的语言。建议明确设置你所需要的语言，例如选用简体中文，配置如下：</p>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">language</span><span class="token punctuation">:</span> zh<span class="token punctuation">-</span>CN
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="local-search" tabindex="-1"><a class="header-anchor" href="#local-search" aria-hidden="true">#</a> Local Search</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="设置-语言" tabindex="-1"><a class="header-anchor" href="#设置-语言" aria-hidden="true">#</a> 设置 语言</h3>
+<p>编辑 站点配置文件， 将 <code v-pre>language</code> 设置成你所需要的语言。建议明确设置你所需要的语言，例如选用简体中文，配置如下：</p>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">language</span><span class="token punctuation">:</span> zh<span class="token punctuation">-</span>CN
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="local-search" tabindex="-1"><a class="header-anchor" href="#local-search" aria-hidden="true">#</a> Local Search</h3>
 <p>添加百度/谷歌/本地 自定义站点内容搜索</p>
 <ol>
-<li>安装 <code>hexo-generator-searchdb</code>，在站点的根目录下执行以下命令：</li>
+<li>安装 <code v-pre>hexo-generator-searchdb</code>，在站点的根目录下执行以下命令：</li>
 </ol>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span> hexo-generator-searchdb --save
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ol start="2">
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>$ <span class="token function">npm</span> <span class="token function">install</span> hexo-generator-searchdb <span class="token parameter variable">--save</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ol start="2">
 <li>编辑 站点配置文件，新增以下内容到任意位置：</li>
 </ol>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">search</span><span class="token punctuation">:</span>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">search</span><span class="token punctuation">:</span>
   <span class="token key atrule">path</span><span class="token punctuation">:</span> search.xml
   <span class="token key atrule">field</span><span class="token punctuation">:</span> post
   <span class="token key atrule">format</span><span class="token punctuation">:</span> html
   <span class="token key atrule">limit</span><span class="token punctuation">:</span> <span class="token number">10000</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ol start="3">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>编辑 主题配置文件，启用本地搜索功能：</li>
 </ol>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token comment"># Local search</span>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token comment"># Local search</span>
 <span class="token key atrule">local_search</span><span class="token punctuation">:</span>
   <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="文章模块的美化" tabindex="-1"><a class="header-anchor" href="#文章模块的美化" aria-hidden="true">#</a> 文章模块的美化</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="文章模块的美化" tabindex="-1"><a class="header-anchor" href="#文章模块的美化" aria-hidden="true">#</a> 文章模块的美化</h2>
 <h3 id="文章内代码美化" tabindex="-1"><a class="header-anchor" href="#文章内代码美化" aria-hidden="true">#</a> 文章内代码美化</h3>
 <ul>
 <li>行内代码
-在主题目录下，将<code>source/css/_custom/custom.styl</code>文件修改如下：</li>
+在主题目录下，将<code v-pre>source/css/_custom/custom.styl</code>文件修改如下：</li>
 </ul>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>//行内代码样式
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>//行内代码样式
 code {
     color: #ff7600;
     background: #fbf7f8;
@@ -124,52 +124,52 @@ code {
     word-break: break-all;
     border-radius:4px;
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>区块代码
-在主题目录下，修改<code>config.yml</code>文件：</li>
+在主题目录下，修改<code v-pre>config.yml</code>文件：</li>
 </ul>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token comment">#   样式可选： normal | night | night eighties | night blue | night bright</span>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token comment">#   样式可选： normal | night | night eighties | night blue | night bright</span>
 <span class="token key atrule">highlight_theme</span><span class="token punctuation">:</span> night
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="文章结束语" tabindex="-1"><a class="header-anchor" href="#文章结束语" aria-hidden="true">#</a> 文章结束语</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="文章结束语" tabindex="-1"><a class="header-anchor" href="#文章结束语" aria-hidden="true">#</a> 文章结束语</h3>
 <ul>
 <li>**添加模块文件 **</li>
 </ul>
-<p>在主题目录下<code>layout/_macro</code>中新建 <code>passage-end-tag.swig</code>文件,并添加以下内容：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>&lt;div&gt;
+<p>在主题目录下<code v-pre>layout/_macro</code>中新建 <code v-pre>passage-end-tag.swig</code>文件,并添加以下内容：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>&lt;div&gt;
     {% if not is_index %}
         &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;
               -------------本文结束&lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt;感谢您的阅读-------------
         &lt;/div&gt;
     {% endif %}
 &lt;/div&gt;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li><strong>导入模板文件</strong></li>
 </ul>
-<p>在<code>layout/_macro/post.swig</code>文件中，找到：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>{#####################}
+<p>在<code v-pre>layout/_macro/post.swig</code>文件中，找到：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>{#####################}
 {### END POST BODY ###}
 {#####################}
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>在上面代码之前添加：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>&lt;div&gt;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在上面代码之前添加：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>&lt;div&gt;
       {% if not is_index %}
           {% include 'passage-end-tag.swig' %}
       {% endif %}
 &lt;/div&gt;
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li><strong>配置</strong>
 在主题配置文件中添加：</li>
 </ul>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token comment"># 文章末尾添加“本文结束”标记</span>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token comment"># 文章末尾添加“本文结束”标记</span>
 <span class="token key atrule">passage_end_tag</span><span class="token punctuation">:</span>
   <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="增强文章底部版权信息" tabindex="-1"><a class="header-anchor" href="#增强文章底部版权信息" aria-hidden="true">#</a> 增强文章底部版权信息</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="增强文章底部版权信息" tabindex="-1"><a class="header-anchor" href="#增强文章底部版权信息" aria-hidden="true">#</a> 增强文章底部版权信息</h3>
 <ul>
-<li>增加文章md文件的头部信息中添加<code>copyright: true</code>时，添加版权声明</li>
+<li>增加文章md文件的头部信息中添加<code v-pre>copyright: true</code>时，添加版权声明</li>
 <li>增加文章标题、发布时间、更新时间等信息</li>
 </ul>
-<p>在目录 <code>next/layout/_macro/下</code>添加 <code>my-copyright.swig</code>：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>{% if page.copyright %}
+<p>在目录 <code v-pre>next/layout/_macro/下</code>添加 <code v-pre>my-copyright.swig</code>：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>{% if page.copyright %}
 &lt;div class=&quot;my_post_copyright&quot;&gt;
   &lt;script src=&quot;//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js&quot;&gt;&lt;/script&gt;
   
@@ -199,8 +199,8 @@ code {
     });  
 &lt;/script&gt;
 {% endif %}
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p>在目录<code>next/source/css/_common/components/post/</code>下添加<code>my-post-copyright.styl</code>：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>.my_post_copyright {
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在目录<code v-pre>next/source/css/_common/components/post/</code>下添加<code v-pre>my-post-copyright.styl</code>：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>.my_post_copyright {
   width: 85%;
   max-width: 45em;
   margin: 2.8em auto 0;
@@ -245,22 +245,22 @@ code {
   color: #808080;
   cursor: pointer;
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br></div></div><p>修改<code>next/layout/_macro/post.swig</code>，在代码</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>{#####################}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改<code v-pre>next/layout/_macro/post.swig</code>，在代码</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>{#####################}
 {### END POST BODY ###}
 {#####################}
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>之前添加增加如下代码：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>&lt;div&gt;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>之前添加增加如下代码：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>&lt;div&gt;
       {% if not is_index %}
         {% include 'my-copyright.swig' %}
       {% endif %}
 &lt;/div&gt;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>修改<code>next/source/css/_common/components/post/post.styl</code>文件，在最后一行增加代码：</p>
-<div class="language-CSS ext-CSS line-numbers-mode"><pre v-pre class="language-CSS"><code>@import &quot;my-post-copyright&quot;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>保存重新生成即可。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改<code v-pre>next/source/css/_common/components/post/post.styl</code>文件，在最后一行增加代码：</p>
+<div class="language-CSS line-numbers-mode" data-ext="CSS"><pre v-pre class="language-CSS"><code>@import &quot;my-post-copyright&quot;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>保存重新生成即可。</p>
 <h2 id="遇到的问题" tabindex="-1"><a class="header-anchor" href="#遇到的问题" aria-hidden="true">#</a> 遇到的问题</h2>
-<p><code>LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character</code></p>
-<p>产生的原因：而在 Markdown 语法中，<strong>两个 $ 符号是数学符号和公式</strong>的使用。要想使用单个 $，要加个转义字符 <code>\</code>。</p>
+<p><code v-pre>LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character</code></p>
+<p>产生的原因：而在 Markdown 语法中，<strong>两个 $ 符号是数学符号和公式</strong>的使用。要想使用单个 $，要加个转义字符 <code v-pre>\</code>。</p>
 <h2 id="参考" tabindex="-1"><a class="header-anchor" href="#参考" aria-hidden="true">#</a> 参考</h2>
 <blockquote>
 <p><a href="https://zhuanlan.zhihu.com/p/32957389" target="_blank" rel="noopener noreferrer">技术小白搭建hexo+github博客<ExternalLinkIcon/></a></p>
@@ -273,4 +273,6 @@ code {
 <p><a href="https://github.com/theme-next/hexo-symbols-count-time" target="_blank" rel="noopener noreferrer">添加文章字数和读取文章的时间<ExternalLinkIcon/></a></p>
 <p><a href="https://www.jianshu.com/p/344cf061598d" target="_blank" rel="noopener noreferrer">hexo + next主题高级配置<ExternalLinkIcon/></a></p>
 </blockquote>
-</template>
+</div></template>
+
+

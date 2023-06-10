@@ -1,15 +1,15 @@
-<template><p>用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。</p>
+<template><div><p>用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。</p>
 <h2 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h2>
 <p>netstat [-acCeFghilMnNoprstuvVwx]</p>
 <h2 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-a   或–all                           显示所有连线中的Socket
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-a   或–all                           显示所有连线中的Socket
 -c   或–continuous               持续列出网络状态
 -h  或–help                         在线帮助
 -l  或–listening                     显示监控中的服务器的Socket
 -n  或–numeric                    不解析主机名
 -t  或–tcp                            显示TCP 传输协议的连线状况
 -u或–udp                            显示UDP传输协议的连线状况
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>注意：LISTEN和LISTENING的状态只有用-a或者-l才能看到</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意：LISTEN和LISTENING的状态只有用-a或者-l才能看到</p>
 <h2 id="网络连接状态详解" tabindex="-1"><a class="header-anchor" href="#网络连接状态详解" aria-hidden="true">#</a> 网络连接状态详解</h2>
 <p>共有12中可能的状态，前面11种是按照TCP连接建立的三次握手和TCP连接断开的四次挥手过程来描述的。
 1)、LISTEN:首先服务端需要打开一个socket进行监听，状态为LISTEN./* The socket is listening for incoming connections. 侦听来自远方TCP端口的连接请求 */</p>
@@ -29,11 +29,13 @@ ACK: (确认编号,Acknowledgement Number)是对TCP请求的确认标志,同时�
 FIN: (结束标志,FINish)用来结束一个TCP回话.但对应端口仍处于开放状态,准备接收后续数据。</p>
 <h2 id="常用实例" tabindex="-1"><a class="header-anchor" href="#常用实例" aria-hidden="true">#</a> 常用实例</h2>
 <p>1）  查看TCP的连接状态</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>netstat -natlp | awk '{print $6}' | sort | uniq -c |sort -rn
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>netstat -natlp | awk '{print $6}' | sort | uniq -c |sort -rn
 netstat -n | awk '/^tcp/ {++S[$NF]};END {for(a in S) print a,S[a]}'
 netstat -n | awk '/^tcp/ {print $NF}' | sort |uniq -c | sort -rn
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>2）  查找请求数较多的前20个IP（常用于查找攻来源）</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>netstat -anpl | grep 80 | grep tcp | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort -nr | head -20
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2）  查找请求数较多的前20个IP（常用于查找攻来源）</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>netstat -anpl | grep 80 | grep tcp | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort -nr | head -20
 netstat -ant | awk '/:80/{split($5,ip,":")';++A[ip[1]]}END{for(i in A) print A[i],i}' | sort -rn |head -20 
 tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr | head -20  
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

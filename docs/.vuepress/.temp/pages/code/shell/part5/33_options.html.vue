@@ -1,16 +1,16 @@
-<template><h1 id="_33-选项" tabindex="-1"><a class="header-anchor" href="#_33-选项" aria-hidden="true">#</a> 33 选项</h1>
+<template><div><h1 id="_33-选项" tabindex="-1"><a class="header-anchor" href="#_33-选项" aria-hidden="true">#</a> 33 选项</h1>
 <p>选项用来更改shell和脚本的行为.</p>
 <p><a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer">set<ExternalLinkIcon/></a>命令用来打开脚本中的选项. 你可以在脚本中任何你想让选项生效的地方插入<strong>set -o option-name</strong>, 或者使用更简单的形式, <strong>set -option-abbrev</strong>. 这两种形式是等价的.</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 
 set -o verbose
 # # 打印出所有执行前的命令.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 
 set -v
 # 与上边的例子具有相同的效果.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra" loading="lazy"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="extra"> 如果你想在脚本中禁用某个选项, 可以使用<strong>set +o option-name</strong>或<strong>set +option-abbrev</strong>.</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 set -o verbose
 # 激活命令回显.
 command
@@ -33,11 +33,11 @@ set +v
 command
 
 exit 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash -x
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>还有另一种可以在脚本中启用选项的方法, 那就是在脚本头部, #!的后边直接指定选项.</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash -x
 #
 # 下边是脚本的主要内容.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>也可以从命令行中打开脚本的选项. 某些不能与<strong>set</strong>命令一起用的选项就可以使用这种方法来打开. - i就是其中之一, 这个选项用来强制脚本以交互的方式运行.</p>
 <p><strong>bash - v script - name</strong></p>
 <p><strong>bash - o verbose script - name</strong></p>
 <p>下表列出了一些有用的选项. 它们都可以使用缩写的形式来指定(开头加一个破折号), 也可以使用完整名字来指定(开头加上双破折号, 或者使用-o选项来指定).</p>
@@ -178,4 +178,6 @@ exit 0
 </tr>
 </tbody>
 </table>
-</template>
+</div></template>
+
+

@@ -1,8 +1,8 @@
-<template><h1 id="_4-内核参数优化" tabindex="-1"><a class="header-anchor" href="#_4-内核参数优化" aria-hidden="true">#</a> 4. 内核参数优化</h1>
+<template><div><h1 id="_4-内核参数优化" tabindex="-1"><a class="header-anchor" href="#_4-内核参数优化" aria-hidden="true">#</a> 4. 内核参数优化</h1>
 <h2 id="linux内核参数优化-网络模块" tabindex="-1"><a class="header-anchor" href="#linux内核参数优化-网络模块" aria-hidden="true">#</a> linux内核参数优化（网络模块）</h2>
-<p>在Linux下调整内核参数，可以直接编辑配置文件<code>/etc/sysctl.conf</code>，然后执行<code>sysctl -p</code>命令生效</p>
+<p>在Linux下调整内核参数，可以直接编辑配置文件<code v-pre>/etc/sysctl.conf</code>，然后执行<code v-pre>sysctl -p</code>命令生效</p>
 <p>文件内容如下：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>net.ipv4.ip_forward = 1
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>net.ipv4.ip_forward = 1
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.conf.default.accept_source_route = 0
 kernel.sysrq = 0
@@ -36,7 +36,7 @@ net.ipv4.tcp_wmem = 4096 65536 4194304
 net.ipv4.tcp_mem = 524288 699050 1048576
 vm.swappiness = 0
 vm.min_free_kbytes = 65536
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>net.core.somaxconn = 262144</p>
 <p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
@@ -111,4 +111,6 @@ vm.min_free_kbytes = 65536
 就需要每隔一段时间去发一个探测包去确认一下看看对方是否在线。这个时间就由该参数决定。它的默认值为7200秒，建议设置为30秒。</p>
 </li>
 </ul>
-</template>
+</div></template>
+
+

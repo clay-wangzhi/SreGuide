@@ -1,23 +1,25 @@
-<template><h1 id="_6-1-python-模块常用的几种安装方式" tabindex="-1"><a class="header-anchor" href="#_6-1-python-模块常用的几种安装方式" aria-hidden="true">#</a> 6.1 Python 模块常用的几种安装方式</h1>
+<template><div><h1 id="_6-1-python-模块常用的几种安装方式" tabindex="-1"><a class="header-anchor" href="#_6-1-python-模块常用的几种安装方式" aria-hidden="true">#</a> 6.1 Python 模块常用的几种安装方式</h1>
 <h2 id="单文件模块" tabindex="-1"><a class="header-anchor" href="#单文件模块" aria-hidden="true">#</a> 单文件模块</h2>
-<p>直接把文件拷贝到 <code>$python_dir/Lib</code></p>
+<p>直接把文件拷贝到 <code v-pre>$python_dir/Lib</code></p>
 <h2 id="多文件模块-带setup-py" tabindex="-1"><a class="header-anchor" href="#多文件模块-带setup-py" aria-hidden="true">#</a> 多文件模块，带setup.py</h2>
 <p>下载模块包，进行解压，进入模块文件夹，执行：</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>python setup.py <span class="token function">install</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="easy-install-方式" tabindex="-1"><a class="header-anchor" href="#easy-install-方式" aria-hidden="true">#</a> easy_install 方式</h2>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>python setup.py <span class="token function">install</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="easy-install-方式" tabindex="-1"><a class="header-anchor" href="#easy-install-方式" aria-hidden="true">#</a> easy_install 方式</h2>
 <p>先下载 ez_setup.py，运行 python ez_setup 进行 easy_install 工具的安装，之后就可以使用 easy_install 进行安装 package 了。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>easy_install  packageNameeasy_install  package.egg
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="pip-方式" tabindex="-1"><a class="header-anchor" href="#pip-方式" aria-hidden="true">#</a> pip 方式</h2>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>easy_install  packageNameeasy_install  package.egg
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="pip-方式" tabindex="-1"><a class="header-anchor" href="#pip-方式" aria-hidden="true">#</a> pip 方式</h2>
 <p>先进行pip工具的安裝：easy_install pip（pip 可以通过easy_install 安裝，而且也会装到 Scripts 文件夹下。）</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>pip <span class="token function">install</span> PackageName <span class="token comment"># 安裝</span>
-pip <span class="token function">install</span> -U PackageName <span class="token comment"># 更新</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>pip <span class="token function">install</span> PackageName <span class="token comment"># 安裝</span>
+pip <span class="token function">install</span> <span class="token parameter variable">-U</span> PackageName <span class="token comment"># 更新</span>
 pip uninstall PackageName <span class="token comment"># 移除</span>
 pip search PackageName <span class="token comment"># 搜索</span>
 pip <span class="token builtin class-name">help</span> <span class="token comment"># 帮助</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>注：虽然Python的模块可以拷贝安装，但是一般情况下推荐制作一个安装包，即写一个setup.py文件来安装。setup.py文件的使用如下:</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>python setup.py build     <span class="token comment">#编译</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注：虽然Python的模块可以拷贝安装，但是一般情况下推荐制作一个安装包，即写一个setup.py文件来安装。setup.py文件的使用如下:</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>python setup.py build     <span class="token comment">#编译</span>
 python setup.py <span class="token function">install</span>   <span class="token comment">#安装</span>
 python setup.py sdist     <span class="token comment">#制作分发包</span>
 python setup.py bdist_wininst    <span class="token comment">#制作windows下的分发包</span>
 python setup.py bdist_rpm
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

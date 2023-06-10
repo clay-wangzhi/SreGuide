@@ -1,26 +1,26 @@
-<template><h1 id="_6-用户权限和访问控制" tabindex="-1"><a class="header-anchor" href="#_6-用户权限和访问控制" aria-hidden="true">#</a> 6 用户权限和访问控制</h1>
+<template><div><h1 id="_6-用户权限和访问控制" tabindex="-1"><a class="header-anchor" href="#_6-用户权限和访问控制" aria-hidden="true">#</a> 6 用户权限和访问控制</h1>
 <h2 id="_1-用户" tabindex="-1"><a class="header-anchor" href="#_1-用户" aria-hidden="true">#</a> 1 用户</h2>
 <h3 id="_1-1-创建用户并设置密码" tabindex="-1"><a class="header-anchor" href="#_1-1-创建用户并设置密码" aria-hidden="true">#</a> 1.1 创建用户并设置密码</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>create user aa@localhost identified by '123';//本地用户
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>create user aa@localhost identified by '123';//本地用户
 create user aa@'%' identified by '123'; //其他远程用户
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="_1-2-重命名用户" tabindex="-1"><a class="header-anchor" href="#_1-2-重命名用户" aria-hidden="true">#</a> 1.2 重命名用户</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>rename user 'test3'@'%' to 'test1'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_1-3-删除用户" tabindex="-1"><a class="header-anchor" href="#_1-3-删除用户" aria-hidden="true">#</a> 1.3 删除用户</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>drop user 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="_2-权限" tabindex="-1"><a class="header-anchor" href="#_2-权限" aria-hidden="true">#</a> 2 权限</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-2-重命名用户" tabindex="-1"><a class="header-anchor" href="#_1-2-重命名用户" aria-hidden="true">#</a> 1.2 重命名用户</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>rename user 'test3'@'%' to 'test1'@'%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_1-3-删除用户" tabindex="-1"><a class="header-anchor" href="#_1-3-删除用户" aria-hidden="true">#</a> 1.3 删除用户</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>drop user 'testUser'@'%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="_2-权限" tabindex="-1"><a class="header-anchor" href="#_2-权限" aria-hidden="true">#</a> 2 权限</h2>
 <h3 id="_2-1-授予权限" tabindex="-1"><a class="header-anchor" href="#_2-1-授予权限" aria-hidden="true">#</a> 2.1 授予权限</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant 权限 on 库.表 to 用户@主机 identified by '密码'；grant 权限 on 库.表 to 用户@主机 identified by '密码'；
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant 权限 on 库.表 to 用户@主机 identified by '密码'；grant 权限 on 库.表 to 用户@主机 identified by '密码'；
 grant all on *.* to 'testUser'@'%' identified by '123';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h4 id="_2-1-1-查询、插入、更新、删除的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-1-查询、插入、更新、删除的权限" aria-hidden="true">#</a> 2.1.1 查询、插入、更新、删除的权限</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant select on testdb.* to 'testUser'@'%';  
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-1-1-查询、插入、更新、删除的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-1-查询、插入、更新、删除的权限" aria-hidden="true">#</a> 2.1.1 查询、插入、更新、删除的权限</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant select on testdb.* to 'testUser'@'%';  
 grant insert on testdb.* to 'testUser'@'%';  #其中*第通配符，表示所有
 grant update on testdb.* to 'testUser'@'%';
 grant delete on testdb.* to 'testUser'@'%';
 
 #总结成一条命令
 grant select,insert,update,delete on testdb.* to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h4 id="_2-1-2-创建和删除表、索引、视图、存储过程的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-2-创建和删除表、索引、视图、存储过程的权限" aria-hidden="true">#</a> 2.1.2 创建和删除表、索引、视图、存储过程的权限</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant create on testdb.* to 'testUser'@'%';  #其中*第通配符，表示所有
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-1-2-创建和删除表、索引、视图、存储过程的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-2-创建和删除表、索引、视图、存储过程的权限" aria-hidden="true">#</a> 2.1.2 创建和删除表、索引、视图、存储过程的权限</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant create on testdb.* to 'testUser'@'%';  #其中*第通配符，表示所有
 grant alter on testdb.* to 'testUser'@'%';
 grant drop on testdb.* to 'testUser'@'%';
 
@@ -41,37 +41,37 @@ grant show view on testdb.* to 'testUser'@'%';
 grant create routine on testdb.* to 'testUser'@'%';
 grant alter routine on testdb.* to 'testUser'@'%';
 grant execute on testdb.* to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h4 id="_2-1-3-指定用户管理数据库的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-3-指定用户管理数据库的权限" aria-hidden="true">#</a> 2.1.3 指定用户管理数据库的权限</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>#仅管理testdb数据库
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-1-3-指定用户管理数据库的权限" tabindex="-1"><a class="header-anchor" href="#_2-1-3-指定用户管理数据库的权限" aria-hidden="true">#</a> 2.1.3 指定用户管理数据库的权限</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>#仅管理testdb数据库
 grant all privileges on testdb.* to 'testUser'@'%';
 
 #管理所有数据库
 grant all privileges on *.* to 'testUser'@'%';
 #其中privileges关键字可省略
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="_2-2-权限的作用层次" tabindex="-1"><a class="header-anchor" href="#_2-2-权限的作用层次" aria-hidden="true">#</a> 2.2 权限的作用层次</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-2-权限的作用层次" tabindex="-1"><a class="header-anchor" href="#_2-2-权限的作用层次" aria-hidden="true">#</a> 2.2 权限的作用层次</h3>
 <h4 id="_2-2-1-作用在整个mysql服务器上" tabindex="-1"><a class="header-anchor" href="#_2-2-1-作用在整个mysql服务器上" aria-hidden="true">#</a> 2.2.1 作用在整个MySQL服务器上</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant all privileges on *.* to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-2-2-作用在单个数据库上" tabindex="-1"><a class="header-anchor" href="#_2-2-2-作用在单个数据库上" aria-hidden="true">#</a> 2.2.2 作用在单个数据库上</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant all privileges on testdb.* to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-2-3-作用在单个数据表上" tabindex="-1"><a class="header-anchor" href="#_2-2-3-作用在单个数据表上" aria-hidden="true">#</a> 2.2.3 作用在单个数据表上</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant all privileges on testdb.testTable to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-2-4-作用在单个数据表的若干个列上" tabindex="-1"><a class="header-anchor" href="#_2-2-4-作用在单个数据表的若干个列上" aria-hidden="true">#</a> 2.2.4 作用在单个数据表的若干个列上</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant select(id, name, home, phone) on testdb.testTable to 'testUser'@'%'; #select可以改其他，字段根据实际修改
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-2-5-作用在存储过程、函数上" tabindex="-1"><a class="header-anchor" href="#_2-2-5-作用在存储过程、函数上" aria-hidden="true">#</a> 2.2.5 作用在存储过程、函数上</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant execute on procedure testdb.tsetfunc to 'testUser'@'%';
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant all privileges on *.* to 'testUser'@'%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-2-2-作用在单个数据库上" tabindex="-1"><a class="header-anchor" href="#_2-2-2-作用在单个数据库上" aria-hidden="true">#</a> 2.2.2 作用在单个数据库上</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant all privileges on testdb.* to 'testUser'@'%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-2-3-作用在单个数据表上" tabindex="-1"><a class="header-anchor" href="#_2-2-3-作用在单个数据表上" aria-hidden="true">#</a> 2.2.3 作用在单个数据表上</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant all privileges on testdb.testTable to 'testUser'@'%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-2-4-作用在单个数据表的若干个列上" tabindex="-1"><a class="header-anchor" href="#_2-2-4-作用在单个数据表的若干个列上" aria-hidden="true">#</a> 2.2.4 作用在单个数据表的若干个列上</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant select(id, name, home, phone) on testdb.testTable to 'testUser'@'%'; #select可以改其他，字段根据实际修改
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-2-5-作用在存储过程、函数上" tabindex="-1"><a class="header-anchor" href="#_2-2-5-作用在存储过程、函数上" aria-hidden="true">#</a> 2.2.5 作用在存储过程、函数上</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant execute on procedure testdb.tsetfunc to 'testUser'@'%';
 grant execute on function testdb.tsetfunc to 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="_2-3-权限刷新" tabindex="-1"><a class="header-anchor" href="#_2-3-权限刷新" aria-hidden="true">#</a> 2.3 权限刷新</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>flush privileges;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_2-4-查看权限" tabindex="-1"><a class="header-anchor" href="#_2-4-查看权限" aria-hidden="true">#</a> 2.4 查看权限</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>#查看当前用户的权限
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-3-权限刷新" tabindex="-1"><a class="header-anchor" href="#_2-3-权限刷新" aria-hidden="true">#</a> 2.3 权限刷新</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>flush privileges;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_2-4-查看权限" tabindex="-1"><a class="header-anchor" href="#_2-4-查看权限" aria-hidden="true">#</a> 2.4 查看权限</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>#查看当前用户的权限
 show grants;
 
 #查看mysql中其他用户的权限
 show grants for 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="_2-5-移除权限" tabindex="-1"><a class="header-anchor" href="#_2-5-移除权限" aria-hidden="true">#</a> 2.5 移除权限</h3>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>revoke 权限 on 库.表 from 用户@主机;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-5-移除权限" tabindex="-1"><a class="header-anchor" href="#_2-5-移除权限" aria-hidden="true">#</a> 2.5 移除权限</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>revoke 权限 on 库.表 from 用户@主机;
 revoke all on *.* from 'testUser'@'%';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="_2-6-mysql授权表" tabindex="-1"><a class="header-anchor" href="#_2-6-mysql授权表" aria-hidden="true">#</a> 2.6 mysql授权表</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-6-mysql授权表" tabindex="-1"><a class="header-anchor" href="#_2-6-mysql授权表" aria-hidden="true">#</a> 2.6 mysql授权表</h3>
 <p>mysql授权表共有5个表：user、db、host、tables_priv和columns_priv。</p>
 <h4 id="_2-6-1-user表" tabindex="-1"><a class="header-anchor" href="#_2-6-1-user表" aria-hidden="true">#</a> 2.6.1 user表</h4>
 <p>user表列出可以连接服务器的用户及其口令，并且它指定他们有哪种全局（超级用户）权限。在user表启用的任何权限均是全局权限，并适用于所有数据库。</p>
@@ -85,30 +85,30 @@ revoke all on *.* from 'testUser'@'%';
 <p>columns_priv表指定列级权限。这里指定的权限适用于一个表的特定列。</p>
 <h3 id="_2-7-注意事项" tabindex="-1"><a class="header-anchor" href="#_2-7-注意事项" aria-hidden="true">#</a> 2.7 注意事项</h3>
 <p>grant, revoke 用户权限后，该用户只有重新连接 MySQL 数据库，权限才能生效。</p>
-<p>如果想让授权的用户，也可以将这些权限 grant 给其他用户，需要选项 <code>grant option</code></p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>grant all on testdb.* to 'testUser'@'%' with grant option;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="_3-密码" tabindex="-1"><a class="header-anchor" href="#_3-密码" aria-hidden="true">#</a> 3 密码</h2>
+<p>如果想让授权的用户，也可以将这些权限 grant 给其他用户，需要选项 <code v-pre>grant option</code></p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>grant all on testdb.* to 'testUser'@'%' with grant option;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="_3-密码" tabindex="-1"><a class="header-anchor" href="#_3-密码" aria-hidden="true">#</a> 3 密码</h2>
 <h3 id="_3-1-修改密码" tabindex="-1"><a class="header-anchor" href="#_3-1-修改密码" aria-hidden="true">#</a> 3.1 修改密码</h3>
 <h4 id="_3-1-1-更新mysql-user表" tabindex="-1"><a class="header-anchor" href="#_3-1-1-更新mysql-user表" aria-hidden="true">#</a> 3.1.1 更新mysql.user表</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code># mysql5.7之前
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code># mysql5.7之前
 update user set password=password('123456') where user='root';
 # mysql5.7之后
 update user set authentication_string=password('123456') where user='root';
 flush privileges;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_3-1-2-用set-password命令" tabindex="-1"><a class="header-anchor" href="#_3-1-2-用set-password命令" aria-hidden="true">#</a> 3.1.2 用set password命令</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_3-1-2-用set-password命令" tabindex="-1"><a class="header-anchor" href="#_3-1-2-用set-password命令" aria-hidden="true">#</a> 3.1.2 用set password命令</h4>
 <p>**语法：**set password for ‘用户名'@'登录地址'=password(‘密码')</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>set password for 'root'@'localhost'=password('123456');
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_3-1-3-mysqladmin" tabindex="-1"><a class="header-anchor" href="#_3-1-3-mysqladmin" aria-hidden="true">#</a> 3.1.3 mysqladmin</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>set password for 'root'@'localhost'=password('123456');
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_3-1-3-mysqladmin" tabindex="-1"><a class="header-anchor" href="#_3-1-3-mysqladmin" aria-hidden="true">#</a> 3.1.3 mysqladmin</h4>
 <p>**语法：**mysqladmin -u用户名 -p旧的密码 password 新密码</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysqladmin -uroot -p123456 password 1234abcd
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_3-2-忘记密码" tabindex="-1"><a class="header-anchor" href="#_3-2-忘记密码" aria-hidden="true">#</a> 3.2 忘记密码</h3>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysqladmin -uroot -p123456 password 1234abcd
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_3-2-忘记密码" tabindex="-1"><a class="header-anchor" href="#_3-2-忘记密码" aria-hidden="true">#</a> 3.2 忘记密码</h3>
 <h4 id="_3-2-1-跳过授权" tabindex="-1"><a class="header-anchor" href="#_3-2-1-跳过授权" aria-hidden="true">#</a> 3.2.1 跳过授权</h4>
-<p><code>vim /etc/my.cnf</code></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[mysqld]
+<p><code v-pre>vim /etc/my.cnf</code></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[mysqld]
 skip-grant-tables
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h4 id="_3-2-2-重启服务" tabindex="-1"><a class="header-anchor" href="#_3-2-2-重启服务" aria-hidden="true">#</a> 3.2.2 重启服务</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>service mysqld restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_3-2-3-修改密码" tabindex="-1"><a class="header-anchor" href="#_3-2-3-修改密码" aria-hidden="true">#</a> 3.2.3 修改密码</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_3-2-2-重启服务" tabindex="-1"><a class="header-anchor" href="#_3-2-2-重启服务" aria-hidden="true">#</a> 3.2.2 重启服务</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>service mysqld restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_3-2-3-修改密码" tabindex="-1"><a class="header-anchor" href="#_3-2-3-修改密码" aria-hidden="true">#</a> 3.2.3 修改密码</h4>
 <p>此时在终端用mysql命令登录时不需要用户密码，然后按照修改密码的第一种方式将密码修改即可。</p>
 <h4 id="_3-2-4-还原登录权限跳过检查配置" tabindex="-1"><a class="header-anchor" href="#_3-2-4-还原登录权限跳过检查配置" aria-hidden="true">#</a> 3.2.4 还原登录权限跳过检查配置</h4>
 <p>将my.cnf中mysqld节点的skip-grant-tables配置删除，然后重新启动服务即可。</p>
@@ -117,4 +117,6 @@ skip-grant-tables
 <p>https://blog.csdn.net/a791693310/article/details/81083864</p>
 <p>https://www.jb51.net/article/87979.htm</p>
 </blockquote>
-</template>
+</div></template>
+
+

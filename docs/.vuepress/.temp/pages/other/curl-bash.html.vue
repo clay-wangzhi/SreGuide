@@ -1,33 +1,33 @@
-<template><h1 id="curl方式执行shell脚本时如何传参" tabindex="-1"><a class="header-anchor" href="#curl方式执行shell脚本时如何传参" aria-hidden="true">#</a> curl方式执行shell脚本时如何传参</h1>
+<template><div><h1 id="curl方式执行shell脚本时如何传参" tabindex="-1"><a class="header-anchor" href="#curl方式执行shell脚本时如何传参" aria-hidden="true">#</a> curl方式执行shell脚本时如何传参</h1>
 <p>有时候shell脚本可以放在http页面上，不用download，可以直接执行。</p>
 <p>通常我们可以用curl的方式执行http页面上的shell脚本。 一般方式是：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>curl ftp://192.168.166.21:/system_optimize.sh | bash
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>这样脚本就可以在本地机器上执行了。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>curl ftp://192.168.166.21:/system_optimize.sh | bash
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>这样脚本就可以在本地机器上执行了。</p>
 <p>但是需要传入参数的脚本。我们可以用下面的方式传入shell参数</p>
 <ul>
 <li>-s方式</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s arg1 arg2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s arg1 arg2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li>&lt; 方式</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>bash &lt;(curl -s ftp://192.168.166.21:/system_optimize.sh) arg1 arg2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><blockquote>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>bash &lt;(curl -s ftp://192.168.166.21:/system_optimize.sh) arg1 arg2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><blockquote>
 <p>注意 &lt;( 之间不要有空格！！！</p>
 </blockquote>
 <ul>
-<li>若参数中带有<code>-</code>，则可使用长选项<code>--</code>解决</li>
+<li>若参数中带有<code v-pre>-</code>，则可使用长选项<code v-pre>--</code>解决</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s -- arg1 arg2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s -- arg1 arg2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li>若参数为”-p arg -d arg”,则可使用以下命令执行</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s -- -p arg1 -d arg2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><ul>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>curl -s ftp://192.168.166.21:/system_optimize.sh | bash -s -- -p arg1 -d arg2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
 <li>不止是curl的输入，其他方式的输入也满足。可以通过以下例子深入理解下</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>echo 'i=1; for a in $@; do echo "$i = $a"; i=$((i+1)); done' | bash -s -- -a1 -a2 -
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="bash选项" tabindex="-1"><a class="header-anchor" href="#bash选项" aria-hidden="true">#</a> Bash选项</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>echo 'i=1; for a in $@; do echo "$i = $a"; i=$((i+1)); done' | bash -s -- -a1 -a2 -
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="bash选项" tabindex="-1"><a class="header-anchor" href="#bash选项" aria-hidden="true">#</a> Bash选项</h2>
 <p>Bash选项</p>
 <table>
 <thead>
@@ -166,4 +166,6 @@
 </tbody>
 </table>
 <p>重点是后面的&quot;-&quot;和&quot;--&quot;，理解一下</p>
-</template>
+</div></template>
+
+

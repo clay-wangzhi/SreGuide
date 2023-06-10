@@ -1,4 +1,4 @@
-<template><h1 id="tomcat假死现象" tabindex="-1"><a class="header-anchor" href="#tomcat假死现象" aria-hidden="true">#</a> tomcat假死现象</h1>
+<template><div><h1 id="tomcat假死现象" tabindex="-1"><a class="header-anchor" href="#tomcat假死现象" aria-hidden="true">#</a> tomcat假死现象</h1>
 <h1 id="_1-背景" tabindex="-1"><a class="header-anchor" href="#_1-背景" aria-hidden="true">#</a> 1 背景</h1>
 <h2 id="_1-1-编写目的" tabindex="-1"><a class="header-anchor" href="#_1-1-编写目的" aria-hidden="true">#</a> 1.1 编写目的</h2>
 <p>为了方便大家以后发现进程假死的时候能够正常的分析并且第一时间保留现场快照。</p>
@@ -39,7 +39,7 @@
 <p>3.2.2 jstat</p>
 <p>这是jdk命令中比较重要，也是相当实用的一个命令，可以观察到classloader，compiler，gc相关信息</p>
 <p>具体参数如下：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-class：统计class loader行为信息
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-class：统计class loader行为信息
 -compile：统计编译行为信息
 -gc：统计jdk gc时heap信息
 -gccapacity：统计不同的generations（包括新生区，老年区，permanent区）相应的heap容量情况
@@ -51,11 +51,11 @@
 -gcpermcapacity：统计gc时，permanent区heap容量
 -gcutil：统计gc时，heap情况
 -printcompilation：不知道干什么的，一直没用过。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>一般比较常用的几个参数是：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>sudo jstat -class 2083 1000 10 （每隔1秒监控一次，一共做10次）
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>查看当时的head情况</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>sudo jstat -gcutil 20683 2000
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>出现时候截取的数据是gc已经完全没有处理了,因为没有加上full gc的日志所以不确定JVMGC 时间过长，导致应用</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>一般比较常用的几个参数是：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>sudo jstat -class 2083 1000 10 （每隔1秒监控一次，一共做10次）
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>查看当时的head情况</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>sudo jstat -gcutil 20683 2000
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>出现时候截取的数据是gc已经完全没有处理了,因为没有加上full gc的日志所以不确定JVMGC 时间过长，导致应用</p>
 <p>暂停.</p>
 <p>3.2.3获取内存快照</p>
 <p>Jdk自带的jmap可以获取内在某一时刻的快照</p>
@@ -69,12 +69,12 @@
 <p>3.2.4观察运行中的jvm物理内存的占用情况</p>
 <p>观察运行中的jvm物理内存的占用情况。我们也可以用jmap命令</p>
 <p>参数如下：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-heap：打印jvm heap的情况
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-heap：打印jvm heap的情况
 -histo：打印jvm heap的直方图。其输出信息包括类名，对象数量，对象占用大小。
 -histo：live: 同上，但是只答应存活对象的情况
 -permstat:打印permanent generation heap情况
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>命令使用：</p>
-<p><code>jmap -heap 2083</code></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>命令使用：</p>
+<p><code v-pre>jmap -heap 2083</code></p>
 <p>可以观察到New Generation（Eden Space，From Space，To Space）,tenured generation,Perm Generation的内存使用情况</p>
 <p>上图为tomcat应用出错前JVM的配置信息,可以明确的看到当时的信息:</p>
 <p>MaxHeapSize堆内存大小为：3500M</p>
@@ -96,11 +96,13 @@
 </li>
 <li>大量tcp 连接 CLOSE_WAIT
 <ul>
-<li><code>netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' </code></li>
+<li><code v-pre>netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' </code></li>
 </ul>
 </li>
 </ul>
 <blockquote>
 <p>转载链接：https://www.cnblogs.com/lilyjia/p/5729197.html</p>
 </blockquote>
-</template>
+</div></template>
+
+

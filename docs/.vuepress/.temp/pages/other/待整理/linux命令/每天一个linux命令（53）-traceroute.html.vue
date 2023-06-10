@@ -1,13 +1,13 @@
-<template><p>通过traceroute我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地(destination)走的路径可能会不一样，但基本上来说大部分时候所走的路由是相同的。linux系统中，我们称之为traceroute,在MS Windows中为tracert。 traceroute通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备traceroute要测3次。输出结果中包括每次测试的时间(ms)和设备的名称（如有的话）及其IP地址。</p>
+<template><div><p>通过traceroute我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地(destination)走的路径可能会不一样，但基本上来说大部分时候所走的路由是相同的。linux系统中，我们称之为traceroute,在MS Windows中为tracert。 traceroute通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备traceroute要测3次。输出结果中包括每次测试的时间(ms)和设备的名称（如有的话）及其IP地址。</p>
 <!--more-->
 <p>在大多数情况下，我们会在linux主机系统下，直接执行命令行：</p>
 <p>traceroute hostname</p>
 <p>而在Windows系统下是执行tracert的命令：</p>
 <p>tracert hostname</p>
 <h2 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h2>
-<p><code>traceroute(选项)(参数)</code></p>
+<p><code v-pre>traceroute(选项)(参数)</code></p>
 <h2 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-d：使用Socket层级的排错功能；
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-d：使用Socket层级的排错功能；
 -f&lt;存活数值>：设置第一个检测数据包的存活数值TTL的大小；
 -F：设置勿离断位；
 -g&lt;网关>：设置来源路由网关，最多可设置8个；
@@ -22,14 +22,14 @@
 -v：详细显示指令的执行过程；
 -w&lt;超时秒数>：设置等待远端主机回报的时间；
 -x：开启或关闭数据包的正确性检验。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
 <p>主机：指定目的主机IP地址或主机名。</p>
 <h2 id="功能" tabindex="-1"><a class="header-anchor" href="#功能" aria-hidden="true">#</a> 功能</h2>
 <p>traceroute指令让你追踪网络数据包的路由途径，预设数据包大小是40Bytes，用户可另行设置。</p>
 <p>具体参数格式：traceroute [-dFlnrvx][-f&lt;存活数值&gt;][-g&lt;网关&gt;...][-i&lt;网络界面&gt;][-m&lt;存活数值&gt;][-p&lt;通信端口&gt;][-s&lt;来源地址&gt;][-t&lt;服务类型&gt;][-w&lt;超时秒数&gt;][主机名称或IP地址][数据包大小]</p>
 <h2 id="常用实例" tabindex="-1"><a class="header-anchor" href="#常用实例" aria-hidden="true">#</a> 常用实例</h2>
 <p>1）traceroute 用法简单、最常用的用法</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute www.baidu.com
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute www.baidu.com
 traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  1  192.168.74.2 (192.168.74.2)  2.606 ms  2.771 ms  2.950 ms
  2  211.151.56.57 (211.151.56.57)  0.596 ms  0.598 ms  0.591 ms
@@ -41,13 +41,13 @@ traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  8  202.106.35.190 (202.106.35.190)  1.795 ms 61.148.156.138 (61.148.156.138)  1.899 ms  1.951 ms
  9  * * *
 30  * * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>记录按序列号从1开始，每个纪录就是一跳 ，每跳表示一个网关，我们看到每行有三个时间，单位是 ms，其实就是-q的默认参数。探测数据包向每个网关发送三个数据包后，网关响应后返回的时间；如果您用 traceroute -q 4 www.58.com ，表示向每个网关发送4个数据包。</p>
 <p>有时我们traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了ICMP的返回信息，所以我们得不到什么相关的数据包返回数据。</p>
 <p>有时我们在某一网关处延时比较长，有可能是某台网关比较阻塞，也可能是物理设备本身的原因。当然如果某台DNS出现问题时，不能解析主机名、域名时，也会 有延时长的现象；您可以加-n 参数来避免DNS解析，以IP格式输出数据。</p>
 <p>如果在局域网中的不同网段之间，我们可以通过traceroute 来排查问题所在，是主机的问题还是网关的问题。如果我们通过远程来访问某台服务器遇到问题时，我们用到traceroute 追踪数据包所经过的网关，提交IDC服务商，也有助于解决问题；但目前看来在国内解决这样的问题是比较困难的，就是我们发现问题所在，IDC服务商也不可能帮助我们解决。</p>
 <p>2）跳数设置</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -m 10 www.baidu.com
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -m 10 www.baidu.com
 traceroute to www.baidu.com (61.135.169.105), 10 hops max, 40 byte packets
  1  192.168.74.2 (192.168.74.2)  1.534 ms  1.775 ms  1.961 ms
  2  211.151.56.1 (211.151.56.1)  0.508 ms  0.514 ms  0.507 ms
@@ -59,8 +59,8 @@ traceroute to www.baidu.com (61.135.169.105), 10 hops max, 40 byte packets
  8  123.126.6.198 (123.126.6.198)  2.944 ms 61.148.156.6 (61.148.156.6)  3.505 ms 123.126.6.198 (123.126.6.198)  2.885 ms
  9  * * *
 10  * * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>3）显示IP地址，不查主机名</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -n www.baidu.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>3）显示IP地址，不查主机名</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -n www.baidu.com
 traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  1  211.151.74.2  5.430 ms  5.636 ms  5.802 ms
  2  211.151.56.57  0.627 ms  0.625 ms  0.617 ms
@@ -72,8 +72,8 @@ traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  8  202.106.35.190  1.610 ms 61.148.156.138  1.786 ms 61.148.3.34  2.089 ms
  9  * * *
 30  * * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>4）探测包使用的基本UDP端口设置6888</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -p 6888 www.baidu.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>4）探测包使用的基本UDP端口设置6888</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -p 6888 www.baidu.com
 traceroute to www.baidu.com (220.181.111.147), 30 hops max, 40 byte packets
  1  211.151.74.2 (211.151.74.2)  4.927 ms  5.121 ms  5.298 ms
  2  211.151.56.1 (211.151.56.1)  0.500 ms  0.499 ms  0.509 ms
@@ -81,8 +81,8 @@ traceroute to www.baidu.com (220.181.111.147), 30 hops max, 40 byte packets
  4  * * *
  5  220.181.70.98 (220.181.70.98)  5.050 ms  5.313 ms  5.596 ms
  6  220.181.17.94 (220.181.17.94)  1.665 ms !X * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>5）把探测包的个数设置为值4</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -q 4 www.baidu.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>5）把探测包的个数设置为值4</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -q 4 www.baidu.com
 traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  1  211.151.74.2 (211.151.74.2)  40.633 ms  40.819 ms  41.004 ms  41.188 ms
  2  211.151.56.57 (211.151.56.57)  0.637 ms  0.633 ms  0.627 ms  0.619 ms
@@ -94,12 +94,12 @@ traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
  8  61.148.3.34 (61.148.3.34)  2.179 ms  2.295 ms  2.442 ms 202.106.35.190 (202.106.35.190)  7.136 ms
  9  * * * *
 30  * * * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>6）绕过正常的路由表，直接发送到网络相连的主机</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -r www.baidu.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>6）绕过正常的路由表，直接发送到网络相连的主机</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -r www.baidu.com
 traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
 connect: 网络不可达
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>7）把对外发探测包的等待响应时间设置为3秒</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># traceroute -w 3 www.baidu.com
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>7）把对外发探测包的等待响应时间设置为3秒</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># traceroute -w 3 www.baidu.com
 traceroute to www.baidu.com (61.135.169.105), 30 hops max, 40 byte packets
  1  211.151.74.2 (211.151.74.2)  2.306 ms  2.469 ms  2.650 ms
  2  211.151.56.1 (211.151.56.1)  0.621 ms  0.613 ms  0.603 ms
@@ -111,7 +111,7 @@ traceroute to www.baidu.com (61.135.169.105), 30 hops max, 40 byte packets
  8  123.126.6.198 (123.126.6.198)  2.948 ms 61.148.156.6 (61.148.156.6)  7.688 ms  7.756 ms
  9  * * *
 30  * * *
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>Traceroute的工作原理：</p>
 <p>Traceroute最简单的基本用法是：traceroute hostname</p>
 <p>Traceroute程序的设计是利用ICMP及IP header的TTL（Time To Live）栏位（field）。首先，traceroute送出一个TTL是1的IP datagram（其实，每次送出的为3个40字节的包，包括源地址，目的地址和包发出的时间标签）到目的地，当路径上的第一个路由器（router）收到这个datagram时，它将TTL减1。此时，TTL变为0了，所以该路由器会将此datagram丢掉，并送回一个「ICMP time exceeded」消息（包括发IP包的源地址，IP包的所有内容及路由器的IP地址），traceroute 收到这个消息后，便知道这个路由器存在于这个路径上，接着traceroute 再送出另一个TTL是2 的datagram，发现第2 个路由器...... traceroute 每次将送出的datagram的TTL 加1来发现另一个路由器，这个重复的动作一直持续到某个datagram 抵达目的地。当datagram到达目的地后，该主机并不会送回ICMP time exceeded消息，因为它已是目的地了，那么traceroute如何得知目的地到达了呢？</p>
@@ -130,7 +130,7 @@ traceroute to www.baidu.com (61.135.169.105), 30 hops max, 40 byte packets
 <p>-w timeout 等待由 timeout 对每个应答指定的毫秒数。</p>
 <p>target_name 目标计算机的名称。</p>
 <p>实例：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>C:\Users\Administrator>tracert www.58.com
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>C:\Users\Administrator>tracert www.58.com
 
 Tracing route to www.58.com [221.187.111.30]
 over a maximum of 30 hops:
@@ -159,7 +159,9 @@ over a maximum of 30 hops:
  22    15 ms    17 ms    18 ms  221.187.111.30
 
 Trace complete.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>参考链接：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2013/03/07/2947326.html</p>
 <p>http://man.linuxde.net/traceroute</p>
-</template>
+</div></template>
+
+

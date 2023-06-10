@@ -1,4 +1,4 @@
-<template><h1 id="_9-zookeeper集群监控" tabindex="-1"><a class="header-anchor" href="#_9-zookeeper集群监控" aria-hidden="true">#</a> 9 zookeeper集群监控</h1>
+<template><div><h1 id="_9-zookeeper集群监控" tabindex="-1"><a class="header-anchor" href="#_9-zookeeper集群监控" aria-hidden="true">#</a> 9 zookeeper集群监控</h1>
 <blockquote>
 <p>zabbix旧版本可以用，新版本建议用官方模板</p>
 </blockquote>
@@ -49,16 +49,18 @@
 <h2 id="zabbix-configuration" tabindex="-1"><a class="header-anchor" href="#zabbix-configuration" aria-hidden="true">#</a> Zabbix Configuration</h2>
 <ol>
 <li>
-<p>Copy <code>UserParameter_Zookeeper.conf</code> to <code>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
+<p>Copy <code v-pre>UserParameter_Zookeeper.conf</code> to <code v-pre>/etc/zabbix/zabbix_agentd.d</code> folder (or whatever is default and/or configured on your system).</p>
 </li>
 <li>
 <p>Restart your Zabbix Agent</p>
 </li>
 <li>
-<p>Import XML template file (<code>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
+<p>Import XML template file (<code v-pre>zookeeper.xml</code>) into Zabbix via Web GUI (Configuration -&gt; Templates -&gt; Import).</p>
 </li>
 <li>
 <p>Assign the imported template to a host, change MACROS if needed in the host parameters and enjoy!</p>
 </li>
 </ol>
-</template>
+</div></template>
+
+

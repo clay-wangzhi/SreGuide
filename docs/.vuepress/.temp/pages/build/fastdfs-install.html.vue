@@ -1,4 +1,4 @@
-<template><h1 id="分布式fastdfs-nginx缓存高可用集群构建" tabindex="-1"><a class="header-anchor" href="#分布式fastdfs-nginx缓存高可用集群构建" aria-hidden="true">#</a> 分布式FastDfs+nginx缓存高可用集群构建</h1>
+<template><div><h1 id="分布式fastdfs-nginx缓存高可用集群构建" tabindex="-1"><a class="header-anchor" href="#分布式fastdfs-nginx缓存高可用集群构建" aria-hidden="true">#</a> 分布式FastDfs+nginx缓存高可用集群构建</h1>
 <h3 id="介绍" tabindex="-1"><a class="header-anchor" href="#介绍" aria-hidden="true">#</a> 介绍</h3>
 <p>FastDFS：开源的高性能分布式文件系统；主要功能包括：文件存储，文件同步和文件访问，以及高容量和负载平衡</p>
 <p>FastDFS：角色：跟踪服务器(Tracker Server)、存储服务器(Storage Server)和客户端(Client)</p>
@@ -7,9 +7,9 @@
 <li>Storage Server: 存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server（高可用），组内的storage server上的数据互为备份</li>
 <li>Client:客户端，上传下载数据的服务器</li>
 </ol>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs1.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs1.png" alt=""></p>
 <p><strong>FastDfs+nginx缓存高可用集群环境流程示意图：</strong></p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs2.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/fastdfs2.png" alt=""></p>
 <p>实验环境机器说明：</p>
 <table>
 <thead>
@@ -68,7 +68,7 @@
 <h3 id="fastdfs的安装" tabindex="-1"><a class="header-anchor" href="#fastdfs的安装" aria-hidden="true">#</a> fastdfs的安装</h3>
 <p>6台主机同时进行</p>
 <p>下载安装包</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mkdir -p /usr/local/software
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mkdir -p /usr/local/software
 cd /usr/local/software
 wget https://github.com/happyfish100/fastdfs/archive/V5.11.tar.gz
 wget https://github.com/happyfish100/fastdfs-client-java/archive/master.zip
@@ -78,26 +78,26 @@ mv master.zip fastdfs-nginx-module.zip
 wget https://github.com/happyfish100/libfastcommon/archive/master.zip
 mv master.zip libfastcommon.zip
 wget http://nginx.org/download/nginx-1.16.0.tar.gz
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>安装相关依赖</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install make cmake gcc gcc-c++
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>安装 libfastcommon</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>unzip libfastcommon.zip -d /usr/local/fast/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>安装相关依赖</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum -y install make cmake gcc gcc-c++
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>安装 libfastcommon</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>unzip libfastcommon.zip -d /usr/local/fast/
 cd /usr/local/fast/libfastcommon-master
 ./make.sh 
 ./make.sh install
 ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>安装 FastDFS</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>tar -zxf V5.11.tar.gz -C /usr/local/fast/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>安装 FastDFS</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>tar -zxf V5.11.tar.gz -C /usr/local/fast/
 cd /usr/local/fast/fastdfs-5.11
 ./make.sh
 ./make.sh install
 cp -f ./conf/client.conf /etc/fdfs/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="tracker安装" tabindex="-1"><a class="header-anchor" href="#tracker安装" aria-hidden="true">#</a> tracker安装</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="tracker安装" tabindex="-1"><a class="header-anchor" href="#tracker安装" aria-hidden="true">#</a> tracker安装</h3>
 <p>在两台tracker上执行</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /etc/fdfs/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /etc/fdfs/
 cp tracker.conf.sample tracker.conf
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>修改tracker配置文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># egrep -v "^$|^#" tracker.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>修改tracker配置文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># egrep -v "^$|^#" tracker.conf
 disabled=false
 bind_addr=0.0.0.0
 port=22122
@@ -150,16 +150,16 @@ http.server_port=8080
 http.check_alive_interval=30
 http.check_alive_type=tcp
 http.check_alive_uri=/status.html
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br></div></div><p>修改的内容为：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>bind_addr=0.0.0.0
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改的内容为：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>bind_addr=0.0.0.0
 base_path=/fastdfs/tracker
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>创建工作目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/tracker
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>启动追踪器</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/etc/init.d/fdfs_trackerd start
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>创建工作目录</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/tracker
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>启动追踪器</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/etc/init.d/fdfs_trackerd start
 tail -f /fastdfs/tracker/logs/trackerd.log
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>开放防火墙端口</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># cat /etc/sysconfig/iptables
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>开放防火墙端口</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># cat /etc/sysconfig/iptables
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
@@ -176,11 +176,11 @@ tail -f /fastdfs/tracker/logs/trackerd.log
 COMMIT
 
 # systemctl restart iptables.service
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="storage安装" tabindex="-1"><a class="header-anchor" href="#storage安装" aria-hidden="true">#</a> storage安装</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /etc/fdfs/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="storage安装" tabindex="-1"><a class="header-anchor" href="#storage安装" aria-hidden="true">#</a> storage安装</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /etc/fdfs/
 cp storage.conf.sample storage.conf
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>修改配置文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># egrep -v "^$|^#" storage.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>修改配置文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># egrep -v "^$|^#" storage.conf
 disabled=false
 group_name=group1
 bind_addr=
@@ -238,24 +238,24 @@ use_connection_pool = false
 connection_pool_max_idle_time = 3600
 http.domain_name=
 http.server_port=8888
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div><p>修改的文件内容为：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>group_name=group1 #4台机器分成2组(group1:192.168.165.38,39和group2:192.168.165.40,41)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改的文件内容为：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>group_name=group1 #4台机器分成2组(group1:192.168.165.38,39和group2:192.168.165.40,41)
 base_path=/fastdfs/storage #设置 storage 的日志目录
 store_path_count=1 #默认就为1，（存储路径个数，需要和 store_path个数匹配）
 store_path0=/fastdfs/storage #设置存储路径
 tracker_server=192.168.162.193:22122
 tracker_server=192.168.162.194:22122#tracker 服务的IP和端口，多个就添加多条记录
 http.server_port=8888 #设置http端口号
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>创建目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/storage
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>启动 storage：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/etc/init.d/fdfs_storaged start
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>创建目录</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/storage
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>启动 storage：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/etc/init.d/fdfs_storaged start
 tail -f /fastdfs/storage/logs/storaged.log
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>查看集群状态：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>查看集群状态：</p>
 <p>在任意一台storage主机即可</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/usr/bin/fdfs_monitor /etc/fdfs/storage.conf
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>开放防火墙端口</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cat /etc/sysconfig/iptables
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/usr/bin/fdfs_monitor /etc/fdfs/storage.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>开放防火墙端口</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cat /etc/sysconfig/iptables
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
@@ -272,9 +272,9 @@ tail -f /fastdfs/storage/logs/storaged.log
 COMMIT
 
 # systemctl restart iptables.service
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="客户端测试" tabindex="-1"><a class="header-anchor" href="#客户端测试" aria-hidden="true">#</a> 客户端测试</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="客户端测试" tabindex="-1"><a class="header-anchor" href="#客户端测试" aria-hidden="true">#</a> 客户端测试</h3>
 <p>tracker台中可以随意找一台做客户端测试下:</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># egrep -v "^$|^#" client.conf
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># egrep -v "^$|^#" client.conf
 connect_timeout=30
 network_timeout=60
 base_path=/fastdfs/tracker
@@ -287,16 +287,16 @@ load_fdfs_parameters_from_tracker=false
 use_storage_id = false
 storage_ids_filename = storage_ids.conf
 http.tracker_server_port=8888
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>修改文件的内容为：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>base_path=/fastdfs/tracker #tracker服务器文件路径
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改文件的内容为：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>base_path=/fastdfs/tracker #tracker服务器文件路径
 tracker_server=192.168.165.36:22122
 tracker_server=192.168.165.37:22122
 http.tracker_server_port=8888 # tracker 服务器的 http端口号，必须和tracker的设置对应起来
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>上传一张图片到服务器上</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/usr/bin/fdfs_upload_file /etc/fdfs/client.conf /home/111/1.jpg 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="配置fastdfs集群支持http" tabindex="-1"><a class="header-anchor" href="#配置fastdfs集群支持http" aria-hidden="true">#</a> 配置FastDFS集群支持http</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上传一张图片到服务器上</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/usr/bin/fdfs_upload_file /etc/fdfs/client.conf /home/111/1.jpg 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="配置fastdfs集群支持http" tabindex="-1"><a class="header-anchor" href="#配置fastdfs集群支持http" aria-hidden="true">#</a> 配置FastDFS集群支持http</h3>
 <p>支持http请求，安装nginx（4个storage节点安装nginx,首先安装fastdfs-nginx-module,fastdfs与nginx集成模块）</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /usr/local/software/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /usr/local/software/
 unzip fastdfs-nginx-module.zip -d /usr/local/fast/
 cd /usr/local/fast/fastdfs-nginx-module-master/src
 yum -y install pcre pcre-devel
@@ -305,8 +305,8 @@ yum -y install openssl openssl-devel
 cd /usr/local/software
 tar -zxf nginx-1.9.9.tar.gz -C /usr/local/
 cd /usr/local/nginx-1.9.9
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>修改config编译文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># vim /usr/local/fast/fastdfs-nginx-module-master/src/config
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改config编译文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># vim /usr/local/fast/fastdfs-nginx-module-master/src/config
 ngx_addon_name=ngx_http_fastdfs_module
 
 if test -n "${ngx_module_link}"; then
@@ -325,14 +325,14 @@ else
     CORE_LIBS="$CORE_LIBS -lfastcommon -lfdfsclient"
     CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DFDFS_OUTPUT_CHUNK_SIZE='256*1024' -DFDFS_MOD_CONF_FILENAME='\"/etc/fdfs/mod_fastdfs.conf\"'"
 fi
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>编译安装</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>./configure --add-module=/usr/local/fast/fastdfs-nginx-module-master/src/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>编译安装</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>./configure --add-module=/usr/local/fast/fastdfs-nginx-module-master/src/
 make -j 4
 make install
 cd /usr/local/fast/fastdfs-nginx-module-master/src/
 cp mod_fastdfs.conf /etc/fdfs/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>修改mod_fastdfs.conf配置文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># egrep -v "^$|^#" /etc/fdfs/mod_fastdfs.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改mod_fastdfs.conf配置文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># egrep -v "^$|^#" /etc/fdfs/mod_fastdfs.conf
 connect_timeout=20
 network_timeout=30
 base_path=/tmp
@@ -365,16 +365,16 @@ storage_server_port=23000
 store_path_count=1
 store_path0=/fastdfs/storage
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br></div></div><blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
 <p>注意:group1:192.168.165.38,39和group2:192.168.165.40,41</p>
 </blockquote>
 <p>复制FastDFS(fastdfs-5.11)里的2个文件到/etc/fdfs/目录下</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /usr/local/fast/fastdfs-5.11/conf/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /usr/local/fast/fastdfs-5.11/conf/
 cp http.conf mime.types /etc/fdfs/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>创建一个软链接，在/fastdfs/storage 文件存储目录下创建软链接，将其链接到实际存放数据的目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>ln -s /fastdfs/storage/data/ /fastdfs/storage/data/M00
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>修改nginx配置文件为：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cat /usr/local/nginx/conf/nginx.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>创建一个软链接，在/fastdfs/storage 文件存储目录下创建软链接，将其链接到实际存放数据的目录</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>ln -s /fastdfs/storage/data/ /fastdfs/storage/data/M00
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>修改nginx配置文件为：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cat /usr/local/nginx/conf/nginx.conf
 
 #user  nobody;
 worker_processes  4;
@@ -437,11 +437,11 @@ http {
         }
 }
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><p>启动nginx</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/usr/local/nginx/sbin/nginx
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>上传图片，然后访问测试</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>启动nginx</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/usr/local/nginx/sbin/nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>上传图片，然后访问测试</p>
 <h3 id="tracker-server-上安装-nginx缓存" tabindex="-1"><a class="header-anchor" href="#tracker-server-上安装-nginx缓存" aria-hidden="true">#</a> tracker server 上安装 nginx缓存</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>tar -zxf ngx_cache_purge-2.3.tar.gz -C /usr/local/fast/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>tar -zxf ngx_cache_purge-2.3.tar.gz -C /usr/local/fast/
 yum -y install pcre pcre-devel
 yum -y install zlib zlib-devel
 yum -y install openssl openssl-devel
@@ -451,10 +451,10 @@ cd /usr/local/nginx-1.16.0/
 ./configure --add-module=/usr/local/fast/ngx_cache_purge-2.3
 make -j 4
 make install
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>创建缓存目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/cache/nginx/proxy_cache
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>修改nginx配置文件：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># cat /usr/local/nginx/conf/nginx.conf
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>创建缓存目录</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mkdir -pv /fastdfs/cache/nginx/proxy_cache
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>修改nginx配置文件：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># cat /usr/local/nginx/conf/nginx.conf
 
 #user  nobody;
 worker_processes  4;
@@ -561,13 +561,13 @@ http {
         }
 }
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br></div></div><p>启动nginx</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/usr/local/nginx/sbin/nginx
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>上传图片，访问测试</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>启动nginx</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/usr/local/nginx/sbin/nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>上传图片，访问测试</p>
 <h3 id="keepalived安装" tabindex="-1"><a class="header-anchor" href="#keepalived安装" aria-hidden="true">#</a> keepalived安装</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install keepalived
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>修改配置文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># cat /etc/keepalived/keepalived.conf 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum -y install keepalived
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>修改配置文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># cat /etc/keepalived/keepalived.conf 
 ! Configuration File for keepalived
 
 global_defs {
@@ -597,11 +597,11 @@ vrrp_instance VI_1 {
         chk_nginx
     }
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
 <p>准备：另一台的state改为BACKUP，priority改为小于100的值</p>
 </blockquote>
 <p>配置健康检查脚本：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># cat /etc/keepalived/chk_nginx.sh 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># cat /etc/keepalived/chk_nginx.sh 
 #!/bin/bash
 #
 # check nginx status
@@ -617,10 +617,10 @@ if [[ ${A} -eq 0 ]];then
   fi
 fi
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>赋予执行权限：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chomd +x /etc/keepalived/chk_nginx.sh 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>添加防火墙规则</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># cat /etc/sysconfig/iptables
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>赋予执行权限：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chomd +x /etc/keepalived/chk_nginx.sh 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>添加防火墙规则</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># cat /etc/sysconfig/iptables
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
@@ -638,12 +638,14 @@ fi
 COMMIT
 
 #  systemctl restart iptables.service
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>启动服务</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>systemctl start keepalived
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>用vip访问测试</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>启动服务</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>systemctl start keepalived
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>用vip访问测试</p>
 <p>参考链接：</p>
 <blockquote>
 <p><a href="https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/NGames/archive/2019/06/23/11065282.html<ExternalLinkIcon/></a></p>
 </blockquote>
 <h3 id="" tabindex="-1"><a class="header-anchor" href="#" aria-hidden="true">#</a> </h3>
-</template>
+</div></template>
+
+

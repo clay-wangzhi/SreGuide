@@ -1,24 +1,26 @@
-<template><h1 id="_14-mysql-bin-log日志清理" tabindex="-1"><a class="header-anchor" href="#_14-mysql-bin-log日志清理" aria-hidden="true">#</a> 14 MySQL bin-log日志清理</h1>
+<template><div><h1 id="_14-mysql-bin-log日志清理" tabindex="-1"><a class="header-anchor" href="#_14-mysql-bin-log日志清理" aria-hidden="true">#</a> 14 MySQL bin-log日志清理</h1>
 <h2 id="自动清理" tabindex="-1"><a class="header-anchor" href="#自动清理" aria-hidden="true">#</a> 自动清理</h2>
 <h3 id="永久生效" tabindex="-1"><a class="header-anchor" href="#永久生效" aria-hidden="true">#</a> 永久生效</h3>
 <p>需要重启mysql才能生效</p>
-<p>修改<code>my.cnf</code>文件</p>
+<p>修改<code v-pre>my.cnf</code>文件</p>
 <p>添加下面一行</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>expire_logs_days = 7
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="临时生效" tabindex="-1"><a class="header-anchor" href="#临时生效" aria-hidden="true">#</a> 临时生效</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>expire_logs_days = 7
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="临时生效" tabindex="-1"><a class="header-anchor" href="#临时生效" aria-hidden="true">#</a> 临时生效</h3>
 <p>进入mysql，执行，下面的语句</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>show variables like '%expire_logs_days%';
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>show variables like '%expire_logs_days%';
 set global expire_logs_days = 7;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h2 id="手动清理" tabindex="-1"><a class="header-anchor" href="#手动清理" aria-hidden="true">#</a> 手动清理</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="手动清理" tabindex="-1"><a class="header-anchor" href="#手动清理" aria-hidden="true">#</a> 手动清理</h2>
 <p>进入mysql，查看binlog日志</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>show binary logs;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>purge binary logs to 'mysql-bin.000035';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>PURGE MASTER LOGS BEFORE '2019-09-09 13:00:00';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><strong>清除3天前的bin日志</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><blockquote>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>show binary logs;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>删除某个日志文件之前的所有日志文件</strong></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>purge binary logs to 'mysql-bin.000035';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>清理2019-09-09 13:00:00前binlog日志</strong></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>PURGE MASTER LOGS BEFORE '2019-09-09 13:00:00';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>清除3天前的bin日志</strong></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>PURGE MASTER LOGS BEFORE DATE_SUB(NOW( ), INTERVAL 3 DAY); 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><blockquote>
 <p>注意，不要轻易手动去删除binlog，会导致binlog.index和真实存在的binlog不匹配，而导致expire_logs_day失效</p>
 </blockquote>
-</template>
+</div></template>
+
+

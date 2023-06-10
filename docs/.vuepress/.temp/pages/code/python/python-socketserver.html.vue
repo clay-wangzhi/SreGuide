@@ -1,7 +1,7 @@
-<template><h1 id="_11-1-socketserver" tabindex="-1"><a class="header-anchor" href="#_11-1-socketserver" aria-hidden="true">#</a> 11.1 SocketServer</h1>
+<template><div><h1 id="_11-1-socketserver" tabindex="-1"><a class="header-anchor" href="#_11-1-socketserver" aria-hidden="true">#</a> 11.1 SocketServer</h1>
 <p>socket 编程过于底层，编程虽然有套路，但是想要写出健壮的代码还是比较困难的，所以很多语言都对 socket 底层 API 进行封装，Python 的封装就是 socketserver 模块。它是网络服务编程框架，便于企业级快速开发。</p>
 <h2 id="类的继承关系" tabindex="-1"><a class="header-anchor" href="#类的继承关系" aria-hidden="true">#</a> 类的继承关系</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>+------------+
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>+------------+
 | BaseServer |
 +------------+
       |
@@ -14,7 +14,7 @@
 +-----------+        +--------------------+
 | UDPServer |------->| UnixDatagramServer |
 +-----------+        +--------------------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>SocketServer简化了网络服务器的编写。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>SocketServer简化了网络服务器的编写。</p>
 <p>它有4个同步类：</p>
 <ul>
 <li>TCPServer</li>
@@ -32,10 +32,10 @@
 <p>fork是创建多进程，thread是创建多线程。
 fork需要操作系统支持，Windows不支持。</p>
 <h2 id="编程接口" tabindex="-1"><a class="header-anchor" href="#编程接口" aria-hidden="true">#</a> 编程接口</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>socketserver.BaseServer(server_address, RequestHandlerClass)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>需要提供服务器绑定的地址信息，和用于处理请求的 RequestHandlerClass 类。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>socketserver.BaseServer(server_address, RequestHandlerClass)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>需要提供服务器绑定的地址信息，和用于处理请求的 RequestHandlerClass 类。</p>
 <p>RequestHandlerClass 类必须是 BaseRequestHandler 类的子类，在 BaseServer 中代码如下：</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># BaseServer代码</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># BaseServer代码</span>
 <span class="token keyword">class</span> <span class="token class-name">BaseServer</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> server_address<span class="token punctuation">,</span> RequestHandlerClass<span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token triple-quoted-string string">"""Constructor. May be extended, do not override.可扩展不可覆盖"""</span>
@@ -46,10 +46,10 @@ fork需要操作系统支持，Windows不支持。</p>
     <span class="token keyword">def</span> <span class="token function">finish_request</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> client_address<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 处理请求的方法</span>
         <span class="token triple-quoted-string string">"""Finish one request by instantiating RequestHandlerClass."""</span>
         self<span class="token punctuation">.</span>RequestHandlerClass<span class="token punctuation">(</span>request<span class="token punctuation">,</span> client_address<span class="token punctuation">,</span> self<span class="token punctuation">)</span> <span class="token comment">#RequestHandlerClass构造</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p><strong>BaseRequestHandler类</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>BaseRequestHandler类</strong></p>
 <p>它是和用户连接的用户请求处理类的基类，定义为</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>BaseRequestHandler(request, client_address, server)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>服务端 Server 实例接收用户请求后，最后会实例化这个类。
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>BaseRequestHandler(request, client_address, server)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>服务端 Server 实例接收用户请求后，最后会实例化这个类。
 它被初始化时，送入3个构造参数：request, client_address, server自身
 以后就可以在 BaseRequestHandler 类的实例上使用以下属性：</p>
 <ul>
@@ -58,7 +58,7 @@ fork需要操作系统支持，Windows不支持。</p>
 <li>self.client_address是客户端地址</li>
 </ul>
 <p>这个类在初始化的时候，它会依次调用3个方法。子类可以覆盖这些方法。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># BaseRequestHandler要子类覆盖的方法</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># BaseRequestHandler要子类覆盖的方法</span>
 <span class="token keyword">class</span> <span class="token class-name">BaseRequestHandler</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> client_address<span class="token punctuation">,</span> server<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>request <span class="token operator">=</span> request
@@ -78,8 +78,8 @@ fork需要操作系统支持，Windows不支持。</p>
     
     <span class="token keyword">def</span> <span class="token function">finish</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 每一个连接清理</span>
         <span class="token keyword">pass</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>测试代码</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>测试代码</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> socketserver
 
 <span class="token keyword">class</span> <span class="token class-name">MyHandler</span><span class="token punctuation">(</span>socketserver<span class="token punctuation">.</span>BaseRequestHandler<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -99,12 +99,12 @@ addr <span class="token operator">=</span> <span class="token punctuation">(</sp
 server <span class="token operator">=</span> socketserver<span class="token punctuation">.</span>ThreadingTCPServer<span class="token punctuation">(</span>addr<span class="token punctuation">,</span> MyHandler<span class="token punctuation">)</span> <span class="token comment"># 注意参数是MyHandler类</span>
 <span class="token comment">#server.handle_request() # 一次行</span>
 server<span class="token punctuation">.</span>serve_forever<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 永久循环执行</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>测试结果说明，handle 方法相当于 socket 的 recv 方法。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>测试结果说明，handle 方法相当于 socket 的 recv 方法。
 每个不同的连接上的请求过来后，生成这个连接的 socket 对象即 self.request，客户端地址是 self.client_address。</p>
 <p>问题
 测试过程中，上面代码，连接后立即断开了，为什么？
 怎样才能客户端和服务器端长时间连接？</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> socketserver
 <span class="token keyword">import</span> logging
 
@@ -133,7 +133,7 @@ addr <span class="token operator">=</span> <span class="token punctuation">(</sp
 server <span class="token operator">=</span> socketserver<span class="token punctuation">.</span>ThreadingTCPServer<span class="token punctuation">(</span>addr<span class="token punctuation">,</span> MyHandler<span class="token punctuation">)</span> <span class="token comment"># 注意参数是MyHandler类</span>
 <span class="token comment">#server.handle_request() # 一次行</span>
 server<span class="token punctuation">.</span>serve_forever<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 永久循环执行</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>将ThreadingTCPServer换成TCPServer，同时连接2个客户端观察效果。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>将ThreadingTCPServer换成TCPServer，同时连接2个客户端观察效果。</p>
 <p>ThreadingTCPServer是异步的，可以同时处理多个连接。</p>
 <p>TCPServer是同步的，一个连接处理完了，即一个连接的handle方法执行完了，才能处理另一个连接，且<strong>只有主线程</strong>。
 总结
@@ -147,7 +147,7 @@ server<span class="token punctuation">.</span>serve_forever<span class="token pu
 <h2 id="实现-echoserver" tabindex="-1"><a class="header-anchor" href="#实现-echoserver" aria-hidden="true">#</a> 实现 EchoServer</h2>
 <p>顾名思义，Echo，来什么消息回显什么消息
 客户端发来什么信息，返回什么信息</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> socketserver
 
 <span class="token keyword">class</span> <span class="token class-name">Handler</span><span class="token punctuation">(</span>socketserver<span class="token punctuation">.</span>BaseRequestHandler<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -178,8 +178,10 @@ threading<span class="token punctuation">.</span>Thread<span class="token punctu
         server<span class="token punctuation">.</span>server_close<span class="token punctuation">(</span><span class="token punctuation">)</span>
         <span class="token keyword">break</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>threading<span class="token punctuation">.</span><span class="token builtin">enumerate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br></div></div><h2 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h2>
 <p>为每一个连接提供 RequestHandlerClass 类实例，依次调用 setup、handle、finish 方法，且使用了try...finally结构保证 finish 方法一定能被调用。这些方法依次执行完成，如果想维持这个连接和客户端通信，就需要 handle 函数中使用循环。</p>
 <p>socketserver 模块提供的不同的类，但是编程接口是一样的，即使是多进程、多线程的类也是一样，大大减少了编程的难度。
 将 socket 编程简化，只需要程序员关注数据处理本身，实现 Handler 类就行了。这种风格在 Python 十分常见。</p>
-</template>
+</div></template>
+
+

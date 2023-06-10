@@ -1,4 +1,4 @@
-<template><h1 id="redis面试题" tabindex="-1"><a class="header-anchor" href="#redis面试题" aria-hidden="true">#</a> redis面试题</h1>
+<template><div><h1 id="redis面试题" tabindex="-1"><a class="header-anchor" href="#redis面试题" aria-hidden="true">#</a> redis面试题</h1>
 <blockquote>
 <p>todo: 添加小林coding的redis相关问题，缓存，穿透，雪崩等</p>
 </blockquote>
@@ -22,7 +22,7 @@
 <li>**set是string类型的无序集合。**集合是通过hashtable实现的。set中的元素是没有顺序的，而且是没有重复的。常用命令：sdd、spop、smembers、sunion等。</li>
 <li>**zset和set一样是string类型元素的集合，且不允许重复的元素。zset是有序集合。**常用命令：zadd、zrange、zrem、zcard等</li>
 </ol>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis-640.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/redis-640.webp" alt="img"></p>
 <h2 id="为什么单线程的redis这么快" tabindex="-1"><a class="header-anchor" href="#为什么单线程的redis这么快" aria-hidden="true">#</a> 为什么单线程的redis这么快</h2>
 <ul>
 <li>Redis完全基于内存，绝大部分请求是纯粹的内存操作，非常迅速，数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的复杂度是O(1)</li>
@@ -38,7 +38,7 @@
 <li>value的大小：redis可以达到1GB，而memcache只有1MB。</li>
 </ul>
 <h2 id="redis的淘汰策略" tabindex="-1"><a class="header-anchor" href="#redis的淘汰策略" aria-hidden="true">#</a> Redis的淘汰策略</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578796973640.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578796973640.webp" alt="img"></p>
 <p>补充一下：Redis4.0加入了LFU(least frequency use)淘汰策略，包括volatile-lfu和allkeys-lfu，通过统计访问频率，将访问频率最少，即最不经常使用的KV淘汰。</p>
 <h2 id="redis提供了哪几种持久化方式" tabindex="-1"><a class="header-anchor" href="#redis提供了哪几种持久化方式" aria-hidden="true">#</a> Redis提供了哪几种持久化方式</h2>
 <ul>
@@ -63,29 +63,29 @@
 <li>主节点把当前的数据同步给从节点后，便完成了复制的建立过程。接下来，主节点就会持续的把写命令发送给从节点，保证主从数据一致性。</li>
 </ul>
 <h2 id="数据同步的过程" tabindex="-1"><a class="header-anchor" href="#数据同步的过程" aria-hidden="true">#</a> 数据同步的过程</h2>
-<p><code>redis2.8</code>之前使用<code>sync [runid] [offset]</code>同步命令；</p>
-<p><code>redis2.8</code>之后使用<code>psync [runid] [offset]</code>命令。</p>
-<p>两者不同：<code>sync</code>命令仅支持全量复制过程，<code>psync</code>支持全量和部分复制。介绍同步之前，先介绍几个概念：</p>
+<p><code v-pre>redis2.8</code>之前使用<code v-pre>sync [runid] [offset]</code>同步命令；</p>
+<p><code v-pre>redis2.8</code>之后使用<code v-pre>psync [runid] [offset]</code>命令。</p>
+<p>两者不同：<code v-pre>sync</code>命令仅支持全量复制过程，<code v-pre>psync</code>支持全量和部分复制。介绍同步之前，先介绍几个概念：</p>
 <ul>
-<li><code>runid</code>：每个redis节点启动都会生成唯一uuid，每次redis重启后，<code>runid</code>都会发生变化。</li>
-<li><code>offset</code>：主节点和从节点都各自维护自己的主从复制偏移量offset，当主节点有写入命令时，<code>offset=offset+命令的字节长度</code>。从节点在收到主节点发送的命令后，也会增加自己的offset，并把自己的offset发送给主节点。这样，主节点同时保持自己的offset和从节点的offset，通过对比offset来判断主从节点数据是否一致。</li>
-<li><code>repl_backlog_size</code>：保存在主节点上的一个固定长度的先进先出队列，默认大小是1MB。
+<li><code v-pre>runid</code>：每个redis节点启动都会生成唯一uuid，每次redis重启后，<code v-pre>runid</code>都会发生变化。</li>
+<li><code v-pre>offset</code>：主节点和从节点都各自维护自己的主从复制偏移量offset，当主节点有写入命令时，<code v-pre>offset=offset+命令的字节长度</code>。从节点在收到主节点发送的命令后，也会增加自己的offset，并把自己的offset发送给主节点。这样，主节点同时保持自己的offset和从节点的offset，通过对比offset来判断主从节点数据是否一致。</li>
+<li><code v-pre>repl_backlog_size</code>：保存在主节点上的一个固定长度的先进先出队列，默认大小是1MB。
 <ul>
 <li>主节点发送数据给从节点工程中，主节点还会进行一些写操作，这时候的数据存储在复制缓冲区中。从节点同步主节点数据完成后，主节点将缓冲区的数据继续发送给从节点，用于部分复制。</li>
 <li>主节点响应写命令时，不但会把命令发送给从节点，还会写入复制积压缓冲区，用于复制命令丢失的数据补救。</li>
 </ul>
 </li>
 </ul>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20191222150735579.png" alt="image-20191222150735579" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20191222150735579.png" alt="image-20191222150735579"></p>
 <p>上面是psync的执行流程：</p>
-<p>从节点发送<code>psync [runid] [offset]</code> 命令，主节点有三种响应：</p>
+<p>从节点发送<code v-pre>psync [runid] [offset]</code> 命令，主节点有三种响应：</p>
 <ul>
 <li>FULLRESYNC：第一次连接，进行全量复制</li>
 <li>CONTINUE：进行部分复制</li>
 <li>ERR：不支持psync命令，进行全量复制</li>
 </ul>
 <h2 id="全量复制和部分复制的过程" tabindex="-1"><a class="header-anchor" href="#全量复制和部分复制的过程" aria-hidden="true">#</a> 全量复制和部分复制的过程</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578797079401.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578797079401.webp" alt="img"></p>
 <p>上面是全量复制的流程。主要有以下几步：</p>
 <ul>
 <li>从节点发送psync ？ -1命令（因为第一次发送，不知道主节点的runid，所以为？，因为是第一次复制，所以offset=-1）。</li>
@@ -98,7 +98,7 @@
 </ul>
 <p>关于部分复制有以下几点说明：</p>
 <ul>
-<li>部分复制主要是Redis针对全量复制的过高开销做出的一种优化措施，使用<code>psync [runId] [offset]</code>命令实现。当从节点正在复制主节点时，如果出现网络闪断或者命令丢失等异常情况时，从节点会向主节点要求补发丢失的命令数据，主节点的复制积压缓冲区将这部分直接发送给从节点，这样就可以保持主从节点复制的一致性。补发的这部分数据一般远远小于全量数据。</li>
+<li>部分复制主要是Redis针对全量复制的过高开销做出的一种优化措施，使用<code v-pre>psync [runId] [offset]</code>命令实现。当从节点正在复制主节点时，如果出现网络闪断或者命令丢失等异常情况时，从节点会向主节点要求补发丢失的命令数据，主节点的复制积压缓冲区将这部分直接发送给从节点，这样就可以保持主从节点复制的一致性。补发的这部分数据一般远远小于全量数据。</li>
 <li>主从连接中断期间主节点依然响应命令，但因复制连接中断命令无法发送给从节点，不过主节点内的复制积压缓冲区依然可以保存最近一段时间的写命令数据。</li>
 <li>当主从连接恢复后，由于从节点之前保存了自己复制的偏移量和主节点的运行ID。因此会把他们当做psync参数发送给主节点，要求进行部分复制。</li>
 <li>主节点接收到psync命令后首先核对参数runId是否与自身一致，如果一致，说明之前复制的是当前主节点；之后根据参数offset在复制积压缓冲区中查找，如果offset之后的数据存在，则对从节点发送+continue命令，表示可以进行部分复制。因为缓冲区大小固定，若发生缓冲溢出，则进行全量复制。</li>
@@ -128,7 +128,7 @@
 <h2 id="为什么redis需要把所有数据放到内存中" tabindex="-1"><a class="header-anchor" href="#为什么redis需要把所有数据放到内存中" aria-hidden="true">#</a> 为什么Redis需要把所有数据放到内存中</h2>
 <p>Redis为了达到最快的读写速度将数据都读到内存中，并通过异步的方式将数据写入磁盘。所以redis具有快速和数据持久化的特征。如果不将数据放在内存中，磁盘I/O速度为严重影响redis的性能。在内存越来越便宜的今天，redis将会越来越受欢迎。 如果设置了最大使用的内存，则数据已有记录数达到内存限值后不能继续插入新值。</p>
 <h2 id="哨兵有哪些功能" tabindex="-1"><a class="header-anchor" href="#哨兵有哪些功能" aria-hidden="true">#</a> 哨兵有哪些功能</h2>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578798554512.webp" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/640-1578798554512.webp" alt="img"></p>
 <p>如图，是Redis Sentinel（哨兵）的架构图。Redis Sentinel（哨兵）主要功能包括主节点存活检测、主从运行情况检测、自动故障转移、主从切换。Redis Sentinel最小配置是一主一从。</p>
 <p>Redis的Sentinel系统可以用来管理多个Redis服务器，该系统可以执行以下四个任务：</p>
 <ul>
@@ -146,4 +146,6 @@
 <p>异步复制</p>
 <h2 id="redis集群如何选择数据库" tabindex="-1"><a class="header-anchor" href="#redis集群如何选择数据库" aria-hidden="true">#</a> Redis集群如何选择数据库</h2>
 <p>Redis集群目前无法做数据库选择，默认在0数据库。</p>
-</template>
+</div></template>
+
+

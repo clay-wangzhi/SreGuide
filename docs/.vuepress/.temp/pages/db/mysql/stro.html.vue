@@ -1,4 +1,4 @@
-<template><h1 id="_5-mysql存储引擎" tabindex="-1"><a class="header-anchor" href="#_5-mysql存储引擎" aria-hidden="true">#</a> 5 MySQL存储引擎</h1>
+<template><div><h1 id="_5-mysql存储引擎" tabindex="-1"><a class="header-anchor" href="#_5-mysql存储引擎" aria-hidden="true">#</a> 5 MySQL存储引擎</h1>
 <h2 id="存储引擎简介" tabindex="-1"><a class="header-anchor" href="#存储引擎简介" aria-hidden="true">#</a> 存储引擎简介</h2>
 <p>​		MySQL中的数据用各种不同的技术存储在文件(或者内存)中。这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并且最终提供广泛的不同的功能和能力。通过选择不同的技术，你能够获得额外的速度或者功能，从而改善你的应用的整体功能。</p>
 <p>​		例如，如果你在研究大量的临时数据，你也许需要使用内存存储引擎。内存存储引擎能够在内存中存储所有的表格数据。</p>
@@ -79,4 +79,6 @@
 <blockquote>
 <p>参考链接：https://segmentfault.com/a/1190000019400925</p>
 </blockquote>
-</template>
+</div></template>
+
+

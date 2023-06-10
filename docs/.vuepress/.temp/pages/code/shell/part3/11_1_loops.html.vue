@@ -1,16 +1,16 @@
-<template><h1 id="_11-1-循环" tabindex="-1"><a class="header-anchor" href="#_11-1-循环" aria-hidden="true">#</a> 11.1 循环</h1>
-<p>循环是当循环控制条件为真时，一系列命令迭代<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1" /></sup>执行的代码块。</p>
+<template><div><h1 id="_11-1-循环" tabindex="-1"><a class="header-anchor" href="#_11-1-循环" aria-hidden="true">#</a> 11.1 循环</h1>
+<p>循环是当循环控制条件为真时，一系列命令迭代<a href="%E8%BF%AD%E4%BB%A3%EF%BC%9A%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8C%E4%B8%80%E4%B8%AA%E6%88%96%E4%B8%80%E7%BB%84%E5%91%BD%E4%BB%A4%E3%80%82%E9%80%9A%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E4%BC%9A%E4%BD%BF%E7%94%A8%60while%60%E6%88%96%E8%80%85%60until%60%E8%BF%9B%E8%A1%8C%E6%8E%A7%E5%88%B6%E3%80%82">^1</a>执行的代码块。</p>
 <h3 id="for-循环" tabindex="-1"><a class="header-anchor" href="#for-循环" aria-hidden="true">#</a> for 循环</h3>
-<p><code>for arg in [list]</code></p>
+<p><code v-pre>for arg in [list]</code></p>
 <p>这是 shell 中最基本的循环结构，它与C语言形式的循环有着明显的不同。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">for</span> <span class="token for-or-select variable">arg</span> <span class="token keyword">in</span> <span class="token punctuation">[</span>list<span class="token punctuation">]</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">for</span> <span class="token for-or-select variable">arg</span> <span class="token keyword">in</span> <span class="token punctuation">[</span>list<span class="token punctuation">]</span>
 <span class="token keyword">do</span>
   command<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">..</span>.
 <span class="token keyword">done</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" loading="lazy"> 在循环的过程中，<code>arg</code> 会从 <code>list</code> 中连续获得每一个变量的值。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 在循环的过程中，<code v-pre>arg</code> 会从 <code v-pre>list</code> 中连续获得每一个变量的值。</p>
 </blockquote>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">for</span> <span class="token for-or-select variable">arg</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$var1</span>"</span> <span class="token string">"<span class="token variable">$var2</span>"</span> <span class="token string">"<span class="token variable">$var3</span>"</span> <span class="token punctuation">..</span>. <span class="token string">"<span class="token variable">$varN</span>"</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">for</span> <span class="token for-or-select variable">arg</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$var1</span>"</span> <span class="token string">"<span class="token variable">$var2</span>"</span> <span class="token string">"<span class="token variable">$var3</span>"</span> <span class="token punctuation">..</span>. <span class="token string">"<span class="token variable">$varN</span>"</span>
 <span class="token comment"># 第一次循环中，arg = $var1</span>
 <span class="token comment"># 第二次循环中，arg = $var2</span>
 <span class="token comment"># 第三次循环中，arg = $var3</span>
@@ -18,11 +18,11 @@
 <span class="token comment"># 第 N 次循环中，arg = $varN</span>
 <span class="token operator">></span>
 <span class="token comment"># 为了防止可能的字符分割问题，[list] 中的参数都需要被引用。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>参数 list 中允许含有 <a href="http://tldp.org/LDP/abs/html/special-chars.html#ASTERISKREF" target="_blank" rel="noopener noreferrer">通配符<ExternalLinkIcon/></a>。</p>
-<p>如果 <code>do</code> 和 <code>for</code> 写在同一行时，需要在 list 之后加上一个分号。</p>
-<p><code>for arg in [list] ; do</code></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>参数 list 中允许含有 <a href="http://tldp.org/LDP/abs/html/special-chars.html#ASTERISKREF" target="_blank" rel="noopener noreferrer">通配符<ExternalLinkIcon/></a>。</p>
+<p>如果 <code v-pre>do</code> 和 <code v-pre>for</code> 写在同一行时，需要在 list 之后加上一个分号。</p>
+<p><code v-pre>for arg in [list] ; do</code></p>
 <p>样例 11-1. 简单的 for 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># 列出太阳系的所有行星。</span>
 
 <span class="token keyword">for</span> <span class="token for-or-select variable">planet</span> <span class="token keyword">in</span> Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto
@@ -43,9 +43,9 @@
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Whoops! Pluto is no longer a planet!"</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>[list] 中的每一个元素中都可能含有多个参数。这在处理参数组中非常有用。在这种情况下，使用 <a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer"><code>set</code><ExternalLinkIcon/></a> 命令（查看 <a href="http://tldp.org/LDP/abs/html/internal.html#EX34" target="_blank" rel="noopener noreferrer">样例 15-16<ExternalLinkIcon/></a>）强制解析 [list] 中的每一个元素，并将元素的每一个部分分配给位置参数。</p>
-<p>样例 11-2. <code>for</code> 循环 [list] 中的每一个变量有两个参数的情况</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>[list] 中的每一个元素中都可能含有多个参数。这在处理参数组中非常有用。在这种情况下，使用 <a href="http://tldp.org/LDP/abs/html/internal.html#SETREF" target="_blank" rel="noopener noreferrer"><code v-pre>set</code><ExternalLinkIcon/></a> 命令（查看 <a href="http://tldp.org/LDP/abs/html/internal.html#EX34" target="_blank" rel="noopener noreferrer">样例 15-16<ExternalLinkIcon/></a>）强制解析 [list] 中的每一个元素，并将元素的每一个部分分配给位置参数。</p>
+<p>样例 11-2. <code v-pre>for</code> 循环 [list] 中的每一个变量有两个参数的情况</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># 让行星再躺次枪。</span>
 
 <span class="token comment"># 将每个行星与其到太阳的距离放在一起。</span>
@@ -67,9 +67,9 @@
 <span class="token comment"># （感谢 S.C. 做出的额外注释。）</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><p>一个单一变量也可以成为 <code>for</code> 循环中的 [list]。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>一个单一变量也可以成为 <code v-pre>for</code> 循环中的 [list]。</p>
 <p>样例 11-3. 文件信息：查看一个单一变量中含有的文件列表的文件信息</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># fileinfo.sh</span>
 
 <span class="token assign-left variable">FILES</span><span class="token operator">=</span><span class="token string">"/usr/sbin/accept
@@ -85,13 +85,13 @@
 <span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable">$FILES</span>
 <span class="token keyword">do</span>
 
-  <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> -e <span class="token string">"<span class="token variable">$file</span>"</span> <span class="token punctuation">]</span>       <span class="token comment"># 检查文件是否存在。</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token variable">$file</span>"</span> <span class="token punctuation">]</span>       <span class="token comment"># 检查文件是否存在。</span>
   <span class="token keyword">then</span>
     <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file</span> does not exist."</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
     <span class="token builtin class-name">continue</span>                <span class="token comment"># 继续判断下一个文件。</span>
   <span class="token keyword">fi</span>
   
-  <span class="token function">ls</span> -l <span class="token variable">$file</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{ print $8 "         file size: " $5 }'</span>  <span class="token comment"># 输出其中的两个域。</span>
+  <span class="token function">ls</span> <span class="token parameter variable">-l</span> <span class="token variable">$file</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{ print $8 "         file size: " $5 }'</span>  <span class="token comment"># 输出其中的两个域。</span>
   whatis <span class="token variable"><span class="token variable">`</span><span class="token function">basename</span> $file<span class="token variable">`</span></span>   <span class="token comment"># 文件信息。</span>
   <span class="token comment"># 脚本正常运行需要注意提前设置好 whatis 的数据。</span>
   <span class="token comment"># 使用 root 权限运行 /usr/bin/makewhatis 可以完成。</span>
@@ -99,9 +99,9 @@
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p><code>for</code> 循环中的 [list] 可以是一个参数。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>for</code> 循环中的 [list] 可以是一个参数。</p>
 <p>样例 11-4. 操作含有一系列文件的参数</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token assign-left variable">filename</span><span class="token operator">=</span><span class="token string">"*txt"</span>
 
@@ -112,9 +112,9 @@
  <span class="token function">cat</span> <span class="token string">"<span class="token variable">$file</span>"</span>
  <span class="token builtin class-name">echo</span>
 <span class="token keyword">done</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>如果在匹配文件扩展名的 <code>for</code> 循环中的 [list] 含有通配符（* 和 ?），那么将会进行文件名扩展。</p>
-<p>样例 11-5. 在 <code>for</code> 循环中操作文件</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果在匹配文件扩展名的 <code v-pre>for</code> 循环中的 [list] 含有通配符（* 和 ?），那么将会进行文件名扩展。</p>
+<p>样例 11-5. 在 <code v-pre>for</code> 循环中操作文件</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># list-glob.sh: 通过文件名扩展在 for 循环中产生 [list]。</span>
 <span class="token comment"># 通配 = 文件名扩展。</span>
 
@@ -124,7 +124,7 @@
 <span class="token comment">#           ^  Bash 在检测到通配表达式时，</span>
 <span class="token comment">#+             会进行文件名扩展。</span>
 <span class="token keyword">do</span>
-  <span class="token function">ls</span> -l <span class="token string">"<span class="token variable">$file</span>"</span>  <span class="token comment"># 列出 $PWD（当前工作目录）下的所有文件。</span>
+  <span class="token function">ls</span> <span class="token parameter variable">-l</span> <span class="token string">"<span class="token variable">$file</span>"</span>  <span class="token comment"># 列出 $PWD（当前工作目录）下的所有文件。</span>
   <span class="token comment">#  回忆一下，通配符 "*" 会匹配所有的文件名，</span>
   <span class="token comment">#+ 但是，在文件名扩展中，他将不会匹配以点开头的文件。</span>
   
@@ -138,22 +138,22 @@
 
 <span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token punctuation">[</span>jx<span class="token punctuation">]</span>*
 <span class="token keyword">do</span>
-  <span class="token function">rm</span> -f <span class="token variable">$file</span>    <span class="token comment"># 删除当前目录下所有以 "j" 或 "x" 开头的文件。</span>
+  <span class="token function">rm</span> <span class="token parameter variable">-f</span> <span class="token variable">$file</span>    <span class="token comment"># 删除当前目录下所有以 "j" 或 "x" 开头的文件。</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"Removed file <span class="token entity" title="\&quot;">\"</span><span class="token variable">$file</span><span class="token entity" title="\&quot;">\"</span>"</span><span class="token builtin class-name">.</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br></div></div><p>如果在 <code>for</code> 循环中省略 <code>in [list]</code> 部分，那么循环将会遍历位置参数（<code>$@</code>）。<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">样例 A-15<ExternalLinkIcon/></a> 中使用到了这一点。也可以查看 <a href="http://tldp.org/LDP/abs/html/internal.html#REVPOSPARAMS" target="_blank" rel="noopener noreferrer">样例 15-17<ExternalLinkIcon/></a>。</p>
-<p>样例 11-6. 缺少 <code>in [list]</code> 的 <code>for</code> 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果在 <code v-pre>for</code> 循环中省略 <code v-pre>in [list]</code> 部分，那么循环将会遍历位置参数（<code v-pre>$@</code>）。<a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#PRIMES" target="_blank" rel="noopener noreferrer">样例 A-15<ExternalLinkIcon/></a> 中使用到了这一点。也可以查看 <a href="http://tldp.org/LDP/abs/html/internal.html#REVPOSPARAMS" target="_blank" rel="noopener noreferrer">样例 15-17<ExternalLinkIcon/></a>。</p>
+<p>样例 11-6. 缺少 <code v-pre>in [list]</code> 的 <code v-pre>for</code> 循环</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token comment"># 尝试在带参数和不带参数两种情况下调用这个脚本，观察发生了什么。</span>
 
 <span class="token keyword">for</span> a
 <span class="token keyword">do</span>
- <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token comment">#  缺失 'in list' 的情况下，循环会遍历 '$@'</span>
@@ -162,23 +162,23 @@
 <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>可以在 <code>for</code> 循环中使用 <a href="http://tldp.org/LDP/abs/html/commandsub.html#COMMANDSUBREF" target="_blank" rel="noopener noreferrer">命令代换<ExternalLinkIcon/></a> 生成 [list]。查看 <a href="http://tldp.org/LDP/abs/html/extmisc.html#EX53" target="_blank" rel="noopener noreferrer">样例 16-54<ExternalLinkIcon/></a>，<a href="http://tldp.org/LDP/abs/html/loops1.html#SYMLINKS" target="_blank" rel="noopener noreferrer">样例 11-11<ExternalLinkIcon/></a> 和 <a href="http://tldp.org/LDP/abs/html/mathc.html#BASE" target="_blank" rel="noopener noreferrer">样例 16-48<ExternalLinkIcon/></a>。</p>
-<p>样例 11-7. 在 <code>for</code> 循环中使用命令代换生成 [list]</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以在 <code v-pre>for</code> 循环中使用 <a href="http://tldp.org/LDP/abs/html/commandsub.html#COMMANDSUBREF" target="_blank" rel="noopener noreferrer">命令代换<ExternalLinkIcon/></a> 生成 [list]。查看 <a href="http://tldp.org/LDP/abs/html/extmisc.html#EX53" target="_blank" rel="noopener noreferrer">样例 16-54<ExternalLinkIcon/></a>，<a href="http://tldp.org/LDP/abs/html/loops1.html#SYMLINKS" target="_blank" rel="noopener noreferrer">样例 11-11<ExternalLinkIcon/></a> 和 <a href="http://tldp.org/LDP/abs/html/mathc.html#BASE" target="_blank" rel="noopener noreferrer">样例 16-48<ExternalLinkIcon/></a>。</p>
+<p>样例 11-7. 在 <code v-pre>for</code> 循环中使用命令代换生成 [list]</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># for-loopcmd.sh: 带命令代换所生成 [list] 的 for 循环</span>
 
 <span class="token assign-left variable">NUMBERS</span><span class="token operator">=</span><span class="token string">"9 7 3 8 37.53"</span>
 
 <span class="token keyword">for</span> <span class="token for-or-select variable">number</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">echo</span> $NUMBERS<span class="token variable">`</span></span>  <span class="token comment"># for number in 9 7 3 8 37.53</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$number</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$number</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span>
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>下面是使用命令代换生成 [list] 的更加复杂的例子。</p>
-<p>样例 11-8. 一种替代 <code>grep</code> 搜索二进制文件的方法</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>下面是使用命令代换生成 [list] 的更加复杂的例子。</p>
+<p>样例 11-8. 一种替代 <code v-pre>grep</code> 搜索二进制文件的方法</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># bin-grep.sh: 在二进制文件中定位匹配的字符串。</span>
 
 <span class="token comment"># 一种替代 `grep` 搜索二进制文件的方法</span>
@@ -187,13 +187,13 @@
 <span class="token assign-left variable">E_BADARGS</span><span class="token operator">=</span><span class="token number">65</span>
 <span class="token assign-left variable">E_NOFILE</span><span class="token operator">=</span><span class="token number">66</span>
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$#</span> -ne <span class="token number">2</span> <span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$#</span> <span class="token parameter variable">-ne</span> <span class="token number">2</span> <span class="token punctuation">]</span>
 <span class="token keyword">then</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"Usage: <span class="token variable"><span class="token variable">`</span><span class="token function">basename</span> $0<span class="token variable">`</span></span> search_string filename"</span>
   <span class="token builtin class-name">exit</span> <span class="token variable">$E_BADARGS</span>
 <span class="token keyword">fi</span>
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> -f <span class="token string">"<span class="token variable">$2</span>"</span> <span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-f</span> <span class="token string">"<span class="token variable">$2</span>"</span> <span class="token punctuation">]</span>
 <span class="token keyword">then</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"File <span class="token entity" title="\&quot;">\"</span><span class="token variable">$2</span><span class="token entity" title="\&quot;">\"</span> does not exist."</span>
   <span class="token builtin class-name">exit</span> <span class="token variable">$E_NOFILE</span>
@@ -216,9 +216,9 @@
 <span class="token comment"># 尝试运行脚本 "./bin-grep.sh mem /bin/ls"</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br></div></div><p>下面的例子同样展示了如何使用命令代换生成 [list]。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>下面的例子同样展示了如何使用命令代换生成 [list]。</p>
 <p>样例 11-9. 列出系统中的所有用户</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># userlist.sh</span>
 
 <span class="token assign-left variable">PASSWORD_FILE</span><span class="token operator">=</span>/etc/passwd
@@ -247,18 +247,18 @@
 <span class="token comment"># 一个普通用户是如何读取 /etc/passwd 文件的？</span>
 <span class="token comment"># 提示：检查 /etc/passwd 的文件权限。</span>
 <span class="token comment"># 这算不算是一个安全漏洞？为什么？</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>另外一个关于 [list] 的例子也来自于命令代换。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>另外一个关于 [list] 的例子也来自于命令代换。</p>
 <p>样例 11-10. 检查目录中所有二进制文件的原作者</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># findstring.sh</span>
 <span class="token comment"># 在指定目录的二进制文件中寻找指定的字符串。</span>
 
 <span class="token assign-left variable">directory</span><span class="token operator">=</span>/usr/bin
 <span class="token assign-left variable">fstring</span><span class="token operator">=</span><span class="token string">"Free Software Foundation"</span>  <span class="token comment"># 查看哪些文件来自于 FSF。</span>
 
-<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory -type f -name <span class="token string">'*'</span> <span class="token operator">|</span> <span class="token function">sort</span> <span class="token variable">)</span></span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory <span class="token parameter variable">-type</span> f <span class="token parameter variable">-name</span> <span class="token string">'*'</span> <span class="token operator">|</span> <span class="token function">sort</span> <span class="token variable">)</span></span>
 <span class="token keyword">do</span>
-  strings -f <span class="token variable">$file</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"<span class="token variable">$fstring</span>"</span> <span class="token operator">|</span> <span class="token function">sed</span> -e <span class="token string">"s%<span class="token variable">$driectory</span>%%"</span>
+  strings <span class="token parameter variable">-f</span> <span class="token variable">$file</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"<span class="token variable">$fstring</span>"</span> <span class="token operator">|</span> <span class="token function">sed</span> <span class="token parameter variable">-e</span> <span class="token string">"s%<span class="token variable">$driectory</span>%%"</span>
   <span class="token comment">#  在 "sed" 表达式中，你需要替换掉 "/" 分隔符，</span>
   <span class="token comment">#+ 因为 "/" 是一个会被过滤的字符。</span>
   <span class="token comment">#  如果不做替换，将会产生一个错误。（你可以尝试一下。）</span>
@@ -269,8 +269,8 @@
 <span class="token comment"># 简单的练习：</span>
 <span class="token comment"># ----------</span>
 <span class="token comment"># 修改脚本，使其可以从命令行参数中获取 $directory 和 $fstring。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>最后一个关于 [list] 和命令代换的例子，但这个例子中的命令是一个<a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">函数<ExternalLinkIcon/></a>。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function-name function">generate_list</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>最后一个关于 [list] 和命令代换的例子，但这个例子中的命令是一个<a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">函数<ExternalLinkIcon/></a>。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function-name function">generate_list</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"one two three"</span>
 <span class="token punctuation">}</span>
@@ -283,9 +283,9 @@
 <span class="token comment"># one</span>
 <span class="token comment"># two</span>
 <span class="token comment"># three</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p><code>for</code> 循环的结果可以通过管道导向至一个或多个命令中。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>for</code> 循环的结果可以通过管道导向至一个或多个命令中。</p>
 <p>样例 11-11. 列出目录中的所有符号链接。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># symlinks.sh: 列出目录中的所有符号链接。</span>
 
 <span class="token assign-left variable">directory</span><span class="token operator">=</span><span class="token variable">${1-`pwd`}</span>
@@ -304,7 +304,7 @@
 
 <span class="token builtin class-name">echo</span> <span class="token string">"symbolic links in directory <span class="token entity" title="\&quot;">\"</span><span class="token variable">$directory</span><span class="token entity" title="\&quot;">\"</span>"</span>
 
-<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory -type <span class="token number">1</span> <span class="token variable">)</span></span>"</span>   <span class="token comment"># -type 1 = 符号链接</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory <span class="token parameter variable">-type</span> <span class="token number">1</span> <span class="token variable">)</span></span>"</span>   <span class="token comment"># -type 1 = 符号链接</span>
 <span class="token keyword">do</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file</span>"</span>
 <span class="token keyword">done</span> <span class="token operator">|</span> <span class="token function">sort</span>                                  <span class="token comment"># 否则文件顺序会是乱序。</span>
@@ -327,7 +327,7 @@
 <span class="token assign-left variable">OLDIFS</span><span class="token operator">=</span><span class="token environment constant">$IFS</span>
 <span class="token assign-left variable"><span class="token environment constant">IFS</span></span><span class="token operator">=</span>:
 
-<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">find</span> $directory -type <span class="token number">1</span> -printf <span class="token string">"%p<span class="token environment constant">$IFS</span>"</span><span class="token variable">)</span></span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">find</span> $directory <span class="token parameter variable">-type</span> <span class="token number">1</span> <span class="token parameter variable">-printf</span> <span class="token string">"%p<span class="token environment constant">$IFS</span>"</span><span class="token variable">)</span></span>
 <span class="token keyword">do</span>     <span class="token comment">#                              ^^^^^^^^^^^^^^^^</span>
        <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file</span>"</span>
        <span class="token keyword">done</span><span class="token operator">|</span><span class="token function">sort</span>
@@ -336,16 +336,16 @@
 
 <span class="token assign-left variable">OLDIFS</span><span class="token operator">=</span><span class="token environment constant">$IFS</span>
 <span class="token assign-left variable"><span class="token environment constant">IFS</span></span><span class="token operator">=</span><span class="token string">''</span> <span class="token comment"># 空的内部字段分隔符意味着将不会分隔任何字符串</span>
-<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory -type <span class="token number">1</span> <span class="token variable">)</span></span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory <span class="token parameter variable">-type</span> <span class="token number">1</span> <span class="token variable">)</span></span>
 <span class="token keyword">do</span>
   <span class="token builtin class-name">echo</span> <span class="token variable">$file</span>
   <span class="token keyword">done</span> <span class="token operator">|</span> <span class="token function">sort</span>
   
 <span class="token comment">#  上面的代码可以在目录名包含冒号（前一个允许包含空格）</span>
 <span class="token comment">#+ 的情况下仍旧正常工作。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div><p>只需要对上一个样例做一些小小的改动，就可以把在标准输出 <code>stdout</code> 中的循环 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">重定向<ExternalLinkIcon/></a> 到文件中。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>只需要对上一个样例做一些小小的改动，就可以把在标准输出 <code v-pre>stdout</code> 中的循环 <a href="http://tldp.org/LDP/abs/html/io-redirection.html#IOREDIRREF" target="_blank" rel="noopener noreferrer">重定向<ExternalLinkIcon/></a> 到文件中。</p>
 <p>样例 11-12. 将目录中的所有符号链接保存到文件中。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># symlinks.sh: 列出目录中的所有符号链接。</span>
 
 <span class="token assign-left variable">OUTFILE</span><span class="token operator">=</span>symlinks.list
@@ -357,7 +357,7 @@
 <span class="token builtin class-name">echo</span> <span class="token string">"symbolic links in directory <span class="token entity" title="\&quot;">\"</span><span class="token variable">$directory</span><span class="token entity" title="\&quot;">\"</span>"</span> <span class="token operator">></span> <span class="token string">"<span class="token variable">$OUTFILE</span>"</span>
 <span class="token builtin class-name">echo</span> <span class="token string">"---------------------------"</span> <span class="token operator">>></span> <span class="token string">"<span class="token variable">$OUTFILE</span>"</span>
 
-<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory -type <span class="token number">1</span> <span class="token variable">)</span></span>"</span>    <span class="token comment"># -type 1 = 符号链接</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">file</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span> <span class="token function">find</span> $directory <span class="token parameter variable">-type</span> <span class="token number">1</span> <span class="token variable">)</span></span>"</span>    <span class="token comment"># -type 1 = 符号链接</span>
 <span class="token keyword">do</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file</span>"</span>
 <span class="token keyword">done</span> <span class="token operator">|</span> <span class="token function">sort</span> <span class="token operator">>></span> <span class="token string">"<span class="token variable">$OUTFILE</span>"</span>                     <span class="token comment"># 将 stdout 的循环结果</span>
@@ -366,9 +366,9 @@
 <span class="token comment"># echo "Output file = $OUTFILE"</span>
 
 <span class="token builtin class-name">exit</span> <span class="token variable">$?</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>还有另外一种看起来非常像C语言中循环那样的语法。你需要使用到 <a href="http://tldp.org/LDP/abs/html/dblparens.html#DBLPARENSREF" target="_blank" rel="noopener noreferrer">双圆括号<ExternalLinkIcon/></a> 语法。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>还有另外一种看起来非常像C语言中循环那样的语法。你需要使用到 <a href="http://tldp.org/LDP/abs/html/dblparens.html#DBLPARENSREF" target="_blank" rel="noopener noreferrer">双圆括号<ExternalLinkIcon/></a> 语法。</p>
 <p>样例 11-13. C语言风格的循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># 用多种方式数到10。</span>
 
 <span class="token builtin class-name">echo</span>
@@ -376,7 +376,7 @@
 <span class="token comment"># 基础版</span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">a</span> <span class="token keyword">in</span> <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span> <span class="token number">5</span> <span class="token number">6</span> <span class="token number">7</span> <span class="token number">8</span> <span class="token number">9</span> <span class="token number">10</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
@@ -386,7 +386,7 @@
 <span class="token comment"># 使用 "seq"</span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">a</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> <span class="token number">10</span><span class="token variable">`</span></span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
@@ -397,7 +397,7 @@
 <span class="token comment"># Bash 3+ 版本有效。</span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">a</span> <span class="token keyword">in</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">..</span><span class="token number">10</span><span class="token punctuation">}</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
@@ -410,7 +410,7 @@
 
 <span class="token keyword">for</span> <span class="token variable"><span class="token punctuation">((</span>a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> LIMIT <span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">))</span></span>  <span class="token comment"># 双圆括号语法，不带 $ 的 LIMIT</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
 <span class="token keyword">done</span>                           <span class="token comment"># 从 ksh93 中学习到的特性。</span>
 
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
@@ -421,17 +421,17 @@
 
 <span class="token keyword">for</span> <span class="token variable"><span class="token punctuation">((</span>a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> LIMIT <span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">,</span> b<span class="token operator">++</span><span class="token punctuation">))</span></span>
 <span class="token keyword">do</span>  <span class="token comment"># 逗号连接操作。</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span>-<span class="token variable">$b</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span>-<span class="token variable">$b</span> "</span>
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">echo</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br></div></div><p>还可以查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#QFUNCTION" target="_blank" rel="noopener noreferrer">样例 27-16<ExternalLinkIcon/></a>，<a href="http://tldp.org/LDP/abs/html/arrays.html#TWODIM" target="_blank" rel="noopener noreferrer">样例 27-17<ExternalLinkIcon/></a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6<ExternalLinkIcon/></a>。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>还可以查看 <a href="http://tldp.org/LDP/abs/html/arrays.html#QFUNCTION" target="_blank" rel="noopener noreferrer">样例 27-16<ExternalLinkIcon/></a>，<a href="http://tldp.org/LDP/abs/html/arrays.html#TWODIM" target="_blank" rel="noopener noreferrer">样例 27-17<ExternalLinkIcon/></a> 和 <a href="http://tldp.org/LDP/abs/html/contributed-scripts.html#COLLATZ" target="_blank" rel="noopener noreferrer">样例 A-6<ExternalLinkIcon/></a>。</p>
 <p>---</p>
 <p>接下来，我们将展示在真实环境中应用的循环。</p>
-<p>样例 11-14. 在批处理模式下使用 <code>efax</code></p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<p>样例 11-14. 在批处理模式下使用 <code v-pre>efax</code></p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># 传真（必须提前安装了 'efax' 模块）。</span>
 
 <span class="token assign-left variable">EXPECTED_ARGS</span><span class="token operator">=</span><span class="token number">2</span>
@@ -439,7 +439,7 @@
 <span class="token assign-left variable">MODEM_PORT</span><span class="token operator">=</span><span class="token string">"/dev/ttyS2"</span>   <span class="token comment"># 你的电脑可能会不一样。</span>
 <span class="token comment">#                ^^^^^       PCMCIA 调制解调卡缺省端口。</span>
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$#</span> -ne <span class="token variable">$EXPECTED_ARGS</span> <span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$#</span> <span class="token parameter variable">-ne</span> <span class="token variable">$EXPECTED_ARGS</span> <span class="token punctuation">]</span>
 <span class="token comment"># 检查是不是传入了适当数量的命令行参数。</span>
 <span class="token keyword">then</span>
    <span class="token builtin class-name">echo</span> <span class="token string">"Usage: <span class="token variable"><span class="token variable">`</span><span class="token function">basename</span> $0<span class="token variable">`</span></span> phone# text-file"</span>
@@ -447,7 +447,7 @@
 <span class="token keyword">fi</span>
 
 
-<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> -f <span class="token string">"<span class="token variable">$2</span>"</span> <span class="token punctuation">]</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-f</span> <span class="token string">"<span class="token variable">$2</span>"</span> <span class="token punctuation">]</span>
 <span class="token keyword">then</span>
   <span class="token builtin class-name">echo</span> <span class="token string">"File <span class="token variable">$2</span> is not a text file."</span>
   <span class="token comment">#     File 不是一个正常文件或者文件不存在。</span>
@@ -463,7 +463,7 @@ fax <span class="token function">make</span> <span class="token variable">$2</sp
   <span class="token assign-left variable">fil</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$fil</span> <span class="token variable">$file</span>"</span>
 <span class="token keyword">done</span>
 
-efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</span>"</span>  -t <span class="token string">"T<span class="token variable">$1</span>"</span> <span class="token variable">$fil</span>   <span class="token comment"># 最后使用 efax。</span>
+efax <span class="token parameter variable">-d</span> <span class="token string">"<span class="token variable">$MODEM_PORT</span>"</span>  <span class="token parameter variable">-t</span> <span class="token string">"T<span class="token variable">$1</span>"</span> <span class="token variable">$fil</span>   <span class="token comment"># 最后使用 efax。</span>
 <span class="token comment"># 如果上面一行执行失败，尝试添加 -o1。</span>
 
 
@@ -472,13 +472,13 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token comment">#+ 但是这并不是一个好主意。</span>
 
 <span class="token builtin class-name">exit</span> <span class="token variable">$?</span>   <span class="token comment"># efax 同时也会将诊断信息传递给标准输出。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" loading="lazy"> <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键字<ExternalLinkIcon/></a> <code>do</code> 和 <code>done</code> 圈定了 for 循环代码块的范围。但是在一些特殊的情况下，也可以被 <a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">大括号<ExternalLinkIcon/></a> 取代。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> <a href="http://tldp.org/LDP/abs/html/internal.html#KEYWORDREF" target="_blank" rel="noopener noreferrer">关键字<ExternalLinkIcon/></a> <code v-pre>do</code> 和 <code v-pre>done</code> 圈定了 for 循环代码块的范围。但是在一些特殊的情况下，也可以被 <a href="http://tldp.org/LDP/abs/html/special-chars.html#CODEBLOCKREF" target="_blank" rel="noopener noreferrer">大括号<ExternalLinkIcon/></a> 取代。</p>
 </blockquote>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">for</span><span class="token variable"><span class="token punctuation">((</span>n<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> n<span class="token operator">&lt;=</span><span class="token number">10</span><span class="token punctuation">;</span> n<span class="token operator">++</span><span class="token punctuation">))</span></span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">for</span><span class="token variable"><span class="token punctuation">((</span>n<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> n<span class="token operator">&lt;=</span><span class="token number">10</span><span class="token punctuation">;</span> n<span class="token operator">++</span><span class="token punctuation">))</span></span>
 <span class="token comment"># 没有 do！</span>
 <span class="token punctuation">{</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"* <span class="token variable">$n</span> *"</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"* <span class="token variable">$n</span> *"</span>
 <span class="token punctuation">}</span>
 <span class="token comment"># 没有 done！</span>
 <span class="token operator">></span>
@@ -495,32 +495,32 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token comment">#+ 需要在结尾加一个分号。</span>
 <span class="token operator">></span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">n</span> <span class="token keyword">in</span> <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span>
-<span class="token punctuation">{</span>  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$n</span> "</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span>  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$n</span> "</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 <span class="token comment">#               ^</span>
 <span class="token operator">></span>
 <span class="token operator">></span>
 <span class="token comment"># 感谢 Yongye 指出这一点。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h3 id="while-循环" tabindex="-1"><a class="header-anchor" href="#while-循环" aria-hidden="true">#</a> while 循环</h3>
-<p><code>while</code> 循环结构会在循环顶部检测循环条件，若循环条件为真（ <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态<ExternalLinkIcon/></a> 为0）则循环持续进行。与 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer"><code>for</code> 循环<ExternalLinkIcon/></a> 不同的是，<code>while</code> 循环是在不知道循环次数的情况下使用的。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">while</span> <span class="token punctuation">[</span> condition <span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="while-循环" tabindex="-1"><a class="header-anchor" href="#while-循环" aria-hidden="true">#</a> while 循环</h3>
+<p><code v-pre>while</code> 循环结构会在循环顶部检测循环条件，若循环条件为真（ <a href="http://tldp.org/LDP/abs/html/exit-status.html#EXITSTATUSREF" target="_blank" rel="noopener noreferrer">退出状态<ExternalLinkIcon/></a> 为0）则循环持续进行。与 <a href="http://tldp.org/LDP/abs/html/loops1.html#FORLOOPREF1" target="_blank" rel="noopener noreferrer"><code v-pre>for</code> 循环<ExternalLinkIcon/></a> 不同的是，<code v-pre>while</code> 循环是在不知道循环次数的情况下使用的。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">while</span> <span class="token punctuation">[</span> condition <span class="token punctuation">]</span>
 <span class="token keyword">do</span>
   command<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">..</span>.
 <span class="token keyword">done</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在 <code>while</code> 循环结构中，你不仅可以使用像 <code>if/test</code> 中那样的 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">括号结构<ExternalLinkIcon/></a>，也可以使用用途更广泛的 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双括号结构<ExternalLinkIcon/></a>（<code>while [[ condition ]]</code>）。</p>
-<p>就像在 <code>for</code> 循环中那样，将 <code>do</code> 和循环条件放在同一行时需要加一个分号。</p>
-<p><code>while [ condition ] ; do</code></p>
-<p>在 <code>while</code> 循环中，括号结构 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILENOBRACKETS" target="_blank" rel="noopener noreferrer">并不是必须存在的<ExternalLinkIcon/></a>。比如说 <a href="http://tldp.org/LDP/abs/html/internal.html#GETOPTSX" target="_blank" rel="noopener noreferrer"><code>getopts</code> 结构<ExternalLinkIcon/></a>。</p>
-<p>样例 11-15. 简单的 <code>while</code> 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在 <code v-pre>while</code> 循环结构中，你不仅可以使用像 <code v-pre>if/test</code> 中那样的 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#TESTCONSTRUCTS1" target="_blank" rel="noopener noreferrer">括号结构<ExternalLinkIcon/></a>，也可以使用用途更广泛的 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS" target="_blank" rel="noopener noreferrer">双括号结构<ExternalLinkIcon/></a>（<code v-pre>while [[ condition ]]</code>）。</p>
+<p>就像在 <code v-pre>for</code> 循环中那样，将 <code v-pre>do</code> 和循环条件放在同一行时需要加一个分号。</p>
+<p><code v-pre>while [ condition ] ; do</code></p>
+<p>在 <code v-pre>while</code> 循环中，括号结构 <a href="http://tldp.org/LDP/abs/html/loops1.html#WHILENOBRACKETS" target="_blank" rel="noopener noreferrer">并不是必须存在的<ExternalLinkIcon/></a>。比如说 <a href="http://tldp.org/LDP/abs/html/internal.html#GETOPTSX" target="_blank" rel="noopener noreferrer"><code v-pre>getopts</code> 结构<ExternalLinkIcon/></a>。</p>
+<p>样例 11-15. 简单的 <code v-pre>while</code> 循环</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token assign-left variable">var0</span><span class="token operator">=</span><span class="token number">0</span>
 <span class="token assign-left variable">LIMIT</span><span class="token operator">=</span><span class="token number">10</span>
 
-<span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$var0</span>"</span> -lt <span class="token string">"<span class="token variable">$LIMIT</span>"</span> <span class="token punctuation">]</span>
+<span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$var0</span>"</span> <span class="token parameter variable">-lt</span> <span class="token string">"<span class="token variable">$LIMIT</span>"</span> <span class="token punctuation">]</span>
 <span class="token comment">#      ^                    ^</span>
 <span class="token comment"># 必须有空格，因为这是测试结构</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$var0</span> "</span>        <span class="token comment"># -n 不会另起一行</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$var0</span> "</span>        <span class="token comment"># -n 不会另起一行</span>
   <span class="token comment">#             ^           空格用来分开输出的数字。</span>
   
   <span class="token assign-left variable">var0</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">expr</span> $var0 + <span class="token number">1</span><span class="token variable">`</span></span>   <span class="token comment"># var0=$(($var0+1))  效果相同。</span>
@@ -531,8 +531,8 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token builtin class-name">echo</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>样例 11-16. 另一个例子</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>样例 11-16. 另一个例子</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token builtin class-name">echo</span>
                                <span class="token comment"># 等价于：</span>
@@ -547,9 +547,9 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token keyword">done</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>一个 <code>while</code> 循环可以有多个测试条件，但只有最后的那一个条件决定了循环是否终止。这是一种你需要注意到的不同于其他循环的语法。</p>
-<p>样例 11-17. 多条件 <code>while</code> 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>一个 <code v-pre>while</code> 循环可以有多个测试条件，但只有最后的那一个条件决定了循环是否终止。这是一种你需要注意到的不同于其他循环的语法。</p>
+<p>样例 11-17. 多条件 <code v-pre>while</code> 循环</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token assign-left variable">var1</span><span class="token operator">=</span>unset
 <span class="token assign-left variable">previous</span><span class="token operator">=</span><span class="token variable">$var1</span>
@@ -570,17 +570,17 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token comment"># 这是一个很小的技巧。</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>就像 <code>for</code> 循环一样， <code>while</code> 循环也可以使用双圆括号结构写得像C语言那样（也可以查看<a href="http://tldp.org/LDP/abs/html/dblparens.html#CVARS" target="_blank" rel="noopener noreferrer">样例 8-5<ExternalLinkIcon/></a>）。</p>
-<p>样例 11-18. C语言风格的 <code>while</code> 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>就像 <code v-pre>for</code> 循环一样， <code v-pre>while</code> 循环也可以使用双圆括号结构写得像C语言那样（也可以查看<a href="http://tldp.org/LDP/abs/html/dblparens.html#CVARS" target="_blank" rel="noopener noreferrer">样例 8-5<ExternalLinkIcon/></a>）。</p>
+<p>样例 11-18. C语言风格的 <code v-pre>while</code> 循环</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment"># wh-loopc.sh: 在 "while" 循环中计数到10。</span>
 
 <span class="token assign-left variable">LIMIT</span><span class="token operator">=</span><span class="token number">10</span>                 <span class="token comment"># 循环10次。</span>
 <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span>
 
-<span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> -le <span class="token variable">$LIMIT</span> <span class="token punctuation">]</span>
+<span class="token keyword">while</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$a</span>"</span> <span class="token parameter variable">-le</span> <span class="token variable">$LIMIT</span> <span class="token punctuation">]</span>
 <span class="token keyword">do</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
   <span class="token builtin class-name">let</span> <span class="token string">"a+=1"</span>
 <span class="token keyword">done</span>                     <span class="token comment"># 没什么好奇怪的吧。</span>
 
@@ -595,7 +595,7 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 
 <span class="token keyword">while</span> <span class="token variable"><span class="token punctuation">((</span> a <span class="token operator">&lt;=</span> LIMIT <span class="token punctuation">))</span></span>   <span class="token comment">#  双圆括号结构，</span>
 <span class="token keyword">do</span>                       <span class="token comment">#+ 并且没有使用 "$"。</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$a</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$a</span> "</span>
   <span class="token variable"><span class="token punctuation">((</span>a <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">))</span></span>             <span class="token comment"># let "a+=1"</span>
   <span class="token comment"># 是的，就是这样。</span>
   <span class="token comment"># 双圆括号结构允许像C语言一样自增一个变量。</span>
@@ -606,14 +606,14 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token comment"># 这可以让C和Java程序猿感觉更加舒服。</span>
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><p>在测试部分，<code>while</code> 循环可以调用 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">函数<ExternalLinkIcon/></a>。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token assign-left variable">t</span><span class="token operator">=</span><span class="token number">0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在测试部分，<code v-pre>while</code> 循环可以调用 <a href="http://tldp.org/LDP/abs/html/functions.html#FUNCTIONREF" target="_blank" rel="noopener noreferrer">函数<ExternalLinkIcon/></a>。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token assign-left variable">t</span><span class="token operator">=</span><span class="token number">0</span>
 
 <span class="token function-name function">condition</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
   <span class="token variable"><span class="token punctuation">((</span>t<span class="token operator">++</span><span class="token punctuation">))</span></span>
   
-  <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$t</span> -lt <span class="token number">5</span> <span class="token punctuation">]</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$t</span> <span class="token parameter variable">-lt</span> <span class="token number">5</span> <span class="token punctuation">]</span>
   <span class="token keyword">then</span>
     <span class="token builtin class-name">return</span> <span class="token number">0</span>  <span class="token comment"># true 真</span>
   <span class="token keyword">else</span>
@@ -632,15 +632,15 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 <span class="token comment"># Still going: t = 2</span>
 <span class="token comment"># Still going: t = 3</span>
 <span class="token comment"># Still going: t = 4</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><blockquote>
-<p>和 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#IFGREPREF" target="_blank" rel="noopener noreferrer">if 测试<ExternalLinkIcon/></a> 结构一样，<code>while</code> 循环也可以省略括号。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p>和 <a href="http://tldp.org/LDP/abs/html/testconstructs.html#IFGREPREF" target="_blank" rel="noopener noreferrer">if 测试<ExternalLinkIcon/></a> 结构一样，<code v-pre>while</code> 循环也可以省略括号。</p>
 </blockquote>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">while</span> condition
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">while</span> condition
 <span class="token keyword">do</span>
   command<span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
 <span class="token keyword">done</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在 <code>while</code> 循环中结合 <a href="http://tldp.org/LDP/abs/html/internal.html#READREF" target="_blank" rel="noopener noreferrer"><code>read</code><ExternalLinkIcon/></a> 命令，我们就得到了一个非常易于使用的 <a href="http://tldp.org/LDP/abs/html/internal.html#WHILEREADREF" target="_blank" rel="noopener noreferrer"><code>while read</code><ExternalLinkIcon/></a> 结构。它可以用来读取和解析文件。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">cat</span> <span class="token variable">$filename</span> <span class="token operator">|</span>    <span class="token comment"># 从文件获得输入。</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在 <code v-pre>while</code> 循环中结合 <a href="http://tldp.org/LDP/abs/html/internal.html#READREF" target="_blank" rel="noopener noreferrer"><code v-pre>read</code><ExternalLinkIcon/></a> 命令，我们就得到了一个非常易于使用的 <a href="http://tldp.org/LDP/abs/html/internal.html#WHILEREADREF" target="_blank" rel="noopener noreferrer"><code v-pre>while read</code><ExternalLinkIcon/></a> 结构。它可以用来读取和解析文件。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">cat</span> <span class="token variable">$filename</span> <span class="token operator">|</span>    <span class="token comment"># 从文件获得输入。</span>
 <span class="token keyword">while</span> <span class="token builtin class-name">read</span> line    <span class="token comment"># 只要还有可以读入的行，循环就继续。</span>
 <span class="token keyword">do</span>
   <span class="token punctuation">..</span>.
@@ -660,21 +660,21 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
   <span class="token comment"># 注意：这个技巧在 $ct > 255 的情况下会失效。</span>
   <span class="token comment"># 如果要操作更大的数字，注释掉上面的 "return $ct" 就可以了。</span>
 <span class="token punctuation">}</span> <span class="token operator">&lt;</span><span class="token string">"<span class="token variable">$datafile</span>"</span>   <span class="token comment"># 传入数据文件。</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" loading="lazy"> 在 <code>while</code> 循环后面可以通过 &lt; 将标准输入 <a href="http://tldp.org/LDP/abs/html/redircb.html#REDIRREF" target="_blank" rel="noopener noreferrer">重定位到文件<ExternalLinkIcon/></a> 中。
-<code>while</code> 循环同样可以 <a href="http://tldp.org/LDP/abs/html/internal.html#READPIPEREF" target="_blank" rel="noopener noreferrer">通过管道<ExternalLinkIcon/></a> 传入标准输入中。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> 在 <code v-pre>while</code> 循环后面可以通过 &lt; 将标准输入 <a href="http://tldp.org/LDP/abs/html/redircb.html#REDIRREF" target="_blank" rel="noopener noreferrer">重定位到文件<ExternalLinkIcon/></a> 中。
+<code v-pre>while</code> 循环同样可以 <a href="http://tldp.org/LDP/abs/html/internal.html#READPIPEREF" target="_blank" rel="noopener noreferrer">通过管道<ExternalLinkIcon/></a> 传入标准输入中。</p>
 </blockquote>
 <h3 id="until" tabindex="-1"><a class="header-anchor" href="#until" aria-hidden="true">#</a> until</h3>
-<p>与 <code>while</code> 循环相反，<code>until</code> 循环测试其顶部的循环条件，直到其中的条件为真时停止。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token keyword">until</span> <span class="token punctuation">[</span> condition-is-true <span class="token punctuation">]</span>
+<p>与 <code v-pre>while</code> 循环相反，<code v-pre>until</code> 循环测试其顶部的循环条件，直到其中的条件为真时停止。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token keyword">until</span> <span class="token punctuation">[</span> condition-is-true <span class="token punctuation">]</span>
 <span class="token keyword">do</span>
   commands<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">..</span>.
 <span class="token keyword">done</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>注意到，跟其他的一些编程语言不同，<code>until</code> 循环的测试条件在循环顶部。</p>
-<p>就像在 <code>for</code> 循环中那样，将 <code>do</code> 和循环条件放在同一行时需要加一个分号。</p>
-<p><code>until[ condition-is-true ] ; do</code></p>
-<p>样例 11-19. <code>until</code> 循环</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意到，跟其他的一些编程语言不同，<code v-pre>until</code> 循环的测试条件在循环顶部。</p>
+<p>就像在 <code v-pre>for</code> 循环中那样，将 <code v-pre>do</code> 和循环条件放在同一行时需要加一个分号。</p>
+<p><code v-pre>until[ condition-is-true ] ; do</code></p>
+<p>样例 11-19. <code v-pre>until</code> 循环</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
 
 <span class="token assign-left variable">END_CONDITION</span><span class="token operator">=</span>end
 
@@ -698,18 +698,13 @@ efax -d <span class="token string">"<span class="token variable">$MODEM_PORT</sp
 
 <span class="token keyword">until</span> <span class="token variable"><span class="token punctuation">((</span> var <span class="token operator">></span> LIMIT <span class="token punctuation">))</span></span>
 <span class="token keyword">do</span>  <span class="token comment"># ^^ ^     ^     ^^   没有方括号，没有 $ 前缀。</span>
-  <span class="token builtin class-name">echo</span> -n <span class="token string">"<span class="token variable">$var</span> "</span>
+  <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"<span class="token variable">$var</span> "</span>
   <span class="token variable"><span class="token punctuation">((</span> var<span class="token operator">++</span> <span class="token punctuation">))</span></span>
 <span class="token keyword">done</span>    <span class="token comment"># 0 1 2 3 4 5 6 7 8 9 10</span>
 
 
 <span class="token builtin class-name">exit</span> <span class="token number">0</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p>如何在 <code>for</code>，<code>while</code> 和 <code>until</code> 之间做出选择？我们知道在C语言中，在已知循环次数的情况下更加倾向于使用 <code>for</code> 循环。但是在Bash中情况可能更加复杂一些。Bash中的 <code>for</code> 循环相比起其他语言来说，结构更加松散，使用更加灵活。因此使用你认为最简单的就好。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>迭代：重复执行一个或一组命令。通常情况下，会使用<code>while</code>或者<code>until</code>进行控制。 <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如何在 <code v-pre>for</code>，<code v-pre>while</code> 和 <code v-pre>until</code> 之间做出选择？我们知道在C语言中，在已知循环次数的情况下更加倾向于使用 <code v-pre>for</code> 循环。但是在Bash中情况可能更加复杂一些。Bash中的 <code v-pre>for</code> 循环相比起其他语言来说，结构更加松散，使用更加灵活。因此使用你认为最简单的就好。</p>
+</div></template>
+
+

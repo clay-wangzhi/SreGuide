@@ -1,4 +1,4 @@
-<template><ol>
+<template><div><ol>
 <li>从官网下载https://code.visualstudio.com/</li>
 <li>根据喜好安装相关插件
 <ul>
@@ -9,4 +9,6 @@
 </ul>
 </li>
 </ol>
-</template>
+</div></template>
+
+

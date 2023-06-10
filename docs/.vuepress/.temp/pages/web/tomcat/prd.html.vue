@@ -1,4 +1,4 @@
-<template><h1 id="生产环境中的tomcat配置" tabindex="-1"><a class="header-anchor" href="#生产环境中的tomcat配置" aria-hidden="true">#</a> 生产环境中的tomcat配置</h1>
+<template><div><h1 id="生产环境中的tomcat配置" tabindex="-1"><a class="header-anchor" href="#生产环境中的tomcat配置" aria-hidden="true">#</a> 生产环境中的tomcat配置</h1>
 <h2 id="tomcat安全配置" tabindex="-1"><a class="header-anchor" href="#tomcat安全配置" aria-hidden="true">#</a> tomcat安全配置</h2>
 <h3 id="版本安全" tabindex="-1"><a class="header-anchor" href="#版本安全" aria-hidden="true">#</a> 版本安全</h3>
 <p>升级当前tomcat版本为最新稳定版本。</p>
@@ -14,25 +14,25 @@
 </ul>
 <h3 id="隐藏版本信息" tabindex="-1"><a class="header-anchor" href="#隐藏版本信息" aria-hidden="true">#</a> 隐藏版本信息</h3>
 <p>当tomcat出现404或其它错误时，就会显示当前版本信息，为避免针对某一版本的攻击，我们应该将其隐藏或伪装</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115431516-1104120437.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115431516-1104120437.png" alt="image"></p>
 <p>版本信息的显示是由一个jar包控制的，该jar包存放在tomcat安装目录下的lib目录下，名称为catalina.jar.</p>
 <ol>
 <li>通过jar xf命令解压这个jar包会得到两个目录META-INF和org, 通过修改</li>
 </ol>
-<p><code>org/apache/catalina/util/ServerInfo.properties</code>文件中的<code>serverinfo</code>字段来实现更改tomcat版本信息：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost ~]# cat org/apache/catalina/util/SererInfo.properties | grep -v '^$|#'
+<p><code v-pre>org/apache/catalina/util/ServerInfo.properties</code>文件中的<code v-pre>serverinfo</code>字段来实现更改tomcat版本信息：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost ~]# cat org/apache/catalina/util/SererInfo.properties | grep -v '^$|#'
 server.info=Apache Tomcat/7.0.53
 server.number=7.0.53.0
 serer.built=Mar 25 2014 06:20:16
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ol start="2">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>当然还有另外一种方法来隐藏或伪装版本信息，这两种方法本质是一样的：</li>
 </ol>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost ~]# cd /usr/local/apache-tomcat-7.0.53/lib
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost ~]# cd /usr/local/apache-tomcat-7.0.53/lib
 [root@localhost lib]# mkdir -p org/apache/catalina/util
 [root@localhost lib]# cd org/apache/catalina/util
 [root@localhost util]# vim ServerInfo.properties
 server.info=nolinux        # 如果想修改成其它版本号，把这个地方的值改成其它值就行了
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>修改完成之后，重启tomcat即可看到效果！</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>修改完成之后，重启tomcat即可看到效果！</p>
 <h2 id="tomcat的配置优化" tabindex="-1"><a class="header-anchor" href="#tomcat的配置优化" aria-hidden="true">#</a> tomcat的配置优化</h2>
 <h3 id="优化web-xml" tabindex="-1"><a class="header-anchor" href="#优化web-xml" aria-hidden="true">#</a> 优化web.xml</h3>
 <p>servlet与其它适用于整个Web应用程序设置的配置文件，必须符合servlet规范的标准格式。通过它可以配置你</p>
@@ -53,17 +53,17 @@ server.info=nolinux        # 如果想修改成其它版本号，把这个地方
 <p>在tomcat新版本中，默认已经禁止列目录功能。</p>
 <p>下面是几种觉的功能，在web.xml中的表现形式：</p>
 <p><strong>站点默认主页：</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115432875-139916481.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115432875-139916481.png" alt="image"></p>
 <p><strong>自定义错误页：</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115433984-443260669.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115433984-443260669.png" alt="image"></p>
 <p><strong>定义会话超时时间：</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115435516-1709051054.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115435516-1709051054.png" alt="image"></p>
 <p><strong>禁止列目录：</strong></p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115437047-1295899737.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115437047-1295899737.png" alt="image"></p>
 <h3 id="优化-tomcat-user-xml" tabindex="-1"><a class="header-anchor" href="#优化-tomcat-user-xml" aria-hidden="true">#</a> 优化 tomcat-user.xml</h3>
 <p>该文件中包含用户名，角色及密码。 负责提供webapps下manager项目的登录认证管理。</p>
 <p>在生产环境中，我们需要将该文件全部注释。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115438797-1710834528.png" alt="image" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/883007-20170309115438797-1710834528.png" alt="image"></p>
 <h3 id="优化server-xml" tabindex="-1"><a class="header-anchor" href="#优化server-xml" aria-hidden="true">#</a> 优化server.xml</h3>
 <ul>
 <li>
@@ -84,11 +84,11 @@ server.info=nolinux        # 如果想修改成其它版本号，把这个地方
 <li>
 <p>压缩传输：</p>
 <p>tomcat也支持gzip压缩功能。 可以在server.xml配置文件中的Connector节点中配置如下参数，来实现对指定资源类型进行压缩。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>compression="on"             # 打开压缩功能 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>compression="on"             # 打开压缩功能 
 compressionMinSize="50"      # 启用压缩的输出内容大小，默认为2KB 
 noCompressionUserAgents="gozilla, traviata"      # 对于以下的浏览器，不启用压缩 
 compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"　# 哪些资源类型需要压缩
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>要注意的是，对于文本信息比如txt, html, css,javascript进行压缩，效果非常好。而对文件，图片，视频不要压缩。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>要注意的是，对于文本信息比如txt, html, css,javascript进行压缩，效果非常好。而对文件，图片，视频不要压缩。</p>
 </li>
 <li>
 <p>Connector 连接器的配置</p>
@@ -96,7 +96,7 @@ compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"　
 </li>
 </ul>
 <p>配置文件样例，connector连接器设置为bio</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>   &lt;Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>   &lt;Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
         maxThreads="2000" minSpareThreads="4"/>
         
     &lt;Connector executor="tomcatThreadPool"
@@ -121,23 +121,23 @@ compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"　
                enableLookups="false"
                useSendfile="true"  
                selectorPool.maxSelectors="128"  />
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h3 id="管理ajp端口" tabindex="-1"><a class="header-anchor" href="#管理ajp端口" aria-hidden="true">#</a> 管理AJP端口</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="管理ajp端口" tabindex="-1"><a class="header-anchor" href="#管理ajp端口" aria-hidden="true">#</a> 管理AJP端口</h3>
 <p>AJP是为tomcat与HTTP服务器之间通信而定制的协议，能提供较高的通信速度和效率。如果前端是apache的话，</p>
 <p>会使用到AJP这个连接器，如果是nginx，就用不上了，因此需要注销掉：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt;!--
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;!--
     &lt;Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
 -->
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="更改关闭tomcat实例的指令" tabindex="-1"><a class="header-anchor" href="#更改关闭tomcat实例的指令" aria-hidden="true">#</a> 更改关闭tomcat实例的指令</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="更改关闭tomcat实例的指令" tabindex="-1"><a class="header-anchor" href="#更改关闭tomcat实例的指令" aria-hidden="true">#</a> 更改关闭tomcat实例的指令</h3>
 <p>server.xml中定义了可以直接关闭tomcat实例的管理端口。 我们通过 telnet连接上该端口之后，输入shutdown</p>
 <p>即可关闭。值得注意的是，虽然实例关闭了，但是进程还是存在的。由于默认的端口和指令都很简单，默认端口是</p>
 <p>8005， 指令为SHUTDOWN. 因此我们要改得复杂一点（当然，新版本的tomcat管理端口监听在127.0.0.1）：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt;Server port="8005" shutdown="9SDKJ29jksjf23sjf0LSDF92JKS9DKkjsd">
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="更改tomcat服务监听端口" tabindex="-1"><a class="header-anchor" href="#更改tomcat服务监听端口" aria-hidden="true">#</a> 更改tomcat服务监听端口</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt;Connector port="8080" address="172.16.100.1" />
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="关闭war自动部署" tabindex="-1"><a class="header-anchor" href="#关闭war自动部署" aria-hidden="true">#</a> 关闭war自动部署</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt;Host name="localhost"  appBase=""
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;Server port="8005" shutdown="9SDKJ29jksjf23sjf0LSDF92JKS9DKkjsd">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="更改tomcat服务监听端口" tabindex="-1"><a class="header-anchor" href="#更改tomcat服务监听端口" aria-hidden="true">#</a> 更改tomcat服务监听端口</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;Connector port="8080" address="172.16.100.1" />
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="关闭war自动部署" tabindex="-1"><a class="header-anchor" href="#关闭war自动部署" aria-hidden="true">#</a> 关闭war自动部署</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;Host name="localhost"  appBase=""
       unpackWARs="false" autoDeploy="false">
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="禁用tomcat管理页面" tabindex="-1"><a class="header-anchor" href="#禁用tomcat管理页面" aria-hidden="true">#</a> 禁用tomcat管理页面</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="禁用tomcat管理页面" tabindex="-1"><a class="header-anchor" href="#禁用tomcat管理页面" aria-hidden="true">#</a> 禁用tomcat管理页面</h3>
 <p>删除webapps目录下的所有文件，还涉及到管理页面的2个配置文件host-manager.xml和manager.xml也要删</p>
 <p>除，这两个文件在tomcat安装 目录下的conf/Catalina/localhost目录下。</p>
 <h3 id="使用普通用户启动tomcat" tabindex="-1"><a class="header-anchor" href="#使用普通用户启动tomcat" aria-hidden="true">#</a> 使用普通用户启动tomcat</h3>
@@ -146,14 +146,14 @@ compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"　
 <h3 id="tomcat内存优化" tabindex="-1"><a class="header-anchor" href="#tomcat内存优化" aria-hidden="true">#</a> tomcat内存优化</h3>
 <p>tomcat内存优化主要是对tomcat启动参数优化，我们可以在tomcat启动脚本catalina.sh中设置JAVA——OPTS参</p>
 <p>数。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>JAVA_OPTS='-server -Xms2048m -Xmx2048m -XX:PermSize=256M -XX:MaxNewSize=256m -XX:MaxPermSize=256m'
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>参数说明：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-server  启用jdk 的 server 版；  
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>JAVA_OPTS='-server -Xms2048m -Xmx2048m -XX:PermSize=256M -XX:MaxNewSize=256m -XX:MaxPermSize=256m'
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>参数说明：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-server  启用jdk 的 server 版；  
 -Xms    java虚拟机初始化时的最小内存；  
 -Xmx   java虚拟机可使用的最大内存；  
 -XX:PermSize    内存永久保留区域  
 -XX:MaxPermSize   内存最大永久保留区域
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>-Xmx 默认为物理内存的1/4， 实际建议不大于4GB；一般建议设置-Xms = -Xmx</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>-Xmx 默认为物理内存的1/4， 实际建议不大于4GB；一般建议设置-Xms = -Xmx</p>
 <p>-server  一定要作为第一个参数，在多个cpu时性能 佳</p>
 <p>-Xms  初始heap大小，使用的最小内存，cpu性能 高时可以设置的大一些</p>
 <blockquote>
@@ -162,4 +162,6 @@ compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"　
 <p>https://blog.csdn.net/ljj_9/article/details/79145324</p>
 <p>https://blog.csdn.net/loyachen/article/details/47280237</p>
 </blockquote>
-</template>
+</div></template>
+
+

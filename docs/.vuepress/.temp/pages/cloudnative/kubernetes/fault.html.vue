@@ -1,4 +1,4 @@
-<template><h1 id="故障复盘模版" tabindex="-1"><a class="header-anchor" href="#故障复盘模版" aria-hidden="true">#</a> 故障复盘模版</h1>
+<template><div><h1 id="故障复盘模版" tabindex="-1"><a class="header-anchor" href="#故障复盘模版" aria-hidden="true">#</a> 故障复盘模版</h1>
 <h2 id="_1-影响范围和故障时间线" tabindex="-1"><a class="header-anchor" href="#_1-影响范围和故障时间线" aria-hidden="true">#</a> 1. 影响范围和故障时间线</h2>
 <p><strong>影响范围</strong></p>
 <p>...</p>
@@ -34,4 +34,6 @@
 </tr>
 </tbody>
 </table>
-</template>
+</div></template>
+
+

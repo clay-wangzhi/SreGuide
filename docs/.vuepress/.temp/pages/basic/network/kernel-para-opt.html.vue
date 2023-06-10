@@ -1,5 +1,5 @@
-<template><h1 id="内核参数调优" tabindex="-1"><a class="header-anchor" href="#内核参数调优" aria-hidden="true">#</a> 内核参数调优</h1>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>TCP 三次握手中需要调优的内核参数
+<template><div><h1 id="内核参数调优" tabindex="-1"><a class="header-anchor" href="#内核参数调优" aria-hidden="true">#</a> 内核参数调优</h1>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>TCP 三次握手中需要调优的内核参数
 	SYN 半连接队列 							net.ipv4.tcp_max_syn_backlog
 	半连接队列满时 开启syncookies 			net.ipv4.tcp_syncookies = 1
 
@@ -24,4 +24,6 @@ TCP 四次挥手中需要调优的内核参数
 	调整内存范围 net.ipv4.tcp_mem = 524288 699050 1048576
 
 	
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

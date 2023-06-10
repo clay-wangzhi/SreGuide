@@ -1,4 +1,4 @@
-<template><h1 id="_5-状态码" tabindex="-1"><a class="header-anchor" href="#_5-状态码" aria-hidden="true">#</a> 5. 状态码</h1>
+<template><div><h1 id="_5-状态码" tabindex="-1"><a class="header-anchor" href="#_5-状态码" aria-hidden="true">#</a> 5. 状态码</h1>
 <h2 id="nginx-code-常用状态码学习小结" tabindex="-1"><a class="header-anchor" href="#nginx-code-常用状态码学习小结" aria-hidden="true">#</a> Nginx code 常用状态码学习小结</h2>
 <h3 id="nginx-code-status" tabindex="-1"><a class="header-anchor" href="#nginx-code-status" aria-hidden="true">#</a> Nginx Code Status</h3>
 <p>状态码分为五类：</p>
@@ -42,7 +42,7 @@
 <p>414 （请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理。</p>
 <p>415 （不支持的媒体类型） 请求的格式不受请求页面的支持。</p>
 <p>416 （请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码。</p>
-<p>417 （未满足期望值） 服务器未满足<code>&quot;期望&quot;</code>请求标头字段的要求。</p>
+<p>417 （未满足期望值） 服务器未满足<code v-pre>&quot;期望&quot;</code>请求标头字段的要求。</p>
 <p><strong>499 客户端主动断开了连接，有的时候是因为客户端请求超时，主动断开连接。</strong></p>
 <hr>
 <p><strong>500 （服务器内部错误） 服务器遇到错误，无法完成请求。</strong></p>
@@ -52,11 +52,13 @@
 <p><strong>504 （网关超时） 服务器作为网关或代理，但是没有及时从上游服务器收到请求。</strong></p>
 <p>505 （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本。</p>
 <h3 id="http请求流程" tabindex="-1"><a class="header-anchor" href="#http请求流程" aria-hidden="true">#</a> http请求流程</h3>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/http.png" alt="" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/http.png" alt=""></p>
 <p>一个普通的http请求处理流程，如上图所示：
 A -&gt; client端发起请求给nginx
 B -&gt; nginx处理后，将请求转发到uwsgi，并等待结果
 C -&gt; uwsgi处理完请求后，返回数据给nginx
 D -&gt; nginx将处理结果返回给客户端
 每个阶段都会有一个预设的超时时间，由于网络、机器负载、代码异常等等各种原因，如果某个阶段没有在预期的时间内正常返回，就会导致这次请求异常，进而产生不同的状态码。</p>
-</template>
+</div></template>
+
+

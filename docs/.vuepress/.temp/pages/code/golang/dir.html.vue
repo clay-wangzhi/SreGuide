@@ -1,4 +1,4 @@
-<template><h1 id="目录结构设计" tabindex="-1"><a class="header-anchor" href="#目录结构设计" aria-hidden="true">#</a> 目录结构设计</h1>
+<template><div><h1 id="目录结构设计" tabindex="-1"><a class="header-anchor" href="#目录结构设计" aria-hidden="true">#</a> 目录结构设计</h1>
 <blockquote>
 <p>转载自：极客时间|孔令飞</p>
 </blockquote>
@@ -19,7 +19,7 @@
 <p>它比较适合 Go 应用，当前 Go 社区比较推荐的结构化目录结构是 <a href="https://github.com/golang-standards/project-layout" target="_blank" rel="noopener noreferrer">project-layout<ExternalLinkIcon/></a> 。虽然它并不是官方和社区的规范，但因为组织方式比较合理，被很多 Go 开发人员接受。</p>
 <h2 id="项目目录-结构化" tabindex="-1"><a class="header-anchor" href="#项目目录-结构化" aria-hidden="true">#</a> 项目目录（结构化）</h2>
 <p>一个 Go 项目包含 3 大部分：Go 应用 、项目管理和文档</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20220630151100318.png" alt="image-20220630151100318" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20220630151100318.png" alt="image-20220630151100318"></p>
 <h3 id="go-应用-主要存放后端代码" tabindex="-1"><a class="header-anchor" href="#go-应用-主要存放后端代码" aria-hidden="true">#</a> Go 应用：主要存放后端代码</h3>
 <ol>
 <li>
@@ -31,10 +31,10 @@
 <p>/internal
 存放<strong>私有应用</strong>和库代码。如果一些代码，你不希望在其他应用和库中被导入，可以将这部分代码放在/internal 目录下。</p>
 <p>在引入其它项目 internal 下的包时，Go 语言会在编译时报错：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>An import of a path containing the element “internal” is disallowed
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>An import of a path containing the element “internal” is disallowed
 if the importing code is outside the tree rooted at the parent of the
 "internal" directory.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>可以通过 Go 语言本身的机制来约束其他项目 import 项目内部的包。/internal 目录建议包含如下目录：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以通过 Go 语言本身的机制来约束其他项目 import 项目内部的包。/internal 目录建议包含如下目录：</p>
 <ul>
 <li>/internal/apiserver：该目录中存放真实的应用代码。这些应用的共享代码存放在/internal/pkg 目录下。</li>
 <li>/internal/pkg：存放项目内可共享，项目外不共享的包。这些包提供了比较基础、通用的功能，例如工具、错误码、用户验证等功能。</li>
@@ -68,11 +68,11 @@ if the importing code is outside the tree rooted at the parent of the
 <li>
 <p>/configs</p>
 <p>这个目录用来配置文件模板或默认配置。例如，可以在这里存放 confd 或 consul-template 模板文件。这里有一点要注意，配置中不能携带敏感信息，这些敏感信息，我们可以用占位符来替代，例如：</p>
-<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1    
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1    
 <span class="token key atrule">user</span><span class="token punctuation">:</span>    
   <span class="token key atrule">username</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>CONFIG_USER_USERNAME<span class="token punctuation">}</span> <span class="token comment"># iam 用户名    </span>
   <span class="token key atrule">password</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>CONFIG_USER_PASSWORD<span class="token punctuation">}</span> <span class="token comment"># iam 密码</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div></li>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>/deployments</p>
 <p>用来存放 Iaas、PaaS 系统和容器编排部署配置和模板（Docker-Compose，Kubernetes/Helm，Mesos，Terraform，Bosh）。在一些项目，特别是用 Kubernetes 部署的项目中，这个目录可能命名为 deploy。</p>
@@ -128,4 +128,6 @@ if the importing code is outside the tree rooted at the parent of the
 </ul>
 </li>
 </ol>
-</template>
+</div></template>
+
+

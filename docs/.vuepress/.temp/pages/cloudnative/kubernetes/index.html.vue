@@ -1,4 +1,4 @@
-<template><h1 id="kubernetes-学习笔记" tabindex="-1"><a class="header-anchor" href="#kubernetes-学习笔记" aria-hidden="true">#</a> Kubernetes 学习笔记</h1>
+<template><div><h1 id="kubernetes-学习笔记" tabindex="-1"><a class="header-anchor" href="#kubernetes-学习笔记" aria-hidden="true">#</a> Kubernetes 学习笔记</h1>
 <h2 id="summary" tabindex="-1"><a class="header-anchor" href="#summary" aria-hidden="true">#</a> Summary</h2>
 <ul>
 <li>集群搭建
@@ -158,4 +158,6 @@
 </ul>
 </li>
 </ul>
-</template>
+</div></template>
+
+

@@ -1,4 +1,4 @@
-<template><h1 id="_7-备份恢复" tabindex="-1"><a class="header-anchor" href="#_7-备份恢复" aria-hidden="true">#</a> 7 备份恢复</h1>
+<template><div><h1 id="_7-备份恢复" tabindex="-1"><a class="header-anchor" href="#_7-备份恢复" aria-hidden="true">#</a> 7 备份恢复</h1>
 <p>对于任何数据库来说，备份都是非常重要的</p>
 <p><strong>数据库复制不能取代备份的作用</strong></p>
 <p>比如我们由于误操作，在主数据库上删除了一些数据，由于主从复制的时间很短，在发现时，从数据库上的数据可能也已经被删除了，
@@ -32,14 +32,14 @@
 <p>mysqldump 支持多种语法</p>
 <h3 id="_2-1-常用语法" tabindex="-1"><a class="header-anchor" href="#_2-1-常用语法" aria-hidden="true">#</a> 2.1 常用语法</h3>
 <h4 id="_2-1-1-对一个数据库下的一个或多个表进行备份" tabindex="-1"><a class="header-anchor" href="#_2-1-1-对一个数据库下的一个或多个表进行备份" aria-hidden="true">#</a> 2.1.1 对一个数据库下的一个或多个表进行备份</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] database [tables]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>备份多个表时，table直接用空格进行分隔</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] database [tables]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>备份多个表时，table直接用空格进行分隔</p>
 <h4 id="_2-1-2-对指定的多个数据库进行备份" tabindex="-1"><a class="header-anchor" href="#_2-1-2-对指定的多个数据库进行备份" aria-hidden="true">#</a> 2.1.2 对指定的多个数据库进行备份</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] --database [OPTIONS] DB1 [DB2..]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-1-3-对整个mysql实例下的所有数据库进行备份" tabindex="-1"><a class="header-anchor" href="#_2-1-3-对整个mysql实例下的所有数据库进行备份" aria-hidden="true">#</a> 2.1.3 对整个mysql实例下的所有数据库进行备份</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] --all-database [OPTIONS]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_2-2-常用参数" tabindex="-1"><a class="header-anchor" href="#_2-2-常用参数" aria-hidden="true">#</a> 2.2 常用参数</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-u，--user = name    #  指定备份时所使用的数据库账号
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] --database [OPTIONS] DB1 [DB2..]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-1-3-对整个mysql实例下的所有数据库进行备份" tabindex="-1"><a class="header-anchor" href="#_2-1-3-对整个mysql实例下的所有数据库进行备份" aria-hidden="true">#</a> 2.1.3 对整个mysql实例下的所有数据库进行备份</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysqldump [OPTIONS] --all-database [OPTIONS]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_2-2-常用参数" tabindex="-1"><a class="header-anchor" href="#_2-2-常用参数" aria-hidden="true">#</a> 2.2 常用参数</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-u，--user = name    #  指定备份时所使用的数据库账号
 -p. --password [=name]    # 指定账号的密码
 --single-transaction  # 使用此参数会在备份前先执行start transaction命令启动一个事务，以此来获得数据库备份时的数据的一致性，由于是通过事务保证数据的一致性，所以此参数只对Innodb存储引擎有效；当使用此参数进行备份时，要确保没有任何DDL语句在执行，因为Innodb的数据一致性的隔离级别并不能隔离DDL操作
 
@@ -66,28 +66,28 @@ lock-tables 与 single-transaction 参数是互斥的，不能同时使用，所
 
  备份账号所需要的权限 ： SELECT, RELOAD, LOCK TABLES, REPLICATION CLIENT, SHOW VIEW, PROCESS
 如果使用--tab参数则还需要：FILE权限
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h3 id="_2-3-演示" tabindex="-1"><a class="header-anchor" href="#_2-3-演示" aria-hidden="true">#</a> 2.3 演示</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-3-演示" tabindex="-1"><a class="header-anchor" href="#_2-3-演示" aria-hidden="true">#</a> 2.3 演示</h3>
 <h4 id="_2-3-1-创建备份用户" tabindex="-1"><a class="header-anchor" href="#_2-3-1-创建备份用户" aria-hidden="true">#</a> 2.3.1 创建备份用户</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>create user 'backup'@'localhost' identified by '123456';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-3-2-赋予用户备份权限" tabindex="-1"><a class="header-anchor" href="#_2-3-2-赋予用户备份权限" aria-hidden="true">#</a> 2.3.2 赋予用户备份权限</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>grant select,reload,lock tables,replication client,show view,event,process on *.*  to 'backup'@'localhost';
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h4 id="_2-3-3-使用mysqldump进行全量备份" tabindex="-1"><a class="header-anchor" href="#_2-3-3-使用mysqldump进行全量备份" aria-hidden="true">#</a> 2.3.3 使用mysqldump进行全量备份</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>create user 'backup'@'localhost' identified by '123456';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-3-2-赋予用户备份权限" tabindex="-1"><a class="header-anchor" href="#_2-3-2-赋予用户备份权限" aria-hidden="true">#</a> 2.3.2 赋予用户备份权限</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>grant select,reload,lock tables,replication client,show view,event,process on *.*  to 'backup'@'localhost';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_2-3-3-使用mysqldump进行全量备份" tabindex="-1"><a class="header-anchor" href="#_2-3-3-使用mysqldump进行全量备份" aria-hidden="true">#</a> 2.3.3 使用mysqldump进行全量备份</h4>
 <h5 id="_2-3-3-1-备份某个数据库" tabindex="-1"><a class="header-anchor" href="#_2-3-3-1-备份某个数据库" aria-hidden="true">#</a> 2.3.3.1 备份某个数据库</h5>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb > mc_orderdb.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h6 id="如果遇到以下问题" tabindex="-1"><a class="header-anchor" href="#如果遇到以下问题" aria-hidden="true">#</a> 如果遇到以下问题</h6>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysqldump: Error: Binlogging on server not active
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>MySQL中二进制日志功能默认是关闭，去/etc/my.cnf 文件中加入下面配置，开启log_bin(数据库的操作日志)功能，然后重启mysql即可解决问题</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>log_bin=mysql-bin
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>之后使用 “systemctl start mysql” 重启服务器，报错</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>Job for mysql.service failed because the control process exited with error code. See "systemctl status mysql.service" and "journalctl -xe" for details.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h6 id="解决方法" tabindex="-1"><a class="header-anchor" href="#解决方法" aria-hidden="true">#</a> 解决方法：</h6>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb > mc_orderdb.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h6 id="如果遇到以下问题" tabindex="-1"><a class="header-anchor" href="#如果遇到以下问题" aria-hidden="true">#</a> 如果遇到以下问题</h6>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysqldump: Error: Binlogging on server not active
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>MySQL中二进制日志功能默认是关闭，去/etc/my.cnf 文件中加入下面配置，开启log_bin(数据库的操作日志)功能，然后重启mysql即可解决问题</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>log_bin=mysql-bin
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>之后使用 “systemctl start mysql” 重启服务器，报错</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>Job for mysql.service failed because the control process exited with error code. See "systemctl status mysql.service" and "journalctl -xe" for details.
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h6 id="解决方法" tabindex="-1"><a class="header-anchor" href="#解决方法" aria-hidden="true">#</a> 解决方法：</h6>
 <p>在设置 log-bin 的时候同时需要设置 server-id 变量，即在配置文件中添加：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[mysqld]  
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[mysqld]  
 log-bin=mysql  
 server-id=1  
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>然后再次重启即可</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后再次重启即可</p>
 <h6 id="补充知识" tabindex="-1"><a class="header-anchor" href="#补充知识" aria-hidden="true">#</a> 补充知识</h6>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>装mysql,运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达几十个G. 对于这些超大空间占用量的文件我们应该怎么办呢?
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>装mysql,运行一段时间后，在mysql目录下出现一堆类似mysql-bin.000***，从mysql-bin.000001开始一直排列下来，而且占用了大量硬盘空间，高达几十个G. 对于这些超大空间占用量的文件我们应该怎么办呢?
 
 那么mysql数据库文件夹中的mysql-bin.00001是什么文件？
 mysql-bin.000001、mysql-bin.000002等文件是数据库的操作日志，例如UPDATE一个表，或者DELETE一些数据，即使该语句没有匹配的数据，这个命令也会存储到日志文件中，还包括每个语句执行的时间，也会记录进去的。
@@ -112,8 +112,8 @@ D：清理所有的日志，但是不包括目标日志，因为从服务器还�
 简单地说,这些MySQL目录下的形如mysql-bin.000***的文件时MySQL的事务日志。
 
 删除复制服务器已经拿走的binlog是安全的，一般来说网络状况好的时候，保留最新的那一个足以。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>再次执行之前的备份命令，即可成功被封mc_orderdb数据库下的所有表，我们可以查询一下备份的SQL文件中是否包含所有表</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# grep "CREATE TABLE" mc_orderdb.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>再次执行之前的备份命令，即可成功被封mc_orderdb数据库下的所有表，我们可以查询一下备份的SQL文件中是否包含所有表</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# grep "CREATE TABLE" mc_orderdb.sql
 CREATE TABLE `order_cart` (
 CREATE TABLE `order_customer_addr` (
 CREATE TABLE `order_detail` (
@@ -123,30 +123,30 @@ CREATE TABLE `shipping_info` (
 CREATE TABLE `warehouse_info` (
 CREATE TABLE `warehouse_proudct` (
 [root@localhost db_backup]# 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>通过上面结果可以看出我们的几个表都在其中</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>通过上面结果可以看出我们的几个表都在其中</p>
 <h5 id="_2-3-3-2-备份某个数据库下的某个表" tabindex="-1"><a class="header-anchor" href="#_2-3-3-2-备份某个数据库下的某个表" aria-hidden="true">#</a> 2.3.3.2 备份某个数据库下的某个表</h5>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb order_master > order_master.sql
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb order_master > order_master.sql
 Enter password: 
 [root@localhost db_backup]# ls
 mc_orderdb.sql  order_master.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h5 id="_2-3-3-3-备份mysql实例下的所有数据库" tabindex="-1"><a class="header-anchor" href="#_2-3-3-3-备份mysql实例下的所有数据库" aria-hidden="true">#</a> 2.3.3.3 备份MySQL实例下的所有数据库</h5>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysqldump -ubackup -p --master-data=1 --single-transaction --routines --triggers --events  --all-databases > mc.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h5 id="_2-3-3-3-备份mysql实例下的所有数据库" tabindex="-1"><a class="header-anchor" href="#_2-3-3-3-备份mysql实例下的所有数据库" aria-hidden="true">#</a> 2.3.3.3 备份MySQL实例下的所有数据库</h5>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysqldump -ubackup -p --master-data=1 --single-transaction --routines --triggers --events  --all-databases > mc.sql
 Enter password: 
 [root@localhost db_backup]# ls
 mc_orderdb.sql  mc.sql  order_master.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>由于master-data的值设置为1，change master命令并没有被注释掉，如果我们使用这个命令进行恢复，change master命令就会被执行，在一些情况下可能会造成一些错误，所以建议使用时最好还是设置为2</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>由于master-data的值设置为1，change master命令并没有被注释掉，如果我们使用这个命令进行恢复，change master命令就会被执行，在一些情况下可能会造成一些错误，所以建议使用时最好还是设置为2</p>
 <p>可以通过下面的命令查看，备份文件中包含哪些数据库</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# grep "Current Database" mc.sql
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# grep "Current Database" mc.sql
 -- Current Database: `mc_orderdb`
 -- Current Database: `mc_productdb`
 -- Current Database: `mc_userdb`
 -- Current Database: `mysql`
 [root@localhost db_backup]# 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_2-3-4-使用-tab参数指定备份文件的位置" tabindex="-1"><a class="header-anchor" href="#_2-3-4-使用-tab参数指定备份文件的位置" aria-hidden="true">#</a> 2.3.4 使用-tab参数指定备份文件的位置</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-3-4-使用-tab参数指定备份文件的位置" tabindex="-1"><a class="header-anchor" href="#_2-3-4-使用-tab参数指定备份文件的位置" aria-hidden="true">#</a> 2.3.4 使用-tab参数指定备份文件的位置</h4>
 <p>首先在/tmp 目录下建立一个mc_orderdb目录用来存放指定的备份文件，之所以使用在此目录下建立目录，是因为使用--tab参数时，用户必须对目标目录有可写权限，而tmp目录对任何用户都有可写权限</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mkdir -p /tmp/mc_orderdb
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>现在我们可以使用--tab参数指定备份路径</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mkdir -p /tmp/mc_orderdb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>现在我们可以使用--tab参数指定备份路径</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
 Enter password: 
 
 --
@@ -155,11 +155,11 @@ Enter password:
 
 -- CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=154;
 mysqldump: Got error: 1045: Access denied for user 'backup'@'localhost' (using password: YES) when executing 'SELECT INTO OUTFILE'
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>可以发现，报错了，其实我们在这之前还缺少一步，由于用户需要有写文件的权限，所以我们还需要对备份用户赋予file权限</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> grant file on *.*  to 'backup'@'localhost';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以发现，报错了，其实我们在这之前还缺少一步，由于用户需要有写文件的权限，所以我们还需要对备份用户赋予file权限</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> grant file on *.*  to 'backup'@'localhost';
 Query OK, 0 rows affected (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>我们再次执行上面的备份命令</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>我们再次执行上面的备份命令</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
 Enter password: 
 
 --
@@ -168,7 +168,7 @@ Enter password:
 
 -- CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=347;
 mysqldump: Got error: 1290: The MySQL server is running with the --secure-file-priv option so it cannot execute this statement when executing 'SELECT INTO OUTFILE'
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>可以很清楚地从提示看到是因为mysql服务启用了–secure-file-priv，所以才无法执行。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以很清楚地从提示看到是因为mysql服务启用了–secure-file-priv，所以才无法执行。
 那么–secure-file-priv又是什么呢，应该如何解决才能是它可以备份呢？
 --secure-file-priv=name ：
 Limit LOAD DATA, SELECT ... OUTFILE, and LOAD_FILE() to files within specified directory</p>
@@ -177,7 +177,7 @@ Limit LOAD DATA, SELECT ... OUTFILE, and LOAD_FILE() to files within specified d
 <p>当secure_file_priv的值为/tmp/ ，表示限制mysqld 的导入|导出只能发生在/tmp/目录下</p>
 <p>当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制</p>
 <p>查看数据库当前该参数的值</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> show global variables like '%secure%'; 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> show global variables like '%secure%'; 
 +--------------------------+-----------------------+
 | Variable_name            | Value                 |
 +--------------------------+-----------------------+
@@ -186,11 +186,11 @@ Limit LOAD DATA, SELECT ... OUTFILE, and LOAD_FILE() to files within specified d
 | secure_file_priv         | /var/lib/mysql-files/ |
 +--------------------------+-----------------------+
 3 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>清楚地看到secure_file_priv 的值是NULL，说明此时限制导入导出的
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>清楚地看到secure_file_priv 的值是NULL，说明此时限制导入导出的
 所以应该改变该参数
 可是查看了mysql.cnf中居然没有对这个参数进行设定，就说明这个参数默认便是null
 所以再mysql.cnf中的[mysqld]加入secure_file_priv =</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[mysqld]
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[mysqld]
 #
 # Remove leading # and set to the amount of RAM for the most important data
 # cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
@@ -217,10 +217,10 @@ pid-file=/var/run/mysqld/mysqld.pid
 log_bin=mysql-bin
 server-id=1  
 secure_file_priv =
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>再重启mysql服务</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost tmp]# systemctl restart mysqld
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>然后再查一下此时参数的值</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> show global variables like '%secure%';
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>再重启mysql服务</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost tmp]# systemctl restart mysqld
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后再查一下此时参数的值</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> show global variables like '%secure%';
 +--------------------------+-------+
 | Variable_name            | Value |
 +--------------------------+-------+
@@ -229,8 +229,8 @@ secure_file_priv =
 | secure_file_priv         |       |
 +--------------------------+-------+
 3 rows in set (0.01 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>已经是我们要的结果 ，现在我们再次执行备份命令</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost tmp]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>已经是我们要的结果 ，现在我们再次执行备份命令</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost tmp]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
 Enter password: 
 
 --
@@ -239,12 +239,12 @@ Enter password:
 
 -- CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=154;
 mysqldump: Got error: 1: Can't create/write to file '/tmp/mc_orderdb/order_cart.txt' (Errcode: 13 - Permission denied) when executing 'SELECT INTO OUTFILE'
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>结果还是权限被拒绝，无法写入，我们可以查询一下目录mc_orderdb的权限，</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost tmp]# ls -lh mc_orderdb/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>结果还是权限被拒绝，无法写入，我们可以查询一下目录mc_orderdb的权限，</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost tmp]# ls -lh mc_orderdb/
 total 4.0K
 -rw-r--r-- 1 root root 1.9K Jan 10 10:51 order_cart.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>可以发现，是root用户建立的目录，我们需要修改其所属用户为mysql用户，然后再次执行备份命令</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost tmp]#  chown mysql:mysql  mc_orderdb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以发现，是root用户建立的目录，我们需要修改其所属用户为mysql用户，然后再次执行备份命令</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost tmp]#  chown mysql:mysql  mc_orderdb
 [root@localhost tmp]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events --tab="/tmp/mc_orderdb" mc_orderdb 
 Enter password: 
 
@@ -262,23 +262,23 @@ Enter password:
 -- Dumping routines for database 'mc_orderdb'
 --
 [root@localhost tmp]# 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>可以发现，修改成功后即可备份成功</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以发现，修改成功后即可备份成功</p>
 <p>进入该目录下会发现mc_orderdb数据库下的每个表都有两种文件，一种.sql结尾记录是表结构，一种是.txt结尾的表数据</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost tmp]# cd mc_orderdb/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost tmp]# cd mc_orderdb/
 [root@localhost mc_orderdb]# ls
 order_cart.sql  order_customer_addr.sql  order_detail.sql  order_master.sql  region_info.sql  shipping_info.sql  warehouse_info.sql  warehouse_proudct.sql
 order_cart.txt  order_customer_addr.txt  order_detail.txt  order_master.txt  region_info.txt  shipping_info.txt  warehouse_info.txt  warehouse_proudct.txt
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="_2-3-5-mysqldump如何使用全备where参数" tabindex="-1"><a class="header-anchor" href="#_2-3-5-mysqldump如何使用全备where参数" aria-hidden="true">#</a> 2.3.5 mysqldump如何使用全备where参数</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-3-5-mysqldump如何使用全备where参数" tabindex="-1"><a class="header-anchor" href="#_2-3-5-mysqldump如何使用全备where参数" aria-hidden="true">#</a> 2.3.5 mysqldump如何使用全备where参数</h4>
 <p><strong>使用场景</strong></p>
 <p>假设我们要对订单id为1000到1050的主表进行修改，修改之前，我们需要先对数据进行备份，这里我们就可以使用where参数来完成此需求</p>
 <p><strong>执行命令进行备份</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction  --where "order_id>1000 and order_id&lt;1050" mc_orderdb  order_master > order_master_1000_1050.sql
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction  --where "order_id>1000 and order_id&lt;1050" mc_orderdb  order_master > order_master_1000_1050.sql
 Enter password: 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>查看备份文件可以发现，订单id是从1001开始的</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>查看备份文件可以发现，订单id是从1001开始的</p>
 <h3 id="_2-4-定义备份脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-定义备份脚本" aria-hidden="true">#</a> 2.4 定义备份脚本</h3>
 <p>在日程工作中我们不可能一直手工备份，所以我们需要将备份进行脚本话，然后使用计划任务去执行脚本</p>
 <h4 id="_2-4-1-脚本文件" tabindex="-1"><a class="header-anchor" href="#_2-4-1-脚本文件" aria-hidden="true">#</a> 2.4.1 脚本文件</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 ###############Basic parameters##########################
 DAY=`date +%Y%m%d`    # 记录发生备份的当前日期
 Environment=$(/sbin/ifconfig | grep "inet" | head -1 |grep -v "127.0.0.1" | awk '{print $2;}' )    # 当前主机的IP
@@ -306,8 +306,8 @@ do
    database=${db}
    Dump
 done
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><h4 id="_2-4-2-执行脚本文件" tabindex="-1"><a class="header-anchor" href="#_2-4-2-执行脚本文件" aria-hidden="true">#</a> 2.4.2 执行脚本文件</h4>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost home]# bash backup.sh 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-4-2-执行脚本文件" tabindex="-1"><a class="header-anchor" href="#_2-4-2-执行脚本文件" aria-hidden="true">#</a> 2.4.2 执行脚本文件</h4>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost home]# bash backup.sh 
 mysql: [Warning] Using a password on the command line interface can be insecure.
 mysqldump: [Warning] Using a password on the command line interface can be insecure.
 mysqldump: [Warning] Using a password on the command line interface can be insecure.
@@ -319,27 +319,27 @@ mysqldump: [Warning] Using a password on the command line interface can be insec
 [root@localhost db_backup]# cd 20190110/
 [root@localhost 20190110]# ls
 172.17.0.1-mc_orderdb.sql.gz  172.17.0.1-mc_productdb.sql.gz  172.17.0.1-mc_userdb.sql.gz  172.17.0.1-mysql.sql.gz
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>可以看到结果已备份，可以使用crontab命令定时执行此脚本</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以看到结果已备份，可以使用crontab命令定时执行此脚本</p>
 <h2 id="_3-如何恢复mysqldump备份的数据库" tabindex="-1"><a class="header-anchor" href="#_3-如何恢复mysqldump备份的数据库" aria-hidden="true">#</a> 3 如何恢复mysqldump备份的数据库</h2>
 <h3 id="_3-1-方法一" tabindex="-1"><a class="header-anchor" href="#_3-1-方法一" aria-hidden="true">#</a> 3.1 方法一</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql -u -p dbname &lt; backup.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_3-2-方法二" tabindex="-1"><a class="header-anchor" href="#_3-2-方法二" aria-hidden="true">#</a> 3.2 方法二</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql>  source /tmp/backup.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>使用mysqldump备份时，恢复的速度完全取决于MySQL实例执行SQL的速度和服务器的IO性能，并且恢复过程是单线程的，所以对于非常大的数据集来说，要恢复的话可能需要很长的时间</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql -u -p dbname &lt; backup.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_3-2-方法二" tabindex="-1"><a class="header-anchor" href="#_3-2-方法二" aria-hidden="true">#</a> 3.2 方法二</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql>  source /tmp/backup.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>使用mysqldump备份时，恢复的速度完全取决于MySQL实例执行SQL的速度和服务器的IO性能，并且恢复过程是单线程的，所以对于非常大的数据集来说，要恢复的话可能需要很长的时间</p>
 <blockquote>
 <p>备份恢复时，要先创建数据库</p>
 </blockquote>
 <h3 id="_3-3-演示" tabindex="-1"><a class="header-anchor" href="#_3-3-演示" aria-hidden="true">#</a> 3.3 演示：</h3>
 <p>把刚才的全备数据恢复到bak数据库中</p>
 <p>创建bak_orderdb数据库</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysql -uroot -p -e"create database bak_orderdb"
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysql -uroot -p -e"create database bak_orderdb"
 Enter password: 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>将mc_orderdb备份的数据恢复到bak数据库中</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysql -uroot -p bak_orderdb &lt; mc_orderdb.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>将mc_orderdb备份的数据恢复到bak数据库中</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]#  mysql -uroot -p bak_orderdb &lt; mc_orderdb.sql
 Enter password: 
 [root@localhost db_backup]# 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>检验恢复结果的正确性</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> SELECT COUNT(*) FROM mc_orderdb.order_master;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>检验恢复结果的正确性</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> SELECT COUNT(*) FROM mc_orderdb.order_master;
 +----------+
 | COUNT(*) |
 +----------+
@@ -354,9 +354,9 @@ mysql> SELECT COUNT(*) FROM bak_orderdb.order_master;
 |    10010 |
 +----------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h4 id="_3-3-1-模拟误操作并恢复数据" tabindex="-1"><a class="header-anchor" href="#_3-3-1-模拟误操作并恢复数据" aria-hidden="true">#</a> 3.3.1 模拟误操作并恢复数据</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_3-3-1-模拟误操作并恢复数据" tabindex="-1"><a class="header-anchor" href="#_3-3-1-模拟误操作并恢复数据" aria-hidden="true">#</a> 3.3.1 模拟误操作并恢复数据</h4>
 <p>假设我们现在不小心删除了mc_orderdb下的order_master中的10条数据，我们现在需要通过刚刚恢复的备份数据库把这10条数据恢复回来</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> DELETE FROM mc_orderdb.order_master LIMIT 10;
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> DELETE FROM mc_orderdb.order_master LIMIT 10;
 Query OK, 10 rows affected (0.01 sec)
 
 mysql>  SELECT COUNT(*) FROM mc_orderdb.order_master;
@@ -366,11 +366,11 @@ mysql>  SELECT COUNT(*) FROM mc_orderdb.order_master;
 |    10000 |
 +----------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>首先查出被误删的数据
-<code>SELECT a.* FROM bak_orderdb.order_master a LEFT JOIN mc_orderdb.order_master b ON a.order_id=b.order_id WHERE b.order_id IS NULL;</code>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>首先查出被误删的数据
+<code v-pre>SELECT a.* FROM bak_orderdb.order_master a LEFT JOIN mc_orderdb.order_master b ON a.order_id=b.order_id WHERE b.order_id IS NULL;</code>
 然后执行insert语句将查出的数据插入回去</p>
 <p>完整语句为</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>INSERT INTO mc_orderdb.order_master(
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>INSERT INTO mc_orderdb.order_master(
 order_id,order_sn,customer_id,shipping_user,province,city,district,address,
 payment_method,order_money,district_money,shipping_money,payment_money,
 shipping_comp_name,shipping_sn,create_time,shipping_time,pay_time,receive_time,
@@ -378,8 +378,8 @@ order_status,order_point,invoice_title,modified_time)
 SELECT a.* FROM bak_orderdb.order_master a 
 LEFT JOIN mc_orderdb.order_master b ON a.order_id=b.order_id
 WHERE b.order_id IS NULL;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>执行结果：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> INSERT INTO mc_orderdb.order_master(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>执行结果：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> INSERT INTO mc_orderdb.order_master(
     -> order_id,order_sn,customer_id,shipping_user,province,city,district,address,
     -> payment_method,order_money,district_money,shipping_money,payment_money,
     -> shipping_comp_name,shipping_sn,create_time,shipping_time,pay_time,receive_time,
@@ -397,25 +397,25 @@ mysql> SELECT COUNT(*) FROM mc_orderdb.order_master;
 |    10010 |
 +----------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>对于一些静态型数据我们可以这样进行，但是对于一些时刻有数据在往表里写的数据还原，就不能使用这种方式了</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>对于一些静态型数据我们可以这样进行，但是对于一些时刻有数据在往表里写的数据还原，就不能使用这种方式了</p>
 <p>对于生产环境中，时刻有数据写入的表如何进行数据恢复呢？</p>
 <h4 id="_3-3-2-mysqldump单表备份恢复-使用了-tab参数备份的结果集" tabindex="-1"><a class="header-anchor" href="#_3-3-2-mysqldump单表备份恢复-使用了-tab参数备份的结果集" aria-hidden="true">#</a> 3.3.2 mysqldump单表备份恢复（使用了--tab参数备份的结果集）</h4>
 <p>需要进入mysql客户端中</p>
 <p>先恢复表结构</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql>  source /tmp/mc_orderdb/region_info.sql;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>再导入数据</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> load data infile '/tmp/mc_orderdb/region_info.txt' info table region_info;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="_3-4-如何进行指定时间点的恢复" tabindex="-1"><a class="header-anchor" href="#_3-4-如何进行指定时间点的恢复" aria-hidden="true">#</a> 3.4 如何进行指定时间点的恢复</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql>  source /tmp/mc_orderdb/region_info.sql;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>再导入数据</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> load data infile '/tmp/mc_orderdb/region_info.txt' info table region_info;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_3-4-如何进行指定时间点的恢复" tabindex="-1"><a class="header-anchor" href="#_3-4-如何进行指定时间点的恢复" aria-hidden="true">#</a> 3.4 如何进行指定时间点的恢复</h3>
 <p>进行某一时间点的数据恢复，恢复到误操作的时间</p>
 <h4 id="_3-4-1-先决条件" tabindex="-1"><a class="header-anchor" href="#_3-4-1-先决条件" aria-hidden="true">#</a> 3.4.1 先决条件</h4>
 <p>具有指定时间点前的mysqldump的全备
 具有全备到指定时间点的mysql二进制日志</p>
 <h4 id="_3-4-2-演示" tabindex="-1"><a class="header-anchor" href="#_3-4-2-演示" aria-hidden="true">#</a> 3.4.2 演示</h4>
 <p>首先我们需要有个数据库的全备，此处我们对mc_orderdb 数据库进行全备</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb > mc_orderdb.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>然后我们模拟一下生产环境中对数据库的操作，这样才能看到时间点恢复的效果</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysqldump -ubackup -p --master-data=2 --single-transaction --routines --triggers --events mc_orderdb > mc_orderdb.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后我们模拟一下生产环境中对数据库的操作，这样才能看到时间点恢复的效果</p>
 <p>我们到mc_orderdb数据库中新建一个统计表 t, uid列是用户id,cnt 是用户的总消费金额，将统计结果插入表t中后，模拟误操作，删除表t中的100行数据</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> use mc_orderdb
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> use mc_orderdb
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
 
@@ -445,16 +445,16 @@ mysql> select count(*) from t;
 |     6214 |
 +----------+
 1 row in set (0.01 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br></div></div><p>先恢复一个最近的全备，进行全量数据恢复</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysql -uroot -p mc_orderdb &lt; mc_orderdb.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>然后查看mc_orderdb.sql文件中change master命令中</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>先恢复一个最近的全备，进行全量数据恢复</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# mysql -uroot -p mc_orderdb &lt; mc_orderdb.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后查看mc_orderdb.sql文件中change master命令中</p>
 <p>在进行这个全备时Mysql二进制日志的文件名（MASTER_LOG_FILE），以及时间点（MASTER_LOG_POS）</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=154;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>此处文件名为mysql-bin.000001，日志时间点为154;</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=154;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>此处文件名为mysql-bin.000001，日志时间点为154;</p>
 <p>下面我们要恢复这个时间点（154）之后到第一次删除数据之前的数据</p>
 <p>要找到这个时间点（154）之后到第一次删除数据之前的数据</p>
 <p>查看二进制日志，进行分析</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# cd /home/mysql
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# cd /home/mysql
 [root@localhost mysql]# mysqlbinlog --base64-output=decode-rows -vv --start-position=154 --database=mc_orderdb mysql-bin.000001| grep -B3 DELETE | more
 #190110 13:44:54 server id 1  end_log_pos 83285 CRC32 0xf679d195    Table_map: `mc_orderdb`.`t` mapped to number 119
 # at 83285
@@ -471,24 +471,24 @@ mysql> select count(*) from t;
 ###   @3=803.37 /* DECIMAL(8,2) meta=2050 nullable=1 is_null=0 */
 
 ...省略
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>从中可以看到刚刚的二进制日志中的第一个DELETE，在它之前的日志结束点为84620</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从中可以看到刚刚的二进制日志中的第一个DELETE，在它之前的日志结束点为84620</p>
 <p>所以我们需要恢复的是154 到84620 之间，且数据库为mc_orderdb ，日志所在文件名 为mysql-bin.000001的数据</p>
 <p>我们通过mysqlbinlog 将这些数据导出来</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost mysql]# mysqlbinlog --start-position=154 --stop-position=84620 --database=mc_orderdb mysql-bin.000001 > mc_order_diff.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>将数据导入恢复</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost mysql]# mysql -uroot -p mc_orderdb &lt; mc_order_diff.sql
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="_4-实时二进制日志备份" tabindex="-1"><a class="header-anchor" href="#_4-实时二进制日志备份" aria-hidden="true">#</a> 4 实时二进制日志备份</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost mysql]# mysqlbinlog --start-position=154 --stop-position=84620 --database=mc_orderdb mysql-bin.000001 > mc_order_diff.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>将数据导入恢复</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost mysql]# mysql -uroot -p mc_orderdb &lt; mc_order_diff.sql
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="_4-实时二进制日志备份" tabindex="-1"><a class="header-anchor" href="#_4-实时二进制日志备份" aria-hidden="true">#</a> 4 实时二进制日志备份</h2>
 <p>Mysql5.6版本之后，可以实时备份Binlog(二进制日志)</p>
 <p>要使用这个功能，我们需要进行以下配置
 首先新建一个用户，这个用户要有replication slave 权限</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql>  grant replication slave on *.* to 'repl'@'localhost' identified by '123456';
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql>  grant replication slave on *.* to 'repl'@'localhost' identified by '123456';
 Query OK, 0 rows affected, 1 warning (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>建立一个存储备份的二进制日志文件的目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mkdir -p binlog_backup
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>最后在这个目录下，执行以下命令，就可以实时的进行二进制日志的备份了</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost binlog_bak]# mysqlbinlog --raw --read-from-remote-server --stop-never --host localhost --port 3306 -u repl -p123456 mysql-bin.000001
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>建立一个存储备份的二进制日志文件的目录</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mkdir -p binlog_backup
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>最后在这个目录下，执行以下命令，就可以实时的进行二进制日志的备份了</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost binlog_bak]# mysqlbinlog --raw --read-from-remote-server --stop-never --host localhost --port 3306 -u repl -p123456 mysql-bin.000001
 mysqlbinlog: [Warning] Using a password on the command line interface can be insecure.
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>raw：代表这个命令是输出的是raw格式的二进制日志
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>raw：代表这个命令是输出的是raw格式的二进制日志
 read-from-remote-server： 从mysql服务器上读取这个日志
 stop-never：备份的这个进程会持续在后台运行
 最后的是指定要备份的二进制文件的名称</p>
@@ -497,12 +497,12 @@ stop-never：备份的这个进程会持续在后台运行
 </blockquote>
 <p>此命令执行后这个终端会一直执行这个命令
 现在打开另外一个终端，进入备份的目录进行查看</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost mysql]# cd /home/binlog_bak/
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost mysql]# cd /home/binlog_bak/
 [root@localhost binlog_bak]# ls
 mysql-bin.000001
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>可以看到日志已经备份成功
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以看到日志已经备份成功
 进入mysql命令行，刷新日志</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>mysql> flush logs;
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>mysql> flush logs;
 Query OK, 0 rows affected (0.01 sec)
 
 mysql> show binary logs;
@@ -513,10 +513,10 @@ mysql> show binary logs;
 | mysql-bin.000002 |       154 |
 +------------------+-----------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>现在有两个日志，我们再回到备份目录进行查看</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost binlog_bak]# ls
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>现在有两个日志，我们再回到备份目录进行查看</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost binlog_bak]# ls
 mysql-bin.000001  mysql-bin.000002
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>可以看到最新的日志也已实时备份</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>可以看到最新的日志也已实时备份</p>
 <h2 id="_5-xtrabackup" tabindex="-1"><a class="header-anchor" href="#_5-xtrabackup" aria-hidden="true">#</a> 5 xtrabackup</h2>
 <h3 id="_5-1-xtrabackup介绍" tabindex="-1"><a class="header-anchor" href="#_5-1-xtrabackup介绍" aria-hidden="true">#</a> 5.1 xtrabackup介绍</h3>
 <p>xtrabackup 物理备份工具，用于在线备份innodb存储引擎的表</p>
@@ -528,13 +528,13 @@ innobackupex 是对xtrabackup 的插件，提供了备份表结构及其他配�
 <h3 id="_5-2-安装xtrabackup" tabindex="-1"><a class="header-anchor" href="#_5-2-安装xtrabackup" aria-hidden="true">#</a> 5.2 安装xtrabackup</h3>
 <p>下载地址：https://www.percona.com/downloads/XtraBackup/
 可以在该网址下载源码包或者rpm包</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>yum -y install libev
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>yum -y install libev
 yum -y install perl-Digest-*
 wget https://www.percona.com/downloads/Percona-XtraBackup-LATEST/Percona-XtraBackup-8.0.9/binary/redhat/7/x86_64/percona-xtrabackup-80-8.0.9-1.el7.x86_64.rpm
 rpm -ivh percona-xtrabackup-80-8.0.9-1.el7.x86_64.rpm
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="_5-3-利用innobackupex-进行全备" tabindex="-1"><a class="header-anchor" href="#_5-3-利用innobackupex-进行全备" aria-hidden="true">#</a> 5.3 利用innobackupex 进行全备</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --parallel=2 /home/db_backup/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost home]# innobackupex --user=backup --password=123456 --parallel=2 /home/db_backup/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-3-利用innobackupex-进行全备" tabindex="-1"><a class="header-anchor" href="#_5-3-利用innobackupex-进行全备" aria-hidden="true">#</a> 5.3 利用innobackupex 进行全备</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --parallel=2 /home/db_backup/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost home]# innobackupex --user=backup --password=123456 --parallel=2 /home/db_backup/
 xtrabackup: recognized server arguments: --datadir=/home/mysql --log_bin=mysql-bin --server-id=1 --parallel=2 
 xtrabackup: recognized client arguments: --datadir=home/mysql --log_bin=mysql-bin --server-id=1 --parallel=2 
 190110 15:15:30 innobackupex: Starting the backup operation
@@ -549,18 +549,18 @@ IMPORTANT: Please check that the backup run completes successfully.
 190110 15:15:37 [00]        ...done
 xtrabackup: Transaction log of lsn (79088947) to (79088956) was copied.
 190110 15:15:37 completed OK!
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>当看到completed OK!代表备份已完成</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>当看到completed OK!代表备份已完成</p>
 <p>和mysqldump单线程备份不同，我们可以通过parallel参数指定备份的线程数
 /home/db_backup/ 是我们指定的备份文件的存储目录</p>
 <p>xtrabackup 会已当前时间在目标目录中生成一个子目录用来存放当前的备份文件</p>
 <p>我们进入目录中查看一下</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# ls
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# ls
 20190110  2019-01-10_15-15-30  mc_orderdb.sql  mc.sql  order_master_1000_1050.sql  order_master.sql
 [root@localhost db_backup]# cd 2019-01-10_15-15-30/
 [root@localhost 2019-01-10_15-15-30]# ls
 backup-my.cnf  ib_buffer_pool  mc_orderdb    mc_userdb  performance_schema  xtrabackup_binlog_info  xtrabackup_info
 bak_orderdb    ibdata1         mc_productdb  mysql      sys                 xtrabackup_checkpoints  xtrabackup_logfile
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>
 <p>xtrabackup_checkpoints ：备份类型（如完全或增量）、备份状态（如是否已经为prepared状态）和LSN(日志序列号)范围信息；</p>
 <p>每个InnoDB页(通常为16k大小)都会包含一个日志序列号，即LSN。LSN是整个数据库系统的系统版本号，每个页面相关的LSN能够表明此页面最近是如何发生改变的。</p>
@@ -581,7 +581,7 @@ bak_orderdb    ibdata1         mc_productdb  mysql      sys                 xtra
 <p>与原数据文件目录相比，少了ib_logfile0等日志文件</p>
 <p>xtrabackup_binlog_info 比较重要，其中记录了备份的日志名和日志点，相当于mysqldump中设置master-data参数的作用</p>
 <p>如果我们不想以时间戳的形式自动生成子目录，我们可以通过指定--no-timestamp参数来实现</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --parallel=2  /home/db_backup/2019-01-10 --no-timestamp
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --parallel=2  /home/db_backup/2019-01-10 --no-timestamp
 [root@localhost db_backup]#  innobackupex --user=backup --password=123456 --parallel=2  /home/db_backup/2019-01-10 --no-timestamp
 [root@localhost db_backup]# ls
 20190110  2019-01-10  2019-01-10_15-15-30  mc_orderdb.sql  mc.sql  order_master_1000_1050.sql  order_master.sql
@@ -590,22 +590,22 @@ bak_orderdb    ibdata1         mc_productdb  mysql      sys                 xtra
 backup-my.cnf  ib_buffer_pool  mc_orderdb    mc_userdb  performance_schema  xtrabackup_binlog_info  xtrabackup_info
 bak_orderdb    ibdata1         mc_productdb  mysql      sys                 xtrabackup_checkpoints  xtrabackup_logfile
 [root@localhost 2019-01-10]# 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="_5-4-利用innobackupex-进行全备的恢复" tabindex="-1"><a class="header-anchor" href="#_5-4-利用innobackupex-进行全备的恢复" aria-hidden="true">#</a> 5.4 利用innobackupex 进行全备的恢复</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex  --apply-log /path/to/BACKUP-DIR
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-4-利用innobackupex-进行全备的恢复" tabindex="-1"><a class="header-anchor" href="#_5-4-利用innobackupex-进行全备的恢复" aria-hidden="true">#</a> 5.4 利用innobackupex 进行全备的恢复</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex  --apply-log /path/to/BACKUP-DIR
 mv /path/to/BACKUP-DIR /home/mysql/data
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p><strong>准备完全备份</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>准备完全备份</strong></p>
 <pre><code>     一般情况下，在备份完成后，数据尚且不能用于恢复操作，因为备份的数据中可能会包含尚未提交的事务或已经提交但尚未同步至数据文件中的事务。因此，此时数据文件仍处于不一致状态。“准备”的主要作用正是通过回滚未提交的事务及同步已经提交的事务至数据文件也使得数据文件处于一致性状态。
 </code></pre>
 <p>innobakupex命令的--apply-log选项可用于实现上述功能。如下面的命令：</p>
 <p>进行数据库恢复之前，我们必须把备份中产生的备份集 进行应用，此处我们使用的是备份文件的目录伪2019-01-10</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]# innobackupex --apply-log /home/db_backup/2019-01-10
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]# innobackupex --apply-log /home/db_backup/2019-01-10
 [root@localhost db_backup]# cd 2019-01-10
 [root@localhost 2019-01-10]# ls
 backup-my.cnf   ib_logfile0  mc_productdb        sys                           xtrabackup_info
 bak_orderdb     ib_logfile1  mc_userdb           xtrabackup_binlog_info        xtrabackup_logfile
 ib_buffer_pool  ibtmp1       mysql               xtrabackup_binlog_pos_innodb  xtrabackup_master_key_id
 ibdata1         mc_orderdb   performance_schema  xtrabackup_checkpoints
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>可以发现，使用了上面的命令后，备份集中多出了之前缺少的ib_logfile0等文件。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以发现，使用了上面的命令后，备份集中多出了之前缺少的ib_logfile0等文件。</p>
 <p>​         在实现“准备”的过程中，innobackupex通常还可以使用--use-memory选项来指定其可以使用的内存的大小，默认通常为100M。如果有足够的内存可用，可以多划分一些内存给prepare的过程，以提高其完成速度。</p>
 <p>使用xtrabackup进行数据库恢复时，我们必须对数据库实例进行重启
 先停用mysql服务</p>
@@ -614,33 +614,33 @@ ibdata1         mc_orderdb   performance_schema  xtrabackup_checkpoints
 对文件夹修改所属用户</p>
 <p>最后重启mysql服务即可</p>
 <h3 id="_5-5-利用innobackupex-进行增量备份" tabindex="-1"><a class="header-anchor" href="#_5-5-利用innobackupex-进行增量备份" aria-hidden="true">#</a> 5.5 利用innobackupex 进行增量备份</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 /home/db_backup    # 先进行全备
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 /home/db_backup    # 先进行全备
 
 innobackupex --user=backup --password=123456 --incremental  /home/db_backup/  --incremental-basedir=/home/db_backup/2019-01-10/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>incremental ：表示我们要进行的是一个全备， 指定全备的目录
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>incremental ：表示我们要进行的是一个全备， 指定全备的目录
 incremental-basedir ：指定增量备份所依赖的数据基础的备份目录，这个增量备份所依赖的上一个全备</p>
 <h4 id="演示" tabindex="-1"><a class="header-anchor" href="#演示" aria-hidden="true">#</a> 演示</h4>
 <p>先进行全备</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 /home/db_backup  
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>在 /home/db_backup 目录下生产了一个新的全备子目录 2019-01-10_16-19-37</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 /home/db_backup  
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>在 /home/db_backup 目录下生产了一个新的全备子目录 2019-01-10_16-19-37</p>
 <p>再依赖上个全量备份进行增量备份</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --incremental  /home/db_backup/  --incremental-basedir=/home/db_backup/2019-01-10_16-19-37/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>此时在 /home/db_backup 目录下生产了一个增量备分的子目录2019-01-10_16-22-09
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --incremental  /home/db_backup/  --incremental-basedir=/home/db_backup/2019-01-10_16-19-37/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>此时在 /home/db_backup 目录下生产了一个增量备分的子目录2019-01-10_16-22-09
 增量备份会把自上一个全备后的数据变更记录下来</p>
 <p>然后再进行一次增量备份，此时的命令和前面基本相同，只是所基于的增量备份的数据目录要变成上次增量备份生成的目录</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --incremental  /home/db_backup/  --incremental-basedir=/home/db_backup/2019-01-10_16-22-09/
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>此时，第二次增量备份的生成的目录名为2019-01-10_16-24-09</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=backup --password=123456 --incremental  /home/db_backup/  --incremental-basedir=/home/db_backup/2019-01-10_16-22-09/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>此时，第二次增量备份的生成的目录名为2019-01-10_16-24-09</p>
 <h3 id="_5-6-利用innobackupex-进行增量恢复" tabindex="-1"><a class="header-anchor" href="#_5-6-利用innobackupex-进行增量恢复" aria-hidden="true">#</a> 5.6 利用innobackupex 进行增量恢复</h3>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex  --apply-log  --redo-only 全备目录
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>我们要循环的在多次增量备份中应用上面步骤</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code> innobackupex  --apply-log  --redo-only 全备目录  --incremental-dir=第一次增量目录
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>所有增量备份的都应有了上面的命令后，就可以像全备一样，在全备目录上再进行崩溃恢复的过程</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>    innobackupex  --apply-log /path/to/BACKUP-DIR
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex  --apply-log  --redo-only 全备目录
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>我们要循环的在多次增量备份中应用上面步骤</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code> innobackupex  --apply-log  --redo-only 全备目录  --incremental-dir=第一次增量目录
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>所有增量备份的都应有了上面的命令后，就可以像全备一样，在全备目录上再进行崩溃恢复的过程</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>    innobackupex  --apply-log /path/to/BACKUP-DIR
     mv /path/to/BACKUP-DIR /home/mysql/data
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>最后和全备一样，要用全备目录替换mysql数据库目录</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>最后和全备一样，要用全备目录替换mysql数据库目录</p>
 <h4 id="演示-1" tabindex="-1"><a class="header-anchor" href="#演示-1" aria-hidden="true">#</a> 演示</h4>
 <p>下面演示只恢复到第一次备份</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>[root@localhost db_backup]#   innobackupex  --apply-log  --redo-only    /home/db_backup/2019-01-10_16-19-37
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[root@localhost db_backup]#   innobackupex  --apply-log  --redo-only    /home/db_backup/2019-01-10_16-19-37
 
 [root@localhost db_backup]#   innobackupex  --apply-log  --redo-only    /home/db_backup/2019-01-10_16-19-37  --incremental-basedir=/home/db_backup/2019-01-10_16-22-09
 
@@ -657,7 +657,7 @@ incremental-basedir ：指定增量备份所依赖的数据基础的备份目录
 [root@localhost mysql]# chown -R mysql:mysql data
 
 [root@localhost mysql]#  systemctl start mysqld
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="_5-7-备份压缩和流" tabindex="-1"><a class="header-anchor" href="#_5-7-备份压缩和流" aria-hidden="true">#</a> 5.7 备份压缩和流</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-7-备份压缩和流" tabindex="-1"><a class="header-anchor" href="#_5-7-备份压缩和流" aria-hidden="true">#</a> 5.7 备份压缩和流</h3>
 <p>Stream模式下，Xtrabackup的STDOUT可以指定tar或者xbstream格式输出。 '
 流允许，其他程序过滤备份输出，提供更大的灵活存储backup。
 使用流特性，需要指--stream选项
@@ -666,19 +666,21 @@ innobackupex会用子程序启动xtrabackup --log-stream 定向到临时文件�
 当压缩启动，xtrabackup压缩所有输出数据，但是元数据和非innodb文件不能被压缩。现在唯一支持的压缩算法是quicklz。会生产qpress归档格式的文件。</p>
 <h4 id="演示-2" tabindex="-1"><a class="header-anchor" href="#演示-2" aria-hidden="true">#</a> 演示</h4>
 <p>使用tar备份</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --stream=tar /backup/ > /backup/out.tar
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --stream=tar /backup/ > /backup/out.tar
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>使用tar备份到其他服务器：
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>使用tar备份到其他服务器：
 依赖密钥传输数据</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --stream=tar ./ | ssh root@192.168.10.200 "cat - > /tmp/backup.tar"
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>提取tar流，需要加i参数，否则容易数据丢失</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>tar -xizf backup.tar
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>也可以压缩流：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --socket=/tmp/mysql.sock --stream=tar ./ | gzip - > /backup/back.tar.gz
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><em>xtrabckup还有部分备份和窄备份功能 略</em></p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --stream=tar ./ | ssh root@192.168.10.200 "cat - > /tmp/backup.tar"
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>提取tar流，需要加i参数，否则容易数据丢失</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>tar -xizf backup.tar
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>也可以压缩流：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>innobackupex --user=root --password=123 --socket=/tmp/mysql.sock --stream=tar ./ | gzip - > /backup/back.tar.gz
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><em>xtrabckup还有部分备份和窄备份功能 略</em></p>
 <blockquote>
 <p>参考文章：</p>
 <p>https://www.cnblogs.com/huchong/p/10238515.html#_label1</p>
 <p>https://www.linuxidc.com/Linux/2019-01/156363.htm</p>
 </blockquote>
-</template>
+</div></template>
+
+

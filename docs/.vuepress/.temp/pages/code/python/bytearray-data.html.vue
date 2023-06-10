@@ -1,4 +1,4 @@
-<template><h1 id="_2-3-3-字节序列" tabindex="-1"><a class="header-anchor" href="#_2-3-3-字节序列" aria-hidden="true">#</a> 2.3.3 字节序列</h1>
+<template><div><h1 id="_2-3-3-字节序列" tabindex="-1"><a class="header-anchor" href="#_2-3-3-字节序列" aria-hidden="true">#</a> 2.3.3 字节序列</h1>
 <p>Python3 引入两个新的类型 bytes、bytearray。</p>
 <p>bytes 不可变字节序列；bytearray 是可变字节数组。</p>
 <h2 id="编码与解码" tabindex="-1"><a class="header-anchor" href="#编码与解码" aria-hidden="true">#</a> 编码与解码</h2>
@@ -6,14 +6,14 @@
 <li>编码：str =&gt; bytes，将字符串这个字符序列使用指定字符集encode编码为一个个字节组成的序列bytes</li>
 <li>解码：bytes 或 bytearray =&gt; str，将一个个字节按照某种指定的字符集解码为一个个字符串组成的字符串</li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"abc"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 缺省为utf-8编码</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"abc"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 缺省为utf-8编码</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"啊"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"啊"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"啊"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'gbk'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">b'abc'</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">b'\xb0\xa1'</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'gbk'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">b'\xe5\x95\x8a'</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h2 id="ascii" tabindex="-1"><a class="header-anchor" href="#ascii" aria-hidden="true">#</a> ASCII</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="ascii" tabindex="-1"><a class="header-anchor" href="#ascii" aria-hidden="true">#</a> ASCII</h2>
 <p>ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁
 字母的一套单字节编码系统</p>
 <p><em><strong>ASCII控制字符</strong></em></p>
@@ -940,8 +940,8 @@ UTF-8、GBK都兼容了ASCII</p>
 </li>
 </ul>
 <p>bytes类型和str类型类似，都是不可变类型，操作方法类似。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">b'abcd'</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 返回int，指定是本字节对应的十进制数</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="bytearrary-初始化" tabindex="-1"><a class="header-anchor" href="#bytearrary-初始化" aria-hidden="true">#</a> bytearrary 初始化</h2>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">b'abcd'</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 返回int，指定是本字节对应的十进制数</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="bytearrary-初始化" tabindex="-1"><a class="header-anchor" href="#bytearrary-初始化" aria-hidden="true">#</a> bytearrary 初始化</h2>
 <ul>
 <li>bytearray() 空bytearray</li>
 <li>bytearray(int) 指定字节的bytearray，被0填充</li>
@@ -961,7 +961,7 @@ UTF-8、GBK都兼容了ASCII</p>
 <li>clear() 清空bytearray</li>
 <li>reverse() 翻转bytearray，就地修改</li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>b <span class="token operator">=</span> <span class="token builtin">bytearray</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>b <span class="token operator">=</span> <span class="token builtin">bytearray</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 b<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">97</span><span class="token punctuation">)</span>
 b<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">99</span><span class="token punctuation">)</span>
 b<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">98</span><span class="token punctuation">)</span>
@@ -971,4 +971,6 @@ b<span class="token punctuation">.</span>pop<span class="token punctuation">(</s
 b<span class="token punctuation">.</span>reverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token comment"># 输出什么  bytearray(b'Acba')</span>
 b<span class="token punctuation">.</span>clear<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

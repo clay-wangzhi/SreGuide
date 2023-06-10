@@ -1,4 +1,4 @@
-<template><h1 id="_4-1-函数的定义-调用-返回值" tabindex="-1"><a class="header-anchor" href="#_4-1-函数的定义-调用-返回值" aria-hidden="true">#</a> 4.1 函数的定义 &amp; 调用 &amp; 返回值</h1>
+<template><div><h1 id="_4-1-函数的定义-调用-返回值" tabindex="-1"><a class="header-anchor" href="#_4-1-函数的定义-调用-返回值" aria-hidden="true">#</a> 4.1 函数的定义 &amp; 调用 &amp; 返回值</h1>
 <h2 id="函数" tabindex="-1"><a class="header-anchor" href="#函数" aria-hidden="true">#</a> 函数</h2>
 <p>数学定义</p>
 <ul>
@@ -22,10 +22,10 @@
 <li>自定义函数，使用def关键字定义</li>
 </ul>
 <h2 id="函数定义" tabindex="-1"><a class="header-anchor" href="#函数定义" aria-hidden="true">#</a> 函数定义</h2>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> 函数名<span class="token punctuation">(</span>参数列表<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> 函数名<span class="token punctuation">(</span>参数列表<span class="token punctuation">)</span><span class="token punctuation">:</span>
 	函数体（代码块）
 	<span class="token punctuation">[</span><span class="token keyword">return</span> 返回值<span class="token punctuation">]</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>函数名就是标识符，命名要求一样</li>
 <li>语句块必须缩进，约定4个空格</li>
 <li>Python的函数若没有return语句，会隐式返回一个None值</li>
@@ -37,13 +37,13 @@
 <li>调用的方式，就是函数名后加上小括号，如有必要在括号内填写上参数</li>
 <li>调用时写的参数是实际参数，是实实在在传入的值，简称实参</li>
 </ul>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 函数定义</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 函数定义</span>
 	result <span class="token operator">=</span> x <span class="token operator">+</span> y <span class="token comment"># 函数体</span>
 	<span class="token keyword">return</span> result <span class="token comment"># 返回值</span>
 
 out <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token comment"># 函数调用，可能有返回值，使用变量接收这个返回值</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>out<span class="token punctuation">)</span> <span class="token comment"># print函数加上括号也是调用</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>上面代码解释：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面代码解释：</p>
 <ul>
 <li>定义一个函数add，及函数名是add，能接受2个参数</li>
 <li>该函数计算的结果，通过返回值返回，需要return语句</li>
@@ -86,4 +86,6 @@ out <span class="token operator">=</span> add<span class="token punctuation">(</
 <p>x, y, z = showlist() 使用解构提取返回值更为方便</p>
 </li>
 </ul>
-</template>
+</div></template>
+
+

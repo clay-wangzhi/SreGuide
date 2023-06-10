@@ -1,4 +1,4 @@
-<template><h1 id="_2-列表类型和数据完整性" tabindex="-1"><a class="header-anchor" href="#_2-列表类型和数据完整性" aria-hidden="true">#</a> 2 列表类型和数据完整性</h1>
+<template><div><h1 id="_2-列表类型和数据完整性" tabindex="-1"><a class="header-anchor" href="#_2-列表类型和数据完整性" aria-hidden="true">#</a> 2 列表类型和数据完整性</h1>
 <h2 id="_1-数据类型" tabindex="-1"><a class="header-anchor" href="#_1-数据类型" aria-hidden="true">#</a> 1 数据类型</h2>
 <h3 id="_1-1-值类型" tabindex="-1"><a class="header-anchor" href="#_1-1-值类型" aria-hidden="true">#</a> 1.1 值类型</h3>
 <h4 id="_1-1-1-整型" tabindex="-1"><a class="header-anchor" href="#_1-1-1-整型" aria-hidden="true">#</a> 1.1.1   整型</h4>
@@ -29,18 +29,18 @@
 <tr>
 <td style="text-align:center">int</td>
 <td style="text-align:center">4</td>
-<td style="text-align:center">-2<sup>31</sup>~2<sup>31</sup>-1</td>
+<td style="text-align:center">-2^31^~2^31^-1</td>
 </tr>
 <tr>
 <td style="text-align:center">bigint</td>
 <td style="text-align:center">8</td>
-<td style="text-align:center">-2<sup>63</sup>~2<sup>63</sup>-1</td>
+<td style="text-align:center">-2^63^~2^63^-1</td>
 </tr>
 </tbody>
 </table>
 <p>1、无符号整数（unsigned）：无符号数没有负数，正数部分是有符号的两倍。</p>
 <p>例题</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table stu(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table stu(
     -&gt; id smallint unsigned auto_increment primary key comment '主键',
     -&gt; age tinyint unsigned not null comment '年龄',
     -&gt; money bigint unsigned comment '存款'
@@ -56,9 +56,9 @@ mysql&gt; desc stu;
 | money | bigint(20) unsigned  | YES  |     | NULL    |                |
 +-------+----------------------+------+-----+---------+----------------+
 3 rows in set, 3 warnings (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>2、整型支持显示宽度（最小的显示位数）  比如int(5)，如果数值的位数小于5位，前面加上前导0。比如输入12，显示00012；大于5位就不添加前导0。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>脚下留心：必须结合zerofill才起作用
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table stu(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2、整型支持显示宽度（最小的显示位数）  比如int(5)，如果数值的位数小于5位，前面加上前导0。比如输入12，显示00012；大于5位就不添加前导0。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>脚下留心：必须结合zerofill才起作用
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table stu(
     -&gt; id int(5),
     -&gt; age int(5) zerofill   # 填充前导0
     -&gt; );
@@ -85,7 +85,7 @@ mysql&gt; select * from stu;
 | 1111111 | 2222222 |    # 注意：age填充了前导0
 +---------+---------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h4 id="_1-1-2-浮点型-保存近似值小数" tabindex="-1"><a class="header-anchor" href="#_1-1-2-浮点型-保存近似值小数" aria-hidden="true">#</a> 1.1.2   浮点型（保存近似值小数）</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-1-2-浮点型-保存近似值小数" tabindex="-1"><a class="header-anchor" href="#_1-1-2-浮点型-保存近似值小数" aria-hidden="true">#</a> 1.1.2   浮点型（保存近似值小数）</h4>
 <table>
 <thead>
 <tr>
@@ -111,7 +111,7 @@ mysql&gt; select * from stu;
 <p>M：总位数</p>
 <p>D：小数位数</p>
 <p>例题；</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t1(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t1(
     -&gt; num1 float(5,2),   #总位数是5，小数位数是2，那么整数位数是3，
     -&gt; num2 double(4,1)
     -&gt; );
@@ -127,11 +127,11 @@ mysql&gt; select * from t1;
 | 1.23 |  1.2 |   #如果精度超出了允许的范围，会四舍五入
 +------+------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>2、浮点的精度可能会丢失【精度指的是小数】</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536718268668.png" alt="1536718268668" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2、浮点的精度可能会丢失【精度指的是小数】</p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536718268668.png" alt="1536718268668"></p>
 <h4 id="_1-1-3-定点数" tabindex="-1"><a class="header-anchor" href="#_1-1-3-定点数" aria-hidden="true">#</a> 1.1.3   定点数</h4>
-<p>语法：<code>decimal(M,D)</code></p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t4(
+<p>语法：<code v-pre>decimal(M,D)</code></p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t4(
    -&gt; num decimal(20,19)
    -&gt; );
 Query OK, 0 rows affected (0.00 sec)
@@ -146,10 +146,10 @@ mysql&gt; select * from t4;
 | 1.1234567890123456789 |
 +-----------------------+
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>多学一招：
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>多学一招：
 1、定点数是变长的，大致每9个数字用4个字节来存储。定点数之所以能保存精确的小数，因为整数和小数是分开存储的。占用的资源比浮点数要多。
 2、定点数和浮点数都支持显示宽度和无符号数。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-2-字符型" tabindex="-1"><a class="header-anchor" href="#_1-2-字符型" aria-hidden="true">#</a> 1.2 字符型</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-2-字符型" tabindex="-1"><a class="header-anchor" href="#_1-2-字符型" aria-hidden="true">#</a> 1.2 字符型</h3>
 <table>
 <thead>
 <tr>
@@ -172,22 +172,22 @@ mysql&gt; select * from t4;
 <tr>
 <td style="text-align:center">tinytext</td>
 <td style="text-align:center">大段文本</td>
-<td style="text-align:center">2<sup>8</sup>-1=255</td>
+<td style="text-align:center">2^8^-1=255</td>
 </tr>
 <tr>
 <td style="text-align:center">text</td>
 <td style="text-align:center">大段文本</td>
-<td style="text-align:center">2<sup>16</sup>-1=65535</td>
+<td style="text-align:center">2^16^-1=65535</td>
 </tr>
 <tr>
 <td style="text-align:center">mediumtext</td>
 <td style="text-align:center">大段文本</td>
-<td style="text-align:center">2<sup>24</sup>-1</td>
+<td style="text-align:center">2^24^-1</td>
 </tr>
 <tr>
 <td style="text-align:center">longtext</td>
 <td style="text-align:center">大段文本</td>
-<td style="text-align:center">2<sup>32</sup>-1</td>
+<td style="text-align:center">2^32^-1</td>
 </tr>
 </tbody>
 </table>
@@ -197,14 +197,14 @@ mysql&gt; select * from t4;
 
                     char效率高，浪费空间，varchar节省空间，效率比char低。
 </code></pre>
-<p>2、char的最大长度是255。  <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536719919287.png" alt="1536719919287" loading="lazy"></p>
-<p>3、varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720096028.png" alt="1536720096028" loading="lazy"></p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720113031.png" alt="1536720113031" loading="lazy"></p>
+<p>2、char的最大长度是255。  <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536719919287.png" alt="1536719919287"></p>
+<p>3、varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720096028.png" alt="1536720096028"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720113031.png" alt="1536720113031"></p>
 <p>4、一个记录的总长度不能超过65535个字节。</p>
-<p>5、大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720763914.png" alt="1536720763914" loading="lazy"></p>
+<p>5、大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。 <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536720763914.png" alt="1536720763914"></p>
 <h3 id="_1-3-枚举-enum" tabindex="-1"><a class="header-anchor" href="#_1-3-枚举-enum" aria-hidden="true">#</a> 1.3 枚举（enum）</h3>
 <p>1、从集合中选择一个数据（单选）</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t8(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t8(
    -&gt; name varchar(20),
    -&gt; sex enum('男','女','保密')   # 枚举
    -&gt; )charset=utf8;
@@ -225,17 +225,17 @@ mysql&gt; select * from t8;
 | tom   | 男     |
 | berry | 女    |
 +-------+------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>2、MySQL的枚举类型是通过整数来管理的，第一个值是1，第二个值是2，以此类推。</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536721403493.png" alt="1536721403493" loading="lazy"></p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; select sex+0 from t8;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2、MySQL的枚举类型是通过整数来管理的，第一个值是1，第二个值是2，以此类推。</p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536721403493.png" alt="1536721403493"></p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; select sex+0 from t8;
 +-------+
 | sex+0 |
 +-------+
 |     1 |
 |     2 |
 +-------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>3、既然枚举在数据库内部存储的是整数，那么可以直接插入数字</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; insert into t8 values ('rose',3);  # 可以直接插入数字
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>3、既然枚举在数据库内部存储的是整数，那么可以直接插入数字</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; insert into t8 values ('rose',3);  # 可以直接插入数字
 Query OK, 1 row affected (0.00 sec)
 
 mysql&gt; select * from t8;
@@ -247,16 +247,16 @@ mysql&gt; select * from t8;
 | rose  | 保密     |
 +-------+------+
 3 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>枚举的优点：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>枚举的优点：</p>
 <p>1、     运行速度快（数字比字符串运算速度快）</p>
 <p>2、     限制数据，保证数据完整性</p>
 <p>3、     节省空间</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>思考：已知枚举占用2个字节，请问最多有多少个枚举值？
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>思考：已知枚举占用2个字节，请问最多有多少个枚举值？
 
 答：2个字节=16位，可以保存数字（0-65535），枚举是从1开始，所以枚举最多可以有65535个枚举值。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-4-集合-set" tabindex="-1"><a class="header-anchor" href="#_1-4-集合-set" aria-hidden="true">#</a> 1.4 集合（set）</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-4-集合-set" tabindex="-1"><a class="header-anchor" href="#_1-4-集合-set" aria-hidden="true">#</a> 1.4 集合（set）</h3>
 <p>从集合中选择一些数据（多选）</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t9(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t9(
    -&gt; hobby set('爬山','读书','游泳','敲代码')
    -&gt; );
 Query OK, 0 rows affected (0.08 sec)
@@ -272,13 +272,13 @@ Query OK, 1 row affected (0.02 sec)
 
 mysql&gt; insert into t9 values ('爬山,游泳,开车');  # 报错，插入集合中没有的选项会报错
 ERROR 1265 (01000): Data truncated for column 'hobby' at row 1
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>每个集合的元素都分配一个固定的数字，分配的方式从左往右按2的0、1、2、…次方</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536723512843.png" alt="1536723512843" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>每个集合的元素都分配一个固定的数字，分配的方式从左往右按2的0、1、2、…次方</p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536723512843.png" alt="1536723512843"></p>
 <hr>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>思考：已知集合占用8个字节，最多可以表示几个选项？
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>思考：已知集合占用8个字节，最多可以表示几个选项？
 
 答：8个字节=64位，一个位表示1个选项，最多可以表示64个选项。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="_1-5-日期类型" tabindex="-1"><a class="header-anchor" href="#_1-5-日期类型" aria-hidden="true">#</a> 1.5 日期类型</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-5-日期类型" tabindex="-1"><a class="header-anchor" href="#_1-5-日期类型" aria-hidden="true">#</a> 1.5 日期类型</h3>
 <table>
 <thead>
 <tr>
@@ -311,7 +311,7 @@ ERROR 1265 (01000): Data truncated for column 'hobby' at row 1
 </table>
 <h4 id="_1-5-1-datetime" tabindex="-1"><a class="header-anchor" href="#_1-5-1-datetime" aria-hidden="true">#</a> 1.5.1 datetime</h4>
 <p>格式：年-月-日 小时:分钟:秒</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t10(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t10(
    -&gt; field datetime
    -&gt; );
 Query OK, 0 rows affected (0.02 sec)
@@ -333,8 +333,8 @@ mysql&gt; select * from t10;
 | 0100-10-12 10:12:36 |
 +---------------------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><h4 id="_1-5-2-date" tabindex="-1"><a class="header-anchor" href="#_1-5-2-date" aria-hidden="true">#</a> 1.5.2 date</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t11(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-5-2-date" tabindex="-1"><a class="header-anchor" href="#_1-5-2-date" aria-hidden="true">#</a> 1.5.2 date</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t11(
     -&gt; field date
     -&gt; );
 Query OK, 0 rows affected (0.00 sec)
@@ -348,11 +348,11 @@ mysql&gt; select * from t11;
 +------------+
 | 2025-10-12 |
 +------------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h4 id="_1-5-3-timestamp" tabindex="-1"><a class="header-anchor" href="#_1-5-3-timestamp" aria-hidden="true">#</a> 1.5.3 timestamp</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-5-3-timestamp" tabindex="-1"><a class="header-anchor" href="#_1-5-3-timestamp" aria-hidden="true">#</a> 1.5.3 timestamp</h4>
 <p>时间戳</p>
 <p>timestamp类型和 datetime类型在表现上是一样的。他们的区别：
 datetime是从1到9999，而timestamp从1970年~2038年，2038年01月19日11:14:07秒以后就超出timestamp范围了。</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t12(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t12(
     -&gt; field timestamp
     -&gt; );
 Query OK, 0 rows affected (0.00 sec)
@@ -375,9 +375,9 @@ mysql&gt; select * from t12;
 | 1975-05-05 12:12:12 |
 | 2038-01-19 11:14:07 |
 +---------------------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h4 id="_1-5-4-year" tabindex="-1"><a class="header-anchor" href="#_1-5-4-year" aria-hidden="true">#</a> 1.5.4 year</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-5-4-year" tabindex="-1"><a class="header-anchor" href="#_1-5-4-year" aria-hidden="true">#</a> 1.5.4 year</h4>
 <p>因为只占用1个字节，最多只能表示255个年份，范围是1901-2155之间的年份</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t13(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t13(
     -&gt; field year
     -&gt; );
 Query OK, 0 rows affected (0.06 sec)
@@ -392,9 +392,9 @@ Query OK, 1 row affected (0.00 sec)
 
 mysql&gt; insert into t13 values (2156);   # 超出范围
 ERROR 1264 (22003): Out of range value for column 'field' at row 1
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h4 id="_1-5-5-time" tabindex="-1"><a class="header-anchor" href="#_1-5-5-time" aria-hidden="true">#</a> 1.5.5 time</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-5-5-time" tabindex="-1"><a class="header-anchor" href="#_1-5-5-time" aria-hidden="true">#</a> 1.5.5 time</h4>
 <p>表示时间或时间间隔，范围是-838:59:59~838:59:59</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t14(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t14(
    -&gt; field time
    -&gt; );
 Query OK, 0 rows affected (0.00 sec)
@@ -411,8 +411,8 @@ Query OK, 1 row affected (0.00 sec)
 mysql&gt; insert into t14 values ('839:00:00');  # 操作范围
 ERROR 1292 (22007): Incorrect time value: '839:00:00' for column 'field' at row 1
 mysql&gt;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>多学一招：time支持以天的方式插入</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; insert into t14 values ('10 10:10:10');
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>多学一招：time支持以天的方式插入</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; insert into t14 values ('10 10:10:10');
 Query OK, 1 row affected (0.02 sec)
 
 mysql&gt; select * from t14;
@@ -424,9 +424,9 @@ mysql&gt; select * from t14;
 | 838:59:59 |
 | 250:10:10 |
 +-----------+
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h3 id="_1-6-boolean" tabindex="-1"><a class="header-anchor" href="#_1-6-boolean" aria-hidden="true">#</a> 1.6 boolean</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-6-boolean" tabindex="-1"><a class="header-anchor" href="#_1-6-boolean" aria-hidden="true">#</a> 1.6 boolean</h3>
 <p>MySQL不支持boolean类型，true和false在数据库中对应1和0。</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t15(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t15(
    -&gt; field boolean
    -&gt; );
 Query OK, 0 rows affected (0.00 sec)
@@ -443,7 +443,7 @@ mysql&gt; select * from t15;
 |     0 |
 +-------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="_1-7-关于数据类型的思考题" tabindex="-1"><a class="header-anchor" href="#_1-7-关于数据类型的思考题" aria-hidden="true">#</a> 1.7 关于数据类型的思考题</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-7-关于数据类型的思考题" tabindex="-1"><a class="header-anchor" href="#_1-7-关于数据类型的思考题" aria-hidden="true">#</a> 1.7 关于数据类型的思考题</h3>
 <ol>
 <li>
 <p>手机号码一般使用什么数据类型存储?               char</p>
@@ -487,7 +487,7 @@ mysql&gt; select * from t15;
 <h3 id="_2-2-默认值-default" tabindex="-1"><a class="header-anchor" href="#_2-2-默认值-default" aria-hidden="true">#</a> 2.2 默认值（default）</h3>
 <p>1、如果一个字段没有插入值，可以默认插入一个指定的值。</p>
 <p>2、default关键字用来插入默认值</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t16(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t16(
    -&gt; id int unsigned,
    -&gt; addr varchar(20) not null default '地址不详'
    -&gt; );
@@ -505,13 +505,13 @@ mysql&gt; select * from t16;
 |    2 | 地址不详        |
 +------+----------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="_2-3-自动增长-auto-increment" tabindex="-1"><a class="header-anchor" href="#_2-3-自动增长-auto-increment" aria-hidden="true">#</a> 2.3 自动增长（auto_increment）</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-3-自动增长-auto-increment" tabindex="-1"><a class="header-anchor" href="#_2-3-自动增长-auto-increment" aria-hidden="true">#</a> 2.3 自动增长（auto_increment）</h3>
 <p>1、字段的值从1开始，每次递增1，特点就在字段中的数据不可能重复，适合为记录生成唯一的id</p>
 <p>2、自动增长都是无符号整数。</p>
 <p>3、在MySQL中，auto_increment必须是主键。但是主键不一定是自动增长的。</p>
 <p>4、如果要给自动增长列插入数据，使用null关键字。</p>
 <p>5、自动增长列上的数据被删除，默认情况下此记录的编号不再使用。</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536737314504.png" alt="1536737314504" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536737314504.png" alt="1536737314504"></p>
 <h3 id="_2-4-主键-primary-key" tabindex="-1"><a class="header-anchor" href="#_2-4-主键-primary-key" aria-hidden="true">#</a> 2.4 主键（primary key）</h3>
 <p>主键：唯一标识表中记录的一个或一组列</p>
 <p>主键的特点：不能重复，不能为空</p>
@@ -521,7 +521,7 @@ mysql&gt; select * from t16;
 <p>2、     加快查询速度</p>
 <h4 id="_2-4-1-添加主键" tabindex="-1"><a class="header-anchor" href="#_2-4-1-添加主键" aria-hidden="true">#</a> 2.4.1 添加主键</h4>
 <p>方法一：创建表的时候添加主键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t17(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t17(
     -&gt; id varchar(5) primary key,   # 创建主键
     -&gt; name varchar(10) not null
     -&gt; );
@@ -547,8 +547,8 @@ ERROR 1062 (23000): Duplicate entry 's2531' for key 'PRIMARY'
 # 主键不能插入null值
 mysql&gt; insert into t17 values (null,'tom');
 ERROR 1048 (23000): Column 'id' cannot be null
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><p>方法二：创建表的时候添加主键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t18(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>方法二：创建表的时候添加主键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t18(
     -&gt; id int,
     -&gt; name varchar(10),
     -&gt; primary key(id)
@@ -563,8 +563,8 @@ mysql&gt; desc t18;
 | name  | varchar(10) | YES  |     | NULL    |       |
 +-------+-------------+------+-----+---------+-------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>方法三：更改表的时候添加主键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t20(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>方法三：更改表的时候添加主键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t20(
     -&gt; id int,
     -&gt; name varchar(10)
     -&gt; );
@@ -582,12 +582,12 @@ mysql&gt; desc t20;
 | name  | varchar(10) | YES  |     | NULL    |       |
 +-------+-------------+------+-----+---------+-------+
 2 rows in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h4 id="_2-4-2-创建组合键" tabindex="-1"><a class="header-anchor" href="#_2-4-2-创建组合键" aria-hidden="true">#</a> 2.4.2 创建组合键</h4>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736467251.png" alt="1536736467251" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-4-2-创建组合键" tabindex="-1"><a class="header-anchor" href="#_2-4-2-创建组合键" aria-hidden="true">#</a> 2.4.2 创建组合键</h4>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736467251.png" alt="1536736467251"></p>
 <h4 id="_2-4-3-查看主键" tabindex="-1"><a class="header-anchor" href="#_2-4-3-查看主键" aria-hidden="true">#</a> 2.4.3 查看主键</h4>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736627655.png" alt="1536736627655" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736627655.png" alt="1536736627655"></p>
 <h4 id="_2-4-4-删除主键" tabindex="-1"><a class="header-anchor" href="#_2-4-4-删除主键" aria-hidden="true">#</a> 2.4.4 删除主键</h4>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736700169.png" alt="1536736700169" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536736700169.png" alt="1536736700169"></p>
 <h4 id="_2-4-5-选择主键的原则" tabindex="-1"><a class="header-anchor" href="#_2-4-5-选择主键的原则" aria-hidden="true">#</a> 2.4.5 选择主键的原则</h4>
 <p>1、     最少性：尽量选择一个字段做主键</p>
 <p>2、     稳定性：尽量选择更新少的列做主键</p>
@@ -608,7 +608,7 @@ mysql&gt; desc t20;
 <p>2、     加快数据访问</p>
 <h4 id="_2-5-1-添加唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-1-添加唯一键" aria-hidden="true">#</a> 2.5.1 添加唯一键</h4>
 <p>方法一：创建表的时候添加唯一键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t22(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t22(
    -&gt; id int primary key,
    -&gt; name varchar(20) unique,    #通过unique添加唯一键
    -&gt; addr varchar(100) unique
@@ -622,8 +622,8 @@ mysql&gt; insert into t22 values (2,'tom','北京');    #  name重复了，报�
 ERROR 1062 (23000): Duplicate entry 'tom' for key 'name'
 mysql&gt; insert into t22 values (2,'berry','上海');   # addr重复了 
 ERROR 1062 (23000): Duplicate entry '上海' for key 'addr'
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>还有一种方法</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t26(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>还有一种方法</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t26(
     -&gt; id int,
     -&gt; name varchar(20),
     -&gt; addr varchar(20),
@@ -632,8 +632,8 @@ ERROR 1062 (23000): Duplicate entry '上海' for key 'addr'
     -&gt; unique (addr)
     -&gt; );
 Query OK, 0 rows affected (0.06 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>方法二：修改表的时候添加唯一键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t23(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>方法二：修改表的时候添加唯一键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t23(
     -&gt; id int primary key,
     -&gt; name varchar(20)
     -&gt; );
@@ -642,8 +642,8 @@ Query OK, 0 rows affected (0.02 sec)
 mysql&gt; alter table t23 add unique (name);    #  添加一个唯一键
 Query OK, 0 rows affected (0.02 sec)
 Records: 0  Duplicates: 0  Warnings: 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>一次添加多个唯一键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t24(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>一次添加多个唯一键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t24(
     -&gt; id int primary key,
     -&gt; name varchar(20),
     -&gt; addr varchar(20)
@@ -653,8 +653,8 @@ Query OK, 0 rows affected (0.06 sec)
 mysql&gt; alter table t24 add unique(name),add unique(addr);  
 Query OK, 0 rows affected (0.09 sec)
 Records: 0  Duplicates: 0  Warnings: 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>添加组合唯一键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t25(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>添加组合唯一键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t25(
     -&gt; id int primary key,
     -&gt; name varchar(20),
     -&gt; addr varchar(20)
@@ -664,8 +664,8 @@ Query OK, 0 rows affected (0.09 sec)
 mysql&gt; alter table t25 add unique(name,addr);
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="_2-5-2-查看唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-2-查看唯一键" aria-hidden="true">#</a> 2.5.2 查看唯一键</h4>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; show create table t26\G;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-5-2-查看唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-2-查看唯一键" aria-hidden="true">#</a> 2.5.2 查看唯一键</h4>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; show create table t26\G;
 *************************** 1. row ***************************
       Table: t26
 Create Table: CREATE TABLE `t26` (
@@ -689,8 +689,8 @@ Create Table: CREATE TABLE `t25` (
  UNIQUE KEY `name` (`name`,`addr`)    # 组合唯一键
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>添加唯一键，给唯一键取名</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table t27(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>添加唯一键，给唯一键取名</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table t27(
     -&gt; name varchar(20)
     -&gt; );
 Query OK, 0 rows affected (0.03 sec)
@@ -707,21 +707,21 @@ Create Table: CREATE TABLE `t27` (
   UNIQUE KEY `UQ_name` (`name`)    # 唯一键的名字是UQ_name
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 1 row in set (0.00 sec)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h4 id="_2-5-3-删除唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-3-删除唯一键" aria-hidden="true">#</a> 2.5.3 删除唯一键</h4>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_2-5-3-删除唯一键" tabindex="-1"><a class="header-anchor" href="#_2-5-3-删除唯一键" aria-hidden="true">#</a> 2.5.3 删除唯一键</h4>
 <p>通过唯一键的名字来删除唯一键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>alter table 表名 drop index 唯一键名称;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739081697.png" alt="1536739081697" loading="lazy"></p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>alter table 表名 drop index 唯一键名称;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739081697.png" alt="1536739081697"></p>
 <p>问题：主键和唯一键的区别？</p>
 <p>1、主键不能重复，不能为空，唯一键不能重复，可以为空</p>
 <p>2、主键只有一个，唯一键可以有多个。</p>
 <h3 id="_2-6-备注-comment" tabindex="-1"><a class="header-anchor" href="#_2-6-备注-comment" aria-hidden="true">#</a> 2.6 备注（comment）</h3>
-<p>为了程序员之间的相互交流  <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739540981.png" alt="1536739540981" loading="lazy"></p>
+<p>为了程序员之间的相互交流  <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739540981.png" alt="1536739540981"></p>
 <h2 id="_3-sql注释" tabindex="-1"><a class="header-anchor" href="#_3-sql注释" aria-hidden="true">#</a> 3 SQL注释</h2>
 <p>单行注释：--或#</p>
 <p>多行注释：/*    */</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739661909.png" alt="1536739661909" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739661909.png" alt="1536739661909"></p>
 <h2 id="_4-数据完整性介绍" tabindex="-1"><a class="header-anchor" href="#_4-数据完整性介绍" aria-hidden="true">#</a> 4 数据完整性介绍</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739894901.png" alt="1536739894901" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536739894901.png" alt="1536739894901"></p>
 <h3 id="_4-1-保证实体完整性" tabindex="-1"><a class="header-anchor" href="#_4-1-保证实体完整性" aria-hidden="true">#</a> 4.1 保证实体完整性</h3>
 <p>1、     主键约束</p>
 <p>2、     唯一约束</p>
@@ -744,7 +744,7 @@ Create Table: CREATE TABLE `t27` (
 <p>2、     外键约束用来保证引用完整性</p>
 <h4 id="_4-3-3-添加外键" tabindex="-1"><a class="header-anchor" href="#_4-3-3-添加外键" aria-hidden="true">#</a> 4.3.3 添加外键</h4>
 <p>方法一：创建表的时候添加外键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>create table stuinfo(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>create table stuinfo(
    stuno char(4) primary key,
    name varchar(10) not null
 );
@@ -754,8 +754,8 @@ create table stumarks(
    score tinyint unsigned,
    foreign key (stuid) references stuinfo(stuno)
 );
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>方法二：修改表的时候添加外键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table stuinfo(
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>方法二：修改表的时候添加外键</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table stuinfo(
     -&gt;  stuno char(4) primary key,
     -&gt;  name varchar(10) not null
     -&gt; );
@@ -772,24 +772,24 @@ Query OK, 0 rows affected (0.06 sec)
 mysql&gt; alter table stumarks add foreign key (stuid) references stuinfo(stuno);
 Query OK, 0 rows affected (0.06 sec)
 Records: 0  Duplicates: 0  Warnings: 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>脚下留心：要创建外键必须是innodb引擎，myisam不支持外键约束</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>脚下留心：要创建外键必须是innodb引擎，myisam不支持外键约束</p>
 <h4 id="_4-3-4-查看外键" tabindex="-1"><a class="header-anchor" href="#_4-3-4-查看外键" aria-hidden="true">#</a> 4.3.4 查看外键</h4>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536742477588.png" alt="1536742477588" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1536742477588.png" alt="1536742477588"></p>
 <h4 id="_4-3-5-删除外键" tabindex="-1"><a class="header-anchor" href="#_4-3-5-删除外键" aria-hidden="true">#</a> 4.3.5 删除外键</h4>
 <p>通过外键的名字删除外键</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>alter table 表名 drop foreign key 外键名;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; alter table stumarks drop foreign key stumarks_ibfk_1;
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>alter table 表名 drop foreign key 外键名;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>例题</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; alter table stumarks drop foreign key stumarks_ibfk_1;
 Query OK, 0 rows affected (0.02 sec)
 Records: 0  Duplicates: 0  Warnings: 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="_5-外键操作" tabindex="-1"><a class="header-anchor" href="#_5-外键操作" aria-hidden="true">#</a> 5 外键操作</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_5-外键操作" tabindex="-1"><a class="header-anchor" href="#_5-外键操作" aria-hidden="true">#</a> 5 外键操作</h2>
 <p>1、     严格操作（前面讲的是严格操作）</p>
 <p>2、     置空操作（set null）：如果主表记录删除或更新，从表置空</p>
 <p>3、     级联操作（cascade）：如果主表记录删除或更新，从表级联</p>
 <p>一般来说：主表删除的时候，从表置空操作，主表更新的时候，从表级联操作。</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>foreign key(外键) references 主表(关键字段)[主表删除是的动作][主表更新时候的动作]
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>例题</p>
-<div class="language-mysql ext-mysql line-numbers-mode"><pre v-pre class="language-mysql"><code>mysql&gt; create table stuinfo(
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>foreign key(外键) references 主表(关键字段)[主表删除是的动作][主表更新时候的动作]
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>例题</p>
+<div class="language-mysql line-numbers-mode" data-ext="mysql"><pre v-pre class="language-mysql"><code>mysql&gt; create table stuinfo(
     -&gt; stuno char(4) primary key,
     -&gt; name varchar(10) not null
     -&gt; );
@@ -840,4 +840,6 @@ mysql&gt; select * from stumarks;
 +-------+-------+-------+
 1 row in set (0.00 sec)
 
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

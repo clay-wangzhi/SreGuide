@@ -1,4 +1,4 @@
-<template><h1 id="优秀的技术博客-在线工具" tabindex="-1"><a class="header-anchor" href="#优秀的技术博客-在线工具" aria-hidden="true">#</a> 优秀的技术博客 &amp; 在线工具</h1>
+<template><div><h1 id="优秀的技术博客-在线工具" tabindex="-1"><a class="header-anchor" href="#优秀的技术博客-在线工具" aria-hidden="true">#</a> 优秀的技术博客 &amp; 在线工具</h1>
 <h2 id="技术博客" tabindex="-1"><a class="header-anchor" href="#技术博客" aria-hidden="true">#</a> 技术博客</h2>
 <table>
 <thead>
@@ -14,7 +14,7 @@
 </tr>
 <tr>
 <td><a href="https://www.junmajinlong.com/" target="_blank" rel="noopener noreferrer">骏马金龙<ExternalLinkIcon/></a></td>
-<td>运维开发，<code>Ansible专栏：一步到位玩透Ansible</code> 作者</td>
+<td>运维开发，<code v-pre>Ansible专栏：一步到位玩透Ansible</code> 作者</td>
 </tr>
 <tr>
 <td>https://lework.github.io/</td>
@@ -30,11 +30,11 @@
 </tr>
 <tr>
 <td><a href="https://mrhope.site/" target="_blank" rel="noopener noreferrer">mrhope<ExternalLinkIcon/></a></td>
-<td>物理专业的大佬，<code>vuepress-theme-hope</code>主题作者</td>
+<td>物理专业的大佬，<code v-pre>vuepress-theme-hope</code>主题作者</td>
 </tr>
 <tr>
 <td><a href="http://www.eryajf.net/" target="_blank" rel="noopener noreferrer">二丫讲梵<ExternalLinkIcon/></a></td>
-<td>博客朋友李启龙的博客，内容十分优质，国内最全的<code>nexus</code>系列文档</td>
+<td>博客朋友李启龙的博客，内容十分优质，国内最全的<code v-pre>nexus</code>系列文档</td>
 </tr>
 <tr>
 <td><a href="https://www.kancloud.cn/@willseecloud" target="_blank" rel="noopener noreferrer">willseecloud<ExternalLinkIcon/></a></td>
@@ -93,4 +93,6 @@
 </tr>
 </tbody>
 </table>
-</template>
+</div></template>
+
+

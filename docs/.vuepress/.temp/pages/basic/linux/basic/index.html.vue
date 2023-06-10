@@ -1,4 +1,4 @@
-<template><h1 id="前言" tabindex="-1"><a class="header-anchor" href="#前言" aria-hidden="true">#</a> 前言</h1>
+<template><div><h1 id="前言" tabindex="-1"><a class="header-anchor" href="#前言" aria-hidden="true">#</a> 前言</h1>
 <h2 id="文章教程" tabindex="-1"><a class="header-anchor" href="#文章教程" aria-hidden="true">#</a> 文章教程</h2>
 <p><a href="https://dunwu.github.io/linux-tutorial/" target="_blank" rel="noopener noreferrer">LINUX-TUTORIAL | dunwu<ExternalLinkIcon/></a></p>
 <p><a href="https://github.com/mylxsw/growing-up/blob/master/doc/%E4%B8%89%E5%8D%81%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9AAWK.md" target="_blank" rel="noopener noreferrer">三十分钟学会AWK | 程序猿成长计划<ExternalLinkIcon/></a> ⭐</p>
@@ -21,10 +21,10 @@
 <h2 id="linux目录结构" tabindex="-1"><a class="header-anchor" href="#linux目录结构" aria-hidden="true">#</a> linux目录结构</h2>
 <p>文件系统在Linux下看上去就象树形结构，所以我们可以把文件系统的结构形象的称为 树形结构。</p>
 <p>操作系统安装在一个文件系统中，他表现为由/ 起始的树形结构。linux文件系统的最顶端是/，我们称/为Linux的root，也就是 Linux操作系统的文件系统。Linux的文件系统的入口就是/，所有的目录、文件、设备都在/之下，/就是Linux文件系统的组织者，也是最上级的领导者。</p>
-<p>由于linux是开放源代码，各大公司和团体根据linux的核心代码做各自的操作，编程。这样就造成在根下的目录的不同。这样就造成个人不能使用他人的linux系统的PC。因为你根本不知道一些基本的配置，文件在哪里。。。这就造成了混乱。这就是FHS（Filesystem Hierarchy Standard ）机构诞生的原因。该机构是linux爱好者自发的组成的一个团体，主要是是对linux做一些基本的要求，不至于是操作者换一台主机就成了linux的<code>文盲</code>。</p>
+<p>由于linux是开放源代码，各大公司和团体根据linux的核心代码做各自的操作，编程。这样就造成在根下的目录的不同。这样就造成个人不能使用他人的linux系统的PC。因为你根本不知道一些基本的配置，文件在哪里。。。这就造成了混乱。这就是FHS（Filesystem Hierarchy Standard ）机构诞生的原因。该机构是linux爱好者自发的组成的一个团体，主要是是对linux做一些基本的要求，不至于是操作者换一台主机就成了linux的<code v-pre>文盲</code>。</p>
 <p>根据<a href="http://www.pathname.com/fhs/" target="_blank" rel="noopener noreferrer">FHS<ExternalLinkIcon/></a>的官方文件指出， 他们的主要目的是希望让使用者可以了解到已安装软件通常放置于那个目录下， 所以他们希望独立的软件开发商、操作系统制作者、以及想要维护系统的用户，都能够遵循FHS的标准。 也就是说，FHS的重点在于规范每个特定的目录下应该要放置什么样子的数据而已。 这样做好处非常多，因为Linux操作系统就能够在既有的面貌下(目录架构不变)发展出开发者想要的独特风格。</p>
 <p>事实上，FHS是根据过去的经验一直再持续的改版的，FHS依据文件系统使用的频繁与否与是否允许使用者随意更动， 而将目录定义成为四种交互作用的形态，用表格来说有点像底下这样：</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/HFS.png" alt="" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/HFS.png" alt=""></p>
 <p>四中类型:</p>
 <ul>
 <li>可分享的：</li>
@@ -235,7 +235,7 @@
 <p>每一个目录不止能使用本地端的 partition 的文件系统，也可以使用网络上的 filesystem 。举例来说， 可以利用 Network File System (NFS) 服务器挂载某特定目录等。</p>
 <p>每一个文件在此目录树中的文件名(包含完整路径)都是独一无二的。</p>
 <p>如果我们将整个目录树以图的方法来显示，并且将较为重要的文件数据列出来的话，那么目录树架构就如下图所示：</p>
-<p>​	<img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/linux_dir.png" alt="" loading="lazy"></p>
+<p>​	<img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/linux_dir.png" alt=""></p>
 <h3 id="绝对路径与相对路径" tabindex="-1"><a class="header-anchor" href="#绝对路径与相对路径" aria-hidden="true">#</a> 绝对路径与相对路径</h3>
 <p>除了需要特别注意的FHS目录配置外，在文件名部分我们也要特别注意。因为根据档名写法的不同，也可将所谓的路径(path)定义为绝对路径(absolute)与相对路径(relative)。 这两种文件名/路径的写法依据是这样的：</p>
 <ul>
@@ -255,26 +255,26 @@
 <p>这个 . 与 .. 目录概念是很重要的，你常常会看到 cd .. 或 ./command 之类的指令下达方式， 就是代表上一层与目前所在目录的工作状态。</p>
 <p>实例1：如何先进入/var/spool/mail/目录，再进入到/var/spool/cron/目录内？</p>
 <p>命令：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>cd /var/spool/mail
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>cd /var/spool/mail
 
 cd ../cron
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>说明：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明：</p>
 <p>由于/var/spool/mail与/var/spool/cron是同样在/var/spool/目录中。如此就不需要在由根目录开始写起了。这个相对路径是非常有帮助的，尤其对于某些软件开发商来说。 一般来说，软件开发商会将数据放置到/usr/local/里面的各相对目录。 但如果用户想要安装到不同目录呢？就得要使用相对路径。</p>
 <h2 id="命令行快捷键" tabindex="-1"><a class="header-anchor" href="#命令行快捷键" aria-hidden="true">#</a> 命令行快捷键</h2>
 <ul>
 <li>Esc键</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>Esc+. 上一个命令的后面的参数
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>Esc+. 上一个命令的后面的参数
 
 Esc+B 移动到当前单词的开头
 
 Esc+F 移动到当前单词的结尾
 
 Esc+T 颠倒光标所在处及其相邻单词的位置
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>Ctrl键</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>Ctrl+A 光标移到命令行的最前端
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>Ctrl+A 光标移到命令行的最前端
 
 Ctrl+C 终止前台运行的程序
 
@@ -293,8 +293,10 @@ Ctrl+U 删除整个命令行文本字符
 Ctrl+W 移除光标前的一个单词
 
 Ctrl+Y 粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本，粘贴或者恢复上次的删
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h2 id="linux-相关认证介绍rhce-rhca" tabindex="-1"><a class="header-anchor" href="#linux-相关认证介绍rhce-rhca" aria-hidden="true">#</a> Linux 相关认证介绍RHCE/RHCA</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="linux-相关认证介绍rhce-rhca" tabindex="-1"><a class="header-anchor" href="#linux-相关认证介绍rhce-rhca" aria-hidden="true">#</a> Linux 相关认证介绍RHCE/RHCA</h2>
 <p>Red Hat Certified Architect 认证架构师</p>
 <p>Red Hat Certified Engineer 认证工程师</p>
 <p>Red Hat Certified System Adminstrator 认证系统管理员</p>
-</template>
+</div></template>
+
+

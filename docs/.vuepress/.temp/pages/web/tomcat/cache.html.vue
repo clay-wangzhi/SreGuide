@@ -1,4 +1,4 @@
-<template><h1 id="tomcat-缓存-清理" tabindex="-1"><a class="header-anchor" href="#tomcat-缓存-清理" aria-hidden="true">#</a> Tomcat “缓存”清理</h1>
+<template><div><h1 id="tomcat-缓存-清理" tabindex="-1"><a class="header-anchor" href="#tomcat-缓存-清理" aria-hidden="true">#</a> Tomcat “缓存”清理</h1>
 <blockquote>
 <p>转载自：<a href="https://blog.51cto.com/ycgit/1692886" target="_blank" rel="noopener noreferrer">Tomcat “缓存”清理<ExternalLinkIcon/></a></p>
 </blockquote>
@@ -11,7 +11,7 @@
 <p>方法1：</p>
 <p>conf/server.xml文件</p>
 <p>Context path中间加上reloadable=&quot;true&quot;</p>
-<p>例如：<code>&lt;Context path=&quot;&quot; docBase=&quot;&quot; reloadable=&quot;true&quot;&gt; </code></p>
+<p>例如：<code v-pre>&lt;Context path=&quot;&quot; docBase=&quot;&quot; reloadable=&quot;true&quot;&gt; </code></p>
 <p>path、docBase、reloadable属性举例说明： <a href="http://ycgit.blog.51cto.com/8590215/1688579" target="_blank" rel="noopener noreferrer"> http://ycgit.blog.51cto.com/8590215/1688579<ExternalLinkIcon/></a></p>
 <p>方法2：</p>
 <p>删除work目录下的缓存文件</p>
@@ -19,7 +19,9 @@
 <p>注意：不能把work整个目录删除，不然重启tomcat 时，会把conf/web.xml删除掉，这样在启动时，日志 会提示：No Default web .xml，且访问页面会显示404错误；</p>
 <p>方法3：</p>
 <p>在jsp页面上方加上如下代码，这样的也可以使该jsp能实时加载，每次访问都会重新把这个jsp页面转换成.java文件</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>&lt;meta http-equiv="Expires" content="0">  
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;meta http-equiv="Expires" content="0">  
 &lt;meta http-equiv="kiben" content="no-cache">   
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p></p>
-</template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p></p>
+</div></template>
+
+

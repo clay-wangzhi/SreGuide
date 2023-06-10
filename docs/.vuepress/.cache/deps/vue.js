@@ -1,5 +1,6 @@
 import {
   BaseTransition,
+  BaseTransitionPropsValidators,
   Comment,
   EffectScope,
   Fragment,
@@ -12,10 +13,12 @@ import {
   Transition,
   TransitionGroup,
   VueElement,
+  assertNumber,
   callWithAsyncErrorHandling,
   callWithErrorHandling,
   cloneVNode,
   compatUtils,
+  compile,
   computed,
   createApp,
   createBaseVNode,
@@ -36,8 +39,11 @@ import {
   defineCustomElement,
   defineEmits,
   defineExpose,
+  defineModel,
+  defineOptions,
   defineProps,
   defineSSRCustomElement,
+  defineSlots,
   devtools,
   effect,
   effectScope,
@@ -47,6 +53,7 @@ import {
   guardReactiveProps,
   h,
   handleError,
+  hasInjectionContext,
   hydrate,
   initCustomFormatter,
   initDirectivesForSSR,
@@ -61,6 +68,7 @@ import {
   isVNode,
   markRaw,
   mergeDefaults,
+  mergeModels,
   mergeProps,
   nextTick,
   onActivated,
@@ -107,12 +115,14 @@ import {
   toRaw,
   toRef,
   toRefs,
+  toValue,
   transformVNodeArgs,
   triggerRef,
   unref,
   useAttrs,
   useCssModule,
   useCssVars,
+  useModel,
   useSSRContext,
   useSlots,
   useTransitionState,
@@ -136,7 +146,7 @@ import {
   withMemo,
   withModifiers,
   withScopeId
-} from "./chunk-D77L4QNK.js";
+} from "./chunk-AQDTH7GJ.js";
 import {
   camelize,
   capitalize,
@@ -145,45 +155,11 @@ import {
   normalizeStyle,
   toDisplayString,
   toHandlerKey
-} from "./chunk-TOG645IN.js";
-import {
-  init_define_ARTICLE_INFO_LOCALES,
-  init_define_BACK_TO_TOP_LOCALES,
-  init_define_CODE_COPY_LOCALES,
-  init_define_CODE_COPY_OPIONS,
-  init_define_CODE_DEMO_OPTIONS,
-  init_define_COMMENT_OPTIONS,
-  init_define_DOCSEARCH_OPTIONS,
-  init_define_EXTERNAL_LINK_ICON_LOCALES,
-  init_define_MERMAID_OPTIONS,
-  init_define_PAGINATION_LOCALES,
-  init_define_PHOTO_SWIPE_LOCALES,
-  init_define_PHOTO_SWIPE_OPTIONS,
-  init_define_READING_TIME_LOCALES,
-  init_define_REVEAL_CONFIG,
-  init_define_TOC_LOCALES,
-  init_define_WALINE_LOCALES
-} from "./chunk-Y7BHZONV.js";
-
-// dep:vue
-init_define_ARTICLE_INFO_LOCALES();
-init_define_BACK_TO_TOP_LOCALES();
-init_define_CODE_COPY_LOCALES();
-init_define_CODE_COPY_OPIONS();
-init_define_CODE_DEMO_OPTIONS();
-init_define_COMMENT_OPTIONS();
-init_define_MERMAID_OPTIONS();
-init_define_PAGINATION_LOCALES();
-init_define_PHOTO_SWIPE_LOCALES();
-init_define_PHOTO_SWIPE_OPTIONS();
-init_define_READING_TIME_LOCALES();
-init_define_REVEAL_CONFIG();
-init_define_TOC_LOCALES();
-init_define_WALINE_LOCALES();
-init_define_DOCSEARCH_OPTIONS();
-init_define_EXTERNAL_LINK_ICON_LOCALES();
+} from "./chunk-DDKVHXSX.js";
+import "./chunk-OZI5HTJH.js";
 export {
   BaseTransition,
+  BaseTransitionPropsValidators,
   Comment,
   EffectScope,
   Fragment,
@@ -196,12 +172,14 @@ export {
   Transition,
   TransitionGroup,
   VueElement,
+  assertNumber,
   callWithAsyncErrorHandling,
   callWithErrorHandling,
   camelize,
   capitalize,
   cloneVNode,
   compatUtils,
+  compile,
   computed,
   createApp,
   createBlock,
@@ -222,8 +200,11 @@ export {
   defineCustomElement,
   defineEmits,
   defineExpose,
+  defineModel,
+  defineOptions,
   defineProps,
   defineSSRCustomElement,
+  defineSlots,
   devtools,
   effect,
   effectScope,
@@ -233,6 +214,7 @@ export {
   guardReactiveProps,
   h,
   handleError,
+  hasInjectionContext,
   hydrate,
   initCustomFormatter,
   initDirectivesForSSR,
@@ -247,6 +229,7 @@ export {
   isVNode,
   markRaw,
   mergeDefaults,
+  mergeModels,
   mergeProps,
   nextTick,
   normalizeClass,
@@ -298,12 +281,14 @@ export {
   toRaw,
   toRef,
   toRefs,
+  toValue,
   transformVNodeArgs,
   triggerRef,
   unref,
   useAttrs,
   useCssModule,
   useCssVars,
+  useModel,
   useSSRContext,
   useSlots,
   useTransitionState,

@@ -1,9 +1,9 @@
-<template><h1 id="_4-3-作用域" tabindex="-1"><a class="header-anchor" href="#_4-3-作用域" aria-hidden="true">#</a> 4.3 作用域</h1>
+<template><div><h1 id="_4-3-作用域" tabindex="-1"><a class="header-anchor" href="#_4-3-作用域" aria-hidden="true">#</a> 4.3 作用域</h1>
 <p>一个标识符的可见范围，这就是标识符的作用域。一般常说的是变量的作用域</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	x <span class="token operator">=</span> <span class="token number">100</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token comment"># 可以访问到吗</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>上例中x不可以访问到，会抛出异常（NameError: name 'x' is not defined），原因在于函数是一个封装，它会开辟一个作用域，x变量被限制在这个作用域中，所以在函数外部x变量不可见。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例中x不可以访问到，会抛出异常（NameError: name 'x' is not defined），原因在于函数是一个封装，它会开辟一个作用域，x变量被限制在这个作用域中，所以在函数外部x变量不可见。</p>
 <blockquote>
 <p>注意：每一个函数都会开辟一个作用域</p>
 </blockquote>
@@ -25,18 +25,18 @@
 </ul>
 <h2 id="函数嵌套" tabindex="-1"><a class="header-anchor" href="#函数嵌套" aria-hidden="true">#</a> 函数嵌套</h2>
 <p>在一个函数中定义了另外一个函数</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 		<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"inner"</span><span class="token punctuation">)</span>
 	inner<span class="token punctuation">(</span><span class="token punctuation">)</span>
 	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"outer"</span><span class="token punctuation">)</span>
 outer<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 可以吗？ 可以</span>
 inner<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 可以吗？ 不可以</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>内部函数inner不能在外部直接使用，会抛NameError异常，因为它在函数外部不可见。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>内部函数inner不能在外部直接使用，会抛NameError异常，因为它在函数外部不可见。</p>
 <p>其实，inner不过就是一个标识符，就是一个函数outer内部定义的变量而已。</p>
 <p><strong>嵌套结构的作用域</strong></p>
 <p>对比下面嵌套结构，代码执行的效果</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">outer1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment">#</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">outer1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment">#</span>
     o <span class="token operator">=</span> <span class="token number">65</span>
     <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"inner {}"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -64,10 +64,10 @@ outer2<span class="token punctuation">(</span><span class="token punctuation">)<
 <span class="token comment">#inner 97</span>
 <span class="token comment">#a</span>
 <span class="token comment">#outer 65</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><p>从执行的结果来看：</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从执行的结果来看：</p>
 <ul>
 <li>外层变量在内部作用域可见</li>
-<li>内层作用域 inner 中，如果定义了 <code>o = 97</code> ，相当于在当前函数 inner 作用域中重新定义了一个新的变量o，但是，<em><strong>这个 o 并不能覆盖掉外部作用域 outer2 中的变量 o</strong></em>。只不过对于 inner 函数来说，其只能可见自己作用域中定义的变量 o 了</li>
+<li>内层作用域 inner 中，如果定义了 <code v-pre>o = 97</code> ，相当于在当前函数 inner 作用域中重新定义了一个新的变量o，但是，<em><strong>这个 o 并不能覆盖掉外部作用域 outer2 中的变量 o</strong></em>。只不过对于 inner 函数来说，其只能可见自己作用域中定义的变量 o 了</li>
 </ul>
 <table>
 <thead>
@@ -90,29 +90,29 @@ outer2<span class="token punctuation">(</span><span class="token punctuation">)<
 </tr>
 </tbody>
 </table>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'中'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">hex</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'中'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'中'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'中'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'gbk'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'中'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">hex</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'中'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'中'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'中'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'gbk'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token number">20013</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># '中'</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token number">97</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p><strong>一个赋值语句的问题</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>一个赋值语句的问题</strong></p>
 <p>函数内，变量未定义，+= 1问题</p>
 <p>略</p>
 <h2 id="global-语句" tabindex="-1"><a class="header-anchor" href="#global-语句" aria-hidden="true">#</a> global 语句</h2>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>x <span class="token operator">=</span> <span class="token number">5</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>x <span class="token operator">=</span> <span class="token number">5</span>
 <span class="token keyword">def</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">global</span> x <span class="token comment"># 全局变量</span>
     x <span class="token operator">+=</span> <span class="token number">1</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
 foo<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>使用 global 关键字的变量，将 foo 内的 x 声明为使用外部的全局作用域中定义的 x</li>
 <li>全局作用域中必须有 x 的定义</li>
 <li>使用了global，foo中的x不再是局部变量了，它是全局变量。</li>
 </ul>
 <p><strong>总结</strong></p>
 <ul>
-<li><code>x+=1</code> 这种是特殊形式产生的错误的原因？先引用后赋值，而 python 动态语言是赋值才算定义，才能被引用。解决办法，在这条语句前增加 x=0 之类的赋值语句，或者使用global 告诉内部作用域，去全局作用域查找变量定义</li>
-<li>内部作用域使用 <code>x = 10</code> 之类的赋值语句会重新定义局部作用域使用的变量x，但是，一旦这个作
-用域中使用 global 声明x为全局的，那么<code>x=10</code>相当于在为全局作用域的变量x赋值</li>
+<li><code v-pre>x+=1</code> 这种是特殊形式产生的错误的原因？先引用后赋值，而 python 动态语言是赋值才算定义，才能被引用。解决办法，在这条语句前增加 x=0 之类的赋值语句，或者使用global 告诉内部作用域，去全局作用域查找变量定义</li>
+<li>内部作用域使用 <code v-pre>x = 10</code> 之类的赋值语句会重新定义局部作用域使用的变量x，但是，一旦这个作
+用域中使用 global 声明x为全局的，那么<code v-pre>x=10</code>相当于在为全局作用域的变量x赋值</li>
 </ul>
 <p><strong>global使用原则</strong></p>
 <ul>
@@ -123,7 +123,7 @@ foo<span class="token punctuation">(</span><span class="token punctuation">)</sp
 <h2 id="闭包" tabindex="-1"><a class="header-anchor" href="#闭包" aria-hidden="true">#</a> 闭包</h2>
 <p><strong>自由变量</strong>：未在本地作用域中定义的变量。例如定义在内层函数外的外层函数的作用域中的变量</p>
 <p><strong>闭包</strong>：就是一个概念，出现在嵌套函数中，指的是<strong>内层函数引用到了外层函数的自由变量</strong>，就形成了闭包。很多语言都有这个概念，最熟悉就是JavaScript</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     c <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
     <span class="token keyword">def</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         c<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span> <span class="token comment"># 报错吗？ 为什么 # line 4</span>
@@ -133,7 +133,7 @@ foo <span class="token operator">=</span> counter<span class="token punctuation"
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># line 9</span>
 c <span class="token operator">=</span> <span class="token number">100</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># line 11</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>代码分析</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>代码分析</p>
 <ul>
 <li>第8行会执行 counter 函数并返回 inc 对应的函数对象，注意这个函数对象并不释放，因为有 foo 记着</li>
 <li>第4行会报错吗？为什么
@@ -155,7 +155,7 @@ c <span class="token operator">=</span> <span class="token number">100</span>
 </ul>
 <p>这是 Python2 中实现闭包的方式，Python3 还可以使用 nonlocal 关键字</p>
 <p>再看下面这段代码，会报错吗？使用 global 能解决吗？</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     count <span class="token operator">=</span> <span class="token number">0</span>
     <span class="token keyword">def</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         count <span class="token operator">+=</span> <span class="token number">1</span>
@@ -164,8 +164,8 @@ c <span class="token operator">=</span> <span class="token number">100</span>
 
 foo <span class="token operator">=</span> counter<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>上例一定出错，使用gobal可以解决</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例一定出错，使用gobal可以解决</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">global</span> count
     count <span class="token operator">=</span> <span class="token number">0</span>
     <span class="token keyword">def</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -178,12 +178,12 @@ foo <span class="token operator">=</span> counter<span class="token punctuation"
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 count <span class="token operator">=</span> <span class="token number">100</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 打印几？ 101</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>上例使用 global 解决，这是全局变量的实现，而不是闭包了。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例使用 global 解决，这是全局变量的实现，而不是闭包了。</p>
 <p>如果要对这个普通变量使用闭包，Python3中可以使用nonlocal关键字。</p>
 <h2 id="nonlocal-语句" tabindex="-1"><a class="header-anchor" href="#nonlocal-语句" aria-hidden="true">#</a> nonlocal 语句</h2>
 <p><strong>nonlocal</strong>：将变量标记为不在本地作用域定义，而是在<strong>上级的某一级局部作用域</strong>中定义，但<strong>不能是全局</strong>
 <strong>作用域中定义</strong>。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     count <span class="token operator">=</span> <span class="token number">0</span>
     <span class="token keyword">def</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">nonlocal</span> count <span class="token comment"># 声明变量count不是本地变量</span>
@@ -193,10 +193,10 @@ count <span class="token operator">=</span> <span class="token number">100</span
 
 foo <span class="token operator">=</span> counter<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>count 是外层函数的局部变量，被内部函数引用。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>count 是外层函数的局部变量，被内部函数引用。</p>
 <p>内部函数使用 nonlocal 关键字声明 count 变量在上级作用域而非本地作用域中定义。</p>
 <p>代码中内层函数引用外部局部作用域中的自由变量，形成闭包。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code>count <span class="token operator">=</span> <span class="token number">10</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code>count <span class="token operator">=</span> <span class="token number">10</span>
 <span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">nonlocal</span> count
     count <span class="token operator">+=</span> <span class="token number">1</span>
@@ -204,7 +204,7 @@ foo <span class="token operator">=</span> counter<span class="token punctuation"
 
 foo <span class="token operator">=</span> counter<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> foo<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>上例是错误的，nonlocal 声明变量 a 不在当前作用域，但是往外就是全局作用域了，所以错误。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例是错误的，nonlocal 声明变量 a 不在当前作用域，但是往外就是全局作用域了，所以错误。</p>
 <h2 id="函数的销毁" tabindex="-1"><a class="header-anchor" href="#函数的销毁" aria-hidden="true">#</a> 函数的销毁</h2>
 <p>定义一个函数就是生成一个函数对象，函数名指向的就是函数对象。</p>
 <p>可以使用 del 语句删除函数，使其引用计数减1。</p>
@@ -219,7 +219,7 @@ foo <span class="token operator">=</span> counter<span class="token punctuation"
 <li>Build-in，内置模块的命名空间，生命周期从 python 解释器启动时创建到解释器退出时消亡。例如print(open)，print 和 open 都是内置的变量</li>
 </ul>
 <p>所以一个名词的查找顺序就是LEGB</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/LEGB.png" alt="LEGB" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/LEGB.png" alt="LEGB"></p>
 <table>
 <thead>
 <tr>
@@ -251,4 +251,6 @@ foo <span class="token operator">=</span> counter<span class="token punctuation"
 </tr>
 </tbody>
 </table>
-</template>
+</div></template>
+
+

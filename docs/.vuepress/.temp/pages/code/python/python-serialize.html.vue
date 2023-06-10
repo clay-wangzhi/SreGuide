@@ -1,4 +1,4 @@
-<template><h1 id="_7-2-序列化和反序列化" tabindex="-1"><a class="header-anchor" href="#_7-2-序列化和反序列化" aria-hidden="true">#</a> 7.2 序列化和反序列化</h1>
+<template><div><h1 id="_7-2-序列化和反序列化" tabindex="-1"><a class="header-anchor" href="#_7-2-序列化和反序列化" aria-hidden="true">#</a> 7.2 序列化和反序列化</h1>
 <h2 id="csv" tabindex="-1"><a class="header-anchor" href="#csv" aria-hidden="true">#</a> csv</h2>
 <h3 id="csv-文件简介" tabindex="-1"><a class="header-anchor" href="#csv-文件简介" aria-hidden="true">#</a> csv 文件简介</h3>
 <p>参看 RFC 4180
@@ -13,7 +13,7 @@ CSV 不指定字符编码。</p>
 括起来。如果字段的值是双引号，使用两个双引号表示一个转义。</p>
 <p>表头可选，和字段列对齐就行了。</p>
 <h3 id="csv-模块" tabindex="-1"><a class="header-anchor" href="#csv-模块" aria-hidden="true">#</a> csv 模块</h3>
-<p><code>reader(csvfile, dialect='excel', **fmtparams)</code>
+<p><code v-pre>reader(csvfile, dialect='excel', **fmtparams)</code>
 返回reader对象，是一个行<strong>迭代器</strong>。</p>
 <p>默认使用excel方言，如下：</p>
 <ul>
@@ -36,11 +36,11 @@ CSV 不指定字符编码。</p>
 </ul>
 </li>
 </ul>
-<p><code>writer(csvfile, dialect='excel', **fmtparams)</code>
+<p><code v-pre>writer(csvfile, dialect='excel', **fmtparams)</code>
 返回DictWriter的实例。
 主要方法有writerow、writerows。</p>
-<p><code>writerow(iterable)</code></p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> csv
+<p><code v-pre>writerow(iterable)</code></p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> csv
 rows <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">(</span><span class="token string">'id'</span><span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'comment'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
     <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'tom'</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token string">'tom'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -63,7 +63,7 @@ rows <span class="token operator">=</span> <span class="token punctuation">[</sp
     <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">next</span><span class="token punctuation">(</span>reader<span class="token punctuation">)</span><span class="token punctuation">)</span>
     <span class="token keyword">for</span> line <span class="token keyword">in</span> reader<span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h2 id="ini-文件处理" tabindex="-1"><a class="header-anchor" href="#ini-文件处理" aria-hidden="true">#</a> ini 文件处理</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="ini-文件处理" tabindex="-1"><a class="header-anchor" href="#ini-文件处理" aria-hidden="true">#</a> ini 文件处理</h2>
 <p>略</p>
 <h2 id="序列化和反序列化" tabindex="-1"><a class="header-anchor" href="#序列化和反序列化" aria-hidden="true">#</a> 序列化和反序列化</h2>
 <h3 id="为什么要序列化" tabindex="-1"><a class="header-anchor" href="#为什么要序列化" aria-hidden="true">#</a> 为什么要序列化</h3>
@@ -108,7 +108,7 @@ rows <span class="token operator">=</span> <span class="token punctuation">[</sp
 </tr>
 </tbody>
 </table>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> pickle
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> pickle
 
 filename <span class="token operator">=</span> <span class="token string">'o:/ser'</span>
 
@@ -131,7 +131,7 @@ d <span class="token operator">=</span> <span class="token punctuation">{</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         x <span class="token operator">=</span> pickle<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">)</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h3 id="序列化应用" tabindex="-1"><a class="header-anchor" href="#序列化应用" aria-hidden="true">#</a> 序列化应用</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="序列化应用" tabindex="-1"><a class="header-anchor" href="#序列化应用" aria-hidden="true">#</a> 序列化应用</h3>
 <p>一般来说，本地序列化的情况，应用较少。大多数场景都应用在网络传输中。
 将数据序列化后通过网络传输到远程节点，远程服务器上的服务将接收到的数据反序列化后，就可以使用了。
 但是，要注意一点，远程接收端，反序列化时必须有对应的数据类型，否则就会报错。尤其是自定义
@@ -160,7 +160,7 @@ value可以是任意合法的值。</p>
 <p>有序的值的集合
 格式：[val1,...,valn]</p>
 <p>实例</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>{
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>{
   "person": [
     {
       "name": "tom",
@@ -173,7 +173,7 @@ value可以是任意合法的值。</p>
   ],
   "total": 2
 }
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="json-模块" tabindex="-1"><a class="header-anchor" href="#json-模块" aria-hidden="true">#</a> json 模块</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="json-模块" tabindex="-1"><a class="header-anchor" href="#json-模块" aria-hidden="true">#</a> json 模块</h3>
 <p><strong>python 与json</strong></p>
 <p>Python支持少量内建数据类型到Json类型的转换。</p>
 <table>
@@ -245,7 +245,7 @@ value可以是任意合法的值。</p>
 </tr>
 </tbody>
 </table>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">import</span> json
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">import</span> json
 
 d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'name'</span><span class="token punctuation">:</span><span class="token string">'Tom'</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">:</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token string">'interest'</span><span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token string">'music'</span><span class="token punctuation">,</span> <span class="token string">'movie'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'class'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'python'</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
 j <span class="token operator">=</span> json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>d<span class="token punctuation">)</span>
@@ -254,7 +254,9 @@ j <span class="token operator">=</span> json<span class="token punctuation">.</s
 d1 <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>j<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>d1<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token punctuation">(</span>d1<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>一般 json 编码的数据很少落地，数据都是通过网络传输。传输的时候，要考虑压缩它。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>一般 json 编码的数据很少落地，数据都是通过网络传输。传输的时候，要考虑压缩它。</p>
 <p>本质上来说它就是个文本，就是个字符串。</p>
 <p>json 很简单，几乎编程语言都支持 json，所以应用范围十分广泛。</p>
-</template>
+</div></template>
+
+

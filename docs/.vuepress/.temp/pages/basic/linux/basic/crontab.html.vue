@@ -1,32 +1,32 @@
-<template><h1 id="计划任务" tabindex="-1"><a class="header-anchor" href="#计划任务" aria-hidden="true">#</a> 计划任务</h1>
+<template><div><h1 id="计划任务" tabindex="-1"><a class="header-anchor" href="#计划任务" aria-hidden="true">#</a> 计划任务</h1>
 <p><strong>crontab命令</strong>被用来提交和管理用户的需要周期性执行的任务，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务工具，并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。</p>
 <h2 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h2>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>crontab(选项)(参数)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>crontab(选项)(参数)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="选项" tabindex="-1"><a class="header-anchor" href="#选项" aria-hidden="true">#</a> 选项</h2>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>-e：编辑该用户的计时器设置;-l：列出该用户的计时器设置;-r：删除该用户的计时器设置;-u&lt;用户名称>：指定要设定计时器的用户名称;-i：在删除用户的crontab文件时给确认提示。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>-e：编辑该用户的计时器设置;-l：列出该用户的计时器设置;-r：删除该用户的计时器设置;-u&lt;用户名称>：指定要设定计时器的用户名称;-i：在删除用户的crontab文件时给确认提示。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h2>
 <p>crontab文件：指定包含待执行任务的crontab文件。</p>
 <h2 id="知识扩展" tabindex="-1"><a class="header-anchor" href="#知识扩展" aria-hidden="true">#</a> 知识扩展</h2>
 <p>Linux下的任务调度分为两类：系统任务调度和用户任务调度</p>
-<p>系统任务调度：系统周期性所要执行的工作，比如写缓存数据到硬盘、日志清理等。在<code>/etc</code>目录下有一个crontab文件，这个就是系统任务调度的配置文件。</p>
-<p><code>/etc/crontab</code>文件包括下面几行：</p>
+<p>系统任务调度：系统周期性所要执行的工作，比如写缓存数据到硬盘、日志清理等。在<code v-pre>/etc</code>目录下有一个crontab文件，这个就是系统任务调度的配置文件。</p>
+<p><code v-pre>/etc/crontab</code>文件包括下面几行：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>SHELL=/bin/bashPATH=/sbin:/bin:/usr/sbin:/usr/binMAILTO=""HOME=/# run-parts51 * * * * root run-parts /etc/cron.hourly24 7 * * * root run-parts /etc/cron.daily22 4 * * 0 root run-parts /etc/cron.weekly42 4 1 * * root run-parts /etc/cron.monthly
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>前四行是用来配置crond任务运行的环境变量，第一行SHELL变量指定了系统要使用哪个shell，这里是bash，第二行PATH变量指定了系统执行命令的路径，第三行MAILTO变量指定了crond的任务执行信息将通过电子邮件发送给root用户，如果MAILTO变量的值为空，则表示不发送任务执行信息给用户，第四行的HOME变量指定了在执行命令或者脚本时使用的主目录。</p>
-<p>**用户任务调度：**用户定期要执行的工作，比如用户数据备份、定时邮件提醒等。用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab文件都被保存在<code>/var/spool/cron</code>目录中。其文件名与用户名一致，使用者权限文件如下：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>SHELL=/bin/bashPATH=/sbin:/bin:/usr/sbin:/usr/binMAILTO=""HOME=/# run-parts51 * * * * root run-parts /etc/cron.hourly24 7 * * * root run-parts /etc/cron.daily22 4 * * 0 root run-parts /etc/cron.weekly42 4 1 * * root run-parts /etc/cron.monthly
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>前四行是用来配置crond任务运行的环境变量，第一行SHELL变量指定了系统要使用哪个shell，这里是bash，第二行PATH变量指定了系统执行命令的路径，第三行MAILTO变量指定了crond的任务执行信息将通过电子邮件发送给root用户，如果MAILTO变量的值为空，则表示不发送任务执行信息给用户，第四行的HOME变量指定了在执行命令或者脚本时使用的主目录。</p>
+<p>**用户任务调度：**用户定期要执行的工作，比如用户数据备份、定时邮件提醒等。用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab文件都被保存在<code v-pre>/var/spool/cron</code>目录中。其文件名与用户名一致，使用者权限文件如下：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>/etc/cron.deny     该文件中所列用户不允许使用crontab命令/etc/cron.allow    该文件中所列用户允许使用crontab命令/var/spool/cron/   所有用户crontab文件存放的目录,以用户名命名
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>/etc/cron.deny     该文件中所列用户不允许使用crontab命令/etc/cron.allow    该文件中所列用户允许使用crontab命令/var/spool/cron/   所有用户crontab文件存放的目录,以用户名命名
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>minute   hour   day   month   week   command     顺序：分 时 日 月 周
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>minute： 表示分钟，可以是从0到59之间的任何整数。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>minute   hour   day   month   week   command     顺序：分 时 日 月 周
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>minute： 表示分钟，可以是从0到59之间的任何整数。</p>
 <p>hour：表示小时，可以是从0到23之间的任何整数。</p>
 <p>day：表示日期，可以是从1到31之间的任何整数。</p>
 <p>month：表示月份，可以是从1到12之间的任何整数。</p>
 <p>week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</p>
 <p>command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。</p>
-<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/crontab1.png" alt="img" loading="lazy"></p>
+<p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/crontab1.png" alt="img"></p>
 <p>在以上各个字段中，还可以使用以下特殊字符：</p>
 <p>星号（*）：代表所有可能的值，例如month字段如果是星号，则表示在满足其它字段的制约条件后每月都执行该命令操作。</p>
 <p>逗号（,）：可以用逗号隔开的值指定一个列表范围，例如，“1,2,5,7,8,9”</p>
@@ -34,17 +34,17 @@
 <p>正斜线（/）：可以用正斜线指定时间的间隔频率，例如“0-23/2”表示每两小时执行一次。同时正斜线可以和星号一起使用，例如*/10，如果用在minute字段，表示每十分钟执行一次。</p>
 <p>查看crontab服务状态：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>service crond status
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>手动启动crontab服务：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>service crond status
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>手动启动crontab服务：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>service crond start
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>查看crontab服务是否已设置为开机启动，执行命令：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>service crond start
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>查看crontab服务是否已设置为开机启动，执行命令：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>ntsysv
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>加入开机自动启动：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>ntsysv
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>加入开机自动启动：</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chkconfig –level 35 crond on
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h2 id="常用方法" tabindex="-1"><a class="header-anchor" href="#常用方法" aria-hidden="true">#</a> 常用方法</h2>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chkconfig –level 35 crond on
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="常用方法" tabindex="-1"><a class="header-anchor" href="#常用方法" aria-hidden="true">#</a> 常用方法</h2>
 <p>1). 创建一个新的crontab文件</p>
 <p>在考虑向cron进程提交一个crontab文件之前，首先要做的一件事情就是设置环境变量EDITOR。cron进程根据它来确定使用哪个编辑器编辑crontab文件。9 9 %的UNIX和LINUX用户都使用vi，如果你也是这样，那么你就编辑$ HOME目录下的. profile文件，在其中加入这样一行：</p>
 <p>EDITOR=vi; export EDITOR</p>
@@ -60,7 +60,7 @@
 <p>2). 列出crontab文件</p>
 <p>为了列出crontab文件，可以用：</p>
 <p>$ crontab -l</p>
-<p>0,15,30,45,18-06 * /bin/echo <code>date</code> &gt; dev/tty1</p>
+<p>0,15,30,45,18-06 * /bin/echo <code v-pre>date</code> &gt; dev/tty1</p>
 <p>你将会看到和上面类似的内容。可以使用这种方法在$ H O M E目录中对crontab文件做一备份：</p>
 <p>$ crontab -l &gt; $HOME/mycron</p>
 <p>这样，一旦不小心误删了crontab文件，可以用上一节所讲述的方法迅速恢复。</p>
@@ -69,11 +69,11 @@
 <p>$ crontab -e</p>
 <p>可以像使用v i编辑其他任何文件那样修改crontab文件并退出。如果修改了某些条目或添加了新的条目，那么在保存该文件时， c r o n会对其进行必要的完整性检查。如果其中的某个域出现了超出允许范围的值，它会提示你。</p>
 <p>我们在编辑crontab文件时，没准会加入新的条目。例如，加入下面的一条：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># DT:delete core files,at 3.30am on 1,7,14,21,26,26 days of each month
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>30 3 1,7,14,21,26 /bin/find -name “core’ -exec rm {} ;</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># DT:delete core files,at 3.30am on 1,7,14,21,26,26 days of each month
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>30 3 1,7,14,21,26 /bin/find -name “core’ -exec rm {} ;</p>
 <p>现在保存并退出。最好在crontab文件的每一个条目之上加入一条注释，这样就可以知道它的功能、运行时间，更为重要的是，知道这是哪位用户的作业。</p>
 <p>现在让我们使用前面讲过的crontab -l命令列出它的全部信息：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code> $ crontab -l 
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code> $ crontab -l 
 
  # (crondave installed on Tue May 4 13:07:43 1999)
 
@@ -84,10 +84,10 @@
  # DT:delete core files,at 3.30am on 1,7,14,21,26,26 days of each month
 
  30 3 1,7,14,21,26 * * /bin/find -name "core' -exec rm {} \;
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>4). 删除crontab文件</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>4). 删除crontab文件</p>
 <p>要删除crontab文件，可以用：</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>$ crontab -r
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>5). 恢复丢失的crontab文件</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>$ crontab -r
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>5). 恢复丢失的crontab文件</p>
 <p>如果不小心误删了crontab文件，假设你在自己的$ H O M E目录下还有一个备份，那么可以将其拷贝到/var/spool/cron/\，其中\是用户名。如果由于权限问题无法完成拷贝，可以用：</p>
 <p>$ crontab \</p>
 <p>其中，\是你在$ H O M E目录中副本的文件名。</p>
@@ -96,50 +96,50 @@
 <h2 id="常用实例" tabindex="-1"><a class="header-anchor" href="#常用实例" aria-hidden="true">#</a> 常用实例</h2>
 <p>1）每1分钟执行一次command</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>* * * * * command
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>2）每小时的第3和第15分钟执行</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>* * * * * command
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>2）每小时的第3和第15分钟执行</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>3,15 * * * * command
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>3）在上午8点到11点的第3和第15分钟执行</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>3,15 * * * * command
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>3）在上午8点到11点的第3和第15分钟执行</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>3,15 8-11 * * * command
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>4）每隔两天的上午8点到11点的第3和第15分钟执行</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>3,15 8-11 * * * command
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>4）每隔两天的上午8点到11点的第3和第15分钟执行</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>3,15 8-11 */2 * * command
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>5）每个星期一的上午8点到11点的第3和第15分钟执行</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>3,15 8-11 */2 * * command
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>5）每个星期一的上午8点到11点的第3和第15分钟执行</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>3,15 8-11 * * 1 command
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>6）每晚的21:30重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>3,15 8-11 * * 1 command
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>6）每晚的21:30重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>30 21 * * * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>7）每月1、10、22日的4 : 45重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>30 21 * * * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>7）每月1、10、22日的4 : 45重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>45 4 1,10,22 * * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>8）每周六、周日的1 : 10重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>45 4 1,10,22 * * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>8）每周六、周日的1 : 10重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>10 1 * * 6,0 /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>9）每天18 : 00至23 : 00之间每隔30分钟重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>10 1 * * 6,0 /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>9）每天18 : 00至23 : 00之间每隔30分钟重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0,30 18-23 * * * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>10）每星期六的晚上11 : 00 pm重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0,30 18-23 * * * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>10）每星期六的晚上11 : 00 pm重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0 23 * * 6 /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>11）每一小时重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0 23 * * 6 /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>11）每一小时重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0 */1 * * * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>12）晚上11点到早上7点之间，每隔一小时重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0 */1 * * * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>12）晚上11点到早上7点之间，每隔一小时重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0 23-7/1 * * * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>13）每月的4号与每周一到周三的11点重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0 23-7/1 * * * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>13）每月的4号与每周一到周三的11点重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0 11 4 * mon-wed /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>14）一月一号的4点重启smb</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0 11 4 * mon-wed /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>14）一月一号的4点重启smb</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>0 4 1 jan * /etc/init.d/smb restart
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>15）每小时执行/etc/cron.hourly目录内的脚本</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>0 4 1 jan * /etc/init.d/smb restart
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>15）每小时执行/etc/cron.hourly目录内的脚本</p>
 <p>复制</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>01   *   *   *   *     root run-parts /etc/cron.hourly
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>说明：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>01   *   *   *   *     root run-parts /etc/cron.hourly
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>说明：</p>
 <p>run-parts这个参数了，如果去掉这个参数的话，后面就可以写要运行的某个脚本名，而不是目录名了</p>
 <h2 id="使用注意事项" tabindex="-1"><a class="header-anchor" href="#使用注意事项" aria-hidden="true">#</a> 使用注意事项</h2>
 <p>有时我们创建了一个crontab，但是这个任务却无法自动执行，而手动执行这个任务却没有问题，这种情况一般是由于在crontab文件中没有配置环境变量引起的。</p>
@@ -173,4 +173,6 @@
 <p>参考链接：</p>
 <p>http://www.cnblogs.com/peida/archive/2013/01/08/2850483.html</p>
 <p>http://man.linuxde.net/crontab</p>
-</template>
+</div></template>
+
+

@@ -1,19 +1,21 @@
-<template><h1 id="todo" tabindex="-1"><a class="header-anchor" href="#todo" aria-hidden="true">#</a> Todo</h1>
+<template><div><h1 id="todo" tabindex="-1"><a class="header-anchor" href="#todo" aria-hidden="true">#</a> Todo</h1>
 <h2 id="污点与容忍" tabindex="-1"><a class="header-anchor" href="#污点与容忍" aria-hidden="true">#</a> 污点与容忍</h2>
 <h3 id="_3、daemonset-调度问题" tabindex="-1"><a class="header-anchor" href="#_3、daemonset-调度问题" aria-hidden="true">#</a> 3、Daemonset 调度问题</h3>
 <blockquote>
-<p>⚠️ 系统会自动添加 <code>node.kubernetes.io/unschedulable：NoSchedule</code> 容忍度到 DaemonSet Pods。在调度 DaemonSet Pod 时，默认调度器会忽略 <code>unschedulable</code> 节点。</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 也就是说会自动忽略下面这个命令，禁止调度的节点</span>
+<p>⚠️ 系统会自动添加 <code v-pre>node.kubernetes.io/unschedulable：NoSchedule</code> 容忍度到 DaemonSet Pods。在调度 DaemonSet Pod 时，默认调度器会忽略 <code v-pre>unschedulable</code> 节点。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># 也就是说会自动忽略下面这个命令，禁止调度的节点</span>
 kubectl cordon xxx
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div></blockquote>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></blockquote>
 <h3 id="_4、设置允许pod调度到master节点" tabindex="-1"><a class="header-anchor" href="#_4、设置允许pod调度到master节点" aria-hidden="true">#</a> 4、设置允许Pod调度到Master节点</h3>
 <p>查看污点</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl describe node st-kubernetes-master-3 | grep  Taints</span>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl describe node st-kubernetes-master-3 | grep  Taints</span>
 Taints:             node-role.kubernetes.io/master<span class="token operator">=</span>true:NoSchedule
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>设置允许Pod调度到Master节点</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master-</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>设置允许Pod调度到Master节点</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master-</span>
 node/st-kubernetes-master-3 untainted
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>禁止pod调度到master节点</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master=true:NoSchedule</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>禁止pod调度到master节点</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># kubectl taint nodes st-kubernetes-master-3 node-role.kubernetes.io/master=true:NoSchedule</span>
 node/st-kubernetes-master-3 tainted
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

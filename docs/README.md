@@ -21,7 +21,9 @@ footer: '<a href="http://beian.miit.gov.cn/" target="_blank">冀ICP备2021007336
 ## SRE RoadMap
 
 ```mermaid
+
 flowchart TB
+
 	SRE(SRE RoadMap) === A(学习一门语言) ==== C(linux 运维) ==== D(网络/安全/协议) ==== E(管理一些服务) ==== F(基础设施即代码) ====  G(学习一些 CI/CD 工具) ==== H(学习一些监控工具) ==== I(Keep Learning)
 
   A -.- Go
@@ -103,6 +105,6 @@ flowchart TB
 	end
 	
 	class SRE h1;class A h1;class B h1;class C h1;class D h1;class E h1;class F h1;class G h1;class H h1;class I h1;
-	classDef h1 fill:#FFA;
+	classDef h1 fill:#4979FF,color:#fff
 ```
 

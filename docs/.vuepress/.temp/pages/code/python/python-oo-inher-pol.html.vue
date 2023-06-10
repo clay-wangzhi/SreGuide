@@ -1,11 +1,11 @@
-<template><h1 id="_9-3-继承、多态和mixin" tabindex="-1"><a class="header-anchor" href="#_9-3-继承、多态和mixin" aria-hidden="true">#</a> 9.3 继承、多态和Mixin</h1>
+<template><div><h1 id="_9-3-继承、多态和mixin" tabindex="-1"><a class="header-anchor" href="#_9-3-继承、多态和mixin" aria-hidden="true">#</a> 9.3 继承、多态和Mixin</h1>
 <h2 id="继承基本概念" tabindex="-1"><a class="header-anchor" href="#继承基本概念" aria-hidden="true">#</a> 继承基本概念</h2>
 <p>面向对象三要素之一，继承 Inheritance</p>
 <p>人类和猫类都继承自动物类。
 个体继承自父母，继承了父母的一部分特征，但也可以有自己的个性。
 在面向对象的世界中，从父类继承，就可以直接拥有父类的属性和方法，这样可减少代码冗余、多复用。子类也可以定义自己的属性和方法。</p>
 <p>看一个不用继承的例子</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">shout</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Animal shouts'</span><span class="token punctuation">)</span>
 
@@ -18,9 +18,9 @@ a<span class="token punctuation">.</span>shout<span class="token punctuation">(<
 
 c <span class="token operator">=</span> Cat<span class="token punctuation">(</span><span class="token punctuation">)</span>
 c<span class="token punctuation">.</span>shout<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>上面的2个类虽然有关系，但是定义时并没有建立这种关系，而是各自完成定义。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面的2个类虽然有关系，但是定义时并没有建立这种关系，而是各自完成定义。
 动物类和猫类都会叫，但是它们的叫法有区别，所以分别定义。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>_name <span class="token operator">=</span> name
 
@@ -47,7 +47,7 @@ cat<span class="token punctuation">.</span>shout<span class="token punctuation">
 dog <span class="token operator">=</span> Dog<span class="token punctuation">(</span><span class="token string">'ahuang'</span><span class="token punctuation">)</span>
 dog<span class="token punctuation">.</span>shout<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>上例可以看出，通过继承，猫类、狗类不用写代码，直接继承了父类的属性和方法。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例可以看出，通过继承，猫类、狗类不用写代码，直接继承了父类的属性和方法。</p>
 <p><strong>继承</strong>
 class Cat(Animal) 这种形式就是从父类继承，括号中写上继承的类的列表。
 继承可以让子类从父类获取特征（属性和方法）</p>
@@ -57,15 +57,15 @@ Animal就是Cat的父类，也称为基类、超类。</p>
 Cat就是Animal的子类，也称为派生类。</p>
 <h2 id="类继承的定义" tabindex="-1"><a class="header-anchor" href="#类继承的定义" aria-hidden="true">#</a> 类继承的定义</h2>
 <p>格式如下</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> 子类名<span class="token punctuation">(</span>基类<span class="token number">1</span><span class="token punctuation">[</span><span class="token punctuation">,</span>基类<span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> 子类名<span class="token punctuation">(</span>基类<span class="token number">1</span><span class="token punctuation">[</span><span class="token punctuation">,</span>基类<span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	语句块
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>如果类定义时，没有基类列表，等同于继承自 object 。在 Python3 中，object 类是所有对象的根基类。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>如果类定义时，没有基类列表，等同于继承自 object 。在 Python3 中，object 类是所有对象的根基类。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
 	<span class="token keyword">pass</span>
 <span class="token comment"># 等价于</span>
 <span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 	<span class="token keyword">pass</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>注意，上例在 Python2 中，两种写法是不同的。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意，上例在 Python2 中，两种写法是不同的。</p>
 <p>Python 支持多继承，继承也可以多级。</p>
 <p>查看继承的特殊属性和方法有</p>
 <table>
@@ -98,7 +98,7 @@ Cat就是Animal的子类，也称为派生类。</p>
 </tr>
 </tbody>
 </table>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">pass</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span>A<span class="token punctuation">.</span>__base__<span class="token punctuation">)</span>
@@ -108,12 +108,12 @@ Cat就是Animal的子类，也称为派生类。</p>
 <span class="token keyword">print</span><span class="token punctuation">(</span>A<span class="token punctuation">.</span>__mro__<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">.</span>mro<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h2 id="python-不通版本的类" tabindex="-1"><a class="header-anchor" href="#python-不通版本的类" aria-hidden="true">#</a> Python 不通版本的类</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="python-不通版本的类" tabindex="-1"><a class="header-anchor" href="#python-不通版本的类" aria-hidden="true">#</a> Python 不通版本的类</h2>
 <p>Python2.2之前类是没有共同的祖先的，之后，引入object类，它是所有类的共同祖先类 object。
 Python2 中为了兼容，分为古典类（旧式类）和新式类。
 Python3 中全部都是新式类。
 新式类都是继承自 object的，新式类可以使用super。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token comment"># 以下代码在Python2.x中运行</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token comment"># 以下代码在Python2.x中运行</span>
 <span class="token comment"># 古典类（旧式类）</span>
 <span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span> <span class="token keyword">pass</span>
 <span class="token comment"># 新式类</span>
@@ -130,8 +130,8 @@ a <span class="token operator">=</span> A<span class="token punctuation">(</span
 b <span class="token operator">=</span> B<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>__class__<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">type</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="继承中的访问控制" tabindex="-1"><a class="header-anchor" href="#继承中的访问控制" aria-hidden="true">#</a> 继承中的访问控制</h2>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="继承中的访问控制" tabindex="-1"><a class="header-anchor" href="#继承中的访问控制" aria-hidden="true">#</a> 继承中的访问控制</h2>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
     __a <span class="token operator">=</span> <span class="token number">10</span>
     _b <span class="token operator">=</span> <span class="token number">20</span>
     c <span class="token operator">=</span> <span class="token number">30</span>
@@ -164,17 +164,17 @@ c<span class="token punctuation">.</span>_Animal__showb<span class="token punctu
 <span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>_Animal__a<span class="token punctuation">,</span> c<span class="token punctuation">.</span>_Cat__a<span class="token punctuation">)</span> <span class="token comment"># 11 100</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span> <span class="token comment">#</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__dict__<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br></div></div><p>从父类继承，自己没有的，就可以到父类中找。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>从父类继承，自己没有的，就可以到父类中找。</p>
 <p>私有的都是不可以访问的，但是本质上依然是改了名称放在这个属性所在类或实例的__dict__中。</p>
 <p>知道这个新名称就可以直接找到这个隐藏的变量，这是个黑魔法技巧，慎用。</p>
 <p><strong>总结</strong>
 继承时，公有成员，子类和实例都可以随意访问；私有成员被隐藏，子类和实例不可直接访问，但私有变量所在的类内的方法中可以访问这个私有变量。</p>
 <p>Python通过自己一套实现，实现和其它语言一样的面向对象的继承机制。</p>
 <p><strong>实例属性查找顺序</strong></p>
-<p><code>实例的__dict__</code> → <code>类__dict__</code> →如果有继承→ <code>父类 __dict__</code>
+<p><code v-pre>实例的__dict__</code> → <code v-pre>类__dict__</code> →如果有继承→ <code v-pre>父类 __dict__</code>
 如果搜索这些地方后没有找到就会抛异常，先找到就立即返回了。</p>
 <h2 id="方法的重写、覆盖override" tabindex="-1"><a class="header-anchor" href="#方法的重写、覆盖override" aria-hidden="true">#</a> 方法的重写、覆盖override</h2>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">shout</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Animal shouts'</span><span class="token punctuation">)</span>
 
@@ -193,9 +193,9 @@ c<span class="token punctuation">.</span>shout<span class="token punctuation">(<
 <span class="token keyword">print</span><span class="token punctuation">(</span>Cat<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
 <span class="token comment"># Animal shouts</span>
 <span class="token comment"># miao</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>Cat中能否覆盖自己的方法吗？
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Cat中能否覆盖自己的方法吗？
 Cat中能否对父类方法做个增强，不需要完全重写？</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">shout</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Animal shout'</span><span class="token punctuation">)</span>
         
@@ -219,11 +219,11 @@ c<span class="token punctuation">.</span>shout<span class="token punctuation">(<
 <span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>Animal<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>Cat<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>super()可以访问到父类的类属性。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>super()可以访问到父类的类属性。
 静态方法和类方法，是特殊的方法，也是类属性，所以访问方式一样。</p>
 <h2 id="继承时使用初始化" tabindex="-1"><a class="header-anchor" href="#继承时使用初始化" aria-hidden="true">#</a> 继承时使用初始化</h2>
 <p>先看下面一段代码，有没有问题</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>a <span class="token operator">=</span> a
 
@@ -239,12 +239,12 @@ f <span class="token operator">=</span> B<span class="token punctuation">(</span
 <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__bases__<span class="token punctuation">)</span>
 f<span class="token punctuation">.</span>printv<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>上例代码可知：</p>
-<p>如果类B定义时声明继承自类A，则在类B中<code>__bases__</code>中是可以看到类A。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上例代码可知：</p>
+<p>如果类B定义时声明继承自类A，则在类B中<code v-pre>__bases__</code>中是可以看到类A。
 但是这和是否调用类A的构造方法是两回事。</p>
 <p>如果B中调用了父类A的构造方法，就可以拥有父类的属性了。如何理解这一句话呢？
-观察B的实例 f 的<code>__dict__</code>中的属性。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+观察B的实例 f 的<code v-pre>__dict__</code>中的属性。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> a<span class="token punctuation">,</span> d<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>a <span class="token operator">=</span> a
         self<span class="token punctuation">.</span>__d <span class="token operator">=</span> d
@@ -262,10 +262,10 @@ f <span class="token operator">=</span> B<span class="token punctuation">(</span
 <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__bases__<span class="token punctuation">)</span>
 f<span class="token punctuation">.</span>printv<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>作为好的习惯，如果父类定义了<code>__init__</code>方法，你就该在子类的<code>__init__</code>中调用它。
-那么，子类什么时候自动调用父类的<code>__init__</code>方法呢？
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>作为好的习惯，如果父类定义了<code v-pre>__init__</code>方法，你就该在子类的<code v-pre>__init__</code>中调用它。
+那么，子类什么时候自动调用父类的<code v-pre>__init__</code>方法呢？
 示例1</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>a1 <span class="token operator">=</span> <span class="token string">'a1'</span>
         self<span class="token punctuation">.</span>__a2 <span class="token operator">=</span> <span class="token string">'a2'</span>
@@ -274,9 +274,9 @@ f<span class="token punctuation">.</span>printv<span class="token punctuation">(
     <span class="token keyword">pass</span>
 b <span class="token operator">=</span> B<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>B实例的初始化会自动调用基类A的<code>__init__</code>方法</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>B实例的初始化会自动调用基类A的<code v-pre>__init__</code>方法</p>
 <p>示例2</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>a1 <span class="token operator">=</span> <span class="token string">'a1'</span>
         self<span class="token punctuation">.</span>__a2 <span class="token operator">=</span> <span class="token string">'a2'</span>
@@ -289,8 +289,8 @@ b <span class="token operator">=</span> B<span class="token punctuation">(</span
         
 b <span class="token operator">=</span> B<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>B实例一旦定义了初始化<code>__init__</code>方法，就不会自动调用父类的初始化<code>__init__</code>方法，需要手动调用。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>B实例一旦定义了初始化<code v-pre>__init__</code>方法，就不会自动调用父类的初始化<code v-pre>__init__</code>方法，需要手动调用。</p>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>a1 <span class="token operator">=</span> <span class="token string">'a1'</span>
         self<span class="token punctuation">.</span>__a2 <span class="token operator">=</span> <span class="token string">'a2'</span>
@@ -306,11 +306,11 @@ b <span class="token operator">=</span> B<span class="token punctuation">(</span
         
 b <span class="token operator">=</span> B<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span> <span class="token comment"># 注意__a2</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p><strong>总结</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>总结</strong></p>
 <ul>
-<li>如果在子类中覆盖了父类的<code>__init__</code>方法，那么在子类的<code>__init__</code>方法中，应该显式调用父类的<code>__init__</code>方法</li>
-<li>Python中并不限制在子类的<code>__init__</code>方法中调用父类的<code>__init__</code>方法的位置，但一般都应该尽早的调用</li>
-<li>推荐使用 <code>super().__init__() </code>或<code> super(B, self).__init__()</code></li>
+<li>如果在子类中覆盖了父类的<code v-pre>__init__</code>方法，那么在子类的<code v-pre>__init__</code>方法中，应该显式调用父类的<code v-pre>__init__</code>方法</li>
+<li>Python中并不限制在子类的<code v-pre>__init__</code>方法中调用父类的<code v-pre>__init__</code>方法的位置，但一般都应该尽早的调用</li>
+<li>推荐使用 <code v-pre>super().__init__() </code>或<code v-pre> super(B, self).__init__()</code></li>
 </ul>
 <h2 id="单继承" tabindex="-1"><a class="header-anchor" href="#单继承" aria-hidden="true">#</a> 单继承</h2>
 <p>上面的例子中，类的继承列表中只有一个类，这种继承称为单一继承。</p>
@@ -330,9 +330,9 @@ b <span class="token operator">=</span> B<span class="token punctuation">(</span
 <p>解决方案
 实现多继承的语言，要解决二义性，深度优先或者广度优先。</p>
 <h3 id="python多继承实现" tabindex="-1"><a class="header-anchor" href="#python多继承实现" aria-hidden="true">#</a> Python多继承实现</h3>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">className</span><span class="token punctuation">(</span>基类<span class="token number">1</span>， 基类<span class="token number">2</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">className</span><span class="token punctuation">(</span>基类<span class="token number">1</span>， 基类<span class="token number">2</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     类体
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/inher.png" alt="inher" loading="lazy"></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/inher.png" alt="inher"></p>
 <p>左图是多继承（菱形继承），右图是单一继承</p>
 <p>多继承带来路径选择问题，究竟继承哪个父类的特征呢</p>
 <p>Python使用 MRO（method resolution order方法解析顺序）解决基类搜索顺序问题。</p>
@@ -368,7 +368,7 @@ Word、Pdf类是Document的子类。</p>
 <p>思路：
 1、在Document中提供print方法
 假设已经有了下面3个类</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>content <span class="token operator">=</span> content
     <span class="token keyword">def</span> <span class="token function">print</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 抽象方法</span>
@@ -376,12 +376,12 @@ Word、Pdf类是Document的子类。</p>
     
 <span class="token keyword">class</span> <span class="token class-name">Word</span><span class="token punctuation">(</span>Document<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">pass</span> <span class="token comment"># 其他功能略去</span>
 <span class="token keyword">class</span> <span class="token class-name">Pdf</span><span class="token punctuation">(</span>Document<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">pass</span> <span class="token comment"># 其他功能略去</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>基类提供的方法可以不具体实现，因为它未必适合子类的打印，子类中需要覆盖重写。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>基类提供的方法可以不具体实现，因为它未必适合子类的打印，子类中需要覆盖重写。</p>
 <p>基类中只定义，不实现的方法，称为“抽象方法”。在Python中，如果采用这种方式定义的抽象方法，子类可以不实现，直到子类使用该方法的时候才报错。</p>
 <p>print算是一种能力 —— 打印功能，不是所有的Document的子类都需要的，所有，从这个角度出发，上面的基类Document设计有点问题。</p>
 <p>2、需要打印的子类上增加</p>
 <p>如果在现有子类Word或Pdf上直接增加，虽然可以，却违反了OCP的原则，所以可以继承后增加打印功能。</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span> <span class="token comment"># 第三方库，不允许修改</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span> <span class="token comment"># 第三方库，不允许修改</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>content <span class="token operator">=</span> content
 <span class="token keyword">class</span> <span class="token class-name">Word</span><span class="token punctuation">(</span>Document<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">pass</span> <span class="token comment"># 第三方库，不允许修改</span>
@@ -395,7 +395,7 @@ Word、Pdf类是Document的子类。</p>
 <span class="token keyword">print</span><span class="token punctuation">(</span>PrintableWord<span class="token punctuation">.</span>mro<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 pw <span class="token operator">=</span> PrintableWord<span class="token punctuation">(</span><span class="token string">'test string'</span><span class="token punctuation">)</span>
 pw<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>看似不错，如果需要还要提供其他能力，如何继承？</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>看似不错，如果需要还要提供其他能力，如何继承？</p>
 <p>例如，如果该类用于网络，还应具备序列化的能力，在类上就应该实现序列化。</p>
 <p>可序列化还可能分为使用pickle、json、messagepack等。</p>
 <p>这个时候发现，为了</p>
@@ -403,7 +403,7 @@ pw<span class="token punctuation">.</span><span class="token keyword">print</spa
 <p>功能太多，A类需要某几样功能，B类需要另几样功能，它们需要的是多个功能的自由组合，继承实现很繁琐。</p>
 <p>3、Mixin</p>
 <p>先看代码</p>
-<div class="language-python ext-py line-numbers-mode"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span> <span class="token comment"># 第三方库，不允许修改</span>
+<div class="language-python line-numbers-mode" data-ext="py"><pre v-pre class="language-python"><code><span class="token keyword">class</span> <span class="token class-name">Document</span><span class="token punctuation">:</span> <span class="token comment"># 第三方库，不允许修改</span>
     <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">:</span>
         self<span class="token punctuation">.</span>content <span class="token operator">=</span> content
 <span class="token keyword">class</span> <span class="token class-name">Word</span><span class="token punctuation">(</span>Document<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">pass</span> <span class="token comment"># 第三方库，不允许修改</span>
@@ -415,7 +415,7 @@ pw<span class="token punctuation">.</span><span class="token keyword">print</spa
 
 <span class="token keyword">print</span><span class="token punctuation">(</span>PrintableWord<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>PrintableWord<span class="token punctuation">.</span>mro<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>Mixin就是其它类混合进来，同时带来了类的属性和方法。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Mixin就是其它类混合进来，同时带来了类的属性和方法。</p>
 <p><strong>Mixin类</strong></p>
 <p>Mixin 本质上就是多继承实现的。</p>
 <p>Mixin 体现的是一种组合的设计模式。</p>
@@ -423,11 +423,13 @@ pw<span class="token punctuation">.</span><span class="token keyword">print</spa
 <p>从设计模式的角度来说，多组合，少继承。</p>
 <p>Mixin 类的使用原则</p>
 <ul>
-<li>Mixin类中不应该显式的出现<code>__init__</code>初始化方法</li>
+<li>Mixin类中不应该显式的出现<code v-pre>__init__</code>初始化方法</li>
 <li>Mixin 类通常不能独立工作，因为它是准备混入别的类中的部分功能实现</li>
 <li>Mixin 类是类，也可以继承，其祖先类也应是 Mixin 类</li>
 </ul>
-<p>使用时，<strong>Mixin 类通常在继承列表的第一个位置</strong>，例如 <code>class PrintableWord(PrintableMixin, Word): pass</code></p>
+<p>使用时，<strong>Mixin 类通常在继承列表的第一个位置</strong>，例如 <code v-pre>class PrintableWord(PrintableMixin, Word): pass</code></p>
 <p>Mixin 类和装饰器，都可以实现对类的增强，这两种方式都可以使用，看个人喜好。</p>
 <p>如果还需要继承就得使用 Mixin 类的方式。</p>
-</template>
+</div></template>
+
+

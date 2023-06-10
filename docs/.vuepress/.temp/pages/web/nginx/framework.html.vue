@@ -1,8 +1,8 @@
-<template><h1 id="_2-nginx架构基础" tabindex="-1"><a class="header-anchor" href="#_2-nginx架构基础" aria-hidden="true">#</a> 2. nginx架构基础</h1>
+<template><div><h1 id="_2-nginx架构基础" tabindex="-1"><a class="header-anchor" href="#_2-nginx架构基础" aria-hidden="true">#</a> 2. nginx架构基础</h1>
 <h2 id="_1-nginx请求处理流程" tabindex="-1"><a class="header-anchor" href="#_1-nginx请求处理流程" aria-hidden="true">#</a> 1 Nginx请求处理流程</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164648893.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164648893.png" alt=""></p>
 <h2 id="_2-nginx进程结构" tabindex="-1"><a class="header-anchor" href="#_2-nginx进程结构" aria-hidden="true">#</a> 2 Nginx进程结构</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164732720.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310164732720.png" alt=""></p>
 <h2 id="_3-nginx进程管理-信号" tabindex="-1"><a class="header-anchor" href="#_3-nginx进程管理-信号" aria-hidden="true">#</a> 3 Nginx进程管理：信号</h2>
 <h3 id="_3-1-master进程" tabindex="-1"><a class="header-anchor" href="#_3-1-master进程" aria-hidden="true">#</a> 3.1 Master进程</h3>
 <ul>
@@ -48,7 +48,7 @@
 <p>4）master进程用新配置启动新的worker子进程</p>
 <p>5）master进程向老worker子进程发送QUIT信号</p>
 <p>6）老worker进程关闭监听句柄，处理完当前连接后结束进程</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310170519124.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310170519124.png" alt=""></p>
 <h2 id="_5-热升级流程" tabindex="-1"><a class="header-anchor" href="#_5-热升级流程" aria-hidden="true">#</a> 5 热升级流程</h2>
 <p>1）将旧Ningx文件换成新Nginx文件（注意备份）</p>
 <p>2）向master进程发送USR2信号</p>
@@ -56,9 +56,9 @@
 <p>4）master进程用新Nginx文件启动新master进程</p>
 <p>5）向老master进程发送QUIT信号，关闭老master</p>
 <p>6）回滚：向老master发送HUP，向新master发送QUIT</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310171424958.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310171424958.png" alt=""></p>
 <h2 id="_6-worker进程-优雅的关闭" tabindex="-1"><a class="header-anchor" href="#_6-worker进程-优雅的关闭" aria-hidden="true">#</a> 6 worker进程：优雅的关闭</h2>
-<p>1）设置定时器<code>worker_shutdown_timeout</code></p>
+<p>1）设置定时器<code v-pre>worker_shutdown_timeout</code></p>
 <p>2）关闭监听句柄</p>
 <p>3）关闭空闲连接</p>
 <p>4）在循环中等待全部连接关闭</p>
@@ -72,9 +72,9 @@
 <li>链路层</li>
 <li>物理层</li>
 </ul>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172023302.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172023302.png" alt=""></p>
 <h3 id="_7-2-tcp流与报文" tabindex="-1"><a class="header-anchor" href="#_7-2-tcp流与报文" aria-hidden="true">#</a> 7.2 TCP流与报文</h3>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172138764.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172138764.png" alt=""></p>
 <h3 id="_7-3-tcp协议与非阻塞接口" tabindex="-1"><a class="header-anchor" href="#_7-3-tcp协议与非阻塞接口" aria-hidden="true">#</a> 7.3 TCP协议与非阻塞接口</h3>
 <ul>
 <li>读事件
@@ -89,10 +89,10 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172800752.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310172800752.png" alt=""></p>
 <h2 id="_8-nginx事件循环" tabindex="-1"><a class="header-anchor" href="#_8-nginx事件循环" aria-hidden="true">#</a> 8 Nginx事件循环</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173131875.png" alt="" loading="lazy"></p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173315213.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173131875.png" alt=""></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173315213.png" alt=""></p>
 <h3 id="_8-1-epoll" tabindex="-1"><a class="header-anchor" href="#_8-1-epoll" aria-hidden="true">#</a> 8.1 epoll</h3>
 <p><strong>前提</strong></p>
 <p>高并发连接中，每次处理的活跃连接数量占比很小</p>
@@ -100,7 +100,9 @@
 <p>红黑树，链表</p>
 <p><strong>使用</strong></p>
 <p>创建，操作（添加/修改/删除），获取句柄，关闭</p>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173757670.png" alt="" loading="lazy"></p>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310173757670.png" alt=""></p>
 <h2 id="_9-模块分类" tabindex="-1"><a class="header-anchor" href="#_9-模块分类" aria-hidden="true">#</a> 9 模块分类</h2>
-<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310174353557.png" alt="" loading="lazy"></p>
-</template>
+<p><img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200310174353557.png" alt=""></p>
+</div></template>
+
+

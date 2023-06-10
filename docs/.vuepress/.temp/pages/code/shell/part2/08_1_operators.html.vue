@@ -1,14 +1,14 @@
-<template><h1 id="_8-1-运算符" tabindex="-1"><a class="header-anchor" href="#_8-1-运算符" aria-hidden="true">#</a> 8.1 运算符</h1>
+<template><div><h1 id="_8-1-运算符" tabindex="-1"><a class="header-anchor" href="#_8-1-运算符" aria-hidden="true">#</a> 8.1 运算符</h1>
 <h2 id="赋值运算符" tabindex="-1"><a class="header-anchor" href="#赋值运算符" aria-hidden="true">#</a> 赋值运算符</h2>
 <p><em>变量赋值</em>，初始化或改变一个变量的值。</p>
 <h3 id="" tabindex="-1"><a class="header-anchor" href="#" aria-hidden="true">#</a> =</h3>
-<p>等号<code>=</code>赋值运算符，既可用于算术赋值，也可用于字符串赋值。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>var=27
+<p>等号<code v-pre>=</code>赋值运算符，既可用于算术赋值，也可用于字符串赋值。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>var=27
 category=minerals  # "="左右不允许有空格
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" loading="lazy"> 注意，不要混淆<code>=</code>赋值运算符与<code>=</code><a href="http://tldp.org/LDP/abs/html/comparison-ops.html#EQUALSIGNREF" target="_blank" rel="noopener noreferrer">测试操作符<ExternalLinkIcon/></a>。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 注意，不要混淆<code v-pre>=</code>赋值运算符与<code v-pre>=</code><a href="http://tldp.org/LDP/abs/html/comparison-ops.html#EQUALSIGNREF" target="_blank" rel="noopener noreferrer">测试操作符<ExternalLinkIcon/></a>。</p>
 </blockquote>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#   =   作为测试操作符
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#   =   作为测试操作符
 
 if [ "$string1" = "$string2" ]
 then
@@ -18,7 +18,7 @@ fi
 #  [ "X$string1" = "X$string2" ] 这样写是安全的,
 #  这样写可以避免任意一个变量为空时的报错。
 #  (变量前加的"X"字符规避了变量为空的情况)
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h2 id="算术运算符" tabindex="-1"><a class="header-anchor" href="#算术运算符" aria-hidden="true">#</a> 算术运算符</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="算术运算符" tabindex="-1"><a class="header-anchor" href="#算术运算符" aria-hidden="true">#</a> 算术运算符</h2>
 <h3 id="-1" tabindex="-1"><a class="header-anchor" href="#-1" aria-hidden="true">#</a> +</h3>
 <p>加</p>
 <h3 id="-2" tabindex="-1"><a class="header-anchor" href="#-2" aria-hidden="true">#</a> -</h3>
@@ -29,19 +29,19 @@ fi
 <p>除</p>
 <h3 id="-5" tabindex="-1"><a class="header-anchor" href="#-5" aria-hidden="true">#</a> **</h3>
 <p>幂运算</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code># Bash, 2.02版本，推出了"**"幂运算操作符。
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code># Bash, 2.02版本，推出了"**"幂运算操作符。
 
 let "z=5**3"    # 5 * 5 * 5
 echo "z = $z"   # z = 125
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="-6" tabindex="-1"><a class="header-anchor" href="#-6" aria-hidden="true">#</a> %</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="-6" tabindex="-1"><a class="header-anchor" href="#-6" aria-hidden="true">#</a> %</h3>
 <p>取余(返回整数除法的余数)</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>bash$ expr 5 % 3
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>bash$ expr 5 % 3
 2
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>5/3=1，余2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>5/3=1，余2
 取余运算符经常被用于生成一定范围内的数( 案例9-11, 案例9-15)，以及格式化程序输出(案例 27-16，案例 A-6)。
 取余运算符还可以用来产生素数（案例A-15），取余的出现大大扩展了整数的算术运算。</p>
 <p><strong>样例 8-1. 最大公约数</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 # gcd.sh: 最大公约数
 #         使用欧几里得算法
 
@@ -104,22 +104,22 @@ echo; echo "GCD of $1 and $2 = $dividend"; echo
 # 2) 使用本地变量(local variables)重写gcd()函数。
 
 exit 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><h3 id="-7" tabindex="-1"><a class="header-anchor" href="#-7" aria-hidden="true">#</a> +=</h3>
-<p>加等 （加上一个数）<sup class="footnote-ref"><a href="#footnote1">[1]</a><a class="footnote-anchor" id="footnote-ref1" /></sup>
-<code>let &quot;var += 5&quot;</code> 的结果是<code>var</code>变量的值增加了5。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="-7" tabindex="-1"><a class="header-anchor" href="#-7" aria-hidden="true">#</a> +=</h3>
+<p>加等 （加上一个数）[^1]
+<code v-pre>let &quot;var += 5&quot;</code> 的结果是<code v-pre>var</code>变量的值增加了5。</p>
 <h3 id="-8" tabindex="-1"><a class="header-anchor" href="#-8" aria-hidden="true">#</a> -=</h3>
 <p>减等 （减去一个数）</p>
 <h3 id="-9" tabindex="-1"><a class="header-anchor" href="#-9" aria-hidden="true">#</a> *=</h3>
 <p>乘等 （乘以一个数）
-<code>let &quot;var *= 4&quot;</code> 的结果是<code>var</code>变量的值乘了4。</p>
+<code v-pre>let &quot;var *= 4&quot;</code> 的结果是<code v-pre>var</code>变量的值乘了4。</p>
 <h3 id="-10" tabindex="-1"><a class="header-anchor" href="#-10" aria-hidden="true">#</a> /=</h3>
 <p>除等 （除以一个数）</p>
 <h3 id="-11" tabindex="-1"><a class="header-anchor" href="#-11" aria-hidden="true">#</a> %=</h3>
 <p>余等 （取余赋值）</p>
 <h3 id="小结" tabindex="-1"><a class="header-anchor" href="#小结" aria-hidden="true">#</a> 小结</h3>
-<p>算术运算符常用于<code>expr</code>或<code>let</code>表达式中。</p>
+<p>算术运算符常用于<code v-pre>expr</code>或<code v-pre>let</code>表达式中。</p>
 <p><strong>样例 8-2. 使用算术运算符</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 # 使变量自增1，10种不同的方法实现
 
 n=1; echo -n "$n "
@@ -171,8 +171,8 @@ echo -n "$n "
 echo
 
 exit 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br></div></div><p>在早期的Bash版本中，整型变量是带符号的长整型数（32-bit），取值范围从 -2147483648 到 2147483647。如果算术操作超出了整数的取值范围，结果会不准确。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>echo $BASH_VERSION   # Bash 1.14版本
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>在早期的Bash版本中，整型变量是带符号的长整型数（32-bit），取值范围从 -2147483648 到 2147483647。如果算术操作超出了整数的取值范围，结果会不准确。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>echo $BASH_VERSION   # Bash 1.14版本
 
 a=2147483646
 echo "a = $a"        # a = 2147483646
@@ -183,26 +183,26 @@ echo "a = $a"        # a = -2147483648
                      #      错误：超出范围，
                      #+     最左边的符号位被重置，
                      #+     结果变负
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>Bash版本 &gt;= 2.05b, Bash支持了64-bit整型数。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Bash版本 &gt;= 2.05b, Bash支持了64-bit整型数。</p>
 <blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution" loading="lazy"> 注意，Bash并不支持浮点运算，Bash会将带小数点的数看做字符串。</p>
+<p><img src="http://tldp.org/LDP/abs/images/caution.gif" alt="caution"> 注意，Bash并不支持浮点运算，Bash会将带小数点的数看做字符串。</p>
 </blockquote>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>a=1.5
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>a=1.5
 
 let "b = $a + 1.3"  # 报错
 # t2.sh: let: b = 1.5 + 1.3: syntax error in expression
 #                            (error token is ".5 + 1.3")
 
 echo "b = $b"       # b=1
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>如果你想在脚本中使用浮点数运算，借助<a href="http://tldp.org/LDP/abs/html/mathc.html#BCREF" target="_blank" rel="noopener noreferrer">bc<ExternalLinkIcon/></a>或外部数学函数库吧。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果你想在脚本中使用浮点数运算，借助<a href="http://tldp.org/LDP/abs/html/mathc.html#BCREF" target="_blank" rel="noopener noreferrer">bc<ExternalLinkIcon/></a>或外部数学函数库吧。</p>
 <h2 id="位运算" tabindex="-1"><a class="header-anchor" href="#位运算" aria-hidden="true">#</a> 位运算</h2>
-<p>位运算很少出现在shell脚本中，在bash中加入位运算的初衷似乎是为了操控和检测来自<code>ports</code>或<code>sockets</code>的数据。位运算在编译型语言中能发挥更大的作用，比如C/C++，位运算提供了直接访问系统硬件的能力。然而，聪明的vladz在他的base64.sh(案例 A-54)脚本中也用到了位运算。
+<p>位运算很少出现在shell脚本中，在bash中加入位运算的初衷似乎是为了操控和检测来自<code v-pre>ports</code>或<code v-pre>sockets</code>的数据。位运算在编译型语言中能发挥更大的作用，比如C/C++，位运算提供了直接访问系统硬件的能力。然而，聪明的vladz在他的base64.sh(案例 A-54)脚本中也用到了位运算。
 下面介绍位运算符。</p>
 <h3 id="-12" tabindex="-1"><a class="header-anchor" href="#-12" aria-hidden="true">#</a> &lt;&lt;</h3>
 <p>左移运算符(左移1位相当于乘2)</p>
 <h3 id="-13" tabindex="-1"><a class="header-anchor" href="#-13" aria-hidden="true">#</a> &lt;&lt;=</h3>
 <p>左移赋值</p>
-<p><code>let &quot;var &lt;&lt;= 2&quot;</code> 的结果是var变量的值向左移了2位(乘以4)</p>
+<p><code v-pre>let &quot;var &lt;&lt;= 2&quot;</code> 的结果是var变量的值向左移了2位(乘以4)</p>
 <h3 id="-14" tabindex="-1"><a class="header-anchor" href="#-14" aria-hidden="true">#</a> &gt;&gt;</h3>
 <p>右移运算符(右移1位相当于除2)</p>
 <h3 id="-15" tabindex="-1"><a class="header-anchor" href="#-15" aria-hidden="true">#</a> &gt;&gt;=</h3>
@@ -224,32 +224,32 @@ echo "b = $b"       # b=1
 <h2 id="逻辑-布尔-运算符" tabindex="-1"><a class="header-anchor" href="#逻辑-布尔-运算符" aria-hidden="true">#</a> 逻辑(布尔)运算符</h2>
 <h3 id="-23" tabindex="-1"><a class="header-anchor" href="#-23" aria-hidden="true">#</a> !</h3>
 <p>非(NOT)</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>if [ ! -f $FILENAME ]
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>if [ ! -f $FILENAME ]
 then
   ...
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="-24" tabindex="-1"><a class="header-anchor" href="#-24" aria-hidden="true">#</a> &amp;&amp;</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="-24" tabindex="-1"><a class="header-anchor" href="#-24" aria-hidden="true">#</a> &amp;&amp;</h3>
 <p>与(AND)</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>if [ $condition1 ] &amp;&amp; [ $condition2 ]
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>if [ $condition1 ] &amp;&amp; [ $condition2 ]
 #  等同于:  if [ $condition1 -a $condition2 ]
 #  返回true如果 condition1 和 condition2 同时为真...
 
 if [[ $condition1 &amp;&amp; $condition2 ]]    # 可行
 #  注意，&amp;&amp; 运算符不能用在[ ... ]结构里。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><blockquote>
-<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note" loading="lazy"> &amp;&amp;也可以被用在<code>list</code>结构中连接命令。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p><img src="http://tldp.org/LDP/abs/images/note.gif" alt="note"> &amp;&amp;也可以被用在<code v-pre>list</code>结构中连接命令。</p>
 </blockquote>
 <h3 id="-25" tabindex="-1"><a class="header-anchor" href="#-25" aria-hidden="true">#</a> ||</h3>
 <p>或(OR)</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>if [ $condition1 ] || [ $condition2 ]
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>if [ $condition1 ] || [ $condition2 ]
 
 #  等同于:  if [ $condition1 -a $condition2 ]
 #  返回true如果 condition1 和 condition2 任意一个为真...
 
 if [[ $condition1 || $condition2 ]]    # 可行
 #  注意，|| 运算符不能用在[ ... ]结构里。
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h3 id="小结-1" tabindex="-1"><a class="header-anchor" href="#小结-1" aria-hidden="true">#</a> 小结</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="小结-1" tabindex="-1"><a class="header-anchor" href="#小结-1" aria-hidden="true">#</a> 小结</h3>
 <p><strong>样例 8-3. 在条件测试中使用 &amp;&amp; 和 ||</strong></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>#!/bin/bash
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>#!/bin/bash
 
 a=24
 b=47
@@ -309,27 +309,22 @@ else
 fi
 
 exit 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br></div></div><p><code>&amp;&amp;</code>和<code>||</code>运算符也可以用在算术运算中。</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>bash$ echo $(( 1 &amp;&amp; 2 )) $((3 &amp;&amp; 0)) $((4 || 0)) $((0 || 0))
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>&amp;&amp;</code>和<code v-pre>||</code>运算符也可以用在算术运算中。</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>bash$ echo $(( 1 &amp;&amp; 2 )) $((3 &amp;&amp; 0)) $((4 || 0)) $((0 || 0))
 1 0 1 0
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h2 id="其他运算符" tabindex="-1"><a class="header-anchor" href="#其他运算符" aria-hidden="true">#</a> 其他运算符</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="其他运算符" tabindex="-1"><a class="header-anchor" href="#其他运算符" aria-hidden="true">#</a> 其他运算符</h2>
 <h3 id="-26" tabindex="-1"><a class="header-anchor" href="#-26" aria-hidden="true">#</a> ,</h3>
 <p>逗号运算符
-逗号运算符用于连接两个或多个算术操作，所有的操作会被依次求值（可能会有副作用）。<sup class="footnote-ref"><a href="#footnote2">[2]</a><a class="footnote-anchor" id="footnote-ref2" /></sup></p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>let "t1 = ((5 + 3, 7 - 1, 15 - 4))"
+逗号运算符用于连接两个或多个算术操作，所有的操作会被依次求值（可能会有副作用）。[^2]</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>let "t1 = ((5 + 3, 7 - 1, 15 - 4))"
 echo "t1 = $t1"           ^^^^^^  # t1 = 11
 # 这里的t1 被赋值了11，为什么？
 
 let "t2 = ((a = 9, 15 / 3))"      # 对"a"赋值并对"t2"求值。
 echo "t2 = $t2    a = $a"         # t2 = 5    a = 9
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>逗号运算符常被用在<code>for</code>循环中。参看案例 11-13。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="footnote1" class="footnote-item"><p>取决与不同的上下文，+= 也可能作为字符串连接符。它可以很方便地修改环境变量。 <a href="#footnote-ref1" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="footnote2" class="footnote-item"><p>副作用，顾名思义，就是预料之外的结果。 <a href="#footnote-ref2" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-</template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>逗号运算符常被用在<code v-pre>for</code>循环中。参看案例 11-13。</p>
+<p>[^1]: 取决与不同的上下文，+= 也可能作为字符串连接符。它可以很方便地修改环境变量。
+[^2]: 副作用，顾名思义，就是预料之外的结果。</p>
+</div></template>
+
+

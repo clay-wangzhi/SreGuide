@@ -1,8 +1,8 @@
-<template><h1 id="基本权限-ugo" tabindex="-1"><a class="header-anchor" href="#基本权限-ugo" aria-hidden="true">#</a> 基本权限 UGO</h1>
+<template><div><h1 id="基本权限-ugo" tabindex="-1"><a class="header-anchor" href="#基本权限-ugo" aria-hidden="true">#</a> 基本权限 UGO</h1>
 <p>文件权限设置： 可以赋于某个用户或组  能够以何种方式  访问某个文件</p>
 <p>文件权限管理之： UGO设置基本权限(r、w、x)</p>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>    rw-r--r--  alice hr  install.log
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><p>权限对象：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>    rw-r--r--  alice hr  install.log
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>权限对象：</p>
 <ul>
 <li>属主： u</li>
 <li>属组：g</li>
@@ -27,29 +27,29 @@
 <ul>
 <li>chown：</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chown ops.sre file1 //改属主、属组
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chown ops.sre file1 //改属主、属组
 chown ops file1     //只改属主
 chown .ser file1	//只改属组
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>chgrp：</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chgrp it file1	    //改文件属组
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chgrp it file1	    //改文件属组
 chgrp -R it dir1	//改变目录dir1的属组及其目录下已有文件的属组
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><ol start="2">
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>更改权限</li>
 </ol>
 <ul>
 <li>使用符号</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chmod u+x file1		 //属主增加执行
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chmod u+x file1		 //属主增加执行
 chmod a=rwx file1	 //所有人等于读写执行
 chmod a=- file1	     //所有人没有权限
 chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ul>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>使用数字</li>
 </ul>
-<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
-</code></pre><div class="line-numbers" aria-hidden="true"><span class="line-number">1</span><br></div></div><h3 id="r、w、x权限对文件和目录的意义" tabindex="-1"><a class="header-anchor" href="#r、w、x权限对文件和目录的意义" aria-hidden="true">#</a> r、w、x权限对文件和目录的意义</h3>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>chmod 644 file1  //给file1 属主读写，属组和其他读的权限
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="r、w、x权限对文件和目录的意义" tabindex="-1"><a class="header-anchor" href="#r、w、x权限对文件和目录的意义" aria-hidden="true">#</a> r、w、x权限对文件和目录的意义</h3>
 <table>
 <thead>
 <tr>
@@ -76,4 +76,6 @@ chmod ug=rw,o=r file1 //属主属组等于读写，其他人只读
 </tr>
 </tbody>
 </table>
-</template>
+</div></template>
+
+

@@ -1,1 +1,2 @@
-import "@sass-palette/hope-inject";export default ()=>{};
+import "@sass-palette/hope-inject";
+export default {};

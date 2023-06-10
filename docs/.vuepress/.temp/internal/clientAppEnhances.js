@@ -1,4 +1,4 @@
-import clientAppEnhance0 from '/Users/wangzhi4/Documents/github/wiki/src/.vuepress/.temp/sass-palette/load-hope.js'
+import clientAppEnhance0 from '/Users/wangzhi4/Documents/github/wiki/docs/.vuepress/.temp/sass-palette/load-hope.js'
 import clientAppEnhance1 from '/Users/wangzhi4/Documents/github/wiki/node_modules/@mr-hope/vuepress-plugin-components/lib/client/appEnhance.js'
 import clientAppEnhance2 from '/Users/wangzhi4/Documents/github/wiki/node_modules/@vuepress/plugin-external-link-icon/lib/client/clientAppEnhance.js'
 import clientAppEnhance3 from '/Users/wangzhi4/Documents/github/wiki/node_modules/@vuepress/plugin-theme-data/lib/client/clientAppEnhance.js'

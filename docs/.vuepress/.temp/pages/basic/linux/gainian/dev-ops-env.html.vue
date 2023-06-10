@@ -1,4 +1,4 @@
-<template><h1 id="dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义" tabindex="-1"><a class="header-anchor" href="#dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义" aria-hidden="true">#</a> DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</h1>
+<template><div><h1 id="dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义" tabindex="-1"><a class="header-anchor" href="#dev-sit-uat-pet-sim-prd-prod常见环境英文缩写含义" aria-hidden="true">#</a> DEV SIT UAT PET SIM PRD PROD常见环境英文缩写含义</h1>
 <p>英文缩写 英文 中文
 DEV development 开发
 SIT System Integrate Test 系统整合测试（内测）
@@ -12,4 +12,6 @@ PRD/PROD production 产品/正式/生产</p>
 <p>pre环境：灰度环境，外部用户可以访问，但是服务器配置相对低，其它和生产一样。</p>
 <p>test环境：测试环境，外部用户无法访问，专门给测试人员使用的，版本相对稳定。</p>
 <p>dev环境：开发环境，外部用户无法访问，开发人员使用，版本变动很大。</p>
-</template>
+</div></template>
+
+
