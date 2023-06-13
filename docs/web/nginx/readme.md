@@ -1,4 +1,5 @@
 ---
+dir.text: Ngggggg
 icon: nginx
 sticky: 52
 star: 52

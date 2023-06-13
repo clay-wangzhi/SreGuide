@@ -44,37 +44,38 @@ export const sidebarConfig = sidebar({
       children: ["tcp-three-four.md", "kernel-para-opt",]
     },
   ],
-  "/web/": [
-    {
-      text: "Nginx",
-      icon: "nginx",
-      prefix: "nginx",
-      link: "",
-      collapsible: true,
-      children: [
-        "",
-        "first",
-        "framework",
-        {
-          text: "3. nginx配置文件详解",
-          link: "config/",
-          collapsible: true,
-          children: ["global-events", "http", "server", "location", "module",]
-        },
-        "core",
-        "status",
-        "qa",
-      ]
-    },
-    {
-      text: "Tomcat",
-      icon: "tomcat",
-      prefix: "tomcat",
-      link: "",
-      collapsible: true,
-      children: ["", "prd", "dead", "cache", "danger", "status",]
-    },
-  ],
+  // "/web/": [
+  //   {
+  //     text: "Nsssginx",
+  //     icon: "nginx",
+  //     prefix: "nginx",
+  //     link: "",
+  //     collapsible: true,
+  //     children: [
+  //       "",
+  //       "first",
+  //       "framework",
+  //       {
+  //         text: "3. nginx配置文件详解",
+  //         link: "config/",
+  //         collapsible: true,
+  //         children: ["global-events", "http", "server", "location", "module",]
+  //       },
+  //       "core",
+  //       "status",
+  //       "qa",
+  //     ]
+  //   },
+  //   {
+  //     text: "Tomcat",
+  //     icon: "tomcat",
+  //     prefix: "tomcat",
+  //     link: "",
+  //     collapsible: true,
+  //     children: ["", "prd", "dead", "cache", "danger", "status",]
+  //   },
+  // ],
+  "/web/": "structure",
   "/code/": [
     {
       text: "高级 Bash 脚本编程指南",
