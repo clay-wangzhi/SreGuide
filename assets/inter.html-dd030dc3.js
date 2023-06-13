@@ -1,0 +1,5 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as a,c as r,e as i}from"./app-a7feade7.js";const d={},n=i(`<h1 id="网络管理" tabindex="-1"><a class="header-anchor" href="#网络管理" aria-hidden="true">#</a> 网络管理</h1><h1 id="网络基础" tabindex="-1"><a class="header-anchor" href="#网络基础" aria-hidden="true">#</a> 网络基础</h1><h2 id="常见的网络接口" tabindex="-1"><a class="header-anchor" href="#常见的网络接口" aria-hidden="true">#</a> 常见的网络接口</h2><p>eth0 以太网接口 lo 本地环回接口<br> br0 桥接接口 （虚拟交换机） vnet0 KVM虚拟机网卡接口</p><h2 id="查看网络信息" tabindex="-1"><a class="header-anchor" href="#查看网络信息" aria-hidden="true">#</a> 查看网络信息</h2><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>ip addr //查看IP、掩码、MAC...
+ip addr show eth0 //只显示eth0的信息
+ip route //查看本机路由表
+cat /etc/resolv.conf //查看DNS
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,6),t=[n];function s(c,h){return a(),r("div",null,t)}const u=e(d,[["render",s],["__file","inter.html.vue"]]);export{u as default};
