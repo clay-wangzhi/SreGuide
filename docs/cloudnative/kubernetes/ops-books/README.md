@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 9
   collapsible: true
 ---
 
-# 集群搭建
+# 运维手册

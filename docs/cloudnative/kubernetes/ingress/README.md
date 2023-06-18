@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 6
   collapsible: true
 ---
 
-# 集群搭建
+# 服务发现与路由

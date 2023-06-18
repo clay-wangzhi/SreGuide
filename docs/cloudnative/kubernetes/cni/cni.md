@@ -1,4 +1,5 @@
 ---
+order: 1
 category: 云原生
 tag:
   - Kubernetes
@@ -51,5 +52,4 @@ K8s 通过 CNI 配置文件来决定使用什么 CNI。
 > 专家说：路由模式其实属于 Underlay 模式的一种特例
 
 ![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/1576553351164-abd9e024-8ce1-4f07-8f79-1ab2b2e4b989-20221122160500229.png)
-
 

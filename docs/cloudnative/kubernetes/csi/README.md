@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 5
   collapsible: true
 ---
 
-# 集群搭建
+# 存储

@@ -1,4 +1,5 @@
 ---
+order: 1
 category: 云原生
 tag:
   - Kubernetes
@@ -26,7 +27,7 @@ PVC 由一系列组件构成：
 
 在生产环境中使用 Rook + Ceph 组合的用户正在日益增加，尤其是自建数据中心的用户，[CENGN](https://www.cengn.ca/)、Gini、GPR 等很多组织都在进行评估。
 
-![images](https://blog.fleeto.us/post/the-ultimate-rook-and-ceph-survival-guide/images/rookceph1.png)
+![images](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rookceph1.png)
 
 ## Ceph & Rook 简介
 
@@ -50,7 +51,7 @@ Ceph 包括多个组件：
 
 Rook 是一个可以提供 Ceph 集群管理能力的 [Operator](https://coreos.com/blog/introducing-operators.html)。Rook 使用 CRD 一个控制器来对 Ceph 之类的资源进行部署和管理。
 
-![rook arch](https://blog.fleeto.us/post/the-ultimate-rook-and-ceph-survival-guide/images/rook-arch.png)
+![rook arch](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/rook-arch.png)
 
 Rook 包含多个组件：
 

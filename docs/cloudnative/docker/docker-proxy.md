@@ -17,7 +17,7 @@ vim /lib/systemd/system/docker.service
 ## 在 [Service] 节点下面新增代理信息
 [Service]
 ......
-Environment="HTTP_PROXY=socks5://192.168.66.76:20080/" "HTTPS_PROXY=socks5://192.168.66.76:20080/"
+Environment="HTTP_PROXY=socks5://ip:20080/" "HTTPS_PROXY=socks5://ip:20080/"
 
 ## 重新加载Docker并启动 
 systemctl daemon-reload

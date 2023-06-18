@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 7
   collapsible: true
 ---
 
-# 集群搭建
+# 监控告警

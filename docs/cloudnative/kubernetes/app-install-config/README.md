@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 2
   collapsible: true
 ---
 
-# 集群搭建
+# 常见应用安装配置

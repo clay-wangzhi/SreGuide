@@ -362,77 +362,78 @@ export const sidebarConfig = sidebar({
       ]
     },
   ],
-  "/cloudnative/": [
-    {
-      text: "kubernetes",
-      icon: "kubernetes",
-      prefix: "kubernetes/",
-      link: "",
-      collapsible: true,
-      children: [
-        "",
-        {
-          text: "集群搭建",
-          collapsible: true,
-          children: ["k8s-install",]
-        },
-        {
-          text: "常见应用安装配置",
-          collapsible: true,
-          children: ["harbor", "docker-harbor-ha", "rancher-install", "helm"]
-        },
-        {
-          text: "容器运行时",
-          collapsible: true,
-          children: ["k8s-gpu", "kata"]
-        },
-        {
-          text: "存储",
-          collapsible: true,
-          children: ["longhorn", "deploy-ceph-cluster-with-rook"]
-        },
-        {
-          text: "服务发现与路由",
-          collapsible: true,
-          children: ["ingress-nginx",]
-        },
-        {
-          text: "集群网络",
-          collapsible: true,
-          children: ["cni", "calico"]
-        },
-        {
-          text: "监控告警",
-          collapsible: true,
-          children: ["kube-prometheus-stack",]
-        },
-        {
-          text: "实用技巧",
-          collapsible: true,
-          children: ["kubectl-cheatsheet",]
-        },
-        {
-          text: "运维手册",
-          collapsible: true,
-          children: ["etcd-backup-restore", "velero", "k8s-audit", "kernel-upgrade", "cert-update", "k8s-allocatable", "lxcfs"]
-        },
-        {
-          text: "最佳实践",
-          collapsible: true,
-          children: ["kube-reserved", "sysbench", "numa"]
-        },
-        {
-          text: "集群排障",
-          collapsible: true,
-          children: ["namespace-terminating", "delete-rancher-causing-node-disappear", "lvs-health-check", "apiserver-tls"]
-        },
-        "recommend",
-        {
-          text: "附录",
-          collapsible: true,
-          children: ["kubectl-cheatsheet",]
-        },
-      ],
-    },
-  ]
+  // "/cloudnative/": [
+  //   {
+  //     text: "kubernetes",
+  //     icon: "kubernetes",
+  //     prefix: "kubernetes/",
+  //     link: "",
+  //     collapsible: true,
+  //     children: [
+  //       "",
+  //       {
+  //         text: "集群搭建",
+  //         collapsible: true,
+  //         children: ["k8s-install",]
+  //       },
+  //       {
+  //         text: "常见应用安装配置",
+  //         collapsible: true,
+  //         children: ["harbor", "docker-harbor-ha", "rancher-install", "helm"]
+  //       },
+  //       {
+  //         text: "容器运行时",
+  //         collapsible: true,
+  //         children: ["k8s-gpu", "kata"]
+  //       },
+  //       {
+  //         text: "存储",
+  //         collapsible: true,
+  //         children: ["longhorn", "deploy-ceph-cluster-with-rook"]
+  //       },
+  //       {
+  //         text: "服务发现与路由",
+  //         collapsible: true,
+  //         children: ["ingress-nginx",]
+  //       },
+  //       {
+  //         text: "集群网络",
+  //         collapsible: true,
+  //         children: ["cni", "calico"]
+  //       },
+  //       {
+  //         text: "监控告警",
+  //         collapsible: true,
+  //         children: ["kube-prometheus-stack",]
+  //       },
+  //       {
+  //         text: "实用技巧",
+  //         collapsible: true,
+  //         children: ["kubectl-cheatsheet",]
+  //       },
+  //       {
+  //         text: "运维手册",
+  //         collapsible: true,
+  //         children: ["etcd-backup-restore", "velero", "k8s-audit", "kernel-upgrade", "cert-update", "k8s-allocatable", "lxcfs"]
+  //       },
+  //       {
+  //         text: "最佳实践",
+  //         collapsible: true,
+  //         children: ["kube-reserved", "sysbench", "numa"]
+  //       },
+  //       {
+  //         text: "集群排障",
+  //         collapsible: true,
+  //         children: ["namespace-terminating", "delete-rancher-causing-node-disappear", "lvs-health-check", "apiserver-tls"]
+  //       },
+  //       "recommend",
+  //       {
+  //         text: "附录",
+  //         collapsible: true,
+  //         children: ["kubectl-cheatsheet",]
+  //       },
+  //     ],
+  //   },
+  // ],
+  "/cloudnative/": "structure",
 });

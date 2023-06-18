@@ -1,4 +1,6 @@
 ---
+dir:
+  order: 1
 category: 云原生
 icon: kubernetes
 tag:

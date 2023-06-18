@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 1
+  order: 8
   collapsible: true
 ---
 
-# 集群搭建
+# 实用技巧
