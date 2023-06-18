@@ -189,10 +189,12 @@ helm install monitoring -n cattle-prometheus  --set kubeEtcd.serviceMonitor.sche
 
 #### etcd http 模式
 
-将 --listen-metrics-urls= 值 改为 [http://ip:2381](http://ip:2381/)，要新增，不要修改127.0.0.1，实例
+将 --listen-metrics-urls= 值 改为 `http://ip:2381`，要新增，不要修改127.0.0.1，实例
 
-\# - --listen-metrics-urls=[http://127.0.0.1:2381](http://127.0.0.1:2381/)
-\- --listen-metrics-urls=[http://127.0.0.1:2381,https://10.100.142.163:2381](http://127.0.0.1:2381%2Chttps/)
+```yaml
+    #- --listen-metrics-urls=http://127.0.0.1:2381
+    - --listen-metrics-urls=http://127.0.0.1:2381,http://ip:2381
+```
 
 部署
 

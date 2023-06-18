@@ -9,6 +9,6 @@ tag:
 
 Y**轴要有负数如何设置**
 
-grafana网络总图中，Y轴要有负数的话，需要设置，alias or regex，Outing为 Transform：negative-Y
+grafana网络总图中，Y轴要有负数的话，需要设置，`Series overrides` --> `alias or regex`，Outing 为 `Transform：negative-Y`
 
-![](https://gitee.com/clay-wangzhi/blogImg/raw/master/blogImg/image-20200323205311303.png)
+![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20200323205311303.png)

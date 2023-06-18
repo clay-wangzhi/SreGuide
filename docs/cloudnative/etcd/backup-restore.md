@@ -1,12 +1,12 @@
 ---
 category: 云原生
 tag:
-  - Kubernetes
+  - etcd
 ---
 
-# etcd 备份恢复
+# Etcd 备份恢复
 
-## etcd 备份
+## Etcd 备份
 
 1. 创建备份脚本`/opt/etcd_backup.sh`
    ```bash
@@ -39,7 +39,7 @@ tag:
    0 */1 * * * /bin/bash /opt/etcd_backup.sh >>/opt/log-backup-etcd.log 2>&1
    ```
 
-## etcd 恢复
+## Etcd 恢复
 
 1. 创建备份目录
 

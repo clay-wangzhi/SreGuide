@@ -16,7 +16,7 @@ export default hopeTheme({
 
   repo: "https://github.com/clay-wangzhi/wiki",
 
-  docsDir: "src",
+  docsDir: "docs",
 
   docsBranch: "master",
 
@@ -53,7 +53,7 @@ export default hopeTheme({
 
     mdEnhance: {
       codetabs: true,
-      container: true,
+      container: false,
       tasklist: true,
       mermaid: true
     },

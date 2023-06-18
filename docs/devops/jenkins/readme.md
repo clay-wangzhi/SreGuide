@@ -33,6 +33,14 @@ Jenkins 2.x 实践指南 | 翟之军
 ## 知识体系
 
 ```mermaid
+%%{
+  init: {
+    'themeVariables': {
+      'mainBkg': '#e9e9fe',
+      'nodeBorder': '#9672d6'
+    }
+  }
+}%%
 graph LR
 1[jenkins]-->2.1[jenkins 简介]
 1-->2.2[安装]
