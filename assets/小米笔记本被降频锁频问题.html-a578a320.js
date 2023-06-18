@@ -1,1 +1,0 @@
-import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as e,b as o}from"./app-94946260.js";const c={},r=o("p",null,"下载一个throttlestop，然后安装之后在最下面的BD prochot 选项勾掉不选 点击下面的turn on,解决限频问题",-1),n=[r];function s(l,a){return t(),e("div",null,n)}const m=_(c,[["render",s],["__file","小米笔记本被降频锁频问题.html.vue"]]);export{m as default};
