@@ -65,7 +65,7 @@ tag:
    # 重复执行步骤一命令
    ```
 
-> :dog: 因为现有架构为 apiserver 调用本地 127.0.0.1 的 etcd 服务，所有当 M3 节点 etcd 服务停止后， M3 节点的 apiserver 也不能正常提供服务
+> :dog: 因为现有架构为 apiserver 调用本地 127.0.0.1 的 etcd 服务，所以当 M3 节点 etcd 服务停止后， M3 节点的 apiserver 也不能正常提供服务
 >
 > 所以 haproxy 和 nginx 都必要配置正确的健康检查策略，可以自动剔除故障节点
 
