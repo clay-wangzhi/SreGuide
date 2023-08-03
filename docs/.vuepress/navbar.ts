@@ -3,12 +3,13 @@ import { navbar } from "vuepress-theme-hope";
 export default navbar([
   {
     text: "云原生",
-    icon: "yunyuanshengpingtai",
-    children: [
-      { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
-      { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
-      { text: "etcd", icon: "icon_etcd", link: "/cloudnative/etcd/" },
-    ]
+    icon: "kubernetes",
+    link: "/cloudnative/"
+    // children: [
+    //   { text: "Kubernetes", icon: "kubernetes", link: "/cloudnative/kubernetes/" },
+    //   { text: "Docker", icon: "docker", link: "/cloudnative/docker/" },
+    //   { text: "etcd", icon: "icon_etcd", link: "/cloudnative/etcd/" },
+    // ]
   },
   {
     text: "基础知识",
