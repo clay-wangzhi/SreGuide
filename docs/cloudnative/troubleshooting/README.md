@@ -1,8 +1,8 @@
 ---
 index: false
 dir:
-  order: 40
+  order: 4
   collapsible: true
 ---
 
-# 奇技淫巧
+# 故障排查

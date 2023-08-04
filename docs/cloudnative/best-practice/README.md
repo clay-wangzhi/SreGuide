@@ -1,8 +1,9 @@
 ---
 index: false
 dir:
-  order: 40
+  order: 5
   collapsible: true
+
 ---
 
-# 奇技淫巧
+# 最佳实践

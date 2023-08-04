@@ -1,8 +1,9 @@
 ---
 index: false
 dir:
-  order: 40
+  order: 2
   collapsible: true
 ---
 
-# 奇技淫巧
+# Kubernetes
+
