@@ -8,7 +8,7 @@ heroFullScreen: true
 tagline: 专注于 SRE 运维、云原生、稳定性、高可用性、可观测性、DevOps 等技术
 actions:
   - text: 开始阅读
-    link: /cloudnative/kubernetes/
+    link: /cloudnative/
     type: primary
 
   - text: SRE RoadMap
