@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as o,b as n}from"./app-81daf73f.js";const c={},s=n("p",null,"https://pythondjango.cn/",-1),_=[s];function r(a,l){return t(),o("div",null,_)}const f=e(c,[["render",r],["__file","index.html.vue"]]);export{f as default};
