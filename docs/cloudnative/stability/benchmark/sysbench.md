@@ -120,6 +120,17 @@ fio --ioengine=libaio --bs=4k --direct=1 --thread --time_based --rw=write --file
 
 ### 文件 I/O 性能
 
+> sysbench 压文件不准，建议还是用 fio 压文件，filename 指定文件即可
+
+#### fio 方式
+
+```bash
+fio --ioengine=libaio --bs=4k --direct=1 --thread --time_based --rw=randread --filename=/home/a.txt --runtime=60 --numjobs=1 --iodepth=1 --group_reporting --name=randread-dep1 --size=1g
+fio --ioengine=libaio --bs=4k --direct=1 --thread --time_based --rw=randwrite --filename=/home/b.txt --runtime=60 --numjobs=1 --iodepth=1 --group_reporting --name=randread-dep1 --size=1g
+fio --ioengine=libaio --bs=4k --direct=1 --thread --time_based --rw=read --filename=/home/c.txt --runtime=60 --numjobs=1 --iodepth=1 --group_reporting --name=randread-dep1 --size=1g
+fio --ioengine=libaio --bs=4k --direct=1 --thread --time_based --rw=write --filename=/home/d.txt --runtime=60 --numjobs=1 --iodepth=1 --group_reporting --name=randread-dep1 --size=1g
+```
+
 #### sysbench 文件随机读写速度、顺序读写吞吐率
 
 ```bash
