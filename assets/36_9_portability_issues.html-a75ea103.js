@@ -1,1 +1,0 @@
-import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as e,c as t}from"./app-2a698b89.js";const o={};function r(s,c){return e(),t("div")}const n=_(o,[["render",r],["__file","36_9_portability_issues.html.vue"]]);export{n as default};
