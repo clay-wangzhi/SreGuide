@@ -1,1 +1,0 @@
-import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as e,c as t}from"./app-92a149ab.js";const o={};function r(s,c){return e(),t("div")}const f=_(o,[["render",r],["__file","36_7_assorted_tips.html.vue"]]);export{f as default};
