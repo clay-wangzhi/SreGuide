@@ -22,36 +22,36 @@ HPA（Horizontal Pod Autoscaler）是 Kubernetes 中的一种资源自动伸缩�
 
 ## 3. 原生 HPA 的不足
 
-* 使用率计算基于 `resources.requests`
-* 不支持定时扩缩容
+- 使用率计算基于 `resources.requests`
+- 不支持定时扩缩容
 
 ## 4. KEDA
 
 采用 KEDA 作为弹性伸缩系统的基座，主要考虑到如下优势点：
 
-* 功能丰富：内嵌 CPU/Cron/Prom 多种伸缩策略，原生支持缩容至零。
-* 扩展性好：解耦被伸缩对象（支持/scale 子资源即可）和伸缩指标，提供强大的插件机制和抽象接口（scaler + metrics adapter），增加伸缩指标非常便利。
-* 社区强大：CNCF 官方毕业项目，微软和 RedHat 强力支持。
+- 功能丰富：内嵌 CPU/Cron/Prom 多种伸缩策略，原生支持缩容至零。
+- 扩展性好：解耦被伸缩对象（支持/scale 子资源即可）和伸缩指标，提供强大的插件机制和抽象接口（scaler + metrics adapter），增加伸缩指标非常便利。
+- 社区强大：CNCF 官方毕业项目，微软和 RedHat 强力支持。
 
 ### 4.1 工作原理
 
 KEDA 监控来自外部指标提供程序系统（例如 Azure Monitor）的指标，然后根据基于指标值的缩放规则进行缩放。它直接与度量提供者系统通信。它作为 Kubernetes Operator 运行，它只是一个 pod 并持续监控。
 
-![KEDA architecture](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/keda-arch-no-webhooks.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640.png)
 
 KEDA 将 K8s Core Metrics Pipeline 和 Monitoring Pipeline 处理流程统一化，并内置多种 scaler ( link )，提供开箱即用的弹性策略支持，如常见的基于 CPU/Memory 的弹性策略、定时弹性等：
 
-![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/keda-source.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640-20231116175808185.png)
 
 ## 4. 最佳实践
 
 > 说明：
 >
-> 原生Deployment对象不支持灰度发布策略，所有改用 Argo-Rollout 资源对象，下面示例均采用 Argo-Rollout 演示
+> 原生Deployment对象不支持灰度发布策略，所以改用 Argo-Rollout 资源对象，下面示例均采用 Argo-Rollout 演示
 
 ### 4.1 定时弹性
 
-#### 4.1.1 **后端模版**
+#### 4.1.1 后端模版
 
 ```yaml
 apiVersion: keda.sh/v1alpha1
@@ -74,19 +74,19 @@ spec:
       desiredReplicas: "10"
 ```
 
-#### 4.1.2 **前端设计**
+#### 4.1.2 前端设计
 
 支持三个周期
 
-* 按天
-* 按星期
-* 自定义 Cron 表达式
+- 按天
+- 按星期
+- 自定义 Cron 表达式
 
- ![image-20231116161808491](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20231116161808491.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640-20231116175808305.png)
 
- ![image-20231116161829750](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20231116161829750.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640-20231116175808409.png)
 
- ![image-20231116161856591](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20231116161856591.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640-20231116175808578.png)
 
 #### 4.1.3 消息通知模版
 
@@ -154,7 +154,7 @@ spec:
 
 #### 4.2.2 前端设计
 
- ![image-20231116170047250](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20231116170047250.png)
+![img](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/640-20231116175808654.png)
 
 #### 4.2.3 消息通知模版
 
@@ -181,7 +181,7 @@ AppID：<appid>
 >
 > QPS 取自 CAT 数据，SRE这边将 CAT 数据使用工具写入到 VictoriaMetrics 中
 >
-> 前端设计、消息通知 和 基于资源的弹性使用的一套模版，都属于基于指标触发的 HPA，这里不在赘述
+> 前端设计、消息通知 和 基于资源的弹性使用的一套模版，都属于基于指标触发的 HPA，这里不再赘述
 
 ```yaml
 apiVersion: keda.sh/v1alpha1
@@ -212,7 +212,7 @@ spec:
 #### 4.4.1 计算公式
 
 |            | 计算公式                         | 检查触发器间隔 | 指标最新数据间隔 | 备注                             |
-| :--------- | :------------------------------- | :------------- | :--------------- | :------------------------------- |
+| ---------- | -------------------------------- | -------------- | ---------------- | -------------------------------- |
 | CPU 使用率 | 所有容器CPU使用率之和/ 容器数量  | 30s            | 30s              | 排除了刚启动的 Pod               |
 | MEM 使用率 | 所有容器MEM使用率之和 / 容器数量 | 30s            | 30s              | 排除了刚启动的 Pod               |
 | QPS        | 所有容器每秒的请求量 / 容器数量  | 30s            | 60s              | 最新数据为 上一分钟 QPS 的平均值 |
@@ -221,32 +221,31 @@ spec:
 
 **扩容时间**
 
-当检测结果大于设置的阈值是，立刻触发扩容，没有稳定窗口。
+当检测结果大于设置的阈值时，立刻触发扩容，没有稳定窗口。
 
 ```
 期望副本数 = ceil[当前副本数 * (当前指标 / 期望指标)]
 ```
 
-> :warning:  HPA 在计算目标副本数时会有一个10%的波动因子。如果在波动范围内，HPA 并不会调整副本数目。
+> ⚠️ HPA 在计算目标副本数时会有一个10%的波动因子。如果在波动范围内，HPA 并不会调整副本数目。
 
 **缩容时间**
 
 稳定窗口的时间为 300 秒，满足缩容条件后，连续5分钟持续满足缩容条件，触发缩容
 
-## 4.5 建立可观测性大盘
+### 4.5 建立可观测性大盘
 
 后续补充
 
 ### 4.6 注意事项（优雅上下线）
 
-自动扩容大多数是在高并发大流量情况触发，此时如何没有对应的解决方案，就会产生短时间流量有损问题。
+自动扩容大多数是在高并发大流量情况触发，此时如果没有对应的解决方案，就会产生短时间流量有损问题。
 
-这里先说下问题，下片文章会详细介绍具体场景及解决方案
+这里先说下问题，下篇文章会详细介绍具体场景及解决方案
 
 | 过程     | 问题                           |
-| :------- | :----------------------------- |
+| -------- | ------------------------------ |
 | 无损下线 | 消费者无法及时感知生产者已下线 |
 | 无损上线 | 注册太早                       |
 | 无损上线 | 发布态与运行态未对⻬           |
 | 无损上线 | 初始化慢                       |
-
