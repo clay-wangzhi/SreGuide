@@ -62,4 +62,9 @@ export default navbar([
       { text: "Redis", icon: "redis", link: "/db/redis/" },
     ],
   },
+  {
+    text: "友链",
+    icon: "friend",
+    link: "/friends/"
+  },
 ]);
