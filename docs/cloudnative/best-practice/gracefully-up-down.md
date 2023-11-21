@@ -8,7 +8,7 @@ tag:
 
 # 容器化后无损上下线解决方案
 
-> 说明： 本位主要以 Spring Cloud 应用举例
+> 说明： 本文主要以 Spring Cloud 应用举例
 
 ## 1. 背景
 
@@ -176,7 +176,9 @@ yaml 关键信息如下：
 
 具体方案： 举例 /healthz 为应用的readinessProbe 的探测 URL，则当 /healthz 返回 200 时，服务应该已经注册到了注册中心
 
+#### 4.2.4 无损上线整体方案
 
+ ![image-20231120195208454](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20231120195208454.png)
 
 ## 5 总结
 
