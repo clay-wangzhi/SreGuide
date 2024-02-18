@@ -14,13 +14,14 @@ export default hopeTheme({
 
   logo: "/lufei.jpg",
 
-  repo: "https://github.com/clay-wangzhi/wiki",
+  repo: "https://github.com/clay-wangzhi/SreGuide",
 
   docsDir: "docs",
 
   docsBranch: "master",
 
   // pure: true,
+  breadcrumb: false,
 
   darkmode: "switch",
 
@@ -34,7 +35,7 @@ export default hopeTheme({
 
   displayFooter: true,
 
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
+  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "Word", "ReadingTime"],
 
   blog: {
     intro: "/intro/",

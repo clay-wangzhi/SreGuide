@@ -7,7 +7,7 @@ highlights:
   - header: 我的朋友们
     features:
       - title: 云原生实验室
-        icon: https://icloudnative.io/favicon/favicon-32x32.png
+        icon: https://icloudnative.io/favicon-32x32.png
         details: 著有史上最强 Kubernetes 知识图谱，业界人称云原生社区的宝藏男孩
         link: https://icloudnative.io/
       - title: 二丫讲梵

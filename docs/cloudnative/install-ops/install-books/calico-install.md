@@ -22,11 +22,11 @@ Calico的核心组件包括：
 
 其中名词概念：
 
-* Endpoint                 *# 接入到Calico网络中的网卡称为Endpoint (这里即POD)*  
-* AS                       *# 网络自治系统，通过BGP协议与其它的AS交换路由信息 (自治网络拥有独立交换机、路由器等，可独立运转)* 
-* IBGP                     *# AS内部的BGP_Speaker，与相同AS的ibgp、ebgp交换路由信息* 
-* EBGP                     *# AS边界的BGP_Speaker，与相同AS的ibgp、以及不同AS的ebgp交换路由信息* 
-* BGP          # 端口 179，BIRD 建立TCP/179的连接
+* Endpoint ：接入到Calico网络中的网卡称为Endpoint (这里即POD)
+* AS ：网络自治系统，通过BGP协议与其它的AS交换路由信息 (自治网络拥有独立交换机、路由器等，可独立运转)
+* IBGP：AS内部的BGP_Speaker，与相同AS的ibgp、ebgp交换路由信息
+* EBGP：AS边界的BGP_Speaker，与相同AS的ibgp、以及不同AS的ebgp交换路由信息
+* BGP：端口 179，BIRD 建立TCP/179的连接
 
 > Bird 相关配置：[BIRD 与 BGP 的新手开场](https://soha.moe/post/bird-bgp-kickstart.html)
 
@@ -235,3 +235,10 @@ Node 跨网段时，调整 IPIP 封装策略为 `CrossSubnet`， 设置后发现
 **路由黑洞问题**
 
 要解决路由黑洞问题问题，首先，除了对整个Calico 的IP Pool总量进行监控外，还需要对可用的IP Block进行监控，确保不会出现IP Block不够分的情况，或者或者IP地址Block借用的情况；
+
+
+
+
+
+ToDo
+高级功能：带宽限制、固定IP、+  插件固定IP组
