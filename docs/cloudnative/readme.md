@@ -165,7 +165,7 @@ CLOUD NATIVE LANDSCAPE https://cncf.landscape2.io/?group=projects-and-products
 
 
 
-![weixin](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin.png)
+<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin.png" alt="weixin" style="zoom:33%;" />
 
 
 
