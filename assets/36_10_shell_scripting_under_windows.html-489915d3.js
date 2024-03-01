@@ -1,0 +1,1 @@
+import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as e,c as r}from"./app-de4b287a.js";const n={};function t(c,o){return e(),r("div")}const l=_(n,[["render",t],["__file","36_10_shell_scripting_under_windows.html.vue"]]);export{l as default};
