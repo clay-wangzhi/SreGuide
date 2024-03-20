@@ -11,7 +11,7 @@ tag:
 
 * 资源池划分 ：打污点、独占、隔离
 * Qos 分级 & 优先级：按应用等级保障稳定性
-* [自动弹性伸缩 HPA](hpa)
+* [自动弹性伸缩 HPA](https://clay-wangzhi.com/cloudnative/best-practice/hpa.html)
 * Pod 干扰预算 PDB
 
 本篇主要介绍第四点： 巧用  Shell-operator 配置 K8s Pod 保护策略
