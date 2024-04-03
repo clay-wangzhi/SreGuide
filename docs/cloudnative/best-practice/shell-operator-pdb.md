@@ -338,5 +338,5 @@ kubectl apply -f deploy/shell-operator-pdb.yaml
 
 
 
-<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin-20240220180036567.png" alt="weixin" style="zoom: 33%;" />
+<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin-20240220180036567.png" alt="weixin" style="zoom: 50%;" />
 
