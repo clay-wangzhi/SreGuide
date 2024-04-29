@@ -97,7 +97,7 @@ tag:
   * 🚩 建设 Pod 高可用性（优先级、Qos、打散、hpa、无损发布、pdb）
     * 🚩 既要稳也要省，容器资源该怎么分配（Qos 设置篇）？
     * 🚩 巧用 `shell-operator` 为核心应用自动注入 pdb
-    * （已发表）👉 [容器化后无损上下线解决方案](best-practice/gracefully-up-down)
+    * （已发表）👉 [容器化后无损上下线解决方案](best-practice/gracefully-up-down.html)
   * 🚩 Prometheus 高可用设计
 * 🚩 风险治理篇琐碎整理（临时存储限制、告警与 AppID 负责人如何关联、审计日志重要性、Node 资源预留）
 * 可观测性
@@ -113,15 +113,15 @@ tag:
   * 🚩 Etcd 物理备份 + Velero 逻辑备份 & 恢复详解
   * 🚩 多集群迁移设计思路
 * 性能/容量评估
-  * （已发表）👉  [Linux 性能基准测试工具及测试方法](stability/benchmark/sysbench)
+  * （已发表）👉  [Linux 性能基准测试工具及测试方法](stability/benchmark/sysbench.html)
   * 🚩 Master 组件性能压测
   * 🚩 Etcd 性能压测
   * 🚩 物理机 MaxPod 到底设多少合适？
 
 节约成本：
 
-* （已发表）👉 [云原生落地最佳实践](best-practice/containerization)
-* （已发表）👉  [弹性伸缩落地实践](best-practice/hpa)
+* （已发表）👉 [云原生落地最佳实践](best-practice/containerization.html)
+* （已发表）👉  [弹性伸缩落地实践](best-practice/hpa.html)
 * 🚩 Keda-hpa-exporter 开发设计（附 Github 源码）
 
 提高效率
