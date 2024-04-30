@@ -1,6 +1,8 @@
-## SRE RoadMap
+## SRE 学习路线
 
-### SRE 职责
+### SRE 工作职责
+
+> 💡 要指定学习路线，首先我们要搞情况 SRE 的工作职责。
 
 **SRE**（Site Reliability Engineering）站点可靠性工程是一种结合软件工程和运维运营原则的角色和方法论，旨在在系统、服务或产品的设计、开发、部署和运维过程中，采取一系列措施来确保其持续稳定运行、可靠性和可用性。
 
@@ -18,43 +20,53 @@
 10. **发布/回滚策略：** 参与制定发布/回滚策略，确保新版本的软件能够平稳地上线，同时减少对现有系统的影响，新版本发生问题时，能快速回滚。
 11. **文档和知识共享**：记录系统的配置、架构和故障处理经验，以便团队成员之间进行知识共享和技能传承。
 
-### SRE稳定性保障体系
+### SRE 稳定性保障体系
 
-![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/sre.png)
+> 💡 SRE 主要工作是保障稳定性，稳定性就是不出故障，围绕着故障周期，整理出 SRE 稳定性保障体系。
 
+ ![](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/sre.png)
 
+### SRE RoadMap
 
-### SRE 技能列表
+> 💡 根据工作职责和稳定性保障体系，整理出学习路线。
 
-- 学习云原生技术为企业降本增效、提高稳定性
-  - Kubernetes
-  - Etcd
-  - Docker/Containerd
-  - Calico
-  - Ceph
-- 学习 Linux 运维进行问题排查、性能优化、指标分析、故障演练
-  - 学习一些性能分析、问题排查工具
-  - 学习一些文本处理工具
-  - 学习 Bash 脚本
-- 学习一门语言进行自动化平台/工具的开发
-  - Go
-  - Python
-- 维护管理一些高可用服务
-  - Nginx
-  - Haproxy
-  - LVS
-  - Keepalived
-- 熟练使用 DevOps 工具实现自动化，提高效率
-  - Git
-  - Ansible
-  - Argo Workflows/Rollouts/CD
-  - Gitlab CI
-  - Jenkins
-- 探索可观测性，减少故障定位时间
-  - 指标类（Metrics）数据收集：Prometheus/VictoriaMetrics/Zabbix
-  - 日志类（Logs）数据收集：ELK/Fluentd/Clickhouse
-  - 链路类（Tracing）数据收集：OpenTelemetry/CAT
-  - 图表展示汇聚分析：Grafana
+![image-20240207104045420](https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/image-20240207104045420.png)
 
+## 推荐文章汇总
 
+云原生
 
+* [云原生实践总结](docs/cloudnative/)
+
+- 运维实践
+  - [Etcd 概述及运维实践](docs/cloudnative/install-ops/ops-books/etcd.md)
+  - [CoreDNS 概述及运维实践](docs/cloudnative/install-ops/ops-books/coredns.md)
+- 稳定性建设
+  - [Linux 性能基准测试工具及测试方法](docs/cloudnative//stability/benchmark/sysbench.md)
+  - [K8s 无备份，不运维](docs/cloudnative/stability/dr-br/etcd-and-velero.md)
+- 故障排查
+  - [什么？相同型号物理机 容器性能不如虚拟机？](docs/cloudnative/troubleshooting/vm-vs-container-performance.md)
+  - [Calico 异常重启问题复盘](docs/cloudnative/troubleshooting/calico-restart.md)
+  - [K8s 一条默认参数引起的性能问题](docs/cloudnative/troubleshooting/enable-service-links.md)
+- 最佳实践
+  - [云原生落地](docs/cloudnative/best-practice/containerization.md)
+  - [弹性伸缩落地实践](docs/cloudnative/best-practice/hpa.md)
+  - [容器化后无损上下线解决方案](docs/cloudnative/best-practice/gracefully-up-down.md)
+  - [巧用 shell-operator 配置 K8s Pod 保护策略](docs/cloudnative/best-practice/shell-operator-pdb.md)
+  - [kube on kube 实现思路分享](docs/cloudnative/best-practice/kube-on-kube.md)
+
+DevOps
+
+计算机基础
+
+编程语言
+
+负载均衡
+
+## 公众号
+
+最新更新会第一时间同步在公众号，推荐关注！
+
+<div style="text-align: center;">
+    <img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin.png" alt="weixin" style="zoom: 25%; margin: 0 auto; display: block;" />
+</div>

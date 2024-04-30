@@ -7,7 +7,7 @@ tag:
 
 > 转载自： [理解CNI和CNI插件 | 阿里云原生](https://developer.aliyun.com/learning/course/572/detail/7866?accounttraceid=2703db7b0eea4ec5a775b5aaaca87dd5vtsl)
 
-# CNI
+# CNI 概述
 
 ## CNI 是什么
 
