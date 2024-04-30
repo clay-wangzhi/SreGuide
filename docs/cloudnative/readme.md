@@ -74,16 +74,17 @@ tag:
 * 应用从 KVM 迁移到 容器 后，资源利用率为何发生变化？有增高的，有降低的
 * 流量洪峰时，个别应用为啥容器比虚拟RT长？
 * 新增 Ingress 后导致 RedirectUri 不一致？
-* 自动注入service变量导致 Nodejs 负载变高？
+* （已发表）👉 [K8s 一条默认参数引起的性能问题](troubleshooting/enable-service-links.md)
 * grpc 应用负载均衡问题，使用 service 和 Ingress 无效？
 * 接入容器后，域名访问异常？
+*  容器化后常见 FAQ
 
 🤔 故障：
 
-* Calico 异常重启？
+* （已发表）👉 [Calico 异常重启问题复盘](troubleshooting/calico-restart.md)
 * kubelet pleg ？
 * Node 被清空？
-* 什么？相同型号物理机 容器性能不如虚拟机？
+* （已发表）👉 [什么？相同型号物理机 容器性能不如虚拟机？](troubleshooting/vm-vs-container-performance.md)
 
 ## 文章更新预告
 
@@ -93,11 +94,12 @@ tag:
 
 * 高可用性
   * 🚩 多集群管理方案
+    * （已发表）👉 [kube on kube 实现思路分享](best-practice/kube-on-kube.md)
   * 🚩 K8s 多机房高可用方案
   * 🚩 建设 Pod 高可用性（优先级、Qos、打散、hpa、无损发布、pdb）
     * 🚩 既要稳也要省，容器资源该怎么分配（Qos 设置篇）？
-    * 🚩 巧用 `shell-operator` 为核心应用自动注入 pdb
-    * （已发表）👉 [容器化后无损上下线解决方案](best-practice/gracefully-up-down.html)
+    * （已发表）👉 [巧用 shell-operator 配置 K8s Pod 保护策略](best-practice/shell-operator-pdb.md)
+    * （已发表）👉 [容器化后无损上下线解决方案](best-practice/gracefully-up-down.md)
   * 🚩 Prometheus 高可用设计
 * 🚩 风险治理篇琐碎整理（临时存储限制、告警与 AppID 负责人如何关联、审计日志重要性、Node 资源预留）
 * 可观测性
@@ -110,18 +112,18 @@ tag:
   * 🚩 Apiserver 高可用故障演练
   * 🚩 Etcd 高可用故障演练
 * 预案建设
-  * 🚩 Etcd 物理备份 + Velero 逻辑备份 & 恢复详解
+  * （已发表）👉 [K8s 无备份，不运维](stability/dr-br/etcd-and-velero.md)
   * 🚩 多集群迁移设计思路
 * 性能/容量评估
-  * （已发表）👉  [Linux 性能基准测试工具及测试方法](stability/benchmark/sysbench.html)
+  * （已发表）👉  [Linux 性能基准测试工具及测试方法](stability/benchmark/sysbench.md)
   * 🚩 Master 组件性能压测
   * 🚩 Etcd 性能压测
   * 🚩 物理机 MaxPod 到底设多少合适？
 
 节约成本：
 
-* （已发表）👉 [云原生落地最佳实践](best-practice/containerization.html)
-* （已发表）👉  [弹性伸缩落地实践](best-practice/hpa.html)
+* （已发表）👉 [云原生落地最佳实践](best-practice/containerization.md)
+* （已发表）👉  [弹性伸缩落地实践](best-practice/hpa.md)
 * 🚩 Keda-hpa-exporter 开发设计（附 Github 源码）
 
 提高效率
@@ -133,17 +135,12 @@ tag:
 
 CNCF LANDSCAPE项目使用介绍
 
-* 🚩 Etcd 概述及使用实践
-* 🚩 Coredns 概述及使用实践
+* （已发表）👉 [Etcd 概述及运维实践](install-ops/ops-books/etcd.md)
+* （已发表）👉  [CoreDNS 概述及运维实践](install-ops/ops-books/coredns.md)
 * 🚩 Calico 概述及使用实践
 * 🚩 Helm 概述及使用实践
 * 🚩 KubeVirt 概述及使用实践
 * 🚩 Docker 概述及使用实践
-
-问题故障汇总
-
-* 🚩 容器化后常见 FAQ
-* 🚩 Calico 异常重启根因分析
 
 
 
@@ -165,7 +162,7 @@ CLOUD NATIVE LANDSCAPE https://cncf.landscape2.io/?group=projects-and-products
 
 
 
-<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin.png" alt="weixin" style="zoom:33%;" />
+<img src="https://clay-blog.oss-cn-shanghai.aliyuncs.com/img/weixin.png" alt="weixin" style="zoom:50%;" />
 
 
 
