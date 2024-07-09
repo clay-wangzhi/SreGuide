@@ -78,6 +78,7 @@ tag:
 * grpc 应用负载均衡问题，使用 service 和 Ingress 无效？
 * 接入容器后，域名访问异常？
 *  容器化后常见 FAQ
+*  （已发表）👉 [K8s 驱逐场景以及规避方案](troubleshooting/k8s-eviction.md)
 
 🤔 故障：
 
@@ -95,7 +96,7 @@ tag:
 * 高可用性
   * 🚩 多集群管理方案
     * （已发表）👉 [kube on kube 实现思路分享](best-practice/kube-on-kube.md)
-  * 🚩 K8s 多机房高可用方案
+  * （已发表）👉 [K8s 多集群思考、实践和探索](best-practice/multicluster.md)
   * 🚩 建设 Pod 高可用性（优先级、Qos、打散、hpa、无损发布、pdb）
     * 🚩 既要稳也要省，容器资源该怎么分配（Qos 设置篇）？
     * （已发表）👉 [巧用 shell-operator 配置 K8s Pod 保护策略](best-practice/shell-operator-pdb.md)
@@ -139,7 +140,8 @@ CNCF LANDSCAPE项目使用介绍
 * （已发表）👉  [CoreDNS 概述及运维实践](install-ops/ops-books/coredns.md)
 * 🚩 Calico 概述及使用实践
 * 🚩 Helm 概述及使用实践
-* 🚩 KubeVirt 概述及使用实践
+* （已发表）👉 [从0开始装一套 KubeVirt 1.2.1](install-ops/install-books/kubevirt-install.md)
+* （已发表）👉 [将 oVirt 虚拟机迁移到 KubeVirt](install-ops/ops-books/ovirt-to-kubevirt.md)
 * 🚩 Docker 概述及使用实践
 
 
