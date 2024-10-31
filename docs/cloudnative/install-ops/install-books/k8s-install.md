@@ -69,3 +69,44 @@ tag:
 
 - 步骤和 master 2，3 安装类似，下镜像，生成凭证，`kubeadm join`
 
+
+
+
+
+## Master 节点缩容
+
+```bash
+# 删除 Master 节点
+kubectl drain st-kubernetes-master-4 --delete-local-data --force --ignore-daemonsets
+kubectl delete node st-kubernetes-master-4
+ETCDCTL_API=3 etcdctl --cacert="${ETCD_CA_CERT}" --cert="${ETCD_CERT}" --key="${ETCD_KEY}" --endpoints="${HOST_1}" member list
+ETCDCTL_API=3 etcdctl --cacert="${ETCD_CA_CERT}" --cert="${ETCD_CERT}" --key="${ETCD_KEY}" --endpoints="${HOST_1}" member remove 60efa3874101e09f
+# 查看 ep
+kubectl get ep kubernetes -oyaml
+# 被删除节点停止 kubelet、docker
+systemctl stop kubelet
+systemctl stop docker
+```
+
+
+
+
+
+## K8s 集群升级
+
+```bash
+# 配yum 源
+yum -y install kubelet-1.19.16 kubeadm-1.19.16 kubectl-1.19.16
+# 下拉镜像
+# edit node  加 CRI 注解
+kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
+# 查看升级计划
+kubeadm upgrade plan
+kubeadm upgrade apply v1.19.16
+systemctl daemon-reload
+systemctl restart kubelet
+
+# 如果 kube-proxy 没升级，看一下卡在哪里了， ds 类型，默认是滚动升级的
+
+```
+
