@@ -240,5 +240,64 @@ Node 跨网段时，调整 IPIP 封装策略为 `CrossSubnet`， 设置后发现
 
 
 
+## 常用命令
+
+```bash
+# 获取 每个 node 的cidr
+kubectl get blockaffinity
+# 查看某个 Pod IP 的使用信息
+calicoctl ipam show --ip=$(ip_addr)
+# 查看 FREE IPS 数
+calicoctl ipam show
+# 释放 Pod IP
+calicoctl ipam release --ip=$(ip_addr)
+```
+
+
+
+
+
+带宽限制
+
+带宽限速，目前版本calico默认支持 
+
+# 通过对Pod的流量的控制，避免某个应用Pod占用过多资源导致影响宿主机或者其他业务。
+
+`/etc/cni/net.d/10-calico.conflist`  配置中有，如下字段
+
+```tex
+    {
+      "type": "bandwidth",
+      "capabilities": {"bandwidth": true}
+    }
+```
+
+`/opt/cni/bin/bandwidth`  二进制文件存在
+
+`deployment  yaml ` 文件新增如下注解：spec.template
+
+```yaml
+      annotations:
+        kubernetes.io/ingress-bandwidth: 10M
+        kubernetes.io/egress-bandwidth: 10M
+```
+
+
+
+问题排查
+
+```bash
+Node CPU使用率突增，网络流量突增，拿到网卡名称，route -n | grep 网卡名称
+```
+
+
+
+
+
 ToDo
 高级功能：带宽限制、固定IP、+  插件固定IP组
+
+
+
+
+
