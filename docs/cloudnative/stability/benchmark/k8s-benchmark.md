@@ -1,5 +1,6 @@
 ---
 order: 1
+isOriginal: true
 category: 云原生
 tag:
   - Kubernetes

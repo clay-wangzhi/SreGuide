@@ -38,11 +38,12 @@
 
 * [云原生实践总结](docs/cloudnative/)
 
-- 运维实践
-  - [Etcd 概述及运维实践](docs/cloudnative/install-ops/ops-books/etcd.md)
-  - [CoreDNS 概述及运维实践](docs/cloudnative/install-ops/ops-books/coredns.md)
-  - [从0开始装一套 KubeVirt 1.2.1](docs/cloudnative/install-ops/install-books/kubevirt-install.md)
-  - [将 oVirt 虚拟机迁移到 KubeVirt](docs/cloudnative/install-ops/ops-books/ovirt-to-kubevirt.md)
+- 工具概述及运维实践
+  - [Etcd 概述及运维实践](docs/cloudnative/tools-ops/etcd.md)
+  - [CoreDNS 概述及运维实践](docs/cloudnative/tools-ops/coredns.md)
+  - [从0开始装一套 KubeVirt 1.2.1](docs/cloudnative/tools-ops/kubevirt-install.md)
+  - [将 oVirt 虚拟机迁移到 KubeVirt](docs/cloudnative/tools-ops/ovirt-to-kubevirt.md)
+  - [6 张图带你深入了解 kube-scheduler](docs/cloudnative/tools-ops/k8s-scheduler.md)
 - 稳定性建设
   - [Linux 性能基准测试工具及测试方法](docs/cloudnative//stability/benchmark/sysbench.md)
   - [K8s 无备份，不运维](docs/cloudnative/stability/dr-br/etcd-and-velero.md)
@@ -52,6 +53,7 @@
   - [K8s 一条默认参数引起的性能问题](docs/cloudnative/troubleshooting/enable-service-links.md)
   - [K8s 驱逐场景以及规避方案](docs/cloudnative/troubleshooting/k8s-eviction.md)
   - [K8s CPU Throttle 优化方案](docs/cloudnative/troubleshooting/cpu-burst.md)
+  - [故障排查 之 单点登录跳转失败(Ingress 相关)](docs/cloudnative/troubleshooting/ingress-forward.md)
 - 最佳实践
   - [云原生落地](docs/cloudnative/best-practice/containerization.md)
   - [弹性伸缩落地实践](docs/cloudnative/best-practice/hpa.md)
@@ -59,6 +61,7 @@
   - [巧用 shell-operator 配置 K8s Pod 保护策略](docs/cloudnative/best-practice/shell-operator-pdb.md)
   - [kube on kube 实现思路分享](docs/cloudnative/best-practice/kube-on-kube.md)
   - [K8s 集群巡检](docs/cloudnative/best-practice/k8s-scanner.md)
+  - [K8s 负载感知调度实践（koordinator & crane）](docs/cloudnative/best-practice/loadaware-scheduler.md)
 
 DevOps
 

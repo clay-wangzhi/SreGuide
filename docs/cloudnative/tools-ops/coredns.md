@@ -1,6 +1,6 @@
 ---
 isOriginal: true
-order: 10
+order: 5
 category: 云原生
 tag:
   - coredns

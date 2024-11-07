@@ -73,7 +73,7 @@ tag:
 * 如何提高资源可见性？容器内 top free 命令看到的是宿主机资源使用情况
 * 应用从 KVM 迁移到 容器 后，资源利用率为何发生变化？有增高的，有降低的
 * 流量洪峰时，个别应用为啥容器比虚拟RT长？
-* 新增 Ingress 后导致 RedirectUri 不一致？
+* （已发表）👉 [故障排查 之 单点登录跳转失败(Ingress 相关)](troubleshooting/ingress-forward.md)
 * （已发表）👉 [K8s 一条默认参数引起的性能问题](troubleshooting/enable-service-links.md)
 * grpc 应用负载均衡问题，使用 service 和 Ingress 无效？
 * 接入容器后，域名访问异常？
@@ -118,7 +118,6 @@ tag:
   * （已发表）👉  [Linux 性能基准测试工具及测试方法](stability/benchmark/sysbench.md)
   * （已发表）👉 [K8s CPU Throttle 优化方案](troubleshooting/cpu-burst.md)
   * 🚩 Master 组件性能压测
-  * 🚩 Etcd 性能压测
   * 🚩 物理机 MaxPod 到底设多少合适？
 
 节约成本：
@@ -138,6 +137,8 @@ CNCF LANDSCAPE项目使用介绍
 
 * （已发表）👉 [Etcd 概述及运维实践](install-ops/ops-books/etcd.md)
 * （已发表）👉  [CoreDNS 概述及运维实践](install-ops/ops-books/coredns.md)
+* （已发表）👉 [6 张图带你深入了解 kube-scheduler](best-practice/k8s-scheduler.md)
+* （已发表）👉 [K8s 负载感知调度实践（koordinator & crane）](best-practice/loadaware-scheduler.md)
 * 🚩 Calico 概述及使用实践
 * 🚩 Helm 概述及使用实践
 * （已发表）👉 [从0开始装一套 KubeVirt 1.2.1](install-ops/install-books/kubevirt-install.md)
