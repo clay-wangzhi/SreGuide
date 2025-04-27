@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       # 缓存 node_modules 以避免重复安装
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v3
         id: node-modules
         with:
           # 需要缓存的路径
